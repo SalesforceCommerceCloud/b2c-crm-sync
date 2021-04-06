@@ -391,6 +391,8 @@ All Salesforce Customer 360 Platform code and meta-data can be deployed to a [sc
 
 - Open the .env file and edit the following information.  Please use these defaults -- and edit them to accommodate your org creation and deployment preferences.
 
+> ScratchOrgs can be configured using the [base](./config-dx/b2c-base-scratch-def.json) or [personaccounts](./config-dx/b2c-personaccounts-scratch-def.json) profiles.   The base profile supports Accounts / Contacts, while the personaccounts profile supports PersonAccounts.
+
 ```
 ######################################################################
 ## Salesforce Platform Configuration Properties
@@ -484,7 +486,9 @@ npm run crm-sync:sf:build
 
 > This CLI command automates the steps outlined above.  Automation results will be output through the CLI.  If successful, a browser tab will be opened to the created scratchOrg.
 
-7a. If you are deploying a personAccount scratchOrg, you'll also need to manually deploy the Salesforce Platform layout and quickAction elements for PersonAccounts.  The following SFDX command can be used to deploy these elements to your scratchOrg:
+:round_pushpin: &nbsp; Please note that the next step should **only be performed if you created a scratchOrg supporting PersonAccounts**.  This step can be skipped if the [base scratchOrg profile](./config-dx/b2c-base-scratch-def.json) was used.
+
+8. If you are deploying a personAccount scratchOrg, you'll also need to manually deploy the Salesforce Platform layout and quickAction elements for PersonAccounts.  The following SFDX command can be used to deploy these elements to your scratchOrg:
 
 > :warning: &nbsp; As a reminder, the **personAccounts implementation is incomplete** at this time.  Please review the [issues list](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/issues) for details and known issues.  We'll update the ReadMe.md once personAccounts have been completely implemented. &nbsp; :warning:
 
@@ -494,28 +498,63 @@ sfdx force:source:deploy -p "src/sfdc/person-accounts"
 
 > The deployment results will be output via the CLI.  Please note that these elements are a requirement for environments where personAccounts are enabled.
 
-8. Use the below CLI command to retrieve configuration data needed for .env as outlined above.
+
+9. Use the below CLI command to retrieve configuration data needed for .env as outlined above.
 
 ```bash
 sfdx force:org:display -u [scratchOrg-username]
 ```
 
-9. Use the below CLI command to generate a password for the scratchOrg user the populate in .env as described above.
+> Copy the scratchOrg domain url and username to the .env file.  These values will be used to drive the creation of the B2C Commerce Service definitions that will enable integration with the Salesforce Platform.
+
+10. Use the below CLI command to generate a password for the scratchOrg user that can be populated in .env as described above.
 
 ```bash
 sfdx force:user:password:generate --targetusername [scratchOrg-username]
 ```
 
-10. Assign the 'B2C Integration Tools' permission set to the admin user within the scratchOrg ([Assign Permission Sets to a Single User](https://developer.salesforce.com/docs/atlas.en-us.securityImplGuide.meta/securityImplGuide/perm_sets_assigning.htm)).  This permissionSet assigns the necessary permissions to access b2c-crm-sync lightning app -- as well as the custom objects used to manage B2C Commerce instances, customerLists, sites, and customer profiles.
+> Copy the generated user-password to the .env file.  This value will be used to drive the creation of the B2C Commerce Service definitions that will enable integration with the Salesforce Platform.
+
+11. View the full detail of information about the scratchOrg user using the following CLI command:
 
 ```bash
 sfdx force:user:display -u [insert-username]
 ```
--- Generate a new SecurityToken for this user from your scratchOrg User Settings under 'Reset My Security Token.'
 
--- update the .env file with these details
+> Copy the login-url domain to the .env file.  This value will be used to enable authentication to the scratchOrg from the B2C Commerce environment.
 
-11. Generate the B2C Commerce metadata required by b2c-crm-sync and deploy both the code metadata to the Salesforce B2C Commerce instance by executing the following CLI command:
+12.  In your scratchOrg, enter Setup and find the User avatar in the header (the avatar should look like Astro, and be displayed in the upper right corner of the browser.  Hovering over Astro will display the label "View Profile".
+
+13.  Click on the User avatar and select the option titled **Settings**.  From the settings menu, click on the option titled **Reset Security Token** to generate a new token for your scratchOrg user.
+
+> Please note that you will receive two emails declaring that a new securityToken has been generated.  The first is from the password reset that was performed.  The second is from this action.  Copy the securityToken from the second email to the .env file.
+
+14.  Ensure that the following .env Salesforce Platform configuration properties have been captured via steps 8, 9, 10, and 11.
+
+```
+######################################################################
+## Salesforce Platform Configuration Properties
+######################################################################
+SF_HOSTNAME=power-dream-1234-dev-ed.lightning.force.com
+SF_LOGINURL=test.salesforce.com
+SF_USERNAME=test-2enmvjmefudl@example.com
+SF_PASSWORD=P@ssw0rd!
+SF_SECURITYTOKEN=5aqzr1tpENbIpiWt1E9X2ruOV
+```
+
+> Remember that these values need to be driven by your scratchOrg user and environment.  These values must be accurate to ensure that the B2C Commerce meta-data is successfully generated and supports the integration with the Salesforce Platform.
+
+15.  Test your Salesforce Platform Configuration properties by executing the following CLI Command:
+
+```bash
+npm run crm-sync:sf:auth:usercreds
+```
+
+> This command will attempt to authenticate against the Salesforce scratchOrg using the environment and credential information provided in the previous step.  The CLI command will either return an error -- or return the authToken that was generated by the Salesforce Platform in response to the authentication request.
+
+:warning: &nbsp; Only proceed to the next step if you are able to successfully validate that your Salesforce Platform Configuration Properties are able to successfully authenticate against your scratchOrg. &nbsp; :warning:
+
+15. Generate the B2C Commerce metadata required by b2c-crm-sync and deploy both the code metadata to the Salesforce B2C Commerce instance by executing the following CLI command:
 
 ```bash
 npm run crm-sync:b2c:build
@@ -526,7 +565,7 @@ npm run crm-sync:b2c:build
 
 #### Assign the B2C Integration Tools Permission Set to the Administrator
 
-1.  Enter Setup.
+1.  Enter Setup (if it is not already opened).
 
 2.  In the quick-find, search for Permission Sets.  Once located, select the Permission Sets setup option from the filtered setup menu.
 
@@ -585,7 +624,7 @@ npm run crm-sync:test:use-cases
 #### What's Next?
 At this point, you should be in a position to 1) start exercising the integration or 2) [ask a question]() or [log an issue]() if the installation and configuration didn't complete as expected.  Please share your experience with us. :grin:
 
-#### Last but Certainly Not Least
+#### Let's End with Gratitude
 I'd like to extend a heartfelt and personal thank you to everyone for their support, contributions, and guidance.  This has been a multi-year effort spanning multiple teams at Salesforce.  We've developed this data strategy and integration approach leveraging learnings from customers, partners, and our internal teams.  I am grateful for these relationships, and this project would not have come to life without the support of this group.
 
 :raised_hands: &nbsp;&nbsp;Thank you.  For Everything.&nbsp;&nbsp; :raised_hands:
