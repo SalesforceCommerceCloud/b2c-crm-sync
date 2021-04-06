@@ -494,8 +494,6 @@ sfdx force:source:deploy -p "src/sfdc/person-accounts"
 
 > The deployment results will be output via the CLI.  Please note that these elements are a requirement for environments where personAccounts are enabled.
 
-> :warning: As a reminder, the **personAccounts implementation is incomplete** at this time.  Please review the [issues list](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/issues) for details.
-
 8. Use the below CLI command to retrieve configuration data needed for .env as outlined above.
 
 ```bash
@@ -602,6 +600,7 @@ I'd like to extend a heartfelt and personal thank you to everyone for their supp
 | Olena Baykur   | Qingyang Zhao        |
 | Kieran Lane   | Christopher Lam       |
 | Jordane Bachelet | Roberto Manicardi  |
+| Raghuram Sripada | Gajendra Singh Sisodia |
 | David Adler    | Mike King            |
 | Mihir Panchal   | Tasha Wilkins       |
 | Divya Alavarthi  | Shoby Abdi        |
