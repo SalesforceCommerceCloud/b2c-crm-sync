@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Integration_Last_Modified_Date__c</fullName>
+    <description>... describes the date that B2C Commerce CustomerList and Site definitions were last processed.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>... describes the date that B2C Commerce CustomerList and Site definitions were last processed.</inlineHelpText>
+    <label>Integration Last Modified Date</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>DateTime</type>
+</CustomField>

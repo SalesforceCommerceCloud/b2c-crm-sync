@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Push_Updates_to_B2C_Commerce__c</fullName>
+    <defaultValue>true</defaultValue>
+    <description>... when checked, updates made to mapped Service Cloud Contact attributes are pushed to their B2C Commerce attribute counterparts.</description>
+    <externalId>false</externalId>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <inlineHelpText>... when checked, updates made to mapped Service Cloud Contact attributes are pushed to their B2C Commerce attribute counterparts.</inlineHelpText>
+    <label>Push Updates to B2C Commerce</label>
+    <type>Checkbox</type>
+</CustomField>

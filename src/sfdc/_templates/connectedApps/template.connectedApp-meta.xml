@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ConnectedApp xmlns="http://soap.sforce.com/2006/04/metadata">
+    <contactEmail>administrator@b2csa.scratch.salesforce.com</contactEmail>
+    <description>Brokers API access between B2C Commerce and the Salesforce Platform</description>
+    <label>B2C CRM Sync: {{SITEID}}</label>
+    <oauthConfig>
+        <callbackUrl>https://test.salesforce.com/services/oauth2/success</callbackUrl>
+        <consumerKey>{{CONSUMERKEY}}</consumerKey>
+        <consumerSecret>{{CONSUMERSECRET}}</consumerSecret>
+        <isAdminApproved>false</isAdminApproved>
+        <scopes>Basic</scopes>
+        <scopes>Api</scopes>
+        <scopes>RefreshToken</scopes>
+        <scopes>OpenID</scopes>
+    </oauthConfig>
+</ConnectedApp>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Last_Platform_Event_Applied_Updates__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>... describes if the last processed Platform Event applied updates to the Contact definition (checked = updates applied, unchecked = no updates applied).</description>
+    <externalId>false</externalId>
+    <inlineHelpText>... describes if the last processed Platform Event applied updates to the Contact definition (checked = updates applied, unchecked = no updates applied).</inlineHelpText>
+    <label>Last Platform Event Applied Updates</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <type>Checkbox</type>
+</CustomField>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Description__c</fullName>
+    <description>... describes a given B2C Commerce Storefront.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>... describes a given B2C Commerce Storefront.</inlineHelpText>
+    <label>Description</label>
+    <length>1000</length>
+    <trackFeedHistory>true</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
+</CustomField>

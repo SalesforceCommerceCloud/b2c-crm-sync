@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Base_Site_Url__c</fullName>
+    <description>... represents the base url used to access the B2C Commerce storefront environment.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>... represents the base url used to access the B2C Commerce storefront environment.</inlineHelpText>
+    <label>Base Site Url</label>
+    <required>false</required>
+    <trackFeedHistory>true</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Url</type>
+</CustomField>

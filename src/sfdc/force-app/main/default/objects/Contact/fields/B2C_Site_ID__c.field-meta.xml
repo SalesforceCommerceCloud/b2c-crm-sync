@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>B2C_Site_ID__c</fullName>
+    <description>... represents the B2C Commerce storefront identifier associated to a given contact.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>... represents the B2C Commerce storefront identifier associated to a given contact.</inlineHelpText>
+    <label>B2C Site ID</label>
+    <length>250</length>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

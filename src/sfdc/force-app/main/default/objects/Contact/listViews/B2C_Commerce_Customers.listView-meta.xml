@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>B2C_Commerce_Customers</fullName>
+    <columns>B2C_CustomerList__c</columns>
+    <columns>ACCOUNT.NAME</columns>
+    <columns>FULL_NAME</columns>
+    <columns>B2C_Customer_ID__c</columns>
+    <columns>B2C_Customer_No__c</columns>
+    <columns>CONTACT.PHONE1</columns>
+    <columns>CONTACT.EMAIL</columns>
+    <columns>CONTACT.LAST_UPDATE</columns>
+    <columns>Last_Platform_Event_Processed_Date__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>B2C_CustomerList__c</field>
+        <operation>notEqual</operation>
+    </filters>
+    <label>B2C Commerce Customers</label>
+</ListView>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Is_Test_Record__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>... describes if the current meta-data type record is a test-record which should only be accessed during unit testing.  Test records are not referenced during actual / production operation.</description>
+    <externalId>false</externalId>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <inlineHelpText>... describes if the current meta-data type record is a test-record which should only be accessed during unit testing.  Test records are not referenced during actual / production operation.</inlineHelpText>
+    <label>Is Test Record</label>
+    <type>Checkbox</type>
+</CustomField>

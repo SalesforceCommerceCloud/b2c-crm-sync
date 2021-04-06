@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RemoteSiteSetting xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>... represents a B2C Commerce environment being integrated with the Salesforce Platform.</description>
+    <disableProtocolSecurity>false</disableProtocolSecurity>
+    <isActive>true</isActive>
+    <url>{{B2C_HOSTNAME}}</url>
+</RemoteSiteSetting>

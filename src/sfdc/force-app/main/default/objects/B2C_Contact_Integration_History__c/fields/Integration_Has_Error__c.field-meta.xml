@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Integration_Has_Error__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>... describes in the last processed integration attempt generated an error.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>... describes in the last processed integration attempt generated an error.</inlineHelpText>
+    <label>Has Error</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

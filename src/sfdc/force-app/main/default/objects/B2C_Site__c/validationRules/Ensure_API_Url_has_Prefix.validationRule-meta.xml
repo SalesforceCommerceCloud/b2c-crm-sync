@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Ensure_API_Url_has_Prefix</fullName>
+    <active>true</active>
+    <description>... ensures that the API Url field has an https:// prefix.</description>
+    <errorConditionFormula>NOT( LOWER(LEFT( API_Url__c , 8)) = &quot;https://&quot;)</errorConditionFormula>
+    <errorDisplayField>API_Url__c</errorDisplayField>
+    <errorMessage>Please ensure that the API Url field is prefixed with &apos;https://&apos;</errorMessage>
+</ValidationRule>

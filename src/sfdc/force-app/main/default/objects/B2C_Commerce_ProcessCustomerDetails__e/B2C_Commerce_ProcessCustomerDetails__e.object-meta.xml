@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>... announces the event to process B2C Commerce Customer Profile details for a given Customer (either to retrieve updates from B2C Commerce or push updates to B2C Commerce).</description>
+    <eventType>HighVolume</eventType>
+    <label>B2C Commerce: Process Customer Details</label>
+    <pluralLabel>B2C Commerce: Process Customer Details</pluralLabel>
+    <publishBehavior>PublishImmediately</publishBehavior>
+</CustomObject>

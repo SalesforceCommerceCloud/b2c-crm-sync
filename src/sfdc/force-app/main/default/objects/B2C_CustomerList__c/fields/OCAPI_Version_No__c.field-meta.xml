@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>OCAPI_Version_No__c</fullName>
+    <description>... represents the OCAPI Version Number that should be used for API requests.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>... represents the OCAPI Version Number that should be used for API requests.</inlineHelpText>
+    <label>OCAPI Version No</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetName>B2C_OCAPI_Versions</valueSetName>
+    </valueSet>
+</CustomField>

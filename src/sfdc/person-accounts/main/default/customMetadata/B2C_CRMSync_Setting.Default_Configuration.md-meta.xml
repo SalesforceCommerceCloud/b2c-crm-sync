@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Default Configuration</label>
+    <protected>false</protected>
+    <values>
+        <field>Account_Contact_Model__c</field>
+        <value xsi:type="xsd:string">Person</value>
+    </values>
+    <values>
+        <field>Account_Record_Type_Developername__c</field>
+        <value xsi:type="xsd:string">B2CBusinessAccount</value>
+    </values>
+    <values>
+        <field>Default_Account_Name__c</field>
+        <value xsi:type="xsd:string">Unknown Customer</value>
+    </values>
+    <values>
+        <field>Default_Contact_Name__c</field>
+        <value xsi:type="xsd:string">Unknown</value>
+    </values>
+    <values>
+        <field>Enable_B2C_Process_Contact_Trigger__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+</CustomMetadata>

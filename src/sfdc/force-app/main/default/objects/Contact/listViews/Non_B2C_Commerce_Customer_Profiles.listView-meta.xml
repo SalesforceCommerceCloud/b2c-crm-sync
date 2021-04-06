@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Non_B2C_Commerce_Customer_Profiles</fullName>
+    <columns>ACCOUNT.NAME</columns>
+    <columns>ACCOUNT.RECORDTYPE</columns>
+    <columns>ACCOUNT.TYPE</columns>
+    <columns>FULL_NAME</columns>
+    <columns>CONTACT.PHONE1</columns>
+    <columns>CONTACT.EMAIL</columns>
+    <columns>CONTACT.LAST_UPDATE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>B2C_CustomerList__c</field>
+        <operation>equals</operation>
+    </filters>
+    <filters>
+        <field>B2C_Customer_No__c</field>
+        <operation>equals</operation>
+    </filters>
+    <label>Non-B2C Commerce Customers</label>
+</ListView>

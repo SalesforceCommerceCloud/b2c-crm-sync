@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>B2C_Is_Enabled__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>... describes if a given B2C Commerce customer profile is active and enabled to interact with storefronts.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>... describes if a given B2C Commerce customer profile is active and enabled to interact with storefronts.</inlineHelpText>
+    <label>B2C Is Enabled</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <type>Checkbox</type>
+</CustomField>

@@ -1,0 +1,529 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>51.0</apiVersion>
+    <assignments>
+        <description>... assign the B2C CustomerID to the processContact</description>
+        <name>asn_b2CCustomerIDtoProcessContact</name>
+        <label>Assign the B2C CustomerID</label>
+        <locationX>1561</locationX>
+        <locationY>206</locationY>
+        <assignmentItems>
+            <assignToReference>var_contactToProcess.B2C_Customer_ID__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>var_qaB2CCustomerID</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>dec_areQAB2CCustomerListIDCustomerNoAssigned</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>... assign the B2C CustomerListID and CustomerNo to the processContact</description>
+        <name>asn_b2CCustomerListIDCustomerNotoProcessContact</name>
+        <label>Assign the B2C CustomerList ID CustomerNo</label>
+        <locationX>1562</locationX>
+        <locationY>921</locationY>
+        <assignmentItems>
+            <assignToReference>var_contactToProcess.B2C_CustomerList_ID__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>var_qaB2CCustomerListID</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>var_contactToProcess.B2C_Customer_No__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>var_qaB2CCustomerNo</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>dec_doesContactIDExist</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>... assign the ContactID to the processContact</description>
+        <name>asn_contactIDtoProcessContact</name>
+        <label>Assign the ContactID</label>
+        <locationX>834</locationX>
+        <locationY>453</locationY>
+        <assignmentItems>
+            <assignToReference>var_contactToProcess.Id</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>var_qaContactID</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>dec_isQAB2CCustomerIDAssigned</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>... set the output variable to reflect that a B2C CustomerList relationship was verified.</description>
+        <name>asn_setOutputFlagToTrue</name>
+        <label>Set the Output Flag to True</label>
+        <locationX>602</locationX>
+        <locationY>1607</locationY>
+        <assignmentItems>
+            <assignToReference>var_hasCustomerList</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <description>... assign the sourceContact to the processContact for this flow.</description>
+        <name>asn_sourceContactToProcessContact</name>
+        <label>Assign the Contact to Process</label>
+        <locationX>596</locationX>
+        <locationY>454</locationY>
+        <assignmentItems>
+            <assignToReference>var_contactToProcess</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>var_sourceContact</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>dec_doesContactIDExist</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <description>... evaluate if a B2C CustomerList ID and CustomerNo assigned in QA Mode.</description>
+        <name>dec_areQAB2CCustomerListIDCustomerNoAssigned</name>
+        <label>Are a B2C CustomerList ID and CustomerNo Assigned?</label>
+        <locationX>1552</locationX>
+        <locationY>671</locationY>
+        <defaultConnector>
+            <targetReference>dec_doesContactIDExist</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Assigned</defaultConnectorLabel>
+        <rules>
+            <name>decOut_qaB2CCustomerListCustomerNoAreAssigned</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>var_qaB2CCustomerListID</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>var_qaB2CCustomerNo</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>asn_b2CCustomerListIDCustomerNotoProcessContact</targetReference>
+            </connector>
+            <label>Are Assigned</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>... was a B2C CustomerID found?  If so, retrieve the Contact</description>
+        <name>dec_doesB2CCustomerIDExist</name>
+        <label>B2C CustomerID Exists?</label>
+        <locationX>589</locationX>
+        <locationY>911</locationY>
+        <defaultConnector>
+            <targetReference>dec_doesB2CCustomerListCustomerNoExist</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Does Not Exist</defaultConnectorLabel>
+        <rules>
+            <name>decOut_B2CCustomerIDExists</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>var_contactToProcess.B2C_Customer_ID__c</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>recGet_byB2CCustomerID</targetReference>
+            </connector>
+            <label>Exists</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>... was a B2C CustomerListID and CustomerNo found?  If so, retrieve the Contact</description>
+        <name>dec_doesB2CCustomerListCustomerNoExist</name>
+        <label>B2C CustomerListID / CustomerNo Exists?</label>
+        <locationX>590</locationX>
+        <locationY>1141</locationY>
+        <defaultConnector>
+            <targetReference>dec_wasB2CCustomerListRelationshipFound</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Does Not Exist</defaultConnectorLabel>
+        <rules>
+            <name>decOut_B2CCustomerListCustomerNoExists</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>var_contactToProcess.B2C_CustomerList_ID__c</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>var_contactToProcess.B2C_Customer_No__c</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>recGet_byB2CCustomerListIDCustomerNo</targetReference>
+            </connector>
+            <label>Exists</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>... was a ContactID found?  If so, retrieve the Contact</description>
+        <name>dec_doesContactIDExist</name>
+        <label>ContactID Exists?</label>
+        <locationX>588</locationX>
+        <locationY>689</locationY>
+        <defaultConnector>
+            <targetReference>dec_doesB2CCustomerIDExist</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Does Not Exist</defaultConnectorLabel>
+        <rules>
+            <name>decOut_ContactIDExists</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>var_contactToProcess.Id</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>recGet_byContactID</targetReference>
+            </connector>
+            <label>Exists</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>... evaluate if a B2C CustomerID is assigned in QA Mode.</description>
+        <name>dec_isQAB2CCustomerIDAssigned</name>
+        <label>Is a B2C CustomerID Assigned?</label>
+        <locationX>1186</locationX>
+        <locationY>221</locationY>
+        <defaultConnector>
+            <targetReference>dec_areQAB2CCustomerListIDCustomerNoAssigned</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Assigned</defaultConnectorLabel>
+        <rules>
+            <name>decOut_qaB2CCustomerIDIsAssignee</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>var_qaB2CCustomerID</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>asn_b2CCustomerIDtoProcessContact</targetReference>
+            </connector>
+            <label>Is Assigned</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>... evaluate if we&apos;re operating in QA Mode.</description>
+        <name>dec_isQAModeEnabled</name>
+        <label>Operating in QA Mode?</label>
+        <locationX>587</locationX>
+        <locationY>217</locationY>
+        <defaultConnector>
+            <targetReference>asn_sourceContactToProcessContact</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>QA Mode Disabled</defaultConnectorLabel>
+        <rules>
+            <name>QA_Mode_Enabled</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>var_qaMode</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>dec_qaContactIDAssigned</targetReference>
+            </connector>
+            <label>QA Mode Enabled</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>... evaluate if a ContactID is assigned as part of QA Mode.</description>
+        <name>dec_qaContactIDAssigned</name>
+        <label>Is a ContactID Assigned?</label>
+        <locationX>827</locationX>
+        <locationY>216</locationY>
+        <defaultConnector>
+            <targetReference>dec_isQAB2CCustomerIDAssigned</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Assigned</defaultConnectorLabel>
+        <rules>
+            <name>decOut_ContactIDIsAssigned</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>var_qaContactID</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>asn_contactIDtoProcessContact</targetReference>
+            </connector>
+            <label>Is Assigned</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>... evaluate if a B2C CustomerList Relationship was Found?</description>
+        <name>dec_wasB2CCustomerListRelationshipFound</name>
+        <label>Was a B2C CustomerList Relationship Found?</label>
+        <locationX>591</locationX>
+        <locationY>1373</locationY>
+        <defaultConnectorLabel>Not Found</defaultConnectorLabel>
+        <rules>
+            <name>decOut_B2CCustomerListRelationshipFound</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>var_retrievedContact.B2C_CustomerList__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>asn_setOutputFlagToTrue</targetReference>
+            </connector>
+            <label>Was Found</label>
+        </rules>
+    </decisions>
+    <description>... takes a Contact record with identifiers and validates that a CustomerList relationship exists.</description>
+    <interviewLabel>B2C Commerce: Process: Validate CustomerList Relationship {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>B2C Commerce: Process: Validate CustomerList Relationship</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <description>... attempt to retrieve the Contact using the identifiers specified (B2C CustomerID)</description>
+        <name>recGet_byB2CCustomerID</name>
+        <label>Retrieve Contact by B2C CustomerID</label>
+        <locationX>228</locationX>
+        <locationY>910</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>dec_wasB2CCustomerListRelationshipFound</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>B2C_Customer_ID__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>var_contactToProcess.B2C_Customer_ID__c</elementReference>
+            </value>
+        </filters>
+        <object>Contact</object>
+        <outputReference>var_retrievedContact</outputReference>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>B2C_Customer_ID__c</queriedFields>
+        <queriedFields>B2C_CustomerList__c</queriedFields>
+        <queriedFields>B2C_CustomerList_ID__c</queriedFields>
+        <queriedFields>B2C_Customer_No__c</queriedFields>
+        <queriedFields>LastName</queriedFields>
+        <queriedFields>Email</queriedFields>
+        <queriedFields>B2C_Disable_Integration__c</queriedFields>
+        <queriedFields>Audit_OCAPI_API_Response__c</queriedFields>
+        <queriedFields>AccountId</queriedFields>
+        <sortField>CreatedDate</sortField>
+        <sortOrder>Desc</sortOrder>
+    </recordLookups>
+    <recordLookups>
+        <description>... attempt to retrieve the Contact using the identifiers specified (B2C CustomerListID CustomerNo)</description>
+        <name>recGet_byB2CCustomerListIDCustomerNo</name>
+        <label>Retrieve Contact by B2C CustomerList ID CustomerNo</label>
+        <locationX>405</locationX>
+        <locationY>1140</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>dec_wasB2CCustomerListRelationshipFound</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>B2C_CustomerList_ID__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>var_contactToProcess.B2C_CustomerList_ID__c</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>B2C_Customer_No__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>var_contactToProcess.B2C_Customer_No__c</elementReference>
+            </value>
+        </filters>
+        <object>Contact</object>
+        <outputReference>var_retrievedContact</outputReference>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>B2C_Customer_ID__c</queriedFields>
+        <queriedFields>B2C_CustomerList__c</queriedFields>
+        <queriedFields>B2C_CustomerList_ID__c</queriedFields>
+        <queriedFields>B2C_Customer_No__c</queriedFields>
+        <queriedFields>LastName</queriedFields>
+        <queriedFields>Email</queriedFields>
+        <queriedFields>B2C_Disable_Integration__c</queriedFields>
+        <queriedFields>Audit_OCAPI_API_Response__c</queriedFields>
+        <queriedFields>AccountId</queriedFields>
+        <sortField>CreatedDate</sortField>
+        <sortOrder>Desc</sortOrder>
+    </recordLookups>
+    <recordLookups>
+        <description>... attempt to retrieve the Contact using the identifiers specified (ContactID)</description>
+        <name>recGet_byContactID</name>
+        <label>Retrieve Contact by ContactID</label>
+        <locationX>50</locationX>
+        <locationY>689</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>dec_wasB2CCustomerListRelationshipFound</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>var_contactToProcess.Id</elementReference>
+            </value>
+        </filters>
+        <object>Contact</object>
+        <outputReference>var_retrievedContact</outputReference>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>B2C_Customer_ID__c</queriedFields>
+        <queriedFields>B2C_CustomerList__c</queriedFields>
+        <queriedFields>B2C_CustomerList_ID__c</queriedFields>
+        <queriedFields>B2C_Customer_No__c</queriedFields>
+        <queriedFields>LastName</queriedFields>
+        <queriedFields>Email</queriedFields>
+        <queriedFields>B2C_Disable_Integration__c</queriedFields>
+        <queriedFields>Audit_OCAPI_API_Response__c</queriedFields>
+        <queriedFields>AccountId</queriedFields>
+        <sortField>CreatedDate</sortField>
+        <sortOrder>Desc</sortOrder>
+    </recordLookups>
+    <start>
+        <locationX>469</locationX>
+        <locationY>14</locationY>
+        <connector>
+            <targetReference>dec_isQAModeEnabled</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <variables>
+        <description>... represents the Contact to process when evaluating identifiers.</description>
+        <name>var_contactToProcess</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Contact</objectType>
+    </variables>
+    <variables>
+        <description>... output variable describing if a sourceContact has a valid B2C CustomerList assigned.</description>
+        <name>var_hasCustomerList</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
+    </variables>
+    <variables>
+        <description>... represents the B2C CustomerID to assign to the QA Contact record.</description>
+        <name>var_qaB2CCustomerID</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>... represents the B2C CustomerList value to assign to the QA Contact.</description>
+        <name>var_qaB2CCustomerListID</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>... represents the B2C CustomerNo being assigned to the test Contact.</description>
+        <name>var_qaB2CCustomerNo</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>... represents the ContactID to assign to the test Contact.</description>
+        <name>var_qaContactID</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>... describes if the current flow is being operated in QA Mode (evaluated during testing).</description>
+        <name>var_qaMode</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
+    </variables>
+    <variables>
+        <description>... represents the retrievedContact to be checked for a CustomerList relationship.</description>
+        <name>var_retrievedContact</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+        <objectType>Contact</objectType>
+    </variables>
+    <variables>
+        <description>... represents the sourceContact being evaluated for a CustomerList value.</description>
+        <name>var_sourceContact</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Contact</objectType>
+    </variables>
+</Flow>

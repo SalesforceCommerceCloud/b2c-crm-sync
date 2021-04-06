@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>B2C_Client_ID__c</fullName>
+    <description>... represents the Client ID that should be used to perform REST API requests against this Site.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>... represents the Client ID that should be used to perform REST API requests against this Site.</inlineHelpText>
+    <label>B2C Client ID</label>
+    <length>255</length>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

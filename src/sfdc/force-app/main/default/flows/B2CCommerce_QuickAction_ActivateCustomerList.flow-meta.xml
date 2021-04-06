@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>50.0</apiVersion>
+    <assignments>
+        <description>... activate the B2C CustomerList&apos;s active and profile-control flags.</description>
+        <name>asn_ActivateB2CCustomerList</name>
+        <label>Activate the B2C CustomerList</label>
+        <locationX>176</locationX>
+        <locationY>278</locationY>
+        <assignmentItems>
+            <assignToReference>varB2CCustomerList.Is_Active__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>varB2CCustomerList.Enable_Profile_Creation__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>varB2CCustomerList.Enable_Profile_Publishing__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>varB2CCustomerList.Enable_Profile_Retrieval__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>varB2CCustomerList.Enable_Profile_Updates__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>recUpd_activateB2CCustomerList</targetReference>
+        </connector>
+    </assignments>
+    <description>... activates the selected B2C Commerce CustomerList and enable integration with B2C Commerce.</description>
+    <interviewLabel>B2C Commerce: Quick Action: Activate CustomerList {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>B2C Commerce: Quick Action: Activate CustomerList</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Flow</processType>
+    <recordLookups>
+        <description>... retrieve the B2C CustomerList being activated.</description>
+        <name>recGet_B2CCustomerList</name>
+        <label>Get the B2C CustomerList</label>
+        <locationX>176</locationX>
+        <locationY>158</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>asn_ActivateB2CCustomerList</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <object>B2C_CustomerList__c</object>
+        <outputReference>varB2CCustomerList</outputReference>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>Is_Active__c</queriedFields>
+        <queriedFields>Name</queriedFields>
+        <queriedFields>Enable_Profile_Creation__c</queriedFields>
+        <queriedFields>Enable_Profile_Retrieval__c</queriedFields>
+        <queriedFields>Enable_Profile_Publishing__c</queriedFields>
+        <queriedFields>Enable_Profile_Updates__c</queriedFields>
+    </recordLookups>
+    <recordUpdates>
+        <description>... turn on all the activation flags for the selected B2C CustomerList.</description>
+        <name>recUpd_activateB2CCustomerList</name>
+        <label>Update the B2C CustomerList</label>
+        <locationX>176</locationX>
+        <locationY>398</locationY>
+        <connector>
+            <targetReference>screen_activateB2CCustomerListMessage</targetReference>
+        </connector>
+        <inputReference>varB2CCustomerList</inputReference>
+    </recordUpdates>
+    <screens>
+        <description>... display to the user that the B2C CustomerList has been activated successfully.</description>
+        <name>screen_activateB2CCustomerListMessage</name>
+        <label>Display Activation Status for the B2C CustomerList</label>
+        <locationX>176</locationX>
+        <locationY>518</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <fields>
+            <name>lbl_activateB2CCustomerListHeader</name>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 14px;&quot;&gt;The B2C CustomerList Has Been Activated for Integration&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;The active and profile integration flags for the selected B2C CustomerList have been activated.  This B2C CustomerList can now be used to integrate with B2C Commerce.&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>lbl_activateB2CCustomerListId</name>
+            <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>varB2CCustomerList.Id</elementReference>
+            </defaultValue>
+            <fieldText>B2C CustomerList ID</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>lbl_activateB2CCustomerListName</name>
+            <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>varB2CCustomerList.Name</elementReference>
+            </defaultValue>
+            <fieldText>B2C CustomerList</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>lbl_activateB2CCustomerListIsActive</name>
+            <dataType>Boolean</dataType>
+            <defaultValue>
+                <elementReference>varB2CCustomerList.Is_Active__c</elementReference>
+            </defaultValue>
+            <fieldText>B2C CustomerList Is Active</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>lbl_activateB2CCustomerListProfileRetrieve</name>
+            <dataType>Boolean</dataType>
+            <defaultValue>
+                <elementReference>varB2CCustomerList.Enable_Profile_Retrieval__c</elementReference>
+            </defaultValue>
+            <fieldText>Retrieve B2C Customer Profiles</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>lbl_activateB2CCustomerListProfilePublish</name>
+            <dataType>Boolean</dataType>
+            <defaultValue>
+                <elementReference>varB2CCustomerList.Enable_Profile_Publishing__c</elementReference>
+            </defaultValue>
+            <fieldText>Publish Updates to B2C Customer Profiles</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>lbl_activateB2CCustomerListProfileCreate</name>
+            <dataType>Boolean</dataType>
+            <defaultValue>
+                <elementReference>varB2CCustomerList.Enable_Profile_Creation__c</elementReference>
+            </defaultValue>
+            <fieldText>Allow Contact Creation</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>lbl_activateB2CCustomerListProfileUpdate</name>
+            <dataType>Boolean</dataType>
+            <defaultValue>
+                <elementReference>varB2CCustomerList.Enable_Profile_Updates__c</elementReference>
+            </defaultValue>
+            <fieldText>Allow Contact Updates</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>lbl_screenB2CCustomerListActivateFooter</name>
+            <fieldText>&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Contacts associated to this B2C CustomerList that are mapped to B2C Commerce Customer Profiles can now consume updates from B2C Commerce and publish updates to B2C Commerce.&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>recGet_B2CCustomerList</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <variables>
+        <description>... represents the recordId of the B2C Commerce CustomerList being activated.</description>
+        <name>recordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>... represents the updated B2C CustomerList.</description>
+        <name>varB2CCustomerList</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>B2C_CustomerList__c</objectType>
+    </variables>
+</Flow>

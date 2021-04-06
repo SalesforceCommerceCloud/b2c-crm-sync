@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Enable_Address_Sync__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>... describes if custom addressbooks can be synchronized for customers within a given B2C Commerce Storefront.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>... describes if custom addressbooks can be synchronized for customers within a given B2C Commerce Storefront.</inlineHelpText>
+    <label>Enable Address Sync</label>
+    <trackFeedHistory>true</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

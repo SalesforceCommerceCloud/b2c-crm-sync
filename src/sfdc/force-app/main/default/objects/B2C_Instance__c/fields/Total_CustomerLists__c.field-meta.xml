@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Total_CustomerLists__c</fullName>
+    <description>... represents the total number of B2C Commerce CustomerLists for his B2C Instance.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>... represents the total number of B2C Commerce CustomerLists for his B2C Instance.</inlineHelpText>
+    <label>Total CustomerLists</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

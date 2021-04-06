@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Default_Account_Name__c</fullName>
+    <description>... represents the default name to use for a B2C Account if one was not provided or could not be calculated from the child Contact properties.</description>
+    <externalId>false</externalId>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <inlineHelpText>... represents the default name to use for a B2C Account if one was not provided or could not be calculated from the child Contact properties.</inlineHelpText>
+    <label>Default Account Name</label>
+    <length>255</length>
+    <required>false</required>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

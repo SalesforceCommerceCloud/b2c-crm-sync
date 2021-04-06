@@ -1,0 +1,9 @@
+    <service-profile service-profile-id="b2ccrmsync.{{B2C_SITEID}}">
+        <timeout-millis>10000</timeout-millis>
+        <rate-limit-enabled>false</rate-limit-enabled>
+        <rate-limit-calls>0</rate-limit-calls>
+        <rate-limit-millis>0</rate-limit-millis>
+        <cb-enabled>true</cb-enabled>
+        <cb-calls>2</cb-calls>
+        <cb-millis>100</cb-millis>
+    </service-profile>

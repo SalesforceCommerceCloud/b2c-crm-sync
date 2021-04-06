@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>B2C_CustomerList_Mappings</fullName>
+    <columns>MasterLabel</columns>
+    <columns>DeveloperName</columns>
+    <columns>B2C_Commerce_OCAPI_Attribute__c</columns>
+    <columns>Service_Cloud_Attribute__c</columns>
+    <columns>Enable_for_Integration__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Service_Cloud_Object__c</field>
+        <operation>equals</operation>
+        <value>B2C_CustomerList__c</value>
+    </filters>
+    <label>B2C CustomerList Mappings</label>
+</ListView>

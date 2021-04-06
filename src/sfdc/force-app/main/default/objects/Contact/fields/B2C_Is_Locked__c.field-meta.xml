@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>B2C_Is_Locked__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>... describes if the current B2C Commerce Customer Profile is locked-out and being prevented from logging into the storefront.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>... describes if the current B2C Commerce Customer Profile is locked-out and being prevented from logging into the storefront.</inlineHelpText>
+    <label>B2C Is Locked</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <type>Checkbox</type>
+</CustomField>

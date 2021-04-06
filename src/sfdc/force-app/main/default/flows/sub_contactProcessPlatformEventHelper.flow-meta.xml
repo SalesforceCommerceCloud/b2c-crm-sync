@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>50.0</apiVersion>
+    <decisions>
+        <description>... evaluate if a CustomerNo is present; if so, then let&apos;s trigger the Platform Event to synchronize the Contact record.</description>
+        <name>dec_IsB2CCustomerNoPresent</name>
+        <label>Is a B2C CustomerNo Present?</label>
+        <locationX>528</locationX>
+        <locationY>212</locationY>
+        <defaultConnectorLabel>Is Not Present</defaultConnectorLabel>
+        <rules>
+            <name>decOut_CustomerNoIsPresent_BusinessAccount</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>var_contactToProcess.B2C_Customer_No__c</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>var_contactToProcess.B2C_Customer_No__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>recCreate_B2CCustomerPlatformEvent</targetReference>
+            </connector>
+            <label>Is Present</label>
+        </rules>
+    </decisions>
+    <description>... encapsulates the Contact Processing Platform Event logic for re-use and implementation simplification.</description>
+    <interviewLabel>B2C Commerce: Process: Platform Event Helper {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>B2C Commerce: Process: Platform Event Helper</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordCreates>
+        <description>... create the Platform Event used to retrieve and update customer record details.</description>
+        <name>recCreate_B2CCustomerPlatformEvent</name>
+        <label>Create the Contact Processing Platform Event</label>
+        <locationX>297</locationX>
+        <locationY>211</locationY>
+        <assignRecordIdToReference>var_platformEventId</assignRecordIdToReference>
+        <inputAssignments>
+            <field>Api_Url__c</field>
+            <value>
+                <elementReference>var_customerList.Base_API_Url__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Audit_API_Response__c</field>
+            <value>
+                <elementReference>var_contactToProcess.Audit_OCAPI_API_Response__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>B2C_CustomerList_ID__c</field>
+            <value>
+                <elementReference>var_contactToProcess.B2C_CustomerList_ID__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>B2C_Customer_No__c</field>
+            <value>
+                <elementReference>var_contactToProcess.B2C_Customer_No__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>CRM_Contact_ID__c</field>
+            <value>
+                <elementReference>var_contactToProcess.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>CRM_CustomerList_ID__c</field>
+            <value>
+                <elementReference>var_contactToProcess.B2C_CustomerList__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Named_Credential__c</field>
+            <value>
+                <elementReference>var_customerList.Named_Credential_Developer_Name__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>OCAPI_Version_Number__c</field>
+            <value>
+                <elementReference>var_customerList.OCAPI_Version_No__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Process_Mode__c</field>
+            <value>
+                <elementReference>var_platformEventProcess</elementReference>
+            </value>
+        </inputAssignments>
+        <object>B2C_Commerce_ProcessCustomerDetails__e</object>
+    </recordCreates>
+    <start>
+        <locationX>410</locationX>
+        <locationY>48</locationY>
+        <connector>
+            <targetReference>dec_IsB2CCustomerNoPresent</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <variables>
+        <description>... represents the B2C Contact used to trigger the Contact Processing Platform Event.</description>
+        <name>var_contactToProcess</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Contact</objectType>
+    </variables>
+    <variables>
+        <description>... represents the B2C CustomerList used to trigger the Contact Processing Platform Event.</description>
+        <name>var_customerList</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+        <objectType>B2C_CustomerList__c</objectType>
+    </variables>
+    <variables>
+        <description>... represents the Id of the created Platform Event.</description>
+        <name>var_platformEventId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <description>... represents the Platform Event Process to invoke (retrieve or publish).</description>
+        <name>var_platformEventProcess</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>

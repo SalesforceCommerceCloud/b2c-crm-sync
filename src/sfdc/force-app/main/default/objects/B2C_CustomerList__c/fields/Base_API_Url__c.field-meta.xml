@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Base_API_Url__c</fullName>
+    <description>... represents the base API Url derived from the CustomerList&apos;s Record API Url.</description>
+    <externalId>false</externalId>
+    <formula>LEFT(API_Url__c, FIND( &apos;/s/&apos;, API_Url__c)-1)</formula>
+    <inlineHelpText>... represents the base API Url derived from the CustomerList&apos;s Record API Url.</inlineHelpText>
+    <label>Base API Url</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

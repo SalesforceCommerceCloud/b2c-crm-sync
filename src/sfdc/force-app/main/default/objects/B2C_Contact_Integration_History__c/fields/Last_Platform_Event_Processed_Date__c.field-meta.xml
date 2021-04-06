@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Last_Platform_Event_Processed_Date__c</fullName>
+    <description>... represents the date that the last B2C Commerce Integration Contact update platform event was processed.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>... represents the date that the last B2C Commerce Integration Contact update platform event was processed.</inlineHelpText>
+    <label>Event Processed Date</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackTrending>false</trackTrending>
+    <type>DateTime</type>
+</CustomField>

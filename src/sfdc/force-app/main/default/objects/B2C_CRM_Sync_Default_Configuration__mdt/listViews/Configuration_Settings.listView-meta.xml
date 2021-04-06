@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Configuration_Settings</fullName>
+    <columns>MasterLabel</columns>
+    <columns>Active_Configuration__c</columns>
+    <filterScope>Everything</filterScope>
+    <label>B2C CRM Sync: Configuration Selection</label>
+</ListView>

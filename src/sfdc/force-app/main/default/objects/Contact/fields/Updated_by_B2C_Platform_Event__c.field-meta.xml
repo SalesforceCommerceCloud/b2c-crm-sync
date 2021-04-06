@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Updated_by_B2C_Platform_Event__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>... internal field that causes Contact updates to bypass the B2C Commerce Platform Event processing.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>... internal field that causes Contact updates to bypass the B2C Commerce Platform Event processing.</inlineHelpText>
+    <label>Bypass B2C Commerce Platform Event</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <type>Checkbox</type>
+</CustomField>

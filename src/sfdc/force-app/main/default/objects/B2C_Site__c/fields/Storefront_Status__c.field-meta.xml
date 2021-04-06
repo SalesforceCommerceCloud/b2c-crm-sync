@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Storefront_Status__c</fullName>
+    <description>... represents the current online status for a given B2C Commerce Storefront.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>... represents the current online status for a given B2C Commerce Storefront.</inlineHelpText>
+    <label>Storefront Status</label>
+    <required>false</required>
+    <trackFeedHistory>true</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Online</fullName>
+                <default>true</default>
+                <label>Online</label>
+            </value>
+            <value>
+                <fullName>Maintenance</fullName>
+                <default>false</default>
+                <label>Maintenance</label>
+            </value>
+            <value>
+                <fullName>Protected</fullName>
+                <default>false</default>
+                <label>Protected</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

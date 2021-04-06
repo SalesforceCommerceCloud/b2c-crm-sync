@@ -1,0 +1,23 @@
+[
+    {
+        "actionName": "B2CContactResolve",
+        "errors": null,
+        "isSuccess": true,
+        "outputValues": {
+            "ContactListResolved": [
+                {
+                    "attributes": {
+                        "type": "Contact",
+                        "url": "/services/data/v50.0/sobjects/Contact/0031j00000sOaTQAA0"
+                    },
+                    "Id": "0031j00000sOaTQAA0",
+                    "LastName": "Doe",
+                    "Email": "jdoe@email.com"
+                }
+            ],
+            "errors": null,
+            "Flow__InterviewStatus": "Finished",
+            "isSuccess": true
+        }
+    }
+]

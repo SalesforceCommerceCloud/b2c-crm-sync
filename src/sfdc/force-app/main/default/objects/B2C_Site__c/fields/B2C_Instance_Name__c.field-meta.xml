@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>B2C_Instance_Name__c</fullName>
+    <description>... represents the B2C Commerce Instance a given Site is served from.</description>
+    <externalId>false</externalId>
+    <formula>Customer_List__r.B2C_Instance__r.Name</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>... represents the B2C Commerce Instance a given Site is served from.</inlineHelpText>
+    <label>B2C Instance Name</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

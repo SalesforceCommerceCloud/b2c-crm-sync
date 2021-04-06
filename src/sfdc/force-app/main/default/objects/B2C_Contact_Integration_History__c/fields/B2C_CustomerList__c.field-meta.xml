@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>B2C_CustomerList__c</fullName>
+    <description>... represents the B2C Commerce CustomerList to which the processed Contact is related.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>... represents the B2C Commerce CustomerList to which the processed Contact is related.</inlineHelpText>
+    <label>B2C CustomerList</label>
+    <referenceTo>B2C_CustomerList__c</referenceTo>
+    <relationshipLabel>B2C Contact Integration History</relationshipLabel>
+    <relationshipName>B2C_Contact_Integration_History</relationshipName>
+    <relationshipOrder>1</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>

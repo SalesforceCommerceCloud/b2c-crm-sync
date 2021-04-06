@@ -1,0 +1,32 @@
+{
+  "hooks": [
+    {
+      "name": "app.customer.loggedIn",
+      "script": "~/cartridge/scripts/hooks/customer.process"
+    },
+    {
+      "name": "app.customer.created",
+      "script": "~/cartridge/scripts/hooks/customer.process"
+    },
+    {
+      "name": "app.customer.updated",
+      "script": "~/cartridge/scripts/hooks/customer.process"
+    },
+    {
+      "name": "app.customer.retrieve",
+      "script": "~/cartridge/scripts/hooks/customer.retrieve"
+    },
+    {
+      "name": "dw.ocapi.shop.auth.afterPOST",
+      "script": "~/cartridge/scripts/hooks/ocapi/shop.auth.afterPOST"
+    },
+    {
+      "name": "dw.ocapi.shop.customer.afterPOST",
+      "script": "~/cartridge/scripts/hooks/ocapi/shop.customer.afterPOST"
+    },
+    {
+      "name": "dw.ocapi.shop.customer.afterPATCH",
+      "script": "~/cartridge/scripts/hooks/ocapi/shop.customer.afterPATCH"
+    }
+  ]
+}

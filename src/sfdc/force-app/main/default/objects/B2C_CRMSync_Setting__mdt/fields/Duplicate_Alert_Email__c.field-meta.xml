@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Duplicate_Alert_Email__c</fullName>
+    <description>... represents the email address of the administrator or contact that should be alerted of duplicate Contact records resolved when processing B2CContactProcess REST API requests.</description>
+    <externalId>false</externalId>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <inlineHelpText>... represents the email address of the administrator or contact that should be alerted of duplicate Contact records resolved when processing B2CContactProcess REST API requests.</inlineHelpText>
+    <label>Duplicate Alert Email</label>
+    <required>false</required>
+    <type>Email</type>
+    <unique>false</unique>
+</CustomField>

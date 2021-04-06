@@ -1,0 +1,8 @@
+{
+  "orgName": "b2c-crm-sync",
+  "edition": "Developer",
+  "description": "scratch-org leveraging PersonAccounts; used to test the SFCC / SFSC integration.",
+  "hasSampleData": false,
+  "features": ["PersonAccounts", "ServiceCloud"]
+}
+

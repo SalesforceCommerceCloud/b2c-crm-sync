@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>B2C_Instance__c</fullName>
+    <description>... represents the parent B2C Instance for the CustomerList record related to a given Contact.</description>
+    <externalId>false</externalId>
+    <formula>B2C_CustomerList__r.B2C_Instance__r.Name</formula>
+    <inlineHelpText>... represents the parent B2C Instance for the CustomerList record related to a given Contact.</inlineHelpText>
+    <label>B2C Instance</label>
+    <required>false</required>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

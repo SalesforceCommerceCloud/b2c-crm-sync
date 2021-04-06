@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Enable_B2C_Process_Contact_Trigger__c</fullName>
+    <defaultValue>true</defaultValue>
+    <description>... managed whether the B2C Process Contact trigger is enabled and used to process Contact Updates.</description>
+    <externalId>false</externalId>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <inlineHelpText>... managed whether the B2C Process Contact trigger is enabled and used to process Contact Updates.</inlineHelpText>
+    <label>Enable B2C Process Contact Trigger</label>
+    <type>Checkbox</type>
+</CustomField>

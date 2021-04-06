@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>50.0</apiVersion>
+    <assignments>
+        <name>Lookup_Assignment</name>
+        <label>Lookup Assignment</label>
+        <locationX>180</locationX>
+        <locationY>498</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.Customer_List__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>CustomerList_GetRecords.Id</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <description>... this updates the B2C CustomerList association for a given B2C Site whenever the site&apos;s B2C CustomerList ID value is set.</description>
+    <interviewLabel>B2C Commerce: Site Trigger {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>B2C Commerce: Trigger: Update Site CustomerList Relationship</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <name>CustomerList_GetRecords</name>
+        <label>CustomerList GetRecords</label>
+        <locationX>176</locationX>
+        <locationY>337</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Lookup_Assignment</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>CustomerList_ID__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.CustomerList_ID__c</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>B2C_CustomerList__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <start>
+        <locationX>50</locationX>
+        <locationY>50</locationY>
+        <connector>
+            <targetReference>CustomerList_GetRecords</targetReference>
+        </connector>
+        <object>B2C_Site__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordBeforeSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

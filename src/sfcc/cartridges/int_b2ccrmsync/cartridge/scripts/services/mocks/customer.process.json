@@ -1,0 +1,31 @@
+[
+    {
+        "actionName": "B2CContactProcess",
+        "errors": null,
+        "isSuccess": true,
+        "outputValues": {
+            "Account": {
+                "attributes": {
+                    "type": "Account",
+                    "url": "/services/data/v50.0/sobjects/Account/0011j000012gy9mAAA"
+                },
+                "Name": "Account Name Example",
+                "RecordTypeId": "0121j000001meUxAAI",
+                "Id": "0011j000012gy9mAAA"
+            },
+            "errors": null,
+            "Flow__InterviewStatus": "Finished",
+            "isSuccess": true,
+            "Contact": {
+                "attributes": {
+                    "type": "Contact",
+                    "url": "/services/data/v50.0/sobjects/Contact/0031j00000sOaPYAA0"
+                },
+                "Id": "0031j00000sOaPYAA0",
+                "FirstName": "John",
+                "LastName": "Doe",
+                "AccountId": "0011j000012gy9mAAA"
+            }
+        }
+    }
+]

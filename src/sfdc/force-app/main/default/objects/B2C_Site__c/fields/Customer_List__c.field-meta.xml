@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Customer_List__c</fullName>
+    <deleteConstraint>Restrict</deleteConstraint>
+    <description>... represents the B2C Commerce parent CustomerList.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>... represents the B2C Commerce parent CustomerList.</inlineHelpText>
+    <label>Customer List</label>
+    <referenceTo>B2C_CustomerList__c</referenceTo>
+    <relationshipLabel>B2C Sites</relationshipLabel>
+    <relationshipName>B2C_Sites</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>true</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

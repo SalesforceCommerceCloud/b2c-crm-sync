@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>B2C_Disable_Integration__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>... describes if integration between B2C Commerce and Service Cloud is disabled for a given Contact.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>... describes if integration between B2C Commerce and Service Cloud is disabled for a given Contact.</inlineHelpText>
+    <label>B2C Disable Integration</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <type>Checkbox</type>
+</CustomField>

@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>50.0</apiVersion>
+    <assignments>
+        <description>... assign the found Contact to a local variable for processing.</description>
+        <name>asn_assignFoundContact</name>
+        <label>Assign the Found Contact</label>
+        <locationX>50</locationX>
+        <locationY>398</locationY>
+        <assignmentItems>
+            <assignToReference>var_resolvedContact</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>recGet_Contact</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <description>... assign the recordCount of child Contacts for the specified Account -- so we can evaluate if more than one record was returned.</description>
+        <name>asn_childContactRecordcount</name>
+        <label>Assign the Child Contact RecordCount</label>
+        <locationX>578</locationX>
+        <locationY>638</locationY>
+        <assignmentItems>
+            <assignToReference>var_childContactCount</assignToReference>
+            <operator>AssignCount</operator>
+            <value>
+                <elementReference>recGet_childContactToProcess</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>dec_howManyContactsWereFound</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>... assign the childContact to the Output variable.</description>
+        <name>asn_childContactToOutput</name>
+        <label>Assign the Child Contact to the Output Variable</label>
+        <locationX>490</locationX>
+        <locationY>998</locationY>
+        <assignmentItems>
+            <assignToReference>var_resolvedContact</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>loop_childContactCollection</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>loop_childContactCollection</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <description>... evaluate how many Contacts were found as children of the parent Account.</description>
+        <name>dec_howManyContactsWereFound</name>
+        <label>How Many Contacts Were Found</label>
+        <locationX>578</locationX>
+        <locationY>758</locationY>
+        <defaultConnectorLabel>None</defaultConnectorLabel>
+        <rules>
+            <name>One</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>var_childContactCount</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <numberValue>1.0</numberValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>loop_childContactCollection</targetReference>
+            </connector>
+            <label>One</label>
+        </rules>
+        <rules>
+            <name>Multiple</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>var_childContactCount</leftValueReference>
+                <operator>GreaterThanOrEqualTo</operator>
+                <rightValue>
+                    <numberValue>1.0</numberValue>
+                </rightValue>
+            </conditions>
+            <label>Multiple</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>... evaluate if a Contact Record was found using the specified ContactID.</description>
+        <name>dec_wasContactRecordFound</name>
+        <label>Was a Contact Record Found?</label>
+        <locationX>314</locationX>
+        <locationY>278</locationY>
+        <defaultConnector>
+            <targetReference>recGet_parentAccount</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Was Not Found</defaultConnectorLabel>
+        <rules>
+            <name>decOut_ContactWasFound</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>recGet_Contact</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>asn_assignFoundContact</targetReference>
+            </connector>
+            <label>Was Found</label>
+        </rules>
+    </decisions>
+    <description>... this subflow is responsible for either retrieving a Contact record directly or using the recordId provided to retrieve an Account record and derive the Contact associated.</description>
+    <interviewLabel>B2C Commerce: Quick Action: Contact Getter Helper {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>B2C Commerce: Quick Action: Contact Getter Helper</label>
+    <loops>
+        <description>... loop over the Collection of found childContacts</description>
+        <name>loop_childContactCollection</name>
+        <label>Loop Over the Collection of Contacts</label>
+        <locationX>402</locationX>
+        <locationY>878</locationY>
+        <collectionReference>recGet_childContactToProcess</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>asn_childContactToOutput</targetReference>
+        </nextValueConnector>
+    </loops>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <description>... attempt to retrieve a Contact record that is a child to the parentAccount.</description>
+        <name>recGet_childContactToProcess</name>
+        <label>Retrieve Child Contact</label>
+        <locationX>578</locationX>
+        <locationY>518</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>asn_childContactRecordcount</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>AccountId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recGet_parentAccount.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>Contact</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>... attempt to find a Contact Record aligned with the recordId provided.</description>
+        <name>recGet_Contact</name>
+        <label>Get Contact Record</label>
+        <locationX>314</locationX>
+        <locationY>158</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>dec_wasContactRecordFound</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>var_recordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Contact</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>... attempt to retrieve the parentAccount associated to this Contact via the recordId provided.</description>
+        <name>recGet_parentAccount</name>
+        <label>Get Account</label>
+        <locationX>578</locationX>
+        <locationY>398</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>recGet_childContactToProcess</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>var_recordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Account</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <start>
+        <locationX>188</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>recGet_Contact</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <variables>
+        <description>... describes the total number of child Contacts assigned to the interrogated Account.</description>
+        <name>var_childContactCount</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+    </variables>
+    <variables>
+        <description>... represents the Id of the Contact / Account record being evaluated.</description>
+        <name>var_recordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>... represents the Contact record found by this flow.</description>
+        <name>var_resolvedContact</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+        <objectType>Contact</objectType>
+    </variables>
+</Flow>

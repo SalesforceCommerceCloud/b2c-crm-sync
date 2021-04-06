@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>B2C_CustomerList__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>... represents the B2C Commerce CustomerList the customer profile is associated to.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>... represents the B2C Commerce CustomerList the customer profile is associated to.</inlineHelpText>
+    <label>B2C CustomerList</label>
+    <referenceTo>B2C_CustomerList__c</referenceTo>
+    <relationshipLabel>Contacts</relationshipLabel>
+    <relationshipName>Contacts</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <type>Lookup</type>
+</CustomField>

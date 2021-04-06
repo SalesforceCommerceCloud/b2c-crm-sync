@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Enable_for_Integration__c</fullName>
+    <defaultValue>true</defaultValue>
+    <description>... when checked, this field mapping will be processed during multi-cloud integration events between B2C Commerce and Service Clouds.  If un-checked, this field mapping will ignored during multi-cloud integration events.</description>
+    <externalId>false</externalId>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <inlineHelpText>... when checked, this field mapping will be processed during multi-cloud integration events between B2C Commerce and Service Clouds.  If un-checked, this field mapping will ignored during multi-cloud integration events.</inlineHelpText>
+    <label>Enable for Multi-Cloud Integration</label>
+    <type>Checkbox</type>
+</CustomField>

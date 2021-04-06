@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Consume_Updates_from_B2C_Commerce__c</fullName>
+    <defaultValue>true</defaultValue>
+    <description>... when checked, mapped Service Cloud attributes will consume updates from their B2C Commerce counter parts.</description>
+    <externalId>false</externalId>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <inlineHelpText>... when checked, mapped Service Cloud attributes will consume updates from their B2C Commerce counter parts.</inlineHelpText>
+    <label>Consume Updates from B2C Commerce</label>
+    <type>Checkbox</type>
+</CustomField>

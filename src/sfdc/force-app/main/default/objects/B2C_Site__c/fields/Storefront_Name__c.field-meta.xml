@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Storefront_Name__c</fullName>
+    <caseSensitive>false</caseSensitive>
+    <description>... customer-facing name / label for a given B2C Commerce Storefront.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>... customer-facing name / label for a given B2C Commerce Storefront.</inlineHelpText>
+    <label>Storefront Name</label>
+    <length>255</length>
+    <required>true</required>
+    <trackFeedHistory>true</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>true</unique>
+</CustomField>

@@ -1,0 +1,14 @@
+{
+    "customCacheID": "b2ccrmsync",
+    "maxServiceRetry": 1,
+    "services": {
+        "auth": "b2ccrmsync.auth",
+        "rest": "b2ccrmsync.rest"
+    },
+    "endpoints": {
+        "customer": {
+            "retrieve": "services/data/v51.0/actions/custom/flow/B2CContactResolve",
+            "process": "services/data/v51.0/actions/custom/flow/B2CContactProcess"
+        }
+    }
+}

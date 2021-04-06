@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Audit_API_Response__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>... describes if the processed B2C Customer OCAPI response should be audited back to the processed Customer record.</description>
+    <externalId>false</externalId>
+    <isFilteringDisabled>false</isFilteringDisabled>
+    <isNameField>false</isNameField>
+    <isSortingDisabled>false</isSortingDisabled>
+    <label>Audit B2C Commerce OCAPI Response</label>
+    <type>Checkbox</type>
+</CustomField>

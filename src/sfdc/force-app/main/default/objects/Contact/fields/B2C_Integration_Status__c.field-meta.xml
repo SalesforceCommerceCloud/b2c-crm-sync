@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>B2C_Integration_Status__c</fullName>
+    <description>... describes the last successful integration status for a given B2C Commerce customer profile represented as a Contact.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>... describes the last successful integration status for a given B2C Commerce customer profile represented as a Contact.</inlineHelpText>
+    <label>B2C Integration Status</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetName>B2C_Integration_Status</valueSetName>
+    </valueSet>
+</CustomField>

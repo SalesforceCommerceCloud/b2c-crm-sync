@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>API_Url__c</fullName>
+    <description>... represents the API Url used to retrieve the details for a given B2C Commerce CustomerList.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>... represents the API Url used to retrieve the details for a given B2C Commerce CustomerList.</inlineHelpText>
+    <label>Record API Url</label>
+    <required>false</required>
+    <trackFeedHistory>true</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Url</type>
+</CustomField>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Currency_Field__c</fullName>
+    <description>... represents a currency field.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>... represents a currency field.</inlineHelpText>
+    <label>Currency Field</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>
