@@ -486,7 +486,7 @@ npm run crm-sync:sf:build
 
 7a. If you are deploying a personAccount scratchOrg, you'll also need to manually deploy the Salesforce Platform layout and quickAction elements for PersonAccounts.  The following SFDX command can be used to deploy these elements to your scratchOrg:
 
-> :warning: &nbsp; As a reminder, the **personAccounts implementation is incomplete** at this time.  Please review the [issues list](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/issues) for details and known issues.  We'll update the ReadMe.md once personAccounts have been completely implemented.
+> :warning: &nbsp; As a reminder, the **personAccounts implementation is incomplete** at this time.  Please review the [issues list](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/issues) for details and known issues.  We'll update the ReadMe.md once personAccounts have been completely implemented. &nbsp; :warning:
 
 ```bash
 sfdx force:source:deploy -p "src/sfdc/person-accounts"
