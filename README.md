@@ -4,6 +4,8 @@
 
 Salesforce B2C Commerce / CRM Sync is an enablement solution provided by Salesforce Architect Success designed to teach Salesforce's B2C Customer Data Strategy for multi-cloud use-cases.  The solution demonstrates a contemporary view on the integration between Salesforce B2C Commerce and the Salesforce Customer 360 Platform.  This project provides a framework to integrating these two clouds leveraging public REST APIs to share and synchronize customer profile data between the two clouds.
 
+> :warning: &nbsp;This repository is currently a **work-in-progress and should not be considered stable** until a formal release is published.  We're working hard to round-out the MVP feature-set in a trustworthy way.  Please visit our [issues-list](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/issues) to see outstanding issues and features, and visit our [discussions](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/discussions) to ask questions. &nbsp;:warning:
+
 ## Application Overview ##
 
 ###### This section provides a high-level summary of the purpose and architectural structure of the Salesforce B2C Commerce and Salesforce Customer 360 Platform Integration.
@@ -490,6 +492,8 @@ sfdx force:source:deploy -p "src/sfdc/person-accounts"
 
 > The deployment results will be output via the CLI.  Please note that these elements are a requirement for environments where personAccounts are enabled.
 
+> :warning: As a reminder, the **personAccounts implementation is incomplete** at this time.  Please review the [issues list](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/issues) for details.
+
 8. Use the below CLI command to retrieve configuration data needed for .env as outlined above.
 
 ```bash
@@ -577,3 +581,31 @@ You can validate your installation by executing the multi-cloud unit-tests that 
 npm run crm-sync:test:use-cases
 ```
 > This CLI command will execute the multi-cloud unit tests designed to validate the Salesforce environment's duplicate management configuration, bi-directional customer profile synchronization between B2C Commerce and the Salesforce Platform, and progressive customer resolution scenarios.  These tests exercise integration from both B2C Commerce and the Salesforce Platform.
+
+#### What's Next?
+At this point, you should be in a position to 1) start exercising the integration or 2) [ask a question]() or [log an issue]() if the installation and configuration didn't complete as expected.  Please share your experience with us. :grin:
+
+#### Last but Certainly Not Least
+I'd like to extend a heartfelt and personal thank you to everyone for their support, contributions, and guidance.  This has been a multi-year effort spanning multiple teams at Salesforce.  We've developed this data strategy and integration approach leveraging learnings from customers, partners, and our internal teams.  I am grateful for these relationships, and this project would not have come to life without the support of this group.
+
+:raised_hands: &nbsp;&nbsp;Thank you.  For Everything.&nbsp;&nbsp; :raised_hands:
+<br/>
+<br/>
+
+| | |
+|:--------------:|:--------------:|
+| Derrick Ellis  | Neeraj Yadev         |
+| Praveen Guar   | Christa Matukaitis   |
+| Eric Schultz   | Ahmed Saad           |
+| Olena Baykur   | Qingyang Zhao        |
+| Kieran Lane   | Christopher Lam       |
+| Jordane Bachelet | Roberto Manicardi  |
+| David Adler    | Mike King            |
+| Mihir Panchal   | Tasha Wilkins       |
+| Divya Alavarthi  | Shoby Abdi        |
+| Phil Egan   | Amanda Hatker       |
+| Alan Dray   | Mehmet Orun       |
+| Allison Daly   | Shoby Abdi           |
+| Nia Samady     | Kristyn Levine       |
+
+
