@@ -110,6 +110,7 @@ module.exports = {
         "defaultProfile": "base",
         "defaultAlias": "b2ccrmsync",
         "setDefault": true,
+        "durationDays": 7,
 
         // Default the acceptable collection of scratchOrg profiles
         "validProfiles": [
@@ -294,6 +295,15 @@ module.exports = {
             "description": "describes if the current deployment should overwrite what's present in the specified scratch org.",
             "envProperty": "SF_SCRATCHORGFORCEOVERWRITE",
             "configProperty": "sfScratchOrg.forceOverwrite",
+            "defaultType": "env"
+        },
+        "sfScratchOrgDurationDays": {
+            "type": "sf",
+            "required": false,
+            "cli": "-soa, --sf-scratch-org-duration-days <sfscratchorgdurationdays>",
+            "description": "describes the duration days to use for a scratch-org being created.",
+            "envProperty": "SF_SCRATCHORGDURATIONDAYS",
+            "configProperty": "sfScratchOrg.durationDays",
             "defaultType": "env"
         },
 

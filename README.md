@@ -148,7 +148,7 @@ The build scripts in this repository leverage B2C Commerce's [sfcc-ci](https://g
         ],
         "read_attributes": "(**)",
         "write_attributes": "(**)"
-    },  
+    },
     {
         "resource_id": "/customers/auth/trustedsystem",
         "methods": [
@@ -401,6 +401,7 @@ SF_SCRATCHORGPROFILE=base
 SF_SCRATCHORGALIAS=crmsync
 SF_SCRATCHORGSETDEFAULT=true
 SF_SCRATCHORGFORCEOVERWRITE=true
+SF_SCRATCHORGDURATIONDAYS=7
 ```
 The following table describes each of the Scratch Org specific .env file variables that are leveraged by b2c-crm-sync's build and deployment tools.
 
@@ -410,6 +411,7 @@ The following table describes each of the Scratch Org specific .env file variabl
 |  SF_SCRATCHORGALIAS | | Describes the alias to apply to created scratchOrgs |
 |  SF_SCRATCHORGSETDEFAULT | | Manages whether any newly created scratchOrgs should automatically be set as the default|
 |  SF_SCRATCHORGFORCEOVERWRITE | | Manages whether deployments to a scratchOrg should force overwrite the code and meta-data present in the scratchOrg |
+|  SF_SCRATCHORGDURATIONDAYS | | Specify the scratch org's duration, which indicates when the scratch org expires in days (7 - 30). |
 
 The build tools will use this information to create scratchOrgs, set default preferences, and control whether deployments should force overwrites to their target environment.
 
