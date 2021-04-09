@@ -12,12 +12,12 @@
         </matchingRuleItems>
         <matchingRuleItems>
             <blankValueBehavior>NullNotAllowed</blankValueBehavior>
-            <fieldName>B2C_Customer_No__pc</fieldName>
+            <fieldName>B2C_CustomerList_ID__pc</fieldName>
             <matchingMethod>Exact</matchingMethod>
         </matchingRuleItems>
         <matchingRuleItems>
             <blankValueBehavior>NullNotAllowed</blankValueBehavior>
-            <fieldName>B2C_CustomerList_ID__pc</fieldName>
+            <fieldName>B2C_Customer_No__pc</fieldName>
             <matchingMethod>Exact</matchingMethod>
         </matchingRuleItems>
         <matchingRuleItems>
