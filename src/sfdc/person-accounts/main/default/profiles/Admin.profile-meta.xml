@@ -226,6 +226,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>B2C_CRMSync_Setting__mdt.Duplicate_Alert_Email__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>B2C_CRMSync_Setting__mdt.Enable_B2C_Process_Contact_Trigger__c</field>
         <readable>true</readable>
     </fieldPermissions>
