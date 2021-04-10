@@ -7,39 +7,6 @@
 */
 global with sharing class B2CIAProcessCustomerProfile extends B2CBaseAttributeAssignment {
 
-    /**
-     * @description Helper function to remove the AccountId from a Contact object; we remove this
-     * Id as it cannot be updated directly if the Person contactModel is enabled
-     * @param contactToProcess {SObject} Represents the contact to process
-     * @return {SObject} Returns the sObject with the AccountId removed
-     */
-    private static SObject removeAccountId(SObject contactToProcess) {
-
-        // Initialize local variables
-        String contactAsJSON;
-        Map<String, Object> contactMap;
-        SObject output;
-
-        // First, serialize the contact as JSON
-        contactAsJSON = JSON.serialize(contactToProcess);
-
-        // Convert the contact to a map so that we can manipulate the attributes
-        contactMap = new Map<String, Object>(contactToProcess.getPopulatedFieldsAsMap());
-
-        // Remove the accountId from the map
-        contactMap.remove('AccountId');
-
-        // Re-serialize the contact details (minus the accountId)
-        contactAsJSON = JSON.serialize(contactMap);
-
-        // And finally convert the map to a Contact through deserialization
-        output = (SObject)JSON.deserialize(contactAsJSON, Contact.class);
-
-        // Return the output variable
-        return output;
-
-    }
-
     @InvocableMethod(Label='B2C: Update Customer Profile Definitions' Description='Attempts to update a Contact with the latest REST API results from B2C Commerce')
     global static void updateCustomerProfiles(List<B2CIAGetCustomerProfileResult> customerProfileResults) {
 
@@ -81,7 +48,7 @@ global with sharing class B2CIAProcessCustomerProfile extends B2CBaseAttributeAs
             if (accountContactModel == B2CConstant.AccountContactModel_Person) {
 
                 // Remove the AccountID as we can't update it when the person customerModel is employed
-                thisCustomerProfile = removeAccountId(thisCustomerProfile);
+                thisCustomerProfile = removePersonAccountProperties(thisCustomerProfile);
 
             }
 

@@ -19,6 +19,7 @@ global with sharing class B2CIAPublishCustomerProfile extends B2CBaseAttributeAs
 
         // Initialize local variables
         Contact thisCustomerProfile;
+        SObject thisCustomerProfileToUpdate;
         Integer totalUpdates;
         Map<String, Object> thisB2CProfile;
         List<Contact> contactsToUpdate;
@@ -27,11 +28,15 @@ global with sharing class B2CIAPublishCustomerProfile extends B2CBaseAttributeAs
         B2CIAPublishCustomerProfileResult customerPublishResult;
         String thisB2CProfileJSON;
         JSONParse parsedJSON;
+        String accountContactModel;
 
         // Initialize the request properties
         HttpRequest req;
         Http https;
         HttpResponse res;
+
+        // Start by retrieving the default account / contactModel
+        accountContactModel = B2CConfigurationManager.getDefaultAccountContactModel();
 
         // Initialize the output variable
         output = new List<B2CIAPublishCustomerProfileResult>();
@@ -114,8 +119,19 @@ global with sharing class B2CIAPublishCustomerProfile extends B2CBaseAttributeAs
                 customerPublishResult.crmContact.put('Last_Platform_Event_Processed_Date__c', System.Datetime.now());
                 customerPublishResult.crmContact.put('Last_Platform_Event_Applied_Updates__c', false);
 
+                // Create a reference to the customerProfile to update
+                thisCustomerProfileToUpdate = (SObject) customerPublishResult.crmContact;
+
+                // Are we currently using the personAccount accountContact model?
+                if (accountContactModel == B2CConstant.AccountContactModel_Person) {
+
+                    // Remove the AccountID as we can't update it when the person customerModel is employed
+                    thisCustomerProfileToUpdate = removePersonAccountProperties(thisCustomerProfile);
+
+                }
+
                 // Update the CRM Contact with the audit details
-                update(customerPublishResult.crmContact);
+                update(thisCustomerProfileToUpdate);
 
             }
 
