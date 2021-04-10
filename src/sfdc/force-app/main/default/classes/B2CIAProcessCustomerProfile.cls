@@ -7,7 +7,13 @@
 */
 global with sharing class B2CIAProcessCustomerProfile extends B2CBaseAttributeAssignment {
 
-    public static SObject removeAccountId(SObject contactToProcess) {
+    /**
+     * @description Helper function to remove the AccountId from a Contact object; we remove this
+     * Id as it cannot be updated directly if the Person contactModel is enabled
+     * @param contactToProcess {SObject} Represents the contact to process
+     * @return {SObject} Returns the sObject with the AccountId removed
+     */
+    private static SObject removeAccountId(SObject contactToProcess) {
 
         // Initialize local variables
         String contactAsJSON;
