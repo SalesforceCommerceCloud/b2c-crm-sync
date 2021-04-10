@@ -5,8 +5,8 @@
         <description>... assign the found Contact to a local variable for processing.</description>
         <name>asn_assignFoundContact</name>
         <label>Assign the Found Contact</label>
-        <locationX>50</locationX>
-        <locationY>398</locationY>
+        <locationX>322</locationX>
+        <locationY>325</locationY>
         <assignmentItems>
             <assignToReference>var_resolvedContact</assignToReference>
             <operator>Assign</operator>
@@ -14,18 +14,39 @@
                 <elementReference>recGet_Contact</elementReference>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>var_childContactCount</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <numberValue>1.0</numberValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <description>... assign the found Contact to a local variable for processing.</description>
+        <name>asn_assignFoundContact_0</name>
+        <label>Assign the Found Contact</label>
+        <locationX>1003</locationX>
+        <locationY>483</locationY>
+        <assignmentItems>
+            <assignToReference>var_errorMessage</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Unable to verify the parentAccount.  Please try again.</stringValue>
+            </value>
+        </assignmentItems>
     </assignments>
     <assignments>
         <description>... assign the recordCount of child Contacts for the specified Account -- so we can evaluate if more than one record was returned.</description>
         <name>asn_childContactRecordcount</name>
         <label>Assign the Child Contact RecordCount</label>
-        <locationX>578</locationX>
-        <locationY>638</locationY>
+        <locationX>757</locationX>
+        <locationY>898</locationY>
         <assignmentItems>
             <assignToReference>var_childContactCount</assignToReference>
             <operator>AssignCount</operator>
             <value>
-                <elementReference>recGet_childContactToProcess</elementReference>
+                <elementReference>recGet_childContactsToProcess</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -36,8 +57,8 @@
         <description>... assign the childContact to the Output variable.</description>
         <name>asn_childContactToOutput</name>
         <label>Assign the Child Contact to the Output Variable</label>
-        <locationX>490</locationX>
-        <locationY>998</locationY>
+        <locationX>760</locationX>
+        <locationY>1559</locationY>
         <assignmentItems>
             <assignToReference>var_resolvedContact</assignToReference>
             <operator>Assign</operator>
@@ -49,12 +70,43 @@
             <targetReference>loop_childContactCollection</targetReference>
         </connector>
     </assignments>
+    <assignments>
+        <description>... expose an error message stating that multiple contact records were found.</description>
+        <name>asn_multipleContactRecordsFound</name>
+        <label>Multiple Contacts Found Assignment</label>
+        <locationX>928</locationX>
+        <locationY>1330</locationY>
+        <assignmentItems>
+            <assignToReference>var_errorMessage</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Multiple Contact records were found; please try again.</stringValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <description>... expose an error message stating that a single contactRecord was found.</description>
+        <name>asn_noContactsFound</name>
+        <label>No Contacts Found Assignment</label>
+        <locationX>584</locationX>
+        <locationY>1327</locationY>
+        <assignmentItems>
+            <assignToReference>var_errorMessage</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>No Contacts were found; please try again.</stringValue>
+            </value>
+        </assignmentItems>
+    </assignments>
     <decisions>
         <description>... evaluate how many Contacts were found as children of the parent Account.</description>
         <name>dec_howManyContactsWereFound</name>
         <label>How Many Contacts Were Found</label>
-        <locationX>578</locationX>
-        <locationY>758</locationY>
+        <locationX>749</locationX>
+        <locationY>1091</locationY>
+        <defaultConnector>
+            <targetReference>asn_noContactsFound</targetReference>
+        </defaultConnector>
         <defaultConnectorLabel>None</defaultConnectorLabel>
         <rules>
             <name>One</name>
@@ -81,15 +133,44 @@
                     <numberValue>1.0</numberValue>
                 </rightValue>
             </conditions>
+            <connector>
+                <targetReference>asn_multipleContactRecordsFound</targetReference>
+            </connector>
             <label>Multiple</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>... evaluate if an Account Record was found using the specified AccountID.</description>
+        <name>dec_wasAccountRecordFound</name>
+        <label>Was an Account Record Found?</label>
+        <locationX>748</locationX>
+        <locationY>484</locationY>
+        <defaultConnector>
+            <targetReference>asn_assignFoundContact_0</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Was Not Found</defaultConnectorLabel>
+        <rules>
+            <name>decOut_AccountWasFound</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>recGet_parentAccount</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>recGet_childContactsToProcess</targetReference>
+            </connector>
+            <label>Was Found</label>
         </rules>
     </decisions>
     <decisions>
         <description>... evaluate if a Contact Record was found using the specified ContactID.</description>
         <name>dec_wasContactRecordFound</name>
         <label>Was a Contact Record Found?</label>
-        <locationX>314</locationX>
-        <locationY>278</locationY>
+        <locationX>535</locationX>
+        <locationY>326</locationY>
         <defaultConnector>
             <targetReference>recGet_parentAccount</targetReference>
         </defaultConnector>
@@ -117,9 +198,9 @@
         <description>... loop over the Collection of found childContacts</description>
         <name>loop_childContactCollection</name>
         <label>Loop Over the Collection of Contacts</label>
-        <locationX>402</locationX>
-        <locationY>878</locationY>
-        <collectionReference>recGet_childContactToProcess</collectionReference>
+        <locationX>758</locationX>
+        <locationY>1340</locationY>
+        <collectionReference>recGet_childContactsToProcess</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
             <targetReference>asn_childContactToOutput</targetReference>
@@ -134,7 +215,7 @@
     <processMetadataValues>
         <name>CanvasMode</name>
         <value>
-            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
         </value>
     </processMetadataValues>
     <processMetadataValues>
@@ -145,11 +226,11 @@
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
     <recordLookups>
-        <description>... attempt to retrieve a Contact record that is a child to the parentAccount.</description>
-        <name>recGet_childContactToProcess</name>
-        <label>Retrieve Child Contact</label>
-        <locationX>578</locationX>
-        <locationY>518</locationY>
+        <description>... attempt to retrieve the Contact record(s) that are children to the parentAccount.</description>
+        <name>recGet_childContactsToProcess</name>
+        <label>Retrieve Child Contacts</label>
+        <locationX>757</locationX>
+        <locationY>710</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>asn_childContactRecordcount</targetReference>
@@ -164,14 +245,16 @@
         </filters>
         <getFirstRecordOnly>false</getFirstRecordOnly>
         <object>Contact</object>
+        <sortField>LastModifiedDate</sortField>
+        <sortOrder>Desc</sortOrder>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
         <description>... attempt to find a Contact Record aligned with the recordId provided.</description>
         <name>recGet_Contact</name>
         <label>Get Contact Record</label>
-        <locationX>314</locationX>
-        <locationY>158</locationY>
+        <locationX>543</locationX>
+        <locationY>175</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>dec_wasContactRecordFound</targetReference>
@@ -192,11 +275,11 @@
         <description>... attempt to retrieve the parentAccount associated to this Contact via the recordId provided.</description>
         <name>recGet_parentAccount</name>
         <label>Get Account</label>
-        <locationX>578</locationX>
-        <locationY>398</locationY>
+        <locationX>756</locationX>
+        <locationY>322</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>recGet_childContactToProcess</targetReference>
+            <targetReference>dec_wasAccountRecordFound</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -211,8 +294,8 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <start>
-        <locationX>188</locationX>
-        <locationY>0</locationY>
+        <locationX>417</locationX>
+        <locationY>2</locationY>
         <connector>
             <targetReference>recGet_Contact</targetReference>
         </connector>
@@ -224,8 +307,19 @@
         <dataType>Number</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>
-        <isOutput>false</isOutput>
+        <isOutput>true</isOutput>
         <scale>0</scale>
+        <value>
+            <numberValue>0.0</numberValue>
+        </value>
+    </variables>
+    <variables>
+        <description>... represents an errorMessage to pass to the calling flow.</description>
+        <name>var_errorMessage</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
     </variables>
     <variables>
         <description>... represents the Id of the Contact / Account record being evaluated.</description>
