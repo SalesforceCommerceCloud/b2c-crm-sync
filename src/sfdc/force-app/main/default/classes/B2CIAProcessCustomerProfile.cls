@@ -7,6 +7,33 @@
 */
 global with sharing class B2CIAProcessCustomerProfile extends B2CBaseAttributeAssignment {
 
+    public static SObject removeAccountId(SObject contactToProcess) {
+
+        // Initialize local variables
+        String contactAsJSON;
+        Map<String, Object> contactMap;
+        SObject output;
+
+        // First, serialize the contact as JSON
+        contactAsJSON = JSON.serialize(contactToProcess);
+
+        // Convert the contact to a map so that we can manipulate the attributes
+        contactMap = new Map<String, Object>(contactToProcess.getPopulatedFieldsAsMap());
+
+        // Remove the accountId from the map
+        contactMap.remove('AccountId');
+
+        // Re-serialize the contact details (minus the accountId)
+        contactAsJSON = JSON.serialize(contactMap);
+
+        // And finally convert the map to a Contact through deserialization
+        output = (SObject)JSON.deserialize(contactAsJSON, Contact.class);
+
+        // Return the output variable
+        return output;
+
+    }
+
     @InvocableMethod(Label='B2C: Update Customer Profile Definitions' Description='Attempts to update a Contact with the latest REST API results from B2C Commerce')
     global static void updateCustomerProfiles(List<B2CIAGetCustomerProfileResult> customerProfileResults) {
 
@@ -18,11 +45,15 @@ global with sharing class B2CIAProcessCustomerProfile extends B2CBaseAttributeAs
         List<B2C_Integration_Field_Mappings__mdt> fieldMappings;
         Boolean hasSObjectBeenUpdated;
         Integer totalContactUpdates;
+        String accountContactModel;
+
+        // Start by retrieving the default account / contactModel
+        accountContactModel = B2CConfigurationManager.getDefaultAccountContactModel();
 
         // Initialize the customerProfile collection
         customerProfiles = new List<SObject>();
 
-        // Get the fieldMappings for the customerProfile object
+        // Retrieve the fieldMappings to leverage based on the Account / Contact Model being employed
         fieldMappings = B2CMetaFieldMappings.getFieldMappingsForRetrieval('Contact');
 
         // Iterate over the collection of customerProfile results
@@ -39,6 +70,14 @@ global with sharing class B2CIAProcessCustomerProfile extends B2CBaseAttributeAs
 
             // Retrieve the current customerProfile using the specified crmId
             thisCustomerProfile = B2CContactManager.getContactById(thisCustomerProfileResult.crmContactId, true, fieldMappings);
+
+            // Are we currently using the personAccount accountContact model?
+            if (accountContactModel == B2CConstant.AccountContactModel_Person) {
+
+                // Remove the AccountID as we can't update it when the person customerModel is employed
+                thisCustomerProfile = removeAccountId(thisCustomerProfile);
+
+            }
 
             // Create a copy of the cloned customerProfile -- so that we can compare specific values
             originalCustomerProfile = thisCustomerProfile.clone(true, true, true, true);
