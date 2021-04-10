@@ -11,7 +11,6 @@
         <connector>
             <targetReference>dec_isB2CCommerceIntegrationAllowed</targetReference>
         </connector>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>b2cInstance</name>
             <value>
@@ -76,7 +75,7 @@
         <description>... evaluates if the integration process for the selected Contact is supported.  The integration options for the selected Contact and its related CustomerList are reviewed to determine if the integration process should be supported for this request.</description>
         <name>dec_isB2CCommerceIntegrationAllowed</name>
         <label>Is B2C Commerce Integration Process Allowed?</label>
-        <locationX>536</locationX>
+        <locationX>537</locationX>
         <locationY>1691</locationY>
         <defaultConnector>
             <targetReference>recCreate_ProcessContactPlatformEvent</targetReference>
@@ -157,7 +156,7 @@
         <locationX>528</locationX>
         <locationY>413</locationY>
         <defaultConnector>
-            <targetReference>screen_notAB2CCommerceProfile_0</targetReference>
+            <targetReference>screen_contactNotFound</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Not Found</defaultConnectorLabel>
         <rules>
@@ -202,8 +201,8 @@
         <description>... creates the Platform Event to update the Contact with the B2C Commerce Customer Profile.</description>
         <name>recCreate_ProcessContactPlatformEvent</name>
         <label>Create the Process Contact Platform Event</label>
-        <locationX>545</locationX>
-        <locationY>1948</locationY>
+        <locationX>546</locationX>
+        <locationY>1921</locationY>
         <assignRecordIdToReference>varPlatformEventId</assignRecordIdToReference>
         <connector>
             <targetReference>screen_ProcessContactPlatformEventSuccess</targetReference>
@@ -453,6 +452,38 @@
         <showHeader>false</showHeader>
     </screens>
     <screens>
+        <description>... this screen is displayed to explain that the Contact selected is not a B2C Commerce Customer Profile.</description>
+        <name>screen_contactNotFound</name>
+        <label>Contact Not Found</label>
+        <locationX>192</locationX>
+        <locationY>408</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <fields>
+            <name>lbl_CouldNotLocateSpecifiedB2CContact</name>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;background-color: var(--lwc-colorBackgroundInput,rgb(255, 255, 255)); color: var(--lwc-colorTextWeak,rgb(62, 62, 60)); font-family: var(--lwc-fontFamily,&amp;quot;Salesforce Sans&amp;quot;, Arial, sans-serif); font-size: 14px;&quot;&gt;Could Not Locate the Specified B2C Contact Record&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: var(--lwc-colorBackgroundInput,rgb(255, 255, 255)); color: var(--lwc-colorTextWeak,rgb(62, 62, 60)); font-size: var(--lwc-fontSize3,0.8125rem); font-family: var(--lwc-fontFamily,&amp;quot;Salesforce Sans&amp;quot;, Arial, sans-serif);&quot;&gt;The recordId used by this visual flow could not be used to locate a Contact record.  As a result, we cannot retrieve a B2C Commerce profile for this specific record.&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>lbl_errorRecordID</name>
+            <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>recordId</elementReference>
+            </defaultValue>
+            <fieldText>recordId Value</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>lbl_ContactNotFoundGuidance</name>
+            <fieldText>&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Please verify that this quickAction is either attached to a recordDetail page for a Contact or PersonAccount.  This flow can resolve a Contact record via the recordId either directly (by providing a Contact.Id) or indirectly (by providing an Account.Id).  &lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Lastly, please verify that the recordId provided resolves to a Contact or an Account with a child Contact.  This flow is not designed to resolve any other Contact relationships.&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
         <description>... this screen is displayed to explain that integration options for this Contact and CustomerList combination are not supported.</description>
         <name>screen_integrationProcessNotSupported</name>
         <label>Integration is Disabled for this Process</label>
@@ -603,42 +634,10 @@
         <showHeader>false</showHeader>
     </screens>
     <screens>
-        <description>... this screen is displayed to explain that the Contact selected is not a B2C Commerce Customer Profile.</description>
-        <name>screen_notAB2CCommerceProfile_0</name>
-        <label>Contact Is Not a B2C Commerce Customer Profile</label>
-        <locationX>192</locationX>
-        <locationY>408</locationY>
-        <allowBack>true</allowBack>
-        <allowFinish>true</allowFinish>
-        <allowPause>true</allowPause>
-        <fields>
-            <name>lbl_CouldNotLocateSpecifiedB2CContact</name>
-            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 14px; font-family: var(--lwc-fontFamily,&amp;quot;Salesforce Sans&amp;quot;, Arial, sans-serif); color: var(--lwc-colorTextWeak,rgb(62, 62, 60)); background-color: var(--lwc-colorBackgroundInput,rgb(255, 255, 255));&quot;&gt;Could Not Locate the Specified B2C Contact Record&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-family: var(--lwc-fontFamily,&amp;quot;Salesforce Sans&amp;quot;, Arial, sans-serif); font-size: var(--lwc-fontSize3,0.8125rem); color: var(--lwc-colorTextWeak,rgb(62, 62, 60)); background-color: var(--lwc-colorBackgroundInput,rgb(255, 255, 255));&quot;&gt;The recordId used by this visual flow could not be used to locate a Contact record.  As a result, we cannot retrieve a B2C Commerce profile for this specific record.&lt;/span&gt;&lt;/p&gt;</fieldText>
-            <fieldType>DisplayText</fieldType>
-        </fields>
-        <fields>
-            <name>lbl_errorRecordID</name>
-            <dataType>String</dataType>
-            <defaultValue>
-                <elementReference>recordId</elementReference>
-            </defaultValue>
-            <fieldText>recordId Value</fieldText>
-            <fieldType>InputField</fieldType>
-            <isRequired>false</isRequired>
-        </fields>
-        <fields>
-            <name>lbl_ContactIsNotAB2CCustomerProfileGuidance_0_0</name>
-            <fieldText>&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Please verify that this quickAction is either attached to a recordDetail page for a Contact or PersonAccount.  This flow can resolve a Contact record via the recordId either directly (by providing a Contact.Id) or indirectly (by providing an Account.Id).  &lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Lastly, please verify that the recordId provided resolves to a Contact or an Account with a child Contact.  This flow is not designed to resolve any other Contact relationships.&lt;/p&gt;</fieldText>
-            <fieldType>DisplayText</fieldType>
-        </fields>
-        <showFooter>true</showFooter>
-        <showHeader>false</showHeader>
-    </screens>
-    <screens>
         <description>... this screen is displayed to confirm that the Process Contact Platform Event has been successfully created.</description>
         <name>screen_ProcessContactPlatformEventSuccess</name>
         <label>Process Contact Platform Event Created</label>
-        <locationX>545</locationX>
+        <locationX>547</locationX>
         <locationY>2125</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
