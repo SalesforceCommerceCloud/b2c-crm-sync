@@ -601,6 +601,8 @@ b2c-crm-sync leverages match and duplicate rules to enforce the B2C Customer Dat
 1 OR (2 AND 3) OR (2 AND 4 AND 5) OR (4 AND 5 AND 6)
 ```
 
+> If you are leveraging our personAccounts implementation, please ensure that the **B2C Commerce: Standard Contacts** duplicate rule is disabled.  It does not need to be enabled in Salesforce orgs where personAccounts are enabled.
+
 #### Find and Launch the B2C-CRM-Sync Lightning App
 
 1. Open the appLauncher, and search for 'CRM' in the quick-find. Verify that the **B2C CRM Sync** application is visible.
