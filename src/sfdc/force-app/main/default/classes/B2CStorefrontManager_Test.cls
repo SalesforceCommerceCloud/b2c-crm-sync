@@ -41,7 +41,8 @@ private class B2CStorefrontManager_Test {
             // Create test-data to seed an active B2C Commerce Site
             testStorefront = (B2C_Site__c)TestDataFactory.createSObject('B2C_Site__c', new Map<String,Object>{
                 'Name' => inActiveStorefrontId,
-                'Is_Active__c' => false
+                'Is_Active__c' => false,
+                'API_Url__c' => 'https://www.salesforce.com'
             });
 
             // Retrieve the Storefront via an identifier that does not exist (should throw an error)
@@ -81,7 +82,8 @@ private class B2CStorefrontManager_Test {
         // Create test-data to seed an active B2C Commerce Site
         testStorefront = (B2C_Site__c)TestDataFactory.createSObject('B2C_Site__c', new Map<String,Object>{
                 'Name' => activeStorefrontId,
-                'Is_Active__c' => true
+                'Is_Active__c' => true,
+                'API_Url__c' => 'https://www.salesforce.com'
         });
 
         // Retrieve the Storefront via an identifier that does not exist (should throw an error)
@@ -112,14 +114,17 @@ private class B2CStorefrontManager_Test {
         // Create test-data to seed an active B2C Commerce CustomerList
         testCustomerList = (B2C_CustomerList__c)TestDataFactory.createSObject('B2C_CustomerList__c', new Map<String,Object>{
                 'Name' => activeCustomerListId,
-                'Is_Active__c' => true
+                'Is_Active__c' => true,
+                'B2C_Instance__r.API_Url__c' => 'https://www.salesforce.com',
+                'API_Url__c' => 'https://www.salesforce.com'
         });
 
         // Create test-data to seed an active B2C Commerce Site
         testStorefront = (B2C_Site__c)TestDataFactory.createSObject('B2C_Site__c', new Map<String,Object>{
                 'Name' => activeStorefrontId,
                 'Customer_List__c' => testCustomerList.Id,
-                'Is_Active__c' => true
+                'Is_Active__c' => true,
+                'API_Url__c' => 'https://www.salesforce.com'
         });
 
         // Retrieve the Storefront via an identifier that exists (should not throw an error)
@@ -149,7 +154,8 @@ private class B2CStorefrontManager_Test {
         // Create test-data to seed an active B2C Commerce Site
         testStorefront = (B2C_Site__c)TestDataFactory.createSObject('B2C_Site__c', new Map<String,Object>{
                 'Name' => activeStorefrontId,
-                'Is_Active__c' => true
+                'Is_Active__c' => true,
+                'API_Url__c' => 'https://www.salesforce.com'
         });
 
         // Retrieve the Storefront via an identifier that exists
