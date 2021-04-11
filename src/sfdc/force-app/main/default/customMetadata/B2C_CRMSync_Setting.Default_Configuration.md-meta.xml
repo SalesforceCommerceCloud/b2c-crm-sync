@@ -20,7 +20,7 @@
     </values>
     <values>
         <field>Duplicate_Alert_Email__c</field>
-        <value xsi:type="xsd:string">abraham.lloyd@salesforce.com</value>
+        <value xsi:type="xsd:string">administrator@b2csa.salesforce.com</value>
     </values>
     <values>
         <field>Enable_B2C_Process_Contact_Trigger__c</field>

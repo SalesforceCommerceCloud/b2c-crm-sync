@@ -77,6 +77,8 @@ public with sharing class B2CContactManager extends B2CBaseMeta {
         output.put('c_b2ccrm_accountId', customerProfile.AccountId);
         output.put('c_b2ccrm_contactId', customerProfile.Id);
 
+        System.debug(output);
+
         // First, determine if this collection has credentials information to publish
         if (hasCredentialInfo == true) {
             credentialsNode = new Map<String, Object>();
