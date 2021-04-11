@@ -29,11 +29,13 @@ private class B2CCustomerListManager_Test {
         B2C_CustomerList__c activeCustomerList;
 
         Test.startTest();
-
+        
         // Create test-data to seed an active B2C Commerce CustomerList
         activeCustomerList = (B2C_CustomerList__c)TestDataFactory.createSObject('B2C_CustomerList__c', new Map<String,Object>{
             'Name' => activeCustomerListId,
-            'Is_Active__c' => true
+            'Is_Active__c' => true,
+            'API_Url__c' => 'https://www.salesforce.com',
+            'B2C_Instance__r.API_Url__c' => 'https://www.salesforce.com'
         });
 
         // Attempt to retrieve the customerList via the customerListManager
@@ -72,7 +74,9 @@ private class B2CCustomerListManager_Test {
             // Create test-data to seed an inActive B2C Commerce CustomerList
             inActiveCustomerList = (B2C_CustomerList__c)TestDataFactory.createSObject('B2C_CustomerList__c', new Map<String,Object>{
                 'Name' => inActiveCustomerListId,
-                'Is_Active__c' => false
+                'Is_Active__c' => false,
+                'API_Url__c' => 'https://www.salesforce.com',
+                'B2C_Instance__r.API_Url__c' => 'https://www.salesforce.com'
             });
 
             // Retrieve the details of a customerList that is in-active (should throw an error)

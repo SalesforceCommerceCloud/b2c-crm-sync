@@ -149,7 +149,7 @@ public with sharing class B2CStorefrontManager extends B2CBaseMeta {
 
         // Define the default where-clause for the query
         siteQuery.addConditionEq('Name', siteId);
-        siteQuery.addConditionEq('B2C_CustomerList_ID__c', customerListId);
+        siteQuery.addConditionEq('CustomerList_ID__c', customerListId);
         siteQuery.addConditionEq('Is_Active__c', true);
 
         // Execute the query and evaluate the results
@@ -187,7 +187,7 @@ public with sharing class B2CStorefrontManager extends B2CBaseMeta {
         siteQuery.selectField('Base_Site_Url__c');
         siteQuery.selectField('API_Url__c');
         siteQuery.selectField('Named_Credential_Developer_Name__c');
-        siteQuery.selectField('Audit_OCAPI_API_Response__c');
+        //siteQuery.selectField('Audit_OCAPI_API_Response__c');
         siteQuery.selectField('Is_Active__c');
         siteQuery.selectField('Description__c');
         siteQuery.selectField('Enable_Profile_Creation__c');
