@@ -525,6 +525,7 @@ npm run crm-sync:b2c:build
 ### Salesforce Customer 360 Platform Configuration Instructions
 
 #### Assign the B2C Integration Tools Permission Set to the Administrator
+b2c-crm-sync leverages a permission-set to provide application access to a user.  You can use this permission-set to assign the application to other users -- and customize it to align with your security priorities.
 
 1.  Enter Setup.
 
@@ -538,9 +539,14 @@ npm run crm-sync:b2c:build
 
 6.  Save your changes by clicking on the 'Assign' button.  Click on the 'Done' button to confirm your changes and exit the permission-set display.
 
-7.  In the setup quick-find, search for Duplicate Rules.  Once located, select the Duplicate Rules setup option from the filtered setup menu.
+#### Configure Duplicate Rules Leveraged by b2c-crm-sync
+b2c-crm-sync leverages match and duplicate rules to enforce the B2C Customer Data Strategy it employs.  These rules are leveraged to alert administrators of potential duplicate B2C Commerce Customer Profiles -- and assist in resolving customer profiles using a sub-set of customer attributes.
 
-8.  From the duplicate rules listing, select the rule titled **B2C Commerce: Standard Contacts**.  Edit the rule from the detail display.
+1.  In the setup quick-find, search for Duplicate Rules.  Once located, select the Duplicate Rules setup option from the filtered setup menu.
+
+2.  From the duplicate rules listing, select the rule titled **B2C Commerce: Standard Contacts**.  Edit the rule from the detail display.
+
+> If you are leveraging our personAccounts implementation, you'll want to configure the **B2C Commerce: Standard PersonAccounts** duplicate rule instead of the **B2C Commerce: Standard Contacts** rule.
 - Under the Conditions section near the bottom of the form display, click on the link labeled 'Add Filter Logic'.
 - Paste the following filter logic value in the field -- and save your results.  Please note that this should be done for both PersonAccounts and Account / Contacts.
 
@@ -592,21 +598,18 @@ I'd like to extend a heartfelt and personal thank you to everyone for their supp
 <br/>
 <br/>
 
-| | |
-|:--------------:|:--------------:|
-| Derrick Ellis  | Neeraj Yadev         |
-| Praveen Guar   | Christa Matukaitis   |
-| Eric Schultz   | Ahmed Saad           |
-| Olena Baykur   | Qingyang Zhao        |
-| Kieran Lane   | Christopher Lam       |
-| Jordane Bachelet | Roberto Manicardi  |
-| Raghuram Sripada | Gajendra Singh Sisodia |
-| David Adler    | Mike King            |
-| Mihir Panchal   | Tasha Wilkins       |
-| Divya Alavarthi  | Shoby Abdi        |
-| Phil Egan   | Amanda Hatker       |
-| Alan Dray   | Mehmet Orun       |
-| Allison Daly   | Shoby Abdi           |
-| Nia Samady     | Kristyn Levine       |
+| | | |
+|:--------------:|:--------------:|:--------------:|
+| Derrick Ellis | Neeraj Yadev | Praveen Guar |
+| Christa Matukaitis | Eric Schultz| Ahmed Saad |
+| Olena Baykur | Qingyang Zhao | Kieran Lane |
+| Christopher Lam | Jordane Bachelet | Roberto Manicardi |
+| Raghuram Sripada | Gajendra Singh Sisodia | David Adler |
+| Mike King | Mihir Panchal | Tasha Wilkins |
+| Divya Alavarthi | Shoby Abdi | Phil Egan |
+| Amanda Hatker | Alan Dray | Mehmet Orun |
+| Jorge Hernandez | Tom Zarr | Lena Conforti |
+| Allison Daly | Shoby Abdi | Paul Holstein |
+| Kristyn Levine | Nia Samady | Don Lynch |
 
 
