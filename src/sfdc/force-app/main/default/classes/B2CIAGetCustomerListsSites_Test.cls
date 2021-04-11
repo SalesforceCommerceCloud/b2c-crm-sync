@@ -12,13 +12,18 @@ private class B2CIAGetCustomerListsSites_Test {
 
         List<B2CIAGetCustomerListsSitesResult> resultsList = new List<B2CIAGetCustomerListsSitesResult>();
 
+        B2C_Instance__c i = new B2C_Instance__c(
+                API_Url__c = 'https://www.salesfor.com'
+            );
+            Database.insert( i );
+            
         Test.startTest();
 
             Test.setMock(HttpCalloutMock.class, new B2CHttpTestCalloutMockGenerator('CustomerListsSites'));
 
             B2CIAGetCustomerListsSitesInput req = new B2CIAGetCustomerListsSitesInput();
-
-            req.b2cInstanceId = 'instanceId';
+            
+            req.b2cInstanceId = i.Id;
             req.accessToken = 'token';
             req.APIUrl = 'url';
             req.OCAPIVersion = 'version';

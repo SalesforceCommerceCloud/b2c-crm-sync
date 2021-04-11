@@ -79,7 +79,10 @@ public class B2CHttpTestCalloutMockGenerator implements HttpCalloutMock {
         // Evaluate if testing getting a business manager token for oobo
         if (this.requestType.equalsIgnoreCase('CustomerListsSites')) {
             responseObj = getCustomerListSuccessResponse();
-            responseObj.put('body', '{"count":"10"}');
+            responseObj.put(
+                'body', 
+                '{"count":"10","data":[{"id":"id","link":"link","customer_list_link":{"customer_list_id":"customer_list_id","link":"link"},"display_name":{"default":"default"}}]}'
+            );
         }
         
 
