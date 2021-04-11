@@ -59,7 +59,7 @@
   },
   "author": "Abraham Lloyd <abraham.lloyd@salesforce.com>",
   "license": "BSD-3-Clause",
-  "homepage": "https://www.github.com/b2csolutionarchitect/service-cloud-connector",
+  "homepage": "https://www.github.com/sfb2csolutionarchitects/b2c-crm-sync",
   "dependencies": {
     "asciiart-logo": "^0.2.6",
     "async": "^3.2.0",
@@ -108,7 +108,7 @@
     "chai": "^4.2.0",
     "concat-stream": "^2.0.0",
     "coveralls": "^3.1.0",
-    "dw-api-mock": "git+ssh://git@github.com/SalesforceCommerceCloud/dw-api-mock.git",
+    "dw-api-mock": "git+ssh://git@github.com/sfb2csolutionarchitects/dw-api-mock.git",
     "eslint": "^7.21.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.22.1",
