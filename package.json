@@ -58,7 +58,7 @@
     "url": "git+ssh://git@github.com/b2csolutionarchitect/b2c-crm-sync.git"
   },
   "author": "Abraham Lloyd <abraham.lloyd@salesforce.com>",
-  "license": "BSD-3",
+  "license": "BSD-3-Clause",
   "homepage": "https://www.github.com/b2csolutionarchitect/service-cloud-connector",
   "dependencies": {
     "asciiart-logo": "^0.2.6",

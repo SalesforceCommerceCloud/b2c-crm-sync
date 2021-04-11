@@ -28,6 +28,10 @@ Please remember that this project **should not be treated as Salesforce Product*
 ### Support
 This repository is maintained and contributed to by the Salesforce Community, Architect Success Team, and the SCPPE and Service Delivery teams within the Customer Success Group (CSG). This repository isn’t supported by Salesforce Commerce Cloud or Salesforce Platform Technical Support. For feature requests or bugs, please open a GitHub issue. Contributions are ALWAYS WELCOME -- and are often rewarded with Architect Success swag.
 
+![Come Get Your Architect Success Hoody](/docs/images/hoody-worthy.gif)
+
+> Please keep in mind that [hoody-worthy](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/issues?q=is%3Aopen+is%3Aissue+label%3Ahoody-worthy) issues need to solve real business or project problems.  That said -- contribute, let us support you, and collect your swag. It's really that simple. :)
+
 ### Feature Summary
 
 The following high-level features are supported by the b2c-crm-sync:
