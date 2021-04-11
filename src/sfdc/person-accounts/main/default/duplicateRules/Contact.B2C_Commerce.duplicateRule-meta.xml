@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DuplicateRule xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <actionOnInsert>Allow</actionOnInsert>
+    <actionOnUpdate>Allow</actionOnUpdate>
+    <alertText xsi:nil="true"/>
+    <description>... duplicate rule used to resolve B2C Commerce customer records via Contacts.</description>
+    <duplicateRuleFilter>
+        <duplicateRuleFilterItems>
+            <field>B2C_Customer_ID__c</field>
+            <operation>notEqual</operation>
+            <value/>
+            <sortOrder>1</sortOrder>
+            <table>Contact</table>
+        </duplicateRuleFilterItems>
+        <duplicateRuleFilterItems>
+            <field>B2C_CustomerList_ID__c</field>
+            <operation>notEqual</operation>
+            <value/>
+            <sortOrder>2</sortOrder>
+            <table>Contact</table>
+        </duplicateRuleFilterItems>
+        <duplicateRuleFilterItems>
+            <field>B2C_Customer_No__c</field>
+            <operation>notEqual</operation>
+            <value/>
+            <sortOrder>3</sortOrder>
+            <table>Contact</table>
+        </duplicateRuleFilterItems>
+        <duplicateRuleFilterItems>
+            <field>LastName</field>
+            <operation>notEqual</operation>
+            <value/>
+            <sortOrder>4</sortOrder>
+            <table>Contact</table>
+        </duplicateRuleFilterItems>
+        <duplicateRuleFilterItems>
+            <field>Email</field>
+            <operation>notEqual</operation>
+            <value/>
+            <sortOrder>5</sortOrder>
+            <table>Contact</table>
+        </duplicateRuleFilterItems>
+        <duplicateRuleFilterItems>
+            <field>B2C_CustomerList_ID__c</field>
+            <operation>equals</operation>
+            <value/>
+            <sortOrder>6</sortOrder>
+            <table>Contact</table>
+        </duplicateRuleFilterItems>
+    </duplicateRuleFilter>
+    <duplicateRuleMatchRules>
+        <matchRuleSObjectType>Contact</matchRuleSObjectType>
+        <matchingRule>B2C_Commerce_Standard_Contacts</matchingRule>
+        <objectMapping xsi:nil="true"/>
+    </duplicateRuleMatchRules>
+    <isActive>false</isActive>
+    <masterLabel>B2C Commerce: Standard Contacts</masterLabel>
+    <operationsOnInsert>Report</operationsOnInsert>
+    <operationsOnUpdate>Report</operationsOnUpdate>
+    <securityOption>BypassSharingRules</securityOption>
+    <sortOrder>3</sortOrder>
+</DuplicateRule>
