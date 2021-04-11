@@ -11,7 +11,6 @@
         <connector>
             <targetReference>dec_isB2CCommerceIntegrationAllowed</targetReference>
         </connector>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>b2cInstance</name>
             <value>

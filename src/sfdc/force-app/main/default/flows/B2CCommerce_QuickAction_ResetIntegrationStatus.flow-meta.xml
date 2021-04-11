@@ -1,30 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>50.0</apiVersion>
-    <assignments>
-        <description>... updates the key properties on the record selected which reset and enable integration with B2C Commerce.</description>
-        <name>asn_resetB2CCommerceIntegrationStatus</name>
-        <label>Reset Integration Status Assignment</label>
-        <locationX>176</locationX>
-        <locationY>278</locationY>
-        <assignmentItems>
-            <assignToReference>var_resolvedContact.B2C_Disable_Integration__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <booleanValue>false</booleanValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>var_resolvedContact.Updated_by_B2C_Platform_Event__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <booleanValue>false</booleanValue>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>recUpd_ContactDetails</targetReference>
-        </connector>
-    </assignments>
     <description>... this flow resets the integration status for a Contac to support REST API interactions with B2C Commerce.</description>
     <interviewLabel>B2C Commerce: Quick Action: Reset Integration Status {!$Flow.CurrentDateTime}</interviewLabel>
     <label>B2C Commerce: Quick Action: Integration Status Enable</label>
@@ -52,18 +28,38 @@
         <name>recUpd_ContactDetails</name>
         <label>Update Contact Details</label>
         <locationX>176</locationX>
-        <locationY>398</locationY>
+        <locationY>278</locationY>
         <connector>
             <targetReference>screen_B2CCommerceResetIntegrationStatus</targetReference>
         </connector>
-        <inputReference>var_resolvedContact</inputReference>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>var_resolvedContact.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>B2C_Disable_Integration__c</field>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Updated_by_B2C_Platform_Event__c</field>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </inputAssignments>
+        <object>Contact</object>
     </recordUpdates>
     <screens>
         <description>... this screen is used to alert the user that the integration state / status for this Contact has been reset.</description>
         <name>screen_B2CCommerceResetIntegrationStatus</name>
         <label>B2C Commerce Integration Status is Reset</label>
         <locationX>176</locationX>
-        <locationY>518</locationY>
+        <locationY>398</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -118,7 +114,7 @@
             <name>lbl_disableB2CCommerceIntegration</name>
             <dataType>Boolean</dataType>
             <defaultValue>
-                <elementReference>var_resolvedContact.B2C_Disable_Integration__c</elementReference>
+                <booleanValue>false</booleanValue>
             </defaultValue>
             <fieldText>Disable B2C Commerce Integration</fieldText>
             <fieldType>InputField</fieldType>
@@ -128,7 +124,7 @@
             <name>lbl_bypassB2CCommercePlatformEvent</name>
             <dataType>Boolean</dataType>
             <defaultValue>
-                <elementReference>var_resolvedContact.Updated_by_B2C_Platform_Event__c</elementReference>
+                <booleanValue>false</booleanValue>
             </defaultValue>
             <fieldText>Bypass B2C Commerce Platform Event</fieldText>
             <fieldType>InputField</fieldType>
@@ -157,7 +153,7 @@
         <locationX>176</locationX>
         <locationY>158</locationY>
         <connector>
-            <targetReference>asn_resetB2CCommerceIntegrationStatus</targetReference>
+            <targetReference>recUpd_ContactDetails</targetReference>
         </connector>
         <flowName>B2CCommerce_QuickAction_ContactGetterHelper</flowName>
         <inputAssignments>
