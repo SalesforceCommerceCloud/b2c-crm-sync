@@ -5,9 +5,9 @@
 Salesforce B2C Commerce / CRM Sync is an enablement solution provided by Salesforce Architect Success designed to teach Salesforce's B2C Customer Data Strategy for multi-cloud use-cases.  The solution demonstrates a contemporary view on the integration between Salesforce B2C Commerce and the Salesforce Customer 360 Platform.  This project provides a framework to integrating these two clouds leveraging public REST APIs to share and synchronize customer profile data between the two clouds.
 
 > :warning: &nbsp;This repository is currently a **work-in-progress and should not be considered stable** until a formal release is published.  We're working hard to round-out the MVP feature-set in a trustworthy way.  Please visit our [issues-list](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/issues) to see outstanding issues and features, and visit our [discussions](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/discussions) to ask questions. &nbsp;:warning:
-<br/>
+
 ![Introducing b2c-crm-sync](/docs/images/crm-sync.gif)
-<br/>
+
 ## Application Overview ##
 
 ###### This section provides a high-level summary of the purpose and architectural structure of the Salesforce B2C Commerce and Salesforce Customer 360 Platform Integration.
