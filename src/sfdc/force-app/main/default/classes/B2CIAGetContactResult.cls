@@ -15,4 +15,7 @@ global class B2CIAGetContactResult {
     @InvocableVariable
     public Contact crmContact;
 
+    @InvocableVariable
+    public Integer crmContactCount;
+
 }

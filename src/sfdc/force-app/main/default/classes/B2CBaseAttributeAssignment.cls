@@ -20,7 +20,6 @@ public abstract with sharing class B2CBaseAttributeAssignment {
         // Initialize local variables
         String contactAsJSON;
         Map<String, Object> contactMap;
-        String personAccountProperty;
         SObject output;
 
         // First, serialize the contact as JSON
@@ -30,7 +29,7 @@ public abstract with sharing class B2CBaseAttributeAssignment {
         contactMap = new Map<String, Object>(contactToProcess.getPopulatedFieldsAsMap());
 
         // Loop over the collection of personAccountProperties to remove
-        for (String personAccountProperty :  B2CConstant.personAccountPropertiesToRemove) {
+        for (String personAccountProperty : B2CConstant.personAccountPropertiesToRemove) {
 
             // Does the propertyToRemove exist in the contactMap?
             if (contactMap.containsKey(personAccountProperty)) {

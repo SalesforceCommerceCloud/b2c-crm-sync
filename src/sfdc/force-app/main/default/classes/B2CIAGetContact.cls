@@ -32,23 +32,32 @@ global with sharing class B2CIAGetContact extends B2CBaseAttributeAssignment {
         // Loop over the collection of site details
         for (B2CIAGetContactInput requestInput: requestArguments) {
 
-            // Attempt to retrieve the resolved Contact using the specified fieldMappings
-            resolvedContact = B2CContactManager.getContactById(requestInput.crmContactId, true, fieldMappings);
-
-            // Were the accountId / personAccount properties flagged for removal?
-            if (requestInput.omitAccountId == true) {
-
-                // If so, then remove the personAccount properties from the Contact
-                resolvedContact = (Contact) removePersonAccountProperties(resolvedContact);
-
-            }
-
             // Initialize the contactResult
             getContactResult = new B2CIAGetContactResult();
 
-            // Map the contactId and resolvedContact to the output variable
+            // Default the contactResult properties
             getContactResult.crmContactId = requestInput.crmContactId;
-            getContactResult.crmContact = resolvedContact;
+            getContactResult.crmContactCount = 0;
+
+            // Attempt to retrieve the resolved Contact using the specified fieldMappings
+            resolvedContact = B2CContactManager.getContactById(requestInput.crmContactId, false, fieldMappings);
+
+            // Was a contact retrieved?
+            if (resolvedContact != null) {
+
+                // Were the accountId / personAccount properties flagged for removal?
+                if (requestInput.omitAccountId == true) {
+
+                    // If so, then remove the personAccount properties from the Contact
+                    resolvedContact = (Contact) removePersonAccountProperties(resolvedContact);
+
+                }
+
+                // Map the resolvedContact and contactCount
+                getContactResult.crmContact = resolvedContact;
+                getContactResult.crmContactCount = 1;
+
+            }
 
             // Add the contactResult to the output collection
             output.add(getContactResult);
