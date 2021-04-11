@@ -24,7 +24,8 @@ trigger B2CProcessContact on Contact (before update) {
     try {
 
         // Only process and evaluate updates to Contacts when the trigger is enabled
-        if (Trigger.isUpdate && B2CConfigurationManager.isB2CProcessContactTriggerEnabled() == true) {
+        if (Trigger.isUpdate && B2CConfigurationManager.isB2CProcessContactTriggerEnabled() == true &&
+            B2CConfigurationManager.getDefaultAccountContactModel() == B2CConstant.AccountContactModel_Standard) {
 
             // Get the fieldMappings for the customerProfile object
             fieldMappings = B2CMetaFieldMappings.getFieldMappingsForPublishing('Contact');
