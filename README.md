@@ -6,8 +6,8 @@ Salesforce B2C Commerce / CRM Sync is an enablement solution provided by Salesfo
 
 > :warning: &nbsp;This repository is currently a **work-in-progress and should not be considered stable** until a formal release is published.  We're working hard to round-out the MVP feature-set in a trustworthy way.  Please visit our [issues-list](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/issues) to see outstanding issues and features, and visit our [discussions](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/discussions) to ask questions. &nbsp;:warning:
 <br/>
-![Introducing b2c-crm-sync](/docs/images/crm-sync.gif)
-<br/>
+![Introducing b2c-crm-sync](docs/images/crm-sync.gif)
+
 ## Application Overview ##
 
 ###### This section provides a high-level summary of the purpose and architectural structure of the Salesforce B2C Commerce and Salesforce Customer 360 Platform Integration.
