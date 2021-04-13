@@ -116,6 +116,10 @@ module.exports = async (sfdcAuthCredentials, contactObject, accountName, account
 
         }
 
+        // Seed the account and contact identifiers
+        output.accountId = output.accountCreateResult.id;
+        output.contactId = output.contactCreateResult.id;
+
     }
 
     // Return the output variable

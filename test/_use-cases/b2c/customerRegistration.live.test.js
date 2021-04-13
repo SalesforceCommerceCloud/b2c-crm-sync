@@ -6,16 +6,11 @@ const config = require('config');
 // Initialize the assertion library
 const assert = require('chai').assert;
 
-// Initialize local libraries for B2C Commerce
-const shopAPIs = require('../../../lib/apis/sfcc/ocapi/shop');
-const b2cRequestLib = require('../../../lib/_common/request');
-
 // Initialize tearDown helpers
 const useCaseProcesses = require('../../_common/processes');
 
 // Initialize local libraries for SFDC
 const sObjectAPIs = require('../../../lib/apis/sfdc/sObject');
-const metaDataAPIs = require('../../../lib/qa/processes/_common/sfdc/customMetaData');
 
 // Initialize local libraries
 const getRuntimeEnvironment = require('../../../lib/cli-api/_getRuntimeEnvironment');
@@ -29,20 +24,22 @@ describe('Registering a B2C Commerce Customer Profile with B2C-CRM-Sync enabled'
     // Initialize local variables
     let environmentDef,
         testProfile,
+        accountType,
         customerListId,
         siteId,
-        b2cGuestAuth,
         b2cAdminAuthToken,
         sfdcAuthCredentials,
-        baseRequest,
         multiCloudInitResults,
         registeredB2CCustomerNo;
 
     // Attempt to register the B2C Commerce Customer
-    before(async function() {
+    before(async function () {
 
         // Retrieve the runtime environment
         environmentDef = getRuntimeEnvironment();
+
+        // Create a reference to the accountType being processed
+        accountType = environmentDef.sfScratchOrgProfile;
 
         // Retrieve the site and customerList used to testing
         customerListId = config.get('unitTests.testData.b2cCustomerList').toString();
@@ -51,16 +48,13 @@ describe('Registering a B2C Commerce Customer Profile with B2C-CRM-Sync enabled'
         // Retrieve the b2c customer profile template that we'll use to exercise this test
         testProfile = config.util.toObject(config.get('unitTests.testData.profileTemplate'));
 
-        // Initialize the base request leveraged by this process
-        baseRequest = b2cRequestLib.createRequestInstance(environmentDef);
-
         try {
 
             // Initialize and retrieve the administrative authTokens
             multiCloudInitResults = await useCaseProcesses.multiCloudInit(environmentDef);
 
             // Shorthand the B2C administrative authToken
-            b2cAdminAuthToken = multiCloudInitResults.b2cAdminAuthToken
+            b2cAdminAuthToken = multiCloudInitResults.b2cAdminAuthToken;
 
             // Audit the authorization token for future rest requests
             sfdcAuthCredentials = multiCloudInitResults.sfdcAuthCredentials;
@@ -77,37 +71,23 @@ describe('Registering a B2C Commerce Customer Profile with B2C-CRM-Sync enabled'
             throw new Error(e);
 
         }
+    });
 
-    })
-
-    it('successfully creates a B2C Commerce Customer Profile and a mapped SFDC Account / Contact', async function() {
+    it('successfully creates a B2C Commerce Customer Profile and a mapped SFDC Account / Contact', async function () {
 
         // Initialize the output scope
         let output = {};
-
-        // Ensure that b2c-crm-sync is enabled for this specific unit-test
-        await useCaseProcesses.b2cCRMSyncEnable(environmentDef, b2cAdminAuthToken, siteId);
-
-        // Retrieve the guestAuthorization token from B2C Commerce
-        b2cGuestAuth = await shopAPIs.authAsGuest(environmentDef, siteId, environmentDef.b2cClientId);
-
-        // Register the B2C Commerce customer profile
-        output.b2cRegisterResults = await shopAPIs.customerPost(
-            environmentDef, siteId, environmentDef.b2cClientId, b2cGuestAuth.authToken, testProfile);
-
-        // Audit the customerNo of the newly registered customer
-        registeredB2CCustomerNo = output.b2cRegisterResults.data.customer_no;
 
         ////////////////////////////////////////////////////////////////
         // Validate that the B2C Customer Profile was successfully created
         ////////////////////////////////////////////////////////////////
 
+        // Attempt to register a B2C Commerce customer
+        output.b2cRegResults = await useCaseProcesses.b2cCustomerRegister(environmentDef, b2cAdminAuthToken, siteId, testProfile);
+        registeredB2CCustomerNo = output.b2cRegResults.registeredB2CCustomerNo;
+
         // Validate that the registration is well-formed and contains the key properties we expect
-        assert.equal(output.b2cRegisterResults.status, 200, ' -- expected a 200 status code from B2C Commerce');
-        assert.isTrue(output.b2cRegisterResults.hasOwnProperty('data'), ' -- expected to find a data node in the B2C Commerce response');
-        assert.equal(output.b2cRegisterResults.data.auth_type, 'registered', ' -- expected to see a registered B2C Commerce customer profile');
-        assert.isTrue(output.b2cRegisterResults.data.hasOwnProperty('c_b2ccrm_accountId'), ' -- expected to see the c_b2ccrm_accountId property in the B2C Commerce response');
-        assert.isTrue(output.b2cRegisterResults.data.hasOwnProperty('c_b2ccrm_contactId'), ' -- expected to see the c_b2ccrm_contactId property in the B2C Commerce response');
+        validateRegisteredUser(output.b2cRegResults);
 
         ////////////////////////////////////////////////////////////////
         // Validate that the SFDC Account / Contact was successfully created
@@ -115,21 +95,14 @@ describe('Registering a B2C Commerce Customer Profile with B2C-CRM-Sync enabled'
 
         // Retrieve the contact details from the SFDC environment
         output.sfdcContactResults = await sObjectAPIs.retrieve(sfdcAuthCredentials.conn,
-            'Contact', output.b2cRegisterResults.data.c_b2ccrm_contactId);
+            'Contact', output.b2cRegResults.response.data.c_b2ccrm_contactId);
 
-        // Validate that the SFDC Contact record exists and contains key properties
-        assert.equal(output.sfdcContactResults.success, true, ' -- expected the success flag to have a value of true');
-        assert.isTrue(output.sfdcContactResults.hasOwnProperty('Id'), ' -- expected to find an Id property on the SFDC Contact record');
-        assert.equal(output.sfdcContactResults.Id, output.b2cRegisterResults.data.c_b2ccrm_contactId, ' -- SFDC and B2C ContactID attributes do not match');
-        assert.equal(output.sfdcContactResults.AccountId, output.b2cRegisterResults.data.c_b2ccrm_accountId, ' -- SFDC and B2C AccountID attributes do not match');
-
-        // Validate that the email address and customerId attributes is aligned across both records
-        assert.equal(output.sfdcContactResults.B2C_Customer_ID__c, output.b2cRegisterResults.data.customer_id, ' -- SFDC and B2C CustomerID attributes do not match');
-        assert.equal(output.sfdcContactResults.Email, output.b2cRegisterResults.data.email, ' -- SFDC and B2C Email Addresses attributes do not match');
+        // Validate that the registration is well-formed and contains the key properties we expect
+        validateRegisteredUserAndContactResults(output.b2cRegResults, output.sfdcContactResults);
 
     });
 
-    it('successfully maps a B2C Commerce Profile to an Account / Contact by Email and LastName with no B2C CustomerList', async function() {
+    it('successfully maps a B2C Commerce Profile to an Account / Contact by Email and LastName with no B2C CustomerList', async function () {
 
         // Initialize the output scope
         let output = {};
@@ -138,79 +111,38 @@ describe('Registering a B2C Commerce Customer Profile with B2C-CRM-Sync enabled'
         // Setup the Unmapped Account / Contact Relationship
         ////////////////////////////////////////////////////////////////
 
-        // Get the default configuration for the scratchOrg
-        output.defaultConfiguration = await metaDataAPIs.getDefaultConfiguration(sfdcAuthCredentials.conn);
-
-        // Get the configuration properties
-        output.configurationProperties = await metaDataAPIs.getConfigurationProperties(
-            sfdcAuthCredentials.conn, output.defaultConfiguration.Active_Configuration__c);
-
-        // Create an Account using the configured recordType
-        output.accountCreateResult = await sObjectAPIs.create(
-            sfdcAuthCredentials.conn, 'Account', {
-                Name: `${testProfile.customer.first_name} ${testProfile.customer.last_name}`,
-                RecordType: output.configurationProperties.Account_Record_Type_Developername__c
-            });
-
-        // Create the Child Contact
-        output.contactCreateResult = await sObjectAPIs.create(
-            sfdcAuthCredentials.conn, 'Contact', {
-                AccountId: output.accountCreateResult.id,
+        // Create the seed accountContact relationship
+        output.accountContactCreateResults = await useCaseProcesses.sfdcAccountContactCreate(
+            sfdcAuthCredentials, {
                 FirstName: testProfile.customer.first_name,
                 LastName: testProfile.customer.last_name,
                 Email: testProfile.customer.email
-            });
+            }, config.get('unitTests.testData.defaultAccountName'), accountType);
 
-        ////////////////////////////////////////////////////////////////
-        // Attempt to register the B2C Commerce Customer Profile
-        ////////////////////////////////////////////////////////////////
-
-        // Ensure that b2c-crm-sync is enabled for this specific unit-test
-        await useCaseProcesses.b2cCRMSyncEnable(environmentDef, b2cAdminAuthToken, siteId);
-
-        // Retrieve the guestAuthorization token from B2C Commerce
-        b2cGuestAuth = await shopAPIs.authAsGuest(environmentDef, siteId, environmentDef.b2cClientId);
-
-        // Register the B2C Commerce customer profile
-        output.b2cRegisterResults = await shopAPIs.customerPost(
-            environmentDef, siteId, environmentDef.b2cClientId, b2cGuestAuth.authToken, testProfile);
-
-        // Audit the customerNo of the newly registered customer
-        registeredB2CCustomerNo = output.b2cRegisterResults.data.customer_no;
-
-        ////////////////////////////////////////////////////////////////
-        // Validate that the B2C Customer Profile was successfully created
-        ////////////////////////////////////////////////////////////////
+        // Attempt to register a B2C Commerce customer
+        output.b2cRegResults = await useCaseProcesses.b2cCustomerRegister(environmentDef, b2cAdminAuthToken, siteId, testProfile);
+        registeredB2CCustomerNo = output.b2cRegResults.registeredB2CCustomerNo;
 
         // Validate that the registration is well-formed and contains the key properties we expect
-        assert.equal(output.b2cRegisterResults.status, 200, ' -- expected a 200 status code from B2C Commerce');
-        assert.isTrue(output.b2cRegisterResults.hasOwnProperty('data'), ' -- expected to find a data node in the B2C Commerce response');
-        assert.equal(output.b2cRegisterResults.data.auth_type, 'registered', ' -- expected to see a registered B2C Commerce customer profile');
-        assert.isTrue(output.b2cRegisterResults.data.hasOwnProperty('c_b2ccrm_accountId'), ' -- expected to see the c_b2ccrm_accountId property in the B2C Commerce response');
-        assert.isTrue(output.b2cRegisterResults.data.hasOwnProperty('c_b2ccrm_contactId'), ' -- expected to see the c_b2ccrm_contactId property in the B2C Commerce response');
+        validateRegisteredUser(output.b2cRegResults);
 
         ////////////////////////////////////////////////////////////////
         // Validate that the SFDC Account / Contact was successfully mapped
         ////////////////////////////////////////////////////////////////
 
         // Retrieve the contact details from the SFDC environment
-        output.sfdcContactResults = await sObjectAPIs.retrieve(sfdcAuthCredentials.conn,
-            'Contact', output.b2cRegisterResults.data.c_b2ccrm_contactId);
+        output.sfdcContactGetResults = await sObjectAPIs.retrieve(sfdcAuthCredentials.conn,
+            'Contact', output.b2cRegResults.response.data.c_b2ccrm_contactId);
 
-        // Validate that the SFDC Contact record exists and contains key properties
-        assert.equal(output.sfdcContactResults.success, true, ' -- expected the success flag to have a value of true');
-        assert.isTrue(output.sfdcContactResults.hasOwnProperty('Id'), ' -- expected to find an Id property on the SFDC Contact record');
-        assert.equal(output.sfdcContactResults.Id, output.b2cRegisterResults.data.c_b2ccrm_contactId, ' -- SFDC and B2C ContactID attributes do not match');
-        assert.equal(output.sfdcContactResults.Id, output.contactCreateResult.id, ' -- SFDC and B2C ContactID attributes do not match with the original Contact record (contactCreateResult)');
-        assert.equal(output.sfdcContactResults.AccountId, output.b2cRegisterResults.data.c_b2ccrm_accountId, ' -- SFDC and B2C AccountID attributes do not match');
+        // Validate that the registration is well-formed and contains the key properties we expect
+        validateRegisteredUserAndContactResults(output.b2cRegResults, output.sfdcContactGetResults);
 
-        // Validate that the email address and customerId attributes is aligned across both records
-        assert.equal(output.sfdcContactResults.B2C_Customer_ID__c, output.b2cRegisterResults.data.customer_id, ' -- SFDC and B2C CustomerID attributes do not match');
-        assert.equal(output.sfdcContactResults.Email, output.b2cRegisterResults.data.email, ' -- SFDC and B2C Email Addresses attributes do not match');
+        // Validate that the contact retrieval results match the creation results
+        assert.equal(output.sfdcContactGetResults.Id, output.accountContactCreateResults.contactId, ' -- SFDC and B2C ContactID attributes do not match with the original Contact record (contactCreateResult)');
 
     });
 
-    it('successfully maps a B2C Commerce Profile to an Account / Contact by CustomerList, Email, and Default LastName', async function() {
+    it('successfully maps a B2C Commerce Profile to an Account / Contact by CustomerList, Email, and Default LastName', async function () {
 
         // Initialize the output scope
         let output = {};
@@ -219,80 +151,45 @@ describe('Registering a B2C Commerce Customer Profile with B2C-CRM-Sync enabled'
         // Setup the Unmapped Account / Contact Relationship
         ////////////////////////////////////////////////////////////////
 
-        // Get the default configuration for the scratchOrg
-        output.defaultConfiguration = await metaDataAPIs.getDefaultConfiguration(sfdcAuthCredentials.conn);
-
-        // Get the configuration properties
-        output.configurationProperties = await metaDataAPIs.getConfigurationProperties(
-            sfdcAuthCredentials.conn, output.defaultConfiguration.Active_Configuration__c);
-
-        // Create an Account using the configured recordType
-        output.accountCreateResult = await sObjectAPIs.create(
-            sfdcAuthCredentials.conn, 'Account', {
-                Name: output.configurationProperties[0].Default_Account_Name__c,
-                RecordType: output.configurationProperties.Account_Record_Type_Developername__c
-            });
-
-        // Create the Child Contact
-        output.contactCreateResult = await sObjectAPIs.create(
-            sfdcAuthCredentials.conn, 'Contact', {
-                AccountId: output.accountCreateResult.id,
-                LastName: output.configurationProperties[0].Default_Contact_Name__c,
+        // Create the seed accountContact relationship
+        output.accountContactCreateResults = await useCaseProcesses.sfdcAccountContactCreate(
+            sfdcAuthCredentials, {
+                FirstName: testProfile.customer.first_name,
+                LastName: testProfile.customer.last_name,
                 Email: testProfile.customer.email,
                 B2C_CustomerList_ID__c: customerListId
-            });
+            }, config.get('unitTests.testData.defaultAccountName'), accountType);
 
         ////////////////////////////////////////////////////////////////
         // Attempt to register the B2C Commerce Customer Profile
         ////////////////////////////////////////////////////////////////
 
-        // Ensure that b2c-crm-sync is enabled for this specific unit-test
-        await useCaseProcesses.b2cCRMSyncEnable(environmentDef, b2cAdminAuthToken, siteId);
-
-        // Retrieve the guestAuthorization token from B2C Commerce
-        b2cGuestAuth = await shopAPIs.authAsGuest(environmentDef, siteId, environmentDef.b2cClientId);
-
-        // Register the B2C Commerce customer profile
-        output.b2cRegisterResults = await shopAPIs.customerPost(
-            environmentDef, siteId, environmentDef.b2cClientId, b2cGuestAuth.authToken, testProfile);
-
-        // Audit the customerNo of the newly registered customer
-        registeredB2CCustomerNo = output.b2cRegisterResults.data.customer_no;
-
-        ////////////////////////////////////////////////////////////////
-        // Validate that the B2C Customer Profile was successfully created
-        ////////////////////////////////////////////////////////////////
+        // Attempt to register a B2C Commerce customer
+        output.b2cRegResults = await useCaseProcesses.b2cCustomerRegister(environmentDef, b2cAdminAuthToken, siteId, testProfile);
+        registeredB2CCustomerNo = output.b2cRegResults.registeredB2CCustomerNo;
 
         // Validate that the registration is well-formed and contains the key properties we expect
-        assert.equal(output.b2cRegisterResults.status, 200, ' -- expected a 200 status code from B2C Commerce');
-        assert.isTrue(output.b2cRegisterResults.hasOwnProperty('data'), ' -- expected to find a data node in the B2C Commerce response');
-        assert.equal(output.b2cRegisterResults.data.auth_type, 'registered', ' -- expected to see a registered B2C Commerce customer profile');
-        assert.isTrue(output.b2cRegisterResults.data.hasOwnProperty('c_b2ccrm_accountId'), ' -- expected to see the c_b2ccrm_accountId property in the B2C Commerce response');
-        assert.isTrue(output.b2cRegisterResults.data.hasOwnProperty('c_b2ccrm_contactId'), ' -- expected to see the c_b2ccrm_contactId property in the B2C Commerce response');
+        validateRegisteredUser(output.b2cRegResults);
 
         ////////////////////////////////////////////////////////////////
         // Validate that the SFDC Account / Contact was successfully mapped
         ////////////////////////////////////////////////////////////////
 
         // Retrieve the contact details from the SFDC environment
-        output.sfdcContactResults = await sObjectAPIs.retrieve(sfdcAuthCredentials.conn,
-            'Contact', output.b2cRegisterResults.data.c_b2ccrm_contactId);
+        output.sfdcContactGetResults = await sObjectAPIs.retrieve(sfdcAuthCredentials.conn,
+            'Contact', output.b2cRegResults.response.data.c_b2ccrm_contactId);
 
-        // Validate that the SFDC Contact record exists and contains key properties
-        assert.equal(output.sfdcContactResults.success, true, ' -- expected the success flag to have a value of true');
-        assert.isTrue(output.sfdcContactResults.hasOwnProperty('Id'), ' -- expected to find an Id property on the SFDC Contact record');
-        assert.equal(output.sfdcContactResults.Id, output.b2cRegisterResults.data.c_b2ccrm_contactId, ' -- SFDC and B2C ContactID attributes do not match');
-        assert.equal(output.sfdcContactResults.Id, output.contactCreateResult.id, ' -- SFDC and B2C ContactID attributes do not match with the original Contact record (contactCreateResult)');
-        assert.equal(output.sfdcContactResults.AccountId, output.b2cRegisterResults.data.c_b2ccrm_accountId, ' -- SFDC and B2C AccountID attributes do not match');
+        // Validate that the registration is well-formed and contains the key properties we expect
+        validateRegisteredUserAndContactResults(output.b2cRegResults, output.sfdcContactGetResults);
 
         // Validate that the email address and customerId attributes is aligned across both records
-        assert.equal(output.sfdcContactResults.B2C_Customer_ID__c, output.b2cRegisterResults.data.customer_id, ' -- SFDC and B2C CustomerID attributes do not match');
-        assert.equal(output.sfdcContactResults.Email, output.b2cRegisterResults.data.email, ' -- SFDC and B2C Email Addresses attributes do not match');
+        assert.equal(output.sfdcContactGetResults.B2C_Customer_ID__c, output.b2cRegResults.response.data.customer_id, ' -- SFDC and B2C CustomerID attributes do not match');
+        assert.equal(output.sfdcContactGetResults.Email, output.b2cRegResults.response.data.email, ' -- SFDC and B2C Email Addresses attributes do not match');
 
     });
 
     // Reset the output variable in-between tests
-    afterEach( async function() {
+    afterEach(async function () {
 
         // Purge the customer data in B2C Commerce and SFDC
         await useCaseProcesses.b2cCustomerPurgeByCustomerNo(b2cAdminAuthToken, sfdcAuthCredentials.conn, registeredB2CCustomerNo);
@@ -303,7 +200,7 @@ describe('Registering a B2C Commerce Customer Profile with B2C-CRM-Sync enabled'
     });
 
     // Reset the output variable in-between tests
-    after( async function() {
+    after(async function () {
 
         // Purge the customer data in B2C Commerce and SFDC
         await useCaseProcesses.b2cCustomerPurge(b2cAdminAuthToken, sfdcAuthCredentials.conn);
@@ -311,3 +208,28 @@ describe('Registering a B2C Commerce Customer Profile with B2C-CRM-Sync enabled'
     });
 
 });
+
+function validateRegisteredUser(b2cRegResults) {
+
+    // Validate that the registration is well-formed and contains the key properties we expect
+    assert.equal(b2cRegResults.response.status, 200, ' -- expected a 200 status code from B2C Commerce');
+    assert.isTrue(b2cRegResults.response.hasOwnProperty('data'), ' -- expected to find a data node in the B2C Commerce response');
+    assert.equal(b2cRegResults.response.data.auth_type, 'registered', ' -- expected to see a registered B2C Commerce customer profile');
+    assert.isTrue(b2cRegResults.response.data.hasOwnProperty('c_b2ccrm_accountId'), ' -- expected to see the c_b2ccrm_accountId property in the B2C Commerce response');
+    assert.isTrue(b2cRegResults.response.data.hasOwnProperty('c_b2ccrm_contactId'), ' -- expected to see the c_b2ccrm_contactId property in the B2C Commerce response');
+
+}
+
+function validateRegisteredUserAndContactResults(b2cRegResults, sfdcContactResults) {
+
+    // Validate that the SFDC Contact record exists and contains key properties
+    assert.equal(sfdcContactResults.success, true, ' -- expected the success flag to have a value of true');
+    assert.isTrue(sfdcContactResults.hasOwnProperty('Id'), ' -- expected to find an Id property on the SFDC Contact record');
+    assert.equal(sfdcContactResults.Id, b2cRegResults.response.data.c_b2ccrm_contactId, ' -- SFDC and B2C ContactID attributes do not match');
+    assert.equal(sfdcContactResults.AccountId, b2cRegResults.response.data.c_b2ccrm_accountId, ' -- SFDC and B2C AccountID attributes do not match');
+
+    // Validate that the email address and customerId attributes is aligned across both records
+    assert.equal(sfdcContactResults.B2C_Customer_ID__c, b2cRegResults.response.data.customer_id, ' -- SFDC and B2C CustomerID attributes do not match');
+    assert.equal(sfdcContactResults.Email, b2cRegResults.response.data.email, ' -- SFDC and B2C Email Addresses attributes do not match');
+
+}
