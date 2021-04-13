@@ -50,6 +50,9 @@ module.exports = {
             // Define the default accountName to use
             "defaultAccountName": "Unknown Customer",
 
+            // Define the personAccount recordType developerName
+            "personAccountDeveloperName": "PersonAccount",
+
             // Define the API Version to leverage
             "sfdcAPIVersion": "v50.0",
 
