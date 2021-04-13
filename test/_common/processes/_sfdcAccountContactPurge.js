@@ -19,17 +19,19 @@ module.exports = async (sfdcConnection) => {
 
     // Initialize local variables
     let testProfile,
+        defaultAccountName,
         output;
 
     // Retrieve the b2c customer profile template that we'll use to exercise this test
     testProfile = config.util.toObject(config.get('unitTests.testData.profileTemplate'));
+    defaultAccountName = config.get('unitTests.testData.defaultAccountName').toString();
 
     // Re-initialize the output variable
     output = {};
 
     // Check if the org has a contact scoped with the test Contact
     output.searchResults = await contactAPIs.getByEmail(
-        sfdcConnection, testProfile.customer.email);
+        sfdcConnection, testProfile.customer.email, 0);
 
     // Was a Contact record found for the customerList / email combination?
     if (output.searchResults.length > 0) {
@@ -40,7 +42,7 @@ module.exports = async (sfdcConnection) => {
     }
 
     // Search for any orphaned accounts that weren't deleted
-    output.searchResults = await accountAPIs.getByAccountName(sfdcConnection);
+    output.searchResults = await accountAPIs.getByAccountName(sfdcConnection, defaultAccountName);
 
     // Was an account record found among the collection of orphaned accounts
     if (output.searchResults.length > 0) {
@@ -53,4 +55,4 @@ module.exports = async (sfdcConnection) => {
     // Return the output variable
     return output;
 
-}
+};

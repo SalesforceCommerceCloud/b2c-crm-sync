@@ -26,10 +26,11 @@ describe('Duplicate Contact record processing via Salesforce Platform REST APIs'
     let environmentDef,
         testProfile,
         testContact,
+        accountType,
         sfdcAuthCredentials;
 
     // Attempt to register the B2C Commerce Customer
-    before(async function() {
+    before(async function () {
 
         // Retrieve the runtime environment
         environmentDef = getRuntimeEnvironment();
@@ -37,12 +38,15 @@ describe('Duplicate Contact record processing via Salesforce Platform REST APIs'
         // Retrieve the b2c customer profile template that we'll use to exercise this test
         testProfile = config.util.toObject(config.get('unitTests.testData.profileTemplate'));
 
+        // Create a shorthand reference to the type of account to process / create for this test
+        accountType = environmentDef.sfScratchOrgProfile;
+
         // Initialize the testContact
         testContact = {
             Email: testProfile.customer.email,
             LastName: testProfile.customer.last_name,
             B2C_CustomerList_ID__c: config.get('unitTests.testData.b2cCustomerList')
-        }
+        };
 
         try {
 
@@ -65,7 +69,7 @@ describe('Duplicate Contact record processing via Salesforce Platform REST APIs'
 
     });
 
-    it('prevents duplicate Email and LastName records with no CustomerList mapping', async function() {
+    it('prevents duplicate Email and LastName records with no CustomerList mapping', async function () {
 
         // Initialize the output scope
         let contactObject,
@@ -84,12 +88,12 @@ describe('Duplicate Contact record processing via Salesforce Platform REST APIs'
         try {
 
             // Execute the pre-test logic to seed the 1st pass at expected test data
-            await useCaseProcesses.sfdcAccountContactCreate(sfdcAuthCredentials, contactObject, accountName);
+            await useCaseProcesses.sfdcAccountContactCreate(sfdcAuthCredentials, contactObject, accountName, accountType, true);
 
             // Execute the pre-test logic to seed the 2nd expected test data (this is a duplicate)
-            await useCaseProcesses.sfdcAccountContactCreate(sfdcAuthCredentials, contactObject, accountName);
+            await useCaseProcesses.sfdcAccountContactCreate(sfdcAuthCredentials, contactObject, accountName, accountType, true);
 
-        } catch(e) {
+        } catch (e) {
 
             // Audit than an error was caught
             errorCaught = e;
@@ -101,7 +105,7 @@ describe('Duplicate Contact record processing via Salesforce Platform REST APIs'
 
     });
 
-    it('allows duplicate Email and LastName records with different customerList mappings', async function() {
+    it('allows duplicate Email and LastName records with different customerList mappings', async function () {
 
         // Initialize the output scope
         let contactObject,
@@ -121,16 +125,15 @@ describe('Duplicate Contact record processing via Salesforce Platform REST APIs'
         try {
 
             // Execute the pre-test logic to seed the 1st pass at expected test data
-            await useCaseProcesses.sfdcAccountContactCreate(sfdcAuthCredentials, contactObject, accountName);
+            await useCaseProcesses.sfdcAccountContactCreate(sfdcAuthCredentials, contactObject, accountName, accountType, true);
 
             // Update the customerList and change it -- to make the
-            contactObject.B2C_CustomerList_ID__c = config.get('unitTests.testData.b2cSiteCustomerLists.RefArchGlobal').toString()
+            contactObject.B2C_CustomerList_ID__c = config.get('unitTests.testData.b2cSiteCustomerLists.RefArchGlobal').toString();
 
             // Execute the pre-test logic to seed the 2nd expected test data (this is a duplicate)
-            // The primary record is the record we expect to match to
-            await useCaseProcesses.sfdcAccountContactCreate(sfdcAuthCredentials, contactObject, accountName);
+            await useCaseProcesses.sfdcAccountContactCreate(sfdcAuthCredentials, contactObject, accountName, accountType, true);
 
-        } catch(e) {
+        } catch (e) {
 
             // Audit than an error was caught
             errorCaught = e;
@@ -142,7 +145,7 @@ describe('Duplicate Contact record processing via Salesforce Platform REST APIs'
 
     });
 
-    it('does not allow the creation of a duplicate contact without specifying a customerList relationship', async function() {
+    it('does not allow the creation of a duplicate contact without specifying a customerList relationship', async function () {
 
         // Initialize the output scope
         let contactObject,
@@ -162,15 +165,15 @@ describe('Duplicate Contact record processing via Salesforce Platform REST APIs'
         try {
 
             // Execute the pre-test logic to seed the 1st pass at expected test data
-            await useCaseProcesses.sfdcAccountContactCreate(sfdcAuthCredentials, contactObject, accountName);
+            await useCaseProcesses.sfdcAccountContactCreate(sfdcAuthCredentials, contactObject, accountName, accountType, true);
 
             // Update the customerList and change it -- to make the
             delete contactObject.B2C_CustomerList_ID__c;
 
             // Execute the pre-test logic to seed the 2nd expected test data (this is a duplicate with a different customerList)
-            await useCaseProcesses.sfdcAccountContactCreate(sfdcAuthCredentials, contactObject, accountName);
+            await useCaseProcesses.sfdcAccountContactCreate(sfdcAuthCredentials, contactObject, accountName, accountType, true);
 
-        } catch(e) {
+        } catch (e) {
 
             // Audit than an error was caught
             errorCaught = e;
@@ -182,7 +185,7 @@ describe('Duplicate Contact record processing via Salesforce Platform REST APIs'
 
     });
 
-    it('supports the creation of multiple Contact records spanning multiple customerLists', async function() {
+    it('supports the creation of multiple Contact records spanning multiple customerLists', async function () {
 
         // Initialize the output scope
         let contactObject,
@@ -202,16 +205,16 @@ describe('Duplicate Contact record processing via Salesforce Platform REST APIs'
         try {
 
             // Execute the pre-test logic to seed the 1st pass at expected test data
-            await useCaseProcesses.sfdcAccountContactCreate(sfdcAuthCredentials, contactObject, accountName);
+            await useCaseProcesses.sfdcAccountContactCreate(sfdcAuthCredentials, contactObject, accountName, accountType);
 
             // Update the customerList and change it -- so that we create an record mapped to another customer list
             contactObject.B2C_CustomerList_ID__c = config.get('unitTests.testData.b2cSiteCustomerLists.RefArch').toString();
 
             // Execute the pre-test logic to seed the 2nd expected test data (this is a duplicate)
             // These records should be treated separately -- as they represent different individual relationships
-            await useCaseProcesses.sfdcAccountContactCreate(sfdcAuthCredentials, contactObject, accountName);
+            await useCaseProcesses.sfdcAccountContactCreate(sfdcAuthCredentials, contactObject, accountName, accountType);
 
-        } catch(e) {
+        } catch (e) {
 
             // Audit than an error was caught
             errorCaught = e;
@@ -224,7 +227,7 @@ describe('Duplicate Contact record processing via Salesforce Platform REST APIs'
     });
 
     // Reset the output variable in-between tests
-    afterEach( async function() {
+    afterEach(async function () {
 
         // Purge the Account / Contact contacts
         await sfdcAccountContactPurge(sfdcAuthCredentials.conn);
