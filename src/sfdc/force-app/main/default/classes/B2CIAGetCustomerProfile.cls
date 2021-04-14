@@ -5,7 +5,7 @@
  * @description This is a wrapper-class to enable the retrieval of a specific
  * B2C Commerce Site via OCAPI.
 */
-global with sharing class B2CIAGetCustomerProfile {
+public with sharing class B2CIAGetCustomerProfile {
 
     /**
      * @see B2CIAGetAccessTokenResult
@@ -15,7 +15,7 @@ global with sharing class B2CIAGetCustomerProfile {
      * @returns {List<B2CIAGetCustomerProfileResult>} Returns the response object containing the customer details
      */
     @InvocableMethod(Label='B2C: Get Customer Profile' Description='Attempts to retrieve details for a B2C Commerce Customer Profile')
-    global static List<B2CIAGetCustomerProfileResult> getCustomerProfile(List<B2CIAGetCustomerProfileInput> requestArguments) {
+    public static List<B2CIAGetCustomerProfileResult> getCustomerProfile(List<B2CIAGetCustomerProfileInput> requestArguments) {
 
         // Initialize local variables
         JSONParse parsedJSON;
@@ -38,7 +38,7 @@ global with sharing class B2CIAGetCustomerProfile {
             https = new Http();
             res = https.send(req);
 
-            // Initialize the siteResult container
+            // Initialize the customerResult container
             customerProfileResult = new B2CIAGetCustomerProfileResult();
 
             // Seed the CRM and B2C versions of the site identifiers
@@ -57,11 +57,12 @@ global with sharing class B2CIAGetCustomerProfile {
             customerProfileResult.status = res.getStatus();
             customerProfileResult.statusCode = res.getStatusCode();
             customerProfileResult.responseBody = parsedJSON.toStringPretty();
-            customerProfileResult.isError = false;
 
             // Check if the statusCode is found in the response and the response was processed successfully
-            if (customerProfileResult.statusCode != 200) {
+            if (customerProfileResult.statusCode == 200) {
+                customerProfileResult.isError = false;
 
+            } else {
                 // Otherwise, capture the error message
                 customerProfileResult.errorMessage = B2CConstant.Errors_OCAPI_Non200ErrorOccurred;
                 customerProfileResult.isError = true;
