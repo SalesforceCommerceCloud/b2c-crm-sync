@@ -5,7 +5,6 @@
     <alertText xsi:nil="true"/>
     <description>... duplicate rule used to resolve B2C Commerce customer records via PersonAccounts.</description>
     <duplicateRuleFilter>
-        <booleanFilter>1 OR (2 AND 3) OR (2 AND 4 AND 5) OR (4 AND 5 AND 6)</booleanFilter>
         <duplicateRuleFilterItems>
             <field>B2C_Customer_ID__c</field>
             <operation>notEqual</operation>
