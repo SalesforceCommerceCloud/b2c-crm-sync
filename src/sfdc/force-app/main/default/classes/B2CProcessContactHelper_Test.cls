@@ -36,7 +36,7 @@ private class B2CProcessContactHelper_Test {
 
         Database.insert( c );
 
-        c = [SELECT Id, B2C_Instance__c,B2C_CustomerList__c FROM Contact WHERE Id = :c.Id LIMIT 1];
+        c = [SELECT Id, B2C_Instance__c,B2C_CustomerList__c,B2C_CustomerList_ID__c FROM Contact WHERE Id = :c.Id LIMIT 1];
 
         Test.startTest();
             Map<String, B2C_CustomerList__c> m = B2CProcessContactHelper.updateCustomerListMap(
