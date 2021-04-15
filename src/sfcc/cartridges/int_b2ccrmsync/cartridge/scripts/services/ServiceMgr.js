@@ -49,7 +49,7 @@ function getPossibleIDs(id) {
         id + '.' + siteID + '.' + countryID,
         id + '.' + siteID,
         id + '.' + countryID,
-        id,
+        id
     ];
 }
 

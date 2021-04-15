@@ -1,7 +1,7 @@
     <service service-id="b2ccrmsync.auth.{{B2C_SITEID}}">
         <service-type>HTTP</service-type>
         <enabled>true</enabled>
-        <log-prefix>bcs_auth_{{B2C_SITEID}}</log-prefix>
+        <log-prefix>bcs_auth_{{B2C_SITEID_LOG_PREFIX}}</log-prefix>
         <comm-log-enabled>true</comm-log-enabled>
         <force-prd-enabled>false</force-prd-enabled>
         <mock-mode-enabled>false</mock-mode-enabled>
@@ -12,7 +12,7 @@
     <service service-id="b2ccrmsync.rest.{{B2C_SITEID}}">
         <service-type>HTTP</service-type>
         <enabled>true</enabled>
-        <log-prefix>bcs_rest_{{B2C_SITEID}}</log-prefix>
+        <log-prefix>bcs_rest_{{B2C_SITEID_LOG_PREFIX}}</log-prefix>
         <comm-log-enabled>true</comm-log-enabled>
         <force-prd-enabled>false</force-prd-enabled>
         <mock-mode-enabled>false</mock-mode-enabled>
