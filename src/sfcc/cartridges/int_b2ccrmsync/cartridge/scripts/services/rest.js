@@ -69,7 +69,7 @@ function serviceCallback(model, operation, bypassCache) {
 function getServiceCallback(model, operation, bypassCache) {
     var endpoints = require('../b2ccrmsync.config').endpoints;
     if (!endpoints[model] || !endpoints[model][operation]) {
-        throw new Error(require('dw/util/StringUtils').format('Unknown endpoint for the given model "{0}" and operation "{1}"', mode, operation));
+        throw new Error(require('dw/util/StringUtils').format('Unknown endpoint for the given model "{0}" and operation "{1}"', model, operation));
     }
 
     return serviceCallback(model, operation, bypassCache);
