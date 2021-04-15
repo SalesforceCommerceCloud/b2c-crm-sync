@@ -29,13 +29,17 @@ describe('Progressive resolution of a B2C Commerce Customer via the B2CContactPr
     let environmentDef,
         testProfile,
         testContact,
-        sfdcAuthCredentials;
+        sfdcAuthCredentials,
+        testCustomerListIdValue;
 
     // Attempt to register the B2C Commerce Customer
-    before(async function() {
+    before(async function () {
 
         // Retrieve the runtime environment
         environmentDef = getRuntimeEnvironment();
+
+        // Default the test customerId value
+        testCustomerListIdValue = config.get('unitTests.testData.b2cSiteCustomerLists.RefArch');
 
         // Retrieve the b2c customer profile template that we'll use to exercise this test
         testProfile = config.util.toObject(config.get('unitTests.testData.profileTemplate'));
@@ -44,7 +48,7 @@ describe('Progressive resolution of a B2C Commerce Customer via the B2CContactPr
         testContact = {
             Email: testProfile.customer.email,
             LastName: testProfile.customer.last_name
-        }
+        };
 
         try {
 
@@ -68,14 +72,14 @@ describe('Progressive resolution of a B2C Commerce Customer via the B2CContactPr
     });
 
     // Reset the output variable in-between tests
-    beforeEach( async function() {
+    beforeEach(async function () {
 
         // Purge the Account / Contact contacts
         await sfdcAccountContactPurge(sfdcAuthCredentials.conn);
 
     });
 
-    it('returns an error if non-identifiers are used without a B2C CustomerList for resolution via the B2CContactProcess service', async function() {
+    it('returns an error if non-identifiers are used without a B2C CustomerList for resolution via the B2CContactProcess service', async function () {
 
         // Initialize the output scope
         let output,
@@ -88,15 +92,15 @@ describe('Progressive resolution of a B2C Commerce Customer via the B2CContactPr
 
         // Initialize the request
         requestBody = {
-            "inputs": [
+            inputs: [
                 {
-                    "sourceContact": {
+                    sourceContact: {
                         LastName: testContact.LastName,
                         Email: testContact.Email
                     }
                 }
             ]
-        }
+        };
 
         // Execute the process flow-request and examine the results
         output = await flowAPIs.postB2CContactProcess(environmentDef, sfdcAuthCredentials.conn.accessToken, requestBody);
@@ -104,9 +108,7 @@ describe('Progressive resolution of a B2C Commerce Customer via the B2CContactPr
         // Shorthand a reference to the response data
         processResult = output.data[0];
 
-        ////////////////////////////////////////////////////////////////
-        // Validate the REST API response is well formed
-        ////////////////////////////////////////////////////////////////
+        // Validate that the REST response is well-formed and returns what was expected
         assert.equal(output.status, 200, ' -- expected a 200 status code from the Salesforce Platform');
         assert.isObject(processResult.outputValues, ' -- expected the outputValues property to exist on the output object');
         assert.isArray(processResult.outputValues.errors, ' -- expected the errors collection to contain at least one value');
@@ -121,24 +123,20 @@ describe('Progressive resolution of a B2C Commerce Customer via the B2CContactPr
         // Initialize local variables
         let output,
             processResult,
-            resolveBody,
-            testCustomerListIdValue;
-
-        // Default the test customerId value
-        testCustomerListIdValue = config.get('unitTests.testData.b2cSiteCustomerLists.RefArch');
+            resolveBody;
 
         // Initialize the first request; seed a customerList and disable the integration
         // so that we don't create an expectation to trigger OCAPI updates
         resolveBody = {
-            "inputs": [
+            inputs: [
                 {
-                    "sourceContact": {
+                    sourceContact: {
                         Email: testContact.Email,
                         B2C_CustomerList_ID__c: testCustomerListIdValue
                     }
                 }
             ]
-        }
+        };
 
         // Execute the process flow-request and capture the results for the contact creation test
         output = await flowAPIs.postB2CContactProcess(environmentDef, sfdcAuthCredentials.conn.accessToken, resolveBody);
@@ -146,9 +144,7 @@ describe('Progressive resolution of a B2C Commerce Customer via the B2CContactPr
         // Shorthand a reference to the response data
         processResult = output.data[0];
 
-        ////////////////////////////////////////////////////////////////
-        // Validate the REST API response is well formed
-        ////////////////////////////////////////////////////////////////
+        // Validate the REST API response is well-formed
         assert.equal(output.status, 200, ' -- expected a 200 status code from the Salesforce Platform');
         assert.isTrue(processResult.isSuccess, ' -- expected the isSuccess flag to have a value of true');
         assert.isObject(processResult.outputValues, ' -- expected the outputValues property to exist on the output object');
@@ -1317,3 +1313,25 @@ describe('Progressive resolution of a B2C Commerce Customer via the B2CContactPr
     });
 
 });
+
+/**
+ *
+ * @param processResults
+ */
+function validateB2CProcessResult(processResults) {
+
+    // Initialize local variables
+    let processResult;
+
+    // Shorthand a reference to the response data
+    processResult = processResults.data[0];
+
+    // Validate the REST API response is well-formed
+    assert.equal(processResults.status, 200, ' -- expected a 200 status code from the Salesforce Platform');
+    assert.isTrue(processResult.isSuccess, ' -- expected the isSuccess flag to have a value of true');
+    assert.isObject(processResult.outputValues, ' -- expected the outputValues property to exist on the output object');
+    assert.isNull(processResult.outputValues.errors, ' -- expected no errors to be included in the processing results');
+    assert.isTrue(processResult.outputValues.isSuccess, ' -- expected the isSuccess to return a null value');
+    assert.equal(processResult.outputValues.Flow__InterviewStatus, 'Finished', ' -- expected the Flow_InterviewStatus to have a value of Finished.');
+
+}
