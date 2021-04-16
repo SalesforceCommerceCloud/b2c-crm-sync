@@ -1,7 +1,7 @@
 {
   "name": "b2c-crm-sync",
   "version": "0.7.0",
-  "description": "Development framework facilitating customer integration between B2C Commerce and the Salesforce Platform.",
+  "description": "Enablement solution teaching the Salesforce Architect Success B2C Customer Data Strategy -- facilitating the progressive resolution of B2C Customer Profiles between B2C Commerce and the Salesforce Platform.",
   "main": "cli.js",
   "engines": {
     "node": ">=12.16.0",
@@ -88,8 +88,8 @@
   },
   "devDependencies": {
     "@prettier/plugin-xml": "^0.13.1",
-    "@salesforce/eslint-config-lwc": "^0.10.0",
-    "@salesforce/sfdx-lwc-jest": "^0.11.0",
+    "@salesforce/eslint-config-lwc": "^1.0.0",
+    "@salesforce/sfdx-lwc-jest": "^0.10.4",
     "@types/async": "^3.2.5",
     "@types/async-polling": "^0.0.4",
     "@types/chai": "^4.2.14",
