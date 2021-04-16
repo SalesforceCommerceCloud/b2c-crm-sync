@@ -10,9 +10,9 @@ const recordTypeAPIs = require('../../../lib/qa/processes/_common/sfdc/recordTyp
 const b2cCustomerListAPIs = require('../../../lib/qa/processes/_common/sfdc/b2cCustomerList');
 
 /**
- * @function sfdcAccountContactPurge
- * @description Helper function for B2C Customer profile / SFDC Account and Contact deletion.  This
- * function is used to remove our test-data records to ensure that no record-conflicts exist.
+ * @function sfdcAccountContactCreate
+ * @description Helper function for B2C Customer profile / SFDC Account and Contact creation.  This function
+ * is used to create test-data records that are used to test different resolution / duplicate processing scenarios.
  *
  * @param {Connection} sfdcAuthCredentials Represents the active connection for SFDC provided via jsForce
  * @param {Object} contactObject Represents the contactObject to create

@@ -87,11 +87,25 @@ describe('Duplicate Contact record processing via Salesforce Platform REST APIs'
 
         try {
 
-            // Execute the pre-test logic to seed the 1st pass at expected test data
-            await useCaseProcesses.sfdcAccountContactCreate(sfdcAuthCredentials, contactObject, accountName, accountType, true);
+            // Create native personAccounts if PA's are enabled
+            if (accountType === 'personaccounts') {
 
-            // Execute the pre-test logic to seed the 2nd expected test data (this is a duplicate)
-            await useCaseProcesses.sfdcAccountContactCreate(sfdcAuthCredentials, contactObject, accountName, accountType, true);
+                // Execute the pre-test logic to seed the 1st pass at expected test data
+                await useCaseProcesses.sfdcPersonAccountCreate(sfdcAuthCredentials, contactObject);
+
+                // Execute the pre-test logic to seed the 2nd expected test data (this is a duplicate)
+                await useCaseProcesses.sfdcPersonAccountCreate(sfdcAuthCredentials, contactObject);
+
+
+            } else {
+
+                // Execute the pre-test logic to seed the 1st pass at expected test data
+                await useCaseProcesses.sfdcAccountContactCreate(sfdcAuthCredentials, contactObject, accountName, accountType, true);
+
+                // Execute the pre-test logic to seed the 2nd expected test data (this is a duplicate)
+                await useCaseProcesses.sfdcAccountContactCreate(sfdcAuthCredentials, contactObject, accountName, accountType, true);
+
+            }
 
         } catch (e) {
 
@@ -230,7 +244,7 @@ describe('Duplicate Contact record processing via Salesforce Platform REST APIs'
     afterEach(async function () {
 
         // Purge the Account / Contact contacts
-        await sfdcAccountContactPurge(sfdcAuthCredentials.conn);
+        //await sfdcAccountContactPurge(sfdcAuthCredentials.conn);
 
     });
 

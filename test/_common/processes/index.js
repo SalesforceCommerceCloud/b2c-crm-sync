@@ -7,5 +7,7 @@ module.exports = {
     initUseCaseTests: require('./_initUseCaseTests'),
     multiCloudInit: require('./_multiCloudInit'),
     sfdcAccountContactCreate: require('./_sfdcAccountContactCreate'),
-    sfdcAccountContactPurge: require('./_sfdcAccountContactPurge')
+    sfdcAccountContactPurge: require('./_sfdcAccountContactPurge'),
+    sfdcPersonAccountCreate: require('./_sfdcPersonAccountCreate'),
+    sleep: require('./_sleep')
 };

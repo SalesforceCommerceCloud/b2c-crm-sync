@@ -76,11 +76,12 @@ describe('Registering a B2C Commerce Customer Profile with B2C-CRM-Sync enabled'
         await useCaseProcesses.b2cCRMSyncEnable(environmentDef, b2cAdminAuthToken, siteId);
 
         // Exercise the simplest version of the registration sub-test
-        output.testResults = await registrationSubTest(environmentDef, b2cAdminAuthToken, sfdcAuthCredentials, siteId, testProfile);
+        output.testResults = await _registrationSubTest(environmentDef, b2cAdminAuthToken, sfdcAuthCredentials, siteId, testProfile);
         registeredB2CCustomerNo = output.testResults.registeredB2CCustomerNo;
 
     });
 
+    // TODO: Fix This Test (not working)
     it('successfully maps a B2C Commerce Profile to an Account / Contact by Email and LastName with no B2C CustomerList', async function () {
 
         // Initialize the output scope
@@ -98,7 +99,7 @@ describe('Registering a B2C Commerce Customer Profile with B2C-CRM-Sync enabled'
             }, config.get('unitTests.testData.defaultAccountName'), accountType);
 
         // Exercise the simplest version of the registration sub-test
-        output.testResults = await registrationSubTest(environmentDef, b2cAdminAuthToken, sfdcAuthCredentials, siteId, testProfile);
+        output.testResults = await _registrationSubTest(environmentDef, b2cAdminAuthToken, sfdcAuthCredentials, siteId, testProfile);
         registeredB2CCustomerNo = output.testResults.registeredB2CCustomerNo;
 
         // Retrieve the contact details from the SFDC environment
@@ -106,7 +107,7 @@ describe('Registering a B2C Commerce Customer Profile with B2C-CRM-Sync enabled'
             'Contact', output.testResults.b2cRegResults.response.data.c_b2ccrm_contactId);
 
         // Validate that the registration is well-formed and contains the key properties we expect
-        validateRegisteredUserAndContactResults(output.testResults.b2cRegResults, output.sfdcContactGetResults);
+        _validateRegisteredUserAndContactResults(output.testResults.b2cRegResults, output.sfdcContactGetResults);
 
         // Validate that the contact retrieval results match the creation results
         assert.equal(output.sfdcContactGetResults.Id, output.accountContactCreateResults.contactId, ' -- SFDC and B2C ContactID attributes do not match with the original Contact record (contactCreateResult)');
@@ -132,14 +133,14 @@ describe('Registering a B2C Commerce Customer Profile with B2C-CRM-Sync enabled'
         registeredB2CCustomerNo = output.b2cRegResults.registeredB2CCustomerNo;
 
         // Validate that the registration is well-formed and contains the key properties we expect
-        validateRegisteredUser(output.b2cRegResults);
+        _validateRegisteredUser(output.b2cRegResults);
 
         // Retrieve the contact details from the SFDC environment
         output.sfdcContactGetResults = await sObjectAPIs.retrieve(sfdcAuthCredentials.conn,
             'Contact', output.b2cRegResults.response.data.c_b2ccrm_contactId);
 
         // Validate that the registration is well-formed and contains the key properties we expect
-        validateRegisteredUserAndContactResults(output.b2cRegResults, output.sfdcContactGetResults);
+        _validateRegisteredUserAndContactResults(output.b2cRegResults, output.sfdcContactGetResults);
 
         // Validate that the email address and customerId attributes is aligned across both records
         assert.equal(output.sfdcContactGetResults.B2C_Customer_ID__c, output.b2cRegResults.response.data.customer_id, ' -- SFDC and B2C CustomerID attributes do not match');
@@ -169,7 +170,8 @@ describe('Registering a B2C Commerce Customer Profile with B2C-CRM-Sync enabled'
 });
 
 /**
- * @function registrationSubTest
+ * @private
+ * @function _registrationSubTest
  * @description This is a helper function that consolidates the repetitive logic used to exercise
  * different multi-cloud registration scenarios.
  *
@@ -179,7 +181,7 @@ describe('Registering a B2C Commerce Customer Profile with B2C-CRM-Sync enabled'
  * @param siteId (String) Represents the site / storefront that is being enabled for test integration
  * @param testProfile (String) Represents the test profile used to exercise registration unit-tests
  */
-async function registrationSubTest(environmentDef, b2cAdminAuthToken, sfdcAuthCredentials, siteId, testProfile) {
+async function _registrationSubTest(environmentDef, b2cAdminAuthToken, sfdcAuthCredentials, siteId, testProfile) {
 
     // Initialize local Variables
     let output = {};
@@ -189,14 +191,14 @@ async function registrationSubTest(environmentDef, b2cAdminAuthToken, sfdcAuthCr
     output.registeredB2CCustomerNo = output.b2cRegResults.registeredB2CCustomerNo;
 
     // Validate that the registration is well-formed and contains the key properties we expect
-    validateRegisteredUser(output.b2cRegResults);
+    _validateRegisteredUser(output.b2cRegResults);
 
     // Retrieve the contact details from the SFDC environment
     output.sfdcContactResults = await sObjectAPIs.retrieve(sfdcAuthCredentials.conn,
         'Contact', output.b2cRegResults.response.data.c_b2ccrm_contactId);
 
     // Validate that the registration is well-formed and contains the key properties we expect
-    validateRegisteredUserAndContactResults(output.b2cRegResults, output.sfdcContactResults);
+    _validateRegisteredUserAndContactResults(output.b2cRegResults, output.sfdcContactResults);
 
     // Return the output variable
     return output;
@@ -204,12 +206,13 @@ async function registrationSubTest(environmentDef, b2cAdminAuthToken, sfdcAuthCr
 }
 
 /**
- * @function validateRegisteredUser
+ * @private
+ * @function _validateRegisteredUser
  * @description Helper function to centralize validation / assertion logic for test-scenarios
  *
  * @param {Object} b2cRegResults Represents the registration results for a given unit-test being evaluated
  */
-function validateRegisteredUser(b2cRegResults) {
+function _validateRegisteredUser(b2cRegResults) {
 
     // Validate that the registration is well-formed and contains the key properties we expect
     assert.equal(b2cRegResults.response.status, 200, ' -- expected a 200 status code from B2C Commerce');
@@ -221,13 +224,14 @@ function validateRegisteredUser(b2cRegResults) {
 }
 
 /**
- * @function validateRegisteredUserAndContactResults
+ * @private
+ * @function _validateRegisteredUserAndContactResults
  * @description Helper function to centralize validation / assertion logic for test-scenarios
  *
  * @param {Object} b2cRegResults Represents the registration results for a given unit-test being evaluated
  * @param {Object} sfdcContactResults Represents the contact creation results for a given unit-test being evaluated
  */
-function validateRegisteredUserAndContactResults(b2cRegResults, sfdcContactResults) {
+function _validateRegisteredUserAndContactResults(b2cRegResults, sfdcContactResults) {
 
     // Validate that the SFDC Contact record exists and contains key properties
     assert.equal(sfdcContactResults.success, true, ' -- expected the success flag to have a value of true');
