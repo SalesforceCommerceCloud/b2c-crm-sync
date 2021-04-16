@@ -7,6 +7,50 @@
 */
 public abstract with sharing class B2CBaseAttributeAssignment {
 
+    /**
+     * @description Helper function to remove the account-specific PersonAccount properties
+     * from a Contact object; we remove these values as they will prevent the Contact from
+     * being updated directly if the Person contactModel is enabled
+     *
+     * @param contactToProcess {SObject} Represents the contact to process
+     * @return {SObject} Returns the sObject with the AccountId removed
+     */
+    public static SObject removePersonAccountProperties(SObject contactToProcess) {
+
+        // Initialize local variables
+        String contactAsJSON;
+        Map<String, Object> contactMap;
+        SObject output;
+
+        // First, serialize the contact as JSON
+        contactAsJSON = JSON.serialize(contactToProcess);
+
+        // Convert the contact to a map so that we can manipulate the attributes
+        contactMap = new Map<String, Object>(contactToProcess.getPopulatedFieldsAsMap());
+
+        // Loop over the collection of personAccountProperties to remove
+        for (String personAccountProperty : B2CConstant.personAccountPropertiesToRemove) {
+
+            // Does the propertyToRemove exist in the contactMap?
+            if (contactMap.containsKey(personAccountProperty)) {
+
+                // If so, then remove the property from the Contact
+                contactMap.remove(personAccountProperty);
+
+            }
+
+        }
+
+        // Re-serialize the contact details (minus the accountId)
+        contactAsJSON = JSON.serialize(contactMap);
+
+        // And finally convert the map to a Contact through deserialization
+        output = (SObject)JSON.deserialize(contactAsJSON, Contact.class);
+
+        // Return the output variable
+        return output;
+
+    }
 
     /**
      * @description This method compares the "before" and "after" version of a processed sObject and evaluates

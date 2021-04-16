@@ -11,7 +11,7 @@ const sfdcAuth = require('../../../lib/apis/sfdc/auth');
  * @param {Object} environmentDef Represents the configuration for the current environment
  * @return {Object} Returns an object summary containing the authToken properties
  */
-module.exports = async (environmentDef) => new Promise( async (resolve, reject) => {
+module.exports = async (environmentDef) => new Promise(async (resolve, reject) => {
 
     // Initialize local variables
     let b2cAdminAuthToken,

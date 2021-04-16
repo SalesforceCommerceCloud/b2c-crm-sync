@@ -16,6 +16,18 @@ public with sharing class B2CConstant {
         // Define the different data exception names
         Errors_ExceptionName_DataRecordMissing = 'B2CMetaDataRecordMissingException',
 
+        // Define the account / contact short-hand model names and mapping objects
+        AccountContactModel_Standard = 'Standard',
+        AccountContactModel_Person = 'Person',
+
+        // Define the list of personAccount properties that should be removed from Contacts
+        // We use this list to remove these properties in scenarios where PersonAccounts are
+        // enabled and the Contact is seeded with PA properties that prevent updates
+        PersonAccountProperties_ToRemove_AccountId = 'AccountId',
+        PersonAccountProperties_ToRemove_CleanStatus = 'CleanStatus',
+        PersonAccountProperties_ToRemove_Jigsaw = 'Jigsaw',
+        PersonAccountProperties_ToRemove_ReportsToId = 'ReportsToId',
+
         // Define the processMode keys leveraged by B2C Customer Profile integration
         Contact_Integration_ProcessMode_Retrieve = 'retrieve',
         Contact_Integration_ProcessMode_Publish = 'publish',
@@ -50,6 +62,15 @@ public with sharing class B2CConstant {
         Contact_Integration_ProcessMode_Retrieve,
         Contact_Integration_ProcessMode_Publish,
         Contact_Integration_ProcessMode_Process
+    };
+
+    // Define the collection of PersonAccount properties that we'll manually remove from Contact records
+    // prior to processing an update to a personAccount's Contact record.
+    public static final List<String> personAccountPropertiesToRemove = new List<String>{
+        PersonAccountProperties_ToRemove_AccountId,
+        PersonAccountProperties_ToRemove_CleanStatus,
+        PersonAccountProperties_ToRemove_Jigsaw,
+        PersonAccountProperties_ToRemove_ReportsToId
     };
 
     /**

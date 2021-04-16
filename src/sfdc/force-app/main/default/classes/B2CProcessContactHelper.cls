@@ -11,25 +11,25 @@ public with sharing class B2CProcessContactHelper extends B2CBaseAttributeAssign
      * Contact records being processed.  This avoids the need to consistently query for B2C CustomerLists
      * as Contact records are processed within the trigger.
      *
-     * @param contactRecord {Contact} Represents the Contact record being evaluated
+     * @param b2cCustomerListId {String} Represents the customerList being evaluated
      * @param customerListMap {Map<String, B2C_CustomerList__c>} Represents the map of B2C CustomerList being maintained
      * @return {Map<String, B2C_CustomerList__c>} Returns an updated instance of B2C CustomerLists
      */
-    public static Map<String, B2C_CustomerList__c> updateCustomerListMap(Contact contactRecord, Map<String, B2C_CustomerList__c> customerListMap) {
+    public static Map<String, B2C_CustomerList__c> updateCustomerListMap(String b2cCustomerListId, Map<String, B2C_CustomerList__c> customerListMap) {
 
         // Initialize local variables
         B2C_CustomerList__c relatedCustomerList;
 
         // If the instanceMap already contains the customerList's parent instance -- continue
-        if (customerListMap.containsKey(contactRecord.B2C_CustomerList__c)) {
+        if (customerListMap.containsKey(b2cCustomerListId)) {
             return customerListMap;
         }
 
         // Retrieve the related customerList
-        relatedCustomerList = B2CCustomerListManager.getCustomerListById(contactRecord.B2C_CustomerList__c, true, true);
+        relatedCustomerList = B2CCustomerListManager.getCustomerListById(b2cCustomerListId, true, true);
 
         // Add the customerList to the instance map
-        customerListMap.put(contactRecord.B2C_CustomerList__c, relatedCustomerList);
+        customerListMap.put(b2cCustomerListId, relatedCustomerList);
 
         // Return the customerListMap
         return customerListMap;
@@ -41,17 +41,17 @@ public with sharing class B2CProcessContactHelper extends B2CBaseAttributeAssign
      * Contact records being processed.  This avoids the need to consistently query for B2C Instances
      * as Contact records are processed within the trigger.
      *
-     * @param contactRecord {Contact} Represents the Contact record being evaluated
+     * @param b2cInstanceName {String} Represents the name of the B2C Instance being evaluated
      * @param instanceMap {Map<String, B2C_Instance__c>} Represents the map of B2C Instances being maintained
      * @return {Map<String, B2C_Instance__c>} Returns an updated instance of B2C Instances
      */
-    public static Map<String, B2C_Instance__c> updateInstanceMap(Contact contactRecord, Map<String, B2C_Instance__c> instanceMap) {
+    public static Map<String, B2C_Instance__c> updateInstanceMap(String b2cInstanceName, Map<String, B2C_Instance__c> instanceMap) {
 
         // Initialize local variables
         B2C_Instance__c relatedInstance;
 
         // If the instanceMap already contains the customerList's parent instance -- continue
-        if (instanceMap.containsKey(contactRecord.B2C_Instance__c)) {
+        if (instanceMap.containsKey(b2cInstanceName)) {
             return instanceMap;
         }
 
@@ -61,7 +61,7 @@ public with sharing class B2CProcessContactHelper extends B2CBaseAttributeAssign
                     Name,
                     Is_Active__c
           FROM      B2C_Instance__c
-          WHERE     Name = :contactRecord.B2C_Instance__c
+          WHERE     Name = :b2cInstanceName
           LIMIT     1
         ];
 
@@ -78,11 +78,11 @@ public with sharing class B2CProcessContactHelper extends B2CBaseAttributeAssign
      * class simplifies the representation of tiered configuration settings for the B2C CRM Sync application.
      *
      * @param contactRecord {Contact} Represents the Contact record being processed
-     * @param instanceMap {Map<String, B2C_Instance__c>} Represents the map of B2C Instances
-     * @param customerListMap {Map<String, B2C_CustomerList__c>} Represents the map of B2C CustomerLists
+     * @param b2cInstance {B2C_Instance__c} Represents the active B2C Instance
+     * @param b2cCustomerList {B2C_CustomerList__c} Represents the active B2C CustomerList
      * @return {B2CIAValidateContactInput} Returns an instance of the B2CIAValidateContactInput class
      */
-    public static B2CIAValidateContactInput getValidateContactInput(Contact contactRecord, Map<String, B2C_Instance__c> instanceMap, Map<String, B2C_CustomerList__c> customerListMap) {
+    public static B2CIAValidateContactInput getValidateContactInput(Contact contactRecord, B2C_Instance__c b2cInstance, B2C_CustomerList__c b2cCustomerList) {
 
         // Initialize local variables
         B2CIAValidateContactInput output;
@@ -92,8 +92,8 @@ public with sharing class B2CProcessContactHelper extends B2CBaseAttributeAssign
 
         // Seed the default properties of the class
         output.contact = contactRecord;
-        output.b2cInstance = instanceMap.get(contactRecord.B2C_Instance__c);
-        output.customerList = customerListMap.get(contactRecord.B2C_CustomerList__c);
+        output.b2cInstance = b2cInstance;
+        output.customerList = b2cCustomerList;
         output.processMode = B2CConstant.Contact_Integration_ProcessMode_Publish;
 
         // Return the output

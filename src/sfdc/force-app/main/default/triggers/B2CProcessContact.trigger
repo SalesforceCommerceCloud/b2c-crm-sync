@@ -24,7 +24,9 @@ trigger B2CProcessContact on Contact (before update) {
     try {
 
         // Only process and evaluate updates to Contacts when the trigger is enabled
-        if (Trigger.isUpdate && B2CConfigurationManager.isB2CProcessContactTriggerEnabled() == true) {
+        // Do not process this trigger if the AccountContactModel is configured for PersonAccounts
+        if (Trigger.isUpdate && B2CConfigurationManager.isB2CProcessContactTriggerEnabled() == true &&
+            B2CConfigurationManager.getDefaultAccountContactModel() == B2CConstant.AccountContactModel_Standard) {
 
             // Get the fieldMappings for the customerProfile object
             fieldMappings = B2CMetaFieldMappings.getFieldMappingsForPublishing('Contact');
@@ -66,11 +68,15 @@ trigger B2CProcessContact on Contact (before update) {
                     if (newContact.B2C_CustomerList__c == null || newContact.B2C_Customer_No__c == null) { continue; }
 
                     // Maintain the customerList and instance maps to minimize queries
-                    instanceMap = B2CProcessContactHelper.updateInstanceMap(newContact, instanceMap);
-                    customerListMap = B2CProcessContactHelper.updateCustomerListMap(newContact, customerListMap);
+                    instanceMap = B2CProcessContactHelper.updateInstanceMap(newContact.B2C_Instance__c, instanceMap);
+                    customerListMap = B2CProcessContactHelper.updateCustomerListMap(newContact.B2C_CustomerList__c, customerListMap);
 
                     // Create an instance of the validateContactInput class and process validation
-                    validateContactInput = B2CProcessContactHelper.getValidateContactInput(newContact, instanceMap, customerListMap);
+                    validateContactInput = B2CProcessContactHelper.getValidateContactInput(newContact,
+                        instanceMap.get(newContact.B2C_Instance__c),
+                        customerListMap.get(newContact.B2C_CustomerList__c));
+
+                    // Validate the contact results and determine if integration is enabled
                     validateContactResult = B2CProcessContactHelper.getValidateContactResult(validateContactInput);
 
                     // Is integration disabled for this contact? If so, then continue

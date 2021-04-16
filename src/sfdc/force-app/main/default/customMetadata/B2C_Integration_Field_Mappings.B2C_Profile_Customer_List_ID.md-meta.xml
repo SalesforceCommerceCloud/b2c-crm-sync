@@ -23,6 +23,10 @@
         <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
+        <field>Service_Cloud_Attribute_Alt__c</field>
+        <value xsi:type="xsd:string">B2C_CustomerList_ID__pc</value>
+    </values>
+    <values>
         <field>Seed_Property_on_First_Time_Sync__c</field>
         <value xsi:type="xsd:boolean">true</value>
     </values>

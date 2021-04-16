@@ -77,6 +77,8 @@ public with sharing class B2CContactManager extends B2CBaseMeta {
         output.put('c_b2ccrm_accountId', customerProfile.AccountId);
         output.put('c_b2ccrm_contactId', customerProfile.Id);
 
+        System.debug(output);
+
         // First, determine if this collection has credentials information to publish
         if (hasCredentialInfo == true) {
             credentialsNode = new Map<String, Object>();
@@ -182,13 +184,22 @@ public with sharing class B2CContactManager extends B2CBaseMeta {
         // Create the profile query that will be used to drive resolution
         contactQuery = new Query('Contact');
 
-        // Add the base fields to retrieve
+        // Add the base fields to retrieve (identifiers first)
         contactQuery.selectField('Id');
         contactQuery.selectField('AccountId');
+        contactQuery.selectField('B2C_CustomerList_ID__c');
         contactQuery.selectField('B2C_CustomerList__c');
+
+        // Add the integration / audit control flags
+        contactQuery.selectField('B2C_Disable_Integration__c');
+        contactQuery.selectField('Audit_OCAPI_API_Response__c');
+
+        // Include the audit fields tracking platformEvent and integration activity
+        contactQuery.selectField('Last_Platform_Event_Processed_Date__c');
+        contactQuery.selectField('Last_Platform_Event_Applied_Updates__c');
         contactQuery.selectField('Last_B2C_Commerce_Update_Processed__c');
-        contactQuery.selectField('Total_Updates_From_B2C_Commerce__c');
         contactQuery.selectField('Last_Update_Pushed_to_B2C_Commerce__c');
+        contactQuery.selectField('Total_Updates_From_B2C_Commerce__c');
         contactQuery.selectField('Total_Updates_to_B2C_Commerce__c');
         contactQuery.selectField('Updated_by_B2C_Platform_Event__c');
 

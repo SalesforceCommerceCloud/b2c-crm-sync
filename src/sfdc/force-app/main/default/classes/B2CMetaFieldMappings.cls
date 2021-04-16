@@ -10,6 +10,50 @@
 public with sharing class B2CMetaFieldMappings extends B2CBaseMeta {
 
     /**
+     * @description This method is used toggle the Salesforce Platform Attributes -- flipping from
+     * respecting the standard attribute to the alternate attribute.  The alternate attribute describes
+     * an alternate field relationship related to the primary one.
+     *
+     * @param fieldMappingsToToggle {List<B2C_Integration_Field_Mappings__mdt>} Represents the collection of fieldMappings to toggle
+     * @return List<B2C_Integration_Field_Mappings__mdt> Returns a collection of field mappings
+     */
+    public static List<B2C_Integration_Field_Mappings__mdt> toggleAlternateObjectAttributes(List<B2C_Integration_Field_Mappings__mdt> fieldMappingsToToggle) {
+
+        // Initialize local Variables
+        List<B2C_Integration_Field_Mappings__mdt> output;
+        String salesforceObjectAttribute;
+        String salesforceObjectAttributeAlt;
+
+        // Default the output collection
+        output = new List<B2C_Integration_Field_Mappings__mdt>();
+
+        // Loop over the collection of field mappings, and toggle the independent elements
+        for (B2C_Integration_Field_Mappings__mdt thisFieldMapping : fieldMappingsToToggle) {
+
+            // Create a reference to the alternate and standard fields
+            salesforceObjectAttribute = thisFieldMapping.Service_Cloud_Attribute__c;
+            salesforceObjectAttributeAlt = thisFieldMapping.Service_Cloud_Attribute_Alt__c;
+
+            // Only toggle when an alternate mapping is defined
+            if (salesforceObjectAttributeAlt != null) {
+
+                // Toggle the Salesforce Platform fieldMappings
+                thisFieldMapping.Service_Cloud_Attribute__c = salesforceObjectAttributeAlt;
+                thisFieldMapping.Service_Cloud_Attribute_Alt__c = salesforceObjectAttribute;
+
+            }
+
+            // Add the mapping to the output collection
+            output.add(thisFieldMapping);
+
+        }
+
+        // Return the output variable
+        return output;
+
+    }
+
+    /**
      * @description This method is used to retrieve the collection of multi-cloud
      * active field mappings for a given Salesforce object.
      *
@@ -29,6 +73,7 @@ public with sharing class B2CMetaFieldMappings extends B2CBaseMeta {
         outputFieldMappings = [
             SELECT  Service_Cloud_Object__c,
                     Service_Cloud_Attribute__c,
+                    Service_Cloud_Attribute_Alt__c,
                     B2C_Commerce_OCAPI_Attribute__c,
                     Seed_Property_on_First_Time_Sync__c,
                     Push_Updates_to_B2C_Commerce__c,
@@ -67,6 +112,7 @@ public with sharing class B2CMetaFieldMappings extends B2CBaseMeta {
         outputFieldMappings = [
                 SELECT  Service_Cloud_Object__c,
                         Service_Cloud_Attribute__c,
+                        Service_Cloud_Attribute_Alt__c,
                         B2C_Commerce_OCAPI_Attribute__c,
                         Seed_Property_on_First_Time_Sync__c,
                         Push_Updates_to_B2C_Commerce__c,
@@ -107,6 +153,7 @@ public with sharing class B2CMetaFieldMappings extends B2CBaseMeta {
         outputFieldMappings = [
                 SELECT  Service_Cloud_Object__c,
                         Service_Cloud_Attribute__c,
+                        Service_Cloud_Attribute_Alt__c,
                         B2C_Commerce_OCAPI_Attribute__c,
                         Seed_Property_on_First_Time_Sync__c,
                         Push_Updates_to_B2C_Commerce__c,

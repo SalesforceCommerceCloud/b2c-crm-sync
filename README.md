@@ -6,6 +6,8 @@ Salesforce B2C Commerce / CRM Sync is an enablement solution provided by Salesfo
 
 > :warning: &nbsp;This repository is currently a **work-in-progress and should not be considered stable** until a formal release is published.  We're working hard to round-out the MVP feature-set in a trustworthy way.  Please visit our [issues-list](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/issues) to see outstanding issues and features, and visit our [discussions](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/discussions) to ask questions. &nbsp;:warning:
 
+![Introducing b2c-crm-sync](/docs/images/crm-sync.gif)
+
 ## Application Overview ##
 
 ###### This section provides a high-level summary of the purpose and architectural structure of the Salesforce B2C Commerce and Salesforce Customer 360 Platform Integration.
@@ -25,6 +27,10 @@ Please remember that this project **should not be treated as Salesforce Product*
 
 ### Support
 This repository is maintained and contributed to by the Salesforce Community, Architect Success Team, and the SCPPE and Service Delivery teams within the Customer Success Group (CSG). This repository isn’t supported by Salesforce Commerce Cloud or Salesforce Platform Technical Support. For feature requests or bugs, please open a GitHub issue. Contributions are ALWAYS WELCOME -- and are often rewarded with Architect Success swag.
+
+![Come Get Your Architect Success Hoody](/docs/images/hoody-worthy.gif)
+
+> Please keep in mind that [hoody-worthy](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/issues?q=is%3Aopen+is%3Aissue+label%3Ahoody-worthy) issues need to solve real business or project problems.  That said -- contribute, let us support you, and collect your swag. It's really that simple. :)
 
 ### Feature Summary
 
@@ -566,6 +572,7 @@ npm run crm-sync:b2c:build
 ### Salesforce Customer 360 Platform Configuration Instructions
 
 #### Assign the B2C Integration Tools Permission Set to the Administrator
+b2c-crm-sync leverages a permission-set to provide application access to a user.  You can use this permission-set to assign the application to other users -- and customize it to align with your security priorities.
 
 1.  Enter Setup (if it is not already opened).
 
@@ -579,15 +586,22 @@ npm run crm-sync:b2c:build
 
 6.  Save your changes by clicking on the 'Assign' button.  Click on the 'Done' button to confirm your changes and exit the permission-set display.
 
-7.  In the setup quick-find, search for Duplicate Rules.  Once located, select the Duplicate Rules setup option from the filtered setup menu.
+#### Configure Duplicate Rules Leveraged by b2c-crm-sync
+b2c-crm-sync leverages match and duplicate rules to enforce the B2C Customer Data Strategy it employs.  These rules are leveraged to alert administrators of potential duplicate B2C Commerce Customer Profiles -- and assist in resolving customer profiles using a sub-set of customer attributes.
 
-8.  From the duplicate rules listing, select the rule titled **B2C Commerce: Standard Contacts**.  Edit the rule from the detail display.
+1.  In the setup quick-find, search for Duplicate Rules.  Once located, select the Duplicate Rules setup option from the filtered setup menu.
+
+2.  From the duplicate rules listing, select the rule titled **B2C Commerce: Standard Contacts**.  Edit the rule from the detail display.
+
+> If you are leveraging our personAccounts implementation, you'll want to configure the **B2C Commerce: Standard PersonAccounts** duplicate rule instead of the **B2C Commerce: Standard Contacts** rule.
 - Under the Conditions section near the bottom of the form display, click on the link labeled 'Add Filter Logic'.
 - Paste the following filter logic value in the field -- and save your results.  Please note that this should be done for both PersonAccounts and Account / Contacts.
 
 ```bash
 1 OR (2 AND 3) OR (2 AND 4 AND 5) OR (4 AND 5 AND 6)
 ```
+
+> If you are leveraging our personAccounts implementation, please ensure that the **B2C Commerce: Standard Contacts** duplicate rule is disabled.  It does not need to be enabled in Salesforce orgs where personAccounts are enabled.
 
 #### Find and Launch the B2C-CRM-Sync Lightning App
 
@@ -633,21 +647,18 @@ I'd like to extend a heartfelt and personal thank you to everyone for their supp
 <br/>
 <br/>
 
-| | |
-|:--------------:|:--------------:|
-| Derrick Ellis  | Neeraj Yadev         |
-| Praveen Guar   | Christa Matukaitis   |
-| Eric Schultz   | Ahmed Saad           |
-| Olena Baykur   | Qingyang Zhao        |
-| Kieran Lane   | Christopher Lam       |
-| Jordane Bachelet | Roberto Manicardi  |
-| Raghuram Sripada | Gajendra Singh Sisodia |
-| David Adler    | Mike King            |
-| Mihir Panchal   | Tasha Wilkins       |
-| Divya Alavarthi  | Shoby Abdi        |
-| Phil Egan   | Amanda Hatker       |
-| Alan Dray   | Mehmet Orun       |
-| Allison Daly   | Shoby Abdi           |
-| Nia Samady     | Kristyn Levine       |
+| | | |
+|:--------------:|:--------------:|:--------------:|
+| Derrick Ellis | Neeraj Yadev | Praveen Guar |
+| Christa Matukaitis | Eric Schultz| Ahmed Saad |
+| Olena Baykur | Qingyang Zhao | Kieran Lane |
+| Christopher Lam | Jordane Bachelet | Roberto Manicardi |
+| Raghuram Sripada | Gajendra Singh Sisodia | David Adler |
+| Mike King | Mihir Panchal | Tasha Wilkins |
+| Divya Alavarthi | Shoby Abdi | Phil Egan |
+| Amanda Hatker | Alan Dray | Mehmet Orun |
+| Jorge Hernandez | Tom Zarr | Lena Conforti |
+| Allison Daly | Shoby Abdi | Paul Holstein |
+| Kristyn Levine | Nia Samady | Don Lynch |
 
 

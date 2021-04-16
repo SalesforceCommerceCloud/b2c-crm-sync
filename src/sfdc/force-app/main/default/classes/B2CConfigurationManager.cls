@@ -8,6 +8,33 @@
 public with sharing class B2CConfigurationManager {
 
     /**
+     * @description Helper function retrieves the default customerModel based on the
+     * configuration profile that is configured.
+     * @return {String} Returns the configured customerModel (Standard or Person).
+     */
+    public static String getDefaultAccountContactModel() {
+
+        // Initialize local variables
+        B2C_CRM_Sync_Default_Configuration__mdt configurationProfile;
+        String output;
+
+        // Get the default configuration profile
+        configurationProfile = [
+                SELECT  Active_Configuration__r.Account_Contact_Model__c
+                FROM    B2C_CRM_Sync_Default_Configuration__mdt
+                WHERE   DeveloperName = 'Production_Configuration'
+                LIMIT   1
+        ];
+
+        // Set the output variable to contain the specified configuration property
+        output = configurationProfile.Active_Configuration__r.Account_Contact_Model__c;
+
+        // Return the configured customerModel
+        return output;
+
+    }
+
+    /**
      * @description Helper function that returns the default Account / Contact names.
      * @return {Map<String, String>} Returns the names used to default the Account Name
      * and Contact lastName during the resolution and contact-creation process
