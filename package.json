@@ -55,7 +55,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/b2csolutionarchitect/b2c-crm-sync.git"
+    "url": "git+ssh://git@github.com/sfb2csolutionarchitects/b2c-crm-sync.git"
   },
   "author": "Abraham Lloyd <abraham.lloyd@salesforce.com>",
   "license": "BSD-3-Clause",
