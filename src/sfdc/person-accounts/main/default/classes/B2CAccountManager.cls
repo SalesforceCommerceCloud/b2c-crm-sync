@@ -34,11 +34,13 @@ public with sharing class B2CAccountManager extends B2CBaseMeta {
         // Loop over the field-mappings and attribute the updated / changed values
         for (B2C_Integration_Field_Mappings__mdt thisFieldMapping : updatedFieldMappings) {
 
-            // Seed the contact with each modified property of the Account
-            output.put(
-                thisFieldMapping.Service_Cloud_Attribute_Alt__c,
-                personAccountToProcess.get(thisFieldMapping.Service_Cloud_Attribute__c)
-            );
+            if( thisFieldMapping.Service_Cloud_Attribute_Alt__c != null ){
+                // Seed the contact with each modified property of the Account
+                output.put(
+                    thisFieldMapping.Service_Cloud_Attribute__c,
+                    personAccountToProcess.get(thisFieldMapping.Service_Cloud_Attribute_Alt__c)
+                );
+            }
 
         }
 

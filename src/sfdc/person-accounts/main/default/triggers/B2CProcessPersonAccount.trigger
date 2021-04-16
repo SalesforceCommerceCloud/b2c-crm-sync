@@ -102,11 +102,11 @@ trigger B2CProcessPersonAccount on Account (before update) {
                     // Has the Contact record been updated?
                     if (updatedFieldMappings.size() > 0) {
 
-                        // Generate a contact-representation of the Account that only includes publishable fields
-                        publishContact = B2CAccountManager.getPublishContact(newPersonAccount, updatedFieldMappings);
-
                         // Toggle the fieldMappings back to the Contact so we can use them for the publishEvent
                         publishFieldMappings = B2CMetaFieldMappings.toggleAlternateObjectAttributes(updatedFieldMappings);
+
+                        // Generate a contact-representation of the Account that only includes publishable fields
+                        publishContact = B2CAccountManager.getPublishContact(newPersonAccount, updatedFieldMappings);
 
                         // If so, get the field-specific updates for the updated contact
                         thisB2CProfile = B2CContactManager.getPublishProfile(publishContact, publishFieldMappings);
