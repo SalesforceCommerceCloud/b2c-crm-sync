@@ -19,6 +19,7 @@ const getRuntimeEnvironment = require('../../../lib/cli-api/_getRuntimeEnvironme
 describe('Registering a B2C Commerce Customer Profile with B2C-CRM-Sync enabled', function () {
 
     // Establish a thirty-second time-out or multi-cloud unit tests
+    // noinspection JSAccessibilityCheck
     this.timeout(30000);
 
     // Initialize local variables
@@ -81,7 +82,6 @@ describe('Registering a B2C Commerce Customer Profile with B2C-CRM-Sync enabled'
 
     });
 
-    // TODO: Fix This Test (not working)
     it('successfully maps a B2C Commerce Profile to an Account / Contact by Email and LastName with no B2C CustomerList', async function () {
 
         // Initialize the output scope

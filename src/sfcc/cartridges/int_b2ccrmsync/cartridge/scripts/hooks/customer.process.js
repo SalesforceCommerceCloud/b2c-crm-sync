@@ -38,7 +38,7 @@ function customerLoggedIn(profile) {
     var Site = require('dw/system/Site').getCurrent();
     var isSyncEnabled = Site.getCustomPreferenceValue('b2ccrm_syncCustomersOnLoginEnabled');
     var isSyncOnceEnabled = Site.getCustomPreferenceValue('b2ccrm_syncCustomersOnLoginOnceEnabled');
-    if (!isSyncEnabled || (isSyncOnceEnabled && profile.custom.b2ccrm_contactId !== undefined)) {
+    if (!isSyncEnabled || (isSyncOnceEnabled && profile.custom.b2ccrm_contactId)) {
         return;
     }
 

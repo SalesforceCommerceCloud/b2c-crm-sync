@@ -31,12 +31,12 @@ module.exports = async (environmentDef, b2cAdminAuthToken, siteId) => {
 
     // Build the update to re-enable OCAPI
     preferenceUpdate = {
-        "c_b2ccrm_syncCustomersEnabled": true,
-        "c_b2ccrm_syncCustomersOnLoginEnabled": true,
-        "c_b2ccrm_syncCustomersOnLoginOnceEnabled": true,
-        "c_b2ccrm_syncIsEnabled": true,
-        "c_b2ccrm_syncCustomersViaOCAPI": true
-    }
+        c_b2ccrm_syncCustomersEnabled: true,
+        c_b2ccrm_syncCustomersOnLoginEnabled: true,
+        c_b2ccrm_syncCustomersOnLoginOnceEnabled: true,
+        c_b2ccrm_syncIsEnabled: true,
+        c_b2ccrm_syncCustomersViaOCAPI: true
+    };
 
     // Evaluate if the test customer already exists in the B2C Commerce environment
     return await dataAPIs.sitePreferencesPatch(

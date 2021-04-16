@@ -24,6 +24,7 @@ const getRuntimeEnvironment = require('../../../lib/cli-api/_getRuntimeEnvironme
 describe('Authenticating a B2C Customer Profile via the OCAPI Shop API', function () {
 
     // Establish a thirty-second time-out or multi-cloud unit tests
+    // noinspection JSAccessibilityCheck
     this.timeout(30000);
 
     // Initialize local variables
@@ -131,6 +132,9 @@ describe('Authenticating a B2C Customer Profile via the OCAPI Shop API', functio
         // Ensure that b2c-crm-sync is enabled in the specified environment
         await useCaseProcesses.b2cCRMSyncEnable(environmentDef, b2cAdminAuthToken, siteId);
 
+        // Implement a pause to ensure activation
+        await useCaseProcesses.sleep(sleepTimeout);
+
         // Register the B2C Commerce customer profile
         output.b2cAuthenticationResults = await shopAPIs.authAsRegistered(
             environmentDef, siteId, environmentDef.b2cClientId, testProfile.customer.login, testProfile.password);
@@ -203,7 +207,7 @@ describe('Authenticating a B2C Customer Profile via the OCAPI Shop API', functio
             'Contact', output.b2cAuthenticationResults.data.c_b2ccrm_contactId);
 
         // Validate that the SFDC Contact record exists and contains key properties
-        _validateRegisteredUserPatchResults(output.sfdcUpdatedContactResults, output.b2cAuthenticationResults);
+        _validateRegisteredUserContactUpdates(output.sfdcUpdatedContactResults, output.b2cAuthenticationResults);
 
     });
 
