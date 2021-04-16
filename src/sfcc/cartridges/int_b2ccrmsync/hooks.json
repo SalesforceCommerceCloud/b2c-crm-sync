@@ -18,15 +18,15 @@
     },
     {
       "name": "dw.ocapi.shop.auth.afterPOST",
-      "script": "~/cartridge/scripts/hooks/ocapi/shop.auth.afterPOST"
+      "script": "~/cartridge/scripts/hooks/ocapi/shop.auth"
     },
     {
       "name": "dw.ocapi.shop.customer.afterPOST",
-      "script": "~/cartridge/scripts/hooks/ocapi/shop.customer.afterPOST"
+      "script": "~/cartridge/scripts/hooks/ocapi/shop.customer"
     },
     {
       "name": "dw.ocapi.shop.customer.afterPATCH",
-      "script": "~/cartridge/scripts/hooks/ocapi/shop.customer.afterPATCH"
+      "script": "~/cartridge/scripts/hooks/ocapi/shop.customer"
     }
   ]
 }

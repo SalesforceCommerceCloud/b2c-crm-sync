@@ -39,7 +39,7 @@ describe('Authenticating a B2C Customer Profile via the OCAPI Shop API', functio
         registeredB2CCustomerNo;
 
     // Attempt to register the B2C Commerce Customer
-    before(async function() {
+    before(async function () {
 
         // Retrieve the runtime environment
         environmentDef = getRuntimeEnvironment();
@@ -80,13 +80,13 @@ describe('Authenticating a B2C Customer Profile via the OCAPI Shop API', functio
 
     });
 
-    it('does not create a SFDC Account / Contact when B2C-CRM-Sync is disabled', async function() {
+    it('does not create a SFDC Account / Contact when B2C-CRM-Sync is disabled', async function () {
 
         // Initialize the output scope
         let output = {};
 
         // Retrieve the guestAuthorization token from B2C Commerce
-        output.b2cGuestAuth = await shopAPIs.authAsGuest(environmentDef, siteId, environmentDef.b2cClientId)
+        output.b2cGuestAuth = await shopAPIs.authAsGuest(environmentDef, siteId, environmentDef.b2cClientId);
 
         // Register the B2C Commerce customer profile
         output.b2cRegisterResults = await shopAPIs.customerPost(environmentDef, siteId,
@@ -123,7 +123,7 @@ describe('Authenticating a B2C Customer Profile via the OCAPI Shop API', functio
 
     });
 
-    it('successfully creates a SFDC Account / Contact when B2C-CRM-Sync is enabled', async function() {
+    it('successfully creates a SFDC Account / Contact when B2C-CRM-Sync is enabled', async function () {
 
         // Initialize the output scope
         let output = {};
