@@ -59,6 +59,7 @@ const getEnabledSite = () => {
     site.customPreferences.b2ccrm_syncIsEnabled = true;
     site.customPreferences.b2ccrm_syncCustomersEnabled = true;
     site.customPreferences.b2ccrm_syncCustomersOnLoginEnabled = true;
+    site.customPreferences.b2ccrm_syncCustomersOnLoginOnceEnabled = true;
     return site;
 };
 
@@ -109,6 +110,9 @@ describe('int_b2ccrmsync/cartridge/scripts/hooks/customer.process', function () 
         });
 
         it('should not do anything in case the loggedIn-specific site preference is disabled', function () {
+            const site = getEnabledSite();
+            site.customPreferences.b2ccrm_syncCustomersOnLoginEnabled = false;
+            requireStub['dw/system/Site'].getCurrent = sandbox.stub().returns(site);
             customerProcessHook.loggedIn(profile);
 
             expect(spy).to.have.not.been.called;
@@ -120,6 +124,17 @@ describe('int_b2ccrmsync/cartridge/scripts/hooks/customer.process', function () 
             customerProcessHook.loggedIn(profile);
 
             expect(spy).to.have.not.been.called;
+        });
+
+        it('should fail to update the profile if no auth token is found, or an error occur, even if sync is enabled when the profile has already been synched', function () {
+            const site = getEnabledSite();
+            site.customPreferences.b2ccrm_syncCustomersOnLoginOnceEnabled = false;
+            requireStub['dw/system/Site'].getCurrent = sandbox.stub().returns(site);
+            customerProcessHook.loggedIn(profile);
+
+            expect(spy).to.have.been.called;
+            expect(profile.custom.b2ccrm_syncStatus).to.be.equal('failed');
+            expect(profile.custom.b2ccrm_syncResponseText.length).to.not.be.equal(0);
         });
 
         it('should fail to update the profile if no auth token is found, or an error occur', function () {

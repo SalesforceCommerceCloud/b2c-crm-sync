@@ -14,17 +14,12 @@ const b2cSitePreferences = require('../../../lib/qa/processes/_b2cSitePreference
 
 // Exercise the retrieval of the operation mode
 describe('The B2C Commerce Site Preference REST APIs multi-cloud test methods', function () {
-
-    // Initialize global variables
-    let output;
-
-    // Attempt to exercise the site preference REST APIs
-    before((done) => {
-
+    it('successfully process all B2C Commerce site preference REST API interactions', function () {
         // Initialize local variables
         let environmentDef,
             customerListId,
-            siteId;
+            siteId,
+            output;
 
         // Retrieve the runtime environment
         environmentDef = getRuntimeEnvironment();
@@ -35,37 +30,23 @@ describe('The B2C Commerce Site Preference REST APIs multi-cloud test methods', 
 
         // Attempt to manipulate B2C Commerce REST APIs
         b2cSitePreferences(environmentDef, siteId)
+            // Seed the output object
+            .then(responseObj => {
+                output = responseObj;
+            })
+            .catch(errorObj => {
+                output = errorObj;
+            })
+            .finally(() => {
+                // Initialize local variables
+                let outputKeys = Object.keys(output);
 
-        // Seed the output object
-        .then(responseObj => {
-            output = responseObj;
-        })
+                // Evaluate that the base-status
+                assert.isTrue(output.hasOwnProperty('baseStatus'),'baseStatus key should exist; please inspect the execution output');
+                assert.isTrue(output.baseStatus.success,'baseStatus.success value should be true; please inspect the execution output');
 
-        .catch(errorObj => {
-            output = errorObj;
-        })
-
-        .finally(() => {
-            done();
-        })
-
-    })
-
-    it('successfully process all B2C Commerce site preference REST API interactions', function () {
-
-        // Initialize local variables
-        let outputKeys;
-
-        // Create a reference to all of the keys
-        outputKeys = Object.keys(output);
-
-        // Evaluate that the base-status
-        assert.isTrue(output.hasOwnProperty('baseStatus'),'baseStatus key should exist; please inspect the execution output');
-        assert.isTrue(output.baseStatus.success,'baseStatus.success value should be true; please inspect the execution output');
-
-        // Evaluate that each of the keys were processed successfully
-        outputKeys.forEach(thisKey => assert.isTrue(output[thisKey].success === true, `${thisKey} is false; please inspect this API interaction`));
-
+                // Evaluate that each of the keys were processed successfully
+                outputKeys.forEach(thisKey => assert.isTrue(output[thisKey].success === true, `${thisKey} is false; please inspect this API interaction`));
+            });
     });
-
 });
