@@ -9,9 +9,16 @@ public class B2CAccountManager_Test {
     static void testGetPublishContact() {
 
         Account a = new Account(
-            RecordTypeId = [SELECT Name, SobjectType,IsPersonType 
-            FROM RecordType 
-            WHERE SobjectType='Account' AND IsPersonType=True LIMIT 1].Id
+            RecordTypeId = [
+                SELECT
+                    Id  
+                FROM
+                    RecordType 
+                WHERE
+                        SobjectType='Account' 
+                    AND IsPersonType=True
+                LIMIT
+            1].Id
         );
 
         Test.startTest();
