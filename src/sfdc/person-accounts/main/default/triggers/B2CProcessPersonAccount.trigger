@@ -110,7 +110,6 @@ trigger B2CProcessPersonAccount on Account (before update) {
 
                         // If so, get the field-specific updates for the updated contact
                         thisB2CProfile = B2CContactManager.getPublishProfile(publishContact, publishFieldMappings);
-
                         thisB2CProfileJSON = JSON.serializePretty(thisB2CProfile, true);
 
                         // Then create the Contact Publish Platform Event and override the publish JSON
