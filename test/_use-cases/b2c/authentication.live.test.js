@@ -13,6 +13,7 @@ const b2cRequestLib = require('../../../lib/_common/request');
 
 // Initialize tearDown helpers
 const useCaseProcesses = require('../../_common/processes');
+const common = require('../_common');
 
 // Initialize local libraries for SFDC
 const sObjectAPIs = require('../../../lib/apis/sfdc/sObject');
@@ -118,14 +119,14 @@ describe('Authenticating a B2C Customer Profile via the OCAPI Shop API', functio
         registeredB2CCustomerNo = output.b2cRegisterResults.data.customer_no;
 
         // Validate that the B2C Customer Profile was successfully created
-        _validateRegisteredUserNoSFDCAttributes(output.b2cRegisterResults);
+        common.validateRegisteredUserNoSFDCAttributes(output.b2cRegisterResults);
 
         // Register the B2C Commerce customer profile
         output.b2cAuthResults = await shopAPIs.authAsRegistered(environmentDef, siteId,
             environmentDef.b2cClientId, testProfile.customer.login, testProfile.password);
 
         // Validate that the B2C Customer Profile was successfully created
-        _validateRegisteredUserNoSFDCAttributes(output.b2cAuthResults);
+        common.validateRegisteredUserNoSFDCAttributes(output.b2cAuthResults);
 
     });
 
@@ -149,7 +150,7 @@ describe('Authenticating a B2C Customer Profile via the OCAPI Shop API', functio
         registeredB2CCustomerNo = output.b2cRegistrationResults.data.customer_no;
 
         // Validate that the registration is well-formed and contains the key properties we expect
-        _validateRegisteredUserNoSFDCAttributes(output.b2cRegistrationResults);
+        common.validateRegisteredUserNoSFDCAttributes(output.b2cRegistrationResults);
 
         // Ensure that b2c-crm-sync is enabled in the specified environment
         await useCaseProcesses.b2cCRMSyncConfigManager(environmentDef, b2cAdminAuthToken, siteId, syncGlobalEnable);
@@ -159,7 +160,7 @@ describe('Authenticating a B2C Customer Profile via the OCAPI Shop API', functio
             environmentDef, siteId, environmentDef.b2cClientId, testProfile.customer.login, testProfile.password);
 
         // Validate that the registration is well-formed and contains the key properties we expect
-        _validateRegisteredUserWithSFDCAttributes(output.b2cAuthenticationResults);
+        common.validateRegisteredUserWithSFDCAttributes(output.b2cAuthenticationResults);
 
         // Implement a pause to ensure the PlatformEvent fires
         await useCaseProcesses.sleep(sleepTimeout);
@@ -169,10 +170,10 @@ describe('Authenticating a B2C Customer Profile via the OCAPI Shop API', functio
             'Contact', output.b2cAuthenticationResults.data.c_b2ccrm_contactId);
 
         // Verify that the SFDC Contact and AccountIDs are aligned between the Contact and B2C Commerce Profile
-        _validateContactAndAccountIDs(output.sfdcContactResults, output.b2cAuthenticationResults);
+        common.validateContactAndAccountIDs(output.sfdcContactResults, output.b2cAuthenticationResults);
 
         // Verify that the B2C Commerce CustomerID and CustomerNo are aligned between the Contact and B2C Commerce Profile
-        _validateB2CIdentifiers(output.sfdcContactResults, output.b2cAuthenticationResults);
+        common.validateB2CIdentifiers(output.sfdcContactResults, output.b2cAuthenticationResults);
 
     });
 
@@ -196,7 +197,7 @@ describe('Authenticating a B2C Customer Profile via the OCAPI Shop API', functio
         registeredB2CCustomerNo = output.b2cRegisterResults.data.customer_no;
 
         // Validate that the B2C Customer Profile was successfully created
-        _validateRegisteredUserNoSFDCAttributes(output.b2cRegisterResults);
+        common.validateRegisteredUserNoSFDCAttributes(output.b2cRegisterResults);
 
         // First, ensure that b2c-crm-sync is disabled in the specified environment
         await useCaseProcesses.b2cCRMSyncConfigManager(environmentDef, b2cAdminAuthToken, siteId, syncDisableOnLogin);
@@ -206,7 +207,7 @@ describe('Authenticating a B2C Customer Profile via the OCAPI Shop API', functio
             environmentDef.b2cClientId, testProfile.customer.login, testProfile.password);
 
         // Validate that the B2C Customer Profile was successfully created
-        _validateRegisteredUserNoSFDCAttributes(output.b2cAuthResults);
+        common.validateRegisteredUserNoSFDCAttributes(output.b2cAuthResults);
 
     });
 
@@ -230,7 +231,7 @@ describe('Authenticating a B2C Customer Profile via the OCAPI Shop API', functio
         registeredB2CCustomerNo = output.b2cRegistrationResults.data.customer_no;
 
         // Validate that the registration is well-formed and contains the key properties we expect
-        _validateRegisteredUserNoSFDCAttributes(output.b2cRegistrationResults);
+        common.validateRegisteredUserNoSFDCAttributes(output.b2cRegistrationResults);
 
         // Ensure that b2c-crm-sync is enabled in the specified environment with sync-once disabled
         await useCaseProcesses.b2cCRMSyncConfigManager(environmentDef, b2cAdminAuthToken, siteId, syncEnabledSyncOnceDisabled);
@@ -240,7 +241,7 @@ describe('Authenticating a B2C Customer Profile via the OCAPI Shop API', functio
             environmentDef, siteId, environmentDef.b2cClientId, testProfile.customer.login, testProfile.password);
 
         // Validate that the registration is well-formed and contains the key properties we expect
-        _validateRegisteredUserWithSFDCAttributes(output.b2cAuthenticationResults);
+        common.validateRegisteredUserWithSFDCAttributes(output.b2cAuthenticationResults);
 
         // Implement a pause to ensure the PlatformEvent fires
         await useCaseProcesses.sleep(sleepTimeout);
@@ -250,10 +251,10 @@ describe('Authenticating a B2C Customer Profile via the OCAPI Shop API', functio
             'Contact', output.b2cAuthenticationResults.data.c_b2ccrm_contactId);
 
         // Verify that the SFDC Contact and AccountIDs are aligned between the Contact and B2C Commerce Profile
-        _validateContactAndAccountIDs(output.sfdcContactResults, output.b2cAuthenticationResults);
+        common.validateContactAndAccountIDs(output.sfdcContactResults, output.b2cAuthenticationResults);
 
         // Verify that the B2C Commerce CustomerID and CustomerNo are aligned between the Contact and B2C Commerce Profile
-        _validateB2CIdentifiers(output.sfdcContactResults, output.b2cAuthenticationResults);
+        common.validateB2CIdentifiers(output.sfdcContactResults, output.b2cAuthenticationResults);
 
         // Perform and validate that updates to b2C Commerce profiles do not update SFDC Contacts on-login
         output.firstUpdateResults = await _performB2CCommerceProfileUpdateAndRetrieveSFDCContact(
@@ -270,7 +271,7 @@ describe('Authenticating a B2C Customer Profile via the OCAPI Shop API', functio
         );
 
         // Validate that the SFDC Contact attributes do not match their B2C Commerce equivalents
-        _validateRegisteredUserContactUpdatesAreEqual(
+        common.validateRegisteredUserContactUpdatesAreEqual(
             output.firstUpdateResults.sfdcUpdateContactResults,
             output.firstUpdateResults.b2cFirstUpdateAuthenticationResults
         );
@@ -314,7 +315,7 @@ describe('Authenticating a B2C Customer Profile via the OCAPI Shop API', functio
         registeredB2CCustomerNo = output.b2cRegistrationResults.data.customer_no;
 
         // Validate that the registration is well-formed and contains the key properties we expect
-        _validateRegisteredUserNoSFDCAttributes(output.b2cRegistrationResults);
+        common.validateRegisteredUserNoSFDCAttributes(output.b2cRegistrationResults);
 
         // Ensure that b2c-crm-sync is enabled in the specified environment with sync-once disabled
         await useCaseProcesses.b2cCRMSyncConfigManager(environmentDef, b2cAdminAuthToken, siteId, syncGlobalEnable);
@@ -324,7 +325,7 @@ describe('Authenticating a B2C Customer Profile via the OCAPI Shop API', functio
             environmentDef, siteId, environmentDef.b2cClientId, testProfile.customer.login, testProfile.password);
 
         // Validate that the registration is well-formed and contains the key properties we expect
-        _validateRegisteredUserWithSFDCAttributes(output.b2cAuthenticationResults);
+        common.validateRegisteredUserWithSFDCAttributes(output.b2cAuthenticationResults);
 
         // Implement a pause to ensure the PlatformEvent fires
         await useCaseProcesses.sleep(sleepTimeout);
@@ -334,10 +335,10 @@ describe('Authenticating a B2C Customer Profile via the OCAPI Shop API', functio
             'Contact', output.b2cAuthenticationResults.data.c_b2ccrm_contactId);
 
         // Verify that the SFDC Contact and AccountIDs are aligned between the Contact and B2C Commerce Profile
-        _validateContactAndAccountIDs(output.sfdcContactResults, output.b2cAuthenticationResults);
+        common.validateContactAndAccountIDs(output.sfdcContactResults, output.b2cAuthenticationResults);
 
         // Verify that the B2C Commerce CustomerID and CustomerNo are aligned between the Contact and B2C Commerce Profile
-        _validateB2CIdentifiers(output.sfdcContactResults, output.b2cAuthenticationResults);
+        common.validateB2CIdentifiers(output.sfdcContactResults, output.b2cAuthenticationResults);
 
         // Perform and validate that updates to b2C Commerce profiles do not update SFDC Contacts on-login
         output.updateResults = await _performB2CCommerceProfileUpdateAndRetrieveSFDCContact(
@@ -381,7 +382,7 @@ describe('Authenticating a B2C Customer Profile via the OCAPI Shop API', functio
         registeredB2CCustomerNo = output.b2cRegisterResults.data.customer_no;
 
         // Validate that the B2C Customer Profile was successfully created
-        _validateRegisteredUserNoSFDCAttributes(output.b2cRegisterResults);
+        common.validateRegisteredUserNoSFDCAttributes(output.b2cRegisterResults);
 
         // First, ensure that b2c-crm-sync is disabled in the specified environment
         await useCaseProcesses.b2cCRMSyncConfigManager(environmentDef, b2cAdminAuthToken, siteId, syncDisableOnLogin);
@@ -391,7 +392,7 @@ describe('Authenticating a B2C Customer Profile via the OCAPI Shop API', functio
             environmentDef.b2cClientId, testProfile.customer.login, testProfile.password);
 
         // Validate that the B2C Customer Profile was successfully created
-        _validateRegisteredUserNoSFDCAttributes(output.b2cAuthResults);
+        common.validateRegisteredUserNoSFDCAttributes(output.b2cAuthResults);
 
     });
 
@@ -415,7 +416,7 @@ describe('Authenticating a B2C Customer Profile via the OCAPI Shop API', functio
         registeredB2CCustomerNo = output.b2cRegistrationResults.data.customer_no;
 
         // Validate that the registration is well-formed and contains the key properties we expect
-        _validateRegisteredUserNoSFDCAttributes(output.b2cRegistrationResults);
+        common.validateRegisteredUserNoSFDCAttributes(output.b2cRegistrationResults);
 
         // Ensure that b2c-crm-sync is enabled in the specified environment to support authentication
         await useCaseProcesses.b2cCRMSyncConfigManager(environmentDef, b2cAdminAuthToken, siteId, syncGlobalEnable);
@@ -428,7 +429,7 @@ describe('Authenticating a B2C Customer Profile via the OCAPI Shop API', functio
             environmentDef, siteId, environmentDef.b2cClientId, testProfile.customer.login, testProfile.password);
 
         // Validate that the registration is well-formed and contains the key properties we expect
-        _validateRegisteredUserWithSFDCAttributes(output.b2cAuthenticationResults);
+        common.validateRegisteredUserWithSFDCAttributes(output.b2cAuthenticationResults);
 
         // Implement a pause to ensure the PlatformEvent fires
         await useCaseProcesses.sleep(sleepTimeout);
@@ -438,10 +439,10 @@ describe('Authenticating a B2C Customer Profile via the OCAPI Shop API', functio
             'Contact', output.b2cAuthenticationResults.data.c_b2ccrm_contactId);
 
         // Verify that the SFDC Contact and AccountIDs are aligned between the Contact and B2C Commerce Profile
-        _validateContactAndAccountIDs(output.sfdcContactResults, output.b2cAuthenticationResults);
+        common.validateContactAndAccountIDs(output.sfdcContactResults, output.b2cAuthenticationResults);
 
         // Verify that the B2C Commerce CustomerID and CustomerNo are aligned between the Contact and B2C Commerce Profile
-        _validateB2CIdentifiers(output.sfdcContactResults, output.b2cAuthenticationResults);
+        common.validateB2CIdentifiers(output.sfdcContactResults, output.b2cAuthenticationResults);
 
         // Ensure that b2c-crm-sync is enabled but that sync-customers is disabled
         await useCaseProcesses.b2cCRMSyncConfigManager(environmentDef, b2cAdminAuthToken, siteId, syncDisableCustomers);
@@ -465,7 +466,6 @@ describe('Authenticating a B2C Customer Profile via the OCAPI Shop API', functio
             output.updateResults.sfdcUpdateContactResults,
             output.updateResults.b2cFirstUpdateAuthenticationResults
         );
-
 
     });
 
@@ -521,14 +521,14 @@ async function _performB2CCommerceProfileUpdateAndRetrieveSFDCContact(environmen
         b2cBaseRequest, b2cAdminAuthToken, customerListId, b2cAuthResults.data.customer_no, profileDetails);
 
     // Validate that patch results were successfully processed against the registered user
-    _validateRegisteredUserPatchResults(output.b2cPatchResults);
+    common.validateRegisteredUserPatchResults(output.b2cPatchResults);
 
     // Re-authenticate the B2C Commerce customer via OCAPI (to validate the update works)
     output.b2cFirstUpdateAuthenticationResults = await shopAPIs.authAsRegistered(
         environmentDef, siteId, environmentDef.b2cClientId, testProfile.customer.login, testProfile.password);
 
     // Validate that the authentication returned the expected results
-    _validateRegisteredUserWithSFDCAttributes(output.b2cFirstUpdateAuthenticationResults);
+    common.validateRegisteredUserWithSFDCAttributes(output.b2cFirstUpdateAuthenticationResults);
 
     // Implement a pause to ensure the PlatformEvent fires
     await useCaseProcesses.sleep(sleepTimeout);
@@ -539,130 +539,5 @@ async function _performB2CCommerceProfileUpdateAndRetrieveSFDCContact(environmen
 
     // Return the output variable
     return output;
-
-}
-
-/**
- * @private
- * @function _validateRegisteredUserNoSFDCAttributes
- * @description Helper function to centralize validation / assertion logic for test-scenarios; this collection
- * of assertions are used to confirm that SFDC attributes are not created on a B2C Customer Profile
- *
- * @param {Object} b2cRegResults Represents the registration / authentication results for a given unit-test being evaluated
- */
-function _validateRegisteredUserNoSFDCAttributes(b2cRegResults) {
-
-    // Validate that the registration is well-formed and contains the key properties we expect
-    assert.equal(b2cRegResults.status, 200, ' -- expected a 200 status code from B2C Commerce');
-    assert.isTrue(b2cRegResults.hasOwnProperty('data'), ' -- expected to find a data node in the B2C Commerce response');
-    assert.equal(b2cRegResults.data.auth_type, 'registered', ' -- expected to see a registered B2C Commerce customer profile');
-    assert.isFalse(b2cRegResults.data.hasOwnProperty('c_b2ccrm_accountId'), ' -- expected to not see the c_b2ccrm_accountId property in the B2C Commerce response');
-    assert.isFalse(b2cRegResults.data.hasOwnProperty('c_b2ccrm_contactId'), ' -- expected to not see the c_b2ccrm_contactId property in the B2C Commerce response');
-
-}
-
-/**
- * @private
- * @function _validateRegisteredUserWithSFDCAttributes
- * @description Helper function to centralize validation / assertion logic for test-scenarios; this collection
- * of assertions are used to confirm that SFDC attributes are created on a B2C Customer Profile
- *
- * @param {Object} b2cRegResults Represents the registration / authentication results for a given unit-test being evaluated
- */
-function _validateRegisteredUserWithSFDCAttributes(b2cRegResults) {
-
-    // Validate that the registration is well-formed and contains the key properties we expect
-    assert.equal(b2cRegResults.status, 200, ' -- expected a 200 status code from B2C Commerce');
-    assert.isTrue(b2cRegResults.hasOwnProperty('data'), ' -- expected to find a data node in the B2C Commerce response');
-    assert.equal(b2cRegResults.data.auth_type, 'registered', ' -- expected to see a registered B2C Commerce customer profile');
-    assert.isTrue(b2cRegResults.data.hasOwnProperty('c_b2ccrm_accountId'), ' -- expected to see the c_b2ccrm_accountId property in the B2C Commerce response');
-    assert.isTrue(b2cRegResults.data.hasOwnProperty('c_b2ccrm_contactId'), ' -- expected to see the c_b2ccrm_contactId property in the B2C Commerce response');
-
-}
-
-/**
- * @private
- * @function _validateWithB2CIdentifiers
- * @description Helper function to centralize validation / assertion logic for test-scenarios; this collection
- * of assertions are used to confirm that B2C Commerce Profile and SFDC record have corresponding B2C identifiers
- *
- * @param sfdcContact {Object} Represents the SFDC Contact record being compared
- * @param b2cRegisteredUser {Object} Represents the B2C Commerce Customer Profile being compared
- */
-function _validateB2CIdentifiers(sfdcContact, b2cRegisteredUser) {
-
-    // Validate that the email address and customerId attributes is aligned across both records
-    assert.equal(sfdcContact.B2C_Customer_ID__c, b2cRegisteredUser.data.customer_id, ' -- SFDC and B2C CustomerID attributes do not match');
-    assert.equal(sfdcContact.B2C_Customer_No__c, b2cRegisteredUser.data.customer_no, ' -- SFDC and B2C CustomerNo attributes do not match');
-
-}
-
-/**
- * @private
- * @function _validateContactAndAccountIDs
- * @description Helper function to compare the SFDCContact with a RegisteredUser -- and validate that the
- * Contact and Account identifiers are aligned for the B2C Customer Profile and its mapped Contact record.
- *
- * @param sfdcContact {Object} Represents the SFDC Contact record being compared
- * @param b2cRegisteredUser {Object} Represents the B2C Commerce Customer Profile being compared
- */
-function _validateContactAndAccountIDs(sfdcContact, b2cRegisteredUser) {
-
-    // Validate that the SFDC Contact record exists and contains key properties
-    assert.equal(sfdcContact.success, true, ' -- expected the success flag to have a value of true');
-    assert.isTrue(sfdcContact.hasOwnProperty('Id'), ' -- expected to find an Id property on the SFDC Contact record');
-    assert.equal(sfdcContact.Id, b2cRegisteredUser.data.c_b2ccrm_contactId, ' -- SFDC and B2C ContactID attributes do not match');
-    assert.equal(sfdcContact.AccountId, b2cRegisteredUser.data.c_b2ccrm_accountId, ' -- SFDC and B2C AccountID attributes do not match');
-
-}
-
-/**
- * @private
- * @function _validateRegisteredUserPatchResults
- * @description Helper function to validate that a B2C Commerce Customer was successfully patched and their
- *
- * @param b2cRegisteredUser {Object} Represents the B2C Commerce Customer profile that was patched
- */
-function _validateRegisteredUserPatchResults(b2cRegisteredUser) {
-
-    // Validate that the registration is well-formed and contains the key properties we expect
-    assert.equal(b2cRegisteredUser.status, 200, ' -- expected a 200 status code from B2C Commerce');
-    assert.isTrue(b2cRegisteredUser.hasOwnProperty('data'), ' -- expected to find a data node in the B2C Commerce response');
-    assert.isTrue(b2cRegisteredUser.data.hasOwnProperty('job_title'), ' -- expected to see the job_title property in the B2C Commerce response');
-    assert.isTrue(b2cRegisteredUser.data.hasOwnProperty('phone_home'), ' -- expected to see the home_phone property in the B2C Commerce response');
-
-}
-
-/**
- * @private
- * @function _validateRegisteredUserContactUpdatesAreEqual
- * @description Helper function to centralize validation / assertion logic for test-scenarios; this collection
- * of assertions are used to confirm that updated SFDC attributes match with their source B2C Commerce identifiers
- *
- * @param {Object} sfdcPatchResults Represents the patch / update results from working with the sfdc Contact record
- * @param {Object} b2cPatchResults Represents the patch / update results from working with the b2c Customer profile
- */
-function _validateRegisteredUserContactUpdatesAreEqual(sfdcPatchResults, b2cPatchResults) {
-
-    // Validate that the SFDC Contact record properties do not match with its B2C Commerce Customer Profile counterpart
-    assert.equal(sfdcPatchResults.HomePhone, b2cPatchResults.data.phone_home, ' -- SFDC and B2C home phone attributes do not match (and they should)');
-    assert.equal(sfdcPatchResults.B2C_Job_Title__c, b2cPatchResults.data.job_title, ' -- SFDC and B2C job-title attributes do not match (and they should)');
-
-}
-
-/**
- * @private
- * @function _validateRegisteredUserContactUpdatesAreNotEqual
- * @description Helper function to centralize validation / assertion logic for test-scenarios; this collection
- * of assertions are used to confirm that updated SFDC attributes do not match with their source B2C Commerce identifiers
- *
- * @param {Object} sfdcPatchResults Represents the patch / update results from working with the sfdc Contact record
- * @param {Object} b2cPatchResults Represents the patch / update results from working with the b2c Customer profile
- */
-function _validateRegisteredUserContactUpdatesAreNotEqual(sfdcPatchResults, b2cPatchResults) {
-
-    // Validate that the SFDC Contact record properties do not match with its B2C Commerce Customer Profile counterpart
-    assert.notEqual(sfdcPatchResults.HomePhone, b2cPatchResults.data.phone_home, ' -- SFDC and B2C home phone attributes match (and they should not)');
-    assert.notEqual(sfdcPatchResults.B2C_Job_Title__c, b2cPatchResults.data.job_title, ' -- SFDC and B2C job-title attributes match (and they should not)');
 
 }
