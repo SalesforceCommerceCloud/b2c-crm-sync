@@ -22,6 +22,32 @@ function isIntegrationEnabled() {
 }
 
 /**
+ * Helper method to identify if the SFDC identifiers are present in a given customerProfile.  Evaluates
+ * if the ContactID attribute exists, was set, and has an actual value.
+ *
+ * @param {dw/customer/Profile} profile
+ * @return {Boolean}
+ */
+function sfdcContactIDIdentifierPresent(profile) {
+
+    // Is the profile empty?
+    if (profile === null || profile === undefined) { return false; }
+
+    // Is the contactId present in the profile?
+    if (!profile.custom.hasOwnProperty('b2ccrm_contactId')) { return false; }
+
+    // Is the contactId value empty or not set?
+    if (profile.custom.b2ccrm_contactId === null || profile.custom.b2ccrm_contactId === undefined) { return false; }
+
+    // Evaluate the length of the SFDC property
+    if (profile.custom.b2ccrm_contactId.valueOf().length === 0) { return false; }
+
+    // If all conditions pass, there's a contactId
+    return true;
+
+}
+
+/**
  * Customer logged-in
  * Ensure the customer sync and logged-in sync are enabled, and the customer has never been synchronized to the Salesforce Core platform
  * And if so, process the customer sync with the Salesforce Core platform
@@ -38,7 +64,7 @@ function customerLoggedIn(profile) {
     var Site = require('dw/system/Site').getCurrent();
     var isSyncEnabled = Site.getCustomPreferenceValue('b2ccrm_syncCustomersOnLoginEnabled');
     var isSyncOnceEnabled = Site.getCustomPreferenceValue('b2ccrm_syncCustomersOnLoginOnceEnabled');
-    if (!isSyncEnabled || (isSyncOnceEnabled && profile.custom.b2ccrm_contactId)) {
+    if (!isSyncEnabled || (isSyncEnabled && isSyncOnceEnabled && sfdcContactIDIdentifierPresent(profile))) {
         return;
     }
 
