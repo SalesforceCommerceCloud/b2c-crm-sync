@@ -10,7 +10,6 @@ private class B2CIAGetContact_Test {
     @IsTest
     static void testGetContact() {
 
-
         List<B2CIAGetContactInput> requestArguments = new List<B2CIAGetContactInput>();
         B2CIAGetContactInput input = new B2CIAGetContactInput();
 
@@ -36,4 +35,5 @@ private class B2CIAGetContact_Test {
         );
 
     }
+
 }
