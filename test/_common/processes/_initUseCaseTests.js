@@ -1,9 +1,12 @@
 'use strict';
 
+// Initialize constants
+const config = require('config');
+
 // Initialize tearDown helpers
 const multiCloudInit = require('../../../test/_common/processes/_multiCloudInit');
 const b2cCustomerPurge = require('../../../test/_common/processes/_b2cCustomerPurge');
-const b2cCRMSyncDisable = require('../../../test/_common/processes/_b2cCRMSyncDisable');
+const b2cCRMSyncConfigManager = require('../../../test/_common/processes/_b2cCRMSyncConfigManager');
 
 /**
  * @function useCaseTestInit
@@ -17,7 +20,11 @@ const b2cCRMSyncDisable = require('../../../test/_common/processes/_b2cCRMSyncDi
 module.exports = async (environmentDef, siteId) => {
 
     // Initialize local Variables
-    let output;
+    let syncDisableConfig,
+        output;
+
+    // Retrieve the default / base-configuration used disable b2c-crm-sync via OCAPI
+    syncDisableConfig = config.util.toObject(config.get('unitTests.b2cCRMSyncConfigManager.disableOCAPI'));
 
     // Default the output variable
     output = {};
@@ -29,7 +36,7 @@ module.exports = async (environmentDef, siteId) => {
     await b2cCustomerPurge(output.multiCloudInitResults.b2cAdminAuthToken, output.multiCloudInitResults.sfdcAuthCredentials.conn);
 
     // Ensure that b2c-crm-sync is disabled in the specified environment
-    await b2cCRMSyncDisable(environmentDef, output.multiCloudInitResults.b2cAdminAuthToken, siteId);
+    await b2cCRMSyncConfigManager(environmentDef, output.multiCloudInitResults.b2cAdminAuthToken, siteId, syncDisableConfig);
 
     // Return the output variable
     return output;

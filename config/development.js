@@ -9,6 +9,56 @@ module.exports = {
         // Define the invalid operation mode to test with
         "invalidOperationMode": "foo",
 
+        // Define the OCAPI site-preference configurations to leverage
+        "b2cCRMSyncConfigManager": {
+
+            // Define the base configuration
+            "base": {
+                "c_b2ccrm_syncCustomersOnLoginEnabled": true,
+                "c_b2ccrm_syncCustomersOnLoginOnceEnabled": true,
+                "c_b2ccrm_syncIsEnabled": true,
+                "c_b2ccrm_syncCustomersEnabled": true,
+                "c_b2ccrm_syncCustomersViaOCAPI": true
+            },
+
+            // Disable OCAPI use-cases
+            "disableOCAPI": {
+                "c_b2ccrm_syncCustomersOnLoginEnabled": true,
+                "c_b2ccrm_syncCustomersOnLoginOnceEnabled": true,
+                "c_b2ccrm_syncIsEnabled": true,
+                "c_b2ccrm_syncCustomersEnabled": true,
+                "c_b2ccrm_syncCustomersViaOCAPI": false
+            },
+
+            // Enable OCAPI use-cases and disable on-login sync
+            "disableSyncOnLogin": {
+                "c_b2ccrm_syncCustomersOnLoginEnabled": false,
+                "c_b2ccrm_syncCustomersOnLoginOnceEnabled": true,
+                "c_b2ccrm_syncIsEnabled": true,
+                "c_b2ccrm_syncCustomersEnabled": true,
+                "c_b2ccrm_syncCustomersViaOCAPI": true
+            },
+
+            // Enable OCAPI use-cases and disable sync-once onLogin
+            "disableSyncOnce": {
+                "c_b2ccrm_syncCustomersOnLoginEnabled": true,
+                "c_b2ccrm_syncCustomersOnLoginOnceEnabled": false,
+                "c_b2ccrm_syncIsEnabled": true,
+                "c_b2ccrm_syncCustomersEnabled": true,
+                "c_b2ccrm_syncCustomersViaOCAPI": true
+            },
+
+            // Disable customer synchronization overall
+            "disableCustomers": {
+                "c_b2ccrm_syncCustomersOnLoginEnabled": true,
+                "c_b2ccrm_syncCustomersOnLoginOnceEnabled": false,
+                "c_b2ccrm_syncIsEnabled": true,
+                "c_b2ccrm_syncCustomersEnabled": false,
+                "c_b2ccrm_syncCustomersViaOCAPI": true
+            }
+
+        },
+
         // Define the collection of
         "cliOutputValidationAttributes": {
 
@@ -130,6 +180,12 @@ module.exports = {
             "updateTemplate": {
                 "job_title": "Marvel Trailer Easter Egg Reviewer",
                 "phone_home": "555-555-1212"
+            },
+
+            // Define the alternate update-template attributes for the profileTemplate
+            "updateTemplateAlt": {
+                "job_title": "Lead Evangelist: B2C Solution Architect Program",
+                "phone_home": "555-555-1213"
             },
 
             // Define the template used to reset the update-template fields

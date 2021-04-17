@@ -4,7 +4,7 @@
 const shopAPIs = require('../../../lib/apis/sfcc/ocapi/shop');
 
 // Initialize local processes required by this function
-const b2cCRMSyncEnable = require('./_b2cCrmSyncEnable');
+const b2cCRMSyncConfigManager = require('./_b2cCRMSyncConfigManager');
 
 /**
  * @function b2cCustomerRegister
@@ -26,7 +26,7 @@ module.exports = async (environmentDef, b2cAdminAuthToken, siteId, customerProfi
     output = {};
 
     // Ensure that b2c-crm-sync is enabled for this specific unit-test
-    await b2cCRMSyncEnable(environmentDef, b2cAdminAuthToken, siteId);
+    await b2cCRMSyncConfigManager(environmentDef, b2cAdminAuthToken, siteId);
 
     // Retrieve the guestAuthorization token from B2C Commerce
     b2cGuestAuth = await shopAPIs.authAsGuest(environmentDef, siteId, environmentDef.b2cClientId);
