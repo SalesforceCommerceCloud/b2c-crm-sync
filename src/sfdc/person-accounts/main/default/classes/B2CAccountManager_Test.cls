@@ -3,7 +3,7 @@ public class B2CAccountManager_Test {
 
     /**
      * @see B2CAccountManager
-     * @description 
+     * @description
      */
     @IsTest
     static void testGetPublishContact() {
@@ -11,11 +11,11 @@ public class B2CAccountManager_Test {
         Account a = new Account(
             RecordTypeId = [
                 SELECT
-                    Id  
+                    Id
                 FROM
-                    RecordType 
+                    RecordType
                 WHERE
-                        SobjectType='Account' 
+                        SobjectType='Account'
                     AND IsPersonType=True
                 LIMIT
             1].Id
@@ -25,7 +25,7 @@ public class B2CAccountManager_Test {
 
             B2CAccountManager.getPublishContact(
                 a,
-                B2C_Integration_Field_Mappings__mdt.getAll().values()
+                B2CMetaFieldMappings.getFieldMappings('Contact')
             );
 
         Test.stopTest();

@@ -52,7 +52,7 @@ private class B2CIASynchronizeContact_Test {
         synchronizeContactResult = synchronizeContactResults.get(0);
 
         // Validate that the missing target-contact fields have been updated by the sourceContact
-        System.assertEquals(synchronizeContactResult.missingContactFields.size(), 3, ' -- expected three fields to be missing in the targetContact; check the test-data to confirm');
+        System.assertEquals(synchronizeContactResult.missingContactFields.size(), 2, ' -- expected two fields to be missing in the targetContact; check the test-data to confirm');
         System.assertEquals(synchronizeContactResult.sourceContact.get('Description'), synchronizeContactResult.synchronizedTargetContact.get('Description'), ' -- expected the [Description] fields to be synchronized across the source / targetContacts');
         System.assertEquals(synchronizeContactResult.sourceContact.get('Title'), synchronizeContactResult.synchronizedTargetContact.get('Title'), ' -- expected the [Title] fields to be synchronized across the source / targetContacts');
         System.assertNotEquals(synchronizeContactResult.sourceContact.get('FirstName'), synchronizeContactResult.synchronizedTargetContact.get('FirstName'), ' -- expected the FirstName fields to be different across the source / targetContacts');
