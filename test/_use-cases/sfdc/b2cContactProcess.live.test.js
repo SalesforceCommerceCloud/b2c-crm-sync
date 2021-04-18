@@ -610,7 +610,7 @@ describe('Progressive resolution of a B2C Commerce Customer via the B2CContactPr
     // Inheritance / progressive resolution scenarios (inherit existing Account / Contact pairs)
     //----------------------------------------------------------------
 
-    it('inherits an existing Contact if LastName and Email match -- and no B2C CustomerList exists', async function () {
+    it('resolves an existing Contact using LastName and Email -- where the existing Contact does not have a B2C CustomerList', async function () {
 
         // Initialize the output scope
         let output,
@@ -643,6 +643,37 @@ describe('Progressive resolution of a B2C Commerce Customer via the B2CContactPr
 
         // Verify that the pre / post testResults have matching Account / Contact records
         common.compareAccountContactIdentifiers(output, preTestResult);
+
+    });
+
+    it('resolves an existing Contact using B2C CustomerList and Email -- where the existing Contact uses the Contact default LastName (Unknown)', async function () {
+
+        // Initialize local variables
+        let output,
+            resolveBody,
+            updateOutput,
+            sourceContact;
+
+        // Initialize the request
+        sourceContact = {
+            Email: testContact.Email,
+            B2C_CustomerList_ID__c: customerListId
+        };
+
+        // Build out the resolve object used to exercise the process-service
+        resolveBody = _getB2CContactProcessBody(sourceContact);
+
+        // Execute the process flow-request and capture the results for the contact creation test
+        output = await common.executeAndVerifyB2CProcessResult(environmentDef, sfdcAuthCredentials.conn.accessToken, resolveBody);
+
+        // Update the body to include a different lastName
+        resolveBody.inputs[0].sourceContact.LastName = testContact.LastName;
+
+        // Execute the process flow-request and capture the results for the update test
+        updateOutput = await common.executeAndVerifyB2CProcessResult(environmentDef, sfdcAuthCredentials.conn.accessToken, resolveBody);
+
+        // Compare the Contact identifiers and validate that the update was performed
+        assert.equal(output.contactId, updateOutput.contactId, ' -- expected the contactIdentifiers to match and be the same');
 
     });
 
