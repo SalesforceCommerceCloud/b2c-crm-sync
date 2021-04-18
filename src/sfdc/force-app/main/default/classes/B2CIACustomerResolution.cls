@@ -60,6 +60,8 @@ public inherited sharing class B2CIACustomerResolution {
         // Find duplicates for all contacts passed in; we are passing everything in, so we get the same order back
         Datacloud.FindDuplicatesResult[] results = Datacloud.FindDuplicates.findDuplicates( contactsToResolve );
 
+        System.debug('--> Total results: ' + results.size());
+
         // Were any duplicates found?
         if (results.size() > 0) {
 

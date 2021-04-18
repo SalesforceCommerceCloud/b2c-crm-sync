@@ -52,12 +52,16 @@ private class B2CBaseAttributeAssignment_Test {
         sourceContact = TestDataFactory.createSObject('Contact', new Map<String,Object>{
                 'FirstName' => 'Unknown',
                 'LastName' => 'User',
-                'Email' => 'test@qa.salesforce.com'
+                'Email' => 'test@qa.salesforce.com',
+                'Description' => 'This is a test description',
+                'Title' => 'Test Title'
         });
 
         // Create test-data representing the target Contact to update
         targetContact = new Contact();
         targetContact.put('FirstName', 'Known');
+        targetContact.put('LastName', 'User');
+        targetContact.put('Email', 'test@qa.salesforce.com');
 
         Test.startTest();
 
@@ -76,9 +80,9 @@ private class B2CBaseAttributeAssignment_Test {
 
         // Validate that the correct number of synchronized fields were found
         System.assert(missingFields.size() == 2, ' -- expected to find [2] missing fields from the target / synchronized object');
-        System.assertEquals(synchronizedContact.get('LastName'), sourceContact.get('LastName'), ' -- expected the LastName values to be equal between the source and target / synchronized object');
-        System.assertEquals(synchronizedContact.get('Email'), sourceContact.get('Email'), ' -- expected the Email values to be equal between the source and target / synchronized object');
-        System.assertNotEquals(synchronizedContact.get('FirstName'), sourceContact.get('FirstName'), ' -- expected the FirstName values to not be equal between the source and target / synchronized object');
+        System.assertEquals(synchronizedContact.get('Description'), sourceContact.get('Description'), ' -- expected the [Description] values to be equal between the source and target / synchronized object');
+        System.assertEquals(synchronizedContact.get('Title'), sourceContact.get('Title'), ' -- expected the [Title] values to be equal between the source and target / synchronized object');
+        System.assertNotEquals(synchronizedContact.get('FirstName'), sourceContact.get('FirstName'), ' -- expected the [FirstName] values to not be equal between the source and target / synchronized object');
 
     }
 

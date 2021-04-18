@@ -549,7 +549,7 @@ describe('Progressive resolution of a B2C Commerce Customer via the B2CContactPr
             Email: testContact.Email,
             B2C_CustomerList_ID__c: customerListId,
             Description: 'This is a test description',
-            DoNotCall: true
+            Title: 'This is a test title'
         };
 
         // Create the object to be included in the services body
@@ -610,16 +610,50 @@ describe('Progressive resolution of a B2C Commerce Customer via the B2CContactPr
     // Inheritance / progressive resolution scenarios (inherit existing Account / Contact pairs)
     //----------------------------------------------------------------
 
+    it('inherits an existing Contact if LastName and Email match -- and no B2C CustomerList exists', async function () {
 
+        // Initialize the output scope
+        let output,
+            sourceContact,
+            contactObject,
+            preTestResult,
+            resolveBody;
+
+        // First, create the account / contact object representation we're going to test against
+        contactObject = {
+            LastName: testContact.LastName,
+            Email: testContact.Email
+        };
+
+        // Create the test Account / Contact relationship that is being inherited.
+        preTestResult = await _createAccountContactRelationship(sfdcAuthCredentials, environmentDef, contactObject);
+
+        // Initialize the request
+        sourceContact = {
+            LastName: testContact.LastName,
+            Email: testContact.Email,
+            B2C_CustomerList_ID__c: customerListId
+        };
+
+        // Build out the resolve object used to exercise the process-service
+        resolveBody = _getB2CContactProcessBody(sourceContact);
+
+        // Execute the process flow-request and capture the results for the contact creation test
+        output = await common.executeAndVerifyB2CProcessResult(environmentDef, sfdcAuthCredentials.conn.accessToken, resolveBody);
+
+        // Verify that the pre / post testResults have matching Account / Contact records
+        common.compareAccountContactIdentifiers(output, preTestResult);
+
+    });
 
     // Reset the output variable in-between tests
     afterEach(async function () {
 
-        // Implement a pause to ensure the PlatformEvent fires
+        // Implement a pause to ensure the PlatformEvent fires (where applicable)
         await useCaseProcesses.sleep(purgeSleepTimeout);
 
-        // Purge the customer data in B2C Commerce and SFDC
-        await useCaseProcesses.b2cCustomerPurgeByCustomerNo(b2cAdminAuthToken, sfdcAuthCredentials.conn, registeredB2CCustomerNo);
+        // Purge the Account / Contact relationships
+        await useCaseProcesses.sfdcAccountContactPurge(sfdcAuthCredentials.conn);
 
         // Update the B2C CustomerList and activate the B2C CustomerList
         await useCaseProcesses.sfdcB2CCustomerListUpdate(sfdcAuthCredentials.conn, customerListId, true);
