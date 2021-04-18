@@ -274,7 +274,7 @@ describe('Progressive resolution of a B2C Commerce Customer via the B2CContactPr
         _compareAccountContactIdentifiers(output, preTestResult);
 
     });
-     */
+
     it('successfully resolves an existing Contact using B2C CustomerList, Email, and whose lastName is the Contact default', async function () {
 
         // Initialize local variables
@@ -333,7 +333,7 @@ describe('Progressive resolution of a B2C Commerce Customer via the B2CContactPr
         assert.equal(output.contactId, resolveOutput.contactId, ' -- expected the contactIdentifiers to match and be the same');
 
     });
-
+     */
     it('successfully resolves an existing Contact using a B2C Customer ID value', async function () {
 
         // Initialize local variables

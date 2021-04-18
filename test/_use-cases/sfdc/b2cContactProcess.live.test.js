@@ -677,6 +677,125 @@ describe('Progressive resolution of a B2C Commerce Customer via the B2CContactPr
 
     });
 
+    it('resolves an existing Contact using B2C CustomerList ID, Email, and LastName values', async function () {
+
+        // Initialize local variables
+        let output,
+            sourceContact,
+            resolveBody,
+            resolveOutput;
+
+        // Initialize the request
+        sourceContact = {
+            LastName: testContact.LastName,
+            Email: testContact.Email,
+            B2C_CustomerList_ID__c: customerListId
+        };
+
+        // Build out the resolve object used to exercise the process-service
+        resolveBody = _getB2CContactProcessBody(sourceContact);
+
+        // Execute the process flow-request and capture the results for the contact creation test
+        output = await common.executeAndVerifyB2CProcessResult(environmentDef, sfdcAuthCredentials.conn.accessToken, resolveBody);
+        resolveOutput = await common.executeAndVerifyB2CProcessResult(environmentDef, sfdcAuthCredentials.conn.accessToken, resolveBody);
+
+        // Compare the Contact identifiers and validate that they match / are the same
+        assert.equal(output.contactId, resolveOutput.contactId, ' -- expected the contactIdentifiers to match and be the same');
+
+    });
+
+    it('resolves an existing Contact using B2C CustomerList ID, B2C CustomerID, Email, and LastName values', async function () {
+
+        // Initialize local variables
+        let output,
+            sourceContact,
+            resolveBody,
+            resolveOutput;
+
+        // Initialize the request
+        sourceContact = {
+            LastName: testContact.LastName,
+            Email: testContact.Email,
+            B2C_CustomerList_ID__c: customerListId,
+            B2C_Customer_ID__c: customerId
+        };
+
+        // Build out the resolve object used to exercise the process-service
+        resolveBody = _getB2CContactProcessBody(sourceContact);
+
+        // Execute the process flow-request and capture the results for the contact creation test
+        output = await common.executeAndVerifyB2CProcessResult(environmentDef, sfdcAuthCredentials.conn.accessToken, resolveBody);
+        resolveOutput = await common.executeAndVerifyB2CProcessResult(environmentDef, sfdcAuthCredentials.conn.accessToken, resolveBody);
+
+        // Compare the Contact identifiers and validate that they match / are the same
+        assert.equal(output.contactId, resolveOutput.contactId, ' -- expected the contactIdentifiers to match and be the same');
+
+    });
+
+    it('resolves an existing Contact using B2C CustomerList ID, B2C CustomerNo, Email, and LastName values', async function () {
+
+        // Initialize local variables
+        let output,
+            sourceContact,
+            resolveBody,
+            resolveOutput;
+
+        // Initialize the request
+        sourceContact = {
+            LastName: testContact.LastName,
+            Email: testContact.Email,
+            B2C_CustomerList_ID__c: customerListId,
+            B2C_Customer_No__c: customerNo
+        };
+
+        // Build out the resolve object used to exercise the process-service
+        resolveBody = _getB2CContactProcessBody(sourceContact);
+
+        // Execute the process flow-request and capture the results for the contact creation test
+        output = await common.executeAndVerifyB2CProcessResult(environmentDef, sfdcAuthCredentials.conn.accessToken, resolveBody);
+        resolveOutput = await common.executeAndVerifyB2CProcessResult(environmentDef, sfdcAuthCredentials.conn.accessToken, resolveBody);
+
+        // Compare the Contact identifiers and validate that they match / are the same
+        assert.equal(output.contactId, resolveOutput.contactId, ' -- expected the contactIdentifiers to match and be the same');
+
+    });
+
+    it('resolves an existing Contact using B2C CustomerList ID, Email, LastName, and a ContactID values', async function () {
+
+        // Initialize local variables
+        let output,
+            sourceContact,
+            resolveBody,
+            resolveOutput,
+            testContactId;
+
+        // Initialize the request
+        sourceContact = {
+            LastName: testContact.LastName,
+            Email: testContact.Email,
+            B2C_CustomerList_ID__c: customerListId
+        };
+
+        // Build out the resolve object used to exercise the process-service
+        resolveBody = _getB2CContactProcessBody(sourceContact);
+
+        // Execute the process flow-request and capture the results for the contact creation test
+        output = await common.executeAndVerifyB2CProcessResult(environmentDef, sfdcAuthCredentials.conn.accessToken, resolveBody);
+
+        // Capture the contactId value from the first test
+        testContactId = output.contactId
+
+        // Reset the resolveBody to leverage the ContactID as the identifier of choice
+        resolveBody.inputs[0].sourceContact = { Id: testContactId };
+
+        // Execute the process flow-request and capture the results for the second contact creation test
+        resolveOutput = await common.executeAndVerifyB2CProcessResult(environmentDef, sfdcAuthCredentials.conn.accessToken, resolveBody);
+
+        // Compare the Contact identifiers and validate that they match / are the same
+        assert.equal(output.contactId, resolveOutput.contactId, ' -- expected the contactIdentifiers to match and be the same');
+
+    });
+
     // Reset the output variable in-between tests
     afterEach(async function () {
 
