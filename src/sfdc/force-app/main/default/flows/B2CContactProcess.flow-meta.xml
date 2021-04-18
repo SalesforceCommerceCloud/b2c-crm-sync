@@ -4,7 +4,7 @@
         <description>... this action remove the read-only PersonAccount properties attached to a Contact from the Contact -- so that the Contact record can be independently updated.</description>
         <name>ia_removeROAccountPropertiesFromContact</name>
         <label>Remove Read-Only Account Properties</label>
-        <locationX>2656</locationX>
+        <locationX>2626</locationX>
         <locationY>2734</locationY>
         <actionName>B2CIARemovePAPropertiesFromContact</actionName>
         <actionType>apex</actionType>
@@ -190,8 +190,8 @@
         <description>... alert the user that updates cannot be made without identifiers being provided.</description>
         <name>asn_cannotUpdateWithoutIdentifiers</name>
         <label>Error: Cannot Update Without Identifiers</label>
-        <locationX>1300</locationX>
-        <locationY>2238</locationY>
+        <locationX>1299</locationX>
+        <locationY>2237</locationY>
         <assignmentItems>
             <assignToReference>errors</assignToReference>
             <operator>Add</operator>
@@ -594,7 +594,7 @@
         <description>... assign the test properties of the QA Contact to overwrite the sourceContact.</description>
         <name>asn_qaContactProperties</name>
         <label>Assign the QA Contact Properties</label>
-        <locationX>2281</locationX>
+        <locationX>2280</locationX>
         <locationY>280</locationY>
         <assignmentItems>
             <assignToReference>var_qaSourceContact.Email</assignToReference>
@@ -611,17 +611,10 @@
             </value>
         </assignmentItems>
         <assignmentItems>
-            <assignToReference>var_qaSourceContact.Description</assignToReference>
+            <assignToReference>var_qaSourceContact.LastName</assignToReference>
             <operator>Assign</operator>
             <value>
-                <stringValue>This is a test description.</stringValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>var_qaSourceContact.DoNotCall</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <booleanValue>true</booleanValue>
+                <stringValue>Testing User</stringValue>
             </value>
         </assignmentItems>
         <connector>
@@ -649,7 +642,7 @@
         <locationX>2010</locationX>
         <locationY>1509</locationY>
         <defaultConnector>
-            <targetReference>asn_sourceContactIntegrationPropertiesResolvedContact</targetReference>
+            <targetReference>recGet_ParentAccountForPAContact</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Resolved</defaultConnectorLabel>
         <rules>
@@ -1092,7 +1085,7 @@
         <name>dec_updateArePersonAccountsEnabled</name>
         <label>Are PersonAccounts Enabled as the Active CustomerModel?</label>
         <locationX>2411</locationX>
-        <locationY>2454</locationY>
+        <locationY>2479</locationY>
         <defaultConnector>
             <targetReference>recUpd_sourceContactUpdate</targetReference>
         </defaultConnector>
@@ -1501,6 +1494,30 @@
         <getFirstRecordOnly>true</getFirstRecordOnly>
         <object>B2C_CRM_Sync_Default_Configuration__mdt</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>... retrieve the parentAccount for the specified personAccount Contact record.</description>
+        <name>recGet_ParentAccountForPAContact</name>
+        <label>Retrieve the Parent Account</label>
+        <locationX>1698</locationX>
+        <locationY>1507</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>asn_sourceContactIntegrationPropertiesResolvedContact</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>var_resolvedContact.AccountId</elementReference>
+            </value>
+        </filters>
+        <object>Account</object>
+        <outputReference>Account</outputReference>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>RecordTypeId</queriedFields>
+        <queriedFields>AccountSource</queriedFields>
     </recordLookups>
     <recordLookups>
         <description>... retrieve the Person Account recordType.</description>
