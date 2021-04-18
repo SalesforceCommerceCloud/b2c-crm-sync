@@ -602,9 +602,9 @@ b2c-crm-sync leverages match and duplicate rules to enforce the B2C Customer Dat
 ```
 
 #### PersonAccount Match and Duplicate Rules Setup Guidance
-Leveraging the PersonAccount implementation a handful of additional configuration steps to disable the Contact match and duplicate rules -- and enable the related PersonAccount rules.
+Leveraging the PersonAccount implementation requires a handful of additional configuration steps to disable the Contact match and duplicate rules -- and enable the related PersonAccount rules.
 
-> Please disable the following Contact match and duplicate rules.  You can find these items in Setup by searching for 'dupl' in the quick-find display.
+> Please disable the following Contact match and duplicate rules.  You can find these items in Setup by searching for 'dup' in the quick-find display.
 
 - Ensure that the **B2C Commerce: Standard Contacts** and **Standard Contact Duplicate Rule** duplicate rules are disabled.
 - Ensure that the **B2C Commerce: Standard Contacts** and **Standard Contact Matching Rule** match rules are disabled.

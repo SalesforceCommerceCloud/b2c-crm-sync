@@ -239,8 +239,6 @@ describe('Progressive resolution of a B2C Commerce Customer via the B2CContactPr
 
     });
 
-    */
-
      */
     // TODO: Not Passing -- need to revisit and address
     it('inherits an existing Contact if LastName and Email match -- and no B2C CustomerList exists', async function () {
@@ -1007,9 +1005,6 @@ function _compareAccountContactIdentifiers(processResults, preTestResult) {
 
     // Shorthand a reference to the response data
     processResult = processResults.data[0];
-
-    console.log(preTestResult);
-    console.log(processResult);
 
     // Validate that the Account and Contact resolved are the ones newly created
     assert.equal(processResult.outputValues.Account.Id, preTestResult.accountId, ' -- expected the Account objects (created and test-data) in this test to have the same Id value');

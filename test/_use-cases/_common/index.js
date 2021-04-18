@@ -1,4 +1,5 @@
 module.exports = {
+    compareAccountContactIdentifiers: require('./_compareAccountContactIdentifiers'),
     executeAndVerifyB2CProcessResult: require('./_executeAndVerifyB2CProcessResult'),
     validateAccountContactPropertiesExist: require('./_validateAccountContactPropertiesExist'),
     validateB2CIdentifiers: require('./_validateB2CIdentifiers'),
