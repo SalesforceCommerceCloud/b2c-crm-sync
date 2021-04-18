@@ -57,4 +57,5 @@ private class B2CIAValidateContactResult_Test {
         System.assert(validateContactResult.allowIntegrationProcess == false, '-- Integration should not be enabled with an inActive B2C CustomerList');
 
     }
+
 }

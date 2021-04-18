@@ -8,6 +8,7 @@ module.exports = {
     sfdcAccountContactCreate: require('./_sfdcAccountContactCreate'),
     sfdcAccountContactPurge: require('./_sfdcAccountContactPurge'),
     sfdcB2CCustomerListUpdate: require('./_sfdcB2CCustomerListUpdate'),
+    sfdcB2CInstanceUpdate: require('./_sfdcB2CInstanceUpdate'),
     sfdcPersonAccountCreate: require('./_sfdcPersonAccountCreate'),
     sleep: require('./_sleep')
 };

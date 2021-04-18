@@ -10,6 +10,7 @@ const assert = require('chai').assert;
 const dataAPIs = require('../../../lib/apis/sfcc/ocapi/data');
 const shopAPIs = require('../../../lib/apis/sfcc/ocapi/shop');
 const b2cRequestLib = require('../../../lib/_common/request');
+const b2cCustomerListAPIs = require('../../../lib/qa/processes/_common/sfdc/b2cCustomerList');
 
 // Initialize tearDown helpers
 const useCaseProcesses = require('../../_common/processes');
@@ -38,6 +39,9 @@ describe('Progressive resolution of a B2C Commerce Customer via the B2CContactPr
         testContact,
         profileUpdate,
         customerListId,
+        customerListIdAlt,
+        customerId,
+        customerNo,
         siteId,
         b2cAdminAuthToken,
         sfdcAuthCredentials,
@@ -57,8 +61,13 @@ describe('Progressive resolution of a B2C Commerce Customer via the B2CContactPr
         sleepTimeout = config.get('unitTests.testData.sleepTimeout');
         purgeSleepTimeout = sleepTimeout / 2;
 
+        // Default the B2C Commerce test-data values
+        customerId = config.get('unitTests.testData.b2cTestCustomerIdValue');
+        customerNo = config.get('unitTests.testData.b2cTestCustomerNoValue');
+
         // Retrieve the site and customerList used to testing
         customerListId = config.get('unitTests.testData.b2cCustomerList').toString();
+        customerListIdAlt = config.get('unitTests.testData.b2cSiteCustomerLists.RefArchGlobal');
         siteId = config.util.toObject(config.get('unitTests.testData.b2cSiteCustomerLists'))[customerListId];
 
         // Retrieve the b2c customer profile template that we'll use to exercise this test
@@ -96,6 +105,10 @@ describe('Progressive resolution of a B2C Commerce Customer via the B2CContactPr
         }
 
     });
+
+    //----------------------------------------------------------------
+    // Error validation scenarios (enforce validation business rules in Flow)
+    //----------------------------------------------------------------
 
     it('returns an error if non-identifiers are used without a B2C CustomerList for resolution via the B2CContactProcess service', async function () {
 
@@ -301,7 +314,7 @@ describe('Progressive resolution of a B2C Commerce Customer via the B2CContactPr
         };
 
         // Default the expected customerList error message
-        customerListErrorMessage = 'B2C Commerce Integration is Disabled for this B2C Instance or CustomerList.  Please check the Salesforce Org configuration.';
+        customerListErrorMessage = 'B2C Commerce Integration is Disabled for this B2C Instance, CustomerList, or Contact.  Please check the Salesforce Org configuration.';
 
         // Create the object to be included in the services body
         resolveBody = _getB2CContactProcessBody(sourceContact);
@@ -316,6 +329,288 @@ describe('Progressive resolution of a B2C Commerce Customer via the B2CContactPr
         assert.includeMembers(output.b2cContactProcessResults.data[0].outputValues.errors, [customerListErrorMessage], '-- expected the errors to contain the B2C CustomerList error message');
 
     });
+
+    it('returns an error if the parent B2C Instance to a validated Contact is inActive', async function () {
+
+        // Initialize the output scope
+        let output,
+            customerListErrorMessage,
+            sourceContact,
+            resolveBody;
+
+        // Default the output
+        output = {};
+
+        // First, attempt to create the account / contact relationship
+        output.createResult = await _createAccountContactRelationship(
+            sfdcAuthCredentials, environmentDef, testContact);
+
+        // First, retrieve the customerList definition using the id / name provided
+        output.customerListGet = await b2cCustomerListAPIs.getByName(
+            sfdcAuthCredentials.conn, customerListId);
+
+        // Deactivate the parent B2C Instance for this customerList
+        await useCaseProcesses.sfdcB2CInstanceUpdate(
+            sfdcAuthCredentials.conn, output.customerListGet[0].B2C_Instance__c, false);
+
+        // Create the initial Contact footprint
+        sourceContact = {
+            LastName: testContact.LastName,
+            Email: testContact.Email,
+            B2C_CustomerList_ID__c: customerListId,
+            Id: output.createResult.contactId,
+            AccountId: output.createResult.accountId
+        };
+
+        // Default the expected customerList error message
+        customerListErrorMessage = 'B2C Commerce Integration is Disabled for this B2C Instance, CustomerList, or Contact.  Please check the Salesforce Org configuration.';
+
+        // Create the object to be included in the services body
+        resolveBody = _getB2CContactProcessBody(sourceContact);
+
+        // Execute the process flow-request and examine the results
+        output.b2cContactProcessResults = await flowAPIs.postB2CContactProcess(environmentDef, sfdcAuthCredentials.conn.accessToken, resolveBody);
+
+        // Deactivate the parent B2C Instance for this customerList
+        await useCaseProcesses.sfdcB2CInstanceUpdate(
+            sfdcAuthCredentials.conn, output.customerListGet[0].B2C_Instance__c, true);
+
+        // Attempt to validate the processing-result
+        _validateB2CProcessResultIsError(output.b2cContactProcessResults);
+
+        // Verify that the specific errorMessage we're testing for is included in the errors collection
+        assert.includeMembers(output.b2cContactProcessResults.data[0].outputValues.errors, [customerListErrorMessage], '-- expected the errors to contain the B2C CustomerList error message');
+
+    });
+
+    it('returns an error if a validated Contact has integration disabled', async function () {
+
+        // Initialize the output scope
+        let output,
+            customerListErrorMessage,
+            sourceContact,
+            resolveBody;
+
+        // Default the output
+        output = {};
+
+        // First, attempt to create the account / contact relationship
+        output.createResult = await _createAccountContactRelationship(
+            sfdcAuthCredentials, environmentDef, testContact);
+
+        // Disable integration for this Contact record
+        output.contactDisableIntegrationResult = await sObjectAPIs.update(
+            sfdcAuthCredentials.conn, 'Contact', {
+                Id: output.createResult.contactId,
+                B2C_Disable_Integration__c: true
+            });
+
+        // Create the initial Contact footprint
+        sourceContact = {
+            LastName: testContact.LastName,
+            Email: testContact.Email,
+            B2C_CustomerList_ID__c: customerListId,
+            Id: output.createResult.contactId,
+            AccountId: output.createResult.accountId
+        };
+
+        // Default the expected customerList error message
+        customerListErrorMessage = 'B2C Commerce Integration is Disabled for this B2C Instance, CustomerList, or Contact.  Please check the Salesforce Org configuration.';
+
+        // Create the object to be included in the services body
+        resolveBody = _getB2CContactProcessBody(sourceContact);
+
+        // Execute the process flow-request and examine the results
+        output.b2cContactProcessResults = await flowAPIs.postB2CContactProcess(environmentDef, sfdcAuthCredentials.conn.accessToken, resolveBody);
+
+        // Attempt to validate the processing-result
+        _validateB2CProcessResultIsError(output.b2cContactProcessResults);
+
+        // Verify that the specific errorMessage we're testing for is included in the errors collection
+        assert.includeMembers(output.b2cContactProcessResults.data[0].outputValues.errors, [customerListErrorMessage], '-- expected the errors to contain the B2C CustomerList error message');
+
+    });
+
+    //----------------------------------------------------------------
+    // Contact creation scenarios (create new Account / Contact pairs)
+    //----------------------------------------------------------------
+
+    it('creates a Contact from a B2C CustomerList ID and Email attribute combination', async function () {
+
+        // Initialize local variables
+        let output,
+            sourceContact,
+            resolveBody;
+
+        // Create the contact definition that will be exercised
+        sourceContact = {
+            Email: testContact.Email,
+            B2C_CustomerList_ID__c: customerListId
+        };
+
+        // Create the object to be included in the services body
+        resolveBody = _getB2CContactProcessBody(sourceContact);
+
+        // Execute the process flow-request and capture the results for the contact creation test
+        output = await common.executeAndVerifyB2CProcessResult(environmentDef, sfdcAuthCredentials.conn.accessToken, resolveBody);
+
+        // Verify that the B2C CustomerList properties exist in the service-output
+        common.validateB2CCustomerListPropertiesExist(output);
+
+    });
+
+    it('creates a Contact from a B2C CustomerList ID, Email, and LastName attribute combination', async function () {
+
+        // Initialize local variables
+        let output,
+            sourceContact,
+            resolveBody;
+
+        // Create the contact definition that will be exercised
+        sourceContact = {
+            Email: testContact.Email,
+            LastName: testContact.LastName,
+            B2C_CustomerList_ID__c: customerListId
+        };
+
+        // Create the object to be included in the services body
+        resolveBody = _getB2CContactProcessBody(sourceContact);
+
+        // Execute the process flow-request and capture the results for the contact creation test
+        output = await common.executeAndVerifyB2CProcessResult(environmentDef, sfdcAuthCredentials.conn.accessToken, resolveBody);
+
+        // Verify that the B2C CustomerList properties exist in the service-output
+        common.validateB2CCustomerListPropertiesExist(output);
+
+    });
+
+    it('creates a Contact from a B2C CustomerList ID, Email, LastName, and B2C CustomerId combination', async function () {
+
+        // Initialize local variables
+        let output,
+            sourceContact,
+            resolveBody;
+
+        // Initialize the first request; seed a customerList and disable the integration
+        // so that we don't create an expectation to trigger OCAPI updates
+        sourceContact = {
+            LastName: testContact.LastName,
+            Email: testContact.Email,
+            B2C_CustomerList_ID__c: customerListId,
+            B2C_Customer_ID__c: customerId
+        };
+
+        // Create the object to be included in the services body
+        resolveBody = _getB2CContactProcessBody(sourceContact);
+
+        // Execute the process flow-request and capture the results for the contact creation test
+        output = await common.executeAndVerifyB2CProcessResult(environmentDef, sfdcAuthCredentials.conn.accessToken, resolveBody);
+
+        // Verify that the B2C CustomerList properties exist in the service-output
+        common.validateB2CCustomerListPropertiesExist(output);
+
+    });
+
+    it('creates a Contact from a B2C CustomerList ID, Email, LastName, and B2C CustomerNo combination', async function () {
+
+        // Initialize local variables
+        let output,
+            sourceContact,
+            resolveBody;
+
+        // Create the sourceContact that will be used to exercise the process-service
+        sourceContact = {
+            LastName: testContact.LastName,
+            Email: testContact.Email,
+            B2C_CustomerList_ID__c: customerListId,
+            B2C_Customer_No__c: customerNo
+        };
+
+        // Create the object to be included in the services body
+        resolveBody = _getB2CContactProcessBody(sourceContact);
+
+        // Execute the process flow-request and capture the results for the contact creation test
+        output = await common.executeAndVerifyB2CProcessResult(environmentDef, sfdcAuthCredentials.conn.accessToken, resolveBody);
+
+        // Verify that the B2C CustomerList properties exist in the service-output
+        common.validateB2CCustomerListPropertiesExist(output);
+
+    });
+
+    it('creates a Contact that includes additional non-resolution specific field values', async function () {
+
+        // Initialize local variables
+        let output,
+            sourceContact,
+            resolveBody;
+
+        // Create the contact definition that will be exercised
+        sourceContact = {
+            Email: testContact.Email,
+            B2C_CustomerList_ID__c: customerListId,
+            Description: 'This is a test description',
+            DoNotCall: true
+        };
+
+        // Create the object to be included in the services body
+        resolveBody = _getB2CContactProcessBody(sourceContact);
+
+        // Execute the process flow-request and capture the results for the contact creation test
+        output = await common.executeAndVerifyB2CProcessResult(environmentDef, sfdcAuthCredentials.conn.accessToken, resolveBody);
+
+        // Verify that the B2C CustomerList properties exist in the service-output
+        common.validateB2CCustomerListPropertiesExist(output);
+
+    });
+
+    it('creates two separate Contact records using the same Email and LastName spanning different B2C CustomerList IDs', async function () {
+
+        // Initialize local variables
+        let refArchResolveBody,
+            refArchGlobalResolveBody,
+            refArchSourceContact,
+            refArchGlobalSourceContact,
+            testResults;
+
+        // Initialize the first request
+        refArchSourceContact = {
+            LastName: testContact.LastName,
+            Email: testContact.Email,
+            B2C_CustomerList_ID__c: customerListId
+        };
+
+        // Build out the resolve object used to exercise the process-service
+        refArchResolveBody = _getB2CContactProcessBody(refArchSourceContact);
+
+        // Execute the process flow-request and capture the results for the contact creation test
+        await common.executeAndVerifyB2CProcessResult(environmentDef, sfdcAuthCredentials.conn.accessToken, refArchResolveBody);
+
+        // Initialize the first request
+        refArchGlobalSourceContact = {
+            LastName: testContact.LastName,
+            Email: testContact.Email,
+            B2C_CustomerList_ID__c: customerListIdAlt
+        };
+
+        // Build out the resolve object used to exercise the process-service
+        refArchGlobalResolveBody = _getB2CContactProcessBody(refArchGlobalSourceContact);
+
+        // Execute the process flow-request and capture the results for the 2nd customerList contact
+        await flowAPIs.postB2CContactProcess(environmentDef, sfdcAuthCredentials.conn.accessToken, refArchGlobalResolveBody);
+
+        // Execute a separate query to retrieve the contact details searching by email
+        testResults = await contactAPIs.getByEmail(sfdcAuthCredentials.conn, testContact.Email, 10);
+
+        // Validate that two separate contact records were retrieved
+        assert.equal(testResults.length, 2, ' -- expected to find two Contact record associated to the test email address.');
+
+    });
+
+    //----------------------------------------------------------------
+    // Inheritance / progressive resolution scenarios (inherit existing Account / Contact pairs)
+    //----------------------------------------------------------------
+
+
 
     // Reset the output variable in-between tests
     afterEach(async function () {

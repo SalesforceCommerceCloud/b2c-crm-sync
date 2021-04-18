@@ -84,7 +84,7 @@ describe('Updating an SFDC Contact representing a B2C Commerce Customer Profile'
 
     });
 
-    it('successfully updates a B2C Commerce Profile with changes initiated in SFDC', async function () {
+    it('successfully updates a B2C Commerce Profile with changes initiated from SFDC when integration is enabled', async function () {
 
         // Initialize the output scope
         let output = {};
@@ -127,12 +127,74 @@ describe('Updating an SFDC Contact representing a B2C Commerce Customer Profile'
         output.sfdcContactResults = await sObjectAPIs.retrieve(sfdcAuthCredentials.conn,
             'Contact', output.b2cRegisterResults.data.c_b2ccrm_contactId);
 
-        // Register the B2C Commerce customer profile results
+        // Retrieve the B2C Customer details to validate and compare results
         output.b2cCustomerProfileResults = await dataAPIs.customerGet(
             baseRequest, b2cAdminAuthToken, customerListId, output.b2cRegisterResults.data.customer_no);
 
         // Verify that the Contact record's properties are aligned with the B2C Commerce Profile
         common.validateRegisteredUserContactUpdatesAreEqual(
+            output.sfdcContactResults,
+            output.b2cCustomerProfileResults
+        );
+
+    });
+
+    it('does not process updates to a B2C Commerce Profile with changes initiated from SFDC when integration is disabled', async function () {
+
+        // Initialize the output scope
+        let output = {};
+
+        // First, ensure that b2c-crm-sync is disabled in the specified environment
+        await useCaseProcesses.b2cCRMSyncConfigManager(environmentDef, b2cAdminAuthToken, siteId, syncGlobalEnable);
+
+        // Implement a pause to allow the B2C Commerce environment to set
+        await useCaseProcesses.sleep(sleepTimeout / 2);
+
+        // Retrieve the guestAuthorization token from B2C Commerce
+        output.b2cGuestAuth = await shopAPIs.authAsGuest(environmentDef, siteId, environmentDef.b2cClientId);
+
+        // Register the B2C Commerce customer profile
+        output.b2cRegisterResults = await shopAPIs.customerPost(environmentDef, siteId,
+            environmentDef.b2cClientId, output.b2cGuestAuth.authToken, testProfile);
+
+        // Implement a pause to allow the PlatformEvent to fire
+        await useCaseProcesses.sleep(sleepTimeout);
+
+        // Audit the customerNo of the newly registered customer to that we can
+        // delete this customer record as part of the tear-down process
+        registeredB2CCustomerNo = output.b2cRegisterResults.data.customer_no;
+
+        // Validate that the B2C Customer Profile was successfully created with SFDC attributes
+        common.validateRegisteredUserWithSFDCAttributes(output.b2cRegisterResults);
+
+        // Disable b2c-crm-sync integration on the Contact record
+        output.sfdcDisableIntegrationContactResults = await sObjectAPIs.update(sfdcAuthCredentials.conn,
+            'Contact', {
+                Id: output.b2cRegisterResults.data.c_b2ccrm_contactId,
+                B2C_Disable_Integration__c: true
+            });
+
+        // Update the B2C Commerce properties for the related contactRecord
+        output.sfdcContactResults = await sObjectAPIs.update(sfdcAuthCredentials.conn,
+            'Contact', {
+                Id: output.b2cRegisterResults.data.c_b2ccrm_contactId,
+                B2C_Job_Title__c: profileUpdate.job_title,
+                HomePhone: profileUpdate.phone_home
+            });
+
+        // Implement a pause to allow the PlatformEvent to fire (it should not)
+        await useCaseProcesses.sleep(sleepTimeout);
+
+        // Retrieve the contact details from the SFDC environment
+        output.sfdcContactResults = await sObjectAPIs.retrieve(sfdcAuthCredentials.conn,
+            'Contact', output.b2cRegisterResults.data.c_b2ccrm_contactId);
+
+        // Retrieve the B2C Customer details to validate and compare results
+        output.b2cCustomerProfileResults = await dataAPIs.customerGet(
+            baseRequest, b2cAdminAuthToken, customerListId, output.b2cRegisterResults.data.customer_no);
+
+        // Verify that the Contact record's properties are not aligned with the B2C Commerce Profile
+        common.validateRegisteredUserContactUpdatesAreNotEqual(
             output.sfdcContactResults,
             output.b2cCustomerProfileResults
         );

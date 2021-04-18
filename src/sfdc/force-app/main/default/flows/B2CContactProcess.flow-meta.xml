@@ -426,7 +426,7 @@
             <assignToReference>errors</assignToReference>
             <operator>Add</operator>
             <value>
-                <stringValue>B2C Commerce Integration is Disabled for this B2C Instance or CustomerList.  Please check the Salesforce Org configuration.</stringValue>
+                <stringValue>B2C Commerce Integration is Disabled for this B2C Instance, CustomerList, or Contact.  Please check the Salesforce Org configuration.</stringValue>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -597,13 +597,6 @@
         <locationX>2281</locationX>
         <locationY>280</locationY>
         <assignmentItems>
-            <assignToReference>var_qaSourceContact.LastName</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <stringValue>Testing User</stringValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
             <assignToReference>var_qaSourceContact.Email</assignToReference>
             <operator>Assign</operator>
             <value>
@@ -618,24 +611,17 @@
             </value>
         </assignmentItems>
         <assignmentItems>
-            <assignToReference>var_qaSourceContact.FirstName</assignToReference>
+            <assignToReference>var_qaSourceContact.Description</assignToReference>
             <operator>Assign</operator>
             <value>
-                <stringValue>End-to-End</stringValue>
+                <stringValue>This is a test description.</stringValue>
             </value>
         </assignmentItems>
         <assignmentItems>
-            <assignToReference>var_qaSourceContact.Id</assignToReference>
+            <assignToReference>var_qaSourceContact.DoNotCall</assignToReference>
             <operator>Assign</operator>
             <value>
-                <stringValue>0038A00000ZXH3bQAH</stringValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>var_qaSourceContact.AccountId</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <stringValue>0018A00000dIF4MQAW</stringValue>
+                <booleanValue>true</booleanValue>
             </value>
         </assignmentItems>
         <connector>

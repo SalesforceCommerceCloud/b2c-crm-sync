@@ -14,7 +14,7 @@ const b2cCustomerListAPIs = require('../../../lib/qa/processes/_common/sfdc/b2cC
  * @description Helper function for B2C Customer profile / SFDC Account and Contact creation.  This function
  * is used to create test-data records that are used to test different resolution / duplicate processing scenarios.
  *
- * @param {Connection} sfdcAuthCredentials Represents the active connection for SFDC provided via jsForce
+ * @param {Object} sfdcAuthCredentials Represents the active connection for SFDC provided via jsForce
  * @param {Object} contactObject Represents the contactObject to create
  * @param {String} accountName Represents the Account Name to leverage
  * @param {String} accountType Represents the type of account to create (Business or Person)

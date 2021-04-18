@@ -86,6 +86,7 @@ describe('Progressive resolution of a B2C Commerce Customer via the B2CContactPr
 
     });
 
+    /*
     it('returns an error if non-identifiers are used without a B2C CustomerList for resolution via the B2CContactProcess service', async function () {
 
         // Initialize the output scope
@@ -195,32 +196,6 @@ describe('Progressive resolution of a B2C Commerce Customer via the B2CContactPr
 
     });
 
-    it('creates a Contact from a B2C CustomerList ID, Email, LastName, B2C CustomerList ID, and B2C CustomerNo combination', async function () {
-
-        // Initialize local variables
-        let output,
-            sourceContact,
-            resolveBody;
-
-        // Create the sourceContact that will be used to exercise the process-service
-        sourceContact = {
-            LastName: testContact.LastName,
-            Email: testContact.Email,
-            B2C_CustomerList_ID__c: refArchCustomerListIdValue,
-            B2C_Customer_No__c: testCustomerNoValue
-        };
-
-        // Create the object to be included in the services body
-        resolveBody = _getB2CContactProcessBody(sourceContact);
-
-        // Execute the process flow-request and capture the results for the contact creation test
-        output = await _executeAndVerifyB2CProcessResult(environmentDef, sfdcAuthCredentials.conn.accessToken, resolveBody);
-
-        // Verify that the B2C CustomerList properties exist in the service-output
-        _validateB2CCustomerListPropertiesExist(output);
-
-    });
-
     it('creates a new Contact record if an existing Contact\'s Email and LastName match and are associated to a different B2C CustomerList', async function () {
 
         // Initialize local variables
@@ -264,6 +239,9 @@ describe('Progressive resolution of a B2C Commerce Customer via the B2CContactPr
 
     });
 
+    */
+
+     */
     // TODO: Not Passing -- need to revisit and address
     it('inherits an existing Contact if LastName and Email match -- and no B2C CustomerList exists', async function () {
 
@@ -992,64 +970,6 @@ function _validateB2CProcessResultIsError(processResults) {
 
 /**
  * @private
- * @function _validateB2CProcessResult
- * @description Helper function that conducts generic validation against the processing
- * results produced from calling the B2CContactProcess service.
- *
- * @param processResults {Object} Represents the processing results returned by the service-call
- */
-function _validateB2CProcessResult(processResults) {
-
-    // Initialize local variables
-    let processResult;
-
-    // Shorthand a reference to the response data
-    processResult = processResults.data[0];
-
-    // Validate the REST API response is well-formed
-    assert.equal(processResults.status, 200, ' -- expected a 200 status code from the Salesforce Platform');
-    assert.isTrue(processResult.isSuccess, ' -- expected the isSuccess flag to have a value of true');
-    assert.isObject(processResult.outputValues, ' -- expected the outputValues property to exist on the output object');
-    assert.isNull(processResult.outputValues.errors, ' -- expected no errors to be included in the processing results');
-    assert.isTrue(processResult.outputValues.isSuccess, ' -- expected the isSuccess to return a null value');
-    assert.equal(processResult.outputValues.Flow__InterviewStatus, 'Finished', ' -- expected the Flow_InterviewStatus to have a value of Finished.');
-
-}
-
-/**
- * @private
- * @function _validateContactProperties
- * @description Helper function to validate that each of the Contact properties present in a sourceContact are also
- * present in the response provided by the B2CContactProcess flow.
- *
- * @param processResults {Object} Represents the processing results returned by the service-call
- * @param sourceContact {Object} Represents the sourceContact that was fed to the serviceCall
- */
-function _validateContactProperties(processResults, sourceContact) {
-
-    // Initialize local variables
-    let processResult,
-        contactProperties;
-
-    // Shorthand a reference to the response data
-    processResult = processResults.data[0];
-
-    // Retrieve the collection of keys on a given sourceContact
-    contactProperties = Object.keys(sourceContact);
-
-    // Loop over the collection of properties and evaluate each value
-    contactProperties.forEach(function (contactProperty) {
-
-        // Evaluate that each of the properties exist -- and that their values align and match-up
-        assert.isTrue(processResult.outputValues.Contact.hasOwnProperty(contactProperty), ` -- expected the Contact object to have the property ${contactProperty}`);
-        assert.equal(processResult.outputValues.Contact[contactProperty], sourceContact[contactProperty], ` -- value misMatch: ${contactProperty}; expected the REST response and sourceContact object to have the same values`);
-
-    });
-
-}
-
-/**
- * @private
  * @function _validateB2CCustomerListPropertiesExist
  * @description Helper function that validates the B2C CustomerList properties are found in
  * a given B2CContactProcess result.
@@ -1067,37 +987,6 @@ function _validateB2CCustomerListPropertiesExist(processResults) {
     // Validate that the customerList properties are seeded
     assert.isTrue(processResult.outputValues.Contact.hasOwnProperty('B2C_CustomerList_ID__c'), ' -- expected the Contact object to have a B2C CustomerList static reference');
     assert.isTrue(processResult.outputValues.Contact.hasOwnProperty('B2C_CustomerList__c'), ' -- expected the Contact object to have a B2C CustomerList object-relationship reference');
-
-}
-
-/**
- * @private
- * @function _validateAccountContactPropertiesExist
- * @description Helper function that validates the Salesforce Platform Account and Contact
- * properties exist in the B2CContactProcess response.
- *
- * @param processResults {Object} Represents the processing results returned by the service-call
- */
-function _validateAccountContactPropertiesExist(processResults) {
-
-    // Initialize local variables
-    let processResult;
-
-    // Shorthand a reference to the response data
-    processResult = processResults.data[0];
-
-    // Validate that the Account and Contact objects are present in the outputValues
-    assert.isTrue(processResult.outputValues.hasOwnProperty('Account'), ' -- expected the Account property to exist in the output object');
-    assert.isTrue(processResult.outputValues.hasOwnProperty('Contact'), ' -- expected the Contact property to exist in the output object');
-    assert.isObject(processResult.outputValues.Account, ' -- expected the Account object to exist in the output object');
-    assert.isObject(processResult.outputValues.Contact, ' -- expected the Contact object to exist in the output object');
-
-    // Validate that the Account and Contact Objects seeded with the correct properties
-    assert.isTrue(processResult.outputValues.Account.hasOwnProperty('RecordTypeId'), ' -- expected the Account object to have a recordType relationship');
-    assert.isTrue(processResult.outputValues.Account.hasOwnProperty('Id'), ' -- expected the Account object to have a primary key');
-    assert.isTrue(processResult.outputValues.Contact.hasOwnProperty('Id'), ' -- expected the Contact object to have a primary key');
-    assert.isTrue(processResult.outputValues.Contact.hasOwnProperty('AccountId'), ' -- expected the Account object to have an Account relationship');
-    assert.equal(processResult.outputValues.Contact.AccountId, processResult.outputValues.Account.Id, ' -- expected the Account object Id and Contact relationship values to be the same');
 
 }
 
@@ -1125,65 +1014,5 @@ function _compareAccountContactIdentifiers(processResults, preTestResult) {
     // Validate that the Account and Contact resolved are the ones newly created
     assert.equal(processResult.outputValues.Account.Id, preTestResult.accountId, ' -- expected the Account objects (created and test-data) in this test to have the same Id value');
     assert.equal(processResult.outputValues.Contact.Id, preTestResult.contactId, ' -- expected the Contact objects (created and test-data) in this test to have the same Id value');
-
-}
-
-/**
- * @private
- * @function _executeAndVerifyB2CProcessResult
- * @description Helper function to perform common retrieval and validation for all B2CContactProcess requests
- *
- * @param environmentDef {Object} Represents the environment definition used to drive this request
- * @param sfdcAccessToken {String} Represents the accessToken used to authenticate against the Salesforce Platform
- * @param resolveBody {Object} Represents the object containing the sourceContact to be resolved
- */
-async function _executeAndVerifyB2CProcessResult(environmentDef, sfdcAccessToken, resolveBody) {
-
-    // Initialize local variables
-    let output;
-
-    output = await flowAPIs.postB2CContactProcess(environmentDef, sfdcAccessToken, resolveBody);
-
-    // Attempt to validate the processing-result
-    _validateB2CProcessResult(output);
-
-    // Attempt to verify that the contactProperty values are aligned
-    _validateContactProperties(output, resolveBody.inputs[0].sourceContact);
-
-    // Verify that the Account / Contact properties exist in the service-output
-    _validateAccountContactPropertiesExist(output);
-
-    // Create a shorthand reference to the Account / Contact identifiers
-    output.contactId = output.data[0].outputValues.Contact.Id;
-    output.accountId = output.data[0].outputValues.Account.Id;
-
-    // Return the output property
-    return output;
-
-}
-
-/**
- * @private
- * @function _createAccountContactRelationship
- * @description Helper function to stand-up an Account / Contact record for the purpose of testing.  Use
- * this method to create these records when we need existing data created through external sources.
- *
- * @param sfdcAuthCredentials {Object} Represents the Salesforce Platform authentication credentials to leverage
- * @param environmentDef {Object} Represents the environment definition to leverage and infer the accountType from
- * @param contactObject {Object} Represents the contactObject to create
- */
-async function _createAccountContactRelationship(sfdcAuthCredentials, environmentDef, contactObject) {
-
-    let accountName,
-        output;
-
-    // Default the accountName to leverage
-    accountName = config.get('unitTests.testData.defaultAccountName');
-
-    // Execute the pre-test logic to seed the expected test data
-    output = await useCaseProcesses.sfdcAccountContactCreate(sfdcAuthCredentials, contactObject, accountName, environmentDef.sfScratchOrgProfile);
-
-    // Return the output variable
-    return output;
 
 }

@@ -28,6 +28,11 @@ public with sharing class B2CConstant {
         PersonAccountProperties_ToRemove_Jigsaw = 'Jigsaw',
         PersonAccountProperties_ToRemove_ReportsToId = 'ReportsToId',
 
+        // Define the list of synchronization properties we skip when synchronizing the
+        // delta between a sourceObject's properties and a targetObject's properties
+        Contact_SynchronizeProperties_ToSkip_Id = 'Id',
+        Contact_SynchronizeProperties_ToSkip_Attributes = 'attributes',
+
         // Define the processMode keys leveraged by B2C Customer Profile integration
         Contact_Integration_ProcessMode_Retrieve = 'retrieve',
         Contact_Integration_ProcessMode_Publish = 'publish',
@@ -71,6 +76,14 @@ public with sharing class B2CConstant {
         PersonAccountProperties_ToRemove_CleanStatus,
         PersonAccountProperties_ToRemove_Jigsaw,
         PersonAccountProperties_ToRemove_ReportsToId
+    };
+
+    // Define the collection of Contact properties to skip when comparing objects for
+    // synchronization purposes (updating the remaining fields from a sourceObject to
+    // a targetObject).
+    public static final List<String> synchronizePropertiesToSkip = new List<String>{
+        Contact_SynchronizeProperties_ToSkip_Id,
+        Contact_SynchronizeProperties_ToSkip_Attributes
     };
 
     /**
