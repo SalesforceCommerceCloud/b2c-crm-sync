@@ -62,13 +62,9 @@ module.exports = async (sfdcAuthCredentials, contactObject) => {
 
     }
 
-    console.log(personAccountObj);
-
     // Create an Account using the configured recordType
     output.accountCreateResult = await sObjectAPIs.create(
         sfdcAuthCredentials.conn, 'Account', personAccountObj);
-
-    console.log(output);
 
     // Return the output variable
     return output;

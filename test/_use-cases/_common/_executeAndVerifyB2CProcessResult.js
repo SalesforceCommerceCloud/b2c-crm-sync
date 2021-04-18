@@ -23,9 +23,6 @@ module.exports = async function _executeAndVerifyB2CProcessResult(environmentDef
 
     output = await flowAPIs.postB2CContactProcess(environmentDef, sfdcAccessToken, resolveBody);
 
-    console.log(resolveBody.inputs[0].sourceContact);
-    console.log(output.data[0]);
-
     // Attempt to validate the processing-result
     validateB2CProcessResult(output);
 

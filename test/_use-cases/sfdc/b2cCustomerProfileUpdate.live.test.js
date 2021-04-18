@@ -18,7 +18,7 @@ const sObjectAPIs = require('../../../lib/apis/sfdc/sObject');
 // Initialize local libraries
 const getRuntimeEnvironment = require('../../../lib/cli-api/_getRuntimeEnvironment');
 
-describe('Updating an SFDC Contact representing a B2C Commerce Customer Profile', function () {
+describe('Updating an SFDC Contact representing a B2C Commerce Customer Profile from within SFDC', function () {
 
     // Establish a thirty-second time-out or multi-cloud unit tests
     // noinspection JSAccessibilityCheck
