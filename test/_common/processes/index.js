@@ -7,6 +7,7 @@ module.exports = {
     multiCloudInit: require('./_multiCloudInit'),
     sfdcAccountContactCreate: require('./_sfdcAccountContactCreate'),
     sfdcAccountContactPurge: require('./_sfdcAccountContactPurge'),
+    sfdcB2CCustomerListUpdate: require('./_sfdcB2CCustomerListUpdate'),
     sfdcPersonAccountCreate: require('./_sfdcPersonAccountCreate'),
     sleep: require('./_sleep')
 };

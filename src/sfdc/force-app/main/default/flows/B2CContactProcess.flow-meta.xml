@@ -159,7 +159,7 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>sub_allowIntegrationHelper_NoContactID_0</targetReference>
+            <targetReference>sub_allowIntegrationHelper_Update</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -270,39 +270,11 @@
         </connector>
     </assignments>
     <assignments>
-        <description>... throw an error explaining the Contact does not have a parent Account.</description>
-        <name>asn_ErrorCannotUpdateContact_Assignment</name>
-        <label>Error: Contact Missing Parent Account</label>
-        <locationX>1760</locationX>
-        <locationY>1831</locationY>
-        <assignmentItems>
-            <assignToReference>isSuccess</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <booleanValue>false</booleanValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>errors</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <stringValue>This Contact does not have a valid parent Account.  Please check the Id value and try again.</stringValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>Contact</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>sourceContact</elementReference>
-            </value>
-        </assignmentItems>
-    </assignments>
-    <assignments>
         <description>... throw an error that Contact Integration is disabled.</description>
         <name>asn_ErrorContactIntegrationDisabled_Assignment</name>
         <label>Error: Contact Integration Disabled</label>
-        <locationX>1760</locationX>
-        <locationY>1595</locationY>
+        <locationX>1700</locationX>
+        <locationY>1738</locationY>
         <assignmentItems>
             <assignToReference>errors</assignToReference>
             <operator>Add</operator>
@@ -448,8 +420,8 @@
         <description>... throw an error that integration is disabled for this CustomerList or B2C Instance.</description>
         <name>asn_ErrorIntegrationIsDisabled_0</name>
         <label>Error: Integration Is Disabled</label>
-        <locationX>872</locationX>
-        <locationY>1998</locationY>
+        <locationX>805</locationX>
+        <locationY>2000</locationY>
         <assignmentItems>
             <assignToReference>errors</assignToReference>
             <operator>Add</operator>
@@ -653,31 +625,17 @@
             </value>
         </assignmentItems>
         <assignmentItems>
-            <assignToReference>var_qaSourceContact.B2C_Customer_ID__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <stringValue>acavb14tubLwXDGWPsRgft6ePd</stringValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>var_qaSourceContact.B2C_Customer_No__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <stringValue>00003040</stringValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
             <assignToReference>var_qaSourceContact.Id</assignToReference>
             <operator>Assign</operator>
             <value>
-                <stringValue>0038A00000ZXChcQAH</stringValue>
+                <stringValue>0038A00000ZXH3bQAH</stringValue>
             </value>
         </assignmentItems>
         <assignmentItems>
             <assignToReference>var_qaSourceContact.AccountId</assignToReference>
             <operator>Assign</operator>
             <value>
-                <stringValue>0018A00000dIBo0QAG</stringValue>
+                <stringValue>0018A00000dIF4MQAW</stringValue>
             </value>
         </assignmentItems>
         <connector>
@@ -842,27 +800,12 @@
         <description>... evaluates the Contact Record to determine if it can be processed.</description>
         <name>dec_EvaluateContactRecord</name>
         <label>Evaluate the Contact Record</label>
-        <locationX>1291</locationX>
-        <locationY>1740</locationY>
+        <locationX>1290</locationX>
+        <locationY>1739</locationY>
         <defaultConnector>
             <targetReference>dec_isTrustworthyIDPresentInOriginalContact</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Process Contact Update</defaultConnectorLabel>
-        <rules>
-            <name>decOut_ContactHasNoParentAccount</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>sourceContact.AccountId</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>asn_ErrorCannotUpdateContact_Assignment</targetReference>
-            </connector>
-            <label>Contact Has No Parent Account</label>
-        </rules>
         <rules>
             <name>decOut_ContactCannotBeUpdated</name>
             <conditionLogic>and</conditionLogic>
@@ -999,10 +942,10 @@
     </decisions>
     <decisions>
         <description>... evaluates the integration configuration validation results -- and either moves forward with the integration event or stops event processing.</description>
-        <name>dec_isIntegrationEnabledForPlatformEvent_0</name>
+        <name>dec_isIntegrationEnabledForPlatformEventUpdate</name>
         <label>Is Integration Enabled for this Event?</label>
-        <locationX>864</locationX>
-        <locationY>1738</locationY>
+        <locationX>796</locationX>
+        <locationY>1736</locationY>
         <defaultConnector>
             <targetReference>dec_EvaluateContactRecord</targetReference>
         </defaultConnector>
@@ -1011,10 +954,10 @@
             <name>decOut_integrationIsDisabled_ContactID</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>sub_allowIntegrationHelper_NoContactID.out_allowIntegrationProcess</leftValueReference>
+                <leftValueReference>sub_allowIntegrationHelper_Update.out_allowIntegrationProcess</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <booleanValue>true</booleanValue>
+                    <booleanValue>false</booleanValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -1328,9 +1271,9 @@
         <locationX>1036</locationX>
         <locationY>785</locationY>
         <defaultConnector>
-            <targetReference>asn_ErrorContactNotFound_Assignment</targetReference>
+            <targetReference>recGet_Account</targetReference>
         </defaultConnector>
-        <defaultConnectorLabel>Was Not Verified</defaultConnectorLabel>
+        <defaultConnectorLabel>Was Verified</defaultConnectorLabel>
         <rules>
             <name>decOut_sourceContactVerified</name>
             <conditionLogic>and</conditionLogic>
@@ -1338,13 +1281,13 @@
                 <leftValueReference>recGet_validateSourceContactRecord</leftValueReference>
                 <operator>IsNull</operator>
                 <rightValue>
-                    <booleanValue>false</booleanValue>
+                    <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>recGet_Account</targetReference>
+                <targetReference>asn_ErrorContactNotFound_Assignment</targetReference>
             </connector>
-            <label>Was Verified</label>
+            <label>Was Not Verified</label>
         </rules>
         <rules>
             <name>decOut_noAccountIDOnSourceContact</name>
@@ -1715,7 +1658,7 @@
         <name>asn_sourceContactIntegrationPropertiesResolvedContact</name>
         <label>Assign sourceContact Integration Properties from Resolved Contact</label>
         <locationX>1298</locationX>
-        <locationY>1506</locationY>
+        <locationY>1507</locationY>
         <connector>
             <targetReference>dec_EvaluateContactRecord</targetReference>
         </connector>
@@ -1769,12 +1712,12 @@
     </subflows>
     <subflows>
         <description>... evaluate the configuration of the specified CustomerList and sourceContact to determine if integration should be enabled.</description>
-        <name>sub_allowIntegrationHelper_NoContactID_0</name>
+        <name>sub_allowIntegrationHelper_Update</name>
         <label>Allow Integration for this Source Contact?</label>
         <locationX>306</locationX>
-        <locationY>1736</locationY>
+        <locationY>1734</locationY>
         <connector>
-            <targetReference>dec_isIntegrationEnabledForPlatformEvent_0</targetReference>
+            <targetReference>dec_isIntegrationEnabledForPlatformEventUpdate</targetReference>
         </connector>
         <flowName>B2CCommerce_AllowIntegration_Helper</flowName>
         <inputAssignments>

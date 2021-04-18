@@ -2,7 +2,7 @@
  * @author Eric Schultz
  * @date April 11th, 2021
  *
- * @description 
+ * @description
 */
 @IsTest
 private class B2CIAValidateContact_Test {
@@ -21,6 +21,7 @@ private class B2CIAValidateContact_Test {
         input.contact = (Contact)TestDataFactory.createSObject('Contact', new Map<String,Object>{
             'B2C_Disable_Integration__c' => false
         });
+
         input.customerList = (B2C_CustomerList__c)TestDataFactory.createSObject('B2C_CustomerList__c', new Map<String,Object>{
             'API_URL__c' => 'https://www.salesforce.com',
             'B2C_Instance__r.API_URL__c' => 'https://www.salesforce.com',
@@ -30,10 +31,12 @@ private class B2CIAValidateContact_Test {
             'Enable_Profile_Updates__c' => true,
             'Is_Active__c' => true
         });
+
         input.b2cInstance = (B2C_Instance__c)TestDataFactory.createSObject('B2C_Instance__c', new Map<String,Object>{
             'API_URL__c' => 'https://www.salesforce.com',
             'Is_Active__c' => true
         });
+
         input.processMode = B2CConstant.Contact_Integration_ProcessMode_Retrieve;
 
         inputList.add( input );
@@ -45,8 +48,8 @@ private class B2CIAValidateContact_Test {
             );
 
         Test.stopTest();
-    }
 
+    }
 
     @IsTest
     static void isDisabled() {
@@ -58,6 +61,7 @@ private class B2CIAValidateContact_Test {
         input.contact = (Contact)TestDataFactory.createSObject('Contact', new Map<String,Object>{
             'B2C_Disable_Integration__c' => true
         });
+
         input.customerList = (B2C_CustomerList__c)TestDataFactory.createSObject('B2C_CustomerList__c', new Map<String,Object>{
             'API_URL__c' => 'https://www.salesforce.com',
             'B2C_Instance__r.API_URL__c' => 'https://www.salesforce.com',
@@ -67,10 +71,12 @@ private class B2CIAValidateContact_Test {
             'Enable_Profile_Updates__c' => true,
             'Is_Active__c' => true
         });
+
         input.b2cInstance = (B2C_Instance__c)TestDataFactory.createSObject('B2C_Instance__c', new Map<String,Object>{
             'API_URL__c' => 'https://www.salesforce.com',
             'Is_Active__c' => true
         });
+
         input.processMode = B2CConstant.Contact_Integration_ProcessMode_Retrieve;
 
         inputList.add( input );
@@ -82,5 +88,7 @@ private class B2CIAValidateContact_Test {
             );
 
         Test.stopTest();
+
     }
+
 }
