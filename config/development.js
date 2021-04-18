@@ -97,8 +97,11 @@ module.exports = {
         // Define test data-sets leveraged by unit tests
         "testData": {
 
+            // Define the timeout in ms for each multi-cloud unit-test
+            "describeTimeout": 60000,
+
             // Define the default sleep-timeout to enforce for asynchronous tests
-            "sleepTimeout": 2000,
+            "sleepTimeout": 2500,
 
             // Define the default accountName to use
             "defaultAccountName": "Unknown Customer",

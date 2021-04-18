@@ -3,9 +3,6 @@
 // Initialize constants
 const config = require('config');
 
-// Initialize the assertion library
-const assert = require('chai').assert;
-
 // Initialize local libraries for B2C Commerce
 const shopAPIs = require('../../../lib/apis/sfcc/ocapi/shop');
 const dataAPIs = require('../../../lib/apis/sfcc/ocapi/data');
@@ -21,12 +18,11 @@ const sObjectAPIs = require('../../../lib/apis/sfdc/sObject');
 // Initialize local libraries
 const getRuntimeEnvironment = require('../../../lib/cli-api/_getRuntimeEnvironment');
 
-// Exercise the retrieval of the operation mode
 describe('Authenticating a B2C Customer Profile via the OCAPI Shop API', function () {
 
     // Establish a thirty-second time-out or multi-cloud unit tests
     // noinspection JSAccessibilityCheck
-    this.timeout(60000);
+    this.timeout(config.get('unitTests.testData.describeTimeout'));
 
     // Initialize local variables
     let environmentDef,
@@ -355,7 +351,7 @@ describe('Authenticating a B2C Customer Profile via the OCAPI Shop API', functio
         );
 
         // Validate that the SFDC Contact attributes do not match their B2C Commerce equivalents
-        _validateRegisteredUserContactUpdatesAreNotEqual(
+        common.validateRegisteredUserContactUpdatesAreNotEqual(
             output.updateResults.sfdcUpdateContactResults,
             output.updateResults.b2cFirstUpdateAuthenticationResults
         );
@@ -462,7 +458,7 @@ describe('Authenticating a B2C Customer Profile via the OCAPI Shop API', functio
         );
 
         // Validate that the SFDC Contact attributes do not match their B2C Commerce equivalents
-        _validateRegisteredUserContactUpdatesAreNotEqual(
+        common.validateRegisteredUserContactUpdatesAreNotEqual(
             output.updateResults.sfdcUpdateContactResults,
             output.updateResults.b2cFirstUpdateAuthenticationResults
         );

@@ -7,14 +7,14 @@ const config = require('config');
 const assert = require('chai').assert;
 
 // Initialize tearDown helpers
-const useCaseProcesses = require('../../_common/processes');
+const useCaseProcesses = require('../processes');
 
 // Initialize local libraries for SFDC
 const sfdcAuth = require('../../../lib/apis/sfdc/auth');
 
 // Initialize local libraries
 const getRuntimeEnvironment = require('../../../lib/cli-api/_getRuntimeEnvironment');
-const sfdcAccountContactPurge = require('../../../test/_common/processes/_sfdcAccountContactPurge');
+const sfdcAccountContactPurge = require('../processes/_sfdcAccountContactPurge');
 
 // Exercise the retrieval of the operation mode
 describe('Duplicate Contact record processing via Salesforce Platform REST APIs', function () {

@@ -7,7 +7,7 @@ const config = require('config');
 const assert = require('chai').assert;
 
 // Initialize tearDown helpers
-const useCaseProcesses = require('../../_common/processes');
+const useCaseProcesses = require('../processes');
 
 // Initialize local libraries for SFDC
 const sfdcAuth = require('../../../lib/apis/sfdc/auth');
@@ -17,7 +17,7 @@ const sObjectAPIs = require('../../../lib/apis/sfdc/sObject');
 
 // Initialize local libraries
 const getRuntimeEnvironment = require('../../../lib/cli-api/_getRuntimeEnvironment');
-const sfdcAccountContactPurge = require('../../../test/_common/processes/_sfdcAccountContactPurge');
+const sfdcAccountContactPurge = require('../processes/_sfdcAccountContactPurge');
 
 // Exercise the retrieval of the operation mode
 describe('Progressive resolution of a B2C Commerce Customer via the B2CContactProcess API', function () {
