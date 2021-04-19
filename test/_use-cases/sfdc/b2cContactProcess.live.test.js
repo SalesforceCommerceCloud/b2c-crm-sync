@@ -913,6 +913,171 @@ describe('Progressive resolution of a B2C Commerce Customer via the B2CContactPr
 
     });
 
+    //----------------------------------------------------------------
+    // Progressive update scenarios (updating Contacts directly via the service)
+    //----------------------------------------------------------------
+
+    it('allows direct updates by B2C CustomerList, Email, and LastName', async function () {
+
+        // Initialize local variables
+        let output,
+            sourceContact,
+            resolveBody,
+            resolveOutput;
+
+        // Initialize the request
+        sourceContact = {
+            LastName: testContact.LastName,
+            Email: testContact.Email,
+            B2C_CustomerList_ID__c: customerListId
+        };
+
+        // Build out the resolve object used to exercise the process-service
+        resolveBody = _getB2CContactProcessBody(sourceContact);
+
+        // Execute the process flow-request and capture the results for the contact creation test
+        output = await common.executeAndVerifyB2CProcessResult(environmentDef, sfdcAuthCredentials.conn.accessToken, resolveBody);
+
+        // Re-Initialize the request
+        sourceContact = {
+            LastName: testContact.LastName,
+            Email: testContact.Email,
+            B2C_CustomerList_ID__c: customerListId,
+            Audit_OCAPI_API_Response__c: true,
+            Description: 'Testing direct updates of the Contact record.'
+        };
+
+        // Build out the resolve object used to exercise the process-service
+        resolveBody = _getB2CContactProcessBody(sourceContact);
+
+        // Execute the process flow-request and capture the results for the second contact creation test
+        resolveOutput = await common.executeAndVerifyB2CProcessResult(environmentDef, sfdcAuthCredentials.conn.accessToken, resolveBody);
+
+        // Compare the Contact identifiers and validate that they match / are the same
+        assert.equal(output.contactId, resolveOutput.contactId, ' -- expected the contactIdentifiers to match and be the same');
+
+    });
+
+    it('allows direct updates by B2C CustomerID', async function () {
+
+        // Initialize local variables
+        let output,
+            sourceContact,
+            resolveBody,
+            resolveOutput;
+
+        // Initialize the request
+        sourceContact = {
+            LastName: testContact.LastName,
+            Email: testContact.Email,
+            B2C_CustomerList_ID__c: customerListId,
+            B2C_Customer_ID__c: customerId
+        };
+
+        // Build out the resolve object used to exercise the process-service
+        resolveBody = _getB2CContactProcessBody(sourceContact);
+
+        // Execute the process flow-request and capture the results for the contact creation test
+        output = await common.executeAndVerifyB2CProcessResult(environmentDef, sfdcAuthCredentials.conn.accessToken, resolveBody);
+
+        // Re-Initialize the request
+        sourceContact = {
+            B2C_Customer_ID__c: customerId,
+            Audit_OCAPI_API_Response__c: true,
+            Description: 'Testing direct updates of the Contact record.'
+        };
+
+        // Build out the resolve object used to exercise the process-service
+        resolveBody = _getB2CContactProcessBody(sourceContact);
+
+        // Execute the process flow-request and capture the results for the second contact creation test
+        resolveOutput = await common.executeAndVerifyB2CProcessResult(environmentDef, sfdcAuthCredentials.conn.accessToken, resolveBody);
+
+        // Compare the Contact identifiers and validate that they match / are the same
+        assert.equal(output.contactId, resolveOutput.contactId, ' -- expected the contactIdentifiers to match and be the same');
+
+    });
+
+    it('allows direct updates by B2C CustomerList ID and B2C CustomerNo', async function () {
+
+        // Initialize local variables
+        let output,
+            sourceContact,
+            resolveBody,
+            resolveOutput;
+
+        // Initialize the request
+        sourceContact = {
+            LastName: testContact.LastName,
+            Email: testContact.Email,
+            B2C_CustomerList_ID__c: customerListId,
+            B2C_Customer_No__c: customerNo
+        };
+
+        // Build out the resolve object used to exercise the process-service
+        resolveBody = _getB2CContactProcessBody(sourceContact);
+
+        // Execute the process flow-request and capture the results for the contact creation test
+        output = await common.executeAndVerifyB2CProcessResult(environmentDef, sfdcAuthCredentials.conn.accessToken, resolveBody);
+
+        // Re-Initialize the request
+        sourceContact = {
+            B2C_CustomerList_ID__c: customerListId,
+            B2C_Customer_No__c: customerNo,
+            Audit_OCAPI_API_Response__c: true,
+            Description: 'Testing direct updates of the Contact record.'
+        };
+
+        // Build out the resolve object used to exercise the process-service
+        resolveBody = _getB2CContactProcessBody(sourceContact);
+
+        // Execute the process flow-request and capture the results for the second contact creation test
+        resolveOutput = await common.executeAndVerifyB2CProcessResult(environmentDef, sfdcAuthCredentials.conn.accessToken, resolveBody);
+
+        // Compare the Contact identifiers and validate that they match / are the same
+        assert.equal(output.contactId, resolveOutput.contactId, ' -- expected the contactIdentifiers to match and be the same');
+
+    });
+
+    it('allows direct updates by ContactID', async function () {
+
+        // Initialize local variables
+        let output,
+            sourceContact,
+            resolveBody,
+            resolveOutput;
+
+        // Initialize the request
+        sourceContact = {
+            LastName: testContact.LastName,
+            Email: testContact.Email,
+            B2C_CustomerList_ID__c: customerListId
+        };
+
+        // Build out the resolve object used to exercise the process-service
+        resolveBody = _getB2CContactProcessBody(sourceContact);
+
+        // Execute the process flow-request and capture the results for the contact creation test
+        output = await common.executeAndVerifyB2CProcessResult(environmentDef, sfdcAuthCredentials.conn.accessToken, resolveBody);
+
+        // Re-Initialize the request
+        sourceContact = {
+            Id: output.contactId,
+            Audit_OCAPI_API_Response__c: true,
+            Description: 'Testing direct updates of the Contact record.'
+        };
+
+        // Build out the resolve object used to exercise the process-service
+        resolveBody = _getB2CContactProcessBody(sourceContact);
+
+        // Execute the process flow-request and capture the results for the second contact creation test
+        resolveOutput = await common.executeAndVerifyB2CProcessResult(environmentDef, sfdcAuthCredentials.conn.accessToken, resolveBody);
+
+        // Compare the Contact identifiers and validate that they match / are the same
+        assert.equal(output.contactId, resolveOutput.contactId, ' -- expected the contactIdentifiers to match and be the same');
+
+    });
+
     // Reset the output variable in-between tests
     afterEach(async function () {
 
