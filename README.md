@@ -671,7 +671,7 @@ Leveraging the PersonAccount implementation requires a handful of additional con
 #### Validate Your Installation
 You can validate your installation by executing the multi-cloud unit-tests that are included with this enablement solution.  Exercise the multi-cloud unit-tests by executing the following CLI command:
 
-> :warning &nbsp;Please note that these tests exercise your B2C Commerce Sandbox and Salesforce Platform ScratchOrg via REST APIs to validate the installation is successful.  The B2C Commerce interactions are dependent on the deployment of the **RefArch and RefArchGlobal sites**.  Each site should be associated to its own separate CustomerList.  Do not associate both sites to the same CustomerList -- as this will cause tests dependent on multiple customer-lists to fail. &nbsp; :warning
+> :warning: &nbsp; Please note that these tests exercise your B2C Commerce Sandbox and Salesforce Platform ScratchOrg via REST APIs to validate the installation is successful.  The B2C Commerce interactions are dependent on the deployment of the **RefArch and RefArchGlobal sites**.  Each site should be associated to its own separate CustomerList.  Do not associate both sites to the same CustomerList -- as this will cause tests dependent on multiple customer-lists to fail. &nbsp; :warning:
 
 ```bash
 npm run crm-sync:test:use-cases
