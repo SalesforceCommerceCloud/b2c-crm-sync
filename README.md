@@ -39,7 +39,7 @@ For feature requests or bugs, please [open a GitHub issue](https://github.com/sf
 
 ![Come Get Your Architect Success Hoody](/docs/images/hoody-worthy.gif)
 
-> Please keep in mind that [hoody-worthy](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/issues?q=is%3Aopen+is%3Aissue+label%3Ahoody-worthy) issues need to solve real business or project problems.  That said -- contribute, let us support you, and collect your swag. It's really that simple. :)
+> Please keep in mind that [hoody-worthy](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/issues?q=is%3Aopen+is%3Aissue+label%3Ahoody-worthy) issues need to solve real business or project problems.  That said -- contribute, let us support you, and collect your swag. It's really that simple.  Visit our [contribution guidelines](Contributing.md) for details.
 
 ### Feature Summary
 
