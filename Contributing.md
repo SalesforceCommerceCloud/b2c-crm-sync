@@ -46,8 +46,22 @@ Thanks from all of us!  Looking forward to hearing from you. :)
 
 Best :purple_heart: :purple_heart: :purple_heart:
 
-**[Christa Matukaitis](https://www.linkedin.com/in/christa-matukaitis-152a5b35/)** -- Senior Regional Success Architect
-**[Eric Schultz](https://www.linkedin.com/in/ericszulc/)** -- Regional Success Architect
-**[Jordane Bachelet](https://www.linkedin.com/in/jordane-bachelet/)** -- Senior B2C Technical Architect
-**[Olena Baykur](https://www.linkedin.com/in/olena-baykur-2057617/)** -- Regional Success Architect
-**[Abraham Lloyd](https://www.linkedin.com/in/abrahamlloyd/)** -- Lead Evangelist: B2C Solution Architect Program
+<br/>"Sister from Another Mister"
+<br/>Senior Regional Success Architect
+<br/>**[Christa Matukaitis](https://www.linkedin.com/in/christa-matukaitis-152a5b35/)**
+
+<br/>"Artisan Flow-Master"
+<br/>Regional Success Architect
+<br/>**[Eric Schultz](https://www.linkedin.com/in/ericszulc/)**
+
+<br/>"Has Re-Written More of My Code than I Have"
+<br/>Senior B2C Technical Architect
+<br/>**[Jordane Bachelet](https://www.linkedin.com/in/jordane-bachelet/)**
+
+<br/>"Tenacious, Relentless, and Continuous"
+<br/>Regional Success Architect
+<br/>**[Olena Baykur](https://www.linkedin.com/in/olena-baykur-2057617/)**
+
+<br/>"Yes, These Are My Nicknames For Everyone"
+<br/>Lead Evangelist: B2C Solution Architect Program
+<br/>**[Abraham Lloyd](https://www.linkedin.com/in/abrahamlloyd/)**
