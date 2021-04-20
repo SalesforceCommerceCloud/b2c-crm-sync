@@ -33,7 +33,7 @@ Please remember that this project **should not be treated as Salesforce Product*
 ### Support
 This repository is maintained and contributed to by the Salesforce Community, Architect Success Team, and the SCPPE and Service Delivery teams within the Customer Success Group (CSG). This repository isn’t supported by Salesforce Commerce Cloud or Salesforce Platform Technical Support.
 
-> :confetti_ball: &nbsp; We are always seeking contributions from our community of Architects and developers.  If you're curious to learn more about how you can [get an Architect Success Hoody](Contributing.md) -- please review our [contribution guidelines](Contributing.md). &nbsp; :confetti_ball:
+> :confetti_ball: &nbsp; We are always seeking contributions from our community of Architects and developers.  If you're curious to learn more about how you can [get an Architect Success Hoody](Contributing.md) -- please review our [contribution guidelines](Contributing.md).
 
 For feature requests or bugs, please [open a GitHub issue](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/issues/new/choose). Contributions are ALWAYS WELCOME -- and are often rewarded with Architect Success swag.
 
