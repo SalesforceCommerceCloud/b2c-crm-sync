@@ -39,7 +39,7 @@ For feature requests or bugs, please [open a GitHub issue](https://github.com/sf
 
 ![Come Get Your Architect Success Hoody](/docs/images/hoody-worthy.gif)
 
-> Please keep in mind that [hoody-worthy](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/issues?q=is%3Aopen+is%3Aissue+label%3Ahoody-worthy) issues need to solve real business or project problems.  That said -- contribute, let us support you, and collect your swag. It's really that simple. :)
+> Please keep in mind that [hoody-worthy](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/issues?q=is%3Aopen+is%3Aissue+label%3Ahoody-worthy) issues need to solve real business or project problems.  That said -- contribute, let us support you, and collect your swag. It's really that simple.  Visit our [contribution guidelines](Contributing.md) for details.
 
 ### Feature Summary
 
@@ -528,15 +528,13 @@ npm run crm-sync:sf:build
 
 10. If you are deploying a personAccount scratchOrg, you'll also need to manually deploy the Salesforce Platform layout and quickAction elements for PersonAccounts.  The following SFDX command can be used to deploy these elements to your scratchOrg:
 
-> :warning: &nbsp; As a reminder, the **personAccounts implementation is incomplete** at this time.  Please review the [issues list](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/issues) for details and known issues.  We'll update the ReadMe.md once personAccounts have been completely implemented. &nbsp; :warning:
+> :warning: &nbsp; As of 04.19.21 -- we've deployed our PersonAccounts implementation.  Please review the [issues list](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/issues) for defects and known issues.  If you encounter a defect related to PersonAccounts, please go ahead and [create an issue](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/issues/new/choose); it helps everyone. &nbsp; :warning:
 
 ```bash
 sfdx force:source:deploy -p "src/sfdc/person-accounts"
 ```
 
 > The deployment results will be output via the CLI.  Please note that these elements are a requirement for environments where personAccounts are enabled.
-
-
 
 11. Use the below CLI command to retrieve configuration data needed for .env as outlined above.
 
