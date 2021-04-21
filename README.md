@@ -59,6 +59,37 @@ This repository should be considered a developer framework that can be extended 
 
 > Do NOT deploy this enablement solution directly to a staging or production environment without first going through your development, QA, or CI process.  Remember that this solution is not supported by Salesforce Technical Support.
 
+#### Node.js Setup Instructions
+
+b2c-crm-sync leverages [node.js enabled CLI](https://github.com/tj/commander.js/) commands.  You'll want to ensure that you have [node v15.2.1](https://nodejs.org/en/blog/release/v15.2.1/) running.  If you're new to node, we recommend setting up nvm to manage multiple node versions.
+
+> Use these articles to setup [nvm](https://github.com/nvm-sh/nvm) on your local workstation.  It's worth the effort to set this up, as it introduces great flexibility if you have projects that are dependent on specific node versions.
+
+- You can [install nvm on the mac](https://jamesauble.medium.com/install-nvm-on-mac-with-brew-adb921fb92cc) using [brew](https://jamesauble.medium.com/install-nvm-on-mac-with-brew-adb921fb92cc).
+
+- You can also [install nvm on windows](https://dev.to/skaytech/how-to-install-node-version-manager-nvm-for-windows-10-4nbi).
+
+Once you have node installed, you can verify your local node version with the following command:
+
+```bash
+node --version
+```
+
+> This should return the version number of your active node.js version.  If everything is setup correctly, the command should return **v15.2.1**.
+
+With node.js setup, you can now install the project dependencies with the standard npm install command:
+
+```bash
+npm install
+```
+> Installing the project dependencies will take a moment or two.  Please [log an issue](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/issues/new) if you run into installation issues setting up the project.
+
+#### About the Library of CLI Commands
+
+b2c-crm-sync includes a library of CLI commands that can be used to validate your setup and incrementally deploy B2C Commerce and Salesforce Platform components to your B2C Commerce sandbox and Salesforce scratchOrg.  We recommend reviewing the [package.json](package.json) to view a complete list of commands available.
+
+> The CLI commands are designed to run off of the [.env file](sample.env) configuration.  They also include support for command-line argument equivalents of the .env configuration values.  Lastly, each command has an associated [api method](lib/cli-api) that can be leveraged from within custom deployment scripts.
+
 #### B2C Commerce Setup Instructions
 
 ##### Setup a .env file
@@ -432,36 +463,7 @@ The build tools will use this information to create scratchOrgs, set default pre
 
 > Prior to saving your file, please verify that the scratchOrg profile uses one of the two supported values ('base' or 'personaccounts').  Any values not set will automatically default to base preferences managed via the /config/default.js configuration file.
 
-#### Setup ScratchOrg Authentication Credentials
-B2C Commerce service definitions pointing to the deployed scratchOrg can be seeded with Salesforce environment authentication credentials.  To support this, please extend the .env file with the following properties representing authentication details for the scratchOrg.
-
-- Open the .env file and edit the following information.  Please update these values to reflect the unique environment and authentication credentials for your scratchOrg.  These values can be used to validate authentication and seed the B2C Commerce service definitions with these details -- eliminating the need to manually configure these services.
-
-> Your Scratch Org will be created below under Deployment Instructions so you may not have these values ready yet, return here and populate after creating your Scratch Org
-
-```
-######################################################################
-## Salesforce Platform Configuration Properties
-######################################################################
-SF_HOSTNAME=power-dream-1234-dev-ed.lightning.force.com
-SF_LOGINURL=test.salesforce.com
-SF_USERNAME=test-2enmvjmefudl@example.com
-SF_PASSWORD=P@ssw0rd!
-SF_SECURITYTOKEN=5aqzr1tpENbIpiWt1E9X2ruOV
-```
-The following table describes each of the Salesforce Customer 360 Platform's .env file variables that are leveraged by b2c-crm-sync's build and deployment tools to automate the creation of service definitions.
-
-| Property Name | Required | Description                       |
-|--------------:|:----:|:-----------------------------------|
-|  SF_HOSTNAME |x| Describes the url for the scratchOrg being integrated with a B2C Commerce instance.|
-|  SF_LOGINURL |x| Describes the login url used to authenticate against the scratchOrg specified (generally test.salesforce.com)|
-|  SF_USERNAME |x| Represents the username of the scratchOrg user|
-|  SF_PASSWORD |x| Represents the password of the scratchOrg user.  See [Generate or Change a Password for a Scratch Org User](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_scratch_orgs_passwd.htm) for additional information. |
-|  SF_SECURITYTOKEN |x| Represents the securityToken of the scratchOrg user. You can create or reset the security token from your scratchOrg User Settings under 'Reset My Security Token.'|
-
-The build tools will use this information to create the B2C Commerce service definitions used by it to communicate with the Salesforce scratchOrg.
-
-> Leverage the .env file's configuration properties to dramatically simplify the build and deployment of b2c-crm-sync.  Check the package.json for the complete set of CLI commands that can be used to automate meta-data generation, service definition creation, and validate environment configurations prior to deployment.
+You will leverage the .env file's configuration properties to dramatically simplify the build and deployment of b2c-crm-sync.  Check the package.json for the complete set of CLI commands that can be used to automate meta-data generation, service definition creation, and validate environment configurations prior to deployment.
 
 ### Deployment Instructions
 The b2c-crm-sync repository includes a collection of CLI commands that can be used to prepare and deploy the b2c-crm-sync assets to B2C Commerce and a Salesforce Customer 360 Platform scratchOrg.
@@ -507,13 +509,11 @@ npm run crm-sync:b2c:verify
 sfdx config:set defaultdevhubusername=[devHubOrg-username]
 ```
 
-
 8. Authenticate with your Environment Hub Org using:
 
 ```bash
 sfdx auth:web:login
 ```
-
 
 9. Generate the Salesforce metadata required by b2c-crm-sync, create a scratchOrg, and deploy the b2c-crm-sync Salesforce Platform code by executing the following CLI command:
 
@@ -525,10 +525,9 @@ npm run crm-sync:sf:build
 
 :round_pushpin: &nbsp; Please note that the next step should **only be performed if you created a scratchOrg supporting PersonAccounts**.  This step can be skipped if the [base scratchOrg profile](./config-dx/b2c-base-scratch-def.json) was used.
 
-
 10. If you are deploying a personAccount scratchOrg, you'll also need to manually deploy the Salesforce Platform layout and quickAction elements for PersonAccounts.  The following SFDX command can be used to deploy these elements to your scratchOrg:
 
-> :warning: &nbsp; As of 04.19.21 -- we've deployed our PersonAccounts implementation.  Please review the [issues list](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/issues) for defects and known issues.  If you encounter a defect related to PersonAccounts, please go ahead and [create an issue](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/issues/new/choose); it helps everyone. &nbsp; :warning:
+> :round_pushpin: &nbsp; As of **04.19.21** -- we've deployed our PersonAccounts implementation.  Please review the [issues list](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/issues) for defects and known issues.  If you encounter a defect related to PersonAccounts, please go ahead and [create an issue](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/issues/new/choose); it helps everyone.
 
 ```bash
 sfdx force:source:deploy -p "src/sfdc/person-accounts"
@@ -566,7 +565,36 @@ sfdx force:user:display -u [insert-username]
 
 > Please note that you will receive two emails declaring that a new securityToken has been generated.  The first is from the password reset that was performed.  The second is from this action.  Copy the securityToken from the second email to the .env file.
 
-16.  Ensure that the following .env Salesforce Platform configuration properties have been captured via steps 8, 9, 10, and 11.
+#### Setup ScratchOrg Authentication Credentials
+B2C Commerce service definitions pointing to the deployed scratchOrg can be seeded with Salesforce environment authentication credentials.  To support this, please extend the .env file with the following properties representing authentication details for the scratchOrg.
+
+- Open the .env file and edit the following information.  Please update these values to reflect the unique environment and authentication credentials for your scratchOrg.  These values can be used to validate authentication and seed the B2C Commerce service definitions with these details -- eliminating the need to manually configure these services.
+
+> At this point, your scratchOrg should be created and the information displayed below should be available to you.  Please copy the corresponding scratchOrg configuration properties to this section of the .env file.
+
+```
+######################################################################
+## Salesforce Platform Configuration Properties
+######################################################################
+SF_HOSTNAME=power-dream-1234-dev-ed.lightning.force.com
+SF_LOGINURL=test.salesforce.com
+SF_USERNAME=test-2enmvjmefudl@example.com
+SF_PASSWORD=P@ssw0rd!
+SF_SECURITYTOKEN=5aqzr1tpENbIpiWt1E9X2ruOV
+```
+> The following table describes each of the Salesforce Customer 360 Platform's .env file variables that are leveraged by b2c-crm-sync's build and deployment tools to automate the creation of service definitions.
+
+| Property Name | Required | Description                       |
+|--------------:|:----:|:-----------------------------------|
+|  SF_HOSTNAME |x| Describes the url for the scratchOrg being integrated with a B2C Commerce instance.|
+|  SF_LOGINURL |x| Describes the login url used to authenticate against the scratchOrg specified (generally test.salesforce.com)|
+|  SF_USERNAME |x| Represents the username of the scratchOrg user|
+|  SF_PASSWORD |x| Represents the password of the scratchOrg user.  See [Generate or Change a Password for a Scratch Org User](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_scratch_orgs_passwd.htm) for additional information. |
+|  SF_SECURITYTOKEN |x| Represents the securityToken of the scratchOrg user. You can create or reset the security token from your scratchOrg User Settings under 'Reset My Security Token.'|
+
+The build tools will use this information to create the B2C Commerce service definitions used by it to communicate with the Salesforce scratchOrg.
+
+16.  Ensure that the following .env Salesforce Platforms scratchOrg configuration properties have been captured via steps 8, 9, 10, and 11.  Update your .env file to include these properties.
 
 ```
 ######################################################################
@@ -591,7 +619,7 @@ npm run crm-sync:sf:auth:usercreds
 
 :warning: &nbsp; Only proceed to the next step if you are able to successfully validate that your Salesforce Platform Configuration Properties are able to successfully authenticate against your scratchOrg. &nbsp; :warning:
 
-15. Generate the B2C Commerce metadata required by b2c-crm-sync and deploy both the code metadata to the Salesforce B2C Commerce instance by executing the following CLI command:
+18. Generate the B2C Commerce metadata required by b2c-crm-sync and deploy both the code metadata to the Salesforce B2C Commerce instance by executing the following CLI command:
 
 ```bash
 npm run crm-sync:b2c:build
@@ -618,31 +646,49 @@ b2c-crm-sync leverages a permission-set to provide application access to a user.
 #### Configure Duplicate Rules Leveraged by b2c-crm-sync
 b2c-crm-sync leverages match and duplicate rules to enforce the B2C Customer Data Strategy it employs.  These rules are leveraged to alert administrators of potential duplicate B2C Commerce Customer Profiles -- and assist in resolving customer profiles using a sub-set of customer attributes.
 
-1.  In the setup quick-find, search for Duplicate Rules.  Once located, select the Duplicate Rules setup option from the filtered setup menu.
+In the setup quick-find, search for Duplicate Rules (searching for 'dup' should bring up Duplicate and Match Rules).  Once located, select the Match Rules setup option from the filtered setup menu.
 
-2.  From the duplicate rules listing, select the rule titled **B2C Commerce: Standard Contacts**.  Edit the rule from the detail display.
+#### Account / Contact Match Rules Setup Guidance
 
-> If you are leveraging our personAccounts implementation, you'll want to configure the **B2C Commerce: Standard PersonAccounts** duplicate rule instead of the **B2C Commerce: Standard Contacts** rule.  Guidance on how to do this is below.
+> If you are setting up PersonAccounts, please skip this section and proceed to the section titled [PersonAccount Match Rules Setup Guidance](#personaccount-match-rules-setup-guidance).
+
+- Ensure that the **B2C Commerce: Standard Contacts** Match rule is activated.  This rule must be active in the scratchOrg as part of the Accounts / Contacts implementation.  The corresponding duplicate rule is dependent on this Match Rule being activated.
+
+#### Account / Contact Duplicate Rules Setup Guidance
+
+From the duplicate rules listing, select the rule titled **B2C Commerce: Standard Contacts**.  Edit the rule from the detail display.
+
+- Activate the Duplicate Rule by checking the activation checkbox.
 - Under the Conditions section near the bottom of the form display, click on the link labeled 'Add Filter Logic'.
-- Paste the following filter logic value in the field -- and save your results.  Please note that this should be done for both PersonAccounts and Account / Contacts.
+- Paste the following filter logic value in the field -- and save your results.
 
 ```bash
 1 OR (2 AND 3) OR (2 AND 4 AND 5) OR (4 AND 5 AND 6)
 ```
 
-#### PersonAccount Match and Duplicate Rules Setup Guidance
+#### PersonAccount Match Rules Setup Guidance
+
+- Ensure that the **B2C Commerce Standard Person Account** match rule is activated.  This rule must be active in the scratchOrg as part of the PersonAccounts implementation.  The corresponding Duplicate Rule is dependent on this Match Rule being activated.
+
+- Ensure that the **B2C Commerce: Standard Contacts** match rule is deactivated.  This rule must be not activated as part of the PersonAccounts implementation.
+
+> The B2C Commerce: Standard Contacts should automatically be deactivated as part of the PersonAccounts meta-data deployment.
+
+#### PersonAccount Duplicate Rules Setup Guidance
+
 Leveraging the PersonAccount implementation requires a handful of additional configuration steps to disable the Contact match and duplicate rules -- and enable the related PersonAccount rules.
 
-> Please disable the following Contact match and duplicate rules.  You can find these items in Setup by searching for 'dup' in the quick-find display.
-
-- Ensure that the **B2C Commerce: Standard Contacts** and **Standard Contact Duplicate Rule** duplicate rules are disabled.
-
-> Additionally, please enable the following PersonAccount match and duplicate rules.  These rules must be enabled and configured as part of the b2c-crm-sync implementation.  Match rules must be enabled before enabling a dependent duplicate rule.
-
-- Ensure that the **B2C Commerce: Standard Person Account** and **Standard Person Account Matching Rule** match rules are enabled and activated.
-- Ensure that the **B2C Commerce: Standard Person Accounts** match rule is configured and activated.
-
 > The PersonAccount match and duplicate rules are disabled by default -- and must be activated manually through the Setup options of your Salesforce Org.
+
+From the duplicate rules listing, select the rule titled **B2C Commerce: Standard Person Accounts**.  Edit the rule from the detail display.
+
+- Activate the Duplicate Rule by checking the activation checkbox.
+- Under the Conditions section near the bottom of the form display, click on the link labeled 'Add Filter Logic'.
+- Paste the following filter logic value in the field -- and save your results.
+
+```bash
+1 OR (2 AND 3) OR (2 AND 4 AND 5) OR (4 AND 5 AND 6)
+```
 
 #### Find and Launch the B2C-CRM-Sync Lightning App
 
@@ -671,17 +717,24 @@ Leveraging the PersonAccount implementation requires a handful of additional con
 > All integration can be managed via the Active and Permission Flags on the B2C Commerce Instance, CustomerList, and Site records.  Use these settings to control which sites and CustomerLists support integration with B2C Commerce.
 
 #### Validate Your Installation
-You can validate your installation by executing the multi-cloud unit-tests that are included with this enablement solution.  Exercise the multi-cloud unit-tests by executing the following CLI command:
+You can validate your installation by executing the multi-cloud unit-tests that are included with this enablement solution.
 
-> :warning: &nbsp; Please note that these tests exercise your B2C Commerce Sandbox and Salesforce Platform ScratchOrg via REST APIs to validate the installation is successful.  The B2C Commerce interactions are dependent on the deployment of the **RefArch and RefArchGlobal sites**.  Each site should be associated to its own separate CustomerList.  Do not associate both sites to the same CustomerList -- as this will cause tests dependent on multiple customer-lists to fail. &nbsp; :warning:
+> Please note that these tests exercise your B2C Commerce Sandbox and Salesforce Platform ScratchOrg via REST APIs to validate the installation is successful.
+
+> The B2C Commerce interactions are dependent on the deployment of the **RefArch and RefArchGlobal sites**.  Each site should be associated to its own separate CustomerList.
+
+> :warning: &nbsp; Do not associate both sites to the same CustomerList -- as this will cause tests dependent on multiple customer-lists to fail. &nbsp; :warning:
+
+Exercise the multi-cloud unit-tests by executing the following CLI command.  These tests exercise integration from both B2C Commerce and the Salesforce Platform:
 
 ```bash
 npm run crm-sync:test:use-cases
 ```
-> This CLI command will execute the multi-cloud unit tests designed to validate the Salesforce environment's duplicate management configuration, bi-directional customer profile synchronization between B2C Commerce and the Salesforce Platform, and progressive customer resolution scenarios.  These tests exercise integration from both B2C Commerce and the Salesforce Platform.
+
+> This CLI command will execute the multi-cloud unit tests designed to validate the Salesforce environment's duplicate management configuration, bi-directional customer profile synchronization between B2C Commerce and the Salesforce Platform, and progressive customer resolution scenarios.
 
 #### What's Next?
-At this point, you should be in a position to 1) start exercising the integration or 2) [ask a question]() or [log an issue]() if the installation and configuration didn't complete as expected.  Please share your experience with us. :grin:
+At this point, you should be in a position to 1) start exercising the integration or 2) [ask a question](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/discussions/new) or [log an issue](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/issues/new) if the installation and configuration didn't complete as expected.  Please share your experience with us. :grin:
 
 #### Let's End with Gratitude
 I'd like to extend a heartfelt and personal thank you to everyone for their support, contributions, and guidance.  This has been a multi-year effort spanning multiple teams at Salesforce.  We've developed this data strategy and integration approach leveraging learnings from customers, partners, and our internal teams.  I am grateful for these relationships, and this project would not have come to life without the support of this group.
