@@ -6,7 +6,7 @@
  * @description This is a helper-class used by the B2CIASynchronizeContact class
  * to expose the synchronization processing results for the evaluated Contacts.
 */
-global class B2CIASynchronizeContactResult {
+public class B2CIASynchronizeContactResult {
 
     ////////////////////////////////////////////////////////////////
     // Include the Contacts that were processed

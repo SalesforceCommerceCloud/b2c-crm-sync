@@ -6,7 +6,7 @@
  * @description This is a helper-class used by the B2CIAGetCustomerProfile class
  * to retrieve the details for a single / specified B2C Commerce Customer Profile.
 */
-global class B2CIAPublishCustomerProfileInput {
+public class B2CIAPublishCustomerProfileInput {
 
     ////////////////////////////////////////////////////////////////
     // Include the REST response properties

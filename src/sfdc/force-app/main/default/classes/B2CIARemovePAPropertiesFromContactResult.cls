@@ -6,7 +6,7 @@
  * @description This is a helper-class used by the B2CIARemovePAPropertiesFromContact class
  * to expose the validation results for an evaluated Contact.
 */
-global class B2CIARemovePAPropertiesFromContactResult {
+public class B2CIARemovePAPropertiesFromContactResult {
 
     ////////////////////////////////////////////////////////////////
     // Include the dependent objects

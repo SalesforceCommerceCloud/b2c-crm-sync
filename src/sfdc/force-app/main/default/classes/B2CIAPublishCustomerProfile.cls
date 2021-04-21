@@ -5,7 +5,7 @@
  * @description This is a helper class that takes the REST API Response from B2C Commerce
  * and moves forward with parsing, processing, and writing updates to the corresponding customerProfile.
 */
-global with sharing class B2CIAPublishCustomerProfile extends B2CBaseAttributeAssignment {
+public with sharing class B2CIAPublishCustomerProfile extends B2CBaseAttributeAssignment {
 
     /**
      * @see B2CIAGetAccessTokenResult
@@ -15,7 +15,7 @@ global with sharing class B2CIAPublishCustomerProfile extends B2CBaseAttributeAs
      * @returns {List<B2CIAPublishCustomerProfileResult>} Returns the response object containing the publish-oriented customer details
      */
     @InvocableMethod(Label='B2C: Publish Customer Profile Definitions' Description='Attempts to publish Salesforce Platform Contact details to mapped B2C Commerce Customer Profiles via the B2C Commerce OCAPI Data API')
-    global static List<B2CIAPublishCustomerProfileResult> publishCustomerProfile(List<B2CIAPublishCustomerProfileInput> requestArguments) {
+    public static List<B2CIAPublishCustomerProfileResult> publishCustomerProfile(List<B2CIAPublishCustomerProfileInput> requestArguments) {
 
         // Initialize local variables
         Contact thisCustomerProfile;

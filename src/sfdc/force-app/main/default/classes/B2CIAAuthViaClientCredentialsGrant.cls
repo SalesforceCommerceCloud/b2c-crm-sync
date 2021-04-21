@@ -6,7 +6,7 @@
  * access token via a client-credentials grant (clientId / clientSecret) attached to the
  * current user via named credentials.
 */
-global with sharing class B2CIAAuthViaClientCredentialsGrant {
+public with sharing class B2CIAAuthViaClientCredentialsGrant {
 
     // TODO Incorporate platform cache or something similar to cache to cache the access-token vs. making a new token request EVERY time.
     /**
@@ -20,7 +20,7 @@ global with sharing class B2CIAAuthViaClientCredentialsGrant {
      * client-credentials grant.
      */
     @InvocableMethod(Label='B2C: Get AccessToken via ClientCredential Grant' Description='Attempts to retrieve the B2C Commerce access-token via a client-credentials grant (clientId / clientSecret attached to the users named credentials)')
-    global static List<B2CIAGetAccessTokenResult> getB2CAccessTokenViaClientCredentials(List<String> NamedCredentials) {
+    public static List<B2CIAGetAccessTokenResult> getB2CAccessTokenViaClientCredentials(List<String> NamedCredentials) {
 
         // Initialize local variables
         JSONParse responseParsedJSON;

@@ -6,7 +6,7 @@
  * @description This is a helper-class used by the B2CIAValidateContact class
  * to expose the input results for an evaluated Contact.
 */
-global class B2CIAValidateContactInput {
+public class B2CIAValidateContactInput {
 
     ////////////////////////////////////////////////////////////////
     // Include the Contact, its related CustomerList, and Instance

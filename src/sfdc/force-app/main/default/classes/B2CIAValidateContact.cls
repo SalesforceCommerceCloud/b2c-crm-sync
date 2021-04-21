@@ -6,17 +6,17 @@
  * record can be processed.  It evaluates the record as well as the parent B2C Commerce
  * CustomerList to determine if updates should be processed.
 */
-global with sharing class B2CIAValidateContact {
+public with sharing class B2CIAValidateContact {
 
     /**
      * @description This class is used to generate Contact processing validation results for a given customerList, instance, and contact.  It
      * processes the integration permissions and active flags for these objects to determine what integration permissions are supported.
-     * 
+     *
      * @param contactsToVerify {List<B2CIAValidateContactInput>} Represents the collection of contactInputs used to infer contact permissions
      * @return {List<B2CIAValidateContactResult>} Represents the collection of validation results for the input arguments
      */
     @InvocableMethod(Label='B2C: Validate Contact Integration Options' Description='Attempts to verify if the Contact being processed is valid, well-formed, and its parent CustomerList is active and integration-enabled.')
-    global static List<B2CIAValidateContactResult> validateContact(List<B2CIAValidateContactInput> contactsToVerify) {
+    public static List<B2CIAValidateContactResult> validateContact(List<B2CIAValidateContactInput> contactsToVerify) {
 
         // Initialize local variables
         List<B2CIAValidateContactResult> output;
