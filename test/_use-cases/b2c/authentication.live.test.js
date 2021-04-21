@@ -43,7 +43,9 @@ describe('Authenticating a B2C Customer Profile via the OCAPI Shop API', functio
         syncEnabledSyncOnceDisabled,
         syncDisableCustomers,
         sleepTimeout,
-        purgeSleepTimeout;
+        purgeSleepTimeout,
+        pauseSleepTimeout,
+        miniSleepTimeout;
 
     // Attempt to register the B2C Commerce Customer
     // noinspection DuplicatedCode
@@ -55,6 +57,8 @@ describe('Authenticating a B2C Customer Profile via the OCAPI Shop API', functio
         // Default the sleepTimeout to enforce in unit-tests
         sleepTimeout = config.get('unitTests.testData.sleepTimeout');
         purgeSleepTimeout = sleepTimeout / 2;
+        pauseSleepTimeout = purgeSleepTimeout / 2;
+        miniSleepTimeout = pauseSleepTimeout / 2;
 
         // Retrieve the site and customerList used to testing
         customerListId = config.get('unitTests.testData.b2cCustomerList').toString();
@@ -231,6 +235,9 @@ describe('Authenticating a B2C Customer Profile via the OCAPI Shop API', functio
 
         // Ensure that b2c-crm-sync is enabled in the specified environment with sync-once disabled
         await useCaseProcesses.b2cCRMSyncConfigManager(environmentDef, b2cAdminAuthToken, siteId, syncEnabledSyncOnceDisabled);
+
+        // Implement a pause to allow the configuration to update
+        await useCaseProcesses.sleep(miniSleepTimeout);
 
         // Authenticate the B2C Commerce customer via OCAPI
         output.b2cAuthenticationResults = await shopAPIs.authAsRegistered(
@@ -518,6 +525,9 @@ async function _performB2CCommerceProfileUpdateAndRetrieveSFDCContact(environmen
 
     // Validate that patch results were successfully processed against the registered user
     common.validateRegisteredUserPatchResults(output.b2cPatchResults);
+
+    // Implement a pause to ensure the PlatformEvent fires
+    await useCaseProcesses.sleep(sleepTimeout / 4);
 
     // Re-authenticate the B2C Commerce customer via OCAPI (to validate the update works)
     output.b2cFirstUpdateAuthenticationResults = await shopAPIs.authAsRegistered(
