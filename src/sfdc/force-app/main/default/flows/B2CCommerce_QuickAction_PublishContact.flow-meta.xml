@@ -4,8 +4,8 @@
         <description>... takes the Contact, CustomerList, and ProcessMode -- and evaluates whether to enable or disable B2C Commerce integration for the selected Contact record.</description>
         <name>ia_validateContactIntegrationOptions</name>
         <label>Validate Contact Integration Options</label>
-        <locationX>974</locationX>
-        <locationY>998</locationY>
+        <locationX>545</locationX>
+        <locationY>1482</locationY>
         <actionName>B2CIAValidateContact</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -42,8 +42,8 @@
         <description>... evaluates if the Contact has the required fields representing a B2C Commerce Customer Profile.</description>
         <name>dec_doesContactRequiredFields</name>
         <label>Does the Contact Have Required Fields?</label>
-        <locationX>297</locationX>
-        <locationY>278</locationY>
+        <locationX>530</locationX>
+        <locationY>635</locationY>
         <defaultConnector>
             <targetReference>recGet_CustomerList</targetReference>
         </defaultConnector>
@@ -53,13 +53,6 @@
             <conditionLogic>or</conditionLogic>
             <conditions>
                 <leftValueReference>varContact.B2C_CustomerList__c</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>varContact.B2C_Customer_ID__c</leftValueReference>
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
@@ -82,8 +75,8 @@
         <description>... evaluates if the integration process for the selected Contact is supported.  The integration options for the selected Contact and its related CustomerList are reviewed to determine if the integration process should be supported for this request.</description>
         <name>dec_isB2CCommerceIntegrationAllowed</name>
         <label>Is B2C Commerce Integration Process Allowed?</label>
-        <locationX>974</locationX>
-        <locationY>1118</locationY>
+        <locationX>537</locationX>
+        <locationY>1691</locationY>
         <defaultConnector>
             <targetReference>recCreate_ProcessContactPlatformEvent</targetReference>
         </defaultConnector>
@@ -107,9 +100,9 @@
     <decisions>
         <description>... this decision is used to evaluate if the Named Credential associated to a B2C CustomerList is valid.  It ensures that a Named Credential was returned.</description>
         <name>dec_isB2CCustomerListNamedCredentialValid</name>
-        <label>Is Named Credential Valid</label>
-        <locationX>776</locationX>
-        <locationY>878</locationY>
+        <label>Is B2C CustomerList Named Credential Valid</label>
+        <locationX>536</locationX>
+        <locationY>1234</locationY>
         <defaultConnector>
             <targetReference>ia_validateContactIntegrationOptions</targetReference>
         </defaultConnector>
@@ -134,8 +127,8 @@
         <description>... evaluate if the parent B2C Instance is active; if not -- end processing</description>
         <name>dec_isB2CInstanceActive</name>
         <label>Is B2C Instance Active?</label>
-        <locationX>545</locationX>
-        <locationY>638</locationY>
+        <locationX>535</locationX>
+        <locationY>827</locationY>
         <defaultConnector>
             <targetReference>recGet_B2CCustomerListNamedCredential</targetReference>
         </defaultConnector>
@@ -156,7 +149,33 @@
             <label>B2C Instance is InActive</label>
         </rules>
     </decisions>
-    <description>... this flow is used to trigger the publishing of the selected Salesforce Contact to its mapped B2C Customer Profile.  It creates a Platform Event which makes a B2C Commerce OCAPI REST API request to publish Contact details to the B2C Customer Profile for the configured B2C Instance.</description>
+    <decisions>
+        <description>... evaluate if a contact record was successfully resolved or found.</description>
+        <name>dec_wasContactRecordFound</name>
+        <label>Was a Contact Found?</label>
+        <locationX>528</locationX>
+        <locationY>413</locationY>
+        <defaultConnector>
+            <targetReference>screen_contactNotFound</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Found</defaultConnectorLabel>
+        <rules>
+            <name>decOut_wasFound</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>varContactCount</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <numberValue>1.0</numberValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>dec_doesContactRequiredFields</targetReference>
+            </connector>
+            <label>Was Found</label>
+        </rules>
+    </decisions>
+    <description>... this flow is used to trigger the publishing of this Contact details to its corresponding B2C Customer Profile.  It creates a Platform Event which makes a B2C Commerce OCAPI REST API request to publish the Contact details and then consume the Customer Profile details for the configured B2C Instance.</description>
     <interviewLabel>B2C Commerce: Quick Action: Trigger Customer Details Publish {!$Flow.CurrentDateTime}</interviewLabel>
     <label>B2C Commerce: Quick Action: Trigger Customer Details Publish</label>
     <processMetadataValues>
@@ -168,7 +187,7 @@
     <processMetadataValues>
         <name>CanvasMode</name>
         <value>
-            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
         </value>
     </processMetadataValues>
     <processMetadataValues>
@@ -179,11 +198,11 @@
     </processMetadataValues>
     <processType>Flow</processType>
     <recordCreates>
-        <description>... creates the Platform Event to update the Contact with the B2C Commerce Customer Profile.</description>
+        <description>... creates the Platform Event to update publish the Contact details to B2C Commerce.</description>
         <name>recCreate_ProcessContactPlatformEvent</name>
         <label>Create the Process Contact Platform Event</label>
-        <locationX>1106</locationX>
-        <locationY>1238</locationY>
+        <locationX>546</locationX>
+        <locationY>1921</locationY>
         <assignRecordIdToReference>varPlatformEventId</assignRecordIdToReference>
         <connector>
             <targetReference>screen_ProcessContactPlatformEventSuccess</targetReference>
@@ -248,8 +267,8 @@
         <description>... retrieves and validates the Named Credential associated to the B2C CustomerList.</description>
         <name>recGet_B2CCustomerListNamedCredential</name>
         <label>Get the Related Named Credential</label>
-        <locationX>776</locationX>
-        <locationY>758</locationY>
+        <locationX>544</locationX>
+        <locationY>1052</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>dec_isB2CCustomerListNamedCredentialValid</targetReference>
@@ -277,8 +296,8 @@
         <description>... retrieve the B2C Instance associated to the retrieved customerList</description>
         <name>recGet_B2CInstanceForCustomerList</name>
         <label>Get the Related B2C Instance</label>
-        <locationX>545</locationX>
-        <locationY>518</locationY>
+        <locationX>844</locationX>
+        <locationY>825</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>dec_isB2CInstanceActive</targetReference>
@@ -296,40 +315,11 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
-        <description>... retrieves the Contact record specified by the user.</description>
-        <name>recGet_Contact</name>
-        <label>Get the Selected Contact</label>
-        <locationX>297</locationX>
-        <locationY>158</locationY>
-        <assignNullValuesIfNoRecordsFound>true</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>dec_doesContactRequiredFields</targetReference>
-        </connector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Id</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>recordId</elementReference>
-            </value>
-        </filters>
-        <object>Contact</object>
-        <outputReference>varContact</outputReference>
-        <queriedFields>Id</queriedFields>
-        <queriedFields>B2C_Customer_ID__c</queriedFields>
-        <queriedFields>B2C_Customer_No__c</queriedFields>
-        <queriedFields>B2C_CustomerList__c</queriedFields>
-        <queriedFields>B2C_Disable_Integration__c</queriedFields>
-        <queriedFields>B2C_Instance__c</queriedFields>
-        <queriedFields>B2C_UserName__c</queriedFields>
-        <queriedFields>Audit_OCAPI_API_Response__c</queriedFields>
-    </recordLookups>
-    <recordLookups>
         <description>... retrieves the B2C Commerce CustomerList associated to the specified Contact.</description>
         <name>recGet_CustomerList</name>
         <label>Get the Related CustomerList</label>
-        <locationX>545</locationX>
-        <locationY>398</locationY>
+        <locationX>844</locationX>
+        <locationY>634</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>recGet_B2CInstanceForCustomerList</targetReference>
@@ -361,8 +351,8 @@
         <description>... alert the user that the selected Named Credential is Invalid and should be updated to create the Process Contact Platform Event.</description>
         <name>screen_B2CCustomerListInvalidNamedCredential</name>
         <label>Named Credential is Invalid</label>
-        <locationX>578</locationX>
-        <locationY>998</locationY>
+        <locationX>206</locationX>
+        <locationY>1235</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -408,8 +398,8 @@
         <description>... alert the user that the parent B2C Instance is InActive and should be enabled / activated to create the Process Contact Platform Event.</description>
         <name>screen_B2CInstanceInActive</name>
         <label>B2C Instance is InActive</label>
-        <locationX>314</locationX>
-        <locationY>758</locationY>
+        <locationX>200</locationX>
+        <locationY>822</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -462,11 +452,43 @@
         <showHeader>false</showHeader>
     </screens>
     <screens>
+        <description>... this screen is displayed to explain that the Contact selected is not a B2C Commerce Customer Profile.</description>
+        <name>screen_contactNotFound</name>
+        <label>Contact Not Found</label>
+        <locationX>192</locationX>
+        <locationY>408</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <fields>
+            <name>lbl_CouldNotLocateSpecifiedB2CContact</name>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 14px; font-family: var(--lwc-fontFamily,&amp;quot;Salesforce Sans&amp;quot;, Arial, sans-serif); color: var(--lwc-colorTextWeak,rgb(62, 62, 60)); background-color: var(--lwc-colorBackgroundInput,rgb(255, 255, 255));&quot;&gt;Could Not Locate the Specified B2C Contact Record&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-family: var(--lwc-fontFamily,&amp;quot;Salesforce Sans&amp;quot;, Arial, sans-serif); font-size: var(--lwc-fontSize3,0.8125rem); color: var(--lwc-colorTextWeak,rgb(62, 62, 60)); background-color: var(--lwc-colorBackgroundInput,rgb(255, 255, 255));&quot;&gt;The recordId used by this visual flow could not be used to locate a Contact record.  As a result, we cannot publish Contact details to a B2C Commerce profile for this specific record.&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>lbl_errorRecordID</name>
+            <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>recordId</elementReference>
+            </defaultValue>
+            <fieldText>recordId Value</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>lbl_ContactNotFoundGuidance</name>
+            <fieldText>&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Please verify that this quickAction is either attached to a recordDetail page for a Contact or PersonAccount.  This flow can resolve a Contact record via the recordId either directly (by providing a Contact.Id) or indirectly (by providing an Account.Id).  &lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Lastly, please verify that the recordId provided resolves to a Contact or an Account with a child Contact.  This flow is not designed to resolve any other Contact relationships.&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
         <description>... this screen is displayed to explain that integration options for this Contact and CustomerList combination are not supported.</description>
         <name>screen_integrationProcessNotSupported</name>
         <label>Integration is Disabled for this Process</label>
-        <locationX>842</locationX>
-        <locationY>1238</locationY>
+        <locationX>210</locationX>
+        <locationY>1690</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -563,8 +585,8 @@
         <description>... this screen is displayed to explain that the Contact selected is not a B2C Commerce Customer Profile.</description>
         <name>screen_notAB2CCommerceProfile</name>
         <label>Contact Is Not a B2C Commerce Customer Profile</label>
-        <locationX>50</locationX>
-        <locationY>398</locationY>
+        <locationX>199</locationX>
+        <locationY>634</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -604,16 +626,6 @@
             <isRequired>false</isRequired>
         </fields>
         <fields>
-            <name>lbl_errorB2CCustomerID</name>
-            <dataType>String</dataType>
-            <defaultValue>
-                <elementReference>varContact.B2C_Customer_ID__c</elementReference>
-            </defaultValue>
-            <fieldText>B2C Customer ID</fieldText>
-            <fieldType>InputField</fieldType>
-            <isRequired>false</isRequired>
-        </fields>
-        <fields>
             <name>lbl_ContactIsNotAB2CCustomerProfileGuidance</name>
             <fieldText>&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Please review the following Contact fields.  Not all Contacts will also represent B2C Commerce Customer Profiles.  To convert this contact to a Customer Profile, please update these fields to reflect the B2C Commerce Customer Profile that should map to this Contact.&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
@@ -625,14 +637,14 @@
         <description>... this screen is displayed to confirm that the Process Contact Platform Event has been successfully created.</description>
         <name>screen_ProcessContactPlatformEventSuccess</name>
         <label>Process Contact Platform Event Created</label>
-        <locationX>1106</locationX>
-        <locationY>1358</locationY>
+        <locationX>547</locationX>
+        <locationY>2125</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <fields>
             <name>lbl_processContactPlatformEventSummary</name>
-            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 14px;&quot;&gt;Process Contact Platform Event Created (Publish Updates to B2C Commerce)&lt;/b&gt;&lt;/p&gt;&lt;p&gt;The Process Contact Platform Event was successfully created -- and will drive publishing updates to the mapped B2C Commerce Customer Profile.  Please review the B2C CustomerList&apos;s and Contact&apos;s &lt;b&gt;Integration Properties &lt;/b&gt;field collection&lt;b&gt; &lt;/b&gt;for REST API processing details.&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Platform Event and REST API Responses from B2C Commerce are audited&lt;/li&gt;&lt;li&gt;Updates are written only when a change to a mapped field has been identified&lt;/li&gt;&lt;/ul&gt;</fieldText>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 14px;&quot;&gt;Process Contact Platform Event Created (Publish B2C Customer Profile Updates)&lt;/b&gt;&lt;/p&gt;&lt;p&gt;The Process Contact Platform Event was successfully created -- and will publish this record to B2C Commerce.  Please review the B2C CustomerList&apos;s and Contact&apos;s &lt;b&gt;Integration Properties &lt;/b&gt;field collection&lt;b&gt; &lt;/b&gt;for REST API processing details.&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Platform Event and REST API Responses from B2C Commerce are audited&lt;/li&gt;&lt;li&gt;Updates are written only when a change to a mapped field has been identified&lt;/li&gt;&lt;/ul&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
@@ -714,13 +726,38 @@
         <showHeader>false</showHeader>
     </screens>
     <start>
-        <locationX>171</locationX>
-        <locationY>0</locationY>
+        <locationX>410</locationX>
+        <locationY>50</locationY>
         <connector>
-            <targetReference>recGet_Contact</targetReference>
+            <targetReference>sub_retrieveContactDetails</targetReference>
         </connector>
     </start>
     <status>Active</status>
+    <subflows>
+        <description>... retrieve the sourceContact details either directly or in-directly from the recordId provided.</description>
+        <name>sub_retrieveContactDetails</name>
+        <label>Retrieve Contact Details</label>
+        <locationX>536</locationX>
+        <locationY>222</locationY>
+        <connector>
+            <targetReference>dec_wasContactRecordFound</targetReference>
+        </connector>
+        <flowName>B2CCommerce_QuickAction_ContactGetterHelper</flowName>
+        <inputAssignments>
+            <name>var_recordId</name>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </inputAssignments>
+        <outputAssignments>
+            <assignToReference>varContactCount</assignToReference>
+            <name>var_childContactCount</name>
+        </outputAssignments>
+        <outputAssignments>
+            <assignToReference>varContact</assignToReference>
+            <name>var_resolvedContact</name>
+        </outputAssignments>
+    </subflows>
     <variables>
         <description>... represents the identifier of the current B2C Commerce CustomerList record being processed.</description>
         <name>recordId</name>
@@ -737,6 +774,18 @@
         <isInput>false</isInput>
         <isOutput>false</isOutput>
         <objectType>Contact</objectType>
+    </variables>
+    <variables>
+        <description>... represents the count of Contacts that were retrieved by the contactGetter sub-flow.</description>
+        <name>varContactCount</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+        <value>
+            <numberValue>0.0</numberValue>
+        </value>
     </variables>
     <variables>
         <description>... represents the customerList associated to the specified Contact Record.</description>

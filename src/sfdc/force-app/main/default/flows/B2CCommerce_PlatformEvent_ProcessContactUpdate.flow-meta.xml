@@ -39,6 +39,25 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </actionCalls>
     <actionCalls>
+        <description>... attempts to retrieve the Contact record specified in the Platform Event definition.</description>
+        <name>ia_getContactRecord</name>
+        <label>Retrieve the Contact</label>
+        <locationX>736</locationX>
+        <locationY>534</locationY>
+        <actionName>B2CIAGetContact</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>dec_verifyContactWasFound</targetReference>
+        </connector>
+        <inputParameters>
+            <name>crmContactId</name>
+            <value>
+                <elementReference>$Record.CRM_Contact_ID__c</elementReference>
+            </value>
+        </inputParameters>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </actionCalls>
+    <actionCalls>
         <description>... update the Salesforce Contact leveraging the data retrieved from B2C Commerce.</description>
         <name>ia_processContactUpdateB2CProfile</name>
         <label>Process Contact Update from B2C Commerce</label>
@@ -202,7 +221,7 @@
         <inputParameters>
             <name>crmContact</name>
             <value>
-                <elementReference>recGet_Contact</elementReference>
+                <elementReference>ia_getContactRecord.crmContact</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
@@ -278,8 +297,8 @@
         <description>... validates the integration configuration for the selected Contact and returns configuration properties that indicate if integration can continue for the configured processMode</description>
         <name>ia_validateIntegrationConfiguration</name>
         <label>Validate Integration Configuration</label>
-        <locationX>735</locationX>
-        <locationY>1559</locationY>
+        <locationX>736</locationX>
+        <locationY>1605</locationY>
         <actionName>B2CIAValidateContact</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -294,7 +313,7 @@
         <inputParameters>
             <name>contact</name>
             <value>
-                <elementReference>recGet_Contact</elementReference>
+                <elementReference>ia_getContactRecord.crmContact</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
@@ -369,7 +388,7 @@
         <description>... evaluate if B2C Commerce Customer Profile Details were successfully retrieved from the specified B2C Commerce Instance and CustomerList.</description>
         <name>dec_B2CCustomerProfileDetailsRetrievedSuccessfully</name>
         <label>Were B2C Customer Profile Details Successfully Retrieved</label>
-        <locationX>405</locationX>
+        <locationX>406</locationX>
         <locationY>2651</locationY>
         <defaultConnector>
             <targetReference>ia_processContactUpdateB2CProfile</targetReference>
@@ -405,7 +424,14 @@
             <name>decOut_ContactDoesNotHaveParentAccount</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>recGet_Contact.Account.Id</leftValueReference>
+                <leftValueReference>ia_getContactRecord.crmContact.AccountId</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>ia_getContactRecord.crmContact.AccountId</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
@@ -468,9 +494,9 @@
         <name>dec_isProcessModeValid</name>
         <label>Is ProcessMode Valid</label>
         <locationX>727</locationX>
-        <locationY>294</locationY>
+        <locationY>326</locationY>
         <defaultConnector>
-            <targetReference>recGet_Contact</targetReference>
+            <targetReference>ia_getContactRecord</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>ProcessMode is Valid</defaultConnectorLabel>
         <rules>
@@ -497,7 +523,7 @@
         <description>... evaluates if the B2C Commerce Access Token is valid for the Publishing Process.</description>
         <name>dec_isPublishAccessTokenValid</name>
         <label>Is Access Token Valid?</label>
-        <locationX>1045</locationX>
+        <locationX>1046</locationX>
         <locationY>2211</locationY>
         <defaultConnector>
             <targetReference>ia_publishB2CCommerceProfileUpdates</targetReference>
@@ -581,17 +607,17 @@
         <description>... evaluate if the specified Contact was retrieved successfully.</description>
         <name>dec_verifyContactWasFound</name>
         <label>Was the Contact Found?</label>
-        <locationX>726</locationX>
-        <locationY>694</locationY>
+        <locationX>728</locationX>
+        <locationY>713</locationY>
         <defaultConnectorLabel>Not Found</defaultConnectorLabel>
         <rules>
             <name>decOut_ContactWasVerfiied</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>$Record.CRM_Contact_ID__c</leftValueReference>
+                <leftValueReference>ia_getContactRecord.crmContactCount</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <elementReference>recGet_Contact.Id</elementReference>
+                    <numberValue>1.0</numberValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -626,8 +652,8 @@
         <description>... audit the B2C Commerce Customer Profile integration results for the specific Contact record.</description>
         <name>recCreate_B2CRetrieveContactIntegrationHistory</name>
         <label>Audit the B2C Commerce Customer Profile</label>
-        <locationX>414</locationX>
-        <locationY>3153</locationY>
+        <locationX>413</locationX>
+        <locationY>3152</locationY>
         <inputAssignments>
             <field>B2C_CustomerList__c</field>
             <value>
@@ -747,7 +773,7 @@
         <name>recGet_B2CCustomerList</name>
         <label>Get the B2C CustomerList</label>
         <locationX>736</locationX>
-        <locationY>1186</locationY>
+        <locationY>1166</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>recGet_B2CInstance</targetReference>
@@ -768,8 +794,8 @@
         <description>... retrieve the B2C Instance related to the attached B2C CustomerList</description>
         <name>recGet_B2CInstance</name>
         <label>Get the Related B2C Instance</label>
-        <locationX>735</locationX>
-        <locationY>1371</locationY>
+        <locationX>736</locationX>
+        <locationY>1378</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>ia_validateIntegrationConfiguration</targetReference>
@@ -786,31 +812,9 @@
         <object>B2C_Instance__c</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
-    <recordLookups>
-        <description>... retrieves the Contact Record to perform validation.</description>
-        <name>recGet_Contact</name>
-        <label>Get the Contact Record</label>
-        <locationX>734</locationX>
-        <locationY>519</locationY>
-        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>dec_verifyContactWasFound</targetReference>
-        </connector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Id</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>$Record.CRM_Contact_ID__c</elementReference>
-            </value>
-        </filters>
-        <getFirstRecordOnly>true</getFirstRecordOnly>
-        <object>Contact</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordLookups>
     <start>
         <locationX>609</locationX>
-        <locationY>50</locationY>
+        <locationY>94</locationY>
         <connector>
             <targetReference>dec_isProcessModeValid</targetReference>
         </connector>
@@ -844,5 +848,14 @@
         <isCollection>true</isCollection>
         <isInput>false</isInput>
         <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>... represents the current platformEvent being processed.</description>
+        <name>varPlatformEvent</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>B2C_Commerce_ProcessCustomerDetails__e</objectType>
     </variables>
 </Flow>

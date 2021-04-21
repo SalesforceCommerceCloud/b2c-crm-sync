@@ -18,11 +18,15 @@ global with sharing class B2CIAProcessCustomerProfile extends B2CBaseAttributeAs
         List<B2C_Integration_Field_Mappings__mdt> fieldMappings;
         Boolean hasSObjectBeenUpdated;
         Integer totalContactUpdates;
+        String accountContactModel;
+
+        // Start by retrieving the default account / contactModel
+        accountContactModel = B2CConfigurationManager.getDefaultAccountContactModel();
 
         // Initialize the customerProfile collection
         customerProfiles = new List<SObject>();
 
-        // Get the fieldMappings for the customerProfile object
+        // Retrieve the fieldMappings to leverage based on the Account / Contact Model being employed
         fieldMappings = B2CMetaFieldMappings.getFieldMappingsForRetrieval('Contact');
 
         // Iterate over the collection of customerProfile results
@@ -39,6 +43,14 @@ global with sharing class B2CIAProcessCustomerProfile extends B2CBaseAttributeAs
 
             // Retrieve the current customerProfile using the specified crmId
             thisCustomerProfile = B2CContactManager.getContactById(thisCustomerProfileResult.crmContactId, true, fieldMappings);
+
+            // Are we currently using the personAccount accountContact model?
+            if (accountContactModel == B2CConstant.AccountContactModel_Person) {
+
+                // Remove the AccountID as we can't update it when the person customerModel is employed
+                thisCustomerProfile = removePersonAccountProperties(thisCustomerProfile);
+
+            }
 
             // Create a copy of the cloned customerProfile -- so that we can compare specific values
             originalCustomerProfile = thisCustomerProfile.clone(true, true, true, true);

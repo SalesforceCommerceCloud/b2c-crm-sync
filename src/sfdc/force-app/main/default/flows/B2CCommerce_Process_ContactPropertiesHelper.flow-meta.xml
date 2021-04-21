@@ -6,7 +6,7 @@
         <name>asn_b2cDisableIntegrationFlag</name>
         <label>Assign the Disable Integration Flag</label>
         <locationX>264</locationX>
-        <locationY>2294</locationY>
+        <locationY>1958</locationY>
         <assignmentItems>
             <assignToReference>var_sourceContact.B2C_Disable_Integration__c</assignToReference>
             <operator>Assign</operator>
@@ -19,28 +19,11 @@
         </connector>
     </assignments>
     <assignments>
-        <description>... assign the AccountID to the sourceContact.</description>
-        <name>asn_sourceContactAccountID</name>
-        <label>Assign the AccountID</label>
-        <locationX>264</locationX>
-        <locationY>614</locationY>
-        <assignmentItems>
-            <assignToReference>var_sourceContact.AccountId</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>var_resolvedContact.AccountId</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>dec_wasB2CCustomerListIDIncludedinthesourceContact</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
         <description>... assign the Audit Integration Response Flag to the sourceContact.</description>
         <name>asn_sourceContactAuditIntegrationResponseFlag</name>
         <label>Assign the Audit Integration Response Flag</label>
         <locationX>308</locationX>
-        <locationY>2630</locationY>
+        <locationY>2294</locationY>
         <assignmentItems>
             <assignToReference>var_sourceContact.Audit_OCAPI_API_Response__c</assignToReference>
             <operator>Assign</operator>
@@ -54,7 +37,7 @@
         <name>asn_sourceContactB2CCustomerID</name>
         <label>Assign the B2C Customer ID</label>
         <locationX>264</locationX>
-        <locationY>1958</locationY>
+        <locationY>1622</locationY>
         <assignmentItems>
             <assignToReference>var_sourceContact.B2C_Customer_ID__c</assignToReference>
             <operator>Assign</operator>
@@ -71,7 +54,7 @@
         <name>asn_sourceContactB2CCustomerList</name>
         <label>Assign the B2C CustomerList</label>
         <locationX>264</locationX>
-        <locationY>1286</locationY>
+        <locationY>950</locationY>
         <assignmentItems>
             <assignToReference>var_sourceContact.B2C_CustomerList__c</assignToReference>
             <operator>Assign</operator>
@@ -88,7 +71,7 @@
         <name>asn_sourceContactB2CCustomerList_0</name>
         <label>Assign the B2C CustomerList</label>
         <locationX>264</locationX>
-        <locationY>1622</locationY>
+        <locationY>1286</locationY>
         <assignmentItems>
             <assignToReference>var_sourceContact.B2C_Customer_No__c</assignToReference>
             <operator>Assign</operator>
@@ -105,7 +88,7 @@
         <name>asn_sourceContactB2CCustomerListID</name>
         <label>Assign the B2C CustomerList ID</label>
         <locationX>264</locationX>
-        <locationY>950</locationY>
+        <locationY>614</locationY>
         <assignmentItems>
             <assignToReference>var_sourceContact.B2C_CustomerList_ID__c</assignToReference>
             <operator>Assign</operator>
@@ -131,41 +114,15 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>dec_wasAccountIDincludedinthesourceContact</targetReference>
+            <targetReference>dec_wasB2CCustomerListIDIncludedinthesourceContact</targetReference>
         </connector>
     </assignments>
-    <decisions>
-        <description>... evaluates if an AccountID was included in the sourceContact.  If not, then set the AccountID using the resolvedContact properties.</description>
-        <name>dec_wasAccountIDincludedinthesourceContact</name>
-        <label>Was an AccountID Included in the sourceContact?</label>
-        <locationX>176</locationX>
-        <locationY>494</locationY>
-        <defaultConnector>
-            <targetReference>asn_sourceContactAccountID</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>Not Included</defaultConnectorLabel>
-        <rules>
-            <name>decOut_AccountIDWasIncluded</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>var_sourceContact.AccountId</leftValueReference>
-                <operator>WasSet</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>dec_wasB2CCustomerListIDIncludedinthesourceContact</targetReference>
-            </connector>
-            <label>Was Included</label>
-        </rules>
-    </decisions>
     <decisions>
         <description>... evaluates if the Audit Integration Requests flag was included in the sourceContact.  If not, then set the flag using the resolvedContact properties.</description>
         <name>dec_wasAuditIntegrationRequestsIncludedinthesourceContact</name>
         <label>Was an Audit Integration Requests Flag Included in the sourceContact?</label>
         <locationX>176</locationX>
-        <locationY>2510</locationY>
+        <locationY>2174</locationY>
         <defaultConnector>
             <targetReference>asn_sourceContactAuditIntegrationResponseFlag</targetReference>
         </defaultConnector>
@@ -188,7 +145,7 @@
         <name>dec_wasB2CCustomerIDIncludedinthesourceContact</name>
         <label>Was an B2C Customer ID Included in the sourceContact?</label>
         <locationX>176</locationX>
-        <locationY>1838</locationY>
+        <locationY>1502</locationY>
         <defaultConnector>
             <targetReference>asn_sourceContactB2CCustomerID</targetReference>
         </defaultConnector>
@@ -214,7 +171,7 @@
         <name>dec_wasB2CCustomerListIDIncludedinthesourceContact</name>
         <label>Was an B2C CustomerList ID Included in the sourceContact?</label>
         <locationX>176</locationX>
-        <locationY>830</locationY>
+        <locationY>494</locationY>
         <defaultConnector>
             <targetReference>asn_sourceContactB2CCustomerListID</targetReference>
         </defaultConnector>
@@ -240,7 +197,7 @@
         <name>dec_wasB2CCustomerListIncludedinthesourceContact</name>
         <label>Was an B2C CustomerList Included in the sourceContact?</label>
         <locationX>176</locationX>
-        <locationY>1166</locationY>
+        <locationY>830</locationY>
         <defaultConnector>
             <targetReference>asn_sourceContactB2CCustomerList</targetReference>
         </defaultConnector>
@@ -266,7 +223,7 @@
         <name>dec_wasB2CCustomerNoIncludedinthesourceContact</name>
         <label>Was an B2C Customer No Included in the sourceContact?</label>
         <locationX>176</locationX>
-        <locationY>1502</locationY>
+        <locationY>1166</locationY>
         <defaultConnector>
             <targetReference>asn_sourceContactB2CCustomerList_0</targetReference>
         </defaultConnector>
@@ -315,7 +272,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>dec_wasAccountIDincludedinthesourceContact</targetReference>
+                <targetReference>dec_wasB2CCustomerListIDIncludedinthesourceContact</targetReference>
             </connector>
             <label>Was Included</label>
         </rules>
@@ -325,7 +282,7 @@
         <name>dec_wasDisableIntegrationAssigned</name>
         <label>Was the Disable Integration Flag Assigned?</label>
         <locationX>176</locationX>
-        <locationY>2174</locationY>
+        <locationY>1838</locationY>
         <defaultConnector>
             <targetReference>asn_b2cDisableIntegrationFlag</targetReference>
         </defaultConnector>

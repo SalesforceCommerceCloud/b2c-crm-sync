@@ -1,12 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <description>... this action remove the read-only PersonAccount properties attached to a Contact from the Contact -- so that the Contact record can be independently updated.</description>
+        <name>ia_removeROAccountPropertiesFromContact</name>
+        <label>Remove Read-Only Account Properties</label>
+        <locationX>2626</locationX>
+        <locationY>2734</locationY>
+        <actionName>B2CIARemovePAPropertiesFromContact</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>recUpd_sourceContactUpdate</targetReference>
+        </connector>
+        <inputParameters>
+            <name>contact</name>
+            <value>
+                <elementReference>sourceContact</elementReference>
+            </value>
+        </inputParameters>
+        <outputParameters>
+            <assignToReference>sourceContact</assignToReference>
+            <name>processedContact</name>
+        </outputParameters>
+    </actionCalls>
     <apiVersion>50.0</apiVersion>
+    <assignments>
+        <name>asn_AccountIDToSourceContact</name>
+        <label>Assign the AccountID to the Contact</label>
+        <locationX>1694</locationX>
+        <locationY>2735</locationY>
+        <assignmentItems>
+            <assignToReference>sourceContact.AccountId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Account.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>asn_contactProcessSuccessfully_Update</targetReference>
+        </connector>
+    </assignments>
     <assignments>
         <description>... assign the Account Name to the Business Account after the recordType is created.</description>
         <name>asn_AccountNameToBusinessAccount</name>
         <label>Assign the Account Name to the Business Account</label>
-        <locationX>2633</locationX>
-        <locationY>2731</locationY>
+        <locationX>2844</locationX>
+        <locationY>2733</locationY>
         <assignmentItems>
             <assignToReference>Account.Name</assignToReference>
             <operator>Assign</operator>
@@ -22,7 +60,7 @@
         <description>... assign the B2C Account Properties to the Contact&apos;s parent Account (Name and RecordTypeId).</description>
         <name>asn_B2CAccountRecordType</name>
         <label>Assign the B2C Account Properties</label>
-        <locationX>2632</locationX>
+        <locationX>2844</locationX>
         <locationY>2226</locationY>
         <assignmentItems>
             <assignToReference>Account.RecordTypeId</assignToReference>
@@ -53,7 +91,7 @@
         <description>... assign the customerList value (whatever it is) to the source Contact.</description>
         <name>asn_B2CCustomerListIDToSourceContact</name>
         <label>Assign the B2C CustomerList ID Value</label>
-        <locationX>2648</locationX>
+        <locationX>2860</locationX>
         <locationY>834</locationY>
         <assignmentItems>
             <assignToReference>sourceContact.B2C_CustomerList_ID__c</assignToReference>
@@ -70,8 +108,8 @@
         <description>... ensure that the sourceContact has a well defined B2C CustomerList relationship.</description>
         <name>asn_B2CCustomerListRelationship_Update</name>
         <label>Assign the B2C CustomerList Relationship</label>
-        <locationX>2056</locationX>
-        <locationY>2224</locationY>
+        <locationX>1768</locationX>
+        <locationY>2231</locationY>
         <assignmentItems>
             <assignToReference>sourceContact.B2C_CustomerList_ID__c</assignToReference>
             <operator>Assign</operator>
@@ -87,14 +125,14 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>recUpd_sourceContactUpdate</targetReference>
+            <targetReference>recGet_IdentifyDefaultConfiguration_Update</targetReference>
         </connector>
     </assignments>
     <assignments>
         <description>... assign the retrieved B2C CustomerList to a local variable for future use.</description>
         <name>asn_b2cCustomerListToLocalVariable_create</name>
         <label>Assign the CustomerList to a Local Variable</label>
-        <locationX>1728</locationX>
+        <locationX>1940</locationX>
         <locationY>1061</locationY>
         <assignmentItems>
             <assignToReference>var_b2cCustomerList</assignToReference>
@@ -111,8 +149,8 @@
         <description>... assign the B2C CustomerList to a local variable for future processing.</description>
         <name>asn_b2cCustomerListToLocalVariable_Update</name>
         <label>Assign the B2C CustomerList to a Local Variable</label>
-        <locationX>597</locationX>
-        <locationY>1528</locationY>
+        <locationX>306</locationX>
+        <locationY>1471</locationY>
         <assignmentItems>
             <assignToReference>var_b2cCustomerList</assignToReference>
             <operator>Assign</operator>
@@ -121,14 +159,14 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>sub_allowIntegrationHelper_NoContactID_0</targetReference>
+            <targetReference>sub_allowIntegrationHelper_Update</targetReference>
         </connector>
     </assignments>
     <assignments>
         <description>... assign the specified customerList to the sourceContact record.  This is done to facilitate the assignment to the resolvedContact record.</description>
         <name>asn_B2CCustomerListToResolvedContact</name>
         <label>Assign B2C CustomerList ID to sourceContact</label>
-        <locationX>2043</locationX>
+        <locationX>2255</locationX>
         <locationY>1506</locationY>
         <assignmentItems>
             <assignToReference>sourceContact.B2C_CustomerList__c</assignToReference>
@@ -152,8 +190,8 @@
         <description>... alert the user that updates cannot be made without identifiers being provided.</description>
         <name>asn_cannotUpdateWithoutIdentifiers</name>
         <label>Error: Cannot Update Without Identifiers</label>
-        <locationX>1781</locationX>
-        <locationY>2227</locationY>
+        <locationX>1299</locationX>
+        <locationY>2237</locationY>
         <assignmentItems>
             <assignToReference>errors</assignToReference>
             <operator>Add</operator>
@@ -180,8 +218,8 @@
         <description>... set the output variables for the successful processing of the sourceContact record.</description>
         <name>asn_contactProcessSuccessfully_Update</name>
         <label>Contact Processed Successfully</label>
-        <locationX>2436</locationX>
-        <locationY>2487</locationY>
+        <locationX>1947</locationX>
+        <locationY>2484</locationY>
         <assignmentItems>
             <assignToReference>Contact</assignToReference>
             <operator>Assign</operator>
@@ -201,7 +239,7 @@
         <description>... create a reference to the sourceContact before it is modified.</description>
         <name>asn_createOriginalContact</name>
         <label>Create the Original Contact</label>
-        <locationX>2086</locationX>
+        <locationX>2298</locationX>
         <locationY>1061</locationY>
         <assignmentItems>
             <assignToReference>var_originalContact</assignToReference>
@@ -218,7 +256,7 @@
         <description>... create the originalContact for comparative purposes later in the flow.</description>
         <name>asn_createOriginalContact_ContactID</name>
         <label>Create the Original Contact</label>
-        <locationX>1307</locationX>
+        <locationX>1519</locationX>
         <locationY>783</locationY>
         <assignmentItems>
             <assignToReference>var_originalContact</assignToReference>
@@ -232,39 +270,11 @@
         </connector>
     </assignments>
     <assignments>
-        <description>... throw an error explaining the Contact does not have a parent Account.</description>
-        <name>asn_ErrorCannotUpdateContact_Assignment</name>
-        <label>Error: Contact Missing Parent Account</label>
-        <locationX>1018</locationX>
-        <locationY>2237</locationY>
-        <assignmentItems>
-            <assignToReference>isSuccess</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <booleanValue>false</booleanValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>errors</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <stringValue>This Contact does not have a valid parent Account.  Please check the Id value and try again.</stringValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>Contact</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>sourceContact</elementReference>
-            </value>
-        </assignmentItems>
-    </assignments>
-    <assignments>
         <description>... throw an error that Contact Integration is disabled.</description>
         <name>asn_ErrorContactIntegrationDisabled_Assignment</name>
         <label>Error: Contact Integration Disabled</label>
-        <locationX>1269</locationX>
-        <locationY>2232</locationY>
+        <locationX>1700</locationX>
+        <locationY>1738</locationY>
         <assignmentItems>
             <assignToReference>errors</assignToReference>
             <operator>Add</operator>
@@ -291,7 +301,7 @@
         <description>... throw an error explaining the Contact&apos;s attributes must include a LastName if a CustomerList / CustomerNo are not provided.</description>
         <name>asn_ErrorContactLastNameMissing_Assignment</name>
         <label>Error: Contact LastName is Missing</label>
-        <locationX>2989</locationX>
+        <locationX>3201</locationX>
         <locationY>1740</locationY>
         <assignmentItems>
             <assignToReference>isSuccess</assignToReference>
@@ -316,11 +326,39 @@
         </assignmentItems>
     </assignments>
     <assignments>
+        <description>... throw an error that the Contact record does not have a Parent Account.</description>
+        <name>asn_ErrorContactNotFound_AccountAssignment</name>
+        <label>Error: Parent Account Record Not Found</label>
+        <locationX>1045</locationX>
+        <locationY>1029</locationY>
+        <assignmentItems>
+            <assignToReference>errors</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <stringValue>No Parent Account was found associated to this Contact.  Please ensure a parent Account exists.</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>isSuccess</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Contact</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sourceContact</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
         <description>... throw an error that the Contact record associated to the ID was not found.</description>
         <name>asn_ErrorContactNotFound_Assignment</name>
         <label>Error: Contact Record Not Found</label>
-        <locationX>1074</locationX>
-        <locationY>1271</locationY>
+        <locationX>1043</locationX>
+        <locationY>519</locationY>
         <assignmentItems>
             <assignToReference>errors</assignToReference>
             <operator>Add</operator>
@@ -347,7 +385,7 @@
         <description>... throw an error that integration is disabled for this CustomerList or B2C Instance.</description>
         <name>asn_ErrorIntegrationIsDisabled</name>
         <label>Error: Integration Is Disabled</label>
-        <locationX>1274</locationX>
+        <locationX>1486</locationX>
         <locationY>1271</locationY>
         <assignmentItems>
             <assignToReference>errors</assignToReference>
@@ -382,13 +420,41 @@
         <description>... throw an error that integration is disabled for this CustomerList or B2C Instance.</description>
         <name>asn_ErrorIntegrationIsDisabled_0</name>
         <label>Error: Integration Is Disabled</label>
-        <locationX>292</locationX>
-        <locationY>1983</locationY>
+        <locationX>805</locationX>
+        <locationY>2000</locationY>
         <assignmentItems>
             <assignToReference>errors</assignToReference>
             <operator>Add</operator>
             <value>
-                <stringValue>B2C Commerce Integration is Disabled for this B2C Instance or CustomerList.  Please check the Salesforce Org configuration.</stringValue>
+                <stringValue>B2C Commerce Integration is Disabled for this B2C Instance, CustomerList, or Contact.  Please check the Salesforce Org configuration.</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>isSuccess</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Contact</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sourceContact</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <description>... throw an error alerting that the AccountID provided is not aligned with the Contact&apos;s assigned Account.</description>
+        <name>asn_ErrorInvalidAccountID</name>
+        <label>Error: Invalid AccountID Associated to Contact</label>
+        <locationX>795</locationX>
+        <locationY>516</locationY>
+        <assignmentItems>
+            <assignToReference>errors</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <stringValue>The AccountID provided is not associated to the specific Contact.  Please verify this relationship.</stringValue>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -410,7 +476,7 @@
         <description>... throw an error explaining that multiple Contacts were resolved.</description>
         <name>asn_ErrorMultipleContactsResolved_Assignment</name>
         <label>Error: Multiple Contacts Resolved</label>
-        <locationX>1805</locationX>
+        <locationX>2018</locationX>
         <locationY>1742</locationY>
         <assignmentItems>
             <assignToReference>errors</assignToReference>
@@ -438,7 +504,7 @@
         <description>... throw an error that no B2C CustomerList ID was provided.</description>
         <name>asn_ErrorNoCustomerListProvided</name>
         <label>Error: No B2C CustomerList ID Provided</label>
-        <locationX>2404</locationX>
+        <locationX>2616</locationX>
         <locationY>1256</locationY>
         <assignmentItems>
             <assignToReference>errors</assignToReference>
@@ -466,8 +532,8 @@
         <description>... throw an error that this service can only process B2C Contact Profiles (which require a CustomerList).</description>
         <name>asn_ErrorOnlyProcessB2CContacts_Assignment</name>
         <label>Error: Only Process B2C Contact Profiles</label>
-        <locationX>161</locationX>
-        <locationY>1024</locationY>
+        <locationX>50</locationX>
+        <locationY>1055</locationY>
         <assignmentItems>
             <assignToReference>errors</assignToReference>
             <operator>Add</operator>
@@ -494,7 +560,7 @@
         <description>.. overwrite the sourceContact record with the QA Value(s).</description>
         <name>asn_overwriteSourceContact</name>
         <label>Overwrite the Source Contact</label>
-        <locationX>2069</locationX>
+        <locationX>2281</locationX>
         <locationY>542</locationY>
         <assignmentItems>
             <assignToReference>sourceContact</assignToReference>
@@ -511,7 +577,7 @@
         <description>... assign the parent B2C Commerce Account to the Contact</description>
         <name>asn_parentB2CAccount</name>
         <label>Assign the Parent Account to the Contact</label>
-        <locationX>2633</locationX>
+        <locationX>2844</locationX>
         <locationY>3173</locationY>
         <assignmentItems>
             <assignToReference>Contact.AccountId</assignToReference>
@@ -528,20 +594,13 @@
         <description>... assign the test properties of the QA Contact to overwrite the sourceContact.</description>
         <name>asn_qaContactProperties</name>
         <label>Assign the QA Contact Properties</label>
-        <locationX>2069</locationX>
+        <locationX>2280</locationX>
         <locationY>280</locationY>
-        <assignmentItems>
-            <assignToReference>var_qaSourceContact.LastName</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <stringValue>User</stringValue>
-            </value>
-        </assignmentItems>
         <assignmentItems>
             <assignToReference>var_qaSourceContact.Email</assignToReference>
             <operator>Assign</operator>
             <value>
-                <stringValue>testuser@qa.salesforce.com</stringValue>
+                <stringValue>e2e-user@qa.crmsync.salesforce.com</stringValue>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -549,6 +608,13 @@
             <operator>Assign</operator>
             <value>
                 <stringValue>RefArch</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>var_qaSourceContact.LastName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Testing User</stringValue>
             </value>
         </assignmentItems>
         <connector>
@@ -559,8 +625,8 @@
         <description>... set the success flag and announce that the Contact Processing was successful</description>
         <name>ContactCreateSuccess_Assignment</name>
         <label>Contact Processed Successfully Assignment</label>
-        <locationX>1989</locationX>
-        <locationY>2948</locationY>
+        <locationX>1891</locationX>
+        <locationY>3174</locationY>
         <assignmentItems>
             <assignToReference>isSuccess</assignToReference>
             <operator>Assign</operator>
@@ -573,10 +639,10 @@
         <description>... evaluate if we can resolve the Contact record using the identifiers provided.</description>
         <name>dec_CanWeResolveThisContact</name>
         <label>Was a Contact Resolved?</label>
-        <locationX>1797</locationX>
+        <locationX>2010</locationX>
         <locationY>1509</locationY>
         <defaultConnector>
-            <targetReference>asn_sourceContactIntegrationPropertiesResolvedContact</targetReference>
+            <targetReference>recGet_ParentAccountForPAContact</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Resolved</defaultConnectorLabel>
         <rules>
@@ -628,8 +694,8 @@
         <description>... evaluate if a B2C CustomerList relationship already exists on the sourceContact.</description>
         <name>dec_doesB2CCustomerListRelationshipExist</name>
         <label>Does a B2C CustomerList Relationship Exist?</label>
-        <locationX>2048</locationX>
-        <locationY>1988</locationY>
+        <locationX>1759</locationX>
+        <locationY>1991</locationY>
         <defaultConnector>
             <targetReference>asn_B2CCustomerListRelationship_Update</targetReference>
         </defaultConnector>
@@ -652,7 +718,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>recUpd_sourceContactUpdate</targetReference>
+                <targetReference>recGet_IdentifyDefaultConfiguration_Update</targetReference>
             </connector>
             <label>Exists</label>
         </rules>
@@ -661,7 +727,7 @@
         <description>... evaluate if a Contact has a lastName assigned -- and prevent saving of the Account / Contact records if one is not provided.</description>
         <name>dec_doesContactHaveLastName</name>
         <label>Does the Contact Have a LastName Assigned?</label>
-        <locationX>2624</locationX>
+        <locationX>2836</locationX>
         <locationY>1741</locationY>
         <defaultConnector>
             <targetReference>recGet_B2CRecordType</targetReference>
@@ -684,30 +750,41 @@
         </rules>
     </decisions>
     <decisions>
-        <description>... evaluates the Contact Record to determine if it can be processed.</description>
-        <name>dec_EvaluateContactRecord</name>
-        <label>Evaluate the Contact Record</label>
-        <locationX>1261</locationX>
-        <locationY>1990</locationY>
+        <description>... evaluate if the original / validated AccountID values match.</description>
+        <name>dec_doOriginalValidatedAccountIDsMatch</name>
+        <label>Do the Original / Validated AccountIDs Match?</label>
+        <locationX>543</locationX>
+        <locationY>518</locationY>
         <defaultConnector>
-            <targetReference>recGet_Account</targetReference>
+            <targetReference>asn_resolvedContactPropertiesToSourceContact</targetReference>
         </defaultConnector>
-        <defaultConnectorLabel>Process Contact Update</defaultConnectorLabel>
+        <defaultConnectorLabel>Are Equal</defaultConnectorLabel>
         <rules>
-            <name>decOut_ContactHasNoParentAccount</name>
+            <name>decOut_OriginalValidatedAccountIDsMisMatchedTrue</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>sourceContact.AccountId</leftValueReference>
-                <operator>IsNull</operator>
+                <leftValueReference>var_originalContact.AccountId</leftValueReference>
+                <operator>NotEqualTo</operator>
                 <rightValue>
-                    <booleanValue>true</booleanValue>
+                    <elementReference>recGet_validateSourceContactRecord.AccountId</elementReference>
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>asn_ErrorCannotUpdateContact_Assignment</targetReference>
+                <targetReference>asn_ErrorInvalidAccountID</targetReference>
             </connector>
-            <label>Contact Has No Parent Account</label>
+            <label>Are Mismatched</label>
         </rules>
+    </decisions>
+    <decisions>
+        <description>... evaluates the Contact Record to determine if it can be processed.</description>
+        <name>dec_EvaluateContactRecord</name>
+        <label>Evaluate the Contact Record</label>
+        <locationX>1290</locationX>
+        <locationY>1739</locationY>
+        <defaultConnector>
+            <targetReference>dec_isTrustworthyIDPresentInOriginalContact</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Process Contact Update</defaultConnectorLabel>
         <rules>
             <name>decOut_ContactCannotBeUpdated</name>
             <conditionLogic>and</conditionLogic>
@@ -728,7 +805,7 @@
         <description>... evaluate if the B2C CustomerID is valid and well-formed.</description>
         <name>dec_isB2CCustomerIDValid</name>
         <label>Was the B2C CustomerID Valid?</label>
-        <locationX>2394</locationX>
+        <locationX>2606</locationX>
         <locationY>650</locationY>
         <defaultConnector>
             <targetReference>dec_wasB2CCustomerListProvidedAndThrowError</targetReference>
@@ -761,7 +838,7 @@
         <description>... evaluate if the ContactID value provided is valid</description>
         <name>dec_isContactIDValid</name>
         <label>Is the ContactID Valid?</label>
-        <locationX>1535</locationX>
+        <locationX>1747</locationX>
         <locationY>785</locationY>
         <defaultConnector>
             <targetReference>dec_wasB2CCustomerIDSpecified</targetReference>
@@ -784,10 +861,43 @@
         </rules>
     </decisions>
     <decisions>
+        <description>... evaluate if the contact is missing its parent AccountID</description>
+        <name>dec_isContactMissingAccountID</name>
+        <label>Is the Contact Missing an AccountID?</label>
+        <locationX>1940</locationX>
+        <locationY>2736</locationY>
+        <defaultConnector>
+            <targetReference>asn_contactProcessSuccessfully_Update</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Is Not Missing</defaultConnectorLabel>
+        <rules>
+            <name>decOut_AccountIDIsMissing</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>sourceContact.AccountId</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sourceContact.AccountId</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>asn_AccountIDToSourceContact</targetReference>
+            </connector>
+            <label>Is Missing</label>
+        </rules>
+    </decisions>
+    <decisions>
         <description>... evaluates the integration configuration validation results -- and either moves forward with the integration event or stops event processing.</description>
         <name>dec_isIntegrationEnabledForPlatformEvent</name>
         <label>Is Integration Enabled for this Event?</label>
-        <locationX>1545</locationX>
+        <locationX>1757</locationX>
         <locationY>1271</locationY>
         <defaultConnector>
             <targetReference>sub_contactResolutionHelper</targetReference>
@@ -811,10 +921,10 @@
     </decisions>
     <decisions>
         <description>... evaluates the integration configuration validation results -- and either moves forward with the integration event or stops event processing.</description>
-        <name>dec_isIntegrationEnabledForPlatformEvent_0</name>
+        <name>dec_isIntegrationEnabledForPlatformEventUpdate</name>
         <label>Is Integration Enabled for this Event?</label>
-        <locationX>589</locationX>
-        <locationY>1988</locationY>
+        <locationX>796</locationX>
+        <locationY>1736</locationY>
         <defaultConnector>
             <targetReference>dec_EvaluateContactRecord</targetReference>
         </defaultConnector>
@@ -823,10 +933,10 @@
             <name>decOut_integrationIsDisabled_ContactID</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>sub_allowIntegrationHelper_NoContactID.out_allowIntegrationProcess</leftValueReference>
+                <leftValueReference>sub_allowIntegrationHelper_Update.out_allowIntegrationProcess</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <booleanValue>true</booleanValue>
+                    <booleanValue>false</booleanValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -839,7 +949,7 @@
         <description>... evaluate if QA Mode is enabled -- and act accordingly.</description>
         <name>dec_isQAModeEnabled</name>
         <label>Is QA Mode Enabled?</label>
-        <locationX>1703</locationX>
+        <locationX>1915</locationX>
         <locationY>280</locationY>
         <defaultConnector>
             <targetReference>dec_wasContactIDSet</targetReference>
@@ -865,7 +975,7 @@
         <description>... check the originalContact and evaluate if at least one set of identifiers was included.</description>
         <name>dec_isTrustworthyIDPresentInOriginalContact</name>
         <label>Is An ID Present in the originalContact?</label>
-        <locationX>1774</locationX>
+        <locationX>1290</locationX>
         <locationY>1989</locationY>
         <defaultConnector>
             <targetReference>asn_cannotUpdateWithoutIdentifiers</targetReference>
@@ -948,7 +1058,7 @@
         <description>... retrieve the configured customerModel to leverage when synchronizing B2C Commerce Customer Profiles.</description>
         <name>dec_RetrieveCustomerModel</name>
         <label>Retrieve the Customer Model</label>
-        <locationX>2273</locationX>
+        <locationX>2447</locationX>
         <locationY>3175</locationY>
         <defaultConnector>
             <targetReference>sub_contactProcessPlatformEventHelper</targetReference>
@@ -971,10 +1081,69 @@
         </rules>
     </decisions>
     <decisions>
+        <description>... evaluate if PersonAccounts are enabled as the active customerModel.</description>
+        <name>dec_updateArePersonAccountsEnabled</name>
+        <label>Are PersonAccounts Enabled as the Active CustomerModel?</label>
+        <locationX>2411</locationX>
+        <locationY>2479</locationY>
+        <defaultConnector>
+            <targetReference>recUpd_sourceContactUpdate</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Enabled</defaultConnectorLabel>
+        <rules>
+            <name>decOut_updatePersonAccountsEnabledTrue</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>recGet_defaultConfiguration_Update.Account_Contact_Model__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Person</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>ia_removeROAccountPropertiesFromContact</targetReference>
+            </connector>
+            <label>Enabled</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>... evaluate if an AccountID was present in the original / sourceContact.</description>
+        <name>dec_wasAccountIDPresentInOriginalContact</name>
+        <label>Was an AccountID Present in the Original Contact?</label>
+        <locationX>543</locationX>
+        <locationY>786</locationY>
+        <defaultConnector>
+            <targetReference>asn_resolvedContactPropertiesToSourceContact</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Present</defaultConnectorLabel>
+        <rules>
+            <name>decOut_AccountIDExists</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>var_originalContact.AccountId</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>var_originalContact.AccountId</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>dec_doOriginalValidatedAccountIDsMatch</targetReference>
+            </connector>
+            <label>AccountID Exists</label>
+        </rules>
+    </decisions>
+    <decisions>
         <description>... evaluate if a B2C CustomerID was specified on the sourceContact</description>
         <name>dec_wasB2CCustomerIDSpecified</name>
         <label>Was a B2C CustomerID set?</label>
-        <locationX>2070</locationX>
+        <locationX>2282</locationX>
         <locationY>778</locationY>
         <defaultConnector>
             <targetReference>dec_wasB2CCustomerListProvidedAndThrowError</targetReference>
@@ -1000,8 +1169,8 @@
         <description>... evaluate if a B2C Commerce CustomerList was found on the verified Contact record.</description>
         <name>dec_wasB2CCustomerListFound_ContactID_0</name>
         <label>Was a B2C CustomerList Found?</label>
-        <locationX>587</locationX>
-        <locationY>1023</locationY>
+        <locationX>297</locationX>
+        <locationY>1056</locationY>
         <defaultConnector>
             <targetReference>asn_ErrorOnlyProcessB2CContacts_Assignment</targetReference>
         </defaultConnector>
@@ -1026,7 +1195,7 @@
         <description>... evaluate if a B2C Commerce CustomerList was provided; do not allow Contact Processing to continue if a CustomerList was not provided.</description>
         <name>dec_wasB2CCustomerListProvidedAndThrowError</name>
         <label>Throw an Error if No CustomerList Exists?</label>
-        <locationX>2395</locationX>
+        <locationX>2607</locationX>
         <locationY>1013</locationY>
         <defaultConnector>
             <targetReference>asn_ErrorNoCustomerListProvided</targetReference>
@@ -1052,7 +1221,7 @@
         <description>... evaluate if a ContactID was included with the sourceContact definition.</description>
         <name>dec_wasContactIDSet</name>
         <label>Was a ContactID Set?</label>
-        <locationX>1704</locationX>
+        <locationX>1916</locationX>
         <locationY>551</locationY>
         <defaultConnector>
             <targetReference>dec_wasB2CCustomerIDSpecified</targetReference>
@@ -1078,12 +1247,12 @@
         <description>... validate that the sourceContact record exists -- or throw an error message indicating otherwise.</description>
         <name>dec_wasSourceContactRecordVerified</name>
         <label>Was the Source Record Verified?</label>
-        <locationX>1066</locationX>
-        <locationY>1022</locationY>
+        <locationX>1036</locationX>
+        <locationY>785</locationY>
         <defaultConnector>
-            <targetReference>asn_ErrorContactNotFound_Assignment</targetReference>
+            <targetReference>recGet_Account</targetReference>
         </defaultConnector>
-        <defaultConnectorLabel>Was Not Verified</defaultConnectorLabel>
+        <defaultConnectorLabel>Was Verified</defaultConnectorLabel>
         <rules>
             <name>decOut_sourceContactVerified</name>
             <conditionLogic>and</conditionLogic>
@@ -1091,13 +1260,28 @@
                 <leftValueReference>recGet_validateSourceContactRecord</leftValueReference>
                 <operator>IsNull</operator>
                 <rightValue>
-                    <booleanValue>false</booleanValue>
+                    <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>asn_resolvedContactPropertiesToSourceContact</targetReference>
+                <targetReference>asn_ErrorContactNotFound_Assignment</targetReference>
             </connector>
-            <label>Was Verified</label>
+            <label>Was Not Verified</label>
+        </rules>
+        <rules>
+            <name>decOut_noAccountIDOnSourceContact</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>recGet_validateSourceContactRecord.AccountId</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>asn_ErrorContactNotFound_AccountAssignment</targetReference>
+            </connector>
+            <label>No AccountID Present on Contact</label>
         </rules>
     </decisions>
     <description>... this flow is used to execute Contact Processing requests from B2C Commerce -- and evaluate if a Contact record should be created or updated within the Salesforce Platform.</description>
@@ -1126,7 +1310,7 @@
         <description>... create the Contact Record for the B2C Business Account</description>
         <name>recCreate_BusinessRecord_Create</name>
         <label>Create B2C Business Contact Record</label>
-        <locationX>2443</locationX>
+        <locationX>2655</locationX>
         <locationY>3173</locationY>
         <connector>
             <targetReference>dec_RetrieveCustomerModel</targetReference>
@@ -1137,8 +1321,8 @@
         <description>... create the Parent B2C Account so that we can attach the Contact record to it.</description>
         <name>recCreate_ParentB2CAccount</name>
         <label>Create the Parent Account</label>
-        <locationX>2633</locationX>
-        <locationY>2958</locationY>
+        <locationX>2844</locationX>
+        <locationY>2957</locationY>
         <connector>
             <targetReference>asn_parentB2CAccount</targetReference>
         </connector>
@@ -1148,18 +1332,18 @@
         <description>... retrieve the parent Account record for the output</description>
         <name>recGet_Account</name>
         <label>Retrieve the Parent Account</label>
-        <locationX>1526</locationX>
-        <locationY>1987</locationY>
+        <locationX>791</locationX>
+        <locationY>784</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>dec_isTrustworthyIDPresentInOriginalContact</targetReference>
+            <targetReference>dec_wasAccountIDPresentInOriginalContact</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
             <field>Id</field>
             <operator>EqualTo</operator>
             <value>
-                <elementReference>sourceContact.AccountId</elementReference>
+                <elementReference>recGet_validateSourceContactRecord.AccountId</elementReference>
             </value>
         </filters>
         <object>Account</object>
@@ -1172,7 +1356,7 @@
         <description>... retrieve the recordType describing B2C Customer Profiles so it can be added to the Account.</description>
         <name>recGet_B2CRecordType</name>
         <label>Get the B2C Business Account RecordType</label>
-        <locationX>2632</locationX>
+        <locationX>2844</locationX>
         <locationY>1979</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -1194,7 +1378,7 @@
         <description>... retrieve the Contact record by the B2C CustomerID to validate the CustomerList relationship</description>
         <name>recGet_ContactByB2CCustomerID</name>
         <label>Retrieve the Contact by B2C Customer ID</label>
-        <locationX>2648</locationX>
+        <locationX>2860</locationX>
         <locationY>646</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -1221,7 +1405,7 @@
         <description>... retrieves the customerList based on the property value included in the Contact Request.</description>
         <name>recGet_creCustomerList</name>
         <label>Retrieve the CustomerList</label>
-        <locationX>1910</locationX>
+        <locationX>2122</locationX>
         <locationY>1061</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -1243,7 +1427,7 @@
         <description>... retrieve the defaultConfiguration for the current b2c-crm-sync instance.</description>
         <name>recGet_defaultConfiguration</name>
         <label>Get the Default Configuration</label>
-        <locationX>2444</locationX>
+        <locationX>2656</locationX>
         <locationY>1506</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -1262,10 +1446,32 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
+        <description>... retrieve the defaultConfiguration for the current b2c-crm-sync instance.</description>
+        <name>recGet_defaultConfiguration_Update</name>
+        <label>Get the Default Configuration</label>
+        <locationX>2419</locationX>
+        <locationY>2223</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>dec_updateArePersonAccountsEnabled</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recGet_IdentifyDefaultConfiguration_Update.Active_Configuration__c</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>B2C_CRMSync_Setting__mdt</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
         <description>... identify which b2c-crm-sync configuration profile is being used as the default.</description>
         <name>recGet_IdentifyDefaultConfiguration</name>
         <label>Identify the Default Configuration</label>
-        <locationX>2238</locationX>
+        <locationX>2450</locationX>
         <locationY>1506</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -1276,10 +1482,48 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
+        <description>... identify which b2c-crm-sync configuration profile is being used as the default.</description>
+        <name>recGet_IdentifyDefaultConfiguration_Update</name>
+        <label>Identify the Default Configuration</label>
+        <locationX>2190</locationX>
+        <locationY>2223</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>recGet_defaultConfiguration_Update</targetReference>
+        </connector>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>B2C_CRM_Sync_Default_Configuration__mdt</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>... retrieve the parentAccount for the specified personAccount Contact record.</description>
+        <name>recGet_ParentAccountForPAContact</name>
+        <label>Retrieve the Parent Account</label>
+        <locationX>1698</locationX>
+        <locationY>1507</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>asn_sourceContactIntegrationPropertiesResolvedContact</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>var_resolvedContact.AccountId</elementReference>
+            </value>
+        </filters>
+        <object>Account</object>
+        <outputReference>Account</outputReference>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>RecordTypeId</queriedFields>
+        <queriedFields>AccountSource</queriedFields>
+    </recordLookups>
+    <recordLookups>
         <description>... retrieve the Person Account recordType.</description>
         <name>recGet_PersonAccount_RecordType</name>
         <label>Get the Person Account RecordType</label>
-        <locationX>2281</locationX>
+        <locationX>2457</locationX>
         <locationY>3476</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -1301,8 +1545,8 @@
         <description>... retrieve the B2C CustomerList for the updateContact process.</description>
         <name>recGet_updCustomerList</name>
         <label>Retrieve the B2C CustomerList</label>
-        <locationX>597</locationX>
-        <locationY>1283</locationY>
+        <locationX>306</locationX>
+        <locationY>1285</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>asn_b2cCustomerListToLocalVariable_Update</targetReference>
@@ -1323,7 +1567,7 @@
         <description>... attempt to retrieve the sourceContact record leveraging the identifier provided.</description>
         <name>recGet_validateSourceContactRecord</name>
         <label>Retrieve the Contact Record</label>
-        <locationX>1074</locationX>
+        <locationX>1286</locationX>
         <locationY>783</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -1345,7 +1589,7 @@
         <description>... update the recordType on the Account to convert it to a PersonAccount.</description>
         <name>recUpd_PersonAccountRecordType</name>
         <label>Update the RecordType on the Account</label>
-        <locationX>1989</locationX>
+        <locationX>2201</locationX>
         <locationY>3476</locationY>
         <connector>
             <targetReference>sub_contactProcessPlatformEventHelper</targetReference>
@@ -1370,15 +1614,15 @@
         <description>... update the sourceContact record accordingly.</description>
         <name>recUpd_sourceContactUpdate</name>
         <label>Update the Contact Record</label>
-        <locationX>2436</locationX>
-        <locationY>1991</locationY>
+        <locationX>2419</locationX>
+        <locationY>2734</locationY>
         <connector>
             <targetReference>sub_contactProcessPlatformEventHelper_Update</targetReference>
         </connector>
         <inputReference>sourceContact</inputReference>
     </recordUpdates>
     <start>
-        <locationX>1585</locationX>
+        <locationX>1797</locationX>
         <locationY>30</locationY>
         <connector>
             <targetReference>dec_isQAModeEnabled</targetReference>
@@ -1389,8 +1633,8 @@
         <description>... assign the required resolvedContact properties to the sourceContact where those properties are not automatically included in the sourceContact definition.  Only assign properties where they do not exist.</description>
         <name>asn_resolvedContactPropertiesToSourceContact</name>
         <label>Assign Resolved Contact Properties to Source Contact</label>
-        <locationX>824</locationX>
-        <locationY>1021</locationY>
+        <locationX>305</locationX>
+        <locationY>783</locationY>
         <connector>
             <targetReference>dec_wasB2CCustomerListFound_ContactID_0</targetReference>
         </connector>
@@ -1416,8 +1660,8 @@
         <description>... assign the sourceContact integration properties from the resolvedContact where they have not already been set.</description>
         <name>asn_sourceContactIntegrationPropertiesResolvedContact</name>
         <label>Assign sourceContact Integration Properties from Resolved Contact</label>
-        <locationX>1269</locationX>
-        <locationY>1505</locationY>
+        <locationX>1298</locationX>
+        <locationY>1507</locationY>
         <connector>
             <targetReference>dec_EvaluateContactRecord</targetReference>
         </connector>
@@ -1443,7 +1687,7 @@
         <description>... evaluate the configuration of the specified CustomerList and sourceContact to determine if integration should be enabled.</description>
         <name>sub_allowIntegrationHelper_NoContactID</name>
         <label>Evaluate Integration Configuration</label>
-        <locationX>1553</locationX>
+        <locationX>1765</locationX>
         <locationY>1061</locationY>
         <connector>
             <targetReference>dec_isIntegrationEnabledForPlatformEvent</targetReference>
@@ -1471,12 +1715,12 @@
     </subflows>
     <subflows>
         <description>... evaluate the configuration of the specified CustomerList and sourceContact to determine if integration should be enabled.</description>
-        <name>sub_allowIntegrationHelper_NoContactID_0</name>
+        <name>sub_allowIntegrationHelper_Update</name>
         <label>Allow Integration for this Source Contact?</label>
-        <locationX>597</locationX>
-        <locationY>1765</locationY>
+        <locationX>306</locationX>
+        <locationY>1734</locationY>
         <connector>
-            <targetReference>dec_isIntegrationEnabledForPlatformEvent_0</targetReference>
+            <targetReference>dec_isIntegrationEnabledForPlatformEventUpdate</targetReference>
         </connector>
         <flowName>B2CCommerce_AllowIntegration_Helper</flowName>
         <inputAssignments>
@@ -1503,7 +1747,7 @@
         <description>... this flow is used to take Contact properties from the sourceContact presented to this flow -- and assign them to the output Contact that will be returned in the flow results.</description>
         <name>sub_B2CCommerceContactAssignmentHelper</name>
         <label>Assign Source Contact Properties</label>
-        <locationX>2632</locationX>
+        <locationX>2844</locationX>
         <locationY>1506</locationY>
         <connector>
             <targetReference>dec_doesContactHaveLastName</targetReference>
@@ -1536,7 +1780,7 @@
         <description>... attempt to calculate the Account Name based on the Contact properties provided.</description>
         <name>sub_calculateAccountName</name>
         <label>Calculate the Account Name</label>
-        <locationX>2633</locationX>
+        <locationX>2844</locationX>
         <locationY>2480</locationY>
         <connector>
             <targetReference>asn_AccountNameToBusinessAccount</targetReference>
@@ -1563,7 +1807,7 @@
         <description>... generate the Contact Process Platform Event.</description>
         <name>sub_contactProcessPlatformEventHelper</name>
         <label>Create the Contact Process Platform Event</label>
-        <locationX>1989</locationX>
+        <locationX>2201</locationX>
         <locationY>3174</locationY>
         <connector>
             <targetReference>ContactCreateSuccess_Assignment</targetReference>
@@ -1593,10 +1837,10 @@
         <description>... generate the Contact Process Platform Event.</description>
         <name>sub_contactProcessPlatformEventHelper_Update</name>
         <label>Create the Contact Process Platform Event</label>
-        <locationX>2436</locationX>
-        <locationY>2232</locationY>
+        <locationX>2190</locationX>
+        <locationY>2734</locationY>
         <connector>
-            <targetReference>asn_contactProcessSuccessfully_Update</targetReference>
+            <targetReference>dec_isContactMissingAccountID</targetReference>
         </connector>
         <flowName>sub_contactProcessPlatformEventHelper</flowName>
         <inputAssignments>
@@ -1623,7 +1867,7 @@
         <description>... leverage the Contact Resolution Helper to attempt to resolve the sourceContact.</description>
         <name>sub_contactResolutionHelper</name>
         <label>Attempt to Resolve the Contact</label>
-        <locationX>1806</locationX>
+        <locationX>2018</locationX>
         <locationY>1274</locationY>
         <connector>
             <targetReference>dec_CanWeResolveThisContact</targetReference>

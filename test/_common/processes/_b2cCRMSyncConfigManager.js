@@ -8,20 +8,23 @@ const dataAPIs = require('../../../lib/apis/sfcc/ocapi/data');
 const b2cRequestLib = require('../../../lib/_common/request');
 
 /**
- * @function disableCRMSync
- * @description Helper function to disable b2c-crm-sync via OCAPI
+ * @function b2cCRMSyneConfigManager
+ * @description Helper function to enable, disable, and manage the configuration of b2c-crm-sync via OCAPI
  *
  * @param {Object} environmentDef Represents the configuration for the current environment
  * @param {String} b2cAdminAuthToken Represents the base API request to leverage for B2C Commerce
  * @param {String} siteId Represents the current site being targeted with related automation
- * @return {Promise} Returns an object summary containing processing results
+ * @param {Object} [syncConfiguration] Represents the current b2c-crm-sync site-preference configuration to exercise
+ * @return {Object} Returns an object summary containing processing results
  */
-module.exports = async (environmentDef, b2cAdminAuthToken, siteId) => {
+module.exports = async (environmentDef, b2cAdminAuthToken, siteId, syncConfiguration) => {
 
     // Initialize local variables
     let baseRequest,
-        preferenceGroup,
-        preferenceUpdate;
+        preferenceGroup;
+
+    // If no sync-configuration is defined, go ahead and grab the base configuration (defaults to activation)
+    if (syncConfiguration === undefined) { syncConfiguration = config.util.toObject(config.get('unitTests.b2cCRMSyncConfigManager.base')); }
 
     // Initialize the base request leveraged by this process
     baseRequest = b2cRequestLib.createRequestInstance(environmentDef);
@@ -29,17 +32,8 @@ module.exports = async (environmentDef, b2cAdminAuthToken, siteId) => {
     // Retrieve the current preference group
     preferenceGroup = config.get('unitTests.testData.crmSyncSitePreferenceGroup');
 
-    // Build the update to re-enable OCAPI
-    preferenceUpdate = {
-        "c_b2ccrm_syncCustomersEnabled": true,
-        "c_b2ccrm_syncCustomersOnLoginEnabled": true,
-        "c_b2ccrm_syncCustomersOnLoginOnceEnabled": true,
-        "c_b2ccrm_syncIsEnabled": false,
-        "c_b2ccrm_syncCustomersViaOCAPI": false
-    }
-
     // Evaluate if the test customer already exists in the B2C Commerce environment
     return await dataAPIs.sitePreferencesPatch(
-        baseRequest, b2cAdminAuthToken, siteId, preferenceGroup, preferenceUpdate);
+        baseRequest, b2cAdminAuthToken, siteId, preferenceGroup, syncConfiguration);
 
 };

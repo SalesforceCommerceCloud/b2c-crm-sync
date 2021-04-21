@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Service_Cloud_Attribute__c</fullName>
-    <description>... represents the Service Cloud attribute mapped to the specified object.</description>
+    <description>... represents the Salesforce Platform attribute mapped to the specified object.</description>
     <externalId>false</externalId>
     <fieldManageability>SubscriberControlled</fieldManageability>
-    <inlineHelpText>... represents the Service Cloud attribute mapped to the specified object.</inlineHelpText>
-    <label>Service Cloud Attribute</label>
+    <inlineHelpText>... represents the Salesforce Platform attribute mapped to the specified object.</inlineHelpText>
+    <label>Salesforce Platform Attribute</label>
     <length>250</length>
     <required>true</required>
     <type>Text</type>

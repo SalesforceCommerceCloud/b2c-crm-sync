@@ -7,6 +7,122 @@
 */
 public abstract with sharing class B2CBaseAttributeAssignment {
 
+    /**
+     * @description Helper function to assign missing fieldValues present on one
+     * sObject to a target sObject of the same type.
+     *
+     * @param sourceObject {SObject} Represents the source sObject to evaluate (has all fields)
+     * @param targetObject {SObject} Represents the target sObject to update (has some fields)
+     * @return {Map<String, Object>} Returns the target sObject with the updated fieldNames
+     */
+    public static Map<String, Object> assignMissingFieldValues(SObject sourceObject, SObject targetObject) {
+
+        // Initialize local Variables
+        String sourceObjectJSON;
+        Map<String, Object> sourceObjectMap;
+        String targetObjectJSON;
+        Map<String, Object> targetObjectMap;
+        Set<String> targetObjectFields;
+        Map<String, Object> output;
+        List<String> missingFields;
+
+        // Initialize the outputs
+        output = new Map<String, Object>();
+        missingFields = new List<String>();
+
+        // Serialize the sourceObject -- skipping null fields
+        sourceObjectJSON = JSON.serialize(sourceObject, true);
+        targetObjectJSON = JSON.serialize(targetObject, true);
+
+        // Convert the JSON to a map representing fieldNames
+        sourceObjectMap = (Map<String, Object>) JSON.deserializeUntyped(sourceObjectJSON);
+        targetObjectMap = (Map<String, Object>) JSON.deserializeUntyped(targetObjectJSON);
+
+        // Create a collection of the targetObject keys
+        targetObjectFields = targetObjectMap.keySet();
+
+        // Loop over the collection of fields in the sourceObject
+        for( String objectFieldName : sourceObjectMap.keySet()) {
+
+            // Move along if the field currently being evaluated is flagged for skipping
+            if (B2CConstant.synchronizePropertiesToSkip.contains(objectFieldName)) { continue; }
+
+            // Evaluate if the current field is set with a non-null value in the sourceObject
+            if (sourceObject.isSet(objectFieldName) && sourceObject.get(objectFieldName) != null) {
+
+                // If so, then evaluate if the targetObject is missing this field -- or it has it, and the value is null
+                if (!targetObjectFields.contains(objectFieldName) || (targetObjectFields.contains(objectFieldName) && targetObject.get(objectFieldName) == null)) {
+
+                    // If the field exists, see if it has been set in the target object
+                    if (targetObject.get(objectFieldName) == null) {
+
+                        // Add the objectField to the collection of missingFields
+                        missingFields.add(objectFieldName);
+
+                        // If not, then set the value in the target object
+                        targetObject.put(objectFieldName, sourceObject.get(objectFieldName));
+
+                    }
+
+                }
+
+            }
+
+        }
+
+        // Add the missingFields and targetObject to the output
+        output.put('missingFields', missingFields);
+        output.put('synchronizedObject', (Object) targetObject);
+
+        // Return the output
+        return output;
+
+    }
+
+    /**
+     * @description Helper function to remove the account-specific PersonAccount properties
+     * from a Contact object; we remove these values as they will prevent the Contact from
+     * being updated directly if the Person contactModel is enabled
+     *
+     * @param contactToProcess {SObject} Represents the contact to process
+     * @return {SObject} Returns the sObject with the AccountId removed
+     */
+    public static SObject removePersonAccountProperties(SObject contactToProcess) {
+
+        // Initialize local variables
+        String contactAsJSON;
+        Map<String, Object> contactMap;
+        SObject output;
+
+        // First, serialize the contact as JSON
+        contactAsJSON = JSON.serialize(contactToProcess);
+
+        // Convert the contact to a map so that we can manipulate the attributes
+        contactMap = new Map<String, Object>(contactToProcess.getPopulatedFieldsAsMap());
+
+        // Loop over the collection of personAccountProperties to remove
+        for (String personAccountProperty : B2CConstant.personAccountPropertiesToRemove) {
+
+            // Does the propertyToRemove exist in the contactMap?
+            if (contactMap.containsKey(personAccountProperty)) {
+
+                // If so, then remove the property from the Contact
+                contactMap.remove(personAccountProperty);
+
+            }
+
+        }
+
+        // Re-serialize the contact details (minus the accountId)
+        contactAsJSON = JSON.serialize(contactMap);
+
+        // And finally convert the map to a Contact through deserialization
+        output = (SObject)JSON.deserialize(contactAsJSON, Contact.class);
+
+        // Return the output variable
+        return output;
+
+    }
 
     /**
      * @description This method compares the "before" and "after" version of a processed sObject and evaluates

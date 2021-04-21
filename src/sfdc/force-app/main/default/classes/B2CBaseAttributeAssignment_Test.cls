@@ -32,6 +32,144 @@ private class B2CBaseAttributeAssignment_Test {
         '"testDate": "' + sourceDateValue + '"\n' +
     '}';
 
+    /**
+     * @see B2CBaseAttributeAssignment.assignMissingFieldValues
+     * @description This method is used to verify that we can iterate over two
+     * objects of a similar type -- and assign the missing fieldValues found
+     * in the sourceObject to the targetObject.
+     */
+    @IsTest
+    static void testAssignMissingFieldValues() {
+
+        // Initialize local variables
+        SObject sourceContact;
+        SObject targetContact;
+        Map<String, Object> outputResults;
+        List<String> missingFields;
+        SObject synchronizedContact;
+
+        // Create test-data representing the source Contact
+        sourceContact = TestDataFactory.createSObject('Contact', new Map<String,Object>{
+                'FirstName' => 'Unknown',
+                'LastName' => 'User',
+                'Email' => 'test@qa.salesforce.com',
+                'Description' => 'This is a test description',
+                'Title' => 'Test Title'
+        });
+
+        // Create test-data representing the target Contact to update
+        targetContact = new Contact();
+        targetContact.put('FirstName', 'Known');
+        targetContact.put('LastName', 'User');
+        targetContact.put('Email', 'test@qa.salesforce.com');
+
+        Test.startTest();
+
+        // Attempt to assign the fieldValues missing from the targetContact
+        outputResults = B2CBaseAttributeAssignment.assignMissingFieldValues(sourceContact, (SObject) targetContact);
+
+        Test.stopTest();
+
+        // First, validate that the expected outputKeys are found in the outputResults
+        System.assert(outputResults.containsKey('missingFields'), ' -- expected to find the key [missingFields] in the outputResults');
+        System.assert(outputResults.containsKey('synchronizedObject'), ' -- expected to find the key [synchronizedObject] in the outputResults');
+
+        // Create and cast the references to the individual output values
+        missingFields = (List<String>) outputResults.get('missingFields');
+        synchronizedContact = (SObject) outputResults.get('synchronizedObject');
+
+        // Validate that the correct number of synchronized fields were found
+        System.assert(missingFields.size() == 2, ' -- expected to find [2] missing fields from the target / synchronized object');
+        System.assertEquals(synchronizedContact.get('Description'), sourceContact.get('Description'), ' -- expected the [Description] values to be equal between the source and target / synchronized object');
+        System.assertEquals(synchronizedContact.get('Title'), sourceContact.get('Title'), ' -- expected the [Title] values to be equal between the source and target / synchronized object');
+        System.assertNotEquals(synchronizedContact.get('FirstName'), sourceContact.get('FirstName'), ' -- expected the [FirstName] values to not be equal between the source and target / synchronized object');
+
+    }
+
+    /**
+     * @see B2CBaseAttributeAssignment.hasSObjectBeenUpdated
+     * @description This method is used to verify that we can identify when
+     * fieldUpdates occur to similar sObjects (ex. Contacts) leveraging our
+     * collection of fieldMapping definitions.  Should resolve to true.
+     */
+    @IsTest
+    static void testHasSObjectBeenUpdatedSuccess() {
+
+        // Initialize local variables
+        SObject sourceContact;
+        SObject targetContact;
+        List<B2C_Integration_Field_Mappings__mdt> fieldMappings;
+        Boolean outputResults;
+
+        // Create test-data representing the source Contact
+        sourceContact = TestDataFactory.createSObject('Contact', new Map<String,Object>{
+                'FirstName' => 'Unknown',
+                'LastName' => 'User',
+                'Email' => 'test@qa.salesforce.com'
+        });
+
+        // Create test-data representing the target / updated Contact
+        targetContact = TestDataFactory.createSObject('Contact', new Map<String,Object>{
+                'FirstName' => 'Known',
+                'LastName' => 'User',
+                'Email' => 'test@qa.updated.salesforce.com'
+        });
+
+        // Retrieve the fieldMappings collection to exercise in this test
+        fieldMappings = B2CMetaFieldMappings.getFieldMappings('Contact');
+
+        Test.startTest();
+
+        // Evaluate if the target sObject (Contact) has had a field in the fieldMappings collection updated
+        outputResults = B2CBaseAttributeAssignment.hasSObjectBeenUpdated(sourceContact, targetContact, fieldMappings);
+
+        Test.stopTest();
+
+        // Validate that the targetContact does show that it was updated
+        System.assert(outputResults == true, ' -- should be true; the fields in the targetContact have been updated and align with fieldMappings');
+
+    }
+
+    /**
+       * @see B2CBaseAttributeAssignment.hasSObjectBeenUpdated
+       * @description This method is used to verify that we can identify when
+       * fieldUpdates occur to similar sObjects (ex. Contacts) leveraging our
+       * collection of fieldMapping definitions.  Should resolve to false and
+       * not detect any field updates -- as we're cloning the sourceContact.
+       */
+    @IsTest
+    static void testHasSObjectBeenUpdatedFailure() {
+
+        // Initialize local variables
+        SObject sourceContact;
+        SObject targetContact;
+        List<B2C_Integration_Field_Mappings__mdt> fieldMappings;
+        Boolean outputResults;
+
+        // Create test-data representing the source Contact
+        sourceContact = TestDataFactory.createSObject('Contact', new Map<String,Object>{
+                'FirstName' => 'Unknown',
+                'LastName' => 'User',
+                'Email' => 'test@qa.salesforce.com'
+        });
+
+        // Create test-data representing the target / updated Contact (cloned; no updates)
+        targetContact = sourceContact.clone(true, true);
+
+        // Retrieve the fieldMappings collection to exercise in this test
+        fieldMappings = B2CMetaFieldMappings.getFieldMappings('Contact');
+
+        Test.startTest();
+
+        // Evaluate if the target sObject (Contact) has had a field in the fieldMappings collection updated
+        outputResults = B2CBaseAttributeAssignment.hasSObjectBeenUpdated(sourceContact, targetContact, fieldMappings);
+
+        Test.stopTest();
+
+        // Validate that the targetContact does show that it was updated
+        System.assert(outputResults == false, ' -- should be false; the fields in the targetContact have not been updated');
+
+    }
 
     /**
      * @see B2CBaseAttributeAssignment.applyMappedFieldValues
