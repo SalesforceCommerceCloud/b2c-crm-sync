@@ -41,7 +41,7 @@ public class B2CIAGetCustomerProfileResult {
     public String responseBody;
 
     ////////////////////////////////////////////////////////////////
-    // Include the deserialized properties from the response
+    // Include the total records retrieved
     ////////////////////////////////////////////////////////////////
 
     @InvocableVariable

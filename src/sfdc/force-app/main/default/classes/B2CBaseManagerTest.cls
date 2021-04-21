@@ -1,8 +1,8 @@
 
-@isTest
+@IsTest
 public with sharing class B2CBaseManagerTest {
 
-    @isTest
+    @IsTest
     public static void evaluateResponseForExceptionsTest() {
 
         Test.setMock(HttpCalloutMock.class, new B2CHttpTestCalloutMockGenerator('AccessTokenFailure'));
