@@ -1,14 +1,14 @@
-//  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
- //  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES 
- //  OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL 
- //  THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
+//  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ //  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ //  OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
+ //  THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
  //  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
  //  OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
  //  OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- 
+
  /**
- * @description Apex Test Data Factory 
+ * @description Apex Test Data Factory
  * @author benahm
  * @since 2017
  * @group Apex Test Data Factory
@@ -18,7 +18,7 @@ public class TestDataFactory {
 
     /** Default value provider instance */
     private static DefaultValueProvider dvPrvdr = new DefaultValueProvider();
-    
+
     /** Default value generator, used to auto-generate default values for non required fields  */
     public static final IFieldDefaultValue DEFAULT_VALUE = new AutoFieldDefaultValue();
 
@@ -53,7 +53,7 @@ public class TestDataFactory {
      * @description create an sObject
      * @param sObjectName (String): name of the sObject to be created
      * @return sObject instance
-     * @example 
+     * @example
      * Account acc = (Account)TestDataFactory.createSObject('Account');
      */
     public static SObject createSObject(String sObjectName){
@@ -65,7 +65,7 @@ public class TestDataFactory {
      * @param sObjectName (String): name of the sObject to be created
      * @param Boolean (Boolean): if true the sObject instance is inserted to the Salesforce database
      * @return sObject instance
-     * @example 
+     * @example
      * Account acc = (Account)TestDataFactory.createSObject('Account',false);
      */
     public static SObject createSObject(String sObjectName, Boolean doInsert){
@@ -77,7 +77,7 @@ public class TestDataFactory {
      * @param sObjectName (String): name of the sObject to be created
      * @param mapOfValuesOverride (Map<String,Object>): map of values
      * @return sObject instance
-     * @example 
+     * @example
      * Account acc = (Account)TestDataFactory.createSObject('Account',new Map<String,Object>{
      *  'Description' => 'Test'
      * });
@@ -92,7 +92,7 @@ public class TestDataFactory {
      * @param mapOfValuesOverride (Map<String,Object>): map of values
      * @param doInsert (Boolean): if true the sObject instance is inserted to the Salesforce database
      * @return sObject instance
-     * @example 
+     * @example
      * Account acc = (Account)TestDataFactory.createSObject('Account',new Map<String,Object>{
      *  'Description' => 'Test'
      * },false);
@@ -106,20 +106,20 @@ public class TestDataFactory {
      * @param sObjectName (String): name of the sObject to be created
      * @param numberOfSObjects (Integer): number of sObjects to be created
      * @return list of sObject instances
-     * @example 
+     * @example
      * List<Account> accList = TestDataFactory.createSObjectList('Account',10);
      */
     public static List<SObject> createSObjectList(String sObjectName, Integer numberOfSObjects){
         return createSObjectList(sObjectName,new Map<String,Object>(),numberOfSObjects,true);
     }
-    
+
     /**
      * @description create a list of sObjects
      * @param sObjectName (String): name of the sObject to be created
      * @param numberOfSObjects (Integer): number of sObjects to be created
      * @param doInsert (Boolean): if true the sObject list instances is inserted to the Salesforce database
      * @return list of sObject instances
-     * @example 
+     * @example
      * List<Account> accList = TestDataFactory.createSObjectList('Account',10,false);
      */
     public static List<SObject> createSObjectList(String sObjectName, Integer numberOfSObjects, Boolean doInsert){
@@ -132,7 +132,7 @@ public class TestDataFactory {
      * @param mapOfValuesOverride (Map<String,Object>): map of values
      * @param numberOfSObjects (Integer): number of sObjects to be created
      * @return list of sObject instances
-     * @example 
+     * @example
      * List<Account> accList = TestDataFactory.createSObjectList('Account',new Map<String,Object>{
      *  'Description' => 'Test'
      * },10);
@@ -148,13 +148,13 @@ public class TestDataFactory {
      * @param numberOfSObjects (Integer): number of sObjects to be created
      * @param doInsert (Boolean): if true the sObject list instances is inserted to the Salesforce database
      * @return list of sObject instances
-     * @example 
+     * @example
      * List<Account> accList = TestDataFactory.createSObjectList('Account',new Map<String,Object>{
      *  'Description' => 'Test'
      * },10,false);
      */
     public static List<SObject> createSObjectList(String sObjectName, Map<String,Object> mapOfValuesOverride, Integer numberOfSObjects, Boolean doInsert){
-        Schema.SObjectType sObjectType = Schema.getGlobalDescribe().get(sObjectName); 
+        Schema.SObjectType sObjectType = Schema.getGlobalDescribe().get(sObjectName);
         SObjectFactory sObjFactory = new SObjectFactory(sObjectType);
         List<SObject> listSObjectInstance = sObjFactory.getListSObjectInstance(mapOfValuesOverride, doInsert, numberOfSObjects);
         return listSObjectInstance;
@@ -180,9 +180,9 @@ public class TestDataFactory {
     * @description class SObjectManager : manage all the sObjects instances and the insertion to the salesforce DB
     */
     public class SObjectManager implements ISObjectManager{
-        
+
         /** Main sObject name */
-        private String sObjectName = null; 
+        private String sObjectName = null;
         /** List of main sObject instances */
         @TestVisible
         private List<SObject> mainSObjectList = new List<SObject>();
@@ -224,13 +224,13 @@ public class TestDataFactory {
                 mainSObjectList.add(sObj);
             }else{
                 mainSObjectList.set(index,sObj);
-            } 
+            }
         }
 
         /**
         * @description get an sObject from the main sObject list for a given index
         * @param index (Integer): index for which the sObject instance will be returned
-        * @return the returnd sObject instance
+        * @return the returned sObject instance
         */
         public SObject getSObject(Integer index){
             return mainSObjectList.get(index);
@@ -246,28 +246,28 @@ public class TestDataFactory {
             String fullyQualifiedRelationshipNameLowerCase = fullyQualifiedRelationshipName.toLowerCase();
             // get related sObject list for the fully qualified relationship name
             List<SObject> relatedSObjList = relatedSObjMapList.get(fullyQualifiedRelationshipNameLowerCase);
-            if(relatedSObjList == null){ 
+            if(relatedSObjList == null){
                 // instantiate the list if null
                 relatedSObjList = new List<SObject>();
-                // put the list into the related sObject map list 
+                // put the list into the related sObject map list
                 relatedSObjMapList.put(fullyQualifiedRelationshipNameLowerCase,relatedSObjList);
                 // add the fully qualified relationship name to the list of ordered relationship names
                 addRelationshipName(fullyQualifiedRelationshipNameLowerCase);
-            } 
+            }
 
             if(index == relatedSObjList.size()){
                 relatedSObjList.add(sObj);
             }
             else{
                 relatedSObjList.set(index,sObj);
-            } 
+            }
         }
 
         /**
         * @description get a related sObject from the related sObject map list for a given index and relationship name
         * @param index (Integer): index for which the sObject instance will be returned
         * @param fullyQualifiedRelationshipName (String): fully qualified relationship name for which the sObject instance will be returned
-        * @return the returnd sObject instance
+        * @return the returned sObject instance
         */
         public SObject getRelationship(Integer index, String fullyQualifiedRelationshipName){
             try{
@@ -279,7 +279,7 @@ public class TestDataFactory {
         }
 
         /**
-        * @description insert all the sObjects stored in the sObject Manager into the Salesforce database  
+        * @description insert all the sObjects stored in the sObject Manager into the Salesforce database
         */
         public void insertAll(){
             // loop through the ordered relationship list
@@ -289,11 +289,11 @@ public class TestDataFactory {
 
                 // insert parent sObject list
                 insertList(sObjParentList,DOT+fullyQualifiedRelationshipName);
-                
-                // last relationship name in the dot notation
-                String leafRelationshipName = (DOT+fullyQualifiedRelationshipName).substringAfterLast(DOT); 
 
-                if(!fullyQualifiedRelationshipName.contains(DOT)){ // single relationship 
+                // last relationship name in the dot notation
+                String leafRelationshipName = (DOT+fullyQualifiedRelationshipName).substringAfterLast(DOT);
+
+                if(!fullyQualifiedRelationshipName.contains(DOT)){ // single relationship
                     // link child sObject list to the main sObject list
                     setChildParentRelationship(mainSObjectList,sObjParentList,fullyQualifiedRelationshipName);
 
@@ -327,7 +327,7 @@ public class TestDataFactory {
             Integer index = 0;
             for(SObject sObjChild: sObjChildList){
                 // get the field name that links the child sObject to the parent sObject
-                String relationshipFieldName = getFieldNameFromRelationshipName(relationshipName); 
+                String relationshipFieldName = getFieldNameFromRelationshipName(relationshipName);
                 // set field related to the relationship name (on the child sObject), with the Id of the parent sObject
                 sObjChild.put(relationshipFieldName,sObjParentList.get(index).get('Id'));
                 index++;
@@ -367,11 +367,11 @@ public class TestDataFactory {
             // Iterate through the save results
             for (Database.SaveResult saveResult : saveResults) {
                 if (!saveResult.isSuccess()){
-                    // Iterate through the errors                
+                    // Iterate through the errors
                     for(Database.Error error : saveResult.getErrors()) {
                         Set<String> fieldNames = new Set<String>{'Name','RecordTypeId'};
                         fieldNames.addAll(error.getFields());
-                        String listFieldValues = '';     
+                        String listFieldValues = '';
                         for(String fieldName : fieldNames){
                             Object fieldValue;
                             try {
@@ -380,7 +380,7 @@ public class TestDataFactory {
                             if(fieldValue != null){
                                 listFieldValues += fieldName + '='+ fieldValue +', ';
                             }
-                        }              
+                        }
                         listFieldValues = listFieldValues.removeEnd(', ');
                         listErrors.add(error.getStatusCode() + ': ' + error.getMessage() + ' ' +'['+listFieldValues+']');
                     }
@@ -403,7 +403,7 @@ public class TestDataFactory {
     }
 
     /**
-    * @description class SObjectFactory : manage the creation of all the sObjects instances 
+    * @description class SObjectFactory : manage the creation of all the sObjects instances
     */
     public class SObjectFactory implements ISObjectFactory{
 
@@ -484,14 +484,14 @@ public class TestDataFactory {
 
         /**
         * @description initiate the main sObject instance with all related sObject and apply the map of values
-        * @param mapOfValues (Map<String,IFieldDefaultValue>): map of values with key as field name and value as the default value to be used when instantiating the sObject. 
+        * @param mapOfValues (Map<String,IFieldDefaultValue>): map of values with key as field name and value as the default value to be used when instantiating the sObject.
         *           This map contains the default values provided as input by the user and the auto-generated default values for the required fields
         * @param recordIndex (Integer): index number (starting from 0) of each record when creating a list of sObjects. For single sObject creation recordIndex is default to 0
         */
         @TestVisible
         private void initSObjectInstance(Map<String,IFieldDefaultValue> mapOfValues, Integer recordIndex){
             // add the main sObject instance to the sObject Manager
-            sObjMgr.setSObject(recordIndex,sObjectType.newSObject()); 
+            sObjMgr.setSObject(recordIndex,sObjectType.newSObject());
 
             for(String fullyQualifiedFieldName : mapOfValues.keySet()){ // loop through the map of values
 
@@ -499,16 +499,16 @@ public class TestDataFactory {
                 String fieldName = (DOT+fullyQualifiedFieldName).substringAfterLast(DOT);
                 // get the field value from the map of values
                 Object fieldValue = getFieldValueFromMapOfValues(mapOfValues,fullyQualifiedFieldName,recordIndex);
-                
+
                 if(!fullyQualifiedFieldName.contains(DOT)){ // field name
                     putField(sObjMgr.getSObject(recordIndex),fieldName,fieldValue,sObjectName);
                 }else{ // relationship
                     // first relationship name in fully qualified relationship name
-                    String firstRelationshipName = fullyQualifiedFieldName.substringBefore(DOT); 
-                    // fully qualified relationship name without the field name 
-                    String fullyQualifiedRelationshipName = fullyQualifiedFieldName.substringBeforeLast(DOT);  
+                    String firstRelationshipName = fullyQualifiedFieldName.substringBefore(DOT);
+                    // fully qualified relationship name without the field name
+                    String fullyQualifiedRelationshipName = fullyQualifiedFieldName.substringBeforeLast(DOT);
                     // generate the related sObject instances for a given fullyQualifiedRelationshipName
-                    SObject relatedSObj = getRelationshipInstance(fullyQualifiedRelationshipName,recordIndex); 
+                    SObject relatedSObj = getRelationshipInstance(fullyQualifiedRelationshipName,recordIndex);
                     // apply the field value for the related sObject
                     putField(relatedSObj,fieldName,fieldValue,sObjectName+DOT+fullyQualifiedRelationshipName);
                     // link the related sObject to the main sObject
@@ -529,27 +529,27 @@ public class TestDataFactory {
             SObject sObj = sObjMgr.getRelationship(recordIndex,fullyQualifiedRelationshipName);
             // return the sObject instance if already exists in the sObject Manager
             if(sObj != null){
-                return sObj; 
-            } 
+                return sObj;
+            }
 
             // last relationship name in the dot notation
-            String leafRelationshipName = (DOT+fullyQualifiedRelationshipName).substringAfterLast(DOT); 
+            String leafRelationshipName = (DOT+fullyQualifiedRelationshipName).substringAfterLast(DOT);
 
             if(!fullyQualifiedRelationshipName.contains(DOT)){ // single relationship
-                sObj = getRelatedSObjectInstance(sObjectType,leafRelationshipName,sObjectName); 
+                sObj = getRelatedSObjectInstance(sObjectType,leafRelationshipName,sObjectName);
             }else{ // multiple relationships
 
                 // fully qualified relationship name without the leaf relationship
-                String fullyQualifiedRelationshipNameWithoutLeaf = fullyQualifiedRelationshipName.substringBeforeLast(DOT); 
+                String fullyQualifiedRelationshipNameWithoutLeaf = fullyQualifiedRelationshipName.substringBeforeLast(DOT);
                 // generate the all the sObject instances for the fully qualified relationship name without the leaf relationship name
                 SObject relatedSObj = getRelationshipInstance(fullyQualifiedRelationshipNameWithoutLeaf,recordIndex); // <= recursion
                 // merge value for error message display
                 String errorMessageMergeValue = sObjectName+DOT+fullyQualifiedRelationshipNameWithoutLeaf;
                 // get sObject instance for the leaf relationship
-                sObj = getRelatedSObjectInstance(relatedSObj.getSObjectType(),leafRelationshipName,errorMessageMergeValue); 
+                sObj = getRelatedSObjectInstance(relatedSObj.getSObjectType(),leafRelationshipName,errorMessageMergeValue);
                 // link the related instance of the leaf relationship to the related sObject of the fully qualified relationship name without the leaf relationship name
                 putSObject(relatedSObj,leafRelationshipName,sObj,errorMessageMergeValue);
-            } 
+            }
 
             // add the sObject instance to the sObject Manager
             sObjMgr.setRelationship(recordIndex,fullyQualifiedRelationshipName,sObj);
@@ -570,7 +570,7 @@ public class TestDataFactory {
             SObject sObj;
             try{
                 // get the related field describe
-                fieldDesc = fieldsMap.get(getFieldNameFromRelationshipName(relationshipName)).getDescribe(); 
+                fieldDesc = fieldsMap.get(getFieldNameFromRelationshipName(relationshipName)).getDescribe();
                 // get related sObject instance
                 sObj = fieldDesc.getReferenceTo().get(0).newSObject();
             }catch(Exception e){
@@ -581,7 +581,7 @@ public class TestDataFactory {
 
         /**
         * @description get the field value from the map of values for a given record index and fully qualified field name
-        * @param mapOfValues (Map<String,IFieldDefaultValue>): map of values with key as field name and value as the default value to be used when instantiating the sObject. 
+        * @param mapOfValues (Map<String,IFieldDefaultValue>): map of values with key as field name and value as the default value to be used when instantiating the sObject.
         * @param fullyQualifiedFieldName (String): fully qualified field name (example : Contact.Account.Name)
         * @param recordIndex (Integer): index number (starting from 0) of each record when creating a list of sObjects. For single sObject creation recordIndex is default to 0
         * @return field value
@@ -591,7 +591,7 @@ public class TestDataFactory {
             Object fieldValue;
             try{
                 // get the field value
-                fieldValue = mapOfValues.get(fullyQualifiedFieldName).getValue(recordIndex); 
+                fieldValue = mapOfValues.get(fullyQualifiedFieldName).getValue(recordIndex);
             }catch(Exception e){
                 throw new TestDataFactoryException(formatErrorMessage(ERR_UNABLE_TO_GET_FIELD_VALUE,new List<String>{fullyQualifiedFieldName},e.getMessage()));
             }
@@ -614,7 +614,7 @@ public class TestDataFactory {
                 throw new TestDataFactoryException(formatErrorMessage(ERR_RELATIONSHIP_NOT_EXIST,new List<String>{relationshipName,errorMessageMergeValue},e.getMessage()));
             }
             return sObj;
-        }       
+        }
 
         /**
         * @description set field value in given sObject instance
@@ -657,7 +657,7 @@ public class TestDataFactory {
         /* ===========================  Properties =========================== */
         /** Person Account record type Ids */
         @TestVisible
-        private Set<Id> personAccountRecordTypes{ 
+        private Set<Id> personAccountRecordTypes{
             get{
                 if(personAccountRecordTypes == null){
                     if(isPersonAccountEnabled){
@@ -724,7 +724,7 @@ public class TestDataFactory {
             // get the defined optional fields set
             Set<String> definedOptionalFields = getDefinedSObjectOptionalFields(sObjectType);
             // Manage Person Account Org enabled
-            if(sObjectType == Account.sObjectType && isPersonAccountEnabled){ 
+            if(sObjectType == Account.sObjectType && isPersonAccountEnabled){
                 managePersonAccountOrgEnabled(mapOfValues,prefix,definedRequiredFields);
             }
             // loop through fields map
@@ -745,7 +745,7 @@ public class TestDataFactory {
                             putRelationshipField(mapOfValues,fieldDesc,prefix); // <== recursion
                             // remove the AutoFieldDefaultValue instance from the map
                             mapOfValues.remove(fullyQualifiedFieldName);
-                        } 
+                        }
                     }
                 }else { // no override value provided for the field
                     // field default value required and field not mentioned in definedOptionalFields or field mentioned in definedRequiredFields
@@ -806,7 +806,7 @@ public class TestDataFactory {
                 }
                 try{
                     Id recordTypeId = Id.valueOf((String)recordTypeIdValue);
-                    if(personAccountRecordTypes.contains(recordTypeId)){ // person account 
+                    if(personAccountRecordTypes.contains(recordTypeId)){ // person account
                         definedRequiredFields.add('lastname');
                     }else { // business account
                         definedRequiredFields.add('name');
@@ -821,7 +821,7 @@ public class TestDataFactory {
 
         /**
         * @description get defined set of required fields for a given sObject type and record type id
-        * @param sObjectType (Schema.SObjectType): sObject type for which the defined required fields will be returned 
+        * @param sObjectType (Schema.SObjectType): sObject type for which the defined required fields will be returned
         * @param recordTypeValue (Object): record type id provided for to the sObject Type
         * @return set of defined required fields
         */
@@ -832,13 +832,13 @@ public class TestDataFactory {
             if(definedRequiredFieldsByDeveloper != null){
                 definedRequiredFields.addAll(convertSetToLowerCase(definedRequiredFieldsByDeveloper));
             }
-            
+
             return definedRequiredFields;
         }
 
         /**
         * @description get defined set of optional fields for a given sObject type
-        * @param sObjectType (Schema.SObjectType): sObject type for which the defined optional fields will be returned 
+        * @param sObjectType (Schema.SObjectType): sObject type for which the defined optional fields will be returned
         * @param recordTypeValue (Object): record type id provided for to the sObject Type
         * @return set of defined optional fields
         */
@@ -849,7 +849,7 @@ public class TestDataFactory {
             if(definedOptionalFieldsByDeveloper != null){
                 definedOptionalFields.addAll(convertSetToLowerCase(definedOptionalFieldsByDeveloper));
             }
-            
+
             return definedOptionalFields;
         }
 
@@ -858,7 +858,7 @@ public class TestDataFactory {
         * @param keySetOverride (Set<String>): keySet of fully qualified field names
         * @param prefix (String): prefix (example : Contact.Account.)
         * @return set of relationship names
-        * @example 
+        * @example
         * keySetOverride = {Contact.Account.Name,Contact.FirstName}
         * Prefix : Contact.
         * Result : {Account}
@@ -888,11 +888,11 @@ public class TestDataFactory {
         * @return converted map
         */
         @TestVisible
-        private Map<String,IFieldDefaultValue> convertMapValueTypes(String prefix, Map<String,Object> mapOfValues){ 
+        private Map<String,IFieldDefaultValue> convertMapValueTypes(String prefix, Map<String,Object> mapOfValues){
             Map<String,IFieldDefaultValue> convertedMap = new Map<String,IFieldDefaultValue>();
             if(mapOfValues == null){
                 return convertedMap;
-            } 
+            }
             for(String name : mapOfValues.keySet()){
                 if(name != null){
                     Object value = mapOfValues.get(name);
@@ -934,7 +934,7 @@ public class TestDataFactory {
             Set<String> convertedSet = new Set<String>();
             if(setOfValues == null){
                 return convertedSet;
-            } 
+            }
             for(String value : setOfValues){
                 if(value != null){
                     convertedSet.add(value.trim().toLowerCase());
@@ -950,15 +950,15 @@ public class TestDataFactory {
         */
         @TestVisible
         private Boolean isDefaultValueRequired(Schema.DescribeFieldResult fieldDesc){
-            return 
+            return
                 !fieldDesc.isDefaultedOnCreate() // does not have a defaut value on creation
                 && !fieldDesc.isAutoNumber() // is not an auto number
                 && !fieldDesc.isNillable() // is required
-                && fieldDesc.isCreateable(); // value can be set on creation 
+                && fieldDesc.isCreateable(); // value can be set on creation
         }
 
         /**
-        * @description generate a default value for a given field of an sObject 
+        * @description generate a default value for a given field of an sObject
         *                       depending on the field type, the corresponding get{FieldType}DefaultValue method will be invoked to retrieve the default value
         * @param sObjectDesc (Schema.DescribeSObjectResult): sObject describe information
         * @param fieldDesc (Schema.DescribeFieldResult): field describe information
@@ -1031,11 +1031,11 @@ public class TestDataFactory {
         @TestVisible
         private String getSFDefaultPicklistValue(Schema.DescribeFieldResult fieldDesc){
             if(fieldDesc != null){
-                List<Schema.PicklistEntry> pickVals = fieldDesc.getPicklistValues();        
+                List<Schema.PicklistEntry> pickVals = fieldDesc.getPicklistValues();
                 for (Schema.PicklistEntry pickVal: pickVals) {
                     if (pickVal.isDefaultValue()) {
                         return pickVal.getValue(); // default value
-                    }    
+                    }
                 }
                 // if no default value is set, return the first value
                 return pickVals.get(0).getValue();
@@ -1071,7 +1071,7 @@ public class TestDataFactory {
         */
         public virtual Blob getBase64DefaultValue(Schema.DescribeSObjectResult sObjectDesc, Schema.DescribeFieldResult fieldDesc, Integer recordIndex){
             return Blob.valueOf(recordIndex.format());
-        }   
+        }
         /**
         * @description get the default value for checkbox field type
         * @param sObjectDesc (Schema.DescribeSObjectResult): sObject describe information
@@ -1131,7 +1131,7 @@ public class TestDataFactory {
         */
         public virtual Location getGeolocationDefaultValue(Schema.DescribeSObjectResult sObjectDesc, Schema.DescribeFieldResult fieldDesc, Integer recordIndex){
             return Location.newInstance(0,0);
-        }       
+        }
         /**
         * @description get the default value for Number field type
         * @param sObjectDesc (Schema.DescribeSObjectResult): sObject describe information
@@ -1236,7 +1236,7 @@ public class TestDataFactory {
     }
 
     /**
-    * @description wrapper for default value that will be auto generated 
+    * @description wrapper for default value that will be auto generated
     */
     public class AutoFieldDefaultValue implements IFieldDefaultValue{
         /**
@@ -1269,14 +1269,14 @@ public class TestDataFactory {
         */
         public FieldDefaultValue(Object value){
             this.value = value;
-        }   
+        }
 
         /**
         * @description construtor to wrap a field value that will be generated based on the given sObject & Field describe informations
         * @param dvPrvdr (DefaultValueProvider): default value provider instance of the containing class DefaultValueProvider
         * @param sObjectDesc (Schema.DescribeSObjectResult): sObject describe information
         * @param fieldDesc (Schema.DescribeFieldResult): field describe information
-        */  
+        */
         public FieldDefaultValue(DefaultValueProvider dvPrvdr,Schema.DescribeSObjectResult sObjectDesc,Schema.DescribeFieldResult fieldDesc){
             this.dvPrvdr = dvPrvdr;
             this.sObjectDesc = sObjectDesc;
@@ -1314,7 +1314,7 @@ public class TestDataFactory {
         */
         public RelationshipFieldDefaultValue(SObject sObjectValue){
             this.sObjectValue = sObjectValue;
-        }   
+        }
 
         /**
         * @description get the wrapped sObject value for a given record index
@@ -1340,7 +1340,7 @@ public class TestDataFactory {
         */
         public ListFieldDefaultValue(List<Object> listValues){
             this.listValues = listValues;
-        }   
+        }
 
         /**
         * @description get the wrapped value for a given record index
@@ -1373,7 +1373,7 @@ public class TestDataFactory {
         */
         public ListRelationshipFieldDefaultValue(List<SObject> listSObjectValues){
             this.listSObjectValues = listSObjectValues;
-        }   
+        }
 
         /**
         * @description get the wrapped list sObject values for a given record index
@@ -1413,12 +1413,12 @@ public class TestDataFactory {
     /**
     * @description get field name from a relationship name
     * @param relationshipName (String): relationship name
-    * @return field name 
+    * @return field name
     */
     @TestVisible
     private static String getFieldNameFromRelationshipName(String relationshipName){
         String relationshipNameLowerCase = relationshipName.toLowerCase();
-        if(relationshipNameLowerCase.contains('__r')) // custom relationship 
+        if(relationshipNameLowerCase.contains('__r')) // custom relationship
             return relationshipNameLowerCase.replace('__r', '__c');
         return relationshipNameLowerCase+'id'; // standard relationship
     }
@@ -1451,7 +1451,7 @@ public class TestDataFactory {
         if(!String.isBlank(originalMessage)) errorMessage +='\n'+'Original error message : '+originalMessage;
         return errorMessage;
     }
-    
+
     /**
     * @description this is a dummy test method needed in order to create a managed package for TestDataFactory
     */

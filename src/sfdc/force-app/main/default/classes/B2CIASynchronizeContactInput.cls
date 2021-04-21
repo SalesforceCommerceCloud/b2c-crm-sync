@@ -6,7 +6,7 @@
  * @description This is a helper-class used by the B2CIASynchronizeContact class
  * to expose the input results for contacts to be synchronized.
 */
-global class B2CIASynchronizeContactInput {
+public class B2CIASynchronizeContactInput {
 
     ////////////////////////////////////////////////////////////////
     // Include the Contacts that will be synchronized

@@ -6,7 +6,7 @@
  * @description This is a helper-class used by the B2CIAGetAllSites class
  * to retrieve all the storefront / site details for the specified instance
 */
-global class B2CIAGetCustomerListsSitesResult {
+public class B2CIAGetCustomerListsSitesResult {
 
     ////////////////////////////////////////////////////////////////
     // Include any details anchoring to the parent B2C Instance

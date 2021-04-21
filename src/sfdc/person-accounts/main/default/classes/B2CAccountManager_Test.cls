@@ -16,7 +16,7 @@ public class B2CAccountManager_Test {
                     RecordType
                 WHERE
                         SobjectType='Account'
-                    AND IsPersonType=True
+                    AND IsPersonType=TRUE
                 LIMIT
             1].Id
         );

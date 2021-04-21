@@ -3,7 +3,7 @@ public class B2CProcessPersonAccount_Test {
 
     /**
      * @see B2CProcessPersonAccount.Trigger
-     * @description 
+     * @description
      */
     @IsTest
     static void testProcess() {
@@ -17,16 +17,16 @@ public class B2CProcessPersonAccount_Test {
             'B2C_Instance__r.API_Url__c' => 'https://www.salesforce.com',
             'Enable_Profile_Publishing__c' => true
         });
-        
+
         Account a = new Account(
             RecordTypeId = [
                 SELECT
-                    Id  
+                    Id
                 FROM
-                    RecordType 
+                    RecordType
                 WHERE
-                        SobjectType='Account' 
-                    AND IsPersonType=True
+                        SobjectType='Account'
+                    AND IsPersonType=TRUE
                 LIMIT
             1].Id,
             LastName = 'lastname',
@@ -36,7 +36,7 @@ public class B2CProcessPersonAccount_Test {
             B2C_Disable_Integration__pc = false
         );
 
-        
+
 
         Database.insert( a );
 

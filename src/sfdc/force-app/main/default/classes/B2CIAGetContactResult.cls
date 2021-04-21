@@ -7,7 +7,7 @@
  * to return the details for a single Contact limited to required fields
  * and fieldMappings.
 */
-global class B2CIAGetContactResult {
+public class B2CIAGetContactResult {
 
     @InvocableVariable
     public String crmContactId;

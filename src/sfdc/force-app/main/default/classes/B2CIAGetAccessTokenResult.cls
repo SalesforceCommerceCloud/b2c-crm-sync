@@ -6,7 +6,7 @@
  * @description This is a helper-class used by the B2CIAAuthViaClientCredentialsGrant
  * class to capture and make available the B2C Commerce authToken REST response
 */
-global class B2CIAGetAccessTokenResult {
+public class B2CIAGetAccessTokenResult {
 
     ////////////////////////////////////////////////////////////////
     // Include the REST response properties

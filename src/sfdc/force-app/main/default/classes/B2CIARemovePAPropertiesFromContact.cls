@@ -7,7 +7,7 @@
  * PersonAccounts are enabled, updates to PA Contacts will fail if the Contact includes Account
  * properties that are readOnly.
 */
-global with sharing class B2CIARemovePAPropertiesFromContact extends B2CBaseAttributeAssignment {
+public with sharing class B2CIARemovePAPropertiesFromContact extends B2CBaseAttributeAssignment {
 
     /**
      * @description This class is used to generate Contact processing validation results for a given customerList, instance, and contact.  It
@@ -17,7 +17,7 @@ global with sharing class B2CIARemovePAPropertiesFromContact extends B2CBaseAttr
      * @return {List<B2CIARemovePAPropertiesFromContactResult>} Represents the collection of validation results for the input arguments
      */
     @InvocableMethod(Label='B2C: Remove Read Only PersonAccount Properties from Contact' Description='Attempts to remove any readOnly PersonAccount specific properties that are present on a Contact prior to updating the contact record.')
-    global static List<B2CIARemovePAPropertiesFromContactResult> removePersonAccountProperties(List<B2CIARemovePAPropertiesFromContactInput> contactsToProcess) {
+    public static List<B2CIARemovePAPropertiesFromContactResult> removePersonAccountProperties(List<B2CIARemovePAPropertiesFromContactInput> contactsToProcess) {
 
         // Initialize local variables
         List<B2CIARemovePAPropertiesFromContactResult> output;

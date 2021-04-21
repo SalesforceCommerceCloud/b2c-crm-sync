@@ -6,7 +6,7 @@
  * supporting the creation of B2C Commerce CustomerLists and Sites
  * for a given Instance.
 */
-global class B2CIAGetCustomerListsSitesInput {
+public class B2CIAGetCustomerListsSitesInput {
 
     @InvocableVariable
     public String b2cInstanceId;
