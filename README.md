@@ -61,7 +61,7 @@ This repository should be considered a developer framework that can be extended 
 
 #### Node.js Setup Instructions
 
-b2c-crm-sync leverages [node.js enabled CLI](https://github.com/tj/commander.js/) commands.  You'll want to ensure that you have [node v15.2.1](https://nodejs.org/en/blog/release/v15.2.1/) running.  If you're new to node, we recommend setting up [nvm](https://github.com/nvm-sh/nvm) to manage multiple node versions.
+b2c-crm-sync leverages [node.js enabled CLI](https://github.com/tj/commander.js/) and [SFDX (Salesforce CLI)](https://developer.salesforce.com/tools/sfdxcli) commands.  You'll want to ensure that you have [node v15.2.1](https://nodejs.org/en/blog/release/v15.2.1/) running.  If you're new to node, we recommend setting up [nvm](https://github.com/nvm-sh/nvm) to manage multiple node versions.
 
 > Use these articles to setup [nvm](https://github.com/nvm-sh/nvm) on your local workstation.  It's worth the effort to set this up, as it introduces great flexibility if you have projects that are dependent on specific node versions.
 
@@ -84,7 +84,13 @@ npm install
 ```
 > Installing the project dependencies will take a moment or two.  Please [log an issue](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/issues/new) if you run into installation issues setting up the project.
 
-#### About the Library of CLI Commands
+Remember that [SFDX](https://developer.salesforce.com/tools/sfdxcli) is also a requirement -- as we use it to create scratchOrgs and deploy the meta-data that powers b2c-crm-sync.  You can [verify your SFDX installation](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_install_cli.htm) with the following command:
+
+```bash
+sfdx --version
+```
+
+#### About the b2c-crm-sync Library of CLI Commands
 
 b2c-crm-sync includes a library of CLI commands that can be used to validate your setup and incrementally deploy B2C Commerce and Salesforce Platform components to your B2C Commerce sandbox and Salesforce scratchOrg.  We recommend reviewing the [package.json](package.json) to view a complete list of commands available.
 
@@ -496,7 +502,7 @@ You will leverage the .env file's configuration properties to dramatically simpl
 ### Deployment Instructions
 The b2c-crm-sync repository includes a collection of CLI commands that can be used to prepare and deploy the b2c-crm-sync assets to B2C Commerce and a Salesforce Customer 360 Platform scratchOrg.
 
-> Before running any commands below be sure to run 'npm install' from the root of the b2c-crm-sync repository folder
+> Before running any commands below be sure to run 'npm install' from the root of the b2c-crm-sync repository folder.  These commands are dependent on the project successfully being installed in your workspace.
 
 1. Configure the initial collection B2C Commerce OCAPI and WebDAV permissions.  The 'allowed_origins' properties can be set after a Salesforce ScratchOrg has been created.
 
@@ -718,7 +724,7 @@ From the duplicate rules listing, select the rule titled **B2C Commerce: Standar
 1 OR (2 AND 3) OR (2 AND 4 AND 5) OR (4 AND 5 AND 6)
 ```
 
-#### Find and Launch the B2C-CRM-Sync Lightning App
+#### Create and Configure Your B2C Instance
 
 1. Open the appLauncher, and search for 'CRM' in the quick-find. Verify that the **B2C CRM Sync** application is visible.
 
