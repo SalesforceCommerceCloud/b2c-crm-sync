@@ -662,21 +662,6 @@ npm run crm-sync:b2c:build
 
 ### Salesforce Customer 360 Platform Configuration Instructions
 
-#### Assign the B2C Integration Tools Permission Set to the Administrator
-b2c-crm-sync leverages a permission-set to provide application access to a user.  You can use this permission-set to assign the application to other users -- and customize it to align with your security priorities.
-
-1.  Enter Setup (if it is not already opened).
-
-2.  In the quick-find, search for Permission Sets.  Once located, select the Permission Sets setup option from the filtered setup menu.
-
-3.  Open the **B2C Integration Tools** permission-set.  From its detail page, select the button labeled "Manage Assignments".
-
-4.  From the assignment listing, please select the button labeled 'Add Assignment'.
-
-5.  Assign the **B2C Integration Tools** permission-set to the Scratch Org Administrator (typically a user with the first and lastName of 'User').
-
-6.  Save your changes by clicking on the 'Assign' button.  Click on the 'Done' button to confirm your changes and exit the permission-set display.
-
 #### Configure Duplicate Rules Leveraged by b2c-crm-sync
 b2c-crm-sync leverages match and duplicate rules to enforce the B2C Customer Data Strategy it employs.  These rules are leveraged to alert administrators of potential duplicate B2C Commerce Customer Profiles -- and assist in resolving customer profiles using a sub-set of customer attributes.
 
@@ -724,29 +709,28 @@ From the duplicate rules listing, select the rule titled **B2C Commerce: Standar
 1 OR (2 AND 3) OR (2 AND 4 AND 5) OR (4 AND 5 AND 6)
 ```
 
-#### Create and Configure Your B2C Instance
+#### Configure Your B2C Instance
 
 1. Open the appLauncher, and search for 'CRM' in the quick-find. Verify that the **B2C CRM Sync** application is visible.
 
 2. Select the **B2C CRM Sync** application and open it.  Verify that the B2C Instances, B2C CustomerLists, B2C Sites, Accounts, and Contacts tabs are visible from within the application.
 
-3. Click on the B2C Instances Tab, and from the record-listing page click the 'New' button to create a new B2C Instance.
+3. Click on the B2C Instances Tab, and verify that a record exists in the record listing.
 
-4. Enter a name for your B2C instance (whatever you want), check Is Active, select the appropriate Instance Type.
+4. Select the pre-configured B2C instance.  A record should already exist that is mapped to the B2C Commerce environment defined in your .env file.
 
-5. Populate the API URL with the host name of your B2C Instance.
-
-6. Select the drop-down arrow next to the 'Printable View' quick action  in the top right of the B2C Instance record detail view and select 'Configure Instance Integration'.
+5. Select the drop-down arrow next to the 'Printable View' quick action  in the top right of the B2C Instance record detail view and select 'Configure Instance Integration'.
 
 > This assigns a Named Credential to the B2C Instance.  This Named Credential will be used to access the B2C Commerce environment's REST APIs.
 
-7. Select the named credential ending with 'B2C: Client Credentials' and click 'Next'.  Verify that the named credential was successfully associated with the B2C Instance record.
 
-8. Select the drop-down arrow next to the 'Printable View' quick action  in the top right of the B2C Instance record detail view and select 'Seed CustomerLists and Sites'.
+6. Select the named credential ending with 'B2C: Client Credentials' and click 'Next'.  Verify that the named credential was successfully associated with the B2C Instance record.
+
+7. Select the drop-down arrow next to the 'Printable View' quick action  in the top right of the B2C Instance record detail view and select 'Seed CustomerLists and Sites'.
 
 > This will retrieve the configured list of B2C CustomerLists and Sites from the B2C Instance.  These records will be seeded in the b2c-crm-sync application, and will drive integration with B2C Commerce.
 
-9. Select the drop-down arrow next to the 'Printable View' quick action  in the top right of the B2C Instance record detail view and select 'Activate B2C CustomerLists'.
+8. Select the drop-down arrow next to the 'Printable View' quick action  in the top right of the B2C Instance record detail view and select 'Activate B2C CustomerLists'.
 
 > All integration can be managed via the Active and Permission Flags on the B2C Commerce Instance, CustomerList, and Site records.  Use these settings to control which sites and CustomerLists support integration with B2C Commerce.
 
