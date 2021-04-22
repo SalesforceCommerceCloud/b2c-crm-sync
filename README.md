@@ -569,33 +569,9 @@ sfdx force:source:deploy -p "src/sfdc/person-accounts"
 
 > The deployment results will be output via the CLI.  Please note that these elements are a requirement for environments where personAccounts are enabled.
 
-11. Use the below CLI command to retrieve configuration data needed for .env as outlined above.
+11.  In your scratchOrg, enter Setup and find the User avatar in the header (the avatar should look like Astro, and be displayed in the upper right corner of the browser.  Hovering over Astro will display the label "View Profile".
 
-```bash
-sfdx force:org:display -u [scratchOrg-username]
-```
-
-> Copy the scratchOrg domain url and username to the .env file.  These values will be used to drive the creation of the B2C Commerce Service definitions that will enable integration with the Salesforce Platform.
-
-12. Use the below CLI command to generate a password for the scratchOrg user that can be populated in .env as described above.
-
-```bash
-sfdx force:user:password:generate --targetusername [scratchOrg-username]
-```
-
-> Copy the generated user-password to the .env file.  This value will be used to drive the creation of the B2C Commerce Service definitions that will enable integration with the Salesforce Platform.
-
-13. View the full detail of information about the scratchOrg user using the following CLI command:
-
-```bash
-sfdx force:user:display -u [insert-username]
-```
-
-> Copy the login-url domain to the .env file.  This value will be used to enable authentication to the scratchOrg from the B2C Commerce environment.
-
-14.  In your scratchOrg, enter Setup and find the User avatar in the header (the avatar should look like Astro, and be displayed in the upper right corner of the browser.  Hovering over Astro will display the label "View Profile".
-
-15.  Click on the User avatar and select the option titled **Settings**.  From the settings menu, click on the option titled **Reset Security Token** to generate a new token for your scratchOrg user.
+12.  Click on the User avatar and select the option titled **Settings**.  From the settings menu, click on the option titled **Reset Security Token** to generate a new token for your scratchOrg user.
 
 > Please note that you will receive two emails declaring that a new securityToken has been generated.  The first is from the password reset that was performed.  The second is from this action.  Copy the securityToken from the second email to the .env file.
 
@@ -605,6 +581,8 @@ B2C Commerce service definitions pointing to the deployed scratchOrg can be seed
 - Open the .env file and edit the following information.  Please update these values to reflect the unique environment and authentication credentials for your scratchOrg.  These values can be used to validate authentication and seed the B2C Commerce service definitions with these details -- eliminating the need to manually configure these services.
 
 > At this point, your scratchOrg should be created and the information displayed below should be available to you.  Please copy the corresponding scratchOrg configuration properties to this section of the .env file.
+
+> These values should be visible just above the deployment status display that was output via the CLI.
 
 ```
 ######################################################################
@@ -628,7 +606,7 @@ SF_SECURITYTOKEN=5aqzr1tpENbIpiWt1E9X2ruOV
 
 The build tools will use this information to create the B2C Commerce service definitions used by it to communicate with the Salesforce scratchOrg.
 
-16.  Ensure that the following .env Salesforce Platforms scratchOrg configuration properties have been captured via steps 8, 9, 10, and 11.  Update your .env file to include these properties.
+13.  Ensure that the following .env Salesforce Platforms scratchOrg configuration properties displayed via the CLI output after the scratchOrg was successfully deployed.
 
 ```
 ######################################################################
@@ -643,7 +621,7 @@ SF_SECURITYTOKEN=5aqzr1tpENbIpiWt1E9X2ruOV
 
 > Remember that these values need to be driven by your scratchOrg user and environment.  These values must be accurate to ensure that the B2C Commerce meta-data is successfully generated and supports the integration with the Salesforce Platform.
 
-17.  Test your Salesforce Platform Configuration properties by executing the following CLI Command:
+14.  Test your Salesforce Platform Configuration properties by executing the following CLI Command:
 
 ```bash
 npm run crm-sync:sf:auth:usercreds
@@ -653,7 +631,7 @@ npm run crm-sync:sf:auth:usercreds
 
 :warning: &nbsp; Only proceed to the next step if you are able to successfully validate that your Salesforce Platform Configuration Properties are able to successfully authenticate against your scratchOrg. &nbsp; :warning:
 
-18. Generate the B2C Commerce metadata required by b2c-crm-sync and deploy both the code metadata to the Salesforce B2C Commerce instance by executing the following CLI command:
+15. Generate the B2C Commerce metadata required by b2c-crm-sync and deploy both the code metadata to the Salesforce B2C Commerce instance by executing the following CLI command:
 
 ```bash
 npm run crm-sync:b2c:build
@@ -661,21 +639,6 @@ npm run crm-sync:b2c:build
 > This CLI command will generate the services.xml file based on the previously generated connected apps step #4, generate a zip archive containing the metadata required by b2c-crm-sync, deploy this archive, generate a zip archive containing the b2c-crm-sync cartridges and deploy this archive to the B2C Commerce instance.
 
 ### Salesforce Customer 360 Platform Configuration Instructions
-
-#### Assign the B2C Integration Tools Permission Set to the Administrator
-b2c-crm-sync leverages a permission-set to provide application access to a user.  You can use this permission-set to assign the application to other users -- and customize it to align with your security priorities.
-
-1.  Enter Setup (if it is not already opened).
-
-2.  In the quick-find, search for Permission Sets.  Once located, select the Permission Sets setup option from the filtered setup menu.
-
-3.  Open the **B2C Integration Tools** permission-set.  From its detail page, select the button labeled "Manage Assignments".
-
-4.  From the assignment listing, please select the button labeled 'Add Assignment'.
-
-5.  Assign the **B2C Integration Tools** permission-set to the Scratch Org Administrator (typically a user with the first and lastName of 'User').
-
-6.  Save your changes by clicking on the 'Assign' button.  Click on the 'Done' button to confirm your changes and exit the permission-set display.
 
 #### Configure Duplicate Rules Leveraged by b2c-crm-sync
 b2c-crm-sync leverages match and duplicate rules to enforce the B2C Customer Data Strategy it employs.  These rules are leveraged to alert administrators of potential duplicate B2C Commerce Customer Profiles -- and assist in resolving customer profiles using a sub-set of customer attributes.
@@ -724,29 +687,28 @@ From the duplicate rules listing, select the rule titled **B2C Commerce: Standar
 1 OR (2 AND 3) OR (2 AND 4 AND 5) OR (4 AND 5 AND 6)
 ```
 
-#### Create and Configure Your B2C Instance
+#### Configure Your B2C Instance
 
 1. Open the appLauncher, and search for 'CRM' in the quick-find. Verify that the **B2C CRM Sync** application is visible.
 
 2. Select the **B2C CRM Sync** application and open it.  Verify that the B2C Instances, B2C CustomerLists, B2C Sites, Accounts, and Contacts tabs are visible from within the application.
 
-3. Click on the B2C Instances Tab, and from the record-listing page click the 'New' button to create a new B2C Instance.
+3. Click on the B2C Instances Tab, and verify that a record exists in the record listing.
 
-4. Enter a name for your B2C instance (whatever you want), check Is Active, select the appropriate Instance Type.
+4. Select the pre-configured B2C instance.  A record should already exist that is mapped to the B2C Commerce environment defined in your .env file.
 
-5. Populate the API URL with the host name of your B2C Instance.
-
-6. Select the drop-down arrow next to the 'Printable View' quick action  in the top right of the B2C Instance record detail view and select 'Configure Instance Integration'.
+5. Select the drop-down arrow next to the 'Printable View' quick action  in the top right of the B2C Instance record detail view and select 'Configure Instance Integration'.
 
 > This assigns a Named Credential to the B2C Instance.  This Named Credential will be used to access the B2C Commerce environment's REST APIs.
 
-7. Select the named credential ending with 'B2C: Client Credentials' and click 'Next'.  Verify that the named credential was successfully associated with the B2C Instance record.
 
-8. Select the drop-down arrow next to the 'Printable View' quick action  in the top right of the B2C Instance record detail view and select 'Seed CustomerLists and Sites'.
+6. Select the named credential ending with 'B2C: Client Credentials' and click 'Next'.  Verify that the named credential was successfully associated with the B2C Instance record.
+
+7. Select the drop-down arrow next to the 'Printable View' quick action  in the top right of the B2C Instance record detail view and select 'Seed CustomerLists and Sites'.
 
 > This will retrieve the configured list of B2C CustomerLists and Sites from the B2C Instance.  These records will be seeded in the b2c-crm-sync application, and will drive integration with B2C Commerce.
 
-9. Select the drop-down arrow next to the 'Printable View' quick action  in the top right of the B2C Instance record detail view and select 'Activate B2C CustomerLists'.
+8. Select the drop-down arrow next to the 'Printable View' quick action  in the top right of the B2C Instance record detail view and select 'Activate B2C CustomerLists'.
 
 > All integration can be managed via the Active and Permission Flags on the B2C Commerce Instance, CustomerList, and Site records.  Use these settings to control which sites and CustomerLists support integration with B2C Commerce.
 
