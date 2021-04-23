@@ -1,0 +1,39 @@
+// - - - - - - - - - - - - - - - - - -
+
+// Footer
+
+// - - - - - - - - - - - - - - - - - -
+
+
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - Footer
+
+.footer {
+	@include transition(all 0.4s ease-in-out 0.8s);
+	padding: 20px;
+
+	@include mq(tabletp) {
+		padding: 40px;
+	}
+
+	@include mq(tabletl) {
+		display: none;
+	}
+}
+
+.footer__copyright {
+	display: block;
+	margin-top: 15px;
+	font-size: 13px;
+	color: $text-light-color;
+
+	a {
+		margin-left: 10px;
+		color: $text-light-color;
+		font-weight: $regular-weight;
+
+		&:hover {
+			color: $text-medium-color;
+		}
+	}
+}

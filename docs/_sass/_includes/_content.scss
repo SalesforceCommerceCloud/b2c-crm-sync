@@ -1,0 +1,334 @@
+// - - - - - - - - - - - - - - - - - -
+
+// Single page/post/project
+
+// - - - - - - - - - - - - - - - - - -
+
+.intro {
+	margin-top: 0;
+	padding: 20px 0 0;
+	background: $background-alt-color;
+
+	@include mq(tabletp) {
+		padding: 35px 0 0;
+	}
+
+	@include mq(tabletl) {
+		padding: 35px $grid-spacing 0;
+	}
+
+	@include mq(laptop) {
+		padding: 53px $grid-spacing 0;
+	}
+
+	.wrap {
+
+		@include mq(tabletl) {
+			max-width: 70%;
+		}
+
+		@include mq(laptop) {
+			max-width: 65%;
+		}
+	}
+	
+	h1 {
+		
+		@include mq(tabletp) {
+			white-space: pre-line;
+		}
+	}
+
+	p {
+
+	}
+}
+
+.content-wrap {
+	
+}
+
+.single {
+	margin-top: 0;
+	padding: 20px 0;
+	background: $background-alt-color;
+	min-height: 100vh;
+
+	@include mq(tabletp) {
+		padding: 40px 0;
+	}
+
+	@include mq(tabletl) {
+		padding: 40px $grid-spacing;
+	}
+
+	@include mq(laptop) {
+		padding: 60px $grid-spacing;
+	}
+
+	h1, h2, h3, h4, h5, h6, p, ul, ol {
+		margin-left: auto;
+		margin-right: auto;
+
+		@include mq(tabletp) {
+		}
+
+		@include mq(tabletl) {
+			max-width: 70%;
+		}
+
+		@include mq(laptop) {
+			max-width: 65%;
+		}
+	}
+
+	hr {
+		margin: 20px auto;
+
+		@include mq(tabletp) {
+			margin-top: 40px;
+			margin-bottom: 40px;
+			width: auto;
+		}
+
+		@include mq(tabletl) {
+			max-width: 70%;
+		}
+
+		@include mq(laptop) {
+			max-width: 65%;
+		}
+	}
+
+	blockquote,
+	figure {
+		margin: 20px auto;
+
+		@include mq(tabletp) {
+			margin: 30px auto;
+		}
+
+		@include mq(laptop) {
+			margin: 40px auto;
+		}
+	}
+
+	blockquote p {
+		max-width: 100%;
+		padding: 0;
+	}
+
+	p a {
+		font-weight: $bold-weight;
+		border-bottom: 2px solid $accent-color;
+	}
+
+	p .button {
+		margin-top: 10px;
+	}
+
+	ul, ol {
+		ul, ol {
+			max-width: 100%;
+			padding-left: 25px;
+		}
+	}
+
+	.highlighter-rouge,
+	table {
+		margin: 20px auto;
+		width: 100%;
+
+		@include mq(tabletp) {
+			margin: 30px auto;
+		}
+
+		@include mq(tabletl) {
+			max-width: 70%;
+		}
+
+		@include mq(laptop) {
+			margin: 40px auto;
+			max-width: 65%;
+		}
+	}
+
+	.highlight {
+		display: block;
+		padding: 0;
+		line-height: 1.5;
+		font-size: $p-small*0.85;
+		line-height: $p-lineheight;
+		overflow: auto;
+
+		@include mq(tabletp) {
+			font-size: $p-medium*0.85;
+		}
+
+		@include mq(laptop) {
+			font-size: $p-large*0.85;
+		}
+
+		.highlight {
+			padding: 20px;
+
+			@include mq(tabletp) {
+				padding: 30px;
+			}
+
+			@include mq(laptop) {
+				padding: 40px;
+			}
+		}
+	}
+
+	.table-wrap {
+		display: block;
+		width: 100%;
+		overflow-x: auto;
+	}
+
+	table {
+		min-width: 600px;
+		border: 2px solid $text-dark-color;
+
+		thead {
+			background: $text-dark-color;
+			color: $background-color;
+			text-align: left;
+			font-weight: $bold-weight;
+
+			th {
+				font-weight: $bold-weight;
+			}
+		}
+
+		th, td {
+			padding: 10px;
+			font-size: $p-small;
+			font-weight: $p-weight;
+
+			@include mq(tabletp) {
+				padding: 15px;
+			}
+
+			@include mq(laptop) {
+				padding: 20px;
+			}
+		}
+		
+		tbody tr {
+			background: $background-color;
+
+			&:nth-child(2n) {
+				background: $background-alt-color;
+			}
+		}
+	}
+
+	sup a.footnote {
+		display: inline-block;
+		margin-left: 5px;
+		min-width: 16px;
+		height: 16px;
+		border-radius: 100%;
+		border-bottom: none;
+		padding: 1px 3px;
+		background: $background-color;
+		font-size: 10px;
+		text-align: center;
+		color: $text-light-color;
+
+		&:hover {
+			background: $text-light-color;
+			color: $background-color;
+		}
+	}
+
+	.footnotes {
+		margin-top: 40px;
+
+		@include mq(tabletp) {
+			margin-top: 60px;
+		}
+
+		@include mq(laptop) {
+			margin-top: 80px;
+		}
+
+		ol {
+			list-style: none;
+			counter-reset: footnotes;
+
+			li {
+				margin-top: 5px;
+				font-size: 13px;
+				counter-increment: footnotes;
+
+				&:before {
+					content: counter(footnotes);
+				    box-sizing: border-box;
+					display: inline-block;
+					margin-right: 3px;
+					width: 20px;
+					height: 20px;
+					border-radius: 100%;
+					border-bottom: none;
+					padding: 2px 3px;
+					background: $background-color;
+					font-size: 11px;
+					font-weight: $bold-weight;
+					text-align: center;
+					color: $text-light-color;
+				}
+				
+				p {
+					display: inline;
+					max-width: 100%;
+					font-size: 13px;
+
+					a.reversefootnote {
+						border-bottom: 0;
+						vertical-align: sub;
+					}
+				}
+			}
+		}
+	}
+}
+
+.image-wrap,
+.video-wrap {
+	position: relative;
+	margin: 20px auto;
+
+	@include mq(tabletp) {
+		margin: 30px auto;
+	}
+
+	@include mq(laptop) {
+		margin: 40px auto;
+	}
+
+	&:first-child {
+		margin-top: 0;
+	}
+}
+
+.image-wrap img {
+	margin: 0 auto;
+}
+
+.video {
+	position: relative;
+	width: 100%;
+	height: 0;
+
+	iframe {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+	}
+}
