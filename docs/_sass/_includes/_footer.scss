@@ -21,6 +21,10 @@
 	}
 }
 
+.cert-link {
+  margin-bottom: 15px;
+}
+
 .footer__copyright {
 	display: block;
 	margin-top: 15px;
@@ -28,10 +32,9 @@
 	color: $text-light-color;
 
 	a {
-		margin-left: 10px;
-		color: $text-light-color;
-		font-weight: $regular-weight;
-
+		color: $text-medium-color;
+		font-weight: $bold-weight;
+        line-height: 20px;
 		&:hover {
 			color: $text-medium-color;
 		}

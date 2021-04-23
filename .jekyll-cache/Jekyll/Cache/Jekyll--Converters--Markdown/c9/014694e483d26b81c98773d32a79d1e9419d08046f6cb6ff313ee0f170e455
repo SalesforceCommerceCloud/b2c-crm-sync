@@ -1,0 +1,136 @@
+I"�<p><img src="/images/demo/demo-landscape.jpg" alt="" /></p>
+
+<h2 id="demo-content">Demo content</h2>
+
+<p>This page is a demo that shows everything you can do inside portfolio and blog posts.</p>
+
+<p>We’ve included everything you need to create engaging posts about your work, and show off your case studies in a beautiful way.</p>
+
+<p><strong>Obviously,</strong> we’ve styled up <em>all the basic</em> text formatting options <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet">available in markdown</a>.</p>
+
+<p>You can create lists:</p>
+
+<ul>
+  <li>Simple bulleted lists</li>
+  <li>Like this one</li>
+  <li>Are cool</li>
+</ul>
+
+<p>And:</p>
+
+<ol>
+  <li>Numbered lists</li>
+  <li>Like this other one</li>
+  <li>Are great too</li>
+</ol>
+
+<p>You can also add blockquotes, which are shown at a larger width to help break up the layout and draw attention to key parts of your content:</p>
+
+<blockquote>
+  <p>“Simple can be harder than complex: You have to work hard to get your thinking clean to make it simple. But it’s worth it in the end because once you get there, you can move mountains.”</p>
+</blockquote>
+
+<p>The theme also supports markdown tables:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Item</th>
+      <th>Author</th>
+      <th>Supports tables?</th>
+      <th>Price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Duet Jekyll Theme</td>
+      <td>Jekyll Themes</td>
+      <td>Yes</td>
+      <td>$49</td>
+    </tr>
+    <tr>
+      <td>Index Jekyll Theme</td>
+      <td>Jekyll Themes</td>
+      <td>Yes</td>
+      <td>$49</td>
+    </tr>
+    <tr>
+      <td>Journal Jekyll Theme</td>
+      <td>Jekyll Themes</td>
+      <td>Yes</td>
+      <td>$49</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>And footnotes<sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>, which link to explanations<sup id="fnref:2" role="doc-noteref"><a href="#fn:2" class="footnote" rel="footnote">2</a></sup> at the bottom of the page<sup id="fnref:3" role="doc-noteref"><a href="#fn:3" class="footnote" rel="footnote">3</a></sup>.</p>
+
+<p>You can throw in some horizontal rules too:</p>
+
+<hr />
+
+<h3 id="image-galleries">Image galleries</h3>
+
+<p>Here’s a really neat custom feature we added – galleries:</p>
+
+<div class="gallery" data-columns="3">
+	<img src="/images/demo/demo-portrait.jpg" />
+	<img src="/images/demo/demo-landscape.jpg" />
+	<img src="/images/demo/demo-square.jpg" />
+	<img src="/images/demo/demo-landscape-2.jpg" />
+</div>
+
+<p>Inspired by the Galleries feature from WordPress, we’ve made it easy to create grid layouts for your images. Just use a bit of simple HTML in your post to create a masonry grid image layout:</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"gallery"</span> <span class="na">data-columns=</span><span class="s">"3"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;img</span> <span class="na">src=</span><span class="s">"/images/demo/demo-portrait.jpg"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;img</span> <span class="na">src=</span><span class="s">"/images/demo/demo-landscape.jpg"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;img</span> <span class="na">src=</span><span class="s">"/images/demo/demo-square.jpg"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;img</span> <span class="na">src=</span><span class="s">"/images/demo/demo-landscape-2.jpg"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+</code></pre></div></div>
+
+<p><em>See what we did there? Code and syntax highlighting is built-in too!</em></p>
+
+<p>Change the number inside the ‘columns’ setting to create different types of gallery for all kinds of purposes. You can even click on each image to seamlessly enlarge it on the page.</p>
+
+<hr />
+
+<h3 id="image-carousels">Image carousels</h3>
+
+<p>Here’s another gallery with only one column, which creates a carousel slide-show instead.</p>
+
+<p>A nice little feature: the carousel only advances when it is in view, so your visitors won’t scroll down to find it half way through your images.</p>
+
+<div class="gallery" data-columns="1">
+	<img src="/images/demo/demo-landscape.jpg" />
+	<img src="/images/demo/demo-landscape-2.jpg" />
+</div>
+
+<h3 id="what-about-videos">What about videos?</h3>
+
+<p>Videos are an awesome way to show off your work in a more engaging and personal way, and we’ve made sure they work great on our themes. Just paste an embed code from YouTube or Vimeo, and the theme makes sure it displays perfectly:</p>
+
+<iframe src="https://player.vimeo.com/video/19536258?color=ffffff&amp;title=0&amp;byline=0&amp;portrait=0" width="640" height="360" frameborder="0" webkitallowfullscreen="" mozallowfullscreen="" allowfullscreen=""></iframe>
+
+<hr />
+
+<h2 id="pretty-cool-huh">Pretty cool, huh?</h2>
+
+<p>We’ve packed this theme with powerful features to show off your work. Why not put them to use on your new portfolio?</p>
+
+<p><a href="https://jekyllthemes.io/theme/index-portfolio-jekyll-theme" class="button button--large">Get This Theme</a></p>
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:1" role="doc-endnote">
+      <p>Beautiful modern, minimal theme design. <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:2" role="doc-endnote">
+      <p>Powerful features to show off your work. <a href="#fnref:2" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:3" role="doc-endnote">
+      <p>Maintained and supported by the theme developer. <a href="#fnref:3" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+:ET
