@@ -1,6 +1,6 @@
 basic_settings:
-  site_title: b2c-crm-sync by Salesforce Architect Success
-  site_tagline: A contemporary perspective on integrating B2C Commerce with the Salesforce Platform
+  site_title: b2c-crm-sync
+  site_tagline: A contemporary perspective on integrating B2C Commerce with the Salesforce Platform to simplify the creation of frictionless customer experiences
   favicon_image: /images/favicon.png
 
 header_settings:
@@ -9,14 +9,22 @@ header_settings:
 
 menu_settings:
   menu_items:
-    - title: 'Projects'
+    - title: 'Home'
       url: '/'
-    - title: 'Blog'
-      url: '/blog/'
-    - title: 'About'
+    - title: 'About this Project'
       url: '/about'
-    - title: 'Contact'
-      url: '/contact'
+    - title: 'Supported Use-Cases'
+      url: '/use-cases'
+    - title: 'Seeing It In Action'
+      url: '/setup'
+    - title: 'Setup Guide'
+      url: '/setup'
+    - title: 'Troubleshooting'
+      url: '/help/'
+    - title: 'Additional Resources'
+      url: '/resources/'
+    - title: 'Gratitude'
+      url: '/gratitude/'
 
 grid_settings:
   overlay_opacity: 0.8

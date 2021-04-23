@@ -1,7 +1,7 @@
-site: b2c-crm-sync: A contemporary perspective on integrating B2C Commerce and the Salesforce Platform
+site: b2c-crm-sync; A contemporary perspective on integrating B2C Commerce and the Salesforce Platform
 
-url: https://sfb2csolutionarchitects.github.io
-baseurl: https://sfb2csolutionarchitects.github.io/b2c-crm-sync/
+url:
+baseurl: /
 
 collections:
   pages:
