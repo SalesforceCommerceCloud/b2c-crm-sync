@@ -1,6 +1,6 @@
-site: b2c-crm-sync; A contemporary perspective on integrating B2C Commerce and the Salesforce Platform
+site: b2c-crm-sync | Architect Success | A contemporary perspective on integrating B2C Commerce and the Salesforce Platform
 
-url:
+url: http://127.0.0.1:4000
 baseurl: /
 
 collections:

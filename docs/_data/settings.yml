@@ -3,6 +3,9 @@ basic_settings:
   site_tagline: 'A contemporary perspective on integrating B2C Commerce with the Salesforce Customer 360 Platform to simplify the delivery of frictionless customer experiences.'
   favicon_image: /images/favicon/favicon-32x32.png
 
+architect_success:
+  title: Salesforce Architect Success
+
 header_settings:
   logo_image:
   logo_width: 200
@@ -11,22 +14,6 @@ menu_settings:
   menu_items:
     - title: 'Home'
       url: '/'
-    - title: 'About this Project'
-      url: '/about'
-    - title: 'Supported Use-Cases'
-      url: '/use-cases'
-    - title: 'Seeing It In Action'
-      url: '/demos'
-    - title: 'Frequently Asked Questions'
-      url: '/faq'
-    - title: 'Setup Guide'
-      url: '/setup'
-    - title: 'Troubleshooting'
-      url: '/help'
-    - title: 'Additional Resources'
-      url: '/resources'
-    - title: 'Gratitude'
-      url: '/gratitude'
 
 grid_settings:
   overlay_opacity: 0.8
