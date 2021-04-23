@@ -98,12 +98,25 @@ b2c-crm-sync includes a library of CLI commands that can be used to validate you
 
 #### B2C Commerce Setup Instructions
 
+##### Create Your B2C Commerce Client ID <a name="b2ccommerceclientidcreation"></a>
+
+Before setting up the b2c-crm-sync environment, you have to create a B2C Commerce Client ID. This has to be done through the Account Manager Portal. Please follow these steps in order to create the client ID used in the environment bellow:
+1. Go to [https://account.demandware.com](https://account.demandware.com)
+2. Go to the `API Client` menu
+3. Click on the `Add API Client` button at the top right of the page
+4. Enter a display name and a password. The password corresponds to the `B2C_CLIENTSECRET` environment variable that you'll setup in the next section.
+5. Within the OpenID Connect section, please ensure to configure at least the following:
+    1. Token Endpoint Auth Method: `client_secret_post`
+    2. Access Token Format: `UUID`
+6. Click the `Save` button
+7. Now that the client ID is created, and your are seeing the list of client IDs for your organization, open the client ID's page and keep it open until the last section of the setup, as you'll have to add the callback URL of the Salesforce Core Auth Provider to the Redirect URIs field of your newly created client ID.
+
 ##### Setup a .env file
 To begin, we use the [dotenv](https://medium.com/@thejasonfile/using-dotenv-package-to-create-environment-variables-33da4ac4ea8f) node.js library to store environment-specific configuration settings used to authenticate against a given B2C Commerce environment.  Before installing any of the project package dependencies, please follow these instructions to build-out a .env file that contains your environment's configuration settings.
 
 - Rename the example file 'sample.env' to '.env' in the root of the repository.
 
-> This file shouldn't be checked into the repository, and is automatically being ignored by .git
+> This file shouldn't be checked into the repository, and is automatically being ignored by Git
 
 - Open the .env file and edit the following information.  Please update these values to reflect your sandbox environment's configuration properties.
 
@@ -111,8 +124,8 @@ To begin, we use the [dotenv](https://medium.com/@thejasonfile/using-dotenv-pack
 ######################################################################
 ## B2C Commerce Configuration Properties
 ######################################################################
-B2C_HOSTNAME=b2csandbox-017.sandbox.us01.dx.commercecloud.salesforce.com
-B2C_INSTANCENAME=b2csandbox-017a
+B2C_HOSTNAME=b2csandbox.sandbox.us01.dx.commercecloud.salesforce.com
+B2C_INSTANCENAME=b2csandbox
 B2C_CLIENTID=[-------insert your clientId here---------------]
 B2C_CLIENTSECRET=[-------insert your clientSecret here---------------]
 B2C_SITEIDS=RefArch, RefArchGlobal
@@ -129,8 +142,8 @@ The following table describes each of the B2C Commerce specific .env file variab
 |--------------:|:----:|:-----------------------------------|
 |  B2C_HOSTNAME |x| Represents the host name portion of the URL for the B2C Commerce environment to which b2c-crm-sync will be deployed |
 |  B2C_INSTANCENAME | | Represents a shorthand descriptor for the B2C_HOSTNAME |
-|  B2C_CLIENTID |x| Represents the B2C Commerce Account Manager ClientID used to authenticate against the identified B2C Commerce environment.  See [Add an API Client](https://documentation.b2c.commercecloud.salesforce.com/DOC1/topic/com.demandware.dochelp/content/b2c_commerce/topics/account_manager/b2c_account_manager_add_api_client_id.html#) for additional information.|
-|  B2C_CLIENTSECRET |x| Represents the B2C Commerce Account Manager ClientSecret that corresponds to the identified ClientID|
+|  B2C_CLIENTID |x| Represents the B2C Commerce Account Manager ClientID used to authenticate against the identified B2C Commerce environment. See the following [Create Your B2C Commerce Client ID](#b2ccommerceclientidcreation) chapter for additional information.|
+|  B2C_CLIENTSECRET |x| Represents the B2C Commerce Account Manager password that corresponds to the identified ClientID|
 | B2C_SITEIDS |x| Represents a comma-delimited list of sites to deploy b2c-crm-sync to |
 |  B2C_CODEVERSION |x| Represents the B2C Commerce code version to which the b2c-crm-sync's plugin cartridges will be deployed.  See [Manage Code Versions](https://documentation.b2c.commercecloud.salesforce.com/DOC1/topic/com.demandware.dochelp/content/b2c_commerce/topics/site_development/b2c_managing_code_versions.html#) for additional information.|
 |  B2C_DATARELEASE |x| Represents the B2C Commerce data release to be deployed to the specified B2C Commerce environment|
@@ -629,9 +642,26 @@ npm run crm-sync:sf:auth:usercreds
 
 > This command will attempt to authenticate against the Salesforce scratchOrg using the environment and credential information provided in the previous step.  The CLI command will either return an error -- or return the authToken that was generated by the Salesforce Platform in response to the authentication request.
 
-:warning: &nbsp; Only proceed to the next step if you are able to successfully validate that your Salesforce Platform Configuration Properties are able to successfully authenticate against your scratchOrg. &nbsp; :warning:
+:warning: &nbsp; Only proceed to the next steps if you are able to successfully validate that your Salesforce Platform Configuration Properties are able to successfully authenticate against your scratchOrg. &nbsp; :warning:
 
-15. Generate the B2C Commerce metadata required by b2c-crm-sync and deploy both the code metadata to the Salesforce B2C Commerce instance by executing the following CLI command:
+15. Now that the scratch org has been created, the b2c-crm-sync package deployed and the credentials of the user validated, you have to build the Auth Provider that will allow the Salesforce core platform to authenticate with the B2C instance. To do so, please execute the following CLI Command:
+
+```bash
+npm run crm-sync:sf:authprovider:build
+```
+
+> This command will create the Auth Provider into the scratch org and then deploy the related Named Credentials that will leverage it. This named credential is then used by the b2c-crm-sync package to perform API calls aginst the B2C Commerce instance.
+
+16. By executing the `crm-sync:sf:authprovider:build` command, the callback URL of the auth provider will be printed in the CLI console. Please copy this URL and paste it in the Redirect URIs field of the previously created Account Manager Client ID.
+
+> If you don't find the callback URL of the Auth Provider within the CLI console, you can find it from the Salesforce org. To do so, please go to the `Setup` menu, then type in the Quick Find field and search for `Auth. Providers` and open the Auth provider named with the B2C Commerce instance name. You'll find the callback URL at the bottom of the page.
+
+17. Now that both the Auth Provider and the related Named Credentials are deployed, you have to perform a first authentication from the Salesforce Core platform. This step is manual as it requires you to validate the authentication flow. To perform this action. please go, on the scratch org, to the `Setup` menu, then type in the Quick Find field and search for `Named Credentials`. In front of the `<b2c instance name>: B2C: Client Credentials` named credentials, click on the edit button, then click on `Save`. Doing an edit of the named credential will start the authentication process behind the scene between the Salesforce core org and the B2C Commerce instance. You should be able to see that the named credential has been successfully authenticated when opening back the named credential, as per the following screenshot:
+
+![Successfully authenticated B2C Commerce Named Credential](/docs/images/B2C-Authenticated-Named-Credential.png)
+
+
+18. Generate the B2C Commerce metadata required by b2c-crm-sync and deploy both the code metadata to the Salesforce B2C Commerce instance by executing the following CLI command:
 
 ```bash
 npm run crm-sync:b2c:build

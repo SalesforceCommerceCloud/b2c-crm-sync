@@ -1,51 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <actionCalls>
-        <description>... represents an invocable action to retrieve an access token used by B2C Commerce to perform REST API calls.  These tokens are generated via Account Manager leveraging the selected name credential.</description>
-        <name>ia_getB2CAccessToken</name>
-        <label>Request a REST API Access Token from Account Manager</label>
-        <locationX>949</locationX>
-        <locationY>686</locationY>
-        <actionName>B2CIAAuthViaClientCredentialsGrant</actionName>
-        <actionType>apex</actionType>
-        <connector>
-            <targetReference>dec_wasAccessTokenSuccessfullyRetrieved</targetReference>
-        </connector>
-        <inputParameters>
-            <name>NamedCredentials</name>
-            <value>
-                <elementReference>recGet_getB2CInstance.Named_Credential_Developer_Name__c</elementReference>
-            </value>
-        </inputParameters>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </actionCalls>
-    <actionCalls>
         <description>... retrieves the CustomerLists and Sites for the selected B2C Instance.</description>
         <name>ia_getCustomerListsAndSites</name>
         <label>Get B2C Instance CustomerLists and Sites</label>
-        <locationX>1147</locationX>
-        <locationY>926</locationY>
+        <locationX>710</locationX>
+        <locationY>638</locationY>
         <actionName>B2CIAGetCustomerListsSites</actionName>
         <actionType>apex</actionType>
         <connector>
             <targetReference>recUpd_B2CInstanceAuditRequest</targetReference>
         </connector>
-        <inputParameters>
-            <name>accessToken</name>
-            <value>
-                <elementReference>ia_getB2CAccessToken.accessToken</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>APIUrl</name>
-            <value>
-                <elementReference>recGet_getB2CInstance.API_Url__c</elementReference>
-            </value>
-        </inputParameters>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>b2cInstanceId</name>
             <value>
                 <elementReference>recGet_getB2CInstance.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>namedCredential</name>
+            <value>
+                <elementReference>recGet_getB2CInstance.Named_Credential_Developer_Name__c</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
@@ -60,8 +36,8 @@
     <assignments>
         <name>AddCustomerList_Assignment</name>
         <label>AddCustomerList Assignment</label>
-        <locationX>1550</locationX>
-        <locationY>1162</locationY>
+        <locationX>842</locationX>
+        <locationY>1118</locationY>
         <assignmentItems>
             <assignToReference>EvalCustomerList</assignToReference>
             <operator>Assign</operator>
@@ -76,8 +52,8 @@
     <assignments>
         <name>AddSiteList_Assignment</name>
         <label>AddSiteList Assignment</label>
-        <locationX>2047</locationX>
-        <locationY>1339</locationY>
+        <locationX>842</locationX>
+        <locationY>1718</locationY>
         <assignmentItems>
             <assignToReference>EvalSiteList</assignToReference>
             <operator>Assign</operator>
@@ -93,8 +69,8 @@
         <description>... evaluates if the B2C Instance has all required fields.</description>
         <name>dec_doesB2CInstanceHaveRequiredFields</name>
         <label>Does the B2C Instance Have Required Fields</label>
-        <locationX>471</locationX>
-        <locationY>326</locationY>
+        <locationX>281</locationX>
+        <locationY>278</locationY>
         <defaultConnector>
             <targetReference>recGet_B2CInstanceNamedCredential</targetReference>
         </defaultConnector>
@@ -126,10 +102,10 @@
         <description>... this decision evaluates if the Named Credential associated to the B2C Instance was found.  If not, an error will be displayed to the user.</description>
         <name>dec_doesB2CInstanceNamedCredentialExist</name>
         <label>Does the Associated Named Credential Exist?</label>
-        <locationX>718</locationX>
-        <locationY>566</locationY>
+        <locationX>512</locationX>
+        <locationY>518</locationY>
         <defaultConnector>
-            <targetReference>ia_getB2CAccessToken</targetReference>
+            <targetReference>ia_getCustomerListsAndSites</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>The Named Credential Was Found</defaultConnectorLabel>
         <rules>
@@ -149,37 +125,11 @@
         </rules>
     </decisions>
     <decisions>
-        <description>... evaluates the Access Token response, and either displays an error message or continues processing.</description>
-        <name>dec_wasAccessTokenSuccessfullyRetrieved</name>
-        <label>An Error Was Found in the Access Token Response</label>
-        <locationX>949</locationX>
-        <locationY>806</locationY>
-        <defaultConnector>
-            <targetReference>ia_getCustomerListsAndSites</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>The Access Token Was Retrieved Successfully</defaultConnectorLabel>
-        <rules>
-            <name>decError_accessTokenResponseHasError</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>ia_getB2CAccessToken.isError</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>screen_errorOccurredRetrievingAccessToken</targetReference>
-            </connector>
-            <label>An Error Was Found in the Response</label>
-        </rules>
-    </decisions>
-    <decisions>
         <description>... this decision evaluates if the customerList and site response was successful.</description>
         <name>dec_wereCustomerListsSitesSuccessfullyRetrieved</name>
         <label>Were CustomerLists and Sites Successfully Retrieved?</label>
-        <locationX>1147</locationX>
-        <locationY>1166</locationY>
+        <locationX>710</locationX>
+        <locationY>878</locationY>
         <defaultConnector>
             <targetReference>CurrentCustomerLists_GetRecords</targetReference>
         </defaultConnector>
@@ -212,7 +162,7 @@
     <processMetadataValues>
         <name>CanvasMode</name>
         <value>
-            <stringValue>FREE_FORM_CANVAS</stringValue>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
         </value>
     </processMetadataValues>
     <processMetadataValues>
@@ -225,8 +175,8 @@
     <recordCreates>
         <name>CustomerList_CreateRecords</name>
         <label>CustomerList CreateRecords</label>
-        <locationX>1792</locationX>
-        <locationY>1162</locationY>
+        <locationX>842</locationX>
+        <locationY>1358</locationY>
         <connector>
             <targetReference>CustomerList_UpdateRecords</targetReference>
         </connector>
@@ -235,8 +185,8 @@
     <recordCreates>
         <name>Site_CreateRecords</name>
         <label>Site CreateRecords</label>
-        <locationX>2279</locationX>
-        <locationY>1339</locationY>
+        <locationX>842</locationX>
+        <locationY>1958</locationY>
         <connector>
             <targetReference>Site_UpdateRecords</targetReference>
         </connector>
@@ -245,8 +195,8 @@
     <recordLookups>
         <name>CurrentCustomerLists_GetRecords</name>
         <label>CurrentCustomerLists GetRecords</label>
-        <locationX>1428</locationX>
-        <locationY>1163</locationY>
+        <locationX>842</locationX>
+        <locationY>998</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>AddCustomerList_Assignment</targetReference>
@@ -267,8 +217,8 @@
         <description>... retrieves the Named Credential associated to the B2C Instance.</description>
         <name>recGet_B2CInstanceNamedCredential</name>
         <label>Retrieve the B2C Instance Named Credential</label>
-        <locationX>718</locationX>
-        <locationY>446</locationY>
+        <locationX>512</locationX>
+        <locationY>398</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>dec_doesB2CInstanceNamedCredentialExist</targetReference>
@@ -296,8 +246,8 @@
         <description>... retrieve the active B2C Instance used to invoke this flow.</description>
         <name>recGet_getB2CInstance</name>
         <label>Get the B2C Instance</label>
-        <locationX>471</locationX>
-        <locationY>206</locationY>
+        <locationX>281</locationX>
+        <locationY>158</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>dec_doesB2CInstanceHaveRequiredFields</targetReference>
@@ -317,8 +267,8 @@
     <recordLookups>
         <name>Site_GetRecords</name>
         <label>Site GetRecords</label>
-        <locationX>1918</locationX>
-        <locationY>1339</locationY>
+        <locationX>842</locationX>
+        <locationY>1598</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>AddSiteList_Assignment</targetReference>
@@ -338,8 +288,8 @@
     <recordUpdates>
         <name>CustomerList_UpdateRecords</name>
         <label>CustomerList UpdateRecords</label>
-        <locationX>1917</locationX>
-        <locationY>1162</locationY>
+        <locationX>842</locationX>
+        <locationY>1478</locationY>
         <connector>
             <targetReference>Site_GetRecords</targetReference>
         </connector>
@@ -348,8 +298,8 @@
     <recordUpdates>
         <name>InstanceCounts_UpdateRecord</name>
         <label>InstanceCounts UpdateRecord</label>
-        <locationX>2521</locationX>
-        <locationY>1340</locationY>
+        <locationX>842</locationX>
+        <locationY>2198</locationY>
         <connector>
             <targetReference>screen_CustomerListSitesRecordsCreated</targetReference>
         </connector>
@@ -379,8 +329,8 @@
         <description>... audits the request to retrieve Sites and CustomerLists back to the B2C Instance.</description>
         <name>recUpd_B2CInstanceAuditRequest</name>
         <label>Audit the Request to the B2C Instance</label>
-        <locationX>1310</locationX>
-        <locationY>926</locationY>
+        <locationX>710</locationX>
+        <locationY>758</locationY>
         <connector>
             <targetReference>dec_wereCustomerListsSitesSuccessfullyRetrieved</targetReference>
         </connector>
@@ -427,8 +377,8 @@
     <recordUpdates>
         <name>Site_UpdateRecords</name>
         <label>Site UpdateRecords</label>
-        <locationX>2403</locationX>
-        <locationY>1339</locationY>
+        <locationX>842</locationX>
+        <locationY>2078</locationY>
         <connector>
             <targetReference>InstanceCounts_UpdateRecord</targetReference>
         </connector>
@@ -438,8 +388,8 @@
         <description>... this screen is displayed when the Named Credential associated to a B2C Instance could not be verified.</description>
         <name>screen_b2cInstanceNamedCredentialMissing</name>
         <label>Associated Named Credential Was Not Found</label>
-        <locationX>487</locationX>
-        <locationY>686</locationY>
+        <locationX>314</locationX>
+        <locationY>638</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -475,8 +425,8 @@
         <description>... this screen is displayed when required B2C Instance fields are missing -- and prevent retrieval of B2C CustomerLists and Sites.</description>
         <name>screen_b2cInstanceRequiredFieldsAreMissing</name>
         <label>Required B2C Instance Fields are Missing</label>
-        <locationX>223</locationX>
-        <locationY>446</locationY>
+        <locationX>50</locationX>
+        <locationY>398</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -522,8 +472,8 @@
         <description>... announces the completion of CustomerList and Site creation.</description>
         <name>screen_CustomerListSitesRecordsCreated</name>
         <label>B2C Commerce CustomerList and Site Records Created</label>
-        <locationX>2521</locationX>
-        <locationY>1585</locationY>
+        <locationX>842</locationX>
+        <locationY>2318</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -563,79 +513,11 @@
         <showHeader>false</showHeader>
     </screens>
     <screens>
-        <description>... this screen is displayed when an error is caught during the retrieval of the B2C Commerce REST API Access Token.</description>
-        <name>screen_errorOccurredRetrievingAccessToken</name>
-        <label>An Error Occurred Retrieving the B2C Access Token</label>
-        <locationX>751</locationX>
-        <locationY>926</locationY>
-        <allowBack>true</allowBack>
-        <allowFinish>true</allowFinish>
-        <allowPause>true</allowPause>
-        <fields>
-            <name>lblError_b2cCommerceAccessTokenError</name>
-            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: var(--lwc-fontSize3,0.8125rem); font-family: var(--lwc-fontFamily,&amp;quot;Salesforce Sans&amp;quot;, Arial, sans-serif);&quot;&gt;Unable to Retrieve B2C Commerce Access Token&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: var(--lwc-fontSize3,0.8125rem); font-family: var(--lwc-fontFamily,&amp;quot;Salesforce Sans&amp;quot;, Arial, sans-serif);&quot;&gt;An error occurred while attempting to retrieve a B2C Commerce OCAPI Access Token via a &lt;/span&gt;&lt;a href=&quot;https://documentation.b2c.commercecloud.salesforce.com/DOC2/topic/com.demandware.dochelp/OCAPI/current/usage/OAuth.html&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-size: var(--lwc-fontSize3,0.8125rem); font-family: var(--lwc-fontFamily,&amp;quot;Salesforce Sans&amp;quot;, Arial, sans-serif); background-color: rgb(255, 255, 255);&quot;&gt;client-credential grant request&lt;/a&gt;&lt;span style=&quot;font-size: var(--lwc-fontSize3,0.8125rem); font-family: var(--lwc-fontFamily,&amp;quot;Salesforce Sans&amp;quot;, Arial, sans-serif);&quot;&gt;.  Please review the error message and REST Response below for details regarding this failure.  &lt;/span&gt;&lt;/p&gt;</fieldText>
-            <fieldType>DisplayText</fieldType>
-        </fields>
-        <fields>
-            <name>lblError_ATB2cInstanceName</name>
-            <dataType>String</dataType>
-            <defaultValue>
-                <elementReference>recGet_getB2CInstance.Name</elementReference>
-            </defaultValue>
-            <fieldText>B2C Instance Name</fieldText>
-            <fieldType>InputField</fieldType>
-            <isRequired>false</isRequired>
-        </fields>
-        <fields>
-            <name>lblError_ATB2CInstanceAPIUrl</name>
-            <dataType>String</dataType>
-            <defaultValue>
-                <elementReference>recGet_getB2CInstance.API_Url__c</elementReference>
-            </defaultValue>
-            <fieldText>B2C Instance API Url</fieldText>
-            <fieldType>InputField</fieldType>
-            <isRequired>false</isRequired>
-        </fields>
-        <fields>
-            <name>lblError_ATStatusCode</name>
-            <dataType>Number</dataType>
-            <defaultValue>
-                <elementReference>ia_getB2CAccessToken.statusCode</elementReference>
-            </defaultValue>
-            <fieldText>Status Code</fieldText>
-            <fieldType>InputField</fieldType>
-            <isRequired>false</isRequired>
-            <scale>0</scale>
-        </fields>
-        <fields>
-            <name>lblError_ATErrorMessage</name>
-            <dataType>String</dataType>
-            <defaultValue>
-                <elementReference>ia_getB2CAccessToken.errorMessage</elementReference>
-            </defaultValue>
-            <fieldText>Error Message</fieldText>
-            <fieldType>InputField</fieldType>
-            <isRequired>false</isRequired>
-        </fields>
-        <fields>
-            <name>lblError_ATRestResponse</name>
-            <dataType>String</dataType>
-            <defaultValue>
-                <elementReference>ia_getB2CAccessToken.responseBody</elementReference>
-            </defaultValue>
-            <fieldText>Rest Response</fieldText>
-            <fieldType>InputField</fieldType>
-            <isRequired>false</isRequired>
-        </fields>
-        <showFooter>true</showFooter>
-        <showHeader>false</showHeader>
-    </screens>
-    <screens>
         <description>... this screen is displayed when an error is caught during the retrieval of the B2C Instance&apos;s CustomerLists and Sites.</description>
         <name>screen_errorOccurredRetrievingCustomerListsSites</name>
         <label>An Error Occurred Retrieving the B2C Instance Sites and CustomerLists</label>
-        <locationX>1015</locationX>
-        <locationY>1286</locationY>
+        <locationX>578</locationX>
+        <locationY>998</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -699,8 +581,8 @@
         <showHeader>false</showHeader>
     </screens>
     <start>
-        <locationX>345</locationX>
-        <locationY>48</locationY>
+        <locationX>155</locationX>
+        <locationY>0</locationY>
         <connector>
             <targetReference>recGet_getB2CInstance</targetReference>
         </connector>
@@ -709,8 +591,8 @@
     <subflows>
         <name>EvaluateCustomerLists_Subflow</name>
         <label>EvaluateCustomerLists Subflow</label>
-        <locationX>1662</locationX>
-        <locationY>1162</locationY>
+        <locationX>842</locationX>
+        <locationY>1238</locationY>
         <connector>
             <targetReference>CustomerList_CreateRecords</targetReference>
         </connector>
@@ -732,8 +614,8 @@
     <subflows>
         <name>EvaluateSites_Subflow</name>
         <label>EvaluateSites Subflow</label>
-        <locationX>2171</locationX>
-        <locationY>1339</locationY>
+        <locationX>842</locationX>
+        <locationY>1838</locationY>
         <connector>
             <targetReference>Site_CreateRecords</targetReference>
         </connector>

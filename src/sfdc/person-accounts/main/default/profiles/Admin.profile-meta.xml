@@ -58,10 +58,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>B2CHttpRequestHelper_Test</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>B2CHttpTestCalloutMockGenerator</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -75,14 +71,6 @@
     </classAccesses>
     <classAccesses>
         <apexClass>B2CIAAuthCustomerInput</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>B2CIAAuthViaClientCredentialsGrant</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>B2CIAAuthViaClientCredentialsGrant_Test</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>

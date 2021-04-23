@@ -120,6 +120,12 @@ program = cliInterface.sfTrustedSitesCreate(program);
 // Attach the command used to generate the SFDX remote sites template
 program = cliInterface.sfRemoteSitesCreate(program);
 
+// Attach the command used to generate the SFDX B2C Account Manager Auth Provider template
+program = cliInterface.sfAuthProviderBuild(program);
+
+// Attach the command used to generate the SFDX B2C Account Manager Auth Provider template
+program = cliInterface.sfAuthProviderCreate(program);
+
 // Attach the command used to generate the SFDX B2C Account Manager Named Credentials template
 program = cliInterface.sfNamedCredentialsAMCreate(program);
 

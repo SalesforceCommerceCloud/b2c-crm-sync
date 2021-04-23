@@ -66,7 +66,7 @@ public with sharing class B2CIAPublishCustomerProfile extends B2CBaseAttributeAs
             }
 
             // Build the request object utilizing the input properties
-            req = B2CHttpRequestHelper.getCustomerProfilePatchRequest(requestInput.apiUrl, requestInput.apiVersion, requestInput.accessToken, requestInput.b2cCustomerListId, requestInput.b2cCustomerNo, thisB2CProfileJSON);
+            req = B2CHttpRequestHelper.getCustomerProfilePatchRequest(requestInput.namedCredential, requestInput.apiVersion, requestInput.b2cCustomerListId, requestInput.b2cCustomerNo, thisB2CProfileJSON);
 
             // Initialize the request
             https = new Http();
@@ -126,7 +126,7 @@ public with sharing class B2CIAPublishCustomerProfile extends B2CBaseAttributeAs
                 if (accountContactModel == B2CConstant.AccountContactModel_Person) {
 
                     // Remove the AccountID as we can't update it when the person customerModel is employed
-                    thisCustomerProfileToUpdate = removePersonAccountProperties(thisCustomerProfile);
+                    thisCustomerProfileToUpdate = B2CBaseAttributeAssignment.removePersonAccountProperties(thisCustomerProfile);
 
                 }
 

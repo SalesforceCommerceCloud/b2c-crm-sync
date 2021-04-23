@@ -26,14 +26,7 @@ public with sharing class B2CIABusinessManagerGrant {
 
         // Iterate over the collection of Named Credentials
         for (B2CIABusinessManagerGrantInput b2creq: businessManagerGrantInputList) {
-
-            HttpRequest req = new HttpRequest();
-            req.setEndpoint('callout:'+b2creq.namedCredential+'/dw/oauth2/access_token?client_id='+b2creq.clientId);
-            req.setHeader('Content-Type','application/x-www-form-urlencoded');
-            req.setBody('grant_type=urn:demandware:params:oauth:grant-type:client-id:dwsid:dwsecuretoken');
-            req.setMethod('POST');
-
-
+            HttpRequest req = B2CHttpRequestHelper.getBusinessManagerAuthRequest(b2creq.namedCredential, b2creq.clientId);
             Http https = new Http();
             HttpResponse res = https.send(req);
 

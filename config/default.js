@@ -581,7 +581,8 @@ module.exports = {
         // Define the baseUrls for account manager
         "accountManager": {
             "baseUrl": "https://account.demandware.com",
-            "authUrl": "/dw/oauth2/access_token"
+            "authUrl": "/dwsso/oauth2/access_token",
+            "authorizeUrl": "/dwsso/oauth2/authorize"
         },
 
         // Define the cartridge deploy properties

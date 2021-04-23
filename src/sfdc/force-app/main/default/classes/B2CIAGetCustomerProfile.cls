@@ -34,7 +34,7 @@ public with sharing class B2CIAGetCustomerProfile {
         for (B2CIAGetCustomerProfileInput requestInput: requestArguments) {
 
             // Build the request object utilizing the input properties
-            req = B2CHttpRequestHelper.getCustomerProfileRequest(requestInput.apiUrl, requestInput.apiVersion, requestInput.accessToken, requestInput.b2cCustomerListId, requestInput.b2cCustomerNo);
+            req = B2CHttpRequestHelper.getCustomerProfileRequest(requestInput.namedCredential, requestInput.apiVersion, requestInput.b2cCustomerListId, requestInput.b2cCustomerNo);
             https = new Http();
             res = https.send(req);
 
