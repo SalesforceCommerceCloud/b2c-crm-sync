@@ -193,10 +193,6 @@
 	opacity: 0;
 	@include transition(all 0.2s ease-in-out);
 
-    @include mq(phonep) {
-        background: rgba($background-alt-color, 0.95);
-    }
-
     @include mq(phonel) {
         background: rgba($overlay-background-color, 0.95);
     }
@@ -263,8 +259,28 @@
 	&.active-link {
 		color: $overlay-accent-color;
 
+        @include mq(phonepxxs) {
+            color: $text-light-color !important;
+        }
+
+        @include mq(phonepxs) {
+            color: $text-light-color !important;
+        }
+
+        @include mq(phoneps) {
+            color: $text-light-color !important;
+        }
+
+        @include mq(phonep) {
+            color: $text-light-color !important;
+        }
+
+        @include mq(phonel) {
+            color: $text-light-color !important;
+        }
+
         @include mq(tabletp) {
-            color: $accent-color !important;
+            color: $text-light-color !important;
         }
 
 		@include mq(tabletl) {

@@ -6,17 +6,6 @@ basic_settings:
 architect_success:
   title: Salesforce Architect Success
 
-menu_settings:
-  menu_items:
-    - title: 'Projects'
-      url: '/'
-    - title: 'Blog'
-      url: '/blog/'
-    - title: 'About'
-      url: '/about'
-    - title: 'Contact'
-      url: '/contact'
-
 collections:
   _projects:
     order:
@@ -38,6 +27,22 @@ menu_settings:
   menu_items:
     - title: 'Home'
       url: '/'
+    - title: 'About this Project'
+      url: '/project/about'
+    - title: 'Supported Use-Cases'
+      url: '/project/use-cases'
+    - title: 'Setup Guide'
+      url: '/project/setup'
+    - title: 'Help and Troubleshooting'
+      url: '/project/help'
+    - title: 'Frequently Asked Questions'
+      url: '/project/faq'
+    - title: 'Demonstrations and Walkthroughs'
+      url: '/project/demos'
+    - title: 'Additional Resources'
+      url: '/project/resources'
+    - title: 'Gratitude'
+      url: '/project/gratitude'
 
 grid_settings:
   overlay_opacity: 0.9

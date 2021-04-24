@@ -8,7 +8,10 @@
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - Responsive
 // Usage: @include mq(tabletp) {}
 
-$break-phonep: 480px;
+$break-phonepxxs: 280px;
+$break-phonepxs: 320px;
+$break-phoneps: 360px;
+$break-phonep: 375px;
 $break-phonel: 640px;
 $break-tabletp: 768px;
 $break-tabletl: 1024px;
@@ -16,7 +19,16 @@ $break-laptop: 1220px;
 $break-desktop: 1420px;
 
 @mixin mq($media) {
-    @if $media == phonep {
+    @if $media == phonepxxs {
+        @media only screen and (min-width: $break-phonepxxs) { @content; }
+    }
+    @if $media == phonepxs {
+        @media only screen and (min-width: $break-phonepxs) { @content; }
+    }
+    @if $media == phoneps {
+        @media only screen and (min-width: $break-phoneps) { @content; }
+    }
+    @else if $media == phonep {
         @media only screen and (min-width: $break-phonep) { @content; }
     }
 	@else if $media == phonel {
