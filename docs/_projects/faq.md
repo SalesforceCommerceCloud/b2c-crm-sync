@@ -11,15 +11,15 @@ featured_image: '/images/faq-alt-short.png'
 **A.**&nbsp;&nbsp;[b2c-crm-sync](https://sfb2csa.link/b2c-crm-sync) is a contemporary perspective on how to integrate [Salesforce B2C Commerce Enterprise](https://www.salesforce.com/products/commerce-cloud/ecommerce/) and the [Salesforce Customer 360 Platform](https://www.salesforce.com/products/platform/overview/) (ex. [Service Cloud](https://www.salesforce.com/products/service-cloud/overview/)) to enable frictionless customer experiences.  It operationalizes the B2C Commerce Customer Data Strategy taught by the B2C Solution Architect Program, and facilitates the progressive resolution and synchronization of B2C Commerce Customer Profiles with Salesforce Platform Accounts and Contacts or PersonAccounts.<br>
 
 <div class="gallery" data-columns="1" style="width: 900px">
-	<img src="/images/slides/use-cases.png">
+	<img src="../images/slides/use-cases.png">
 </div>
 
 This creates a common identifier (the Salesforce Platform ContactID) that can be used to consistently represent a B2C Commerce Customer Profile in the Salesforce Platform, Marketing Cloud, and other systems.  It also enables the synchronization of key B2C Commerce customer identifiers across these Salesforce Products -- which unlocks REST API access to any of these systems from any source system.
 
 <div class="gallery" data-columns="1" style="width: 900px">
-	<img src="/images/slides/data-strategy-001.png">
-	<img src="/images/slides/data-strategy-002.png">
-	<img src="/images/slides/data-strategy-003.png">
+	<img src="../images/slides/data-strategy-001.png">
+	<img src="../images/slides/data-strategy-002.png">
+	<img src="../images/slides/data-strategy-003.png">
 </div>
 
 You can use this customer data strategy to implement multi-cloud use-cases that leverage the best-of-breed capabilities of the Salesforce Product Portfolio.
@@ -67,7 +67,7 @@ If you are a customer, the [Salesforce Customer 360 Guides](https://sfb2csa.link
 - Being new to the Salesforce ecosystem, we have zero customer implementations at this time.  While we expect this to change soon, we think it is important to be clear about this with customers and partners.
 
 <div class="gallery" data-columns="1" style="width: 900px">
-	<img src="/images/slides/positioning.png">
+	<img src="../images/slides/positioning.png">
 </div>
 
 Our commitment to you as caretakers of this enablement solution is to always been transparent about status, known issues, and test coverage.  We are committed to limiting to scope of this project so that it does one thing well -- specifically, the implementation of the data strategy necessary to support multi-cloud customer experiences.
@@ -85,7 +85,7 @@ We provide the integration approach, business logic patterns, and development as
 **A.**&nbsp;&nbsp;No -- it doesn't.  We have no plans on implementing this use-case, as productized solutions for this exist within the Salesforce Product Portfolio (see [Salesforce Order Management](https://sfb2csa.link/products/som) for details).
 
 <div class="gallery" data-columns="1" style="width: 900px">
-	<img src="/images/slides/system-of-transaction.png">
+	<img src="../images/slides/system-of-transaction.png">
 </div>
 
 Please note that it is not considered a best-practice to synchronize orders from B2C Commerce with a non-order management system.  B2C Commerce is not considered the system of record for orders; order management systems play this role.  At best, B2C Commerce should be considered the system of transaction for orders.  If you have a need to expose order details in Service Cloud, that should be handled by integrating with your order management system -- and ideally retrieving order details through federation.
