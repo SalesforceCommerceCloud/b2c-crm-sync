@@ -31,11 +31,11 @@
 	@include mq(tabletl) {
 		position: relative;
 		min-height: 100vh;
-		padding: 20px 40px 135px;
+		padding: 20px 40px 10px;
 	}
 
 	@include mq(laptop) {
-		padding: 30px 60px 145px;
+		padding: 30px 60px 10px;
 	}
 }
 
@@ -314,6 +314,10 @@
   line-height: 25px;
 }
 
+.github-container {
+  margin-left: 20px;
+}
+
 .b2csa-image {
 
   display: block;
@@ -354,16 +358,14 @@
 
 .header__lower {
 	display: none;
-
 	@include mq(tabletl) {
 		display: block;
-		position: absolute;
-		bottom: 30px;
+		// position: absolute;
+		margin-bottom: 50px;
 		left: 40px;
 	}
 
 	@include mq(laptop) {
-		bottom: 40px;
 		left: 60px;
 	}
 }

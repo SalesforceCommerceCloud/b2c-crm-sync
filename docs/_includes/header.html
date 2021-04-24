@@ -12,13 +12,22 @@
 		</a>
 		{% endif %}
 
-		<h1 class="header__tagline">{{ site.data.settings.basic_settings.site_tagline }}</h1>
+    <div class="github-container margin-top-small">
+      <a class="github-button" href="https://github.com/sfb2csolutionarchitects/b2c-crm-sync" data-icon="octicon-star" data-show-count="true" aria-label="Star sfb2csolutionarchitects/b2c-crm-sync on GitHub">Star</a>
+      <a class="github-button" href="https://github.com/sfb2csolutionarchitects/b2c-crm-sync/subscription" data-icon="octicon-eye" data-show-count="true" aria-label="Watch sfb2csolutionarchitects/b2c-crm-sync on GitHub">Watch</a>
+    </div>
+
+    <h1 class="header__tagline">{{ site.data.settings.basic_settings.site_tagline }}</h1>
 
     <div class="menu__b2ccontainer">
 
       <img class="b2csa-image" alt="Brought to you by the Salesforce B2C Solution Architect Program -- in partnership with Architects from Salesforce ICX, SCPPE, Services, and ecosystem Partners. #wintogether" src="{{ site.url }}/images/architect-success-b2c.png">
 
       <div class="line-height-med margin-top-small">Brought to you by Salesforce Architect Success in partnership with Architects from Salesforce ICX, SCPPE, Services, and ecosystem Partners. #wintogether</div>
+
+      <div class="margin-top-small cert-link">
+        <a href="https://sfb2csa.link/resources" target="_resources">Start your Architect Journey Today!</a>
+      </div>
 
     </div>
 
@@ -56,7 +65,7 @@
       <div class="footer__copyright">
 
         <div class="margin-top-small cert-link">
-          Learn about the <a href="https://sfb2csa.link/cert/b2c-solution-architect" target="_cert">Salesforce B2C Solution Architect Certification</a> and start your Architect Journey Today!
+          Learn about the <a href="https://sfb2csa.link/cert/b2c-solution-architect" target="_cert">Salesforce B2C Solution Architect Certification</a> and what it takes to create frictionless multi-cloud customer experiences on the Salesforce Platform.  <a href="https://sfb2csa.link/resources" target="_resources">Start your Architect Journey</a> Today!
         </div>
 
         <span>© {{ 'now' | date: "%Y" }} Salesforce, Inc.  All Rights Reserved.</span>

@@ -157,21 +157,21 @@ ul, ol {
 }
 
 blockquote {
-	margin-top: 15px;
-	padding: 10px 20px;
+	margin-top: 5px;
+	padding: 10px 10px;
 	font-size: $blockquote-small;
 	font-weight: $blockquote-weight;
 	letter-spacing: $blockquote-spacing;
 	line-height: $blockquote-lineheight;
 
 	@include mq(tabletp) {
-		padding: 15px 30px;
-		font-size: $blockquote-medium;
+		padding: 5px 10px 0px 10px;
+		font-size: $blockquote-small;
 	}
 
 	@include mq(laptop) {
-		padding: 20px 40px;
-		font-size: $blockquote-large;
+		padding: 10px 10px 10px 10px;
+		font-size: $blockquote-small;
 	}
 
 	p {
@@ -181,11 +181,11 @@ blockquote {
 		line-height: $blockquote-lineheight;
 
 		@include mq(tabletp) {
-			font-size: $blockquote-medium;
+			font-size: $blockquote-small;
 		}
 
 		@include mq(laptop) {
-			font-size: $blockquote-large;
+			font-size: $blockquote-small;
 		}
 	}
 }
@@ -388,7 +388,7 @@ section {
 	}
 
 	@include mq(laptop) {
-		
+
 	}
 }
 

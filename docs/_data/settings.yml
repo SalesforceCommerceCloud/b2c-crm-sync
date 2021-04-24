@@ -187,7 +187,7 @@ font_settings:
     letter_spacing: 0
     line_height: 1.6
   blockquote:
-    small_size: 25
+    small_size: 18
     medium_size: 35
     large_size: 45
     weight: 300
