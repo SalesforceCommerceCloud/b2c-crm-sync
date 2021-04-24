@@ -1,9 +1,9 @@
 ---
 title: About this Project
 subtitle: Learn about the history of b2c-crm-sync, what drove the creation of this enablement solution, why it's important to Salesforce customers and partners.
-date: 2021-04-22 00:23:00
+date: 2021-04-22 23:00:00
 description: Learn about the history of b2c-crm-sync, what drove the creation of this enablement solution, why it's important to Salesforce customers and partners.
-featured_image: '/images/demo/demo-square.jpg'
+featured_image: '/images/about.png'
 ---
 
 ![](/images/demo/demo-landscape.jpg)

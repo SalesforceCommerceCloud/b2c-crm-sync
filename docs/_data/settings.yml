@@ -6,6 +6,19 @@ basic_settings:
 architect_success:
   title: Salesforce Architect Success
 
+collections:
+  _projects:
+    order:
+
+      - gratitude.md
+      - resources.md
+      - demos.md
+      - help.md
+      - faq.md
+      - setup.md
+      - use-cases.md
+      - about.md
+
 header_settings:
   logo_image:
   logo_width: 200
@@ -59,12 +72,15 @@ color_settings:
   text_dark_color: '#2A2F36'
   text_medium_color: '#6C7A89'
   text_light_color: '#ABB7B7'
-  accent_color: '#0C5DF2'
+  accent_color: '#1D5AA2'
   border_color: '#dddddd'
-  overlay_background_color: '#0C5DF2'
+  overlay_background_color: '#002D63'
   overlay_text_color: '#ffffff'
   overlay_accent_color: '#2A2F36'
   error_color: '#D64541'
+  b2c_color: '#002D63'
+  old_overlay_background_color: '#0C5DF2'
+  old_accent_color: '#0C5DF2'
 
 font_settings:
   font_embed: '<link href="https://fonts.googleapis.com/css?family=Montserrat:300,500" rel="stylesheet">'

@@ -1,9 +1,9 @@
 ---
 title: Additional Resources
 subtitle: Take advantage of the many resources made available to Salesforce customers, partners, and Architects.  This collection of links contain guidance on how to implement multi-cloud customer experiences on the Salesforce Platform.
-date: 2021-04-22 00:23:00
+date: 2021-04-22 17:00:00
 description: Take advantage of the many resources made available to Salesforce customers, partners, and Architects.  This collection of links contain guidance on how to implement multi-cloud customer experiences on the Salesforce Platform.
-featured_image: '/images/demo/demo-square.jpg'
+featured_image: '/images/resources-alt.png'
 ---
 
 ![](/images/demo/demo-landscape.jpg)

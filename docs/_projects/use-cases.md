@@ -1,9 +1,9 @@
 ---
 title: Supported Use-Cases
 subtitle: Learn about the use-cases that b2c-crm-sync supports and unlocks through its progressive resolution capabilities, synchronization of B2C Commerce Customer Profiles, and extensibility.
-date: 2021-04-22 00:22:00
+date: 2021-04-22 22:00:00
 description: Learn about the use-cases that b2c-crm-sync supports and unlocks through its progressive resolution capabilities, synchronization of B2C Commerce Customer Profiles, and extensibility.
-featured_image: '/images/demo/demo-square.jpg'
+featured_image: '/images/use-cases.png'
 ---
 
 ![](/images/demo/demo-landscape.jpg)

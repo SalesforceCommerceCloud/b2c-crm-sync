@@ -1,9 +1,9 @@
 ---
 title: Help and Troubleshooting
 subtitle: Not every installation goes well, and not every environment is configured properly.  Learn about the common pitfalls and challenges that customer, partners, and Architects experience when implementing b2c-crm-sync -- and how to address them quickly.
-date: 2021-04-22 00:23:00
+date: 2021-04-22 20:00:00
 description: Not every installation goes well, and not every environment is configured properly.  Learn about the common pitfalls and challenges that customer, partners, and Architects experience when implementing b2c-crm-sync -- and how to address them quickly.
-featured_image: '/images/demo/demo-square.jpg'
+featured_image: '/images/help.png'
 ---
 
 ![](/images/demo/demo-landscape.jpg)

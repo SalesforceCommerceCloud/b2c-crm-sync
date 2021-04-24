@@ -1,9 +1,9 @@
 ---
 title: Frequently Asked Questions
 subtitle: Review the latest collection of frequently asked questions about b2c-crm-sync, its capabilities and extensibility, and its supported use-cases.
-date: 2021-04-22 00:23:00
+date: 2021-04-22 19:00:00
 description: Review the latest collection of frequently asked questions about b2c-crm-sync, its capabilities and extensibility, and its supported use-cases.
-featured_image: '/images/demo/demo-square.jpg'
+featured_image: '/images/faq.png'
 ---
 
 ![](/images/demo/demo-landscape.jpg)
