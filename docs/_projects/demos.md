@@ -3,7 +3,7 @@ title: Demonstrations and Walkthroughs
 subtitle: Watch video demonstrations of b2c-crm-sync in action -- starting from the installation process, validating your setup is trustworthy, and through to supported use-case demonstrations.
 date: 2021-04-22 18:00:00
 description: Watch video demonstrations of b2c-crm-sync in action -- starting from the installation process, validating your setup is trustworthy, and through to supported use-case demonstrations.
-featured_image: '/images/demo.png'
+featured_image: '/images/demo-alt-video.png'
 ---
 
 ![](/images/demo/demo-landscape.jpg)

@@ -3,7 +3,7 @@ title: Setup Guide
 subtitle: Learn how to setup b2c-crm-sync using our CLI tooling and deployment commands.  Leveraging b2c-crm-sync, you can integrate your configured B2C Commerce and Salesforce Platform environments in 15 minutes.  That's right; we said it -- 15 minutes.
 date: 2021-04-22 21:00:00
 description: Learn how to setup b2c-crm-sync using our CLI tooling and deployment commands.  Leveraging b2c-crm-sync, you can integrate your configured B2C Commerce and Salesforce Platform environments in 15 minutes.  That's right; we said it -- 15 minutes.
-featured_image: '/images/setup-guide.png'
+featured_image: '/images/setup-guide-alt.png'
 ---
 
 ![](/images/demo/demo-landscape.jpg)
