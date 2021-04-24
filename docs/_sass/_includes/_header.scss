@@ -186,12 +186,20 @@
 	right: 0;
 	bottom: 0;
 	left: 0;
-	background: rgba($overlay-background-color,0.95);
+	background: rgba($overlay-background-color, 0.95);
 	overflow: auto;
 
 	visibility: hidden;
 	opacity: 0;
 	@include transition(all 0.2s ease-in-out);
+
+    @include mq(phonep) {
+        background: rgba($background-alt-color, 0.95);
+    }
+
+    @include mq(phonel) {
+        background: rgba($overlay-background-color, 0.95);
+    }
 
 	@include mq(tabletl) {
 		position: relative;
@@ -201,6 +209,7 @@
 		opacity: 1;
 		@include transition(none);
 	}
+
 }
 
 .menu--open .menu__wrap {
@@ -254,9 +263,14 @@
 	&.active-link {
 		color: $overlay-accent-color;
 
+        @include mq(tabletp) {
+            color: $accent-color !important;
+        }
+
 		@include mq(tabletl) {
-			color: $accent-color;
+			color: $accent-color !important;
 		}
+
 	}
 }
 

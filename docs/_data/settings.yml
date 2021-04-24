@@ -6,6 +6,17 @@ basic_settings:
 architect_success:
   title: Salesforce Architect Success
 
+menu_settings:
+  menu_items:
+    - title: 'Projects'
+      url: '/'
+    - title: 'Blog'
+      url: '/blog/'
+    - title: 'About'
+      url: '/about'
+    - title: 'Contact'
+      url: '/contact'
+
 collections:
   _projects:
     order:
@@ -29,7 +40,7 @@ menu_settings:
       url: '/'
 
 grid_settings:
-  overlay_opacity: 0.8
+  overlay_opacity: 0.9
   grid_spacing: 20
 
 contact_settings:
@@ -76,7 +87,9 @@ color_settings:
   border_color: '#dddddd'
   overlay_background_color: '#002D63'
   overlay_text_color: '#ffffff'
+  overlay_text_phone_color: '#2A2F36'
   overlay_accent_color: '#2A2F36'
+  overlay_accent_phone_color: '#ffffff'
   error_color: '#D64541'
   b2c_color: '#002D63'
   old_overlay_background_color: '#0C5DF2'

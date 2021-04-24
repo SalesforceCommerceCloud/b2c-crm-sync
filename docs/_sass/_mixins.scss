@@ -8,14 +8,18 @@
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - Responsive
 // Usage: @include mq(tabletp) {}
 
-$break-phonel: 480px;
+$break-phonep: 480px;
+$break-phonel: 640px;
 $break-tabletp: 768px;
 $break-tabletl: 1024px;
 $break-laptop: 1220px;
 $break-desktop: 1420px;
 
 @mixin mq($media) {
-	@if $media == phonel {
+    @if $media == phonep {
+        @media only screen and (min-width: $break-phonep) { @content; }
+    }
+	@else if $media == phonel {
 		@media only screen and (min-width: $break-phonel) { @content; }
 	}
 	@else if $media == tabletp {
@@ -61,13 +65,13 @@ $break-desktop: 1420px;
     }
     @-moz-keyframes #{$animation-name} {
         @content;
-    }  
+    }
     @-ms-keyframes #{$animation-name} {
         @content;
     }
     @-o-keyframes #{$animation-name} {
         @content;
-    }  
+    }
     @keyframes #{$animation-name} {
         @content;
     }
@@ -78,7 +82,7 @@ $break-desktop: 1420px;
   -moz-animation: #{$str};
   -ms-animation: #{$str};
   -o-animation: #{$str};
-  animation: #{$str};      
+  animation: #{$str};
 }
 
 
@@ -100,7 +104,7 @@ $break-desktop: 1420px;
 }
 @mixin scale($scale) {
   @include transform(scale($scale));
-} 
+}
 @mixin translate ($x, $y) {
   @include transform(translate($x, $y));
 }
