@@ -101,10 +101,12 @@
 
 	@include mq(tabletl) {
 		margin-top: 20px;
+        margin-bottom: 20px;
 	}
 
 	@include mq(laptop) {
 		margin-top: 30px;
+        margin-bottom: 30px;
 	}
 }
 

@@ -118,8 +118,10 @@
 	}
 
 	blockquote p {
-		max-width: 100%;
-		padding: 0;
+		// max-width: 100%;
+        border-color: $accent-color;
+        border-style: dotted;
+		padding: 1em;
 	}
 
 	p a {

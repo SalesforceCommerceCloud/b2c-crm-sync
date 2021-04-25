@@ -6,99 +6,60 @@ description: Learn how to setup b2c-crm-sync using our CLI tooling and deploymen
 featured_image: '/images/setup-guide-alt.png'
 ---
 
-![](/images/demo/demo-landscape.jpg)
+> **Check Back for Detailed Scenario Installation Instructions**<br>
+> We'll use these pages to capture more detailed installation and configuration instructions.  While we've made [b2c-crm-sync](https://sfb2csa.link/b2c-crm-sync) easy to deploy -- its deployment capabilities are flexible to support incremental updates to either platform environment.  Check-back for deployment and configuration documentation.
+>
 
-## Demo content
+### Follow Our Readme.md Setup Guidance
+Our [ReadMe.md](https://sfb2csa.link/b2c-crm-sync/readme) is a trustworthy guide to get [b2c-crm-sync](https://sfb2csa.link/b2c-crm-sync) setup in your development environment.  Our plan is to move the deployment details from the ReadMe to these pages.  In the meantime, follow it verbatim -- and you should be up and running fairly quickly.
 
-This page is a demo that shows everything you can do inside portfolio and blog posts.
+> Our team leverages the Readme for our own internal deployments and on-boarding.  We make incremental updates based on the feedback our peers and extended teams provide.  If you run into issues or have recommendations on how to make it better, please feel free to [create an issue](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/issues/new) or [start a discussion](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/discussions/new) to share your feedback.
 
-We've included everything you need to create engaging posts about your work, and show off your case studies in a beautiful way.
 
-**Obviously,** we’ve styled up *all the basic* text formatting options [available in markdown](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet).
+### Deploy to a B2C Commerce Sandbox and a Salesforce scratchOrg in 15 Minutes or Less
+Following the guidance in our [ReadMe.md](https://sfb2csa.link/b2c-crm-sync/readme), you can consistently deploy b2c-crm-sync in just a few minutes.  The deployment capabilities are specifically designed to leverage the CI tooling available for B2C Commerce and the Salesforce Platform.
+- Deploy to any accessible B2C Commerce environment leveraging [SFCC-CI](https://github.com/SalesforceCommerceCloud/sfcc-ci) and its Node.js APIs.  We also leverage B2C Commerce OCAPI Data REST APIs designed to support CI activities for scenarios SFCC-CI does not natively support.
+- Deploy to Salesforce Platform Developer scratchOrgs leveraging [SFDX](https://developer.salesforce.com/tools/sfdxcli) -- Salesforce's command line interface designed to simplify development and build automation.
+- Our CLI tooling dynamically generates meta-data for B2C Commerce and the Salesforce Platform describing service, namedCredential, and connectedApp definitions.  This meta-data is then deployed using both CI toolsets.
 
-You can create lists:
+You can learn more about [B2C Commerce On-Demand Sandboxes](https://sfb2csa.link/trailhead/ods) and [Salesforce DX](https://trailhead.salesforce.com/en/content/learn/modules/sfdx_app_dev) on Trailhead.
 
-* Simple bulleted lists
-* Like this one
-* Are cool
+### Our Deployment Tooling Leverages Node.js
+Node.js is a requirement for SFCC-CI and SFDX.  It is also a requirement for our CLI / Deployment Tooling.  We require Node.js v15.2.1 (or similar) -- and the [Readme.md](https://sfb2csa.link/b2c-crm-sync/readme) contains guidance on how to use [nvm to setup multiple versions of node.js](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/blob/master/README.md#nodejs-setup-instructions).  We **strongly recommend** using nvm to manage your node.js environment(s).
 
-And:
+### The Deployment is Governed by Your .env File
+We leverage the [dotenv](https://medium.com/@thejasonfile/using-dotenv-package-to-create-environment-variables-33da4ac4ea8f) node.js library to centralize the configuration details for each environment.  You can view a [sample of the .env](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/blob/master/sample.env) file in our repository.
 
-1. Numbered lists
-2. Like this other one
-3. Are great too
+### The ReadMe is a Trustworthy Guide
 
-You can also add blockquotes, which are shown at a larger width to help break up the layout and draw attention to key parts of your content:
+The [Readme.md](https://sfb2csa.link/b2c-crm-sync/readme) explains how to progressive [configure your .env file](https://github.com/sfb2csolutionarchitects/b2c-crm-sync#setup-a-env-file) as you work through the deployment process.  To deploy b2c-crm-sync:
 
-> “Simple can be harder than complex: You have to work hard to get your thinking clean to make it simple. But it’s worth it in the end because once you get there, you can move mountains.”
+> Remember, use our [Readme.md](https://sfb2csa.link/b2c-crm-sync/readme) to guide you through the deployment process.  These instructions are designed to share with you what deployments are like.  Today, they are not designed to support the actual deployment.
 
-The theme also supports markdown tables:
+- Collect your B2C Commerce environment access and authentication details
+- Write these details to the .env file
+- Configure the OCAPI permissions to support the API usage required by the b2c-crm-sync deployment tools and the Salesforce Platform Services that leverage B2C Commerce Shop and Data APIs.
+- Verify your B2C Commerce environment details using our deployment tooling.  Confirm your details are accurate before building your Salesforce Platform scratchOrg.
+- Define the type of scratchOrg you'd like (either Accounts / Contacts or PersonAccounts).  We currently support these two scratchOrg configurations, but our deployment tooling can be customized to support other org-shapes.
+- Build your Salesforce Platform scratchOrg leveraging our deployment tooling.  This will generate custom metadata representing your B2C Commerce environment and deploy it once the scratchOrg has been created.  The deployment tooling will output the scratchOrg details and deployment status as each command completes.
 
-| Item                 | Author        | Supports tables? | Price |
-|----------------------|---------------|------------------|-------|
-| Duet Jekyll Theme    | Jekyll Themes | Yes              | $49   |
-| Index Jekyll Theme   | Jekyll Themes | Yes              | $49   |
-| Journal Jekyll Theme | Jekyll Themes | Yes              | $49   |
+> ScratchOrg deployment takes anywhere from three to seven minutes.  This includes the creation of the scratchOrg as well as the deployment of the b2c-crm-sync meta-data.  Be patient while waiting, and try not to stare at the cursor too much while you wait.
 
-And footnotes[^1], which link to explanations[^2] at the bottom of the page[^3].
+- Update your .env file with the scratchOrg details and user details required to login to the scratchOrg.  As part of this, reset your securityToken before deploying to B2C Commerce.
+- Log into your scratchOrg, and enable integration for your B2C Instance.  You can validate integration is configured successfully by seeding the CustomerLists and Sites present in your B2C Instance using our Lightning App quickActions.
+- Verify your Salesforce scratchOrg configuration details via our deployment tooling.  Once you've confirmed that you're credentials are trusworthy, you can kick-off the B2C Commerce build process.
+- The B2C Commerce build process will leverage the .env configuration properties for B2C Commerce and your scratchOrg to generate service definitions for each configured B2C Commerce site.  These definitions will then be deployed and imported.
+- Once the deployment is successful, you can validate the capabilities of b2c-crm-sync by executing the multi-cloud unit tests.  These tests exercise the headless capabilities of b2c-crm-sync and test both B2C Commerce and Salesforce Platform REST APIs.
 
-[^1]: Beautiful modern, minimal theme design.
-[^2]: Powerful features to show off your work.
-[^3]: Maintained and supported by the theme developer.
+> Please keep in mind that our unit-tests take about five minutes to run from beginning to end.  We have over forty tests that exercise registration, authentication, profile updates, and progressive resolution scenarios.
 
-You can throw in some horizontal rules too:
+### Use SFDX to Deploy b2c-crm-sync to A Salesforce Org
+You can use SFDX to [deploy b2c-crm-sync to any Salesforce Org](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_develop_any_org.htm).  Use the Salesforce DX Developer Guide page to understand the differences that exist with Org deployments vs. scratchOrg deployments.
 
----
+If you understand these differences, you can leverage our build commands to generate new meta-data for your Org -- and deploy it with native SFDX commands:
 
-### Image galleries
-
-Here's a really neat custom feature we added – galleries:
-
-<div class="gallery" data-columns="3">
-	<img src="/images/demo/demo-portrait.jpg">
-	<img src="/images/demo/demo-landscape.jpg">
-	<img src="/images/demo/demo-square.jpg">
-	<img src="/images/demo/demo-landscape-2.jpg">
-</div>
-
-Inspired by the Galleries feature from WordPress, we've made it easy to create grid layouts for your images. Just use a bit of simple HTML in your post to create a masonry grid image layout:
-
-```html
-<div class="gallery" data-columns="3">
-    <img src="/images/demo/demo-portrait.jpg">
-    <img src="/images/demo/demo-landscape.jpg">
-    <img src="/images/demo/demo-square.jpg">
-    <img src="/images/demo/demo-landscape-2.jpg">
-</div>
+```bash
+sfdx force:source:deploy -p path/to/source
 ```
 
-*See what we did there? Code and syntax highlighting is built-in too!*
-
-Change the number inside the 'columns' setting to create different types of gallery for all kinds of purposes. You can even click on each image to seamlessly enlarge it on the page.
-
----
-
-### Image carousels
-
-Here's another gallery with only one column, which creates a carousel slide-show instead.
-
-A nice little feature: the carousel only advances when it is in view, so your visitors won't scroll down to find it half way through your images.
-
-<div class="gallery" data-columns="1">
-	<img src="/images/demo/demo-landscape.jpg">
-	<img src="/images/demo/demo-landscape-2.jpg">
-</div>
-
-### What about videos?
-
-Videos are an awesome way to show off your work in a more engaging and personal way, and we’ve made sure they work great on our themes. Just paste an embed code from YouTube or Vimeo, and the theme makes sure it displays perfectly:
-
-<iframe src="https://player.vimeo.com/video/19536258?color=ffffff&title=0&byline=0&portrait=0" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-
----
-
-## Pretty cool, huh?
-
-We've packed this theme with powerful features to show off your work. Why not put them to use on your new portfolio?
-
-<a href="https://jekyllthemes.io/theme/index-portfolio-jekyll-theme" class="button button--large">Get This Theme</a>
+> We have plans to extend out deployment tooling to [natively support non-scratchOrg deployments](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/issues/53).  You can subscribe to this issue if you'd like updates on its status.

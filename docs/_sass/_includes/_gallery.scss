@@ -4,6 +4,11 @@
 
 // - - - - - - - - - - - - - - - - - -
 
+.b2c-gallery-image {
+    width: 900px;
+    margin: 0 auto;
+}
+
 .gallery {
 	visibility: hidden;
 	position: relative;
@@ -47,7 +52,7 @@
 	.gallery__wrap {
 
 	}
-	
+
 	.gallery__item {
 
 	}
@@ -98,7 +103,7 @@
 		margin-left: -$grid-spacing/2;
 		margin-right: -$grid-spacing/2;
 	}
-	
+
 	.gallery__item {
 		float: left;
 		width: 50%;

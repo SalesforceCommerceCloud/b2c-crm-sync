@@ -5,21 +5,23 @@ date: 2021-04-22 19:00:00
 description: Review the latest collection of frequently asked questions about b2c-crm-sync, its capabilities and extensibility, and its supported use-cases.
 featured_image: '/images/faq-alt-short.png'
 ---
+
 > **Check Back for Updates** <br> We're actively updating and maturing our documentation site, so please check back for updates.  We recommend [watching our repo](https://sfb2csa.link/b2c-crm-sync) to stay in the loop as this enablement solution continues to mature.  In the meantime, please pardon our dust -- and let's get to the questions. :)
+<hr>
 
 **Q.&nbsp;&nbsp;What exactly is b2c-crm-sync?**<br>
 **A.**&nbsp;&nbsp;[b2c-crm-sync](https://sfb2csa.link/b2c-crm-sync) is a contemporary perspective on how to integrate [Salesforce B2C Commerce Enterprise](https://www.salesforce.com/products/commerce-cloud/ecommerce/) and the [Salesforce Customer 360 Platform](https://www.salesforce.com/products/platform/overview/) (ex. [Service Cloud](https://www.salesforce.com/products/service-cloud/overview/)) to enable frictionless customer experiences.  It operationalizes the B2C Commerce Customer Data Strategy taught by the B2C Solution Architect Program, and facilitates the progressive resolution and synchronization of B2C Commerce Customer Profiles with Salesforce Platform Accounts and Contacts or PersonAccounts.<br>
 
-<div class="gallery" data-columns="1" style="width: 900px">
-	<img src="../images/slides/use-cases.png">
+<div class="gallery" data-columns="1">
+	<img style="width: 900px; margin: 0 auto;" src="../images/slides/use-cases.png">
 </div>
 
 This creates a common identifier (the Salesforce Platform ContactID) that can be used to consistently represent a B2C Commerce Customer Profile in the Salesforce Platform, Marketing Cloud, and other systems.  It also enables the synchronization of key B2C Commerce customer identifiers across these Salesforce Products -- which unlocks REST API access to any of these systems from any source system.
 
-<div class="gallery" data-columns="1" style="width: 900px">
-	<img src="../images/slides/data-strategy-001.png">
-	<img src="../images/slides/data-strategy-002.png">
-	<img src="../images/slides/data-strategy-003.png">
+<div class="gallery" data-columns="1">
+	<img style="width: 900px; margin: 0 auto;" src="../images/slides/data-strategy-001.png">
+	<img style="width: 900px; margin: 0 auto;" src="../images/slides/data-strategy-002.png">
+	<img style="width: 900px; margin: 0 auto;" src="../images/slides/data-strategy-003.png">
 </div>
 
 You can use this customer data strategy to implement multi-cloud use-cases that leverage the best-of-breed capabilities of the Salesforce Product Portfolio.
@@ -66,8 +68,8 @@ If you are a customer, the [Salesforce Customer 360 Guides](https://sfb2csa.link
 - [b2c-crm-sync](https://sfb2csa.link/b2c-crm-sync) has not been tested at scale via dedicated load or performance testing.  Our solution is a point-to-point near real-time integration that synchronizes B2C Commerce Customer Profiles with Salesforce Platform Accounts / Contacts or PersonAccounts.  Depending on your current eCommerce or Salesforce Platform traffic -- this approach may not work for you.
 - Being new to the Salesforce ecosystem, we have zero customer implementations at this time.  While we expect this to change soon, we think it is important to be clear about this with customers and partners.
 
-<div class="gallery" data-columns="1" style="width: 900px">
-	<img src="../images/slides/positioning.png">
+<div class="gallery" data-columns="1">
+	<img style="width: 900px; margin: 0 auto;" src="../images/slides/positioning.png">
 </div>
 
 Our commitment to you as caretakers of this enablement solution is to always been transparent about status, known issues, and test coverage.  We are committed to limiting to scope of this project so that it does one thing well -- specifically, the implementation of the data strategy necessary to support multi-cloud customer experiences.
@@ -84,11 +86,13 @@ We provide the integration approach, business logic patterns, and development as
 **Q.&nbsp;&nbsp;Does b2c-crm-sync support order synchronization between B2C Commerce and Service Cloud?**<br>
 **A.**&nbsp;&nbsp;No -- it doesn't.  We have no plans on implementing this use-case, as productized solutions for this exist within the Salesforce Product Portfolio (see [Salesforce Order Management](https://sfb2csa.link/products/som) for details).
 
-<div class="gallery" data-columns="1" style="width: 900px">
-	<img src="../images/slides/system-of-transaction.png">
+<div class="gallery" data-columns="1">
+	<img style="width: 900px; margin: 0 auto;" src="../images/slides/system-of-transaction.png">
 </div>
 
-Please note that it is not considered a best-practice to synchronize orders from B2C Commerce with a non-order management system.  B2C Commerce is not considered the system of record for orders; order management systems play this role.  At best, B2C Commerce should be considered the system of transaction for orders.  If you have a need to expose order details in Service Cloud, that should be handled by integrating with your order management system -- and ideally retrieving order details through federation.
+Please note that it is not considered a best-practice to synchronize orders from B2C Commerce with a non-order management system like Service Cloud.  B2C Commerce is not considered the system of record for orders; order management systems play this role.  At best, B2C Commerce should be considered the system of transaction for orders.
+
+If you have a need to expose order details in Service Cloud, that should be handled by integrating with your order management system -- and ideally retrieving order details through federation.  If you are seeking a productized Salesforce Solution for this requirement, please consider [Salesforce Order Management](https://help.salesforce.com/articleView?id=sf.om_order_management.htm&type=5).
 
 <hr>
 
@@ -123,6 +127,11 @@ A great example of this is [Assisted Shopping](https://sfb2csa.link/courses/assi
 
 <hr>
 
+**Q.&nbsp;&nbsp;Does b2c-crm-sync support B2C Customer Profile Address Book synchronization with the Salesforce Platform?**<br>
+**A.**&nbsp;&nbsp;No, we do not.  We thought about it, but could not identify a business-value generating use-case to justify the effort.  That said, we are re-considering it as a vehicle to teach how to leverage [Salesforce Connect Custom Adapters](https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_connector_custom_adapter.htm).
+
+<hr>
+
 **Q.&nbsp;&nbsp;Is there a way for me to contribute to b2c-crm-sync?**<br>
 **A.**&nbsp;&nbsp;Yes!  We're always seeking contributors and collaborators to raise our test-coverage, simplify our deployment automation, or extend the solution to demonstrate new patterns for integrating B2C Commerce Enterprise with the Salesforce Platform.  If you'd like to contribute to the enablement solution, you should:
 
@@ -134,4 +143,4 @@ If you've found an issue (hopefully it's [hoody-worthy](https://github.com/sfb2c
 
 <hr>
 
-> That's all for now.  We hope this has been helpful, and please -- feel free to [share any questions](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/discussions/new) you'd like us to add to the FAQ.  Thank you for your time and support -- we look forward to hearing from you!
+> **That's All For Now**<br>We hope this has been helpful, and please -- feel free to [share any questions](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/discussions/new) you'd like us to add to the FAQ.  Thank you for your time and support -- we look forward to hearing from you!
