@@ -36,20 +36,44 @@ The [Readme.md](https://sfb2csa.link/b2c-crm-sync/readme) explains how to progre
 
 > Remember, use our [Readme.md](https://sfb2csa.link/b2c-crm-sync/readme) to guide you through the deployment process.  These instructions are designed to share with you what deployments are like.  Today, they are not designed to support the actual deployment.
 
-- Collect your B2C Commerce environment access and authentication details
+- Collect your [B2C Commerce environment access and authentication details](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/blob/master/README.md#setup-a-env-file)
 - Write these details to the .env file
-- Configure the OCAPI permissions to support the API usage required by the b2c-crm-sync deployment tools and the Salesforce Platform Services that leverage B2C Commerce Shop and Data APIs.
-- Verify your B2C Commerce environment details using our deployment tooling.  Confirm your details are accurate before building your Salesforce Platform scratchOrg.
-- Define the type of scratchOrg you'd like (either Accounts / Contacts or PersonAccounts).  We currently support these two scratchOrg configurations, but our deployment tooling can be customized to support other org-shapes.
+- [Configure the OCAPI permissions](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/blob/master/README.md#configure-your-b2c-commerce-ocapi-permissions) to support the API usage required by the b2c-crm-sync deployment tools and the Salesforce Platform Services that leverage B2C Commerce Shop APIs, Data APIs, and WEBDAV access.
+- [Define the type of scratchOrg](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/blob/master/README.md#setup-scratchorg-creation-and-management-preferences) you'd like (either Accounts / Contacts or PersonAccounts).  We currently support these two scratchOrg configurations, but our deployment tooling can be customized to support other org-shapes.
+- Verify your [B2C Commerce environment details](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/blob/master/README.md#deployment-instructions) using our deployment tooling.  Confirm your details are accurate before building your Salesforce Platform scratchOrg.
+
+```bash
+npm run crm-sync:b2c:verify
+```
+
 - Build your Salesforce Platform scratchOrg leveraging our deployment tooling.  This will generate custom metadata representing your B2C Commerce environment and deploy it once the scratchOrg has been created.  The deployment tooling will output the scratchOrg details and deployment status as each command completes.
+
+```bash
+npm run crm-sync:sf:build
+```
 
 > ScratchOrg deployment takes anywhere from three to seven minutes.  This includes the creation of the scratchOrg as well as the deployment of the b2c-crm-sync meta-data.  Be patient while waiting, and try not to stare at the cursor too much while you wait.
 
-- Update your .env file with the scratchOrg details and user details required to login to the scratchOrg.  As part of this, reset your securityToken before deploying to B2C Commerce.
+- [Update your .env file with the scratchOrg details](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/blob/master/README.md#setup-scratchorg-authentication-credentials) and user details required to login to the scratchOrg.  As part of this, reset your securityToken before deploying to B2C Commerce.
 - Log into your scratchOrg, and enable integration for your B2C Instance.  You can validate integration is configured successfully by seeding the CustomerLists and Sites present in your B2C Instance using our Lightning App quickActions.
-- Verify your Salesforce scratchOrg configuration details via our deployment tooling.  Once you've confirmed that you're credentials are trusworthy, you can kick-off the B2C Commerce build process.
-- The B2C Commerce build process will leverage the .env configuration properties for B2C Commerce and your scratchOrg to generate service definitions for each configured B2C Commerce site.  These definitions will then be deployed and imported.
+- Configure your [Match and Duplicate rules](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/blob/master/README.md#salesforce-customer-360-platform-configuration-instructions) based on your customerModel configuration (either [Accounts and Contacts](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/blob/master/README.md#account--contact-match-rules-setup-guidance) or [PersonAccounts](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/blob/master/README.md#personaccount-match-rules-setup-guidance)).
+- Verify your Salesforce scratchOrg configuration details via our deployment tooling.  Once you've confirmed that you're credentials are trustworthy, you can kick-off the B2C Commerce build process.
+
+```bash
+npm run crm-sync:sf:auth:usercreds
+```
+
+- The B2C Commerce build process will leverage the .env configuration properties for B2C Commerce and your scratchOrg to generate service definitions for each configured B2C Commerce site.  These definitions will then be deployed and imported.  Launch the B2C Commerce Build process via out deployment tooling.
+
+```bash
+npm run crm-sync:b2c:build
+```
+
 - Once the deployment is successful, you can validate the capabilities of b2c-crm-sync by executing the multi-cloud unit tests.  These tests exercise the headless capabilities of b2c-crm-sync and test both B2C Commerce and Salesforce Platform REST APIs.
+
+```bash
+npm run crm-sync:test:use-cases
+```
 
 > Please keep in mind that our unit-tests take about five minutes to run from beginning to end.  We have over forty tests that exercise registration, authentication, profile updates, and progressive resolution scenarios.
 
