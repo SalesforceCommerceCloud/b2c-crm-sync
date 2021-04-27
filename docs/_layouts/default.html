@@ -61,6 +61,16 @@
 	{{ site.data.settings.advanced_settings.analytics_code }}
 	{% endif %}
 
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-K00GRWFH8Z"></script>
+  <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-K00GRWFH8Z');
+  </script>
+
 	{% if site.data.settings.advanced_settings.header_js %}
 	<!-- Extra Header JS Code -->
 	{{ site.data.settings.advanced_settings.header_js }}

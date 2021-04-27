@@ -6,99 +6,44 @@ description: Learn about the history of b2c-crm-sync, what drove the creation of
 featured_image: '/images/about.png'
 ---
 
-![](/images/demo/demo-landscape.jpg)
+### Why We Developed b2c-crm-sync
+[b2c-crm-sync](https://sfb2csa.link/b2c-crm-sync) was developed to accomplish a number of common goals shared by Architect Success and Architects across Salesforce and ecosystem partners:
 
-## Demo content
+- Raise the floor on which Partners, Customers, and Salesforce Archtiects design and deliver multi-cloud customer experiences.
+- Operationalize the B2C Customer Data Strategy evangelized by the [B2C Solution Architect Program](https://sfb2csa.link/resources) and Integrated Customer Experiences teams (authors of the [Salesforce Customer 360 Guides](https://sfb2csa.link/guides).
+- Provide a contemporary and extensible POV on how to integrate B2C Commerce and the Salesforce Platform -- leveraging declarative tools and capabilities to facilitate the integration.
+- Simplify the setup and deployment process for this multi-cloud enablement solution by baking CI-based deployment tooling into the solution that eliminates the manual configuration normally required.
+- Share a service-framework that can be used to progressively identify anonymous and registered B2C Commerce Customers -- and synchronize those customer profiles with corresponding Salesforce Platform Contacts and Marketing Cloud Subscriber records.
 
-This page is a demo that shows everything you can do inside portfolio and blog posts.
+Our B2C Commerce, Service, and Marketing Platforms are amazing to innovate on.  They provide an amazing platform foundation that can be used by companies worldwide to deliver customer experiences that inspire loyalty and maximize the business value promise of our platform.  That said, Architects need support and guidance on how to implement the best-practices we recommend at Salesforce.
 
-We've included everything you need to create engaging posts about your work, and show off your case studies in a beautiful way.
+And simply put -- this is what b2c-crm-sync represents; an enablement solution designed to support Architects, customers, and partners on how to stand-up the integration between B2C Commerce and the Salesforce Platform that unlocks frictionless customer experiences across our portfolio of products.
 
-**Obviously,** we’ve styled up *all the basic* text formatting options [available in markdown](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet).
+<hr>
 
-You can create lists:
+> Use this rest of this page to learn about what is covered in our documentation.  We'll be expanding this in the near future to have topic-specific articles, demos, and blog-posts.  In the meantime, here is what we have -- and we hope its helpful.
 
-* Simple bulleted lists
-* Like this one
-* Are cool
+### Supported Use-Cases
+[Supported Use-Cases](./use-cases) provides an overview of b2c-crm-sync, the business value it provides, core use-cases supported with the enablement solution, and details on its components and features.  This is a great place to start if you want to learn about this solution.
 
-And:
+### Setup Guide
+The [Setup Guide](./setup) provides an overview of what our deployment process is for [b2c-crm-sync](https://sfb2csa.link/b2c-crm-sync).  We hang our hat on being able to deploy b2c-crm-sync to a B2C Commerce sandbox and Salesforce Platform scratchOrg in 15 minutes or less.  The combined [Setup Guide](./setup) and [Readme.md](https://sfb2csa.link/b2c-crm-sync/readme) will get you up and running.
 
-1. Numbered lists
-2. Like this other one
-3. Are great too
+### Help and Troubleshooting
+[Help and Troubleshooting](./help) is where you can find troubleshooting guidance.  We're a fairly new project, so we don't have must here today.  That said, we'll include troubleshooting guidance here for deployment, configuration, and use-case customization issues.
 
-You can also add blockquotes, which are shown at a larger width to help break up the layout and draw attention to key parts of your content:
+> We always recommend that you start by reviewing our [issues-list](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/issues) first.  We curate this daily, and we're committed to transparency and trustworthiness.
 
-> “Simple can be harder than complex: You have to work hard to get your thinking clean to make it simple. But it’s worth it in the end because once you get there, you can move mountains.”
+### Frequently Asked Questions
+Our [FAQ](./faq) contains answers to the most common questions about [b2c-crm-sync](https://sfb2csa.link/b2c-crm-sync), its use-cases, capabilities, and support model.  This is a great page to visit if you still have questions after reviewing our [Supported Use-Cases](./use-cases) page.
 
-The theme also supports markdown tables:
+### Demonstrations and Walkthroughs
+Our [Demonstrations and Walkthroughs](./demos) page has links to videos that demonstrate the basics about our B2C Customer Data Strategy, setting-up [b2c-crm-sync](https://sfb2csa.link/b2c-crm-sync), configuring it, or extending it with the declarative tools we leverage within the enablement solution.
 
-| Item                 | Author        | Supports tables? | Price |
-|----------------------|---------------|------------------|-------|
-| Duet Jekyll Theme    | Jekyll Themes | Yes              | $49   |
-| Index Jekyll Theme   | Jekyll Themes | Yes              | $49   |
-| Journal Jekyll Theme | Jekyll Themes | Yes              | $49   |
+> Please watch our ninety-minute [Learning Lab](https://b2csa-officehours.hubs.vidyard.com/watch/dZPP3KV12U545oqP6m9huF) available that walks through most of these topics -- and provides a demo of the end-to-end install process.
 
-And footnotes[^1], which link to explanations[^2] at the bottom of the page[^3].
+### Additional Resources
+[Demonstrations and Walkthroughs](./resources) contains links to other resources available within the Salesforce ecosystem that are relevant to multi-cloud use-cases.  This includes links to the B2C Solution Architect Curriculum, the Customer 360 Guides, Architect Digital Home, B2C Commerce Developer Center, and Trailhead.
 
-[^1]: Beautiful modern, minimal theme design.
-[^2]: Powerful features to show off your work.
-[^3]: Maintained and supported by the theme developer.
-
-You can throw in some horizontal rules too:
-
----
-
-### Image galleries
-
-Here's a really neat custom feature we added – galleries:
-
-<div class="gallery" data-columns="3">
-	<img src="/images/demo/demo-portrait.jpg">
-	<img src="/images/demo/demo-landscape.jpg">
-	<img src="/images/demo/demo-square.jpg">
-	<img src="/images/demo/demo-landscape-2.jpg">
-</div>
-
-Inspired by the Galleries feature from WordPress, we've made it easy to create grid layouts for your images. Just use a bit of simple HTML in your post to create a masonry grid image layout:
-
-```html
-<div class="gallery" data-columns="3">
-    <img src="/images/demo/demo-portrait.jpg">
-    <img src="/images/demo/demo-landscape.jpg">
-    <img src="/images/demo/demo-square.jpg">
-    <img src="/images/demo/demo-landscape-2.jpg">
-</div>
-```
-
-*See what we did there? Code and syntax highlighting is built-in too!*
-
-Change the number inside the 'columns' setting to create different types of gallery for all kinds of purposes. You can even click on each image to seamlessly enlarge it on the page.
-
----
-
-### Image carousels
-
-Here's another gallery with only one column, which creates a carousel slide-show instead.
-
-A nice little feature: the carousel only advances when it is in view, so your visitors won't scroll down to find it half way through your images.
-
-<div class="gallery" data-columns="1">
-	<img src="/images/demo/demo-landscape.jpg">
-	<img src="/images/demo/demo-landscape-2.jpg">
-</div>
-
-### What about videos?
-
-Videos are an awesome way to show off your work in a more engaging and personal way, and we’ve made sure they work great on our themes. Just paste an embed code from YouTube or Vimeo, and the theme makes sure it displays perfectly:
-
-<iframe src="https://player.vimeo.com/video/19536258?color=ffffff&title=0&byline=0&portrait=0" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-
----
-
-## Pretty cool, huh?
-
-We've packed this theme with powerful features to show off your work. Why not put them to use on your new portfolio?
-
-<a href="https://jekyllthemes.io/theme/index-portfolio-jekyll-theme" class="button button--large">Get This Theme</a>
+### Gratitude
+Projects like this require contributions from many team-members that all share a common vision and desire to make a difference.  Come learn about the extended Salesforce Team that contributed -- either through their code, support, guidance, partnership, encouragement, or leadership.  The list of contributors is long and amazing.
