@@ -65,7 +65,7 @@ Most customer experiences will be delivered without customers identifying themse
 - It can resolve Contact records in the Salesforce Platform using email, lastname, and B2C Commerce identifiers (CustomerList, CustomerID, and CustomerNo).  It can also resolve Contact records using the Salesforce Platform ContactID.
 - It can progressively update these Contact records as you collect more information about your customer.  These updates can be made via the exposed REST API -- and do not require a B2C Commerce Customer Profile be created.
 
-In the sample journey above, we're able to create two cases and place Sam on three journeys -- and anchor all of the engagement data in Marketing and Service Clouds to her ContactID.
+In the sample journey above, we're able to create two cases and place Sam on three journeys -- and anchor all the engagement data in Marketing and Service Clouds to her ContactID.
 
 At the end of her journey, we're able to then associate her B2C Commerce Customer Profile to the created Contact record.  This allows us to anchor her registered and guest-checkout orders to the same Contact record -- and gives us a real 360 view of Sam's digital engagement.  [b2c-crm-sync](https://sfb2csa.link/b2c-crm-sync) makes this possible.
 
@@ -73,7 +73,7 @@ At the end of her journey, we're able to then associate her B2C Commerce Custome
 
 [b2c-crm-sync](https://sfb2csa.link/b2c-crm-sync) is designed with extensibility in mind -- and includes tools, patterns, and deployment capabilities designed to accelerate onboarding and implementation productivity.
 
-- [b2c-crm-sync](https://sfb2csa.link/b2c-crm-sync) can be **deployed** to a B2C Commerce Sandbox and Salesforce scratchOrg in **under 15 minutes** through our [CLI deployment command library](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/blob/4909a3f67b4998dbe895da0bae11198c17227451/package.json#L10).  Our [ReadMe.md](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/blob/master/README.md) contains trustworthy guidance on how to setup b2c-crm-sync with consistency and velocity.
+- [b2c-crm-sync](https://sfb2csa.link/b2c-crm-sync) can be **deployed** to a B2C Commerce Sandbox and Salesforce scratchOrg in **under 15 minutes** through our [CLI deployment command library](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/blob/4909a3f67b4998dbe895da0bae11198c17227451/package.json#L10).  Our [ReadMe.md](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/blob/master/README.md) contains trustworthy guidance on how to set up b2c-crm-sync with consistency and velocity.
 - All business logic used to manage enablement solution features and capabilities are authored using Salesforce Flow.  This includes our REST APIs, resolution and profile management objects, and UI administration features.
 - Apex classes that power our Flows are written as invocable actions that can be leveraged in new flows and extended to support your requirements.
 - The synchronization engine employed to synchronize B2C Commerce Customer Profiles with Salesforce Platform Contacts supports synchronization scenarios for any Salesforce object.  This engine can be used to synchronize other Salesforce objects with REST API responses.  These mappings can be configured to restrict which fields are read-only, can consume updates from B2C Commerce, and publish updates to B2C Commerce.
@@ -82,7 +82,7 @@ At the end of her journey, we're able to then associate her B2C Commerce Custome
 - An SFRA plugin is used to trigger synchronization updates from a B2C Commerce storefront.  OCAPI hooks are used to trigger the same updates from B2C Commerce Shop APIs.  The patterns implemented can be extended to support other customer resolution and synchronization scenarios.
 - Unit tests are included to validate B2C Commerce business logic, Salesforce Platform business logic, deployment tooling, and headless operation.
 
-Collectively, these capabilities create a trustworthy foundation for customers and partners to innovate off of.  We include an example of this, by providing the **Assisted Shopping (Order on Behalf Of)** use-case.  This use-case allows Service Agents to shop and place orders in a secure manner on behalf of customers for configured B2C Commerce Storefronts.
+Collectively, these capabilities create a trustworthy foundation for customers and partners to innovate off of.  We include an example of this, by providing the **Assisted Shopping (Order on Behalf Of)** use-case.  This use-case allows Service Agents to securely shop and place orders on behalf of customers for configured B2C Commerce Storefronts.
 
 ### Tests for Every Occasion
 

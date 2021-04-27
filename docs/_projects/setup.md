@@ -25,7 +25,7 @@ Following the guidance in our [ReadMe.md](https://sfb2csa.link/b2c-crm-sync/read
 You can learn more about [B2C Commerce On-Demand Sandboxes](https://sfb2csa.link/trailhead/ods) and [Salesforce DX](https://trailhead.salesforce.com/en/content/learn/modules/sfdx_app_dev) on Trailhead.
 
 ### Our Deployment Tooling Leverages Node.js
-Node.js is a requirement for SFCC-CI and SFDX.  It is also a requirement for our CLI / Deployment Tooling.  We require Node.js v15.2.1 (or similar) -- and the [Readme.md](https://sfb2csa.link/b2c-crm-sync/readme) contains guidance on how to use [nvm to setup multiple versions of node.js](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/blob/master/README.md#nodejs-setup-instructions).  We **strongly recommend** using nvm to manage your node.js environment(s).
+Node.js is a requirement for SFCC-CI and SFDX.  It is also a requirement for our CLI / Deployment Tooling.  We require Node.js v15.2.1 (or similar) -- and the [Readme.md](https://sfb2csa.link/b2c-crm-sync/readme) contains guidance on how to use [nvm to set up multiple versions of node.js](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/blob/master/README.md#nodejs-setup-instructions).  We **strongly recommend** using nvm to manage your node.js environment(s).
 
 ### The Deployment is Governed by Your .env File
 We leverage the [dotenv](https://medium.com/@thejasonfile/using-dotenv-package-to-create-environment-variables-33da4ac4ea8f) node.js library to centralize the configuration details for each environment.  You can view a [sample of the .env](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/blob/master/sample.env) file in our repository.
@@ -57,7 +57,7 @@ npm run crm-sync:sf:build
 - [Update your .env file with the scratchOrg details](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/blob/master/README.md#setup-scratchorg-authentication-credentials) and user details required to login to the scratchOrg.  As part of this, reset your securityToken before deploying to B2C Commerce.
 - Log into your scratchOrg, and enable integration for your B2C Instance.  You can validate integration is configured successfully by seeding the CustomerLists and Sites present in your B2C Instance using our Lightning App quickActions.
 - Configure your [Match and Duplicate rules](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/blob/master/README.md#salesforce-customer-360-platform-configuration-instructions) based on your customerModel configuration (either [Accounts and Contacts](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/blob/master/README.md#account--contact-match-rules-setup-guidance) or [PersonAccounts](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/blob/master/README.md#personaccount-match-rules-setup-guidance)).
-- Verify your Salesforce scratchOrg configuration details via our deployment tooling.  Once you've confirmed that you're credentials are trustworthy, you can kick-off the B2C Commerce build process.
+- Verify your Salesforce scratchOrg configuration details via our deployment tooling.  Once you've confirmed that your credentials are trustworthy, you can kick-off the B2C Commerce build process.
 
 ```bash
 npm run crm-sync:sf:auth:usercreds

@@ -79,7 +79,7 @@ Our commitment to you as caretakers of this enablement solution is to always bee
 **Q.&nbsp;&nbsp;Can I use b2c-crm-sync in a production environment?**<br>
 **A.**&nbsp;&nbsp;Yes, you can -- and we want you to, because we believe this solution provides the customer data strategy necessary to deliver integrated customer experiences across Salesforce Products.  That said, it is the responsibility of customers and partners to extend and customize this enablement solution to meet their needs.
 
-We provide the integration approach, business logic patterns, and development assets to accelerate this process.  We also provide testing tools that can be used and extended to validate solution behavior.  This foundation is specifically designed to be built upon and customized to meet the varying needs of Salesforce customers.  It is not, however, designed to solve or address every customer use-case or enteprise architecture scenario.
+We provide the integration approach, business logic patterns, and development assets to accelerate this process.  We also provide testing tools that can be used and extended to validate solution behavior.  This foundation is specifically designed to be built upon and customized to meet the varying needs of Salesforce customers.  It is not, however, designed to solve or address every customer use-case or enterprise architecture scenario.
 
 <hr>
 
@@ -123,7 +123,7 @@ Candidly, it may be more expensive to customize the legacy connector than implem
 **Q.&nbsp;&nbsp;Can b2c-crm-sync be extended to support other use-cases besides customer profile synchronization?**<br>
 **A.**&nbsp;&nbsp;Yes -- it absolutely can; that's the whole point of this enablement solution.  We provide the integration framework and operationalize the data strategy necessary to consistently identify B2C Commerce Customers across the Salesforce Platform.  This foundation can be extended to support other use-cases leveraging our framework and the declarative tools available today via the Platform.
 
-A great example of this is [Assisted Shopping](https://sfb2csa.link/courses/assisted-shopping).  We've included this use-case (also known as [Order on Behalf Of](https://sfb2csa.link/kits/oobo) with the initial release to showcase how easy it is to extend this solution.  What previously was implemented in Apex via the legacy Service Cloud Connector has now been implemented in Flow supporting multiple B2C Commerce storefronts.
+A great example of this is [Assisted Shopping](https://sfb2csa.link/courses/assisted-shopping).  We've included this use-case (also known as [Order on Behalf Of](https://sfb2csa.link/kits/oobo)) with the initial release to showcase how easy it is to extend this solution.  What previously was implemented in Apex via the legacy Service Cloud Connector has now been implemented in Flow supporting multiple B2C Commerce storefronts.
 
 <hr>
 
@@ -139,7 +139,7 @@ A great example of this is [Assisted Shopping](https://sfb2csa.link/courses/assi
 - Second, review our [contribution guidelines](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/blob/master/Contributing.md) and [code of conduct](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/blob/master/CODE_OF_CONDUCT.md).  These documents describe how we'd like to collaborate with our community and the expectations we should have of each other.
 - Third, check out our [issues-list](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/issues) and see if there's an issue you'd like to address.  You can also [submit an issue](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/issues/new) representing a bug you've found or an enhancement you're keen on.
 
-If you've found an issue (hopefully it's [hoody-worthy](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/issues?q=is%3Aopen+is%3Aissue+label%3Ahoody-worthy) -- then go ahead and get started making it real.  We look for clean, readable code, documentation updates, and unit tests in all our [pull-requests](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/pulls?q=is%3Apr+is%3Aclosed).  Don't hesitate to [start a discussion](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/discussions/new) if you need some support.  We're here and happy to help you.
+If you've found an issue (hopefully it's [hoody-worthy](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/issues?q=is%3Aopen+is%3Aissue+label%3Ahoody-worthy)) -- then go ahead and get started making it real.  We look for clean, readable code, documentation updates, and unit tests in all our [pull-requests](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/pulls?q=is%3Apr+is%3Aclosed).  Don't hesitate to [start a discussion](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/discussions/new) if you need some support.  We're here and happy to help you.
 
 <hr>
 

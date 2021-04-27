@@ -24,8 +24,8 @@ We also introduced [b2c-crm-sync](https://sfb2csa.link/b2c-crm-sync) as an enabl
 - Demonstration and walkthrough of the b2c-crm-sync install process (setup during our online-demonstration)
 - How to get involved, contribute, or extend this enablement solution
 
-As part of the demonstration, we highlight that you can setup [b2c-crm-sync](https://sfb2csa.link/b2c-crm-sync) in fifteen minutes or less.  No, we're not kidding.
+As part of the demonstration, we highlight that you can set up [b2c-crm-sync](https://sfb2csa.link/b2c-crm-sync) in fifteen minutes or less.  No, we're not kidding.
 
 <hr>
 
-> **More Video Walkthroughs Are on the Way!**  <br> We'll use this page to include long and short-form videos demonstrating how you can use [b2c-crm-sync](https://sfb2csa.link/b2c-crm-sync) to accelerate the creation of frictionless customer experiences.  Check back for more in the coming weeks as we break down how to setup, configure, deploy, and customize [b2c-crm-sync](https://sfb2csa.link/b2c-crm-sync).
+> **More Video Walkthroughs Are on the Way!**  <br> We'll use this page to include long and short-form videos demonstrating how you can use [b2c-crm-sync](https://sfb2csa.link/b2c-crm-sync) to accelerate the creation of frictionless customer experiences.  Check back for more in the coming weeks as we break down how to set up, configure, deploy, and customize [b2c-crm-sync](https://sfb2csa.link/b2c-crm-sync).

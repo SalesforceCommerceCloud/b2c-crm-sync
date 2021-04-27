@@ -9,8 +9,8 @@ featured_image: '/images/about.png'
 ### Why We Developed b2c-crm-sync
 [b2c-crm-sync](https://sfb2csa.link/b2c-crm-sync) was developed to accomplish a number of common goals shared by Architect Success and Architects across Salesforce and ecosystem partners:
 
-- Raise the floor on which Partners, Customers, and Salesforce Archtiects design and deliver multi-cloud customer experiences.
-- Operationalize the B2C Customer Data Strategy evangelized by the [B2C Solution Architect Program](https://sfb2csa.link/resources) and Integrated Customer Experiences teams (authors of the [Salesforce Customer 360 Guides](https://sfb2csa.link/guides).
+- Raise the floor on which Partners, Customers, and Salesforce Architects design and deliver multi-cloud customer experiences.
+- Operationalize the B2C Customer Data Strategy evangelized by the [B2C Solution Architect Program](https://sfb2csa.link/resources) and Integrated Customer Experiences teams (authors of the [Salesforce Customer 360 Guides](https://sfb2csa.link/guides)).
 - Provide a contemporary and extensible POV on how to integrate B2C Commerce and the Salesforce Platform -- leveraging declarative tools and capabilities to facilitate the integration.
 - Simplify the setup and deployment process for this multi-cloud enablement solution by baking CI-based deployment tooling into the solution that eliminates the manual configuration normally required.
 - Share a service-framework that can be used to progressively identify anonymous and registered B2C Commerce Customers -- and synchronize those customer profiles with corresponding Salesforce Platform Contacts and Marketing Cloud Subscriber records.
@@ -21,7 +21,7 @@ And simply put -- this is what b2c-crm-sync represents; an enablement solution d
 
 <hr>
 
-> Use this rest of this page to learn about what is covered in our documentation.  We'll be expanding this in the near future to have topic-specific articles, demos, and blog-posts.  In the meantime, here is what we have -- and we hope its helpful.
+> Use this rest of this page to learn about what is covered in our documentation.  We'll be expanding this in the near future to have topic-specific articles, demos, and blog-posts.  In the meantime, here is what we have -- and we hope it's helpful.
 
 ### Supported Use-Cases
 [Supported Use-Cases](./use-cases) provides an overview of b2c-crm-sync, the business value it provides, core use-cases supported with the enablement solution, and details on its components and features.  This is a great place to start if you want to learn about this solution.
