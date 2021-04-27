@@ -11,7 +11,7 @@ In early April of 2021, we conducted our first [Learning Lab for the B2C Solutio
 
 We also introduced [b2c-crm-sync](https://sfb2csa.link/b2c-crm-sync) as an enablement solution that can be used to operationalize our B2C Customer Data Strategy -- and accelerate the delivery of multi-cloud customer experiences that are frictionless.
 
-<div style="width: 900px; margin: 0 auto;">
+<div class="vidyard-container">
 <iframe class="vidyard_iframe" src="//play.vidyard.com/dZPP3KV12U545oqP6m9huF.html?" width="640" height="360" scrolling="no" frameborder="0" allowtransparency="true" allowfullscreen></iframe>
 </div>
 
