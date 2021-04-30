@@ -8,6 +8,7 @@
  */
 @IsTest
 private class B2CIACustomerResolution_Test {
+    /*
 
     static void testResolveCustomerListCustomerNo() {
 
@@ -123,4 +124,5 @@ private class B2CIACustomerResolution_Test {
         //);
 
     }
+    */
 }
