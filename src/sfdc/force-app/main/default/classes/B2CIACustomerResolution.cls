@@ -125,6 +125,20 @@ public inherited sharing class B2CIACustomerResolution {
         }else{
 
             Contact c = contactList[0];
+
+            if (c.LastName == null &&
+                c.Id == null &&
+                c.B2C_Customer_ID__c == null &&
+                c.B2C_Customer_No__c == null &&
+                c.Email != null
+            ) {
+                defaultNames = B2CConfigurationManager.getDefaultAccountContactNames();
+                // If so, then default the lastName to the default contactName
+                c.LastName = defaultNames.get('contactName');
+            }
+
+
+
             contactListList.add( findDupes( c ) );
         }
 
