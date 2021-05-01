@@ -6,14 +6,6 @@
         <visible>true</visible>
     </applicationVisibilities>
     <classAccesses>
-        <apexClass>B2CAuthenticator</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>B2CAuthenticator_Test</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>B2CBaseAttributeAssignment</apexClass>
         <enabled>true</enabled>
     </classAccesses>
