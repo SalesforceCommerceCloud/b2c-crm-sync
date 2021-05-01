@@ -5,7 +5,7 @@
 Salesforce B2C Commerce / CRM Sync is an enablement solution provided by Salesforce Architect Success designed to teach Salesforce's B2C Customer Data Strategy for multi-cloud use-cases.  The solution demonstrates a contemporary view on the integration between Salesforce B2C Commerce and the Salesforce Customer 360 Platform.  This project provides a framework to integrating these two clouds leveraging public REST APIs to share and synchronize customer profile data between the two clouds.
 
 ##### Now Supporting PersonAccounts AND Accounts / Contacts
-We've just merged in our updates to support both PersonAccounts and Accounts / Contacts as customerModels within the Salesforce Platform.  Our overall **Apex unit-test coverage is at 83%**, and we've expanded our suite of [multi-cloud unit tests](test/_use-cases) to exercise over forty individual test-cases.
+We've just merged in our updates to support both PersonAccounts and Accounts / Contacts as customerModels within the Salesforce Platform.  Our overall **Apex unit-test coverage is at 84%**, and we've expanded our suite of [multi-cloud unit tests](test/_use-cases) to exercise over forty individual test-cases.
 
 > :warning: &nbsp;This repository is currently in **beta** as we continue to harden our tests and the MVP feature-set.  Solution trustworthiness is critical for our success.  Please visit our [issues-list](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/issues) to see outstanding issues and features, and visit our [discussions](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/discussions) to ask questions. &nbsp;:warning:
 
