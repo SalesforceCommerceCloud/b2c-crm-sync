@@ -35,7 +35,7 @@ public with sharing class B2CIARemovePAPropertiesFromContact extends B2CBaseAttr
             sObjectToProcess = (SObject) contactToProcess.contact;
 
             // Next, attempt to process the Contact and remove the read-only personAccount properties
-            processedContact = (Contact) removePersonAccountProperties(sObjectToProcess);
+            processedContact = (Contact) B2CBaseAttributeAssignment.removePersonAccountProperties(sObjectToProcess);
 
             // Create a new instance of the processedResult container
             processedResult = new B2CIARemovePAPropertiesFromContactResult();

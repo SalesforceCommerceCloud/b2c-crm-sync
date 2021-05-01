@@ -36,9 +36,8 @@ public with sharing class B2CIAGetCustomerListsSites {
 
             // Generate the getSites request for the current B2C Instance
             req = B2CHttpRequestHelper.getAllSitesRequest(
-                thisB2CInstanceRequestInput.APIUrl,
-                thisB2CInstanceRequestInput.OCAPIVersion,
-                thisB2CInstanceRequestInput.accessToken
+                thisB2CInstanceRequestInput.namedCredential,
+                thisB2CInstanceRequestInput.OCAPIVersion
             );
 
             // Initialize the outbound http request handler and invoke the service request

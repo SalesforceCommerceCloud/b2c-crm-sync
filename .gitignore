@@ -48,6 +48,7 @@ pids
 
 # misc
 /.scratch
+/.jekyll-cache
 /_deploy
 /node_modules
 

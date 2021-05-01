@@ -48,7 +48,7 @@ public with sharing class B2CIAProcessCustomerProfile extends B2CBaseAttributeAs
             if (accountContactModel == B2CConstant.AccountContactModel_Person) {
 
                 // Remove the AccountID as we can't update it when the person customerModel is employed
-                thisCustomerProfile = removePersonAccountProperties(thisCustomerProfile);
+                thisCustomerProfile = B2CBaseAttributeAssignment.removePersonAccountProperties(thisCustomerProfile);
 
             }
 

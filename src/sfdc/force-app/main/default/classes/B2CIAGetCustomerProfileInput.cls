@@ -13,10 +13,7 @@ public class B2CIAGetCustomerProfileInput {
     ////////////////////////////////////////////////////////////////
 
     @InvocableVariable
-    public String accessToken;
-
-    @InvocableVariable
-    public String apiUrl;
+    public String namedCredential;
 
     @InvocableVariable
     public String apiVersion;

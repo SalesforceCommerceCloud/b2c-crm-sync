@@ -57,6 +57,9 @@ exports.sfTrustedSitesCreate = require('./lib/cli-api/_sfTrustedSitesCreate');
 // Expose the ability to generate the sfdx remoteSiteSettings meta-data template
 exports.sfRemoteSitesCreate = require('./lib/cli-api/_sfRemoteSitesCreate');
 
+// Expose the ability to generate the sfdx auth provider for B2CAM meta-data template
+exports.sfAuthProviderCreate = require('./lib/cli-api/_sfAuthProviderCreate');
+
 // Expose the ability to generate the sfdx named credentials for B2CAM meta-data template
 exports.sfNamedCredentialsAMCreate = require('./lib/cli-api/_sfNamedCredentialsAMCreate');
 
@@ -68,6 +71,9 @@ exports.sfAuthUserCredentials = require('./lib/cli-api/_sfAuthUserCredentials');
 
 // Expose the ability to create a B2C Instance seed-record using environment file definitions
 exports.sfB2CInstanceCreate = require('./lib/cli-api/_sfB2CInstanceCreate');
+
+// Expose the ability to update a B2C Instance seed-record using environment file definitions
+exports.sfB2CInstanceUpdate = require('./lib/cli-api/_sfB2CInstanceUpdate');
 
 // Expose the ability to create scratchOrgs driven by the crm-sync repositories
 exports.sfScratchOrgCreate = require('./lib/cli-api/_sfScratchOrgCreate');

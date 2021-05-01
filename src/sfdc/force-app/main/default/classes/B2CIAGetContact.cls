@@ -49,7 +49,7 @@ public with sharing class B2CIAGetContact extends B2CBaseAttributeAssignment {
                 if (requestInput.omitAccountId == true) {
 
                     // If so, then remove the personAccount properties from the Contact
-                    resolvedContact = (Contact) removePersonAccountProperties(resolvedContact);
+                    resolvedContact = (Contact) B2CBaseAttributeAssignment.removePersonAccountProperties(resolvedContact);
 
                 }
 

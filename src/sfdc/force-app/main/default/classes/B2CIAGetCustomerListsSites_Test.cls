@@ -16,16 +16,15 @@ private class B2CIAGetCustomerListsSites_Test {
                 API_Url__c = 'https://www.salesfor.com'
             );
             Database.insert( i );
-            
+
         Test.startTest();
 
             Test.setMock(HttpCalloutMock.class, new B2CHttpTestCalloutMockGenerator('CustomerListsSites'));
 
             B2CIAGetCustomerListsSitesInput req = new B2CIAGetCustomerListsSitesInput();
-            
+
             req.b2cInstanceId = i.Id;
-            req.accessToken = 'token';
-            req.APIUrl = 'url';
+            req.namedCredential = 'NamedCredential';
             req.OCAPIVersion = 'version';
 
             resultsList = B2CIAGetCustomerListsSites.getAllSites(

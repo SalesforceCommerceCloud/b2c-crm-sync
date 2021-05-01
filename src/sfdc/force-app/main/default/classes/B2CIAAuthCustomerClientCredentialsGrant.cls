@@ -25,21 +25,7 @@ public with sharing class B2CIAAuthCustomerClientCredentialsGrant {
 
         // Iterate over the collection of Named Credentials
         for (B2CIAAuthCustomerInput b2creq: authCustomerClientInputList) {
-
-            String url = b2creq.domain+'/s/'+ b2creq.siteId +'/dw/shop/'+b2creq.version+'/customers/' + b2creq.customerId + '/auth';
-
-            HttpRequest req = new HttpRequest();
-
-            req.setEndpoint( url );
-            req.setMethod('POST');
-            req.setHeader('Content-Type','application/json');
-            req.setHeader('Content-Length', '0');
-            req.setHeader( 'x-dw-client-id', b2creq.clientId );
-            req.setHeader('Authorization', 'Bearer '+b2creq.token);
-
-            req.setBody('{"type" : "credentials"}');
-
-
+            HttpRequest req = B2CHttpRequestHelper.getCustomerAuthRequest(b2creq.domain, b2creq.siteId, b2creq.version, b2creq.customerId, b2creq.clientId, b2creq.token);
             Http https = new Http();
             HttpResponse res = https.send(req);
 

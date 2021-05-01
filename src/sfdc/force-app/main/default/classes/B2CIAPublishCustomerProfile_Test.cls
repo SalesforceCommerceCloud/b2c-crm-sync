@@ -13,11 +13,9 @@ private class B2CIAPublishCustomerProfile_Test {
      */
     @IsTest
     static void isValid() {
-
         List<B2CIAPublishCustomerProfileInput> inputList = new List<B2CIAPublishCustomerProfileInput>();
-
         B2CIAPublishCustomerProfileInput input = new B2CIAPublishCustomerProfileInput();
-        
+
         Contact c = new Contact(
             LastName = 'lastname',
             Total_Updates_to_B2C_Commerce__c = 0,
@@ -27,9 +25,8 @@ private class B2CIAPublishCustomerProfile_Test {
         );
 
         Database.insert( c );
-        
-        input.accessToken = 'token';
-        input.apiUrl = 'url';
+
+        input.namedCredential = 'NamedCredential';
         input.apiVersion = 'apiVersion';
         input.b2cCustomerListId = 'id';
         input.b2cCustomerNo = 'customerno';
@@ -42,11 +39,8 @@ private class B2CIAPublishCustomerProfile_Test {
         inputList.add( input );
 
         Test.startTest();
-
             Test.setMock(HttpCalloutMock.class, new B2CHttpTestCalloutMockGenerator('CustomerListsSites'));
-
             B2CIAPublishCustomerProfile.publishCustomerProfile( inputList );
-
         Test.stopTest();
     }
 }
