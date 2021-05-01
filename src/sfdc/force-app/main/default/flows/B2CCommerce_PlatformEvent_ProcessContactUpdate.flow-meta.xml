@@ -11,7 +11,6 @@
         <connector>
             <targetReference>dec_AuditB2CCustomerProfileRetrieveResponse</targetReference>
         </connector>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>b2cCustomerListId</name>
             <value>
@@ -66,7 +65,6 @@
         <connector>
             <targetReference>dec_auditContactUpdateFromPublishResponse</targetReference>
         </connector>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>b2cCustomerListId</name>
             <value>
@@ -127,7 +125,6 @@
         <connector>
             <targetReference>dec_hasB2CCommerceProfileBeenUpdated</targetReference>
         </connector>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>apiVersion</name>
             <value>
@@ -189,7 +186,6 @@
         <connector>
             <targetReference>dec_B2CCustomerProfileDetailsRetrievedSuccessfully</targetReference>
         </connector>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>apiVersion</name>
             <value>
@@ -239,7 +235,6 @@
         <connector>
             <targetReference>dec_isIntegrationEnabledForPlatformEvent</targetReference>
         </connector>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>b2cInstance</name>
             <value>
