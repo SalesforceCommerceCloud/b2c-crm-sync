@@ -11,7 +11,6 @@
         <connector>
             <targetReference>ContactFilterMatches_Subflow</targetReference>
         </connector>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>contactList</name>
             <value>
@@ -592,7 +591,7 @@
         <connector>
             <targetReference>Was_There_An_Error_In_Filtering</targetReference>
         </connector>
-        <flowName>B2C_Contact_Filter_Matches</flowName>
+        <flowName>B2C_Commerce_Contact_Filter_Matches</flowName>
         <inputAssignments>
             <name>Contact</name>
             <value>
