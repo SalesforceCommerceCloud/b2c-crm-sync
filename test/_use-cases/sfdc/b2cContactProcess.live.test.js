@@ -7,9 +7,6 @@ const config = require('config');
 const assert = require('chai').assert;
 
 // Initialize the B2C Commerce REST APIs
-const dataAPIs = require('../../../lib/apis/sfcc/ocapi/data');
-const shopAPIs = require('../../../lib/apis/sfcc/ocapi/shop');
-const b2cRequestLib = require('../../../lib/_common/request');
 const b2cCustomerListAPIs = require('../../../lib/qa/processes/_common/sfdc/b2cCustomerList');
 
 // Initialize tearDown helpers
@@ -17,7 +14,6 @@ const useCaseProcesses = require('../../_common/processes');
 const common = require('../_common');
 
 // Initialize local libraries for SFDC
-const sfdcAuth = require('../../../lib/apis/sfdc/auth');
 const flowAPIs = require('../../../lib/qa/processes/_common/sfdc/flow');
 const contactAPIs = require('../../../lib/qa/processes/_common/sfdc/contact');
 const sObjectAPIs = require('../../../lib/apis/sfdc/sObject');
@@ -33,11 +29,9 @@ describe('Progressive resolution of a B2C Commerce Customer via the B2CContactPr
 
     // Initialize local variables
     let environmentDef,
-        baseRequest,
         initResults,
         testProfile,
         testContact,
-        profileUpdate,
         customerListId,
         customerListIdAlt,
         customerId,
@@ -45,7 +39,6 @@ describe('Progressive resolution of a B2C Commerce Customer via the B2CContactPr
         siteId,
         b2cAdminAuthToken,
         sfdcAuthCredentials,
-        registeredB2CCustomerNo,
         syncGlobalEnable,
         sleepTimeout,
         purgeSleepTimeout;
@@ -72,7 +65,6 @@ describe('Progressive resolution of a B2C Commerce Customer via the B2CContactPr
 
         // Retrieve the b2c customer profile template that we'll use to exercise this test
         testProfile = config.util.toObject(config.get('unitTests.testData.profileTemplate'));
-        profileUpdate = config.util.toObject(config.get('unitTests.testData.updateTemplate'));
 
         // Initialize the testContact
         testContact = {
@@ -82,9 +74,6 @@ describe('Progressive resolution of a B2C Commerce Customer via the B2CContactPr
 
         // Default the sync-configuration to leverage; sync-on-login and sync-once are enabled
         syncGlobalEnable = config.get('unitTests.b2cCRMSyncConfigManager.base');
-
-        // Initialize the base request leveraged by this process
-        baseRequest = b2cRequestLib.createRequestInstance(environmentDef);
 
         try {
 
@@ -596,7 +585,7 @@ describe('Progressive resolution of a B2C Commerce Customer via the B2CContactPr
         refArchGlobalResolveBody = _getB2CContactProcessBody(refArchGlobalSourceContact);
 
         // Execute the process flow-request and capture the results for the 2nd customerList contact
-        await flowAPIs.postB2CContactProcess(environmentDef, sfdcAuthCredentials.conn.accessToken, refArchGlobalResolveBody);
+        await common.executeAndVerifyB2CProcessResult(environmentDef, sfdcAuthCredentials.conn.accessToken, refArchGlobalResolveBody);
 
         // Execute a separate query to retrieve the contact details searching by email
         testResults = await contactAPIs.getByEmail(sfdcAuthCredentials.conn, testContact.Email, 10);
@@ -1089,6 +1078,7 @@ describe('Progressive resolution of a B2C Commerce Customer via the B2CContactPr
 
         // Update the B2C CustomerList and activate the B2C CustomerList
         await useCaseProcesses.sfdcB2CCustomerListUpdate(sfdcAuthCredentials.conn, customerListId, true);
+        await useCaseProcesses.sfdcB2CCustomerListUpdate(sfdcAuthCredentials.conn, customerListIdAlt, true);
 
     });
 

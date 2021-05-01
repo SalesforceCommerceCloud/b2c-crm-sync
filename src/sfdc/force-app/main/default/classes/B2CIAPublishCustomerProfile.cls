@@ -5,7 +5,7 @@
  * @description This is a helper class that takes the REST API Response from B2C Commerce
  * and moves forward with parsing, processing, and writing updates to the corresponding customerProfile.
 */
-global with sharing class B2CIAPublishCustomerProfile extends B2CBaseAttributeAssignment {
+public with sharing class B2CIAPublishCustomerProfile extends B2CBaseAttributeAssignment {
 
     /**
      * @see B2CIAGetAccessTokenResult
@@ -15,7 +15,7 @@ global with sharing class B2CIAPublishCustomerProfile extends B2CBaseAttributeAs
      * @returns {List<B2CIAPublishCustomerProfileResult>} Returns the response object containing the publish-oriented customer details
      */
     @InvocableMethod(Label='B2C: Publish Customer Profile Definitions' Description='Attempts to publish Salesforce Platform Contact details to mapped B2C Commerce Customer Profiles via the B2C Commerce OCAPI Data API')
-    global static List<B2CIAPublishCustomerProfileResult> publishCustomerProfile(List<B2CIAPublishCustomerProfileInput> requestArguments) {
+    public static List<B2CIAPublishCustomerProfileResult> publishCustomerProfile(List<B2CIAPublishCustomerProfileInput> requestArguments) {
 
         // Initialize local variables
         Contact thisCustomerProfile;
@@ -66,7 +66,7 @@ global with sharing class B2CIAPublishCustomerProfile extends B2CBaseAttributeAs
             }
 
             // Build the request object utilizing the input properties
-            req = B2CHttpRequestHelper.getCustomerProfilePatchRequest(requestInput.apiUrl, requestInput.apiVersion, requestInput.accessToken, requestInput.b2cCustomerListId, requestInput.b2cCustomerNo, thisB2CProfileJSON);
+            req = B2CHttpRequestHelper.getCustomerProfilePatchRequest(requestInput.namedCredential, requestInput.apiVersion, requestInput.b2cCustomerListId, requestInput.b2cCustomerNo, thisB2CProfileJSON);
 
             // Initialize the request
             https = new Http();
@@ -126,7 +126,7 @@ global with sharing class B2CIAPublishCustomerProfile extends B2CBaseAttributeAs
                 if (accountContactModel == B2CConstant.AccountContactModel_Person) {
 
                     // Remove the AccountID as we can't update it when the person customerModel is employed
-                    thisCustomerProfileToUpdate = removePersonAccountProperties(thisCustomerProfile);
+                    thisCustomerProfileToUpdate = B2CBaseAttributeAssignment.removePersonAccountProperties(thisCustomerProfile);
 
                 }
 

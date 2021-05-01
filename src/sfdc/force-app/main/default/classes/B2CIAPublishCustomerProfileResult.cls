@@ -7,7 +7,7 @@
  * to consume a contact, identify its B2C Commerce properties, and publish those details
  * to B2C Commerce.
 */
-global class B2CIAPublishCustomerProfileResult {
+public class B2CIAPublishCustomerProfileResult {
 
     ////////////////////////////////////////////////////////////////
     // Include the customerList details from the PlatformEvent

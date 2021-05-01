@@ -6,7 +6,7 @@
  * @description This is a helper-class used by the B2CIAGetCustomerProfile class
  * to retrieve the details for a single / specified B2C Customer profile.
 */
-global class B2CIAGetCustomerProfileResult {
+public class B2CIAGetCustomerProfileResult {
 
     ////////////////////////////////////////////////////////////////
     // Include the customerList details from the PlatformEvent
@@ -41,7 +41,7 @@ global class B2CIAGetCustomerProfileResult {
     public String responseBody;
 
     ////////////////////////////////////////////////////////////////
-    // Include the deserialized properties from the response
+    // Include the total records retrieved
     ////////////////////////////////////////////////////////////////
 
     @InvocableVariable

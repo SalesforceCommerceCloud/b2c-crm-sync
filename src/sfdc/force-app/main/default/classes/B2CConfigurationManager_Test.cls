@@ -1,8 +1,8 @@
 
-@isTest
+@IsTest
 public with sharing class B2CConfigurationManager_Test {
 
-    @isTest
+    @IsTest
     public static void getDefaultAccountContactNames() {
 
         B2C_CRM_Sync_Default_Configuration__mdt configurationProfile = [
@@ -18,17 +18,17 @@ public with sharing class B2CConfigurationManager_Test {
 
         System.assertEquals(
             configurationProfile.Active_Configuration__r.Default_Account_Name__c,
-            defaultAccountContactNames.get('accountName'), 
+            defaultAccountContactNames.get('accountName'),
             'Retrieve Account Name from config'
         );
         System.assertEquals(
                 configurationProfile.Active_Configuration__r.Default_Contact_Name__c,
-                defaultAccountContactNames.get('contactName'), 
+                defaultAccountContactNames.get('contactName'),
                 'Retrieve Contact Name from config'
         );
     }
 
-    @isTest
+    @IsTest
     public static void isB2CProcessContactTriggerEnabled() {
         B2C_CRM_Sync_Default_Configuration__mdt configurationProfile = [
                 SELECT  Active_Configuration__r.DeveloperName,
@@ -42,7 +42,7 @@ public with sharing class B2CConfigurationManager_Test {
         Test.startTest();
         Boolean isB2CProcessContactTriggerEnabled = B2CConfigurationManager.isB2CProcessContactTriggerEnabled();
         Test.stopTest();
-        
+
         System.assertEquals(
             configurationProfile.Active_Configuration__r.Enable_B2C_Process_Contact_Trigger__c,
             isB2CProcessContactTriggerEnabled,

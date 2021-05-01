@@ -8,7 +8,7 @@
 public with sharing class B2CContactManagerTest {
 
     /**
-     * @see B2CContactManager.getContact
+     * @see B2CContactManager.getContactById
      * @description
      */
     @IsTest

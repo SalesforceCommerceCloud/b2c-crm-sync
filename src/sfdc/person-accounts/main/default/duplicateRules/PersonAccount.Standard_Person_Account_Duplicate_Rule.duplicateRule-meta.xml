@@ -5,12 +5,25 @@
     <alertText>Use one of these records?</alertText>
     <description>Identify person accounts that duplicate other person accounts.</description>
     <duplicateRuleFilter>
-        <booleanFilter xsi:nil="true"/>
+        <duplicateRuleFilterItems>
+            <field>B2C_Customer_ID__pc</field>
+            <operation>equals</operation>
+            <value/>
+            <sortOrder>1</sortOrder>
+            <table>PersonAccount</table>
+        </duplicateRuleFilterItems>
         <duplicateRuleFilterItems>
             <field>B2C_CustomerList_ID__pc</field>
             <operation>equals</operation>
             <value/>
-            <sortOrder>1</sortOrder>
+            <sortOrder>2</sortOrder>
+            <table>PersonAccount</table>
+        </duplicateRuleFilterItems>
+        <duplicateRuleFilterItems>
+            <field>B2C_Customer_No__pc</field>
+            <operation>equals</operation>
+            <value/>
+            <sortOrder>3</sortOrder>
             <table>PersonAccount</table>
         </duplicateRuleFilterItems>
     </duplicateRuleFilter>

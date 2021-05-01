@@ -1,0 +1,44 @@
+// - - - - - - - - - - - - - - - - - -
+
+// Footer
+
+// - - - - - - - - - - - - - - - - - -
+
+
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - Footer
+
+.footer {
+	@include transition(all 0.4s ease-in-out 0.8s);
+	padding: 20px;
+
+	@include mq(tabletp) {
+		padding: 40px;
+	}
+
+	@include mq(tabletl) {
+		display: none;
+	}
+}
+
+.cert-link {
+  margin-bottom: 15px;
+  line-height: 20px;
+}
+
+.footer__copyright {
+	display: block;
+	margin-top: 15px;
+    line-height: 20px;
+	font-size: 13px;
+	color: $text-light-color;
+
+	a {
+		color: $text-medium-color;
+		font-weight: $bold-weight;
+        line-height: 20px;
+		&:hover {
+			color: $text-medium-color;
+		}
+	}
+}

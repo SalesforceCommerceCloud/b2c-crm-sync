@@ -6,7 +6,7 @@
  * via OCAPI.  It creates the initial stub-records for a B2C Commerce Instance representing the
  * CustomerLists and Sites being managed within the instance.
 */
-global with sharing class B2CIAGetCustomerListsSites {
+public with sharing class B2CIAGetCustomerListsSites {
 
     /**
      * @see B2CIAGetAccessTokenResult
@@ -16,7 +16,7 @@ global with sharing class B2CIAGetCustomerListsSites {
      * @return {List<B2CIACreateCustomerListsSitesResult>} Returns the response object containing the customerList and site details for a given B2C Commerce instance
      */
     @InvocableMethod(Label='B2C: Get B2C Instance CustomerLists and Sites' Description='Attempts to retrieve the CustomerLists and Sites managed by a B2C Instance')
-    global static List<B2CIAGetCustomerListsSitesResult> getAllSites(List<B2CIAGetCustomerListsSitesInput> b2cInstanceRequestInputs) {
+    public static List<B2CIAGetCustomerListsSitesResult> getAllSites(List<B2CIAGetCustomerListsSitesInput> b2cInstanceRequestInputs) {
 
         // Initialize local variables
         JSONParse responseParsedJSON;
@@ -36,9 +36,8 @@ global with sharing class B2CIAGetCustomerListsSites {
 
             // Generate the getSites request for the current B2C Instance
             req = B2CHttpRequestHelper.getAllSitesRequest(
-                thisB2CInstanceRequestInput.APIUrl,
-                thisB2CInstanceRequestInput.OCAPIVersion,
-                thisB2CInstanceRequestInput.accessToken
+                thisB2CInstanceRequestInput.namedCredential,
+                thisB2CInstanceRequestInput.OCAPIVersion
             );
 
             // Initialize the outbound http request handler and invoke the service request

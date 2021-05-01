@@ -1,7 +1,7 @@
 module.exports = {
 
     // Describes the current versionNo of the service-cloud-connector
-    "versionNo": "0.5.0",
+    "versionNo": "0.7.5.0",
 
     // Manages debug mode for the CLI application
     "debugMode": true,
@@ -48,7 +48,10 @@ module.exports = {
                 "force-app": "./src/sfdc/force-app/main/default/",
 
                 // Define the location of .dx configuration files
-                "config": "./config-dx/"
+                "config": "./config-dx/",
+
+                // Define the path representing the location of personAccounts meta-data
+                "personaccounts": "./src/sfdc/person-accounts",
 
             },
 
@@ -100,6 +103,18 @@ module.exports = {
 
     },
 
+    // Define the regular expressions used to govern the siteId / connectedAppId
+    "connectedAppIdRegEx": {
+
+        // Describe the individual regExes used to clean the siteId
+        "whiteSpace": /\s/g,
+        "dashes": /-/g,
+        "doubleUnderscore": /_+/g,
+        "nonAlphaNumeric": /[^\w_]+/g,
+        "alphaOnly": /[a-zA-Z]/g
+
+    },
+
     // Describe the collection of available scratchOrg profiles
     "sfScratchOrg": {
 
@@ -108,6 +123,7 @@ module.exports = {
 
         // Default the operation mode for the application
         "defaultProfile": "base",
+        "paProfile": "personaccounts",
         "defaultAlias": "b2ccrmsync",
         "setDefault": true,
         "durationDays": 7,
@@ -119,7 +135,19 @@ module.exports = {
         ],
 
         // Default the overwrite behavior
-        "forceOverwrite": true
+        "forceOverwrite": true,
+
+        // Define the properties used to seed a default b2cInstance
+        "b2cInstance": {
+            "description": "... development B2C Commerce instance being integrated with this scratchOrg",
+            "instanceType": "Sandbox"
+        },
+
+        // Define the permission-set to assign to a given user
+        "permsetName": "B2C_Integration_Tools",
+
+        // Automatically delete scratchOrg deployment failures
+        "autoDeleteFailures": true
 
     },
 
@@ -565,7 +593,8 @@ module.exports = {
         // Define the baseUrls for account manager
         "accountManager": {
             "baseUrl": "https://account.demandware.com",
-            "authUrl": "/dw/oauth2/access_token"
+            "authUrl": "/dwsso/oauth2/access_token",
+            "authorizeUrl": "/dwsso/oauth2/authorize"
         },
 
         // Define the cartridge deploy properties

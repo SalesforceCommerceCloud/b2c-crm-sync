@@ -219,6 +219,7 @@ public class B2CHttpTestCalloutMockGenerator implements HttpCalloutMock {
         String bodyContent;
 
         // Build out the success response details
+        //noinspection SpellCheckingInspection
         bodyContent = '{\n' +
             '"_v": "20.9",\n' +
             '"_type": "customer",\n' +

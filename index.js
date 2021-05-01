@@ -57,6 +57,9 @@ exports.sfTrustedSitesCreate = require('./lib/cli-api/_sfTrustedSitesCreate');
 // Expose the ability to generate the sfdx remoteSiteSettings meta-data template
 exports.sfRemoteSitesCreate = require('./lib/cli-api/_sfRemoteSitesCreate');
 
+// Expose the ability to generate the sfdx auth provider for B2CAM meta-data template
+exports.sfAuthProviderCreate = require('./lib/cli-api/_sfAuthProviderCreate');
+
 // Expose the ability to generate the sfdx named credentials for B2CAM meta-data template
 exports.sfNamedCredentialsAMCreate = require('./lib/cli-api/_sfNamedCredentialsAMCreate');
 
@@ -66,11 +69,23 @@ exports.sfNamedCredentialsOOBOCreate = require('./lib/cli-api/_sfNamedCredential
 // Expose the ability to authenticate against a Salesforce Instance using user-credentials
 exports.sfAuthUserCredentials = require('./lib/cli-api/_sfAuthUserCredentials');
 
+// Expose the ability to create a B2C Instance seed-record using environment file definitions
+exports.sfB2CInstanceCreate = require('./lib/cli-api/_sfB2CInstanceCreate');
+
+// Expose the ability to update a B2C Instance seed-record using environment file definitions
+exports.sfB2CInstanceUpdate = require('./lib/cli-api/_sfB2CInstanceUpdate');
+
 // Expose the ability to create scratchOrgs driven by the crm-sync repositories
 exports.sfScratchOrgCreate = require('./lib/cli-api/_sfScratchOrgCreate');
 
-// Expose the ability to deploy the b2c-crm-sync code to a scratchOrg
+// Expose the ability to push the b2c-crm-sync code to a scratchOrg
+exports.sfScratchOrgPush = require('./lib/cli-api/_sfScratchOrgPush');
+
+// Expose the ability to deploy specific code elements to a scratchOrg
 exports.sfScratchOrgDeploy = require('./lib/cli-api/_sfScratchOrgDeploy');
+
+// Expose the ability to delete a given scratchOrg
+exports.sfScratchOrgDelete = require('./lib/cli-api/_sfScratchOrgDelete');
 
 // Expose the ability to retrieve the details for a given scratchOrg
 exports.sfScratchOrgDetails = require('./lib/cli-api/_sfScratchOrgDetails');
@@ -80,3 +95,12 @@ exports.sfScratchOrgOpen = require('./lib/cli-api/_sfScratchOrgOpen');
 
 // Expose the ability to view the remote status for a specified b2c-rm-sync scratchOrg
 exports.sfScratchOrgStatus = require('./lib/cli-api/_sfScratchOrgStatus');
+
+// Expose the ability to retrieve the details for a given user
+exports.sfUserDetails = require('./lib/cli-api/_sfUserDetails');
+
+// Expose the ability to reset a user's password
+exports.sfUserPasswordReset = require('./lib/cli-api/_sfUserPasswordReset');
+
+// Expose the ability to assign a permission-set to a given user
+exports.sfUserPermsetAssign = require('./lib/cli-api/_sfUserPermsetAssign');

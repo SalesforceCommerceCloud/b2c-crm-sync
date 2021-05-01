@@ -5,7 +5,7 @@
  * @description This is a wrapper-class to enable the retrieval of a specific
  * B2C Contact that only contains minimum identifiers and mapped fields.
 */
-global with sharing class B2CIAGetContact extends B2CBaseAttributeAssignment {
+public with sharing class B2CIAGetContact extends B2CBaseAttributeAssignment {
 
     /**
      * @see B2CIAGetContactResult
@@ -15,7 +15,7 @@ global with sharing class B2CIAGetContact extends B2CBaseAttributeAssignment {
      * @returns {List<B2CIAGetContactResult>} Returns the B2C Contact resolved using request arguments
      */
     @InvocableMethod(Label='B2C: Get Contact' Description='Attempts to retrieve details for a B2C Contact containing minimum identifiers and fieldMappings')
-    global static List<B2CIAGetContactResult> getContact(List<B2CIAGetContactInput> requestArguments) {
+    public static List<B2CIAGetContactResult> getContact(List<B2CIAGetContactInput> requestArguments) {
 
         // Initialize local variables
         Contact resolvedContact;
@@ -49,7 +49,7 @@ global with sharing class B2CIAGetContact extends B2CBaseAttributeAssignment {
                 if (requestInput.omitAccountId == true) {
 
                     // If so, then remove the personAccount properties from the Contact
-                    resolvedContact = (Contact) removePersonAccountProperties(resolvedContact);
+                    resolvedContact = (Contact) B2CBaseAttributeAssignment.removePersonAccountProperties(resolvedContact);
 
                 }
 

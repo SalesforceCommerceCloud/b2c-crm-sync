@@ -5,10 +5,10 @@
  * @description This is a helper class that takes the REST API Response from B2C Commerce
  * and moves forward with parsing, processing, and writing updates to the corresponding customerProfile.
 */
-global with sharing class B2CIAProcessCustomerProfile extends B2CBaseAttributeAssignment {
+public with sharing class B2CIAProcessCustomerProfile extends B2CBaseAttributeAssignment {
 
     @InvocableMethod(Label='B2C: Update Customer Profile Definitions' Description='Attempts to update a Contact with the latest REST API results from B2C Commerce')
-    global static void updateCustomerProfiles(List<B2CIAGetCustomerProfileResult> customerProfileResults) {
+    public static void updateCustomerProfiles(List<B2CIAGetCustomerProfileResult> customerProfileResults) {
 
         // Initialize local variables
         JSONParse customerProfileJSON;
@@ -48,7 +48,7 @@ global with sharing class B2CIAProcessCustomerProfile extends B2CBaseAttributeAs
             if (accountContactModel == B2CConstant.AccountContactModel_Person) {
 
                 // Remove the AccountID as we can't update it when the person customerModel is employed
-                thisCustomerProfile = removePersonAccountProperties(thisCustomerProfile);
+                thisCustomerProfile = B2CBaseAttributeAssignment.removePersonAccountProperties(thisCustomerProfile);
 
             }
 

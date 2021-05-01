@@ -7,10 +7,24 @@
     <duplicateRuleFilter>
         <booleanFilter xsi:nil="true"/>
         <duplicateRuleFilterItems>
-            <field>B2C_CustomerList_ID__c</field>
+            <field>B2C_Customer_ID__c</field>
             <operation>equals</operation>
             <value/>
             <sortOrder>1</sortOrder>
+            <table>Contact</table>
+        </duplicateRuleFilterItems>
+        <duplicateRuleFilterItems>
+            <field>B2C_CustomerList_ID__c</field>
+            <operation>equals</operation>
+            <value/>
+            <sortOrder>2</sortOrder>
+            <table>Contact</table>
+        </duplicateRuleFilterItems>
+        <duplicateRuleFilterItems>
+            <field>B2C_Customer_No__c</field>
+            <operation>equals</operation>
+            <value/>
+            <sortOrder>3</sortOrder>
             <table>Contact</table>
         </duplicateRuleFilterItems>
     </duplicateRuleFilter>

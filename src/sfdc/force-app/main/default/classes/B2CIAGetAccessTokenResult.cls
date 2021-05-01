@@ -2,11 +2,10 @@
  * @author Abraham David Lloyd
  * @date January 21st, 2021
  *
- * @see B2CIAAUthViaClientCredentialsGrant.getB2CAccessTokenViaClientCredentials
- * @description This is a helper-class used by the B2CIAAuthViaClientCredentialsGrant
+ * @description This is the wrapper used by the authentication classes
  * class to capture and make available the B2C Commerce authToken REST response
 */
-global class B2CIAGetAccessTokenResult {
+public class B2CIAGetAccessTokenResult {
 
     ////////////////////////////////////////////////////////////////
     // Include the REST response properties

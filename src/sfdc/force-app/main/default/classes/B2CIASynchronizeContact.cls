@@ -5,7 +5,7 @@
  * @description This is a helper class takes a source and target Contact record and
  * applies the values present in the sourceContact to the targetContact.
 */
-global with sharing class B2CIASynchronizeContact extends B2CBaseAttributeAssignment {
+public with sharing class B2CIASynchronizeContact extends B2CBaseAttributeAssignment {
 
     /**
      * @description This class is used to take a given source and target contact, and apply any source values to the target contact
@@ -16,7 +16,7 @@ global with sharing class B2CIASynchronizeContact extends B2CBaseAttributeAssign
      * @return {List<B2CIARemovePAPropertiesFromContactResult>} Represents the processed source and target contact results
      */
     @InvocableMethod(Label='B2C: Synchronize Contact Values' Description='Attempts to apply any sourceContact properties that do not exist on a targetContact.')
-    global static List<B2CIASynchronizeContactResult> synchronizeContactProperties(List<B2CIASynchronizeContactInput> contactsToProcess) {
+    public static List<B2CIASynchronizeContactResult> synchronizeContactProperties(List<B2CIASynchronizeContactInput> contactsToProcess) {
 
         // Initialize local variables
         List<B2CIASynchronizeContactResult> output;
