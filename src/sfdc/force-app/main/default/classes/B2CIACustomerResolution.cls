@@ -6,14 +6,15 @@
 */
 
 public inherited sharing class B2CIACustomerResolution {
+
     /**
      * @description Runs B2C duplicate rules, retrieve potential duplicates, and filter through a companion Flow
      *
-     * @param requestArguments {Contact pContact} A specific contact to run find duplicates on
+     * @param pContact {Contact} A specific contact to run find duplicates on
      * @returns {List<Contact>} The final list of contacts that exist that are relevant duplicates
      */
-    public static List<Contact> findDupes( 
-        Contact pContact 
+    public static List<Contact> findDupes(
+        Contact pContact
     ) {
 
         List<Contact> matchedContactRecords = new List<Contact>();
@@ -21,8 +22,6 @@ public inherited sharing class B2CIACustomerResolution {
         List<Account> matchedAccountRecords = new List<Account>();
 
         Datacloud.FindDuplicatesResult[] results = Datacloud.FindDuplicates.findDuplicates( new List<Contact>{ pContact } );
-        
-        
 
         //If so, iterate over them and start checking for potential matches
         for ( Datacloud.FindDuplicatesResult fdr_i : results ) {
@@ -38,7 +37,7 @@ public inherited sharing class B2CIACustomerResolution {
 
                     System.debug('--> MatchRule: ' + matchRule);
                     System.debug('--> Matched RecordCount: ' + matchResult_i.getMatchRecords().size());
-                
+
                     // Instead of processing all rules, we only want to process B2C Commerce-specific rules
                     if (matchRule.contains('B2C') && matchResult_i.getMatchRecords().size() > 0) {
 
@@ -46,7 +45,7 @@ public inherited sharing class B2CIACustomerResolution {
                         for (Datacloud.MatchRecord dmr_i : matchResult_i.getMatchRecords()) {
 
                             // Are we using standard contact model and found contacts
-                            if ( 
+                            if (
                                     dmr_i.getRecord().getSObjectType() == Schema.Contact.getSObjectType()
                                 &&  B2C_CRMSync_Setting__mdt.getInstance('Default_Configuration').Account_Contact_Model__c != 'Person'
                             ) {
@@ -57,7 +56,7 @@ public inherited sharing class B2CIACustomerResolution {
                             // Otherwise, did we find accounts and are using a person account model?
                             } else if (
                                     dmr_i.getRecord().getSObjectType() == Schema.Account.getSObjectType()
-                                &&  B2C_CRMSync_Setting__mdt.getInstance('Default_Configuration').Account_Contact_Model__c == 'Person'        
+                                &&  B2C_CRMSync_Setting__mdt.getInstance('Default_Configuration').Account_Contact_Model__c == 'Person'
                             ) {
 
                                 // Add the record to the Account Collection
@@ -105,24 +104,20 @@ public inherited sharing class B2CIACustomerResolution {
     /**
      * @description Invokable action to retrieve relevant contact duplicates for standard and person account models
      *
-     * @param requestArguments {List<Contact>} A list of contacts but is expected to have only 1 item. This is to support use within Flow.
+     * @param contactList {List<Contact>} A list of contacts but is expected to have only 1 item. This is to support use within Flow.
      * @returns {List<List<Contact>>} Returns a list of list of contacts. This is expected to have only 1 item in the main list to support use with Flow.
      */
     @InvocableMethod(Label='B2C: Customer Resolution' Description='Finds matching contacts based on B2C matching rules')
-    public static List<List<Contact>> resolve(
-        List<Contact> contactList
-    ) {
-
+    public static List<List<Contact>> resolve(List<Contact> contactList) {
 
         List<List<Contact>> contactListList = new List<List<Contact>>();
+        Map<String, String> defaultNames;
 
-
-        
-        if( contactList.size() != 1 ){
+        if (contactList.size() != 1) {
 
             //throw error
 
-        }else{
+        } else {
 
             Contact c = contactList[0];
 
@@ -137,12 +132,11 @@ public inherited sharing class B2CIACustomerResolution {
                 c.LastName = defaultNames.get('contactName');
             }
 
+            contactListList.add(findDupes( c ));
 
-
-            contactListList.add( findDupes( c ) );
         }
 
         return contactListList;
-            
+
     }
 }
