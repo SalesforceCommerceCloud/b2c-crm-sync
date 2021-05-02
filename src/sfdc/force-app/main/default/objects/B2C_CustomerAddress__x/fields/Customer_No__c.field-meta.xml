@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Customer_No__c</fullName>
+    <description>Customer_No</description>
+    <externalDeveloperName>Customer_No</externalDeveloperName>
+    <externalId>false</externalId>
+    <isFilteringDisabled>false</isFilteringDisabled>
+    <isNameField>false</isNameField>
+    <isSortingDisabled>false</isSortingDisabled>
+    <label>Customer Number</label>
+    <length>255</length>
+    <referenceTargetField>Contact.B2C_Customer_No__c</referenceTargetField>
+    <referenceTo>Contact</referenceTo>
+    <relationshipName>Customer_No</relationshipName>
+    <type>IndirectLookup</type>
+</CustomField>

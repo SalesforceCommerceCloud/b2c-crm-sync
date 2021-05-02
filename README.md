@@ -652,9 +652,7 @@ npm run crm-sync:sf:authprovider:build
 
 > This command will create the Auth Provider into the scratch org and then deploy the related Named Credentials that will leverage it. This named credential is then used by the b2c-crm-sync package to perform API calls aginst the B2C Commerce instance.
 
-16. By executing the `crm-sync:sf:authprovider:build` command, the callback URL of the auth provider will be printed in the CLI console. Please copy this URL and paste it in the Redirect URIs field of the previously created Account Manager Client ID.
-
-> If you don't find the callback URL of the Auth Provider within the CLI console, you can find it from the Salesforce org. To do so, please go to the `Setup` menu, then type in the Quick Find field and search for `Auth. Providers` and open the Auth provider named with the B2C Commerce instance name. You'll find the callback URL at the bottom of the page.
+16. From the Salesforce org, please go to the `Setup` menu, then type in the Quick Find field and search for `Auth. Providers` and open the Auth provider named with the B2C Commerce instance name. You'll find the callback URL at the bottom of the page. Please copy this URL and paste it in the Redirect URLs field of the previously created Account Manager Client ID.
 
 17. Now that both the Auth Provider and the related Named Credentials are deployed, you have to perform a first authentication from the Salesforce Core platform. This step is manual as it requires you to validate the authentication flow. To perform this action. please go, on the scratch org, to the `Setup` menu, then type in the Quick Find field and search for `Named Credentials`. In front of the `<b2c instance name>: B2C: Client Credentials` named credentials, click on the edit button, then click on `Save`. Doing an edit of the named credential will start the authentication process behind the scene between the Salesforce core org and the B2C Commerce instance. You should be able to see that the named credential has been successfully authenticated when opening back the named credential, as per the following screenshot:
 

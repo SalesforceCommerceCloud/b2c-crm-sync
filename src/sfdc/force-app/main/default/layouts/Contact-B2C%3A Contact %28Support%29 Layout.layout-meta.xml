@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Layout xmlns="http://soap.sforce.com/2006/04/metadata">
-    <excludeButtons>RequestUseSfdc</excludeButtons>
     <excludeButtons>Submit</excludeButtons>
     <layoutSections>
         <customLabel>false</customLabel>
@@ -373,6 +372,19 @@
         </relatedContentItems>
     </relatedContent>
     <relatedLists>
+        <fields>ExternalId</fields>
+        <fields>FirstName__c</fields>
+        <fields>LastName__c</fields>
+        <fields>Address1__c</fields>
+        <fields>Address2__c</fields>
+        <fields>City__c</fields>
+        <fields>PostalCode__c</fields>
+        <fields>StateCode__c</fields>
+        <fields>CountryCode__c</fields>
+        <fields>Phone__c</fields>
+        <relatedList>B2C_CustomerAddress__x.Customer_No__c</relatedList>
+    </relatedLists>
+    <relatedLists>
         <excludeButtons>MassChangeOwner</excludeButtons>
         <excludeButtons>New</excludeButtons>
         <fields>NAME</fields>
@@ -424,7 +436,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00h1g000002FHbQ</masterLabel>
+        <masterLabel>00h1X000002Ze8T</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>

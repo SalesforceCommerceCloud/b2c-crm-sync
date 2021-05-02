@@ -26,6 +26,10 @@
                 <behavior>Required</behavior>
                 <field>B2C_Commerce_OCAPI_Attribute__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>B2C_Commerce_Attribute_Type__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
