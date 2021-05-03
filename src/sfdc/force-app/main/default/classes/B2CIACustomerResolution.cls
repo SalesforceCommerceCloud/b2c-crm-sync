@@ -13,15 +13,13 @@ public inherited sharing class B2CIACustomerResolution {
      * @param pContact {Contact} A specific contact to run find duplicates on
      * @returns {List<Contact>} The final list of contacts that exist that are relevant duplicates
      */
-    public static List<Contact> findDupes(
-        Contact pContact
-    ) {
+    public static List<Contact> findDupes(Contact pContact) {
 
         List<Contact> matchedContactRecords = new List<Contact>();
         List<Contact> duplicateContactRecords = new List<Contact>();
         List<Account> matchedAccountRecords = new List<Account>();
 
-        Datacloud.FindDuplicatesResult[] results = Datacloud.FindDuplicates.findDuplicates( new List<Contact>{ pContact } );
+        Datacloud.FindDuplicatesResult[] results = Datacloud.FindDuplicates.findDuplicates( new List<Contact>{pContact} );
 
         //If so, iterate over them and start checking for potential matches
         for ( Datacloud.FindDuplicatesResult fdr_i : results ) {
@@ -102,7 +100,7 @@ public inherited sharing class B2CIACustomerResolution {
     }
 
     /**
-     * @description Invokable action to retrieve relevant contact duplicates for standard and person account models
+     * @description Invocable action to retrieve relevant contact duplicates for standard and person account models
      *
      * @param contactList {List<Contact>} A list of contacts but is expected to have only 1 item. This is to support use within Flow.
      * @returns {List<List<Contact>>} Returns a list of list of contacts. This is expected to have only 1 item in the main list to support use with Flow.
@@ -111,7 +109,6 @@ public inherited sharing class B2CIACustomerResolution {
     public static List<List<Contact>> resolve(List<Contact> contactList) {
 
         List<List<Contact>> contactListList = new List<List<Contact>>();
-        Map<String, String> defaultNames;
 
         if (contactList.size() != 1) {
 
@@ -120,19 +117,7 @@ public inherited sharing class B2CIACustomerResolution {
         } else {
 
             Contact c = contactList[0];
-
-            if (c.LastName == null &&
-                c.Id == null &&
-                c.B2C_Customer_ID__c == null &&
-                c.B2C_Customer_No__c == null &&
-                c.Email != null
-            ) {
-                defaultNames = B2CConfigurationManager.getDefaultAccountContactNames();
-                // If so, then default the lastName to the default contactName
-                c.LastName = defaultNames.get('contactName');
-            }
-
-            contactListList.add(findDupes( c ));
+            contactListList.add(findDupes(c));
 
         }
 
