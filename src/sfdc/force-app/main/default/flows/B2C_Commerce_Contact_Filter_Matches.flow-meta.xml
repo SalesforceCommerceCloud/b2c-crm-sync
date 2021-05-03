@@ -2,10 +2,41 @@
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>51.0</apiVersion>
     <assignments>
+        <description>... assigns the count of contactMatches to evaluate if this flow should process.</description>
+        <name>asn_contactMatchesCount</name>
+        <label>Assign contactMatches Count</label>
+        <locationX>1053</locationX>
+        <locationY>263</locationY>
+        <assignmentItems>
+            <assignToReference>var_contactMatchesCount</assignToReference>
+            <operator>AssignCount</operator>
+            <value>
+                <elementReference>ContactMatches</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>dec_wereMatchResultsFound</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>... exit early, as there are no matches to iterate over</description>
+        <name>asn_noMatchesToProcess</name>
+        <label>No Matches to Process</label>
+        <locationX>798</locationX>
+        <locationY>465</locationY>
+        <assignmentItems>
+            <assignToReference>matchesFound</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
         <name>ContactMatchesResult_Assignment</name>
         <label>ContactMatchesResult Assignment</label>
-        <locationX>977</locationX>
-        <locationY>454</locationY>
+        <locationX>1709</locationX>
+        <locationY>866</locationY>
         <assignmentItems>
             <assignToReference>ContactMatchesResult</assignToReference>
             <operator>Add</operator>
@@ -27,8 +58,8 @@
     <assignments>
         <name>ContactMatchResultForCustomerListIdAndCustomerNo_Assignment</name>
         <label>ContactMatchResultForCustomerListIdAndCustomerNo Assignment</label>
-        <locationX>961</locationX>
-        <locationY>1508</locationY>
+        <locationX>374</locationX>
+        <locationY>1202</locationY>
         <assignmentItems>
             <assignToReference>ContactMatchesResult</assignToReference>
             <operator>Add</operator>
@@ -48,10 +79,33 @@
         </connector>
     </assignments>
     <assignments>
+        <name>ContactMatchResultForCustomerListIdAndCustomerNo_Assignment_0</name>
+        <label>ContactMatchResultForCustomerListIdAndCustomerNo Assignment</label>
+        <locationX>374</locationX>
+        <locationY>1856</locationY>
+        <assignmentItems>
+            <assignToReference>ContactMatchesResult</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>CustomerListIdEmail_Loop</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>matchesFound</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>CustomerListIdEmail_Loop</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>ContactMatchResultForCustomerListIdLastNameEmail_Assignment</name>
         <label>ContactMatchResultForCustomerListIdLastNameEmail Assignment</label>
-        <locationX>994</locationX>
-        <locationY>2495</locationY>
+        <locationX>1760</locationX>
+        <locationY>1480</locationY>
         <assignmentItems>
             <assignToReference>ContactMatchesResult</assignToReference>
             <operator>Add</operator>
@@ -73,8 +127,8 @@
     <assignments>
         <name>CustomerIdCustomerListAndCustomerNoMismatch_Assignment</name>
         <label>CustomerIdCustomerListAndCustomerNoMismatch Assignment</label>
-        <locationX>981</locationX>
-        <locationY>643</locationY>
+        <locationX>1401</locationX>
+        <locationY>1081</locationY>
         <assignmentItems>
             <assignToReference>errors</assignToReference>
             <operator>Add</operator>
@@ -96,8 +150,8 @@
     <assignments>
         <name>CustomerIdCustomerListAndCustomerNoMismatch_Assignment2</name>
         <label>CustomerIdCustomerListAndCustomerNoMismatch Assignment2</label>
-        <locationX>1000</locationX>
-        <locationY>1743</locationY>
+        <locationX>702</locationX>
+        <locationY>1406</locationY>
         <assignmentItems>
             <assignToReference>errors</assignToReference>
             <operator>Add</operator>
@@ -119,8 +173,8 @@
     <assignments>
         <name>CustomerListLastNameEmailError_Assignment</name>
         <label>CustomerListLastNameEmailError Assignment</label>
-        <locationX>955</locationX>
-        <locationY>2704</locationY>
+        <locationX>1412</locationX>
+        <locationY>1714</locationY>
         <assignmentItems>
             <assignToReference>isSuccess</assignToReference>
             <operator>Assign</operator>
@@ -142,8 +196,8 @@
     <decisions>
         <name>CustomerIdMatch_Decision</name>
         <label>Does CustomerId Match?</label>
-        <locationX>972</locationX>
-        <locationY>249</locationY>
+        <locationX>1700</locationX>
+        <locationY>689</locationY>
         <defaultConnector>
             <targetReference>CustomerIdMatches_Loop</targetReference>
         </defaultConnector>
@@ -167,8 +221,8 @@
     <decisions>
         <name>CustomerIdSet_Decision</name>
         <label>Was CustomerId Set?</label>
-        <locationX>365</locationX>
-        <locationY>252</locationY>
+        <locationX>1045</locationX>
+        <locationY>682</locationY>
         <defaultConnector>
             <targetReference>CustomerListIdAndCustomerNoSet_Decision</targetReference>
         </defaultConnector>
@@ -192,8 +246,8 @@
     <decisions>
         <name>CustomerListIdAndCustomerNoMatch_Decision</name>
         <label>Does CustomerListId and CustomerNo Match?</label>
-        <locationX>956</locationX>
-        <locationY>1305</locationY>
+        <locationX>366</locationX>
+        <locationY>1003</locationY>
         <defaultConnector>
             <targetReference>CustomerListIdCustomerNo_Loop</targetReference>
         </defaultConnector>
@@ -224,8 +278,8 @@
     <decisions>
         <name>CustomerListIdAndCustomerNoSet_Decision</name>
         <label>Was CustomerListId and CustomerNo Set?</label>
-        <locationX>386</locationX>
-        <locationY>1312</locationY>
+        <locationX>1046</locationX>
+        <locationY>1000</locationY>
         <defaultConnector>
             <targetReference>CustomerListIdLastNameAndEmailSet_Decision</targetReference>
         </defaultConnector>
@@ -268,10 +322,92 @@
         </rules>
     </decisions>
     <decisions>
+        <name>CustomerListIdAndEmailMatch_Decision</name>
+        <label>Does CustomerListId and Email Match?</label>
+        <locationX>365</locationX>
+        <locationY>1589</locationY>
+        <defaultConnector>
+            <targetReference>CustomerListIdEmail_Loop</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Does Not Match</defaultConnectorLabel>
+        <rules>
+            <name>OutcomeIs_CustomerListIdAndEmailMatches</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Contact.B2C_CustomerList_ID__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>CustomerListIdEmail_Loop.B2C_CustomerList_ID__c</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Contact.Email</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>CustomerListIdEmail_Loop.Email</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>CustomerListIdEmail_Loop.LastName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Unknown</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>ContactMatchResultForCustomerListIdAndCustomerNo_Assignment_0</targetReference>
+            </connector>
+            <label>CustomerListId and Email Matches</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>CustomerListIdAndEmailSet_Decision</name>
+        <label>Was CustomerListId and Email Set?</label>
+        <locationX>1045</locationX>
+        <locationY>1592</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>OutcomeIs_CustomerListIdAndEmailWereSet</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>isSuccess</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>matchesFound</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Contact.B2C_CustomerList_ID__c</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Contact.Email</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>CustomerListIdEmail_Loop</targetReference>
+            </connector>
+            <label>CustomerListId and Email Were Set</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>CustomerListIdLastNameAndEmailMatch_Decision</name>
         <label>Does CustomerListId LastName and Email Match</label>
-        <locationX>978</locationX>
-        <locationY>2337</locationY>
+        <locationX>1746</locationX>
+        <locationY>1298</locationY>
         <defaultConnector>
             <targetReference>CustomerListIdLastNameEmail_Loop</targetReference>
         </defaultConnector>
@@ -330,8 +466,11 @@
     <decisions>
         <name>CustomerListIdLastNameAndEmailSet_Decision</name>
         <label>Was CustomerListId LastName and Email Set?</label>
-        <locationX>382</locationX>
-        <locationY>2339</locationY>
+        <locationX>1046</locationX>
+        <locationY>1299</locationY>
+        <defaultConnector>
+            <targetReference>CustomerListIdAndEmailSet_Decision</targetReference>
+        </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>OutcomeIs_CustomerListIdLastNameAndEmailWereSet</name>
@@ -378,10 +517,36 @@
         </rules>
     </decisions>
     <decisions>
+        <description>... evaluate if matches were found by the duplicate rules and presented in a collection to this flow.</description>
+        <name>dec_wereMatchResultsFound</name>
+        <label>Were Matched Found?</label>
+        <locationX>1045</locationX>
+        <locationY>468</locationY>
+        <defaultConnector>
+            <targetReference>asn_noMatchesToProcess</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Found</defaultConnectorLabel>
+        <rules>
+            <name>decOut_matchesWereFound</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>var_contactMatchesCount</leftValueReference>
+                <operator>GreaterThan</operator>
+                <rightValue>
+                    <numberValue>0.0</numberValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>CustomerIdSet_Decision</targetReference>
+            </connector>
+            <label>Matches Found</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>Does_CustomerListCustomerNo_Identifier_Match</name>
         <label>Does CustomerListCustomerNo Identifier Match?</label>
-        <locationX>1314</locationX>
-        <locationY>1508</locationY>
+        <locationX>50</locationX>
+        <locationY>1403</locationY>
         <defaultConnector>
             <targetReference>CustomerIdCustomerListAndCustomerNoMismatch_Assignment2</targetReference>
         </defaultConnector>
@@ -405,8 +570,8 @@
     <decisions>
         <name>DoesCustomerIdIdentifierMatch_Decision</name>
         <label>Does CustomerId Identifier Match?</label>
-        <locationX>1304</locationX>
-        <locationY>461</locationY>
+        <locationX>2037</locationX>
+        <locationY>1076</locationY>
         <defaultConnector>
             <targetReference>CustomerIdCustomerListAndCustomerNoMismatch_Assignment</targetReference>
         </defaultConnector>
@@ -430,8 +595,8 @@
     <decisions>
         <name>OutcomeIs_DoesCustomerListIdLastNameEmailIdentifiersMatch</name>
         <label>Does CustomerListIdLastNameEmail Identifiers Match?</label>
-        <locationX>1382</locationX>
-        <locationY>2498</locationY>
+        <locationX>2042</locationX>
+        <locationY>1707</locationY>
         <defaultConnector>
             <targetReference>CustomerListLastNameEmailError_Assignment</targetReference>
         </defaultConnector>
@@ -452,13 +617,14 @@
             <label>CustomerListIdLastNameEmail Identifiers Match</label>
         </rules>
     </decisions>
+    <description>... this flow takes a Contact record and collection of potential matches -- and evaluates if the Contact can me matches to one of the Contact records in the potential match collection.</description>
     <interviewLabel>B2C Commerce: Contact Filter Matches {!$Flow.CurrentDateTime}</interviewLabel>
     <label>B2C Commerce: Contact Filter Matches</label>
     <loops>
         <name>CustomerIdMatches_Loop</name>
         <label>CustomerIdMatches Loop</label>
-        <locationX>573</locationX>
-        <locationY>253</locationY>
+        <locationX>1401</locationX>
+        <locationY>687</locationY>
         <collectionReference>ContactMatches</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -471,8 +637,8 @@
     <loops>
         <name>CustomerListIdCustomerNo_Loop</name>
         <label>CustomerListIdCustomerNo Loop</label>
-        <locationX>574</locationX>
-        <locationY>1311</locationY>
+        <locationX>702</locationX>
+        <locationY>998</locationY>
         <collectionReference>ContactMatches</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -483,15 +649,29 @@
         </noMoreValuesConnector>
     </loops>
     <loops>
+        <name>CustomerListIdEmail_Loop</name>
+        <label>CustomerListIdEmail Loop</label>
+        <locationX>706</locationX>
+        <locationY>1589</locationY>
+        <collectionReference>ContactMatches</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>CustomerListIdAndEmailMatch_Decision</targetReference>
+        </nextValueConnector>
+    </loops>
+    <loops>
         <name>CustomerListIdLastNameEmail_Loop</name>
         <label>CustomerListIdLastNameEmail Loop</label>
-        <locationX>567</locationX>
-        <locationY>2331</locationY>
+        <locationX>1412</locationX>
+        <locationY>1295</locationY>
         <collectionReference>ContactMatches</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
             <targetReference>CustomerListIdLastNameAndEmailMatch_Decision</targetReference>
         </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>CustomerListIdAndEmailSet_Decision</targetReference>
+        </noMoreValuesConnector>
     </loops>
     <processMetadataValues>
         <name>BuilderType</name>
@@ -513,18 +693,18 @@
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
     <start>
-        <locationX>50</locationX>
-        <locationY>35</locationY>
+        <locationX>927</locationX>
+        <locationY>50</locationY>
         <connector>
-            <targetReference>CustomerIdSet_Decision</targetReference>
+            <targetReference>asn_contactMatchesCount</targetReference>
         </connector>
     </start>
-    <status>Draft</status>
+    <status>Active</status>
     <subflows>
         <name>CustomerIdMatchIdentifiers_Subflow</name>
         <label>CustomerIdMatchIdentifiers Subflow</label>
-        <locationX>1308</locationX>
-        <locationY>247</locationY>
+        <locationX>2044</locationX>
+        <locationY>685</locationY>
         <connector>
             <targetReference>DoesCustomerIdIdentifierMatch_Decision</targetReference>
         </connector>
@@ -546,8 +726,8 @@
     <subflows>
         <name>CustomerListCustomerNoMatchIdentifiers_Subflow</name>
         <label>CustomerListCustomerNoMatchIdentifiers Subflow</label>
-        <locationX>1321</locationX>
-        <locationY>1308</locationY>
+        <locationX>58</locationX>
+        <locationY>998</locationY>
         <connector>
             <targetReference>Does_CustomerListCustomerNo_Identifier_Match</targetReference>
         </connector>
@@ -569,8 +749,8 @@
     <subflows>
         <name>CustomerListLastNameEmailMatchIdentifiers_Subflow</name>
         <label>CustomerListLastNameEmail MatchIdentifiers Subflow</label>
-        <locationX>1385</locationX>
-        <locationY>2325</locationY>
+        <locationX>2050</locationX>
+        <locationY>1291</locationY>
         <connector>
             <targetReference>OutcomeIs_DoesCustomerListIdLastNameEmailIdentifiersMatch</targetReference>
         </connector>
@@ -638,6 +818,18 @@
         <isOutput>false</isOutput>
         <value>
             <booleanValue>false</booleanValue>
+        </value>
+    </variables>
+    <variables>
+        <description>... represents a count of the contactMatches provided to this flow.</description>
+        <name>var_contactMatchesCount</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+        <value>
+            <numberValue>0.0</numberValue>
         </value>
     </variables>
 </Flow>

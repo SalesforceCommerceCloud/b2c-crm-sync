@@ -4,8 +4,8 @@
     <assignments>
         <name>AllMatches_Assignment</name>
         <label>AllMatches Assignment</label>
-        <locationX>179</locationX>
-        <locationY>771</locationY>
+        <locationX>177</locationX>
+        <locationY>895</locationY>
         <assignmentItems>
             <assignToReference>isSuccess</assignToReference>
             <operator>Assign</operator>
@@ -15,10 +15,11 @@
         </assignmentItems>
     </assignments>
     <assignments>
+        <description>... record an error as no match was found for CustomerID.</description>
         <name>CustomerIdDoesNotMatch_Assignment</name>
-        <label>CustomerIdDoesNotMatch Assignment</label>
-        <locationX>613</locationX>
-        <locationY>233</locationY>
+        <label>CustomerID Does Not Match</label>
+        <locationX>797</locationX>
+        <locationY>303</locationY>
         <assignmentItems>
             <assignToReference>isSuccess</assignToReference>
             <operator>Assign</operator>
@@ -30,15 +31,16 @@
             <assignToReference>errors</assignToReference>
             <operator>Add</operator>
             <value>
-                <stringValue>CustomerId Does Not Match</stringValue>
+                <stringValue>Could not match the Contact using B2C CustomerID.</stringValue>
             </value>
         </assignmentItems>
     </assignments>
     <assignments>
+        <description>... record an error as no match was found for CustomerList ID.</description>
         <name>CustomerListIdDoesNotMatch_Assignment</name>
-        <label>CustomerListIdDoesNotMatch Assignment</label>
-        <locationX>622</locationX>
-        <locationY>576</locationY>
+        <label>CustomerListID Does Not Match</label>
+        <locationX>796</locationX>
+        <locationY>752</locationY>
         <assignmentItems>
             <assignToReference>isSuccess</assignToReference>
             <operator>Assign</operator>
@@ -50,15 +52,16 @@
             <assignToReference>errors</assignToReference>
             <operator>Add</operator>
             <value>
-                <stringValue>CustomerListId Does Not Match</stringValue>
+                <stringValue>Could not match the Contact using B2C CustomerList ID.</stringValue>
             </value>
         </assignmentItems>
     </assignments>
     <assignments>
+        <description>... record an error as no match as found for the CustomerNo.</description>
         <name>CustomerNoDoesNotMatch_Assignment</name>
-        <label>CustomerNoDoesNotMatch Assignment</label>
-        <locationX>615</locationX>
-        <locationY>406</locationY>
+        <label>CustomerNo Does Not Match</label>
+        <locationX>794</locationX>
+        <locationY>520</locationY>
         <assignmentItems>
             <assignToReference>isSuccess</assignToReference>
             <operator>Assign</operator>
@@ -70,15 +73,15 @@
             <assignToReference>errors</assignToReference>
             <operator>Add</operator>
             <value>
-                <stringValue>CustomerNo Does Not Match</stringValue>
+                <stringValue>Could not match the Contact using B2C CustomerNo.</stringValue>
             </value>
         </assignmentItems>
     </assignments>
     <decisions>
         <name>DoesCustomerIdMatch_Decision</name>
         <label>Does CustomerId Match?</label>
-        <locationX>417</locationX>
-        <locationY>236</locationY>
+        <locationX>534</locationX>
+        <locationY>308</locationY>
         <defaultConnector>
             <targetReference>CustomerIdDoesNotMatch_Assignment</targetReference>
         </defaultConnector>
@@ -123,8 +126,8 @@
     <decisions>
         <name>DoesCustomerListIdMatchOrIsBlank_Decision</name>
         <label>Does CustomerListId Match or Is Blank?</label>
-        <locationX>417</locationX>
-        <locationY>583</locationY>
+        <locationX>535</locationX>
+        <locationY>754</locationY>
         <defaultConnector>
             <targetReference>CustomerListIdDoesNotMatch_Assignment</targetReference>
         </defaultConnector>
@@ -169,8 +172,8 @@
     <decisions>
         <name>DoesCustomerNoMatch_Decision</name>
         <label>Does CustomerNo Match?</label>
-        <locationX>417</locationX>
-        <locationY>412</locationY>
+        <locationX>538</locationX>
+        <locationY>524</locationY>
         <defaultConnector>
             <targetReference>CustomerNoDoesNotMatch_Assignment</targetReference>
         </defaultConnector>
@@ -240,8 +243,8 @@
     <decisions>
         <name>IsCustomerListIdSet_Decision</name>
         <label>Is CustomerListId Set?</label>
-        <locationX>170</locationX>
-        <locationY>585</locationY>
+        <locationX>168</locationX>
+        <locationY>631</locationY>
         <defaultConnector>
             <targetReference>AllMatches_Assignment</targetReference>
         </defaultConnector>
@@ -287,6 +290,7 @@
             <label>CustomerNo Is Set</label>
         </rules>
     </decisions>
+    <description>... this flow is used to iterate over the B2C Commerce identifiers and attempt to match a Contact on B2C CustomerList ID, B2C CustomerNo, and B2C CustomerID.  If a match is not found, an error will be recorded.</description>
     <interviewLabel>B2C Commerce: Contact Match Identifiers {!$Flow.CurrentDateTime}</interviewLabel>
     <label>B2C Commerce: Contact Match Identifiers</label>
     <processMetadataValues>

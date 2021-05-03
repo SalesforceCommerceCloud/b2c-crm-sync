@@ -4,8 +4,8 @@
         <description>... attempt to resolve the B2C Customer profile leveraging the Customer Resolution Invocable Action.</description>
         <name>ia_resolveB2CCustomerProfile</name>
         <label>Attempt to Resolve the B2C Customer Profile</label>
-        <locationX>854</locationX>
-        <locationY>709</locationY>
+        <locationX>853</locationX>
+        <locationY>999</locationY>
         <actionName>B2CIACustomerResolution</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -22,13 +22,13 @@
             <name>output</name>
         </outputParameters>
     </actionCalls>
-    <apiVersion>50.0</apiVersion>
+    <apiVersion>51.0</apiVersion>
     <assignments>
         <description>... add the Contact to resolve to the collection being processed.</description>
         <name>asn_contactToContactCollection</name>
         <label>Create the Resolution Collection</label>
-        <locationX>854</locationX>
-        <locationY>515</locationY>
+        <locationX>666</locationX>
+        <locationY>999</locationY>
         <assignmentItems>
             <assignToReference>var_recColContactsToResolve</assignToReference>
             <operator>Add</operator>
@@ -44,8 +44,8 @@
         <description>... overwrite the contactToResolve object definition.</description>
         <name>asn_contactToResolveOverwrite</name>
         <label>Overwrite the Contact to Resolve</label>
-        <locationX>1200</locationX>
-        <locationY>515</locationY>
+        <locationX>666</locationX>
+        <locationY>1203</locationY>
         <assignmentItems>
             <assignToReference>var_contactToResolve</assignToReference>
             <operator>Assign</operator>
@@ -61,8 +61,8 @@
         <description>... capture an error message indicating that multiple Contact records were resolved.</description>
         <name>asn_errorMultipleContacts</name>
         <label>Error: Multiple Contacts Resolved</label>
-        <locationX>1114</locationX>
-        <locationY>1176</locationY>
+        <locationX>1321</locationX>
+        <locationY>1870</locationY>
         <assignmentItems>
             <assignToReference>var_errorMessage</assignToReference>
             <operator>Assign</operator>
@@ -83,7 +83,7 @@
         <name>asn_errorNoContactResolved</name>
         <label>Error: No Contact Was Resolved</label>
         <locationX>856</locationX>
-        <locationY>2234</locationY>
+        <locationY>2934</locationY>
         <assignmentItems>
             <assignToReference>var_isSuccess</assignToReference>
             <operator>Assign</operator>
@@ -108,45 +108,10 @@
     </assignments>
     <assignments>
         <description>... set the QA Contact Properties to facilitate testing.</description>
-        <name>asn_qaContactProperties</name>
-        <label>Create the QA Contact</label>
-        <locationX>1200</locationX>
-        <locationY>293</locationY>
-        <assignmentItems>
-            <assignToReference>var_qaContact.LastName</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>var_qaLastName</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>var_qaContact.FirstName</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>var_qaFirstName</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>var_qaContact.Email</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>var_qaEmailAddress</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>var_qaContact.B2C_CustomerList_ID__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>var_qaB2CCustomerListID</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>var_qaContact.B2C_Customer_No__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>var_qaB2CCustomerNo</elementReference>
-            </value>
-        </assignmentItems>
+        <name>asn_qaContactAssignCustomerID</name>
+        <label>Assign the CustomerID</label>
+        <locationX>232</locationX>
+        <locationY>1086</locationY>
         <assignmentItems>
             <assignToReference>var_qaContact.B2C_Customer_ID__c</assignToReference>
             <operator>Assign</operator>
@@ -155,7 +120,92 @@
             </value>
         </assignmentItems>
         <connector>
+            <targetReference>dec_wasQACustomerNoSpecified</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>... set the QA Contact Properties to facilitate testing.</description>
+        <name>asn_qaContactAssignCustomerList</name>
+        <label>Assign the CustomerList</label>
+        <locationX>228</locationX>
+        <locationY>872</locationY>
+        <assignmentItems>
+            <assignToReference>var_qaContact.B2C_CustomerList_ID__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>var_qaB2CCustomerListID</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>dec_wasQACustomerIDSpecified</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>... set the QA Contact Properties to facilitate testing.</description>
+        <name>asn_qaContactAssignCustomerNo</name>
+        <label>Assign the CustomerNo</label>
+        <locationX>562</locationX>
+        <locationY>1461</locationY>
+        <assignmentItems>
+            <assignToReference>var_qaContact.B2C_Customer_No__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>var_qaB2CCustomerNo</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
             <targetReference>asn_contactToResolveOverwrite</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>... set the QA Contact Properties to facilitate testing.</description>
+        <name>asn_qaContactAssignEmail</name>
+        <label>Assign the Email</label>
+        <locationX>228</locationX>
+        <locationY>596</locationY>
+        <assignmentItems>
+            <assignToReference>var_qaContact.Email</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>var_qaEmailAddress</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>dec_wasQACustomerListSpecified</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>... set the QA Contact Properties to facilitate testing.</description>
+        <name>asn_qaContactAssignFirstName</name>
+        <label>Assign the FirstName</label>
+        <locationX>232</locationX>
+        <locationY>357</locationY>
+        <assignmentItems>
+            <assignToReference>var_qaContact.FirstName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>var_qaFirstName</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>dec_wasQAEmailSpecified</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>... set the QA Contact Properties to facilitate testing.</description>
+        <name>asn_qaContactAssignLastName</name>
+        <label>Assign the LastName</label>
+        <locationX>225</locationX>
+        <locationY>50</locationY>
+        <assignmentItems>
+            <assignToReference>var_qaContact.LastName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>var_qaLastName</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>dec_wasQAFirstNameSpecified</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -163,7 +213,7 @@
         <name>asn_resolutionSuccessful</name>
         <label>Resolution Was Successful</label>
         <locationX>1324</locationX>
-        <locationY>1596</locationY>
+        <locationY>2296</locationY>
         <assignmentItems>
             <assignToReference>var_isSuccess</assignToReference>
             <operator>Assign</operator>
@@ -183,8 +233,8 @@
         <description>... update the success flag to denote that resolution was successful; a single contact was resolved.</description>
         <name>asn_resolutionSuccessfulAlt</name>
         <label>Resolution Was Successful</label>
-        <locationX>50</locationX>
-        <locationY>2235</locationY>
+        <locationX>49</locationX>
+        <locationY>2935</locationY>
         <assignmentItems>
             <assignToReference>var_isSuccess</assignToReference>
             <operator>Assign</operator>
@@ -211,8 +261,8 @@
         <description>... capture the count of resolved Contacts driven by the Resolution action.</description>
         <name>asn_ResolvedContactsCount</name>
         <label>Capture the Count of Resolution Contacts</label>
-        <locationX>852</locationX>
-        <locationY>1037</locationY>
+        <locationX>854</locationX>
+        <locationY>1655</locationY>
         <assignmentItems>
             <assignToReference>var_resolvedContactCount</assignToReference>
             <operator>AssignCount</operator>
@@ -229,7 +279,7 @@
         <name>asn_resolvedContactToOutputVariable</name>
         <label>Assign First Resolved Contact</label>
         <locationX>1114</locationX>
-        <locationY>1336</locationY>
+        <locationY>2036</locationY>
         <assignmentItems>
             <assignToReference>var_resolvedContact</assignToReference>
             <operator>Assign</operator>
@@ -244,13 +294,13 @@
     <assignments>
         <name>Error_Contact_Filter</name>
         <label>Error: Contact Filter</label>
-        <locationX>1108</locationX>
-        <locationY>901</locationY>
+        <locationX>1305</locationX>
+        <locationY>1402</locationY>
         <assignmentItems>
             <assignToReference>var_errorMessage</assignToReference>
             <operator>Assign</operator>
             <value>
-                <stringValue>There Was an Error in Filter Contacts</stringValue>
+                <stringValue>An error occurred during Contact Filtering.  Please provide more precise resolution properties for the sourceContact -- and try again.</stringValue>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -261,12 +311,32 @@
             </value>
         </assignmentItems>
     </assignments>
+    <assignments>
+        <name>Error_No_Contact_Resolved</name>
+        <label>Error: No Contact Resolved</label>
+        <locationX>500</locationX>
+        <locationY>1870</locationY>
+        <assignmentItems>
+            <assignToReference>var_isSuccess</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>var_errorMessage</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>No Contacts were resolved.  Please provide more precise resolution properties for the sourceContact -- and try again.</stringValue>
+            </value>
+        </assignmentItems>
+    </assignments>
     <decisions>
         <description>... evaluate if a LastName, Email, and B2C CustomerList combination was provided WITHOUT identifiers.</description>
         <name>dec_areLastNameEmailAndB2CCustomerListProvided</name>
         <label>Are LastName, Email, and B2C CustomerList Provided?</label>
         <locationX>849</locationX>
-        <locationY>1830</locationY>
+        <locationY>2530</locationY>
         <defaultConnector>
             <targetReference>asn_errorNoContactResolved</targetReference>
         </defaultConnector>
@@ -306,7 +376,7 @@
         <name>dec_doesResolvedContactHaveID</name>
         <label>Does the Contact Have an ID?</label>
         <locationX>849</locationX>
-        <locationY>1597</locationY>
+        <locationY>2297</locationY>
         <defaultConnector>
             <targetReference>dec_areLastNameEmailAndB2CCustomerListProvided</targetReference>
         </defaultConnector>
@@ -331,8 +401,8 @@
         <description>... evaluate if QA Mode is enabled</description>
         <name>dec_isQAModeEnabled</name>
         <label>Is QA Mode Enabled?</label>
-        <locationX>846</locationX>
-        <locationY>296</locationY>
+        <locationX>845</locationX>
+        <locationY>411</locationY>
         <defaultConnector>
             <targetReference>asn_contactToContactCollection</targetReference>
         </defaultConnector>
@@ -348,7 +418,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>asn_qaContactProperties</targetReference>
+                <targetReference>dec_wasQALastNameSpecified</targetReference>
             </connector>
             <label>Enabled</label>
         </rules>
@@ -358,7 +428,7 @@
         <name>dec_wasDefaultLastNameRecordResolved</name>
         <label>Was a Record Resolved?</label>
         <locationX>441</locationX>
-        <locationY>2237</locationY>
+        <locationY>2937</locationY>
         <defaultConnector>
             <targetReference>asn_errorNoContactResolved</targetReference>
         </defaultConnector>
@@ -384,7 +454,10 @@
         <name>dec_wasOneContactResolved</name>
         <label>Was Only One Contact Resolved?</label>
         <locationX>846</locationX>
-        <locationY>1172</locationY>
+        <locationY>1872</locationY>
+        <defaultConnector>
+            <targetReference>Error_No_Contact_Resolved</targetReference>
+        </defaultConnector>
         <defaultConnectorLabel>No Contacts</defaultConnectorLabel>
         <rules>
             <name>decOut_singleContactWasResolved</name>
@@ -418,10 +491,160 @@
         </rules>
     </decisions>
     <decisions>
+        <name>dec_wasQACustomerIDSpecified</name>
+        <label>Was CustomerID Specified?</label>
+        <locationX>441</locationX>
+        <locationY>953</locationY>
+        <defaultConnector>
+            <targetReference>dec_wasQACustomerNoSpecified</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Specified</defaultConnectorLabel>
+        <rules>
+            <name>decOut_QACustomerIDWasSpecified</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>var_qaB2CCustomerID</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>asn_qaContactAssignCustomerID</targetReference>
+            </connector>
+            <label>Was Specified</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>dec_wasQACustomerListSpecified</name>
+        <label>Was CustomerList Specified?</label>
+        <locationX>442</locationX>
+        <locationY>721</locationY>
+        <defaultConnector>
+            <targetReference>dec_wasQACustomerIDSpecified</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Specified</defaultConnectorLabel>
+        <rules>
+            <name>decOut_QACustomerListWasSpecified</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>var_qaB2CCustomerListID</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>asn_qaContactAssignCustomerList</targetReference>
+            </connector>
+            <label>Was Specified</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>dec_wasQACustomerNoSpecified</name>
+        <label>Was CustomerNo Specified?</label>
+        <locationX>442</locationX>
+        <locationY>1206</locationY>
+        <defaultConnector>
+            <targetReference>asn_contactToResolveOverwrite</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Specified</defaultConnectorLabel>
+        <rules>
+            <name>decOut_QACustomerNoWasSpecified</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>var_qaB2CCustomerNo</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>asn_qaContactAssignCustomerNo</targetReference>
+            </connector>
+            <label>Was Specified</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>dec_wasQAEmailSpecified</name>
+        <label>Was Email Specified?</label>
+        <locationX>441</locationX>
+        <locationY>494</locationY>
+        <defaultConnector>
+            <targetReference>dec_wasQACustomerListSpecified</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Specified</defaultConnectorLabel>
+        <rules>
+            <name>decOut_QAEmailWasSpecified</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>var_qaEmailAddress</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>asn_qaContactAssignEmail</targetReference>
+            </connector>
+            <label>Was Specified</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>dec_wasQAFirstNameSpecified</name>
+        <label>Was FirstName Specified?</label>
+        <locationX>441</locationX>
+        <locationY>270</locationY>
+        <defaultConnector>
+            <targetReference>dec_wasQAEmailSpecified</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Specified</defaultConnectorLabel>
+        <rules>
+            <name>decOut_QAFirstNamelWasSpecified</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>var_qaFirstName</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>asn_qaContactAssignFirstName</targetReference>
+            </connector>
+            <label>Was Specified</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>dec_wasQALastNameSpecified</name>
+        <label>Was LastName Specified?</label>
+        <locationX>441</locationX>
+        <locationY>50</locationY>
+        <defaultConnector>
+            <targetReference>dec_wasQAFirstNameSpecified</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Specified</defaultConnectorLabel>
+        <rules>
+            <name>decOut_QALastNameWasSpecified</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>var_qaLastName</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>asn_qaContactAssignLastName</targetReference>
+            </connector>
+            <label>Was Specified</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>Was_There_An_Error_In_Filtering</name>
         <label>Was There An Error In Filtering?</label>
-        <locationX>841</locationX>
-        <locationY>890</locationY>
+        <locationX>845</locationX>
+        <locationY>1405</locationY>
         <defaultConnector>
             <targetReference>asn_ResolvedContactsCount</targetReference>
         </defaultConnector>
@@ -450,7 +673,7 @@
         <name>loop_retrieveResolvedContact</name>
         <label>Iterate and Retrieve the Resolved Contact</label>
         <locationX>856</locationX>
-        <locationY>1336</locationY>
+        <locationY>2036</locationY>
         <collectionReference>ContactFilterMatches_Subflow.ContactMatchesResult</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -484,7 +707,7 @@
         <name>recGet_ContactByDefaultLastEmailCList</name>
         <label>Attempt to Resolve Contact</label>
         <locationX>449</locationX>
-        <locationY>2035</locationY>
+        <locationY>2735</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>dec_wasDefaultLastNameRecordResolved</targetReference>
@@ -522,7 +745,7 @@
         <name>recGet_defaultConfiguration</name>
         <label>Retrieve the Default Configuration</label>
         <locationX>449</locationX>
-        <locationY>1827</locationY>
+        <locationY>2527</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>recGet_ContactByDefaultLastEmailCList</targetReference>
@@ -544,7 +767,7 @@
         <name>recGet_IdentifyDefaultConfiguration</name>
         <label>Identify the Default Configuration</label>
         <locationX>642</locationX>
-        <locationY>1827</locationY>
+        <locationY>2527</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>recGet_defaultConfiguration</targetReference>
@@ -558,7 +781,7 @@
         <name>recGet_resolvedContact</name>
         <label>Retrieve the Full Contact Details</label>
         <locationX>1120</locationX>
-        <locationY>1596</locationY>
+        <locationY>2296</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>asn_resolutionSuccessful</targetReference>
@@ -576,8 +799,8 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <start>
-        <locationX>726</locationX>
-        <locationY>50</locationY>
+        <locationX>727</locationX>
+        <locationY>176</locationY>
         <connector>
             <targetReference>dec_isQAModeEnabled</targetReference>
         </connector>
@@ -586,8 +809,8 @@
     <subflows>
         <name>ContactFilterMatches_Subflow</name>
         <label>ContactFilterMatches Subflow</label>
-        <locationX>1001</locationX>
-        <locationY>708</locationY>
+        <locationX>853</locationX>
+        <locationY>1202</locationY>
         <connector>
             <targetReference>Was_There_An_Error_In_Filtering</targetReference>
         </connector>

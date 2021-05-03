@@ -22,7 +22,7 @@
             <name>processedContact</name>
         </outputParameters>
     </actionCalls>
-    <apiVersion>50.0</apiVersion>
+    <apiVersion>51.0</apiVersion>
     <assignments>
         <name>asn_AccountIDToSourceContact</name>
         <label>Assign the AccountID to the Contact</label>
@@ -594,8 +594,8 @@
         <description>... assign the test properties of the QA Contact to overwrite the sourceContact.</description>
         <name>asn_qaContactProperties</name>
         <label>Assign the QA Contact Properties</label>
-        <locationX>2280</locationX>
-        <locationY>280</locationY>
+        <locationX>2281</locationX>
+        <locationY>279</locationY>
         <assignmentItems>
             <assignToReference>var_qaSourceContact.Email</assignToReference>
             <operator>Assign</operator>
