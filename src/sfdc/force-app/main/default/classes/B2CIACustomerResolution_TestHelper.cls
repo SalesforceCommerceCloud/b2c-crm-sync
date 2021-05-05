@@ -5,6 +5,12 @@
  */
 public abstract with sharing class B2CIACustomerResolution_TestHelper {
 
+    /**
+     * @description This method is used to assert that a validation error was caught
+     * when conducting filter-matching logic via the B2C_Commerce_Contact_Filter_Matches flow.
+     * @param flowResults {Map<String, Object>} Represents the results processed by the
+     * customerResolution class and filterMatches flow results
+     */
     public static void validateValidationError(Map<String, Object> flowResults) {
 
         // Initialize local variables
@@ -33,6 +39,12 @@ public abstract with sharing class B2CIACustomerResolution_TestHelper {
 
     }
 
+    /**
+     * @description This method is used to assert that multiple results were resolved
+     * via the B2C_Commerce_Contact_Filter_Matches flow for a given customerResolution result
+     * @param flowResults {Map<String, Object>} Represents the results processed by the
+     * customerResolution class and filterMatches flow results
+     */
     public static void validateMultipleResults(Map<String, Object> flowResults) {
 
         // Initialize local variables
