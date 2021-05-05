@@ -292,7 +292,7 @@
     </decisions>
     <description>... this flow is used to iterate over the B2C Commerce identifiers and attempt to match a Contact on B2C CustomerList ID, B2C CustomerNo, and B2C CustomerID.  If a match is not found, an error will be recorded.</description>
     <interviewLabel>B2C Commerce: Contact Match Identifiers {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>B2C Commerce: Contact Match Identifiers</label>
+    <label>B2C Commerce: Process: Contact Validate Identifiers</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>

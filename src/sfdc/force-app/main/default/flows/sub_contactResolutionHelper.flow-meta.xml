@@ -82,8 +82,8 @@
         <description>... no Contact was successfully resolved.</description>
         <name>asn_errorNoContactResolved</name>
         <label>Error: No Contact Was Resolved</label>
-        <locationX>856</locationX>
-        <locationY>2934</locationY>
+        <locationX>858</locationX>
+        <locationY>2535</locationY>
         <assignmentItems>
             <assignToReference>var_isSuccess</assignToReference>
             <operator>Assign</operator>
@@ -230,34 +230,6 @@
         </assignmentItems>
     </assignments>
     <assignments>
-        <description>... update the success flag to denote that resolution was successful; a single contact was resolved.</description>
-        <name>asn_resolutionSuccessfulAlt</name>
-        <label>Resolution Was Successful</label>
-        <locationX>49</locationX>
-        <locationY>2935</locationY>
-        <assignmentItems>
-            <assignToReference>var_isSuccess</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <booleanValue>true</booleanValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>var_resolvedContact</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>recGet_ContactByDefaultLastEmailCList</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>var_resolvedContactCount</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <numberValue>1.0</numberValue>
-            </value>
-        </assignmentItems>
-    </assignments>
-    <assignments>
         <description>... capture the count of resolved Contacts driven by the Resolution action.</description>
         <name>asn_ResolvedContactsCount</name>
         <label>Capture the Count of Resolution Contacts</label>
@@ -332,53 +304,13 @@
         </assignmentItems>
     </assignments>
     <decisions>
-        <description>... evaluate if a LastName, Email, and B2C CustomerList combination was provided WITHOUT identifiers.</description>
-        <name>dec_areLastNameEmailAndB2CCustomerListProvided</name>
-        <label>Are LastName, Email, and B2C CustomerList Provided?</label>
-        <locationX>849</locationX>
-        <locationY>2530</locationY>
-        <defaultConnector>
-            <targetReference>asn_errorNoContactResolved</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>Not Provided</defaultConnectorLabel>
-        <rules>
-            <name>decOut_LastNameEmailCListWereProvided</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>var_contactToResolve.LastName</leftValueReference>
-                <operator>WasSet</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>var_contactToResolve.Email</leftValueReference>
-                <operator>WasSet</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>var_contactToResolve.B2C_CustomerList_ID__c</leftValueReference>
-                <operator>WasSet</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>recGet_IdentifyDefaultConfiguration</targetReference>
-            </connector>
-            <label>Were Provided</label>
-        </rules>
-    </decisions>
-    <decisions>
         <description>... evaluate if the resolvedContact has an ID value.</description>
         <name>dec_doesResolvedContactHaveID</name>
         <label>Does the Contact Have an ID?</label>
         <locationX>849</locationX>
         <locationY>2297</locationY>
         <defaultConnector>
-            <targetReference>dec_areLastNameEmailAndB2CCustomerListProvided</targetReference>
+            <targetReference>asn_errorNoContactResolved</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>No ContactID</defaultConnectorLabel>
         <rules>
@@ -421,32 +353,6 @@
                 <targetReference>dec_wasQALastNameSpecified</targetReference>
             </connector>
             <label>Enabled</label>
-        </rules>
-    </decisions>
-    <decisions>
-        <description>... evaluate if a Contact record was resolved leveraging the default LastName instead of the provided lastName.</description>
-        <name>dec_wasDefaultLastNameRecordResolved</name>
-        <label>Was a Record Resolved?</label>
-        <locationX>441</locationX>
-        <locationY>2937</locationY>
-        <defaultConnector>
-            <targetReference>asn_errorNoContactResolved</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>Not Resolved</defaultConnectorLabel>
-        <rules>
-            <name>decOut_ContactResolvedByDefaultLastName</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>recGet_ContactByDefaultLastEmailCList.Id</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>asn_resolutionSuccessfulAlt</targetReference>
-            </connector>
-            <label>Was Resolved</label>
         </rules>
     </decisions>
     <decisions>
@@ -702,80 +608,6 @@
         </value>
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
-    <recordLookups>
-        <description>... attempt to resolve the Contact by Default LastName, Email, and CustomerList</description>
-        <name>recGet_ContactByDefaultLastEmailCList</name>
-        <label>Attempt to Resolve Contact</label>
-        <locationX>449</locationX>
-        <locationY>2735</locationY>
-        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>dec_wasDefaultLastNameRecordResolved</targetReference>
-        </connector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Email</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>var_contactToResolve.Email</elementReference>
-            </value>
-        </filters>
-        <filters>
-            <field>B2C_CustomerList_ID__c</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>var_contactToResolve.B2C_CustomerList_ID__c</elementReference>
-            </value>
-        </filters>
-        <filters>
-            <field>LastName</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>recGet_defaultConfiguration.Default_Contact_Name__c</elementReference>
-            </value>
-        </filters>
-        <getFirstRecordOnly>true</getFirstRecordOnly>
-        <object>Contact</object>
-        <sortField>LastModifiedDate</sortField>
-        <sortOrder>Desc</sortOrder>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordLookups>
-    <recordLookups>
-        <description>... retrieve the default production configuration for b2c-crm-sync.</description>
-        <name>recGet_defaultConfiguration</name>
-        <label>Retrieve the Default Configuration</label>
-        <locationX>449</locationX>
-        <locationY>2527</locationY>
-        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>recGet_ContactByDefaultLastEmailCList</targetReference>
-        </connector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Id</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>recGet_IdentifyDefaultConfiguration.Active_Configuration__c</elementReference>
-            </value>
-        </filters>
-        <getFirstRecordOnly>true</getFirstRecordOnly>
-        <object>B2C_CRMSync_Setting__mdt</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordLookups>
-    <recordLookups>
-        <description>... identify which collection of configuration settings represents the defaultConfiguration for b2c-crm-sync.</description>
-        <name>recGet_IdentifyDefaultConfiguration</name>
-        <label>Identify the Default Configuration</label>
-        <locationX>642</locationX>
-        <locationY>2527</locationY>
-        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>recGet_defaultConfiguration</targetReference>
-        </connector>
-        <getFirstRecordOnly>true</getFirstRecordOnly>
-        <object>B2C_CRM_Sync_Default_Configuration__mdt</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordLookups>
     <recordLookups>
         <description>... retrieve the Contact and all of its properties for downstream use.</description>
         <name>recGet_resolvedContact</name>
