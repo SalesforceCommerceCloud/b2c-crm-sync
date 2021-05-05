@@ -61,6 +61,35 @@ public abstract with sharing class B2CIACustomerResolution_TestHelper {
 
     }
 
+
+    public static void validateZeroFilterResultsWithResolutionResultsFromMultiple(Map<String, Object> flowResults) {
+
+        // Initialize local variables
+        List<Contact> contactResolvedList;
+        List<Contact> contactFilteredList;
+        Boolean flowIsSuccess;
+        List<String> flowErrors;
+
+        // Collect the flow results
+        contactResolvedList = (List<Contact>) flowResults.get('contactResolvedList');
+        contactFilteredList = (List<Contact>) flowResults.get('contactFilteredList');
+        flowIsSuccess = (Boolean) flowResults.get('flowIsSuccess');
+        flowErrors = (List<String>) flowResults.get('flowErrors');
+
+        // Debugging: Output the test results
+        System.debug('--> contactResolvedList: ' + contactResolvedList);
+        System.debug('--> contactFilteredList: ' + contactFilteredList);
+        System.debug('--> flowIsSuccess: ' + flowIsSuccess);
+        System.debug('--> flowErrors: ' + flowErrors);
+
+        // Assert that the resolution class and filterFlow return predictable results
+        System.assert(contactResolvedList.size() > 0, 'Expected the customerResolution class to return at least one (1) record');
+        System.assertEquals(null, contactFilteredList, 'Expected the filterMatches flow to return zero records; a match should not be found');
+        System.assertEquals(true, flowIsSuccess, 'Expected the isSuccess flag to be set to true');
+        System.assertEquals(null, flowErrors, 'Expected the errors collection to be empty');
+
+    }
+
     public static void validateZeroResultsFromMultiple(Map<String, Object> flowResults) {
 
         // Initialize local variables

@@ -25,6 +25,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
     public static String testLastName = 'LastName';
     public static String testLastName1 = 'LastName1';
     public static String testLastName2 = 'LastName2';
+    public static String testLastName3 = 'LastName3';
     public static String testLastNameDefault = 'Unknown';
 
     /**
@@ -56,13 +57,13 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
 
         // Setup a third customerList for testing / validation
         B2C_CustomerList__c customerList2 = (B2C_CustomerList__c)TestDataFactory.createSObject('B2C_CustomerList__c', new Map<String,Object>{
-                'Name' => 'customerList2',
-                'Is_Active__c' => true,
-                'API_Url__c' => 'https://www.salesforce.com',
-                'B2C_Instance__r.Is_Active__c' => true,
-                'B2C_Instance__r.API_Url__c' => 'https://www.salesforce.com',
-                'Enable_Profile_Publishing__c' => true,
-                'Enable_Profile_Creation__c' => true
+            'Name' => 'customerList2',
+            'Is_Active__c' => true,
+            'API_Url__c' => 'https://www.salesforce.com',
+            'B2C_Instance__r.Is_Active__c' => true,
+            'B2C_Instance__r.API_Url__c' => 'https://www.salesforce.com',
+            'Enable_Profile_Publishing__c' => true,
+            'Enable_Profile_Creation__c' => true
         });
 
     }
@@ -853,10 +854,10 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
      * @see B2CIACustomerResolution.findDupes
      * @description This test-case exercises the CustomerResolution IA and attempts to resolve
      * a Contact record via a customerList, Email, and LastName.  It resolves no records from
-     * multiple records due to mis-matched customerId values.
+     * multiple records due to mis-matched email values.
      */
     @IsTest
-    private static void testResolveByB2CCustomerListIDEmailLastNameZeroResultsFromMultiple() {
+    private static void testResolveByB2CCustomerListIDEmailLastNameZeroResultsFromMultipleEmails() {
 
         // Initialize local variables
         Map<String, Object> flowResults;
@@ -901,6 +902,65 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
 
         // Validate the zero-result details
         validateZeroResultsFromMultiple(flowResults);
+
+    }
+
+    /**
+     * @see B2CIACustomerResolution.findDupes
+     * @description This test-case exercises the CustomerResolution IA and attempts to resolve
+     * a Contact record via a customerList, Email, and LastName.  It resolves no records from
+     * multiple records due to mis-matched lastName values.
+     */
+    @IsTest
+    private static void testResolveByB2CCustomerListIDEmailLastNameZeroResultsFromMultipleLastNames() {
+
+        // Initialize local variables
+        Map<String, Object> flowResults;
+        Contact contactToResolve;
+        Contact testContact;
+        Map<String, Object> contactToResolveMap;
+
+        // Initialize the map describing the contact to create
+        contactToResolveMap = new Map<String, Object>();
+
+        // Define the map representing the Account / Contact record
+        contactToResolveMap.put('B2C_CustomerList_ID__c', testCustomerListID);
+        contactToResolveMap.put('Email', testEmail);
+        contactToResolveMap.put('LastName', testLastName);
+
+        // Create the Contact record to resolve
+        contactToResolve = createContact(contactToResolveMap);
+
+        // Create a second contact record with a different Email / LastName
+        contactToResolveMap.put('LastName', testLastName1);
+        createContact(contactToResolveMap);
+
+        // Create a third contact record with a different Email / LastName
+        contactToResolveMap.put('LastName', testLastName2);
+        createContact(contactToResolveMap);
+
+        // Define the Contact record to resolve
+        testContact = new Contact(
+            B2C_CustomerList_ID__c = testCustomerListID,
+            Email = testEmail,
+            LastName = testLastName3
+        );
+
+        Test.startTest();
+        //-------------------------------------------
+        // Test: Start exercising the resolutionFlow
+        //-------------------------------------------
+
+        // Execute the flow results
+        flowResults = executeResolutionProcess(testContact);
+
+        //-------------------------------------------
+        // Test: Finish exercising the resolutionFlow
+        //-------------------------------------------
+        Test.stopTest();
+
+        // Validate the zero-result details
+        validateZeroFilterResultsWithResolutionResultsFromMultiple(flowResults);
 
     }
 
@@ -1065,8 +1125,247 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
 
     }
 
+    /**
+     * @see B2CIACustomerResolution.findDupes
+     * @description This test-case exercises the CustomerResolution IA and attempts to resolve
+     * a Contact record via a customerList, Email, and LastName.  It resolves a single record from
+     * a single record that has the default lastName.
+     */
+    @IsTest
+    private static void testResolveByB2CCustomerListIDEmailLastNameSingleResultDefaultLastName() {
+
+        // Initialize local variables
+        Map<String, Object> flowResults;
+        Contact contactToResolve;
+        Contact testContact;
+        Map<String, Object> contactToResolveMap;
+
+        // Initialize the map describing the contact to create
+        contactToResolveMap = new Map<String, Object>();
+
+        // Define the map representing the Account / Contact record
+        contactToResolveMap.put('B2C_CustomerList_ID__c', testCustomerListID);
+        contactToResolveMap.put('Email', testEmail);
+        contactToResolveMap.put('LastName', testLastNameDefault);
+
+        // Create the Contact record to resolve
+        contactToResolve = createContact(contactToResolveMap);
+
+        // Define the Contact record to resolve
+        testContact = new Contact(
+            B2C_CustomerList_ID__c = testCustomerListID,
+            Email = testEmail,
+            LastName = testLastName
+        );
+
+        Test.startTest();
+        //-------------------------------------------
+        // Test: Start exercising the resolutionFlow
+        //-------------------------------------------
+
+            // Execute the flow results
+            flowResults = executeResolutionProcess(testContact);
+
+        //-------------------------------------------
+        // Test: Finish exercising the resolutionFlow
+        //-------------------------------------------
+        Test.stopTest();
+
+        // Validate the single result details
+        validateSingleResult(flowResults, contactToResolve);
+
+    }
+
+    /**
+     * @see B2CIACustomerResolution.findDupes
+     * @description This test-case exercises the CustomerResolution IA and attempts to resolve
+     * a Contact record via a customerList, Email, and LastName.  It resolves multiple records from
+     * multiple records that have the default lastName.
+     */
+    @IsTest
+    private static void testResolveByB2CCustomerListIDEmailLastNameZeroResultsFromMultipleDefaultLastNames() {
+
+        // Initialize local variables
+        Map<String, Object> flowResults;
+        Contact contactToResolve;
+        Contact testContact;
+        Map<String, Object> contactToResolveMap;
+
+        // Initialize the map describing the contact to create
+        contactToResolveMap = new Map<String, Object>();
+
+        // Define the map representing the Account / Contact record
+        contactToResolveMap.put('B2C_CustomerList_ID__c', testCustomerListID);
+        contactToResolveMap.put('Email', testEmail);
+        contactToResolveMap.put('LastName', testLastNameDefault);
+
+        // Create the Contact record to resolve
+        contactToResolve = createContact(contactToResolveMap);
+
+        // Create multiple contact records
+        createContact(contactToResolveMap);
+        createContact(contactToResolveMap);
+
+        // Define the Contact record to resolve
+        testContact = new Contact(
+                B2C_CustomerList_ID__c = testCustomerListID,
+                Email = testEmail,
+                LastName = testLastName
+        );
+
+        Test.startTest();
+        //-------------------------------------------
+        // Test: Start exercising the resolutionFlow
+        //-------------------------------------------
+
+        // Execute the flow results
+        flowResults = executeResolutionProcess(testContact);
+
+        //-------------------------------------------
+        // Test: Finish exercising the resolutionFlow
+        //-------------------------------------------
+        Test.stopTest();
+
+        // Validate the filter result details
+        validateMultipleResults(flowResults);
+
+    }
+
+    /**
+     * @see B2CIACustomerResolution.findDupes
+     * @description This test-case exercises the CustomerResolution IA and attempts to resolve
+     * a Contact record via a customerList, Email, and LastName.  It resolves a single record from
+     * multiple records using the default lastName.
+     */
+    @IsTest
+    private static void testResolveByB2CCustomerListIDEmailLastNameSingleResultFromMultipleDefaultLastNames() {
+
+        // Initialize local variables
+        Map<String, Object> flowResults;
+        Contact contactToResolve;
+        Contact testContact;
+        Map<String, Object> contactToResolveMap;
+
+        // Initialize the map describing the contact to create
+        contactToResolveMap = new Map<String, Object>();
+
+        // Define the map representing the Account / Contact record
+        contactToResolveMap.put('B2C_CustomerList_ID__c', testCustomerListID);
+        contactToResolveMap.put('Email', testEmail);
+        contactToResolveMap.put('LastName', testLastNameDefault);
+
+        // Create the Contact record to resolve
+        contactToResolve = createContact(contactToResolveMap);
+
+        // Create a second contact record with a different customerListID
+        contactToResolveMap.put('B2C_CustomerList_ID__c', testCustomerListID1);
+        createContact(contactToResolveMap);
+
+        // Create a third contact record with a different customerListID
+        contactToResolveMap.put('B2C_CustomerList_ID__c', testCustomerListID2);
+        createContact(contactToResolveMap);
+
+        // Define the Contact record to resolve
+        testContact = new Contact(
+                B2C_CustomerList_ID__c = testCustomerListID,
+                Email = testEmail,
+                LastName = testLastName
+        );
+
+        Test.startTest();
+        //-------------------------------------------
+        // Test: Start exercising the resolutionFlow
+        //-------------------------------------------
+
+            // Execute the flow results
+            flowResults = executeResolutionProcess(testContact);
+
+        //-------------------------------------------
+        // Test: Finish exercising the resolutionFlow
+        //-------------------------------------------
+        Test.stopTest();
+
+        // Validate the single result details
+        validateSingleResult(flowResults, contactToResolve);
+
+    }
+
+    /**
+     * @see B2CIACustomerResolution.findDupes
+     * @description This test-case exercises the CustomerResolution IA and attempts to resolve
+     * a Contact record via a customerList, Email, and LastName.  It resolves a single record from
+     * multiple records using the default / customer-specific lastNames.
+     */
+    @IsTest
+    private static void testResolveByB2CCustomerListIDEmailLastNameSingleResultFromMultipleMixedLastNames() {
+
+        // Initialize local variables
+        Map<String, Object> flowResults;
+        Contact contactToResolve;
+        Contact testContact;
+        Map<String, Object> contactToResolveMap;
+
+        // Initialize the map describing the contact to create
+        contactToResolveMap = new Map<String, Object>();
+
+        // Define the map representing the Account / Contact record
+        contactToResolveMap.put('B2C_CustomerList_ID__c', testCustomerListID);
+        contactToResolveMap.put('Email', testEmail);
+        contactToResolveMap.put('LastName', testLastName);
+
+        // Create the Contact record to resolve
+        contactToResolve = createContact(contactToResolveMap);
+
+        // Create a second contact record with a different customerListID
+        contactToResolveMap.put('LastName', testLastNameDefault);
+        createContact(contactToResolveMap);
+
+        // Create a third contact record with a different customerListID
+        contactToResolveMap.put('B2C_CustomerList_ID__c', testCustomerListID1);
+        createContact(contactToResolveMap);
+
+        // Create a fourth contact record with customer's lastName
+        contactToResolveMap.put('B2C_CustomerList_ID__c', testCustomerListID2);
+        contactToResolveMap.put('LastName', testLastName);
+        createContact(contactToResolveMap);
+
+        // Define the Contact record to resolve
+        testContact = new Contact(
+            B2C_CustomerList_ID__c = testCustomerListID,
+            Email = testEmail,
+            LastName = testLastName
+        );
+
+        Test.startTest();
+        //-------------------------------------------
+        // Test: Start exercising the resolutionFlow
+        //-------------------------------------------
+
+            // Execute the flow results
+            flowResults = executeResolutionProcess(testContact);
+
+        //-------------------------------------------
+        // Test: Finish exercising the resolutionFlow
+        //-------------------------------------------
+        Test.stopTest();
+
+        // Validate the single result details
+        validateSingleResult(flowResults, contactToResolve);
+
+    }
+
     //----------------------------------------------------------------
-    // END: B2C CustomerListID / Email / LastName
+    //   END: B2C CustomerListID / Email / LastName
+    //----------------------------------------------------------------
+
+    //----------------------------------------------------------------
+    // START: B2C CustomerListID / Email
+    //----------------------------------------------------------------
+
+
+
+    //----------------------------------------------------------------
+    //   END: B2C CustomerListID / Email
     //----------------------------------------------------------------
 
 }
