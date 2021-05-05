@@ -1208,9 +1208,9 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
 
         // Define the Contact record to resolve
         testContact = new Contact(
-                B2C_CustomerList_ID__c = testCustomerListID,
-                Email = testEmail,
-                LastName = testLastName
+            B2C_CustomerList_ID__c = testCustomerListID,
+            Email = testEmail,
+            LastName = testLastName
         );
 
         Test.startTest();
@@ -1218,8 +1218,8 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         // Test: Start exercising the resolutionFlow
         //-------------------------------------------
 
-        // Execute the flow results
-        flowResults = executeResolutionProcess(testContact);
+            // Execute the flow results
+            flowResults = executeResolutionProcess(testContact);
 
         //-------------------------------------------
         // Test: Finish exercising the resolutionFlow

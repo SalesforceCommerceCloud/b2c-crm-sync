@@ -61,7 +61,6 @@ public abstract with sharing class B2CIACustomerResolution_TestHelper {
 
     }
 
-
     public static void validateZeroFilterResultsWithResolutionResultsFromMultiple(Map<String, Object> flowResults) {
 
         // Initialize local variables
