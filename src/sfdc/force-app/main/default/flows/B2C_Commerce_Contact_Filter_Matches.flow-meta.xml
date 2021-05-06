@@ -196,8 +196,8 @@
     <assignments>
         <name>CustomerListLastNameEmailError_Assignment</name>
         <label>CustomerListLastNameEmailError Assignment</label>
-        <locationX>1412</locationX>
-        <locationY>2244</locationY>
+        <locationX>1323</locationX>
+        <locationY>2237</locationY>
         <assignmentItems>
             <assignToReference>isSuccess</assignToReference>
             <operator>Assign</operator>
@@ -387,7 +387,7 @@
         <defaultConnectorLabel>Does Not Match</defaultConnectorLabel>
         <rules>
             <name>OutcomeIs_CustomerListIdLastNameAndEmailDoesMatch</name>
-            <conditionLogic>(1 AND 2 AND 3) OR (1 AND 4 AND 3 AND 5)</conditionLogic>
+            <conditionLogic>(2 AND 3 AND 6) OR (1 AND 2 AND 3) OR (1 AND 4 AND 3 AND 5)</conditionLogic>
             <conditions>
                 <leftValueReference>Contact.B2C_CustomerList_ID__c</leftValueReference>
                 <operator>EqualTo</operator>
@@ -419,6 +419,13 @@
             <conditions>
                 <leftValueReference>matchesFound</leftValueReference>
                 <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>CustomerListIdLastNameEmail_Loop.B2C_CustomerList_ID__c</leftValueReference>
+                <operator>WasSet</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
                 </rightValue>
@@ -492,8 +499,8 @@
     <decisions>
         <name>CustomerListIdLastNameAndEmailSet_Decision_0</name>
         <label>Was CustomerListId LastName and Email Set?</label>
-        <locationX>1045</locationX>
-        <locationY>2236</locationY>
+        <locationX>1047</locationX>
+        <locationY>2131</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>OutcomeIs_CustomerListIdEmailWereSet</name>
@@ -704,8 +711,8 @@
     <loops>
         <name>CustomerListIdLastNameEmail_Loop</name>
         <label>CustomerListIdLastNameEmail Loop</label>
-        <locationX>1412</locationX>
-        <locationY>1824</locationY>
+        <locationX>1323</locationX>
+        <locationY>1832</locationY>
         <collectionReference>ContactMatches</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
