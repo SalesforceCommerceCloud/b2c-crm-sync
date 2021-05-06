@@ -570,21 +570,9 @@ npm run crm-sync:sf:build
 
 > This CLI command automates the steps outlined above.  Automation results will be output through the CLI.  If successful, a browser tab will be opened to the created scratchOrg.
 
-:round_pushpin: &nbsp; Please note that the next step should **only be performed if you created a scratchOrg supporting PersonAccounts**.  This step can be skipped if the [base scratchOrg profile](./config-dx/b2c-base-scratch-def.json) was used.
+10.  In your scratchOrg, enter Setup and find the User avatar in the header (the avatar should look like Astro, and be displayed in the upper right corner of the browser.  Hovering over Astro will display the label "View Profile".
 
-10. If you are deploying a personAccount scratchOrg, you'll also need to manually deploy the Salesforce Platform layout and quickAction elements for PersonAccounts.  The following SFDX command can be used to deploy these elements to your scratchOrg:
-
-> :round_pushpin: &nbsp; As of **04.19.21** -- we've deployed our PersonAccounts implementation.  Please review the [issues list](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/issues) for defects and known issues.  If you encounter a defect related to PersonAccounts, please go ahead and [create an issue](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/issues/new/choose); it helps everyone.
-
-```bash
-sfdx force:source:deploy -p "src/sfdc/person-accounts"
-```
-
-> The deployment results will be output via the CLI.  Please note that these elements are a requirement for environments where personAccounts are enabled.
-
-11.  In your scratchOrg, enter Setup and find the User avatar in the header (the avatar should look like Astro, and be displayed in the upper right corner of the browser.  Hovering over Astro will display the label "View Profile".
-
-12.  Click on the User avatar and select the option titled **Settings**.  From the settings menu, click on the option titled **Reset Security Token** to generate a new token for your scratchOrg user.
+11.  Click on the User avatar and select the option titled **Settings**.  From the settings menu, click on the option titled **Reset Security Token** to generate a new token for your scratchOrg user.
 
 > Please note that you will receive two emails declaring that a new securityToken has been generated.  The first is from the password reset that was performed.  The second is from this action.  Copy the securityToken from the second email to the .env file.
 
@@ -619,7 +607,7 @@ SF_SECURITYTOKEN=5aqzr1tpENbIpiWt1E9X2ruOV
 
 The build tools will use this information to create the B2C Commerce service definitions used by it to communicate with the Salesforce scratchOrg.
 
-13.  Ensure that the following .env Salesforce Platforms scratchOrg configuration properties displayed via the CLI output after the scratchOrg was successfully deployed.
+12.  Ensure that the following .env Salesforce Platforms scratchOrg configuration properties displayed via the CLI output after the scratchOrg was successfully deployed.
 
 ```
 ######################################################################
@@ -634,7 +622,7 @@ SF_SECURITYTOKEN=5aqzr1tpENbIpiWt1E9X2ruOV
 
 > Remember that these values need to be driven by your scratchOrg user and environment.  These values must be accurate to ensure that the B2C Commerce meta-data is successfully generated and supports the integration with the Salesforce Platform.
 
-14.  Test your Salesforce Platform Configuration properties by executing the following CLI Command:
+13.  Test your Salesforce Platform Configuration properties by executing the following CLI Command:
 
 ```bash
 npm run crm-sync:sf:auth:usercreds
@@ -644,24 +632,24 @@ npm run crm-sync:sf:auth:usercreds
 
 :warning: &nbsp; Only proceed to the next steps if you are able to successfully validate that your Salesforce Platform Configuration Properties are able to successfully authenticate against your scratchOrg. &nbsp; :warning:
 
-15. Now that the scratch org has been created, the b2c-crm-sync package deployed and the credentials of the user validated, you have to build the Auth Provider that will allow the Salesforce core platform to authenticate with the B2C instance. To do so, please execute the following CLI Command:
+14. Now that the scratch org has been created, the b2c-crm-sync package deployed and the credentials of the user validated, you have to build the Auth Provider that will allow the Salesforce core platform to authenticate with the B2C instance. To do so, please execute the following CLI Command:
 
 ```bash
 npm run crm-sync:sf:authprovider:build
 ```
 
-> This command will create the Auth Provider into the scratch org and then deploy the related Named Credentials that will leverage it. This named credential is then used by the b2c-crm-sync package to perform API calls aginst the B2C Commerce instance.
+> This command will create the Auth Provider into the scratch org and then deploy the related Named Credentials that will leverage it. This named credential is then used by the b2c-crm-sync package to perform API calls against the B2C Commerce instance.
 
-16. By executing the `crm-sync:sf:authprovider:build` command, the callback URL of the auth provider will be printed in the CLI console. Please copy this URL and paste it in the Redirect URIs field of the previously created Account Manager Client ID.
+15. By executing the `crm-sync:sf:authprovider:build` command, the callback URL of the auth provider will be printed in the CLI console. Please copy this URL and paste it in the Redirect URIs field of the previously created Account Manager Client ID.
 
 > If you don't find the callback URL of the Auth Provider within the CLI console, you can find it from the Salesforce org. To do so, please go to the `Setup` menu, then type in the Quick Find field and search for `Auth. Providers` and open the Auth provider named with the B2C Commerce instance name. You'll find the callback URL at the bottom of the page.
 
-17. Now that both the Auth Provider and the related Named Credentials are deployed, you have to perform a first authentication from the Salesforce Core platform. This step is manual as it requires you to validate the authentication flow. To perform this action. please go, on the scratch org, to the `Setup` menu, then type in the Quick Find field and search for `Named Credentials`. In front of the `<b2c instance name>: B2C: Client Credentials` named credentials, click on the edit button, then click on `Save`. Doing an edit of the named credential will start the authentication process behind the scene between the Salesforce core org and the B2C Commerce instance. You should be able to see that the named credential has been successfully authenticated when opening back the named credential, as per the following screenshot:
+16. Now that both the Auth Provider and the related Named Credentials are deployed, you have to perform a first authentication from the Salesforce Core platform. This step is manual as it requires you to validate the authentication flow. To perform this action. please go, on the scratch org, to the `Setup` menu, then type in the Quick Find field and search for `Named Credentials`. In front of the `<b2c instance name>: B2C: Client Credentials` named credentials, click on the edit button, then click on `Save`. Doing an edit of the named credential will start the authentication process behind the scene between the Salesforce core org and the B2C Commerce instance. You should be able to see that the named credential has been successfully authenticated when opening back the named credential, as per the following screenshot:
 
 ![Successfully authenticated B2C Commerce Named Credential](/docs/images/B2C-Authenticated-Named-Credential.png)
 
 
-18. Generate the B2C Commerce metadata required by b2c-crm-sync and deploy both the code metadata to the Salesforce B2C Commerce instance by executing the following CLI command:
+17. Generate the B2C Commerce metadata required by b2c-crm-sync and deploy both the code metadata to the Salesforce B2C Commerce instance by executing the following CLI command:
 
 ```bash
 npm run crm-sync:b2c:build
@@ -690,7 +678,7 @@ From the duplicate rules listing, select the rule titled **B2C Commerce: Standar
 - Paste the following filter logic value in the field -- and save your results.
 
 ```bash
-1 OR (2 AND 3) OR (2 AND 4 AND 5) OR (4 AND 5 AND 6)
+1 OR (2 AND 3) OR (2 AND 4 AND 5) OR (2 AND 5) OR (4 AND 5 AND 6)
 ```
 
 #### PersonAccount Match Rules Setup Guidance
@@ -714,7 +702,7 @@ From the duplicate rules listing, select the rule titled **B2C Commerce: Standar
 - Paste the following filter logic value in the field -- and save your results.
 
 ```bash
-1 OR (2 AND 3) OR (2 AND 4 AND 5) OR (4 AND 5 AND 6)
+1 OR (2 AND 3) OR (2 AND 4 AND 5) OR (2 AND 5) OR (4 AND 5 AND 6)
 ```
 
 #### Configure Your B2C Instance
