@@ -19,16 +19,31 @@ public inherited sharing class B2CIACustomerResolution {
         List<Contact> duplicateContactRecords = new List<Contact>();
         List<Account> matchedAccountRecords = new List<Account>();
 
+        // Has the lastName been defined?
+        if (pContact.LastName == null) {
+
+            // Default the lastName if it's not set -- solely for the purpose of resolution
+            pContact.LastName = B2CConfigurationManager.getDefaultAccountContactNames().get('contactName');
+
+        }
+
         Datacloud.FindDuplicatesResult[] results = Datacloud.FindDuplicates.findDuplicates( new List<Contact>{pContact} );
 
         //If so, iterate over them and start checking for potential matches
         for ( Datacloud.FindDuplicatesResult fdr_i : results ) {
 
+            System.debug('--> One');
+            System.debug('--> Datacloud.FindDuplicatesResult: ' + fdr_i.getDuplicateResults());
+
             // find duplicates based on what was passed in
             for (Datacloud.DuplicateResult dupeResult_i : fdr_i.getDuplicateResults()) {
 
+                System.debug('--> Two');
+
                 // Iterate over the collection of match / duplicate rules
                 for (Datacloud.MatchResult matchResult_i : dupeResult_i.getMatchResults()) {
+
+                    System.debug('--> Three');
 
                     // Create a reference to the current rule being processed
                     String matchRule = matchResult_i.getRule();

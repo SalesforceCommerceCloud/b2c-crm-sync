@@ -7,7 +7,7 @@
  * scenarios driven by Contact details.
  */
 @IsTest
-private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestHelper {
+private class B2CIACustomerResolution_Test {
 
     // Initialize the test variables describing contact attributes
     public static String testCustomerListID = 'customerList';
@@ -97,7 +97,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         contactToResolveMap.put('LastName', testLastName);
 
         // Create the Contact record to resolve
-        contactToResolve = createContact(contactToResolveMap);
+        contactToResolve = B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
 
         // Define the Contact record to resolve
         testContact = new Contact(
@@ -111,7 +111,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         //-------------------------------------------
 
             // Execute the flow results
-            flowResults = executeResolutionProcess(testContact);
+            flowResults = B2CIACustomerResolution_TestHelper.executeResolutionProcess(testContact);
 
         //-------------------------------------------
         // Test: Finish exercising the resolutionFlow
@@ -119,7 +119,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         Test.stopTest();
 
         // Validate the single result details
-        validateSingleResult(flowResults, contactToResolve);
+        B2CIACustomerResolution_TestHelper.validateSingleResult(flowResults, contactToResolve);
 
     }
 
@@ -148,15 +148,15 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         contactToResolveMap.put('LastName', testLastName);
 
         // Create the Contact record to resolve
-        contactToResolve = createContact(contactToResolveMap);
+        contactToResolve = B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
 
         // Create a second contact record with a different customerId
         contactToResolveMap.put('B2C_Customer_ID__c', testCustomerID1);
-        createContact(contactToResolveMap);
+        B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
 
         // Create a third contact record with a different customerId
         contactToResolveMap.put('B2C_Customer_ID__c', testCustomerID2);
-        createContact(contactToResolveMap);
+        B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
 
         // Define the Contact record to resolve
         testContact = new Contact(
@@ -170,7 +170,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         //-------------------------------------------
 
             // Execute the flow results
-            flowResults = executeResolutionProcess(testContact);
+            flowResults = B2CIACustomerResolution_TestHelper.executeResolutionProcess(testContact);
 
         //-------------------------------------------
         // Test: Finish exercising the resolutionFlow
@@ -178,7 +178,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         Test.stopTest();
 
         // Validate the single result details
-        validateSingleResult(flowResults, contactToResolve);
+        B2CIACustomerResolution_TestHelper.validateSingleResult(flowResults, contactToResolve);
 
     }
 
@@ -207,11 +207,11 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         contactToResolveMap.put('LastName', testLastName);
 
         // Create the Contact record to resolve
-        contactToResolve = createContact(contactToResolveMap);
+        contactToResolve = B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
 
         // Create a second contact record with a different customerId
         contactToResolveMap.put('B2C_Customer_ID__c', testCustomerID2);
-        createContact(contactToResolveMap);
+        B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
 
         // Define the Contact record to resolve
         testContact = new Contact(
@@ -225,7 +225,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         //-------------------------------------------
 
             // Execute the flow results
-            flowResults = executeResolutionProcess(testContact);
+            flowResults = B2CIACustomerResolution_TestHelper.executeResolutionProcess(testContact);
 
         //-------------------------------------------
         // Test: Finish exercising the resolutionFlow
@@ -233,7 +233,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         Test.stopTest();
 
         // Validate the zero-result details
-        validateZeroResultsFromMultiple(flowResults);
+        B2CIACustomerResolution_TestHelper.validateZeroResultsFromMultiple(flowResults);
 
     }
 
@@ -262,11 +262,11 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         contactToResolveMap.put('LastName', testLastName);
 
         // Create the Contact record to resolve
-        contactToResolve = createContact(contactToResolveMap);
+        contactToResolve = B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
 
         // Create a second and third contact record (as duplicates)
-        createContact(contactToResolveMap);
-        createContact(contactToResolveMap);
+        B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
+        B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
 
         // Define the Contact record to resolve
         testContact = new Contact(
@@ -280,7 +280,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         //-------------------------------------------
 
             // Execute the flow results
-            flowResults = executeResolutionProcess(testContact);
+            flowResults = B2CIACustomerResolution_TestHelper.executeResolutionProcess(testContact);
 
         //-------------------------------------------
         // Test: Finish exercising the resolutionFlow
@@ -288,7 +288,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         Test.stopTest();
 
         // Validate the zero-result details
-        validateMultipleResults(flowResults);
+        B2CIACustomerResolution_TestHelper.validateMultipleResults(flowResults);
 
     }
 
@@ -318,7 +318,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         contactToResolveMap.put('LastName', testLastName);
 
         // Create the Contact record to resolve
-        contactToResolve = createContact(contactToResolveMap);
+        contactToResolve = B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
 
         // Define the Contact record to resolve
         testContact = new Contact(
@@ -333,7 +333,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         //-------------------------------------------
 
             // Execute the flow results
-            flowResults = executeResolutionProcess(testContact);
+            flowResults = B2CIACustomerResolution_TestHelper.executeResolutionProcess(testContact);
 
         //-------------------------------------------
         // Test: Finish exercising the resolutionFlow
@@ -341,7 +341,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         Test.stopTest();
 
         // Validate the validationError occurred
-        validateValidationError(flowResults);
+        B2CIACustomerResolution_TestHelper.validateValidationError(flowResults);
 
     }
 
@@ -371,7 +371,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         contactToResolveMap.put('LastName', testLastName);
 
         // Create the Contact record to resolve
-        contactToResolve = createContact(contactToResolveMap);
+        contactToResolve = B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
 
         // Define the Contact record to resolve
         testContact = new Contact(
@@ -386,7 +386,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         //-------------------------------------------
 
             // Execute the flow results
-            flowResults = executeResolutionProcess(testContact);
+            flowResults = B2CIACustomerResolution_TestHelper.executeResolutionProcess(testContact);
 
         //-------------------------------------------
         // Test: Finish exercising the resolutionFlow
@@ -394,7 +394,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         Test.stopTest();
 
         // Validate the validationError occurred
-        validateValidationError(flowResults);
+        B2CIACustomerResolution_TestHelper.validateValidationError(flowResults);
 
     }
 
@@ -431,7 +431,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         contactToResolveMap.put('LastName', testLastName);
 
         // Create the Contact record to resolve
-        contactToResolve = createContact(contactToResolveMap);
+        contactToResolve = B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
 
         // Define the Contact record to resolve
         testContact = new Contact(
@@ -445,7 +445,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         //-------------------------------------------
 
             // Execute the flow results
-            flowResults = executeResolutionProcess(testContact);
+            flowResults = B2CIACustomerResolution_TestHelper.executeResolutionProcess(testContact);
 
         //-------------------------------------------
         // Test: Finish exercising the resolutionFlow
@@ -453,7 +453,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         Test.stopTest();
 
         // Validate the single result details
-        validateSingleResult(flowResults, contactToResolve);
+        B2CIACustomerResolution_TestHelper.validateSingleResult(flowResults, contactToResolve);
 
     }
 
@@ -482,15 +482,15 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         contactToResolveMap.put('LastName', testLastName);
 
         // Create the Contact record to resolve
-        contactToResolve = createContact(contactToResolveMap);
+        contactToResolve = B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
 
         // Create a second contact record with a different customerNo
         contactToResolveMap.put('B2C_Customer_No__c', testCustomerNo1);
-        createContact(contactToResolveMap);
+        B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
 
         // Create a third contact record with a different customerId
         contactToResolveMap.put('B2C_Customer_No__c', testCustomerNo2);
-        createContact(contactToResolveMap);
+        B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
 
         // Define the Contact record to resolve
         testContact = new Contact(
@@ -504,7 +504,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         //-------------------------------------------
 
             // Execute the flow results
-            flowResults = executeResolutionProcess(testContact);
+            flowResults = B2CIACustomerResolution_TestHelper.executeResolutionProcess(testContact);
 
         //-------------------------------------------
         // Test: Finish exercising the resolutionFlow
@@ -512,7 +512,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         Test.stopTest();
 
         // Validate the single result details
-        validateSingleResult(flowResults, contactToResolve);
+        B2CIACustomerResolution_TestHelper.validateSingleResult(flowResults, contactToResolve);
 
     }
 
@@ -541,11 +541,11 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         contactToResolveMap.put('LastName', testLastName);
 
         // Create the Contact record to resolve
-        contactToResolve = createContact(contactToResolveMap);
+        contactToResolve = B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
 
         // Create a second contact record with a different customerId
         contactToResolveMap.put('B2C_Customer_No__c', testCustomerNo2);
-        createContact(contactToResolveMap);
+        B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
 
         // Define the Contact record to resolve
         testContact = new Contact(
@@ -559,7 +559,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         //-------------------------------------------
 
             // Execute the flow results
-            flowResults = executeResolutionProcess(testContact);
+            flowResults = B2CIACustomerResolution_TestHelper.executeResolutionProcess(testContact);
 
         //-------------------------------------------
         // Test: Finish exercising the resolutionFlow
@@ -567,7 +567,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         Test.stopTest();
 
         // Validate the zero-result details
-        validateZeroResultsFromMultiple(flowResults);
+        B2CIACustomerResolution_TestHelper.validateZeroResultsFromMultiple(flowResults);
 
     }
 
@@ -596,11 +596,11 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         contactToResolveMap.put('LastName', testLastName);
 
         // Create the Contact record to resolve
-        contactToResolve = createContact(contactToResolveMap);
+        contactToResolve = B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
 
         // Create a second and third contact record (as duplicates)
-        createContact(contactToResolveMap);
-        createContact(contactToResolveMap);
+        B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
+        B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
 
         // Define the Contact record to resolve
         testContact = new Contact(
@@ -614,7 +614,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         //-------------------------------------------
 
             // Execute the flow results
-            flowResults = executeResolutionProcess(testContact);
+            flowResults = B2CIACustomerResolution_TestHelper.executeResolutionProcess(testContact);
 
         //-------------------------------------------
         // Test: Finish exercising the resolutionFlow
@@ -622,7 +622,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         Test.stopTest();
 
         // Validate the zero-result details
-        validateMultipleResults(flowResults);
+        B2CIACustomerResolution_TestHelper.validateMultipleResults(flowResults);
 
     }
 
@@ -652,7 +652,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         contactToResolveMap.put('LastName', testLastName);
 
         // Create the Contact record to resolve
-        contactToResolve = createContact(contactToResolveMap);
+        contactToResolve = B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
 
         // Define the Contact record to resolve
         testContact = new Contact(
@@ -667,7 +667,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         //-------------------------------------------
 
         // Execute the flow results
-        flowResults = executeResolutionProcess(testContact);
+        flowResults = B2CIACustomerResolution_TestHelper.executeResolutionProcess(testContact);
 
         //-------------------------------------------
         // Test: Finish exercising the resolutionFlow
@@ -675,7 +675,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         Test.stopTest();
 
         // Validate the validationError occurred
-        validateValidationError(flowResults);
+        B2CIACustomerResolution_TestHelper.validateValidationError(flowResults);
 
     }
 
@@ -705,7 +705,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         contactToResolveMap.put('LastName', testLastName);
 
         // Create the Contact record to resolve
-        contactToResolve = createContact(contactToResolveMap);
+        contactToResolve = B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
 
         // Define the Contact record to resolve
         testContact = new Contact(
@@ -720,7 +720,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         //-------------------------------------------
 
             // Execute the flow results
-            flowResults = executeResolutionProcess(testContact);
+            flowResults = B2CIACustomerResolution_TestHelper.executeResolutionProcess(testContact);
 
         //-------------------------------------------
         // Test: Finish exercising the resolutionFlow
@@ -728,7 +728,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         Test.stopTest();
 
         // Validate the validationError occurred
-        validateValidationError(flowResults);
+        B2CIACustomerResolution_TestHelper.validateValidationError(flowResults);
 
     }
 
@@ -764,7 +764,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         contactToResolveMap.put('LastName', testLastName);
 
         // Create the Contact record to resolve
-        contactToResolve = createContact(contactToResolveMap);
+        contactToResolve = B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
 
         // Define the Contact record to resolve
         testContact = new Contact(
@@ -779,7 +779,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         //-------------------------------------------
 
             // Execute the flow results
-            flowResults = executeResolutionProcess(testContact);
+            flowResults = B2CIACustomerResolution_TestHelper.executeResolutionProcess(testContact);
 
         //-------------------------------------------
         // Test: Finish exercising the resolutionFlow
@@ -787,7 +787,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         Test.stopTest();
 
         // Validate the single result details
-        validateSingleResult(flowResults, contactToResolve);
+        B2CIACustomerResolution_TestHelper.validateSingleResult(flowResults, contactToResolve);
 
     }
 
@@ -815,15 +815,15 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         contactToResolveMap.put('LastName', testLastName);
 
         // Create the Contact record to resolve
-        contactToResolve = createContact(contactToResolveMap);
+        contactToResolve = B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
 
         // Create a second contact record with a different customerListID
         contactToResolveMap.put('B2C_CustomerList_ID__c', testCustomerListID1);
-        createContact(contactToResolveMap);
+        B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
 
         // Create a third contact record with a different customerListID
         contactToResolveMap.put('B2C_CustomerList_ID__c', testCustomerListID2);
-        createContact(contactToResolveMap);
+        B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
 
         // Define the Contact record to resolve
         testContact = new Contact(
@@ -838,7 +838,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         //-------------------------------------------
 
             // Execute the flow results
-            flowResults = executeResolutionProcess(testContact);
+            flowResults = B2CIACustomerResolution_TestHelper.executeResolutionProcess(testContact);
 
         //-------------------------------------------
         // Test: Finish exercising the resolutionFlow
@@ -846,7 +846,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         Test.stopTest();
 
         // Validate the single result details
-        validateSingleResult(flowResults, contactToResolve);
+        B2CIACustomerResolution_TestHelper.validateSingleResult(flowResults, contactToResolve);
 
     }
 
@@ -874,11 +874,11 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         contactToResolveMap.put('LastName', testLastName);
 
         // Create the Contact record to resolve
-        contactToResolve = createContact(contactToResolveMap);
+        contactToResolve = B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
 
         // Create a second contact record with a different Email / LastName
         contactToResolveMap.put('Email', testEmail1);
-        createContact(contactToResolveMap);
+        B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
 
         // Define the Contact record to resolve
         testContact = new Contact(
@@ -893,7 +893,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         //-------------------------------------------
 
             // Execute the flow results
-            flowResults = executeResolutionProcess(testContact);
+            flowResults = B2CIACustomerResolution_TestHelper.executeResolutionProcess(testContact);
 
         //-------------------------------------------
         // Test: Finish exercising the resolutionFlow
@@ -901,7 +901,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         Test.stopTest();
 
         // Validate the zero-result details
-        validateZeroResultsFromMultiple(flowResults);
+        B2CIACustomerResolution_TestHelper.validateZeroResultsFromMultiple(flowResults);
 
     }
 
@@ -929,15 +929,15 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         contactToResolveMap.put('LastName', testLastName);
 
         // Create the Contact record to resolve
-        contactToResolve = createContact(contactToResolveMap);
+        contactToResolve = B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
 
         // Create a second contact record with a different Email / LastName
         contactToResolveMap.put('LastName', testLastName1);
-        createContact(contactToResolveMap);
+        B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
 
         // Create a third contact record with a different Email / LastName
         contactToResolveMap.put('LastName', testLastName2);
-        createContact(contactToResolveMap);
+        B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
 
         // Define the Contact record to resolve
         testContact = new Contact(
@@ -952,7 +952,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         //-------------------------------------------
 
             // Execute the flow results
-            flowResults = executeResolutionProcess(testContact);
+            flowResults = B2CIACustomerResolution_TestHelper.executeResolutionProcess(testContact);
 
         //-------------------------------------------
         // Test: Finish exercising the resolutionFlow
@@ -960,7 +960,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         Test.stopTest();
 
         // Validate the zero-result details
-        validateZeroFilterResultsWithResolutionResultsFromMultiple(flowResults);
+        B2CIACustomerResolution_TestHelper.validateZeroFilterResultsWithResolutionResultsFromMultiple(flowResults);
 
     }
 
@@ -988,11 +988,11 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         contactToResolveMap.put('LastName', testLastName);
 
         // Create the Contact record to resolve
-        contactToResolve = createContact(contactToResolveMap);
+        contactToResolve = B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
 
         // Create a second and third contact record (as duplicates)
-        createContact(contactToResolveMap);
-        createContact(contactToResolveMap);
+        B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
+        B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
 
         // Define the Contact record to resolve
         testContact = new Contact(
@@ -1007,7 +1007,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         //-------------------------------------------
 
             // Execute the flow results
-            flowResults = executeResolutionProcess(testContact);
+            flowResults = B2CIACustomerResolution_TestHelper.executeResolutionProcess(testContact);
 
         //-------------------------------------------
         // Test: Finish exercising the resolutionFlow
@@ -1015,7 +1015,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         Test.stopTest();
 
         // Validate the zero-result details
-        validateMultipleResults(flowResults);
+        B2CIACustomerResolution_TestHelper.validateMultipleResults(flowResults);
 
     }
 
@@ -1044,7 +1044,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         contactToResolveMap.put('LastName', testLastName);
 
         // Create the Contact record to resolve
-        contactToResolve = createContact(contactToResolveMap);
+        contactToResolve = B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
 
         // Define the Contact record to resolve
         testContact = new Contact(
@@ -1060,7 +1060,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         //-------------------------------------------
 
             // Execute the flow results
-            flowResults = executeResolutionProcess(testContact);
+            flowResults = B2CIACustomerResolution_TestHelper.executeResolutionProcess(testContact);
 
         //-------------------------------------------
         // Test: Finish exercising the resolutionFlow
@@ -1068,7 +1068,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         Test.stopTest();
 
         // Validate the validationError occurred
-        validateValidationError(flowResults);
+        B2CIACustomerResolution_TestHelper.validateValidationError(flowResults);
 
     }
 
@@ -1097,7 +1097,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         contactToResolveMap.put('LastName', testLastName);
 
         // Create the Contact record to resolve
-        contactToResolve = createContact(contactToResolveMap);
+        contactToResolve = B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
 
         // Define the Contact record to resolve
         testContact = new Contact(
@@ -1113,7 +1113,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         //-------------------------------------------
 
             // Execute the flow results
-            flowResults = executeResolutionProcess(testContact);
+            flowResults = B2CIACustomerResolution_TestHelper.executeResolutionProcess(testContact);
 
         //-------------------------------------------
         // Test: Finish exercising the resolutionFlow
@@ -1121,7 +1121,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         Test.stopTest();
 
         // Validate the validationError occurred
-        validateValidationError(flowResults);
+        B2CIACustomerResolution_TestHelper.validateValidationError(flowResults);
 
     }
 
@@ -1149,7 +1149,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         contactToResolveMap.put('LastName', testLastNameDefault);
 
         // Create the Contact record to resolve
-        contactToResolve = createContact(contactToResolveMap);
+        contactToResolve = B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
 
         // Define the Contact record to resolve
         testContact = new Contact(
@@ -1164,7 +1164,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         //-------------------------------------------
 
             // Execute the flow results
-            flowResults = executeResolutionProcess(testContact);
+            flowResults = B2CIACustomerResolution_TestHelper.executeResolutionProcess(testContact);
 
         //-------------------------------------------
         // Test: Finish exercising the resolutionFlow
@@ -1172,7 +1172,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         Test.stopTest();
 
         // Validate the single result details
-        validateSingleResult(flowResults, contactToResolve);
+        B2CIACustomerResolution_TestHelper.validateSingleResult(flowResults, contactToResolve);
 
     }
 
@@ -1200,11 +1200,11 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         contactToResolveMap.put('LastName', testLastNameDefault);
 
         // Create the Contact record to resolve
-        contactToResolve = createContact(contactToResolveMap);
+        contactToResolve = B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
 
         // Create multiple contact records
-        createContact(contactToResolveMap);
-        createContact(contactToResolveMap);
+        B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
+        B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
 
         // Define the Contact record to resolve
         testContact = new Contact(
@@ -1219,7 +1219,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         //-------------------------------------------
 
             // Execute the flow results
-            flowResults = executeResolutionProcess(testContact);
+            flowResults = B2CIACustomerResolution_TestHelper.executeResolutionProcess(testContact);
 
         //-------------------------------------------
         // Test: Finish exercising the resolutionFlow
@@ -1227,7 +1227,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         Test.stopTest();
 
         // Validate the filter result details
-        validateMultipleResults(flowResults);
+        B2CIACustomerResolution_TestHelper.validateMultipleResults(flowResults);
 
     }
 
@@ -1255,15 +1255,15 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         contactToResolveMap.put('LastName', testLastNameDefault);
 
         // Create the Contact record to resolve
-        contactToResolve = createContact(contactToResolveMap);
+        contactToResolve = B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
 
         // Create a second contact record with a different customerListID
         contactToResolveMap.put('B2C_CustomerList_ID__c', testCustomerListID1);
-        createContact(contactToResolveMap);
+        B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
 
         // Create a third contact record with a different customerListID
         contactToResolveMap.put('B2C_CustomerList_ID__c', testCustomerListID2);
-        createContact(contactToResolveMap);
+        B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
 
         // Define the Contact record to resolve
         testContact = new Contact(
@@ -1278,7 +1278,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         //-------------------------------------------
 
             // Execute the flow results
-            flowResults = executeResolutionProcess(testContact);
+            flowResults = B2CIACustomerResolution_TestHelper.executeResolutionProcess(testContact);
 
         //-------------------------------------------
         // Test: Finish exercising the resolutionFlow
@@ -1286,7 +1286,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         Test.stopTest();
 
         // Validate the single result details
-        validateSingleResult(flowResults, contactToResolve);
+        B2CIACustomerResolution_TestHelper.validateSingleResult(flowResults, contactToResolve);
 
     }
 
@@ -1314,20 +1314,20 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         contactToResolveMap.put('LastName', testLastName);
 
         // Create the Contact record to resolve
-        contactToResolve = createContact(contactToResolveMap);
+        contactToResolve = B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
 
         // Create a second contact record with a different customerListID
         contactToResolveMap.put('LastName', testLastNameDefault);
-        createContact(contactToResolveMap);
+        B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
 
         // Create a third contact record with a different customerListID
         contactToResolveMap.put('B2C_CustomerList_ID__c', testCustomerListID1);
-        createContact(contactToResolveMap);
+        B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
 
         // Create a fourth contact record with customer's lastName
         contactToResolveMap.put('B2C_CustomerList_ID__c', testCustomerListID2);
         contactToResolveMap.put('LastName', testLastName);
-        createContact(contactToResolveMap);
+        B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
 
         // Define the Contact record to resolve
         testContact = new Contact(
@@ -1342,7 +1342,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         //-------------------------------------------
 
             // Execute the flow results
-            flowResults = executeResolutionProcess(testContact);
+            flowResults = B2CIACustomerResolution_TestHelper.executeResolutionProcess(testContact);
 
         //-------------------------------------------
         // Test: Finish exercising the resolutionFlow
@@ -1350,7 +1350,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         Test.stopTest();
 
         // Validate the single result details
-        validateSingleResult(flowResults, contactToResolve);
+        B2CIACustomerResolution_TestHelper.validateSingleResult(flowResults, contactToResolve);
 
     }
 
@@ -1386,7 +1386,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         contactToResolveMap.put('LastName', testLastName);
 
         // Create the Contact record to resolve
-        contactToResolve = createContact(contactToResolveMap);
+        contactToResolve = B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
 
         // Define the Contact record to resolve
         testContact = new Contact(
@@ -1400,7 +1400,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         //-------------------------------------------
 
             // Execute the flow results
-            flowResults = executeResolutionProcess(testContact);
+            flowResults = B2CIACustomerResolution_TestHelper.executeResolutionProcess(testContact);
 
         //-------------------------------------------
         // Test: Finish exercising the resolutionFlow
@@ -1408,7 +1408,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         Test.stopTest();
 
         // Validate the single result details
-        validateSingleResult(flowResults, contactToResolve);
+        B2CIACustomerResolution_TestHelper.validateSingleResult(flowResults, contactToResolve);
 
     }
 
@@ -1436,7 +1436,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         contactToResolveMap.put('LastName', testLastNameDefault);
 
         // Create the Contact record to resolve
-        contactToResolve = createContact(contactToResolveMap);
+        contactToResolve = B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
 
         // Define the Contact record to resolve
         testContact = new Contact(
@@ -1450,7 +1450,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         //-------------------------------------------
 
             // Execute the flow results
-            flowResults = executeResolutionProcess(testContact);
+            flowResults = B2CIACustomerResolution_TestHelper.executeResolutionProcess(testContact);
 
         //-------------------------------------------
         // Test: Finish exercising the resolutionFlow
@@ -1458,7 +1458,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         Test.stopTest();
 
         // Validate the single result details
-        validateSingleResult(flowResults, contactToResolve);
+        B2CIACustomerResolution_TestHelper.validateSingleResult(flowResults, contactToResolve);
 
     }
 
@@ -1486,15 +1486,15 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         contactToResolveMap.put('LastName', testLastName);
 
         // Create the Contact record to resolve
-        contactToResolve = createContact(contactToResolveMap);
+        contactToResolve = B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
 
         // Create a second contact record with a different customerListID
         contactToResolveMap.put('B2C_CustomerList_ID__c', testCustomerListID1);
-        createContact(contactToResolveMap);
+        B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
 
         // Create a third contact record with a different customerListID
         contactToResolveMap.put('B2C_CustomerList_ID__c', testCustomerListID2);
-        createContact(contactToResolveMap);
+        B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
 
         // Define the Contact record to resolve
         testContact = new Contact(
@@ -1508,7 +1508,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         //-------------------------------------------
 
             // Execute the flow results
-            flowResults = executeResolutionProcess(testContact);
+            flowResults = B2CIACustomerResolution_TestHelper.executeResolutionProcess(testContact);
 
         //-------------------------------------------
         // Test: Finish exercising the resolutionFlow
@@ -1516,7 +1516,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         Test.stopTest();
 
         // Validate the single result details
-        validateSingleResult(flowResults, contactToResolve);
+        B2CIACustomerResolution_TestHelper.validateSingleResult(flowResults, contactToResolve);
 
     }
 
@@ -1544,15 +1544,15 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         contactToResolveMap.put('LastName', testLastNameDefault);
 
         // Create the Contact record to resolve
-        contactToResolve = createContact(contactToResolveMap);
+        contactToResolve = B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
 
         // Create a second contact record with a different customerListID
         contactToResolveMap.put('B2C_CustomerList_ID__c', testCustomerListID1);
-        createContact(contactToResolveMap);
+        B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
 
         // Create a third contact record with a different customerListID
         contactToResolveMap.put('B2C_CustomerList_ID__c', testCustomerListID2);
-        createContact(contactToResolveMap);
+        B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
 
         // Define the Contact record to resolve
         testContact = new Contact(
@@ -1566,7 +1566,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         //-------------------------------------------
 
             // Execute the flow results
-            flowResults = executeResolutionProcess(testContact);
+            flowResults = B2CIACustomerResolution_TestHelper.executeResolutionProcess(testContact);
 
         //-------------------------------------------
         // Test: Finish exercising the resolutionFlow
@@ -1574,7 +1574,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         Test.stopTest();
 
         // Validate the single result details
-        validateSingleResult(flowResults, contactToResolve);
+        B2CIACustomerResolution_TestHelper.validateSingleResult(flowResults, contactToResolve);
 
     }
 
@@ -1602,11 +1602,11 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         contactToResolveMap.put('LastName', testLastName);
 
         // Create the Contact record to resolve
-        contactToResolve = createContact(contactToResolveMap);
+        contactToResolve = B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
 
         // Create a second contact record with a different Email / LastName
         contactToResolveMap.put('Email', testEmail1);
-        createContact(contactToResolveMap);
+        B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
 
         // Define the Contact record to resolve
         testContact = new Contact(
@@ -1620,7 +1620,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         //-------------------------------------------
 
             // Execute the flow results
-            flowResults = executeResolutionProcess(testContact);
+            flowResults = B2CIACustomerResolution_TestHelper.executeResolutionProcess(testContact);
 
         //-------------------------------------------
         // Test: Finish exercising the resolutionFlow
@@ -1628,7 +1628,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         Test.stopTest();
 
         // Validate the zero-result details
-        validateZeroResultsFromMultiple(flowResults);
+        B2CIACustomerResolution_TestHelper.validateZeroResultsFromMultiple(flowResults);
 
     }
 
@@ -1656,11 +1656,11 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         contactToResolveMap.put('LastName', testLastName);
 
         // Create the Contact record to resolve
-        contactToResolve = createContact(contactToResolveMap);
+        contactToResolve = B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
 
         // Create a second contact record with a different Email / LastName
         contactToResolveMap.put('B2C_CustomerList_ID__c', testCustomerListID1);
-        createContact(contactToResolveMap);
+        B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
 
         // Define the Contact record to resolve
         testContact = new Contact(
@@ -1674,7 +1674,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         //-------------------------------------------
 
             // Execute the flow results
-            flowResults = executeResolutionProcess(testContact);
+            flowResults = B2CIACustomerResolution_TestHelper.executeResolutionProcess(testContact);
 
         //-------------------------------------------
         // Test: Finish exercising the resolutionFlow
@@ -1682,7 +1682,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         Test.stopTest();
 
         // Validate the zero-result details
-        validateZeroResultsFromMultiple(flowResults);
+        B2CIACustomerResolution_TestHelper.validateZeroResultsFromMultiple(flowResults);
 
     }
 
@@ -1710,11 +1710,20 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         contactToResolveMap.put('LastName', testLastName);
 
         // Create the Contact record to resolve
-        contactToResolve = createContact(contactToResolveMap);
+        contactToResolve = B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
 
         // Create a second and third contact record (as duplicates)
-        createContact(contactToResolveMap);
-        createContact(contactToResolveMap);
+        B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
+        B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
+
+        List<Account> accountCollection = [
+            SELECT  Id,
+                    PersonEmail,
+                    B2C_CustomerList_ID__pc
+            FROM    Account
+        ];
+
+        System.debug('---> Accounts: ' + accountCollection);
 
         // Define the Contact record to resolve
         testContact = new Contact(
@@ -1728,7 +1737,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         //-------------------------------------------
 
             // Execute the flow results
-            flowResults = executeResolutionProcess(testContact);
+            flowResults = B2CIACustomerResolution_TestHelper.executeResolutionProcess(testContact);
 
         //-------------------------------------------
         // Test: Finish exercising the resolutionFlow
@@ -1736,7 +1745,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         Test.stopTest();
 
         // Validate the zero-result details
-        validateMultipleResults(flowResults);
+        B2CIACustomerResolution_TestHelper.validateMultipleResults(flowResults);
 
     }
 
@@ -1764,15 +1773,15 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         contactToResolveMap.put('LastName', testLastName);
 
         // Create the Contact record to resolve
-        contactToResolve = createContact(contactToResolveMap);
+        contactToResolve = B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
 
         // Create a second contact record (as a duplicate)
         contactToResolveMap.put('LastName', testLastName1);
-        createContact(contactToResolveMap);
+        B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
 
         // Create a third contact record (as a duplicate)
         contactToResolveMap.put('LastName', testLastName2);
-        createContact(contactToResolveMap);
+        B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
 
         // Define the Contact record to resolve
         testContact = new Contact(
@@ -1786,7 +1795,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         //-------------------------------------------
 
             // Execute the flow results
-            flowResults = executeResolutionProcess(testContact);
+            flowResults = B2CIACustomerResolution_TestHelper.executeResolutionProcess(testContact);
 
         //-------------------------------------------
         // Test: Finish exercising the resolutionFlow
@@ -1794,7 +1803,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         Test.stopTest();
 
         // Validate the zero-result details
-        validateMultipleResults(flowResults);
+        B2CIACustomerResolution_TestHelper.validateMultipleResults(flowResults);
 
     }
 
@@ -1822,11 +1831,11 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         contactToResolveMap.put('LastName', testLastNameDefault);
 
         // Create the Contact record to resolve
-        contactToResolve = createContact(contactToResolveMap);
+        contactToResolve = B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
 
         // Create a second and third contact record (as duplicates)
-        createContact(contactToResolveMap);
-        createContact(contactToResolveMap);
+        B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
+        B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
 
         // Define the Contact record to resolve
         testContact = new Contact(
@@ -1840,7 +1849,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         //-------------------------------------------
 
             // Execute the flow results
-            flowResults = executeResolutionProcess(testContact);
+            flowResults = B2CIACustomerResolution_TestHelper.executeResolutionProcess(testContact);
 
         //-------------------------------------------
         // Test: Finish exercising the resolutionFlow
@@ -1848,7 +1857,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         Test.stopTest();
 
         // Validate the zero-result details
-        validateMultipleResults(flowResults);
+        B2CIACustomerResolution_TestHelper.validateMultipleResults(flowResults);
 
     }
 
@@ -1878,7 +1887,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         contactToResolveMap.put('LastName', testLastName);
 
         // Create the Contact record to resolve
-        contactToResolve = createContact(contactToResolveMap);
+        contactToResolve = B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
 
         // Define the Contact record to resolve
         testContact = new Contact(
@@ -1893,7 +1902,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         //-------------------------------------------
 
             // Execute the flow results
-            flowResults = executeResolutionProcess(testContact);
+            flowResults = B2CIACustomerResolution_TestHelper.executeResolutionProcess(testContact);
 
         //-------------------------------------------
         // Test: Finish exercising the resolutionFlow
@@ -1901,7 +1910,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         Test.stopTest();
 
         // Validate the validationError occurred
-        validateValidationError(flowResults);
+        B2CIACustomerResolution_TestHelper.validateValidationError(flowResults);
 
     }
 
@@ -1930,7 +1939,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         contactToResolveMap.put('LastName', testLastName);
 
         // Create the Contact record to resolve
-        contactToResolve = createContact(contactToResolveMap);
+        contactToResolve = B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
 
         // Define the Contact record to resolve
         testContact = new Contact(
@@ -1945,7 +1954,7 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         //-------------------------------------------
 
             // Execute the flow results
-            flowResults = executeResolutionProcess(testContact);
+            flowResults = B2CIACustomerResolution_TestHelper.executeResolutionProcess(testContact);
 
         //-------------------------------------------
         // Test: Finish exercising the resolutionFlow
@@ -1953,12 +1962,130 @@ private class B2CIACustomerResolution_Test extends B2CIACustomerResolution_TestH
         Test.stopTest();
 
         // Validate the validationError occurred
-        validateValidationError(flowResults);
+        B2CIACustomerResolution_TestHelper.validateValidationError(flowResults);
 
     }
 
     //----------------------------------------------------------------
     //   END: B2C CustomerListID / Email
     //----------------------------------------------------------------
+
+    //----------------------------------------------------------------
+    // BEGIN: Misc Tests (edge cases)
+    //----------------------------------------------------------------
+
+    /**
+     * @see B2CIACustomerResolution.findDupes
+     * @description This test-case exercises the CustomerResolution IA and attempts to resolve
+     * a Contact record via a customerList, Email, and LastName.  It should resolve a contact record
+     * that matches on email and lastName -- but has no customerList association.
+     */
+    @IsTest
+    private static void testResolveByB2CCustomerListIDEmailLastNameSingleResultByEmailLastNameNoCustomerList() {
+
+        // Initialize local variables
+        Map<String, Object> flowResults;
+        Contact contactToResolve;
+        Contact testContact;
+        Map<String, Object> contactToResolveMap;
+
+        // Initialize the map describing the contact to create
+        contactToResolveMap = new Map<String, Object>();
+
+        // Define the map representing the Account / Contact record
+        contactToResolveMap.put('Email', testEmail);
+        contactToResolveMap.put('LastName', testLastName);
+
+        // Create the Contact record to resolve
+        contactToResolve = B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
+
+        // Define the Contact record to resolve
+        testContact = new Contact(
+            B2C_CustomerList_ID__c = testCustomerListID,
+            Email = testEmail,
+            LastName = testLastName
+        );
+
+        Test.startTest();
+        //-------------------------------------------
+        // Test: Start exercising the resolutionFlow
+        //-------------------------------------------
+
+            // Execute the flow results
+            flowResults = B2CIACustomerResolution_TestHelper.executeResolutionProcess(testContact);
+
+        //-------------------------------------------
+        // Test: Finish exercising the resolutionFlow
+        //-------------------------------------------
+        Test.stopTest();
+
+        // Validate the contact was successfully resolved
+        B2CIACustomerResolution_TestHelper.validateSingleResult(flowResults, contactToResolve);
+
+    }
+
+
+    /**
+     * @see B2CIACustomerResolution.findDupes
+     * @description This test-case exercises the CustomerResolution IA and attempts to resolve
+     * a Contact record via a customerList, Email, and LastName.  It resolves its own record.
+     */
+    @IsTest
+    private static void testResolveByB2CCustomerListIDEmailLastNameSingleExact() {
+
+        // Initialize local variables
+        Map<String, Object> flowResults;
+        Contact contactToResolve;
+        Contact testContact;
+        Map<String, Object> contactToResolveMap;
+
+        // Initialize the map describing the contact to create
+        contactToResolveMap = new Map<String, Object>();
+
+        // Define the map representing the Account / Contact record
+        contactToResolveMap.put('B2C_CustomerList_ID__c', testCustomerListID);
+        contactToResolveMap.put('Email', testEmail);
+        contactToResolveMap.put('LastName', testLastName);
+
+        // Create the Contact record to resolve
+        contactToResolve = B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
+
+        // Create a second contact record (as a duplicate)
+        contactToResolveMap.put('LastName', testLastName1);
+        B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
+
+        // Create a third contact record (as a duplicate)
+        contactToResolveMap.put('LastName', testLastName2);
+        B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
+
+        // Define the Contact record to resolve
+        testContact = new Contact(
+            B2C_CustomerList_ID__c = testCustomerListID,
+            Email = testEmail,
+            LastName = testLastName
+        );
+
+        Test.startTest();
+        //-------------------------------------------
+        // Test: Start exercising the resolutionFlow
+        //-------------------------------------------
+
+            // Execute the flow results
+            flowResults = B2CIACustomerResolution_TestHelper.executeResolutionProcess(testContact);
+
+        //-------------------------------------------
+        // Test: Finish exercising the resolutionFlow
+        //-------------------------------------------
+        Test.stopTest();
+
+        // Validate the zero-result details
+        B2CIACustomerResolution_TestHelper.validateSingleResult(flowResults, contactToResolve);
+
+    }
+
+    //----------------------------------------------------------------
+    //   END: Misc Tests (edge cases)
+    //----------------------------------------------------------------
+
 
 }

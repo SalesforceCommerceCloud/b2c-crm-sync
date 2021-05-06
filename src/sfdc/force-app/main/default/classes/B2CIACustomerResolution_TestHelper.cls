@@ -3,7 +3,8 @@
  * @description This class is used to create a common set of methods used to stand-up
  * test data for the B2CIACustomerResolution_Test class.
  */
-public abstract with sharing class B2CIACustomerResolution_TestHelper {
+@IsTest
+public with sharing class B2CIACustomerResolution_TestHelper {
 
     /**
      * @description This method is used to assert that a validation error was caught
@@ -73,6 +74,12 @@ public abstract with sharing class B2CIACustomerResolution_TestHelper {
 
     }
 
+    /**
+     * @description This method is used to assert that zero filter results are returned
+     * via the B2C_Commerce_Contact_Filter_Matches flow from multiple resolution results
+     * @param flowResults {Map<String, Object>} Represents the results processed by the
+     * customerResolution class and filterMatches flow results
+     */
     public static void validateZeroFilterResultsWithResolutionResultsFromMultiple(Map<String, Object> flowResults) {
 
         // Initialize local variables
@@ -212,10 +219,10 @@ public abstract with sharing class B2CIACustomerResolution_TestHelper {
 
         // Initialize local variables
         Account thisAccount;
+        Account thisAccountToUpdate;
         Contact thisContact;
         String defaultContactModel;
         String accountRecordTypeDeveloperName;
-        RecordType recordTypeToUse;
 
         // Retrieve the defaultContactModel from the configuration metaData
         defaultContactModel = B2CConfigurationManager.getDefaultAccountContactModel();
@@ -238,7 +245,20 @@ public abstract with sharing class B2CIACustomerResolution_TestHelper {
 
             // Update the default recordType for the parent Account
             accountRecordTypeDeveloperName = 'PersonAccount';
-            thisAccount.RecordTypeId = getRecordType(accountRecordTypeDeveloperName).Id;
+
+            // Retrieve a separate instance of the account (so we can update it)
+            thisAccountToUpdate = [
+                SELECT  Id,
+                        RecordTypeId
+                FROM    Account
+                WHERE   Id = :thisAccount.Id
+            ];
+
+            // Update the recordType on the account to convert it to a personAccount
+            thisAccountToUpdate.RecordTypeId = getRecordType(accountRecordTypeDeveloperName).Id;
+
+            // Update the account record
+            upsert thisAccountToUpdate;
 
         }
 
