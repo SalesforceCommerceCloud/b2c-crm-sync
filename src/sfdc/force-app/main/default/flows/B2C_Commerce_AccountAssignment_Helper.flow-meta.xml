@@ -152,7 +152,7 @@ IF(ISBLANK({!var_lastName}), &quot;&quot;, &quot; &quot; &amp; {!var_lastName})
 )</expression>
     </formulas>
     <interviewLabel>B2C Commerce: Account Assignment Helper {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>B2C Commerce: Account Assignment Helper</label>
+    <label>B2C Commerce: Process: Assignment Helper: Accounts</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
