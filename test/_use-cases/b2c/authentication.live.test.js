@@ -24,10 +24,16 @@ describe('Authenticating a B2C Customer Profile via the OCAPI Shop API', functio
     // noinspection JSAccessibilityCheck
     this.timeout(config.get('unitTests.testData.describeTimeout'));
 
+    // Configure the total number of retries supported per test
+    // noinspection JSAccessibilityCheck
+    this.retries(config.get('unitTests.testData.testRetryCount'));
+
     // Initialize local variables
     let environmentDef,
+        disablePurge,
         initResults,
         testProfile,
+        testEmail,
         profileUpdate,
         profileUpdateAlt,
         customerListId,
@@ -54,6 +60,9 @@ describe('Authenticating a B2C Customer Profile via the OCAPI Shop API', functio
         // Retrieve the runtime environment
         environmentDef = getRuntimeEnvironment();
 
+        // Default the disable purge property
+        disablePurge = config.get('unitTests.testData.disablePurge');
+
         // Default the sleepTimeout to enforce in unit-tests
         sleepTimeout = config.get('unitTests.testData.sleepTimeout');
         purgeSleepTimeout = sleepTimeout / 2;
@@ -64,10 +73,16 @@ describe('Authenticating a B2C Customer Profile via the OCAPI Shop API', functio
         customerListId = config.get('unitTests.testData.b2cCustomerList').toString();
         siteId = config.util.toObject(config.get('unitTests.testData.b2cSiteCustomerLists'))[customerListId];
 
+        // Generate a random email to leverage for profiles
+        testEmail = common.getEmailForTestProfile();
+
         // Retrieve the b2c customer profile template that we'll use to exercise this test
         testProfile = config.util.toObject(config.get('unitTests.testData.profileTemplate'));
         profileUpdate = config.util.toObject(config.get('unitTests.testData.updateTemplate'));
         profileUpdateAlt = config.util.toObject(config.get('unitTests.testData.updateTemplateAlt'));
+
+        // Update the email address with a random email
+        testProfile.customer.email = testEmail;
 
         // Default the sync-configuration to leverage; sync-on-login and sync-once are enabled
         syncGlobalEnable = config.get('unitTests.b2cCRMSyncConfigManager.base');
@@ -89,6 +104,19 @@ describe('Authenticating a B2C Customer Profile via the OCAPI Shop API', functio
 
             // Audit the authorization token for future rest requests
             sfdcAuthCredentials = initResults.multiCloudInitResults.sfdcAuthCredentials;
+
+            // Is the purge disabled?
+            if (disablePurge === true) {
+
+                // Audit to the console that the purge is disabled
+                console.log(' -- disablePurge is enabled: test-data is not cleaned-up after each test or test-run');
+
+            } else {
+
+                // Purge the customer data in B2C Commerce and SFDC
+                await useCaseProcesses.b2cCustomerPurge(b2cAdminAuthToken, sfdcAuthCredentials.conn);
+
+            }
 
         } catch (e) {
 
