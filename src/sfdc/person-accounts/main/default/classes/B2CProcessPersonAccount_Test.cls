@@ -36,10 +36,7 @@ public class B2CProcessPersonAccount_Test {
             B2C_Disable_Integration__pc = false
         );
 
-
-
         Database.insert( a );
-
 
         Test.startTest();
 

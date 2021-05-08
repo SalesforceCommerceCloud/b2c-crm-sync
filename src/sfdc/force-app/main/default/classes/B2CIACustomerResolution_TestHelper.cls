@@ -169,7 +169,8 @@ public with sharing class B2CIACustomerResolution_TestHelper {
 
         // Initialize local variables
         Flow.Interview contactFilterMatchFlow;
-        List<List<Contact>> contactResolvedListContainer;
+        List<B2CIACustomerResolutionResult> contactResolvedListContainer;
+        B2CIACustomerResolutionResult resolutionResults;
         List<Contact> contactFilteredList;
         List<Contact> contactResolvedList;
         Map<String, Object> contactFilterMap;
@@ -182,9 +183,23 @@ public with sharing class B2CIACustomerResolution_TestHelper {
         // Initialize the output property
         output = new Map<String, Object>();
 
-        // Retrieve the collection of resolved contacts
+        // Retrieve the collection of resolved contacts and processing results
         contactResolvedListContainer = B2CIACustomerResolution.resolve(new List<Contact>{testContact});
-        contactResolvedList = contactResolvedListContainer.get(0);
+        resolutionResults = contactResolvedListContainer.get(0);
+
+        // Audit an error -- if one was caught
+        if (resolutionResults.isError == true) {
+
+            // Audit the error to the debug log
+            System.debug('---> Error | ' + resolutionResults.errorMessage);
+
+            // Throw a custom exception paying the errorMessage forward
+            throw new B2CCustomerResolutionException(resolutionResults.errorMessage);
+
+        }
+
+        // Retrieve the collection of resolved contacts
+        contactResolvedList = resolutionResults.contactList;
 
         // Build the filterMap
         contactFilterMap = new Map<String, Object>();

@@ -960,7 +960,7 @@ private class B2CIACustomerResolution_Test {
         Test.stopTest();
 
         // Validate the zero-result details
-        B2CIACustomerResolution_TestHelper.validateZeroFilterResultsWithResolutionResultsFromMultiple(flowResults);
+        B2CIACustomerResolution_TestHelper.validateMultipleResults(flowResults);
 
     }
 
@@ -1124,6 +1124,8 @@ private class B2CIACustomerResolution_Test {
         B2CIACustomerResolution_TestHelper.validateValidationError(flowResults);
 
     }
+
+    // TODO: Add a section in the flow for lastNames evaluating the default only before customerList and Email
 
     /**
      * @see B2CIACustomerResolution.findDupes
@@ -1316,15 +1318,16 @@ private class B2CIACustomerResolution_Test {
         // Create the Contact record to resolve
         contactToResolve = B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
 
-        // Create a second contact record with a different customerListID
+        // Create a second contact record with a different lastName
         contactToResolveMap.put('LastName', testLastNameDefault);
         B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
 
         // Create a third contact record with a different customerListID
         contactToResolveMap.put('B2C_CustomerList_ID__c', testCustomerListID1);
+        contactToResolveMap.put('LastName', testLastNameDefault);
         B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
 
-        // Create a fourth contact record with customer's lastName
+        // Create a fourth contact record with a different customerListID
         contactToResolveMap.put('B2C_CustomerList_ID__c', testCustomerListID2);
         contactToResolveMap.put('LastName', testLastName);
         B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
