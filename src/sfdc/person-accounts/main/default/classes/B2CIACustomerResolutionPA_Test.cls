@@ -26,6 +26,7 @@ private class B2CIACustomerResolutionPA_Test {
             'Enable_Profile_Publishing__c' => true,
             'Enable_Profile_Creation__c' => true
         });
+
     }
 
     /**
@@ -55,7 +56,7 @@ private class B2CIACustomerResolutionPA_Test {
             B2C_Customer_ID__c = 'customerid'
         );
 
-        List<List<Contact>> contactResolvedList = new List<List<Contact>>();
+        List<B2CIACustomerResolutionResult> contactResolvedList = new List<B2CIACustomerResolutionResult>();
         List<Contact> contactFilteredList = new List<Contact>();
 
         Test.startTest();
@@ -64,6 +65,7 @@ private class B2CIACustomerResolutionPA_Test {
                 new List<Contact>{ c1 }
             );
 
+            B2CIACustomerResolutionResult resolutionResults = contactResolvedList.get(0);
             Map<String, Object> contactFilterMap = new Map<String, Object>();
 
             contactFilterMap.put(
@@ -73,7 +75,7 @@ private class B2CIACustomerResolutionPA_Test {
 
             contactFilterMap.put(
                 'ContactMatches',
-                contactResolvedList[0]
+                resolutionResults.contactList
             );
 
             Flow.Interview.B2C_Commerce_Contact_Filter_Matches contactFilterMatchFlow = new Flow.Interview.B2C_Commerce_Contact_Filter_Matches(contactFilterMap);
@@ -87,6 +89,7 @@ private class B2CIACustomerResolutionPA_Test {
             contactFilteredList[0].Id,
             [SELECT Id FROM Contact WHERE AccountId = :account.Id LIMIT 1].Id
         );
+
     }
 
     /**
@@ -118,7 +121,7 @@ private class B2CIACustomerResolutionPA_Test {
             B2C_CustomerList_ID__c = 'customerList'
         );
 
-        List<List<Contact>> contactResolvedList = new List<List<Contact>>();
+        List<B2CIACustomerResolutionResult> contactResolvedList = new List<B2CIACustomerResolutionResult>();
         List<Contact> contactFilteredList = new List<Contact>();
 
         Test.startTest();
@@ -127,6 +130,7 @@ private class B2CIACustomerResolutionPA_Test {
                 new List<Contact>{ c1 }
             );
 
+            B2CIACustomerResolutionResult resolutionResults = contactResolvedList.get(0);
             Map<String, Object> contactFilterMap = new Map<String, Object>();
 
             contactFilterMap.put(
@@ -136,9 +140,8 @@ private class B2CIACustomerResolutionPA_Test {
 
             contactFilterMap.put(
                 'ContactMatches',
-                contactResolvedList[0]
+                resolutionResults.contactList
             );
-
 
             Flow.Interview.B2C_Commerce_Contact_Filter_Matches contactFilterMatchFlow = new Flow.Interview.B2C_Commerce_Contact_Filter_Matches(contactFilterMap);
             contactFilterMatchFlow.start();
@@ -151,6 +154,7 @@ private class B2CIACustomerResolutionPA_Test {
             contactFilteredList[0].Id,
             [SELECT Id FROM Contact WHERE AccountId = :account.Id LIMIT 1].Id
         );
+
     }
 
     /**
@@ -180,7 +184,7 @@ private class B2CIACustomerResolutionPA_Test {
             B2C_CustomerList_ID__c = 'CustomerList'
         );
 
-        List<List<Contact>> contactResolvedList = new List<List<Contact>>();
+        List<B2CIACustomerResolutionResult> contactResolvedList = new List<B2CIACustomerResolutionResult>();
         List<Contact> contactFilteredList = new List<Contact>();
 
         Test.startTest();
@@ -189,6 +193,7 @@ private class B2CIACustomerResolutionPA_Test {
                 new List<Contact>{ c1 }
             );
 
+            B2CIACustomerResolutionResult resolutionResults = contactResolvedList.get(0);
             Map<String, Object> contactFilterMap = new Map<String, Object>();
 
             contactFilterMap.put(
@@ -198,10 +203,10 @@ private class B2CIACustomerResolutionPA_Test {
 
             contactFilterMap.put(
                 'ContactMatches',
-                contactResolvedList[0]
+                resolutionResults.contactList
             );
 
-            Flow.Interview.B2C_Commerce_Contact_Filter_Matches contactFilterMatchFlow = new Flow.Interview.B2C_Commerce_Contact_Filter_Matches(contactFilterMap);
+        Flow.Interview.B2C_Commerce_Contact_Filter_Matches contactFilterMatchFlow = new Flow.Interview.B2C_Commerce_Contact_Filter_Matches(contactFilterMap);
             contactFilterMatchFlow.start();
 
             contactFilteredList = (List<Contact>)(contactFilterMatchFlow.getVariableValue('ContactMatchesResult'));
@@ -212,6 +217,7 @@ private class B2CIACustomerResolutionPA_Test {
             contactFilteredList[0].Id,
             [SELECT Id FROM Contact WHERE AccountId = :account.Id LIMIT 1].Id
         );
+
     }
 
     /**
@@ -243,7 +249,7 @@ private class B2CIACustomerResolutionPA_Test {
             B2C_Customer_ID__c = 'CustomerId2'
         );
 
-        List<List<Contact>> contactResolvedList = new List<List<Contact>>();
+        List<B2CIACustomerResolutionResult> contactResolvedList = new List<B2CIACustomerResolutionResult>();
         List<Contact> contactFilteredList = new List<Contact>();
 
         Test.startTest();
@@ -252,6 +258,7 @@ private class B2CIACustomerResolutionPA_Test {
                 new List<Contact>{ c1 }
             );
 
+            B2CIACustomerResolutionResult resolutionResults = contactResolvedList.get(0);
             Map<String, Object> contactFilterMap = new Map<String, Object>();
 
             contactFilterMap.put(
@@ -261,7 +268,7 @@ private class B2CIACustomerResolutionPA_Test {
 
             contactFilterMap.put(
                 'ContactMatches',
-                contactResolvedList[0]
+                resolutionResults.contactList
             );
 
             Flow.Interview.B2C_Commerce_Contact_Filter_Matches contactFilterMatchFlow = new Flow.Interview.B2C_Commerce_Contact_Filter_Matches(contactFilterMap);
@@ -275,6 +282,7 @@ private class B2CIACustomerResolutionPA_Test {
             contactFilteredList,
             null
         );
+
     }
 
     /**
@@ -304,7 +312,7 @@ private class B2CIACustomerResolutionPA_Test {
             B2C_CustomerList_ID__c = 'CustomerList2'
         );
 
-        List<List<Contact>> contactResolvedList = new List<List<Contact>>();
+        List<B2CIACustomerResolutionResult> contactResolvedList = new List<B2CIACustomerResolutionResult>();
         List<Contact> contactFilteredList = new List<Contact>();
 
         Test.startTest();
@@ -313,6 +321,7 @@ private class B2CIACustomerResolutionPA_Test {
                 new List<Contact>{ c1 }
             );
 
+            B2CIACustomerResolutionResult resolutionResults = contactResolvedList.get(0);
             Map<String, Object> contactFilterMap = new Map<String, Object>();
 
             contactFilterMap.put(
@@ -322,7 +331,7 @@ private class B2CIACustomerResolutionPA_Test {
 
             contactFilterMap.put(
                 'ContactMatches',
-                contactResolvedList[0]
+                resolutionResults.contactList
             );
 
             Flow.Interview.B2C_Commerce_Contact_Filter_Matches contactFilterMatchFlow = new Flow.Interview.B2C_Commerce_Contact_Filter_Matches(contactFilterMap);
@@ -336,6 +345,7 @@ private class B2CIACustomerResolutionPA_Test {
             contactFilteredList,
             null
         );
+
     }
 
     /**
@@ -364,7 +374,7 @@ private class B2CIACustomerResolutionPA_Test {
             B2C_CustomerList_ID__c = 'CustomerList'
         );
 
-        List<List<Contact>> contactResolvedList = new List<List<Contact>>();
+        List<B2CIACustomerResolutionResult> contactResolvedList = new List<B2CIACustomerResolutionResult>();
         List<Contact> contactFilteredList = new List<Contact>();
 
         Test.startTest();
@@ -373,6 +383,7 @@ private class B2CIACustomerResolutionPA_Test {
                 new List<Contact>{ c1 }
             );
 
+            B2CIACustomerResolutionResult resolutionResults = contactResolvedList.get(0);
             Map<String, Object> contactFilterMap = new Map<String, Object>();
 
             contactFilterMap.put(
@@ -382,7 +393,7 @@ private class B2CIACustomerResolutionPA_Test {
 
             contactFilterMap.put(
                 'ContactMatches',
-                contactResolvedList[0]
+                resolutionResults.contactList
             );
 
             Flow.Interview.B2C_Commerce_Contact_Filter_Matches contactFilterMatchFlow = new Flow.Interview.B2C_Commerce_Contact_Filter_Matches(contactFilterMap);
@@ -396,68 +407,7 @@ private class B2CIACustomerResolutionPA_Test {
             contactFilteredList[0].Id,
             [SELECT Id FROM Contact WHERE AccountId = :account.Id LIMIT 1].Id
         );
-    }
 
-
-    /**
-     * @see B2CIACustomerResolution.resolve
-     * @description
-     * Given
-     *      Existing person account with a last name and email
-     * When
-     *      We resolve with a customer with same list, email but different last name
-     * Then
-     *      We will be returned a new contact
-     */
-    /* */
-    @IsTest
-    static void doesNotResolveContactWithDifferentLastName() {
-
-        Account account = (Account)TestDataFactory.createSObject('Account', new Map<String,Object>{
-            'PersonEmail' => 'email@email.com',
-            'LastName' => 'DifferentLastName',
-            'B2C_CustomerList_ID__pc' => 'CustomerList',
-            'RecordTypeId' => [SELECT Id FROM RecordType WHERE DeveloperName = 'PersonAccount' LIMIT 1].Id
-        });
-
-        Contact c1 = new Contact(
-            Email = 'email@email.com',
-            LastName = 'LastName',
-            B2C_CustomerList_ID__c = 'CustomerList'
-        );
-
-        List<List<Contact>> contactResolvedList = new List<List<Contact>>();
-        List<Contact> contactFilteredList = new List<Contact>();
-
-        Test.startTest();
-
-            contactResolvedList = B2CIACustomerResolution.resolve(
-                new List<Contact>{ c1 }
-            );
-
-            Map<String, Object> contactFilterMap = new Map<String, Object>();
-
-            contactFilterMap.put(
-                'Contact',
-                c1
-            );
-
-            contactFilterMap.put(
-                'ContactMatches',
-                contactResolvedList[0]
-            );
-
-            Flow.Interview.B2C_Commerce_Contact_Filter_Matches contactFilterMatchFlow = new Flow.Interview.B2C_Commerce_Contact_Filter_Matches(contactFilterMap);
-            contactFilterMatchFlow.start();
-
-            contactFilteredList = (List<Contact>)(contactFilterMatchFlow.getVariableValue('ContactMatchesResult'));
-
-        Test.stopTest();
-
-        System.assertEquals(
-            contactFilteredList,
-            null
-        );
     }
 
 }

@@ -327,12 +327,19 @@
         <defaultConnectorLabel>Does Not Match CustomerId</defaultConnectorLabel>
         <rules>
             <name>OutcomeIs_CustomerIdMatches</name>
-            <conditionLogic>and</conditionLogic>
+            <conditionLogic>(2 AND 1)</conditionLogic>
             <conditions>
                 <leftValueReference>Contact.B2C_Customer_ID__c</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <elementReference>CustomerIdMatches_Loop.B2C_Customer_ID__c</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>CustomerIdMatches_Loop.B2C_Customer_ID__c</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -377,7 +384,7 @@
         <defaultConnectorLabel>Does Not Match</defaultConnectorLabel>
         <rules>
             <name>OutcomeIs_CustomerListIdAndCustomerNoMatches2</name>
-            <conditionLogic>and</conditionLogic>
+            <conditionLogic>3 AND (1 AND 2)</conditionLogic>
             <conditions>
                 <leftValueReference>Contact.B2C_CustomerList_ID__c</leftValueReference>
                 <operator>EqualTo</operator>
@@ -390,6 +397,13 @@
                 <operator>EqualTo</operator>
                 <rightValue>
                     <elementReference>CustomerListIdCustomerNo_Loop.B2C_Customer_No__c</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>CustomerListIdCustomerNo_Loop.B2C_Customer_No__c</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
             <connector>
