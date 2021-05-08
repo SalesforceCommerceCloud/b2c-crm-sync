@@ -73,6 +73,7 @@ describe('Progressive resolution of a B2C Commerce Customer via the B2CContactPr
 
         // Update the email address with a random email
         testProfile.customer.email = testEmail;
+        testProfile.customer.login = testEmail;
 
         // Initialize the testContact
         testContact = {
@@ -97,18 +98,8 @@ describe('Progressive resolution of a B2C Commerce Customer via the B2CContactPr
             // Audit the authorization token for future rest requests
             sfdcAuthCredentials = initResults.multiCloudInitResults.sfdcAuthCredentials;
 
-            // Is the purge disabled?
-            if (disablePurge === true) {
-
-                // Audit to the console that the purge is disabled
-                console.log(' -- disablePurge is enabled: test-data is not cleaned-up after each test or test-run');
-
-            } else {
-
-                // Purge the customer data in B2C Commerce and SFDC
-                await useCaseProcesses.b2cCustomerPurge(b2cAdminAuthToken, sfdcAuthCredentials.conn);
-
-            }
+            // Attempt to remove any stray and domain-specific customer records from B2C Commerce and the Salesforce Platform
+            await useCaseProcesses.b2cCRMSyncCustomersPurgeManager(disablePurge, purgeSleepTimeout, b2cAdminAuthToken, sfdcAuthCredentials);
 
         } catch (e) {
 
@@ -116,6 +107,14 @@ describe('Progressive resolution of a B2C Commerce Customer via the B2CContactPr
             throw new Error(e);
 
         }
+
+    });
+
+    // Reset the output variable in-between tests
+    beforeEach(async function () {
+
+        // Attempt to remove any stray and domain-specific customer records from B2C Commerce and the Salesforce Platform
+        await useCaseProcesses.b2cCRMSyncCustomersPurgeManager(disablePurge, purgeSleepTimeout, b2cAdminAuthToken, sfdcAuthCredentials);
 
     });
 
@@ -662,7 +661,7 @@ describe('Progressive resolution of a B2C Commerce Customer via the B2CContactPr
         } else {
 
             // Purge the customer data in B2C Commerce and SFDC
-            await useCaseProcesses.b2cCustomerPurge(b2cAdminAuthToken, sfdcAuthCredentials.conn);
+            await useCaseProcesses.b2cCustomerPurge(testProfile, b2cAdminAuthToken, sfdcAuthCredentials.conn);
 
         }
 

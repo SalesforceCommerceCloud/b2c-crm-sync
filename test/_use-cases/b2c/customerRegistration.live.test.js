@@ -75,6 +75,7 @@ describe('Registering a new B2C Customer Profile via the OCAPI Shop API', functi
 
         // Update the email address with a random email
         testProfile.customer.email = testEmail;
+        testProfile.customer.login = testEmail;
 
         // Default the sync-configuration to leverage; sync-on-login and sync-once are enabled
         syncGlobalEnable = config.get('unitTests.b2cCRMSyncConfigManager.base');
@@ -93,18 +94,8 @@ describe('Registering a new B2C Customer Profile via the OCAPI Shop API', functi
             // Audit the authorization token for future rest requests
             sfdcAuthCredentials = initResults.multiCloudInitResults.sfdcAuthCredentials;
 
-            // Is the purge disabled?
-            if (disablePurge === true) {
-
-                // Audit to the console that the purge is disabled
-                console.log(' -- disablePurge is enabled: test-data is not cleaned-up after each test or test-run');
-
-            } else {
-
-                // Purge the customer data in B2C Commerce and SFDC
-                await useCaseProcesses.b2cCustomerPurge(b2cAdminAuthToken, sfdcAuthCredentials.conn);
-
-            }
+            // Attempt to remove any stray and domain-specific customer records from B2C Commerce and the Salesforce Platform
+            await useCaseProcesses.b2cCRMSyncCustomersPurgeManager(disablePurge, purgeSleepTimeout, b2cAdminAuthToken, sfdcAuthCredentials);
 
         } catch (e) {
 
@@ -112,6 +103,14 @@ describe('Registering a new B2C Customer Profile via the OCAPI Shop API', functi
             throw new Error(e);
 
         }
+
+    });
+
+    // Reset the output variable in-between tests
+    beforeEach(async function () {
+
+        // Attempt to remove any stray and domain-specific customer records from B2C Commerce and the Salesforce Platform
+        await useCaseProcesses.b2cCRMSyncCustomersPurgeManager(disablePurge, purgeSleepTimeout, b2cAdminAuthToken, sfdcAuthCredentials);
 
     });
 
@@ -405,19 +404,13 @@ describe('Registering a new B2C Customer Profile via the OCAPI Shop API', functi
     // Reset the output variable in-between tests
     afterEach(async function () {
 
-        // Implement a pause to ensure the PlatformEvent fires
-        await useCaseProcesses.sleep(purgeSleepTimeout);
-
-        // Purge the customer data in B2C Commerce and SFDC
-        await useCaseProcesses.b2cCustomerPurgeByCustomerNo(b2cAdminAuthToken, sfdcAuthCredentials.conn, registeredB2CCustomerNo);
+        // Attempt to remove any stray and domain-specific customer records from B2C Commerce and the Salesforce Platform
+        await useCaseProcesses.b2cCRMSyncCustomersPurgeManager(disablePurge, purgeSleepTimeout, b2cAdminAuthToken, sfdcAuthCredentials);
 
     });
 
     // Reset the output variable in-between tests
     after(async function () {
-
-        // Purge the customer data in B2C Commerce and SFDC
-        await useCaseProcesses.b2cCustomerPurge(b2cAdminAuthToken, sfdcAuthCredentials.conn);
 
         // Next, ensure that b2c-crm-sync is enabled in the specified environment
         await useCaseProcesses.b2cCRMSyncConfigManager(environmentDef, b2cAdminAuthToken, siteId, syncGlobalEnable);

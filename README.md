@@ -98,7 +98,7 @@ b2c-crm-sync includes a library of CLI commands that can be used to validate you
 
 #### B2C Commerce Setup Instructions
 
-##### Create Your B2C Commerce Client ID <a name="b2ccommerceclientidcreation"></a>
+##### Create Your B2C Commerce Client ID
 
 Before setting up the b2c-crm-sync environment, you have to create a B2C Commerce Client ID. This has to be done through the Account Manager Portal. Please follow these steps in order to create the client ID used in the environment bellow:
 1. Go to [https://account.demandware.com](https://account.demandware.com)
@@ -106,8 +106,10 @@ Before setting up the b2c-crm-sync environment, you have to create a B2C Commerc
 3. Click on the `Add API Client` button at the top right of the page
 4. Enter a display name and a password. The password corresponds to the `B2C_CLIENTSECRET` environment variable that you'll setup in the next section.
 5. Within the OpenID Connect section, please ensure to configure at least the following:
-    1. Token Endpoint Auth Method: `client_secret_post`
-    2. Access Token Format: `UUID`
+   1. Default Scopes: `refresh_token` and `mail` (on separate lines)
+   2. Allowed Scopes: `refresh_token` and `mail` (on separate lines)
+   3. Token Endpoint Auth Method: `client_secret_post`
+   4. Access Token Format: `UUID`
 6. Click the `Save` button
 7. Now that the client ID is created, and your are seeing the list of client IDs for your organization, open the client ID's page and keep it open until the last section of the setup, as you'll have to add the callback URL of the Salesforce Core Auth Provider to the Redirect URIs field of your newly created client ID.
 
@@ -648,7 +650,6 @@ npm run crm-sync:sf:authprovider:build
 
 ![Successfully authenticated B2C Commerce Named Credential](/docs/images/B2C-Authenticated-Named-Credential.png)
 
-
 17. Generate the B2C Commerce metadata required by b2c-crm-sync and deploy both the code metadata to the Salesforce B2C Commerce instance by executing the following CLI command:
 
 ```bash
@@ -678,7 +679,7 @@ From the duplicate rules listing, select the rule titled **B2C Commerce: Standar
 - Paste the following filter logic value in the field -- and save your results.
 
 ```bash
-1 OR (2 AND 3) OR (2 AND 4 AND 5) OR (2 AND 5) OR (4 AND 5 AND 6)
+1 OR (2 AND 3) OR (2 AND 4 AND 5) OR (2 AND 4) OR (4 AND 5 AND 6)
 ```
 
 #### PersonAccount Match Rules Setup Guidance
@@ -702,7 +703,7 @@ From the duplicate rules listing, select the rule titled **B2C Commerce: Standar
 - Paste the following filter logic value in the field -- and save your results.
 
 ```bash
-1 OR (2 AND 3) OR (2 AND 4 AND 5) OR (2 AND 5) OR (4 AND 5 AND 6)
+1 OR (2 AND 3) OR (2 AND 4 AND 5) OR (2 AND 4) OR (4 AND 5 AND 6)
 ```
 
 #### Configure Your B2C Instance

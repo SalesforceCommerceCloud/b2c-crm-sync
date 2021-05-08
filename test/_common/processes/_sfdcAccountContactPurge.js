@@ -18,12 +18,10 @@ const accountAPIs = require('../../../lib/qa/processes/_common/sfdc/account');
 module.exports = async (sfdcConnection) => {
 
     // Initialize local variables
-    let testProfile,
-        defaultAccountName,
+    let defaultAccountName,
         output;
 
     // Retrieve the b2c customer profile template that we'll use to exercise this test
-    testProfile = config.util.toObject(config.get('unitTests.testData.profileTemplate'));
     defaultAccountName = config.get('unitTests.testData.defaultAccountName').toString();
 
     // Re-initialize the output variable
@@ -31,9 +29,9 @@ module.exports = async (sfdcConnection) => {
 
     // Check if the org has a contact scoped with the test Contact
     output.searchResults = await contactAPIs.getByEmail(
-        sfdcConnection, testProfile.customer.email, 0);
+        sfdcConnection, config.get('unitTests.testData.emailDomain'), 0);
 
-    // Was a Contact record found for the customerList / email combination?
+    // Was a Contact record found for the specific email domain
     if (output.searchResults.length > 0) {
 
         // Delete the related accounts via their Contact associations

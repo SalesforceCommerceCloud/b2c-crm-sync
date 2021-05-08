@@ -73,6 +73,7 @@ describe('Progressive resolution of a B2C Commerce Customer error scenarios via 
 
         // Update the email address with a random email
         testProfile.customer.email = testEmail;
+        testProfile.customer.login = testEmail;
 
         // Initialize the testContact
         testContact = {
@@ -94,18 +95,8 @@ describe('Progressive resolution of a B2C Commerce Customer error scenarios via 
             // Audit the authorization token for future rest requests
             sfdcAuthCredentials = initResults.multiCloudInitResults.sfdcAuthCredentials;
 
-            // Is the purge disabled?
-            if (disablePurge === true) {
-
-                // Audit to the console that the purge is disabled
-                console.log(' -- disablePurge is enabled: test-data is not cleaned-up after each test or test-run');
-
-            } else {
-
-                // Purge the customer data in B2C Commerce and SFDC
-                await useCaseProcesses.b2cCustomerPurge(b2cAdminAuthToken, sfdcAuthCredentials.conn);
-
-            }
+            // Attempt to remove any stray and domain-specific customer records from B2C Commerce and the Salesforce Platform
+            await useCaseProcesses.b2cCRMSyncCustomersPurgeManager(disablePurge, purgeSleepTimeout, b2cAdminAuthToken, sfdcAuthCredentials);
 
         } catch (e) {
 
@@ -113,6 +104,14 @@ describe('Progressive resolution of a B2C Commerce Customer error scenarios via 
             throw new Error(e);
 
         }
+
+    });
+
+    // Reset the output variable in-between tests
+    beforeEach(async function () {
+
+        // Attempt to remove any stray and domain-specific customer records from B2C Commerce and the Salesforce Platform
+        await useCaseProcesses.b2cCRMSyncCustomersPurgeManager(disablePurge, purgeSleepTimeout, b2cAdminAuthToken, sfdcAuthCredentials);
 
     });
 
@@ -444,21 +443,8 @@ describe('Progressive resolution of a B2C Commerce Customer error scenarios via 
     // Reset the output variable in-between tests
     afterEach(async function () {
 
-        // Implement a pause to ensure the PlatformEvent fires (where applicable)
-        await useCaseProcesses.sleep(purgeSleepTimeout);
-
-        // Is the purge disabled?
-        if (disablePurge === true) {
-
-            // Audit to the console that the purge is disabled
-            console.log(' -- useCaseProcesses.sfdcAccountContactPurge() is disabled; test-data is not cleaned-up after each test');
-
-        } else {
-
-            // Purge the Account / Contact relationships
-            await useCaseProcesses.sfdcAccountContactPurge(sfdcAuthCredentials.conn);
-
-        }
+        // Attempt to remove any stray and domain-specific customer records from B2C Commerce and the Salesforce Platform
+        await useCaseProcesses.b2cCRMSyncCustomersPurgeManager(disablePurge, purgeSleepTimeout, b2cAdminAuthToken, sfdcAuthCredentials);
 
         // Update the B2C CustomerList and activate the B2C CustomerList
         await useCaseProcesses.sfdcB2CCustomerListUpdate(sfdcAuthCredentials.conn, customerListId, true);
@@ -468,19 +454,6 @@ describe('Progressive resolution of a B2C Commerce Customer error scenarios via 
 
     // Reset the output variable in-between tests
     after(async function () {
-
-        // Is the purge disabled?
-        if (disablePurge === true) {
-
-            // Audit to the console that the purge is disabled
-            console.log(' -- useCaseProcesses.b2cCustomerPurge() is disabled; test-data is not cleaned-up after tests');
-
-        } else {
-
-            // Purge the customer data in B2C Commerce and SFDC
-            await useCaseProcesses.b2cCustomerPurge(b2cAdminAuthToken, sfdcAuthCredentials.conn);
-
-        }
 
         // Next, ensure that b2c-crm-sync is enabled in the specified environment
         await useCaseProcesses.b2cCRMSyncConfigManager(environmentDef, b2cAdminAuthToken, siteId, syncGlobalEnable);
