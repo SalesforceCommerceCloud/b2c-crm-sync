@@ -2,7 +2,7 @@
 <MatchingRules xmlns="http://soap.sforce.com/2006/04/metadata">
     <matchingRules>
         <fullName>B2C_Commerce_Standard_Contacts</fullName>
-        <booleanFilter>1 OR (2 AND 3) OR (2 AND 4 AND 5) OR (2 AND 5) OR (4 AND 5 AND 6) OR (4 AND 5)</booleanFilter>
+        <booleanFilter>1 OR (2 AND 3) OR (2 AND 4 AND 5) OR (2 AND 4) OR (4 AND 5 AND 6) OR (4 AND 5)</booleanFilter>
         <description>... matching rule used to resolve B2C Commerce customer records via Contacts.</description>
         <label>B2C Commerce: Standard Contacts</label>
         <matchingRuleItems>
@@ -22,12 +22,12 @@
         </matchingRuleItems>
         <matchingRuleItems>
             <blankValueBehavior>NullNotAllowed</blankValueBehavior>
-            <fieldName>LastName</fieldName>
+            <fieldName>Email</fieldName>
             <matchingMethod>Exact</matchingMethod>
         </matchingRuleItems>
         <matchingRuleItems>
             <blankValueBehavior>NullNotAllowed</blankValueBehavior>
-            <fieldName>Email</fieldName>
+            <fieldName>LastName</fieldName>
             <matchingMethod>Exact</matchingMethod>
         </matchingRuleItems>
         <matchingRuleItems>
