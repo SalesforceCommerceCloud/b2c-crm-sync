@@ -661,7 +661,7 @@ describe('Progressive resolution of a B2C Commerce Customer via the B2CContactPr
         } else {
 
             // Purge the customer data in B2C Commerce and SFDC
-            await useCaseProcesses.b2cCustomerPurge(testProfile, b2cAdminAuthToken, sfdcAuthCredentials.conn);
+            await useCaseProcesses.b2cCustomerPurge(b2cAdminAuthToken, sfdcAuthCredentials.conn);
 
         }
 

@@ -131,6 +131,9 @@ describe('Updating an SFDC Contact representing a B2C Commerce Customer Profile 
         // Validate that the B2C Customer Profile was successfully created with SFDC attributes
         common.validateRegisteredUserWithSFDCAttributes(output.b2cRegisterResults.response);
 
+        // Implement a pause to allow the PlatformEvent to fire
+        await useCaseProcesses.sleep(sleepTimeout);
+
         // Update the B2C Commerce properties for the related contactRecord
         output.sfdcContactResults = await sObjectAPIs.update(sfdcAuthCredentials.conn,
             'Contact', {
@@ -140,6 +143,7 @@ describe('Updating an SFDC Contact representing a B2C Commerce Customer Profile 
             });
 
         // Implement a pause to allow the PlatformEvent to fire
+        await useCaseProcesses.sleep(sleepTimeout);
         await useCaseProcesses.sleep(sleepTimeout);
 
         // Retrieve the contact details from the SFDC environment

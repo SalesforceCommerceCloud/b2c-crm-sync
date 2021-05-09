@@ -1719,15 +1719,6 @@ private class B2CIACustomerResolution_Test {
         B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
         B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
 
-        List<Account> accountCollection = [
-            SELECT  Id,
-                    PersonEmail,
-                    B2C_CustomerList_ID__pc
-            FROM    Account
-        ];
-
-        System.debug('---> Accounts: ' + accountCollection);
-
         // Define the Contact record to resolve
         testContact = new Contact(
             B2C_CustomerList_ID__c = testCustomerListID,
