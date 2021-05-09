@@ -194,7 +194,7 @@ The build scripts in this repository leverage B2C Commerce's [sfcc-ci](https://g
 
 ```json
 {
-  "_v": "18.8",
+  "_v": "21.3",
   "clients": [
     "insert your updated configuration here" 
   ]
@@ -299,7 +299,7 @@ The build scripts in this repository leverage B2C Commerce's [sfcc-ci](https://g
 
 ```json
 {
-  "_v": "18.8",
+  "_v": "21.3",
   "clients": [
     "insert your updated configuration here" 
   ]
