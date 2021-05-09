@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
-    <apiVersion>50.0</apiVersion>
+    <apiVersion>51.0</apiVersion>
     <assignments>
         <description>... assign the recordCounts to the specific variables used to track B2C Site and B2C CustomerList recordCounts.</description>
         <name>asn_B2CInstanceRecordCounts</name>

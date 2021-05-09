@@ -37,7 +37,7 @@
         </inputParameters>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </actionCalls>
-    <apiVersion>50.0</apiVersion>
+    <apiVersion>51.0</apiVersion>
     <assignments>
         <description>... assigns the IA output results to an output value for external consumption.</description>
         <name>asn_allowIntegrationProcessOutput</name>
