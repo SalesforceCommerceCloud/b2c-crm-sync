@@ -112,9 +112,39 @@ b2c-crm-sync includes a library of CLI commands that can be used to validate you
 
 #### B2C Commerce Setup Instructions
 
+##### b2c-crm-sync's Unit Tests Leverage SFRA's Base CustomerLists and Sites
+
+One of the great things about b2c-crm-sync is that is ships with over forty integrated-based unit-tests that can be used to verify your setup once installation is complete.  These tests are designed to leverage [Salesforce's Storefront Reference Architecture](https://trailhead.salesforce.com/content/learn/modules/cc-digital-for-developers) storefront and data.
+
+> If you have a B2C Commerce Sandbox, you can install the latest SFRA Build from the Administration Menu.  This **will not impact any other sites** you may have setup in your sandbox environment.
+
+1. Open the Business Manager Administration Menu.
+2. Under Site Development, select the `Site Import / Export` menu option.
+3. In the import section, select `Storefront Reference Architecture Demo Sites` and click the Import Button to continue.
+4. Select which SFRA build you'd like to leverage, scroll down to the bottom of the page and click the Deploy Button to install the site.
+
+> The setup process takes about 10 minutes, and your sandbox environment will notify you via email when SFRA is setup.  We recommend using the default build for b2c-crm-sync.
+
+##### Setup the RefArchGlobal Site to Use Its Own CustomerList
+
+b2c-crm-sync supports [multiple sites and customerLists](https://documentation.b2c.commercecloud.salesforce.com/DOC2/index.jsp?topic=%2Fcom.demandware.dochelp%2Fcontent%2Fb2c_commerce%2Ftopics%2Fcustomers%2Fb2c_customer_lists.html).  To see this in action, please ensure that the RefArchGlobal site leverages its own CustomerList.  SFRA ships with multiple customerLists -- but with its default setup, both the RefArch and RefArchGlobal sites are associated to the RefArch customerList.  
+
+> b2c-crm-sync's integration tests require that the SFRA RefArchGlobal storefront be associated to its own RefArchGlobal CustomerList. This association can be made by editing the CustomerList association on the RefArchGlobal site.  
+
+1. Open the Business Manager Administration Menu.
+2. Select the`Manage Sites` option under the Sites menu.
+3. Select the RefArchGlobal site from the list of available sites by clicking on the siteId.
+4. Update the CustomerList association by changing the select value to **RefArchGlobal**.
+5. Click Save to save your changes.
+
+Please note that this isn't a requirement -- but if you want a 100% pass-rate on our multi-cloud unit tests, you should make this change.  A number of our unit-tests exercise the RefArch and RefArchGlobal customer lists to test our customer resolution business rules.
+
+>  A subset of the Multi-cloud unit tests will fail if your RefArch and RefArchGlobal sites leverage the same customerLists vs. having their own.  If you experience test failures, please review the test description for references to multiple customerLists.
+
 ##### Create Your B2C Commerce Client ID
 
 Before setting up the b2c-crm-sync environment, you have to create a B2C Commerce Client ID. This has to be done through the Account Manager Portal. Please follow these steps in order to create the client ID used in the environment bellow:
+
 1. Go to [https://account.demandware.com](https://account.demandware.com)
 2. Go to the `API Client` menu
 3. Click on the `Add API Client` button at the top right of the page
