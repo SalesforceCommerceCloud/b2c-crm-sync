@@ -84,7 +84,16 @@ npm install
 ```
 > Installing the project dependencies will take a moment or two.  Please [log an issue](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/issues/new) if you run into installation issues setting up the project.
 
-Remember that [SFDX](https://developer.salesforce.com/tools/sfdxcli) is also a requirement -- as we use it to create scratchOrgs and deploy the meta-data that powers b2c-crm-sync.  You can [verify your SFDX installation](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_install_cli.htm) with the following command:
+Once the install has been completed, you can apply non-breaking updates to node packages that are leveraged by b2c-crm-sync:
+
+```bash
+npm audit fix
+```
+
+> Please remember that forcing breaking changes with the `--force` option can also break the b2c-crm-sync install process.  This isn't recommended.
+
+#### Install SFDX for SFDC Deployments
+b2c-crm-sync also requires [SFDX](https://developer.salesforce.com/tools/sfdxcli) -- as it is used to create scratchOrgs and deploy the meta-data that powers it.  You can [verify your SFDX installation](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_install_cli.htm) with the following command:
 
 ```bash
 sfdx --version
@@ -111,7 +120,10 @@ Before setting up the b2c-crm-sync environment, you have to create a B2C Commerc
    3. Token Endpoint Auth Method: `client_secret_post`
    4. Access Token Format: `UUID`
 6. Click the `Save` button
-7. Now that the client ID is created, and your are seeing the list of client IDs for your organization, open the client ID's page and keep it open until the last section of the setup, as you'll have to add the callback URL of the Salesforce Core Auth Provider to the Redirect URIs field of your newly created client ID.
+
+Now that the client ID is created, and you are seeing the list of client IDs for your organization, open the client ID's page and keep it open until the last section of the setup.
+
+> You'll have to add the callback URL of the Salesforce Core Auth Provider to the Redirect URIs field of your newly created client ID.
 
 ##### Setup a .env file
 To begin, we use the [dotenv](https://medium.com/@thejasonfile/using-dotenv-package-to-create-environment-variables-33da4ac4ea8f) node.js library to store environment-specific configuration settings used to authenticate against a given B2C Commerce environment.  Before installing any of the project package dependencies, please follow these instructions to build-out a .env file that contains your environment's configuration settings.
