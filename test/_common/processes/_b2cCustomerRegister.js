@@ -37,7 +37,7 @@ module.exports = async (environmentDef, b2cAdminAuthToken, siteId, customerProfi
     output.b2cGuestAuth = b2cGuestAuth;
 
     // Audit the customer record being created to support the current unit-test
-    console.log(`        -- created B2C Customer Number ${output.registeredB2CCustomerNo} as ${customerProfile.customer.email}`.grey);
+    console.log(`        -- created B2C Commerce Customer No. ${output.registeredB2CCustomerNo} as ${customerProfile.customer.email}`.grey);
 
     // Return the output variable
     return output;
