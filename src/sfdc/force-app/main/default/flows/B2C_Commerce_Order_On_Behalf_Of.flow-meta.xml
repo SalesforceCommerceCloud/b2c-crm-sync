@@ -72,7 +72,7 @@
         </inputParameters>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </actionCalls>
-    <apiVersion>50.0</apiVersion>
+    <apiVersion>51.0</apiVersion>
     <assignments>
         <name>CustomerId_Assignment</name>
         <label>CustomerId Assignment</label>
@@ -374,7 +374,7 @@
         <valueField>Name</valueField>
     </dynamicChoiceSets>
     <interviewLabel>B2C Commerce: Order On Behalf Of {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>B2C Commerce: Order On Behalf Of</label>
+    <label>B2C Commerce: Order On Behalf Of: Contacts</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>

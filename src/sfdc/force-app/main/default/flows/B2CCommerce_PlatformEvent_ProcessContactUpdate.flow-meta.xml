@@ -261,7 +261,7 @@
         </inputParameters>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </actionCalls>
-    <apiVersion>50.0</apiVersion>
+    <apiVersion>51.0</apiVersion>
     <decisions>
         <description>... evaluates if the B2C Commerce Customer Profile response should be audited.</description>
         <name>dec_AuditB2CCustomerProfileRetrieveResponse</name>

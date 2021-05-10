@@ -1,10 +1,10 @@
 'use strict';
 
+// Initialize constants
+const colors = require('colors');
+
 // Initialize local libraries for B2C Commerce
 const shopAPIs = require('../../../lib/apis/sfcc/ocapi/shop');
-
-// Initialize local processes required by this function
-const b2cCRMSyncConfigManager = require('./_b2cCRMSyncConfigManager');
 
 /**
  * @function b2cCustomerRegister
@@ -25,9 +25,6 @@ module.exports = async (environmentDef, b2cAdminAuthToken, siteId, customerProfi
     // Default the output variable
     output = {};
 
-    // Ensure that b2c-crm-sync is enabled for this specific unit-test
-    await b2cCRMSyncConfigManager(environmentDef, b2cAdminAuthToken, siteId);
-
     // Retrieve the guestAuthorization token from B2C Commerce
     b2cGuestAuth = await shopAPIs.authAsGuest(environmentDef, siteId, environmentDef.b2cClientId);
 
@@ -38,6 +35,9 @@ module.exports = async (environmentDef, b2cAdminAuthToken, siteId, customerProfi
     // Audit the customerNo of the newly registered customer
     output.registeredB2CCustomerNo = output.response.data.customer_no;
     output.b2cGuestAuth = b2cGuestAuth;
+
+    // Audit the customer record being created to support the current unit-test
+    console.log(`        -- created B2C Commerce Customer No. ${output.registeredB2CCustomerNo} as ${customerProfile.customer.email}`.grey);
 
     // Return the output variable
     return output;

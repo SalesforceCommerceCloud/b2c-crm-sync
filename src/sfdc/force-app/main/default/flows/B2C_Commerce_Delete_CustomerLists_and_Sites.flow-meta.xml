@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
-    <apiVersion>50.0</apiVersion>
+    <apiVersion>51.0</apiVersion>
     <description>... purges configured B2C Commerce CustomerLists and Sites from the Salesforce Platform.</description>
     <interviewLabel>B2C Commerce: Delete CustomerLists and Sites {!$Flow.CurrentDateTime}</interviewLabel>
     <label>B2C Commerce: Delete CustomerLists and Storefronts</label>

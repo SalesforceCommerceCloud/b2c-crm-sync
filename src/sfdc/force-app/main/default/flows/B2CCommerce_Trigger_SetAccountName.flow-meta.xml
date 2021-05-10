@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
-    <apiVersion>50.0</apiVersion>
+    <apiVersion>51.0</apiVersion>
     <assignments>
         <description>... calculate the Account Name using the sourceContact First / Last Name.</description>
-        <name>asn_calculateAccountName</name>
+        <name>asn_calculateAccountName_0</name>
         <label>Calculate the Initial Account Name</label>
         <locationX>196</locationX>
-        <locationY>640</locationY>
+        <locationY>618</locationY>
         <assignmentItems>
             <assignToReference>var_accountName</assignToReference>
             <operator>Assign</operator>
@@ -28,7 +28,7 @@
             <assignToReference>var_accountName</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>DefaultConfiguration_GetRecord.Default_Account_Name__c</elementReference>
+                <elementReference>recGet_ConfigurationProfile.Default_Account_Name__c</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -40,7 +40,7 @@
         <name>asn_FirstLastNameToVariables</name>
         <label>Assign Names to Local Variables</label>
         <locationX>196</locationX>
-        <locationY>394</locationY>
+        <locationY>392</locationY>
         <assignmentItems>
             <assignToReference>var_firstName</assignToReference>
             <operator>Assign</operator>
@@ -56,7 +56,7 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>asn_calculateAccountName</targetReference>
+            <targetReference>asn_calculateAccountName_0</targetReference>
         </connector>
     </assignments>
     <decisions>
@@ -115,6 +115,29 @@
             <label>Exists</label>
         </rules>
     </decisions>
+    <decisions>
+        <description>... evaluate if the lastName is the default lastName as defined in the configuration settings.</description>
+        <name>dec_isLastNameTheDefaultLastName</name>
+        <label>Is the LastName the Default?</label>
+        <locationX>845</locationX>
+        <locationY>877</locationY>
+        <defaultConnectorLabel>LastName Is Not Default</defaultConnectorLabel>
+        <rules>
+            <name>decOut_lastNameIsDefaultLastName</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.LastName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>recGet_ConfigurationProfile.Default_Contact_Name__c</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>asn_defaultAccountName</targetReference>
+            </connector>
+            <label>LastName is Default</label>
+        </rules>
+    </decisions>
     <description>... automates the assignment of the AccountName whenever a B2C Contact record is created or updated.</description>
     <formulas>
         <description>... simple formula used to calculate the Account Name for a child sourceContact.</description>
@@ -149,19 +172,33 @@ IF(ISBLANK({!var_lastName}), &quot;&quot;, &quot; &quot; &amp; {!var_lastName})
     <recordLookups>
         <description>... retrieve the defaultConfiguration for the current b2c-crm-sync instance.</description>
         <name>DefaultConfiguration_GetRecord</name>
-        <label>DefaultConfiguration GetRecord</label>
-        <locationX>535</locationX>
-        <locationY>648</locationY>
+        <label>Retrieve the Default Configuration</label>
+        <locationX>853</locationX>
+        <locationY>391</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>asn_defaultAccountName</targetReference>
+            <targetReference>recGet_ConfigurationProfile</targetReference>
+        </connector>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>B2C_CRM_Sync_Default_Configuration__mdt</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>... retrieve the configuration profile currently being employed by b2c-crm-sync.</description>
+        <name>recGet_ConfigurationProfile</name>
+        <label>Retrieve the Configuration Profile</label>
+        <locationX>853</locationX>
+        <locationY>609</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>dec_isLastNameTheDefaultLastName</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
-            <field>DeveloperName</field>
+            <field>Id</field>
             <operator>EqualTo</operator>
             <value>
-                <stringValue>Default_Configuration</stringValue>
+                <elementReference>DefaultConfiguration_GetRecord.Active_Configuration__c</elementReference>
             </value>
         </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
@@ -192,7 +229,7 @@ IF(ISBLANK({!var_lastName}), &quot;&quot;, &quot; &quot; &amp; {!var_lastName})
     </recordUpdates>
     <start>
         <locationX>409</locationX>
-        <locationY>80</locationY>
+        <locationY>42</locationY>
         <connector>
             <targetReference>dec_firstNameLastNameExists</targetReference>
         </connector>

@@ -28,7 +28,7 @@
             <name>synchronizedTargetContact</name>
         </outputParameters>
     </actionCalls>
-    <apiVersion>50.0</apiVersion>
+    <apiVersion>51.0</apiVersion>
     <assignments>
         <description>...assign the sourceContact&apos;s B2C CustomerID to the resolved contact.</description>
         <name>asn_b2cCustomerIDToAssignedContact</name>
@@ -578,7 +578,7 @@
     </decisions>
     <description>... this flow is used to abstract the incremental assignment of sourceContact attributes to a resolved Contact for future processing.</description>
     <interviewLabel>B2C Commerce: Contact Assignment Helper {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>B2C Commerce: Assignment Helper: Contacts</label>
+    <label>B2C Commerce: Process: Assignment Helper: Contacts</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>

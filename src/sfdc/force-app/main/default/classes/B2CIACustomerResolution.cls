@@ -1,215 +1,176 @@
+/**
+ * @author Eric Schultz
+ * @date April 28th, 2021
+ *
+ * @description This class helps identify relevant duplicates for a contact which can be used to decide how to process updates or inserts
+*/
+
 public inherited sharing class B2CIACustomerResolution {
 
     /**
-     * @description Helper function used to pre-process Contacts to be resolved, and ensure that
-     * contacts that do not have a lastName are provided a default one -- IF no identifiers are provided.
-     * This should only occur where a customerList, Email, and lastName are provided.
-     * @param contactListList {List<List<Contact>>} Represents the super-set of contacts being processed
-     * @return {List<Contact>} Returns a pre-processed collection of Contacts that are ready for resolution
+     * @description Runs B2C duplicate rules, retrieve potential duplicates, and filter through a companion Flow
+     *
+     * @param pContact {Contact} A specific contact to run find duplicates on
+     * @returns {List<Contact>} The final list of contacts that exist that are relevant duplicates
      */
-    public static List<Contact> preProcessContactsToResolve(List<List<Contact>> contactListList) {
+    public static List<Contact> findDupes(Contact pContact) {
 
-        // Initialize local variables
-        Map<String, String> defaultNames;
-        List<Contact> sourceContacts;
-        List<Contact> contactsToResolve;
+        Contact contactToResolve;
+        List<Contact> matchedContactRecords = new List<Contact>();
+        List<Contact> duplicateContactRecords = new List<Contact>();
+        List<Account> matchedAccountRecords = new List<Account>();
 
-        // Initialize the output list
-        contactsToResolve = new List<Contact>();
-        sourceContacts = contactListList[0];
+        // Make a copy of the contact passed-in
+        contactToResolve = pContact.clone(true);
 
-        // Retrieve the default names to use when creating Accounts / Contacts
-        defaultNames = B2CConfigurationManager.getDefaultAccountContactNames();
+        // Has the lastName been defined?
+        if (contactToResolve.LastName == null) {
 
-        // Loop over the collection of sourceContacts
-        for (Contact thisSourceContact : sourceContacts) {
-
-            // Check if an email and customerList are the only identifiers provided
-            if (thisSourceContact.LastName == null &&
-                thisSourceContact.Id == null &&
-                thisSourceContact.B2C_Customer_ID__c == null &&
-                thisSourceContact.B2C_Customer_No__c == null &&
-                thisSourceContact.Email != null
-            ) {
-
-                // If so, then default the lastName to the default contactName
-                thisSourceContact.LastName = defaultNames.get('contactName');
-
-            }
-
-            // Add the current contact to the collection to resolve
-            contactsToResolve.add(thisSourceContact);
+            // Default the lastName if it's not set -- solely for the purpose of resolution
+            contactToResolve.LastName = B2CConfigurationManager.getDefaultAccountContactNames().get('contactName');
 
         }
 
-        // Return the collection of contacts to resolve
-        return contactsToResolve;
+        Datacloud.FindDuplicatesResult[] results = Datacloud.FindDuplicates.findDuplicates( new List<Contact>{contactToResolve} );
 
-    }
+        //If so, iterate over them and start checking for potential matches
+        for ( Datacloud.FindDuplicatesResult fdr_i : results ) {
 
-    @InvocableMethod(Label='B2C: Customer Resolution' Description='Finds matching contacts based on B2C matching rules')
-    public static List<List<Contact>> resolve(List<List<Contact>> contactListList) {
+            System.debug('--> Iterating Over DataCloud results (' + results.size() + ')');
 
-        // Initialize local variables
-        List<Contact> contactMatchResult = new List<Contact>();
-        List<Contact> contactsToResolve;
+            // find duplicates based on what was passed in
+            for (Datacloud.DuplicateResult dupeResult_i : fdr_i.getDuplicateResults()) {
 
-        // Create a reference to the contact being resolved
-        contactsToResolve = preProcessContactsToResolve(contactListList);
+                System.debug('--> Iterating over duplicateRule results');
 
-        // Find duplicates for all contacts passed in; we are passing everything in, so we get the same order back
-        Datacloud.FindDuplicatesResult[] results = Datacloud.FindDuplicates.findDuplicates( contactsToResolve );
+                // Iterate over the collection of match / duplicate rules
+                for (Datacloud.MatchResult matchResult_i : dupeResult_i.getMatchResults()) {
 
-        System.debug('--> Total results: ' + results.size());
+                    System.debug('--> Iterating over MatchRule results');
 
-        // Were any duplicates found?
-        if (results.size() > 0) {
+                    // Create a reference to the current rule being processed
+                    String matchRule = matchResult_i.getRule();
 
-            //If so, iterate over them and start checking for potential matches
-            for (Integer j=0; j<results.size(); j++) {
+                    System.debug('--> MatchRule: ' + matchRule);
+                    System.debug('--> Matched RecordCount: ' + matchResult_i.getMatchRecords().size());
 
-                // Default the matchFlag to false for each loop
-                Boolean matchFound = false;
+                    // Instead of processing all rules, we only want to process B2C Commerce-specific rules
+                    if (matchRule.contains('B2C') && matchResult_i.getMatchRecords().size() > 0) {
 
-                // If there is not an existing contact id, find duplicates based on what was passed in
-                for (Datacloud.DuplicateResult dupeResult_i : results[j].getDuplicateResults()) {
+                        // Loop over the collection of match records
+                        for (Datacloud.MatchRecord dmr_i : matchResult_i.getMatchRecords()) {
 
-                    // Only iterate if a match was not found yet
-                    if (!matchFound) {
+                            // Are we using standard contact model and found contacts
+                            if (
+                                    dmr_i.getRecord().getSObjectType() == Schema.Contact.getSObjectType()
+                                &&  B2C_CRMSync_Setting__mdt.getInstance('Default_Configuration').Account_Contact_Model__c != 'Person'
+                            ) {
 
-                        // Iterate over the collection of match / duplicate rules
-                        for (Datacloud.MatchResult matchResult_i : dupeResult_i.getMatchResults()) {
+                                // If so, add it to the Contact Collection
+                                matchedContactRecords.add((Contact)dmr_i.getRecord());
 
-                            // Create a reference to the current rule being processed
-                            String matchRule = matchResult_i.getRule();
+                            // Otherwise, did we find accounts and are using a person account model?
+                            } else if (
+                                    dmr_i.getRecord().getSObjectType() == Schema.Account.getSObjectType()
+                                &&  B2C_CRMSync_Setting__mdt.getInstance('Default_Configuration').Account_Contact_Model__c == 'Person'
+                            ) {
 
-                            System.debug('--> MatchRule: ' + matchRule);
-                            System.debug('--> Matched RecordCount: ' + matchResult_i.getMatchRecords().size());
-
-                            // Instead of processing all rules, we only want to process B2C Commerce-specific rules
-                            if (matchRule.contains('B2C') && matchResult_i.getMatchRecords().size() > 0) {
-
-                                // Initialize the collections used to track results
-                                List<Contact> matchedContactRecords = new List<Contact>();
-                                List<Account> matchedAccountRecords = new List<Account>();
-                                List<Contact> contactsToMatch = new List<Contact>();
-
-                                // Remember; this is object agnostic; we want to track if results are
-                                // driven by Contacts or PersonAccounts so we can retrieve related records
-                                Boolean isPersonAccount = false;
-
-                                // Loop over the collection of match records
-                                for (Datacloud.MatchRecord dmr_i : matchResult_i.getMatchRecords()) {
-
-                                    // Is this a Contact?
-                                    if (dmr_i.getRecord().getSObjectType() == Schema.Contact.getSObjectType()) {
-
-                                        // If so, add it to the Contact Collection
-                                        matchedContactRecords.add((Contact)dmr_i.getRecord());
-
-                                    // Otherwise, is this match-result being evaluated an Account?
-                                    } else if (dmr_i.getRecord().getSObjectType() == Schema.Account.getSObjectType()) {
-
-                                        // If so, flag this as a personAccount
-                                        isPersonAccount = true;
-
-                                        // Add the record to the Account Collection
-                                        matchedAccountRecords.add((Account)dmr_i.getRecord());
-
-                                    }
-
-                                }
-
-                                // Initialize our working map for the winner-picker flow
-                                Map<String, Object> myMap = new Map<String, Object>();
-
-                                // Are we dealing with personAccounts?
-                                if( isPersonAccount ){
-
-                                    // If so, then retrieve Contacts from the Account
-                                    contactsToMatch = [
-                                        SELECT  Id
-                                        FROM    Contact
-                                        WHERE   AccountId IN :matchedAccountRecords
-                                    ];
-
-                                } else {
-
-                                    // Otherwise, retrieve Contacts directly
-                                    contactsToMatch = [
-                                        SELECT  Id
-                                        FROM    Contact
-                                        WHERE   Id = :matchedContactRecords
-                                    ];
-
-                                }
-
-                                System.debug(' -->' + contactsToMatch);
-
-                                // Add the contact being processed to the map
-                                myMap.put(
-                                    'Contact',
-                                    contactListList[0][j]
-                                );
-
-                                // And include the matchResults for the flow
-                                myMap.put(
-                                    'ContactMatches',
-                                    [
-                                        SELECT  Id,
-                                                AccountId,
-                                                B2C_CustomerList__c,
-                                                B2C_CustomerList_ID__c,
-                                                B2C_Customer_ID__c,
-                                                B2C_Customer_No__c,
-                                                FirstName,
-                                                LastName,
-                                                Email,
-                                                B2C_Disable_Integration__c
-                                        FROM    Contact
-                                        WHERE   Id = :contactsToMatch
-                                        ORDER BY
-                                                LastModifiedDate DESC
-                                    ]
-                                );
-
-                                // Otherwise, attempt to pick a winner from the collection of match results
-                                // We're executing a flow to take the super-set of match results and pick a winner
-                                Flow.Interview.B2C_Contact_Winning_Match contactMatchFlow = new Flow.Interview.B2C_Contact_Winning_Match(myMap);
-
-                                // Invoke the flow
-                                contactMatchFlow.start();
-
-                                // Check the returnResults on the flow to see if a match was found
-                                matchFound = (Boolean)contactMatchFlow.getVariableValue('MatchFound');
-
-                                // If so, then set the output properties
-                                if (matchFound) {
-
-                                    // Add the match to the overall matchResults
-                                    contactMatchResult.add((Contact)contactMatchFlow.getVariableValue('ContactMatched'));
-
-                                    // Flag that a match was found
-                                    matchFound = true;
-
-                                }
+                                // Add the record to the Account Collection
+                                matchedAccountRecords.add((Account)dmr_i.getRecord());
                             }
                         }
                     }
                 }
+            }
+        }
 
-                // Default a contact if no match is found
-                if(!matchFound){ contactMatchResult.add(new Contact()); }
+        if(!matchedAccountRecords.isEmpty()){
+
+            // If so, then retrieve Contacts from the Account
+            duplicateContactRecords = [
+                SELECT  Id
+                FROM    Contact
+                WHERE   AccountId IN :matchedAccountRecords
+            ];
+
+        } else {
+
+            duplicateContactRecords.addAll( matchedContactRecords );
+        }
+
+        return new List<Contact>([
+            SELECT  Id,
+                    AccountId,
+                    B2C_CustomerList__c,
+                    B2C_CustomerList_ID__c,
+                    B2C_Customer_ID__c,
+                    B2C_Customer_No__c,
+                    FirstName,
+                    LastName,
+                    Email,
+                    B2C_Disable_Integration__c
+            FROM    Contact
+            WHERE   Id = :duplicateContactRecords
+            ORDER BY
+                    LastModifiedDate DESC
+        ]);
+
+    }
+
+    /**
+     * @description Invocable action to retrieve relevant contact duplicates for standard and person account models
+     *
+     * @param contactList {List<Contact>} A list of contacts but is expected to have only 1 item. This is to support use within Flow.
+     * @returns {List<List<Contact>>} Returns a list of list of contacts. This is expected to have only 1 item in the main list to support use with Flow.
+     */
+    @InvocableMethod(Label='B2C: Customer Resolution' Description='Finds matching contacts based on B2C matching rules')
+    public static List<B2CIACustomerResolutionResult> resolve(List<Contact> contactList) {
+
+        // Initialize local variables
+        B2CIACustomerResolutionResult resolutionResults;
+        List<B2CIACustomerResolutionResult> output;
+
+        // Initialize the output variable
+        output = new List<B2CIACustomerResolutionResult>();
+
+        // Initialize the resolution results
+        resolutionResults = new B2CIACustomerResolutionResult();
+        resolutionResults.isError = false;
+
+        // Was a contact found in the input parameter?
+        if (contactList.size() != 1) {
+
+            // If not, indicate an error occurred
+            resolutionResults.isError = true;
+            resolutionResults.errorMessage = 'No sourceContact provided to B2CIACustomerResolution class.  Check your input and please try again.';
+
+        } else {
+
+            // Otherwise, access the first contact
+            Contact c = contactList[0];
+
+           try {
+
+                // Add the resolution results to the output class
+                resolutionResults.contactList = findDupes(c);
+
+            } catch (System.HandledException e) {
+
+                // Indicate that an error occurred
+                resolutionResults.isError = true;
+
+                // Capture the error message from the exception
+                resolutionResults.errorMessage = e.getMessage();
 
             }
 
         }
 
-        // Return the matchResults as defined by the winner-picker flow
-        return new List<List<Contact>>{
-            contactMatchResult
-        };
+        // Build the output variable with the processing results
+        output.add(resolutionResults);
+
+        // Return the output variable
+        return output;
 
     }
-
 }

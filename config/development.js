@@ -97,8 +97,14 @@ module.exports = {
         // Define test data-sets leveraged by unit tests
         "testData": {
 
+            // Describes the total number of test-retries per test
+            "testRetryCount": 0,
+
+            // Disable purge controls whether test-records created via the multi-cloud tests should be deleted
+            "disablePurge": false,
+
             // Define the timeout in ms for each multi-cloud unit-test
-            "describeTimeout": 60000,
+            "describeTimeout": 120000,
 
             // Define the default sleep-timeout to enforce for asynchronous tests
             "sleepTimeout": 2500,
@@ -110,7 +116,7 @@ module.exports = {
             "personAccountDeveloperName": "PersonAccount",
 
             // Define the API Version to leverage
-            "sfdcAPIVersion": "v50.0",
+            "sfdcAPIVersion": "v51.0",
 
             // Default the test sandbox url for mocks / unit-tests
             "b2cBaseUrl": "https://mock.sandbox.us01.dx.commercecloud.salesforce.com",
@@ -167,6 +173,9 @@ module.exports = {
                 }
 
             ],
+
+            // Define the email domain to leverage for testing
+            "emailDomain": "qa.crmsync.salesforce.com",
 
             // Define the customer profiles used for e2e live-tests
             "profileTemplate": {
