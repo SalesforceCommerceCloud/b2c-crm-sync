@@ -27,14 +27,14 @@
             <table>Contact</table>
         </duplicateRuleFilterItems>
         <duplicateRuleFilterItems>
-            <field>LastName</field>
+            <field>Email</field>
             <operation>notEqual</operation>
             <value/>
             <sortOrder>4</sortOrder>
             <table>Contact</table>
         </duplicateRuleFilterItems>
         <duplicateRuleFilterItems>
-            <field>Email</field>
+            <field>LastName</field>
             <operation>notEqual</operation>
             <value/>
             <sortOrder>5</sortOrder>

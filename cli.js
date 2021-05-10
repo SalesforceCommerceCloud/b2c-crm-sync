@@ -156,6 +156,8 @@ program = cliInterface.sfScratchOrgOpen(program);
 // Attach the command used to create, build, and deploy to a scratch-org
 program = cliInterface.sfScratchOrgBuild(program);
 
+// Attach the command used to display a user's details
+program = cliInterface.sfUserDetails(program);
+
 // Parse the command-line arguments
 program.parse(process.argv);
-

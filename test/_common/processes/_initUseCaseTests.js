@@ -5,8 +5,9 @@ const config = require('config');
 
 // Initialize tearDown helpers
 const multiCloudInit = require('../../../test/_common/processes/_multiCloudInit');
-const b2cCustomerPurge = require('../../../test/_common/processes/_b2cCustomerPurge');
+const b2cCustomersPurge = require('../../../test/_common/processes/_b2cCustomersPurge');
 const b2cCRMSyncConfigManager = require('../../../test/_common/processes/_b2cCRMSyncConfigManager');
+const getEmailForTestProfile = require('../../../test/_use-cases/_common/_getEmailForTestProfile');
 
 /**
  * @function useCaseTestInit
@@ -21,6 +22,8 @@ module.exports = async (environmentDef, siteId) => {
 
     // Initialize local Variables
     let syncDisableConfig,
+        testProfile,
+        testEmail,
         output;
 
     // Retrieve the default / base-configuration used disable b2c-crm-sync via OCAPI
@@ -29,11 +32,17 @@ module.exports = async (environmentDef, siteId) => {
     // Default the output variable
     output = {};
 
+    // Initialize the emailDomain to search against
+    testProfile = config.util.toObject(config.get('unitTests.testData.profileTemplate'));
+
+    // Generate a random email to leverage for profiles
+    testEmail = getEmailForTestProfile();
+
+    // Update the email address with a random email
+    testProfile.customer.email = testEmail;
+
     // Initialize and retrieve the administrative authTokens
     output.multiCloudInitResults = await multiCloudInit(environmentDef);
-
-    // Purge the customer data in B2C Commerce and SFDC
-    await b2cCustomerPurge(output.multiCloudInitResults.b2cAdminAuthToken, output.multiCloudInitResults.sfdcAuthCredentials.conn);
 
     // Ensure that b2c-crm-sync is disabled in the specified environment
     await b2cCRMSyncConfigManager(environmentDef, output.multiCloudInitResults.b2cAdminAuthToken, siteId, syncDisableConfig);

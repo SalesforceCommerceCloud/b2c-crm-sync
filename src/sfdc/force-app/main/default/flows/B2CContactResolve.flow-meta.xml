@@ -21,7 +21,7 @@
             <name>output</name>
         </outputParameters>
     </actionCalls>
-    <apiVersion>50.0</apiVersion>
+    <apiVersion>51.0</apiVersion>
     <assignments>
         <name>isSuccess_Assignment</name>
         <label>isSuccess Assignment</label>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
-    <apiVersion>50.0</apiVersion>
+    <apiVersion>51.0</apiVersion>
     <assignments>
         <description>... attempt to create the name for the Account based on the existence of first / lastName on the source Contact.</description>
         <name>asn_accountNameViaFormula</name>
@@ -152,7 +152,7 @@ IF(ISBLANK({!var_lastName}), &quot;&quot;, &quot; &quot; &amp; {!var_lastName})
 )</expression>
     </formulas>
     <interviewLabel>B2C Commerce: Account Assignment Helper {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>B2C Commerce: Account Assignment Helper</label>
+    <label>B2C Commerce: Process: Assignment Helper: Accounts</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>

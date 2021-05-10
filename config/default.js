@@ -584,8 +584,14 @@ module.exports = {
     // Include all B2C configuration properties
     "b2c": {
 
+        // Represents the number of retries each request should process
+        "retryCount": 3,
+
+        // Represents the delay in milliseconds between retries
+        "retryDelay": 1500,
+
         // Represents the request-timeout for B2C Commerce APIs
-        "timeout": 5000,
+        "timeout":20000,
 
         // Define the OCAPI version number to use
         "ocapiVersion": "v20_10",

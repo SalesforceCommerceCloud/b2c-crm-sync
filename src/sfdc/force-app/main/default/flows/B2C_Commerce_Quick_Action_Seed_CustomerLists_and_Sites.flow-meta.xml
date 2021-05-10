@@ -31,7 +31,7 @@
         </inputParameters>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </actionCalls>
-    <apiVersion>50.0</apiVersion>
+    <apiVersion>51.0</apiVersion>
     <assignments>
         <name>AddCustomerList_Assignment</name>
         <label>AddCustomerList Assignment</label>

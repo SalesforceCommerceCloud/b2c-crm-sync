@@ -22,18 +22,22 @@ describe('Registering a new B2C Customer Profile via the OCAPI Shop API', functi
     // noinspection JSAccessibilityCheck
     this.timeout(config.get('unitTests.testData.describeTimeout'));
 
+    // Configure the total number of retries supported per test
+    // noinspection JSAccessibilityCheck
+    this.retries(config.get('unitTests.testData.testRetryCount'));
+
     // Initialize local variables
     let environmentDef,
+        disablePurge,
         initResults,
         testProfile,
+        testEmail,
         profileUpdate,
         profileUpdateAlt,
         customerListId,
         siteId,
-        b2cGuestAuth,
         b2cAdminAuthToken,
         sfdcAuthCredentials,
-        registeredB2CCustomerNo,
         syncGlobalEnable,
         syncDisableOCAPI,
         syncDisableOnLogin,
@@ -48,6 +52,9 @@ describe('Registering a new B2C Customer Profile via the OCAPI Shop API', functi
         // Retrieve the runtime environment
         environmentDef = getRuntimeEnvironment();
 
+        // Default the disable purge property
+        disablePurge = config.get('unitTests.testData.disablePurge');
+
         // Default the sleepTimeout to enforce in unit-tests
         sleepTimeout = config.get('unitTests.testData.sleepTimeout');
         purgeSleepTimeout = sleepTimeout / 2;
@@ -56,10 +63,17 @@ describe('Registering a new B2C Customer Profile via the OCAPI Shop API', functi
         customerListId = config.get('unitTests.testData.b2cCustomerList').toString();
         siteId = config.util.toObject(config.get('unitTests.testData.b2cSiteCustomerLists'))[customerListId];
 
+        // Generate a random email to leverage for profiles
+        testEmail = common.getEmailForTestProfile();
+
         // Retrieve the b2c customer profile template that we'll use to exercise this test
         testProfile = config.util.toObject(config.get('unitTests.testData.profileTemplate'));
         profileUpdate = config.util.toObject(config.get('unitTests.testData.updateTemplate'));
         profileUpdateAlt = config.util.toObject(config.get('unitTests.testData.updateTemplateAlt'));
+
+        // Update the email address with a random email
+        testProfile.customer.email = testEmail;
+        testProfile.customer.login = testEmail;
 
         // Default the sync-configuration to leverage; sync-on-login and sync-once are enabled
         syncGlobalEnable = config.get('unitTests.b2cCRMSyncConfigManager.base');
@@ -78,12 +92,23 @@ describe('Registering a new B2C Customer Profile via the OCAPI Shop API', functi
             // Audit the authorization token for future rest requests
             sfdcAuthCredentials = initResults.multiCloudInitResults.sfdcAuthCredentials;
 
+            // Attempt to remove any stray and domain-specific customer records from B2C Commerce and the Salesforce Platform
+            await useCaseProcesses.b2cCRMSyncCustomersPurgeManager(disablePurge, purgeSleepTimeout, b2cAdminAuthToken, sfdcAuthCredentials);
+
         } catch (e) {
 
             // Audit the error if one is thrown
             throw new Error(e);
 
         }
+
+    });
+
+    // Reset the output variable in-between tests
+    beforeEach(async function () {
+
+        // Attempt to remove any stray and domain-specific customer records from B2C Commerce and the Salesforce Platform
+        await useCaseProcesses.b2cCRMSyncCustomersPurgeManager(disablePurge, purgeSleepTimeout, b2cAdminAuthToken, sfdcAuthCredentials);
 
     });
 
@@ -95,22 +120,14 @@ describe('Registering a new B2C Customer Profile via the OCAPI Shop API', functi
         // First, ensure that b2c-crm-sync is disabled in the specified environment
         await useCaseProcesses.b2cCRMSyncConfigManager(environmentDef, b2cAdminAuthToken, siteId, syncDisableOCAPI);
 
-        // Implement a pause to allow the B2C Commerce environment to set
-        await useCaseProcesses.sleep(sleepTimeout / 2);
+        // Implement a pause after setting the configuration settings
+        await useCaseProcesses.sleep(sleepTimeout);
 
-        // Retrieve the guestAuthorization token from B2C Commerce
-        output.b2cGuestAuth = await shopAPIs.authAsGuest(environmentDef, siteId, environmentDef.b2cClientId);
-
-        // Register the B2C Commerce customer profile
-        output.b2cRegisterResults = await shopAPIs.customerPost(environmentDef, siteId,
-            environmentDef.b2cClientId, output.b2cGuestAuth.authToken, testProfile);
-
-        // Audit the customerNo of the newly registered customer to that we can
-        // delete this customer record as part of the tear-down process
-        registeredB2CCustomerNo = output.b2cRegisterResults.data.customer_no;
+        // Register the B2C Commerce customer profile using the current set of configuration properties
+        output.b2cRegisterResults = await useCaseProcesses.b2cCustomerRegister(environmentDef, b2cAdminAuthToken, siteId, testProfile);
 
         // Validate that the B2C Customer Profile was successfully created without SFDC attributes
-        common.validateRegisteredUserNoSFDCAttributes(output.b2cRegisterResults);
+        common.validateRegisteredUserNoSFDCAttributes(output.b2cRegisterResults.response);
 
     });
 
@@ -123,24 +140,13 @@ describe('Registering a new B2C Customer Profile via the OCAPI Shop API', functi
         await useCaseProcesses.b2cCRMSyncConfigManager(environmentDef, b2cAdminAuthToken, siteId, syncDisableOnLogin);
 
         // Implement a pause to allow the B2C Commerce environment to set
-        await useCaseProcesses.sleep(sleepTimeout / 2);
-
-        // Retrieve the guestAuthorization token from B2C Commerce
-        output.b2cGuestAuth = await shopAPIs.authAsGuest(environmentDef, siteId, environmentDef.b2cClientId);
-
-        // Register the B2C Commerce customer profile
-        output.b2cRegisterResults = await shopAPIs.customerPost(environmentDef, siteId,
-            environmentDef.b2cClientId, output.b2cGuestAuth.authToken, testProfile);
-
-        // Implement a pause to allow the PlatformEvent to fire
         await useCaseProcesses.sleep(sleepTimeout);
 
-        // Audit the customerNo of the newly registered customer to that we can
-        // delete this customer record as part of the tear-down process
-        registeredB2CCustomerNo = output.b2cRegisterResults.data.customer_no;
+        // Register the B2C Commerce customer profile using the current set of configuration properties
+        output.b2cRegisterResults = await useCaseProcesses.b2cCustomerRegister(environmentDef, b2cAdminAuthToken, siteId, testProfile);
 
         // Validate that the B2C Customer Profile was successfully created with SFDC attributes
-        common.validateRegisteredUserWithSFDCAttributes(output.b2cRegisterResults);
+        common.validateRegisteredUserWithSFDCAttributes(output.b2cRegisterResults.response);
 
     });
 
@@ -153,21 +159,13 @@ describe('Registering a new B2C Customer Profile via the OCAPI Shop API', functi
         await useCaseProcesses.b2cCRMSyncConfigManager(environmentDef, b2cAdminAuthToken, siteId, syncDisableCustomers);
 
         // Implement a pause to allow the B2C Commerce environment to set
-        await useCaseProcesses.sleep(sleepTimeout / 2);
+        await useCaseProcesses.sleep(sleepTimeout);
 
-        // Retrieve the guestAuthorization token from B2C Commerce
-        output.b2cGuestAuth = await shopAPIs.authAsGuest(environmentDef, siteId, environmentDef.b2cClientId);
-
-        // Register the B2C Commerce customer profile
-        output.b2cRegisterResults = await shopAPIs.customerPost(environmentDef, siteId,
-            environmentDef.b2cClientId, output.b2cGuestAuth.authToken, testProfile);
-
-        // Audit the customerNo of the newly registered customer to that we can
-        // delete this customer record as part of the tear-down process
-        registeredB2CCustomerNo = output.b2cRegisterResults.data.customer_no;
+        // Register the B2C Commerce customer profile using the current set of configuration properties
+        output.b2cRegisterResults = await useCaseProcesses.b2cCustomerRegister(environmentDef, b2cAdminAuthToken, siteId, testProfile);
 
         // Validate that the B2C Customer Profile was successfully created without SFDC attributes
-        common.validateRegisteredUserNoSFDCAttributes(output.b2cRegisterResults);
+        common.validateRegisteredUserNoSFDCAttributes(output.b2cRegisterResults.response);
 
     });
 
@@ -180,37 +178,31 @@ describe('Registering a new B2C Customer Profile via the OCAPI Shop API', functi
         await useCaseProcesses.b2cCRMSyncConfigManager(environmentDef, b2cAdminAuthToken, siteId, syncDisableOnLogin);
 
         // Implement a pause to allow the B2C Commerce environment to set
-        await useCaseProcesses.sleep(sleepTimeout / 2);
-
-        // Retrieve the guestAuthorization token from B2C Commerce
-        b2cGuestAuth = await shopAPIs.authAsGuest(environmentDef, siteId, environmentDef.b2cClientId);
-
-        // Register the B2C Commerce customer profile
-        output.b2cRegistrationResults = await shopAPIs.customerPost(environmentDef, siteId,
-            environmentDef.b2cClientId, b2cGuestAuth.authToken, testProfile);
-
-        // Implement a pause to ensure the PlatformEvent fires
         await useCaseProcesses.sleep(sleepTimeout);
 
-        // Audit the customerNo of the newly registered customer to that we can
-        // delete this customer record as part of the tear-down process
-        registeredB2CCustomerNo = output.b2cRegistrationResults.data.customer_no;
+        // Register the B2C Commerce customer profile using the current set of configuration properties
+        output.b2cRegisterResults = await useCaseProcesses.b2cCustomerRegister(environmentDef, b2cAdminAuthToken, siteId, testProfile);
 
-        // Retrieve the contact details from the SFDC environment
+        // Implement a pause to allow the B2C Commerce environment to set
+        await useCaseProcesses.sleep(sleepTimeout);
+        await useCaseProcesses.sleep(sleepTimeout);
+
+        // Retrieve the SFDC Contact record that corresponds to the B2C Commerce customer record
         output.sfdcContactResults = await sObjectAPIs.retrieve(sfdcAuthCredentials.conn,
-            'Contact', output.b2cRegistrationResults.data.c_b2ccrm_contactId);
+            'Contact', output.b2cRegisterResults.response.data.c_b2ccrm_contactId);
 
         // Verify that the SFDC Contact and AccountIDs are aligned between the Contact and B2C Commerce Profile
-        common.validateContactAndAccountIDs(output.sfdcContactResults, output.b2cRegistrationResults);
+        common.validateContactAndAccountIDs(output.sfdcContactResults, output.b2cRegisterResults.response);
 
         // Verify that the B2C Commerce CustomerID and CustomerNo are aligned between the Contact and B2C Commerce Profile
-        common.validateB2CIdentifiers(output.sfdcContactResults, output.b2cRegistrationResults);
+        common.validateB2CIdentifiers(output.sfdcContactResults, output.b2cRegisterResults.response);
 
         // Update the customer's profile via the shopAPI
         output.b2cFirstProfileUpdateResults = await shopAPIs.customerPatch(environmentDef, siteId,
-            environmentDef.b2cClientId, output.b2cRegistrationResults.authToken, output.b2cRegistrationResults.data.customer_id, profileUpdate);
+            environmentDef.b2cClientId, output.b2cRegisterResults.response.authToken, output.b2cRegisterResults.response.data.customer_id, profileUpdate);
 
         // Implement a pause to ensure the PlatformEvent fires
+        await useCaseProcesses.sleep(sleepTimeout);
         await useCaseProcesses.sleep(sleepTimeout);
 
         // Verify that the update was successfully processed
@@ -218,7 +210,7 @@ describe('Registering a new B2C Customer Profile via the OCAPI Shop API', functi
 
         // Retrieve the contact details from the SFDC environment
         output.sfdcFirstContactUpdateResults = await sObjectAPIs.retrieve(sfdcAuthCredentials.conn,
-            'Contact', output.b2cRegistrationResults.data.c_b2ccrm_contactId);
+            'Contact', output.b2cRegisterResults.response.data.c_b2ccrm_contactId);
 
         // Validate that the SFDC Contact attributes do not match their B2C Commerce equivalents
         common.validateRegisteredUserContactUpdatesAreEqual(
@@ -228,9 +220,10 @@ describe('Registering a new B2C Customer Profile via the OCAPI Shop API', functi
 
         // Update the customer's profile via the shopAPI
         output.b2cSecondProfileUpdateResults = await shopAPIs.customerPatch(environmentDef, siteId,
-            environmentDef.b2cClientId, output.b2cRegistrationResults.authToken, output.b2cRegistrationResults.data.customer_id, profileUpdateAlt);
+            environmentDef.b2cClientId, output.b2cRegisterResults.response.authToken, output.b2cRegisterResults.response.data.customer_id, profileUpdateAlt);
 
         // Implement a pause to ensure the PlatformEvent fires
+        await useCaseProcesses.sleep(sleepTimeout);
         await useCaseProcesses.sleep(sleepTimeout);
 
         // Verify that the update was successfully processed
@@ -238,7 +231,7 @@ describe('Registering a new B2C Customer Profile via the OCAPI Shop API', functi
 
         // Retrieve the contact details from the SFDC environment
         output.sfdcSecondContactUpdateResults = await sObjectAPIs.retrieve(sfdcAuthCredentials.conn,
-            'Contact', output.b2cRegistrationResults.data.c_b2ccrm_contactId);
+            'Contact', output.b2cRegisterResults.response.data.c_b2ccrm_contactId);
 
         // Validate that the SFDC Contact attributes do not match their B2C Commerce equivalents
         common.validateRegisteredUserContactUpdatesAreEqual(
@@ -257,43 +250,37 @@ describe('Registering a new B2C Customer Profile via the OCAPI Shop API', functi
         await useCaseProcesses.b2cCRMSyncConfigManager(environmentDef, b2cAdminAuthToken, siteId, syncDisableOnLogin);
 
         // Implement a pause to allow the B2C Commerce environment to set
-        await useCaseProcesses.sleep(sleepTimeout / 2);
+        await useCaseProcesses.sleep(sleepTimeout);
 
-        // Retrieve the guestAuthorization token from B2C Commerce
-        b2cGuestAuth = await shopAPIs.authAsGuest(environmentDef, siteId, environmentDef.b2cClientId);
-
-        // Register the B2C Commerce customer profile
-        output.b2cRegistrationResults = await shopAPIs.customerPost(environmentDef, siteId,
-            environmentDef.b2cClientId, b2cGuestAuth.authToken, testProfile);
+        // Register the B2C Commerce customer profile using the current set of configuration properties
+        output.b2cRegisterResults = await useCaseProcesses.b2cCustomerRegister(environmentDef, b2cAdminAuthToken, siteId, testProfile);
 
         // Implement a pause to ensure the PlatformEvent fires
         await useCaseProcesses.sleep(sleepTimeout);
-
-        // Audit the customerNo of the newly registered customer to that we can
-        // delete this customer record as part of the tear-down process
-        registeredB2CCustomerNo = output.b2cRegistrationResults.data.customer_no;
+        await useCaseProcesses.sleep(sleepTimeout);
 
         // Retrieve the contact details from the SFDC environment
         output.sfdcContactResults = await sObjectAPIs.retrieve(sfdcAuthCredentials.conn,
-            'Contact', output.b2cRegistrationResults.data.c_b2ccrm_contactId);
+            'Contact', output.b2cRegisterResults.response.data.c_b2ccrm_contactId);
 
         // Verify that the SFDC Contact and AccountIDs are aligned between the Contact and B2C Commerce Profile
-        common.validateContactAndAccountIDs(output.sfdcContactResults, output.b2cRegistrationResults);
+        common.validateContactAndAccountIDs(output.sfdcContactResults, output.b2cRegisterResults.response);
 
         // Verify that the B2C Commerce CustomerID and CustomerNo are aligned between the Contact and B2C Commerce Profile
-        common.validateB2CIdentifiers(output.sfdcContactResults, output.b2cRegistrationResults);
+        common.validateB2CIdentifiers(output.sfdcContactResults, output.b2cRegisterResults.response);
 
         // Now, ensure that b2c-crm-sync is disabled globally in the specified environment
         await useCaseProcesses.b2cCRMSyncConfigManager(environmentDef, b2cAdminAuthToken, siteId, syncDisableOCAPI);
 
         // Implement a pause to ensure the environment details update
-        await useCaseProcesses.sleep(sleepTimeout / 2);
+        await useCaseProcesses.sleep(sleepTimeout);
 
         // Update the customer's profile via the shopAPI
         output.b2cFirstProfileUpdateResults = await shopAPIs.customerPatch(environmentDef, siteId,
-            environmentDef.b2cClientId, output.b2cRegistrationResults.authToken, output.b2cRegistrationResults.data.customer_id, profileUpdate);
+            environmentDef.b2cClientId, output.b2cRegisterResults.response.authToken, output.b2cRegisterResults.response.data.customer_id, profileUpdate);
 
         // Implement a pause to ensure the PlatformEvent fires
+        await useCaseProcesses.sleep(sleepTimeout);
         await useCaseProcesses.sleep(sleepTimeout);
 
         // Verify that the update was successfully processed
@@ -301,7 +288,7 @@ describe('Registering a new B2C Customer Profile via the OCAPI Shop API', functi
 
         // Retrieve the contact details from the SFDC environment
         output.sfdcFirstContactUpdateResults = await sObjectAPIs.retrieve(sfdcAuthCredentials.conn,
-            'Contact', output.b2cRegistrationResults.data.c_b2ccrm_contactId);
+            'Contact', output.b2cRegisterResults.response.data.c_b2ccrm_contactId);
 
         // Validate that the SFDC Contact attributes do not match their B2C Commerce equivalents
         common.validateRegisteredUserContactUpdatesAreNotEqual(
@@ -320,43 +307,37 @@ describe('Registering a new B2C Customer Profile via the OCAPI Shop API', functi
         await useCaseProcesses.b2cCRMSyncConfigManager(environmentDef, b2cAdminAuthToken, siteId, syncDisableOnLogin);
 
         // Implement a pause to allow the B2C Commerce environment to set
-        await useCaseProcesses.sleep(sleepTimeout / 2);
+        await useCaseProcesses.sleep(sleepTimeout);
 
-        // Retrieve the guestAuthorization token from B2C Commerce
-        b2cGuestAuth = await shopAPIs.authAsGuest(environmentDef, siteId, environmentDef.b2cClientId);
-
-        // Register the B2C Commerce customer profile
-        output.b2cRegistrationResults = await shopAPIs.customerPost(environmentDef, siteId,
-            environmentDef.b2cClientId, b2cGuestAuth.authToken, testProfile);
+        // Register the B2C Commerce customer profile using the current set of configuration properties
+        output.b2cRegisterResults = await useCaseProcesses.b2cCustomerRegister(environmentDef, b2cAdminAuthToken, siteId, testProfile);
 
         // Implement a pause to ensure the PlatformEvent fires
         await useCaseProcesses.sleep(sleepTimeout);
-
-        // Audit the customerNo of the newly registered customer to that we can
-        // delete this customer record as part of the tear-down process
-        registeredB2CCustomerNo = output.b2cRegistrationResults.data.customer_no;
+        await useCaseProcesses.sleep(sleepTimeout);
 
         // Retrieve the contact details from the SFDC environment
         output.sfdcContactResults = await sObjectAPIs.retrieve(sfdcAuthCredentials.conn,
-            'Contact', output.b2cRegistrationResults.data.c_b2ccrm_contactId);
+            'Contact', output.b2cRegisterResults.response.data.c_b2ccrm_contactId);
 
         // Verify that the SFDC Contact and AccountIDs are aligned between the Contact and B2C Commerce Profile
-        common.validateContactAndAccountIDs(output.sfdcContactResults, output.b2cRegistrationResults);
+        common.validateContactAndAccountIDs(output.sfdcContactResults, output.b2cRegisterResults.response);
 
         // Verify that the B2C Commerce CustomerID and CustomerNo are aligned between the Contact and B2C Commerce Profile
-        common.validateB2CIdentifiers(output.sfdcContactResults, output.b2cRegistrationResults);
+        common.validateB2CIdentifiers(output.sfdcContactResults, output.b2cRegisterResults.response);
 
         // Now, ensure that b2c-crm-sync is disabled globally in the specified environment
         await useCaseProcesses.b2cCRMSyncConfigManager(environmentDef, b2cAdminAuthToken, siteId, syncDisableCustomers);
 
         // Implement a pause to ensure the environment details update
-        await useCaseProcesses.sleep(sleepTimeout / 2);
+        await useCaseProcesses.sleep(sleepTimeout);
 
         // Update the customer's profile via the shopAPI
         output.b2cFirstProfileUpdateResults = await shopAPIs.customerPatch(environmentDef, siteId,
-            environmentDef.b2cClientId, output.b2cRegistrationResults.authToken, output.b2cRegistrationResults.data.customer_id, profileUpdate);
+            environmentDef.b2cClientId, output.b2cRegisterResults.response.authToken, output.b2cRegisterResults.response.data.customer_id, profileUpdate);
 
         // Implement a pause to ensure the PlatformEvent fires
+        await useCaseProcesses.sleep(sleepTimeout);
         await useCaseProcesses.sleep(sleepTimeout);
 
         // Verify that the update was successfully processed
@@ -364,7 +345,7 @@ describe('Registering a new B2C Customer Profile via the OCAPI Shop API', functi
 
         // Retrieve the contact details from the SFDC environment
         output.sfdcFirstContactUpdateResults = await sObjectAPIs.retrieve(sfdcAuthCredentials.conn,
-            'Contact', output.b2cRegistrationResults.data.c_b2ccrm_contactId);
+            'Contact', output.b2cRegisterResults.response.data.c_b2ccrm_contactId);
 
         // Validate that the SFDC Contact attributes do not match their B2C Commerce equivalents
         common.validateRegisteredUserContactUpdatesAreNotEqual(
@@ -377,19 +358,13 @@ describe('Registering a new B2C Customer Profile via the OCAPI Shop API', functi
     // Reset the output variable in-between tests
     afterEach(async function () {
 
-        // Implement a pause to ensure the PlatformEvent fires
-        await useCaseProcesses.sleep(purgeSleepTimeout);
-
-        // Purge the customer data in B2C Commerce and SFDC
-        await useCaseProcesses.b2cCustomerPurgeByCustomerNo(b2cAdminAuthToken, sfdcAuthCredentials.conn, registeredB2CCustomerNo);
+        // Attempt to remove any stray and domain-specific customer records from B2C Commerce and the Salesforce Platform
+        await useCaseProcesses.b2cCRMSyncCustomersPurgeManager(disablePurge, purgeSleepTimeout, b2cAdminAuthToken, sfdcAuthCredentials);
 
     });
 
     // Reset the output variable in-between tests
     after(async function () {
-
-        // Purge the customer data in B2C Commerce and SFDC
-        await useCaseProcesses.b2cCustomerPurge(b2cAdminAuthToken, sfdcAuthCredentials.conn);
 
         // Next, ensure that b2c-crm-sync is enabled in the specified environment
         await useCaseProcesses.b2cCRMSyncConfigManager(environmentDef, b2cAdminAuthToken, siteId, syncGlobalEnable);

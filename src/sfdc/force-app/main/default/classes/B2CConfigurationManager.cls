@@ -8,6 +8,33 @@
 public with sharing class B2CConfigurationManager {
 
     /**
+     * @description Helper function retrieves the default businessAccount
+     * developerName used for accounts / contacts.
+     * @return {String} Returns the developerName for the B2c Business Account
+     */
+    public static String getAccountRecordTypeDeveloperName() {
+
+        // Initialize local variables
+        B2C_CRM_Sync_Default_Configuration__mdt configurationProfile;
+        String output;
+
+        // Get the default configuration profile
+        configurationProfile = [
+                SELECT  Active_Configuration__r.Account_Record_Type_Developername__c
+                FROM    B2C_CRM_Sync_Default_Configuration__mdt
+                WHERE   DeveloperName = 'Production_Configuration'
+                LIMIT   1
+        ];
+
+        // Set the output variable to contain the specified configuration property
+        output = configurationProfile.Active_Configuration__r.Account_Record_Type_Developername__c;
+
+        // Return the configured account / recordType developerName
+        return output;
+
+    }
+
+    /**
      * @description Helper function retrieves the default customerModel based on the
      * configuration profile that is configured.
      * @return {String} Returns the configured customerModel (Standard or Person).

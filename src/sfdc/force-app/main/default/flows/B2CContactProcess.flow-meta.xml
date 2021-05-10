@@ -22,7 +22,7 @@
             <name>processedContact</name>
         </outputParameters>
     </actionCalls>
-    <apiVersion>50.0</apiVersion>
+    <apiVersion>51.0</apiVersion>
     <assignments>
         <name>asn_AccountIDToSourceContact</name>
         <label>Assign the AccountID to the Contact</label>
@@ -92,7 +92,7 @@
         <name>asn_B2CCustomerListIDToSourceContact</name>
         <label>Assign the B2C CustomerList ID Value</label>
         <locationX>2860</locationX>
-        <locationY>834</locationY>
+        <locationY>1011</locationY>
         <assignmentItems>
             <assignToReference>sourceContact.B2C_CustomerList_ID__c</assignToReference>
             <operator>Assign</operator>
@@ -476,8 +476,8 @@
         <description>... throw an error explaining that multiple Contacts were resolved.</description>
         <name>asn_ErrorMultipleContactsResolved_Assignment</name>
         <label>Error: Multiple Contacts Resolved</label>
-        <locationX>2018</locationX>
-        <locationY>1742</locationY>
+        <locationX>1880</locationX>
+        <locationY>1754</locationY>
         <assignmentItems>
             <assignToReference>errors</assignToReference>
             <operator>Add</operator>
@@ -557,23 +557,6 @@
         </assignmentItems>
     </assignments>
     <assignments>
-        <description>.. overwrite the sourceContact record with the QA Value(s).</description>
-        <name>asn_overwriteSourceContact</name>
-        <label>Overwrite the Source Contact</label>
-        <locationX>2281</locationX>
-        <locationY>542</locationY>
-        <assignmentItems>
-            <assignToReference>sourceContact</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>var_qaSourceContact</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>dec_wasContactIDSet</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
         <description>... assign the parent B2C Commerce Account to the Contact</description>
         <name>asn_parentB2CAccount</name>
         <label>Assign the Parent Account to the Contact</label>
@@ -591,35 +574,25 @@
         </connector>
     </assignments>
     <assignments>
-        <description>... assign the test properties of the QA Contact to overwrite the sourceContact.</description>
-        <name>asn_qaContactProperties</name>
-        <label>Assign the QA Contact Properties</label>
-        <locationX>2280</locationX>
-        <locationY>280</locationY>
+        <description>... record the resolutionError and expose it to the caller.</description>
+        <name>asn_resolutionError</name>
+        <label>Resolution Error</label>
+        <locationX>2151</locationX>
+        <locationY>1753</locationY>
         <assignmentItems>
-            <assignToReference>var_qaSourceContact.Email</assignToReference>
+            <assignToReference>isSuccess</assignToReference>
             <operator>Assign</operator>
             <value>
-                <stringValue>e2e-user@qa.crmsync.salesforce.com</stringValue>
+                <booleanValue>false</booleanValue>
             </value>
         </assignmentItems>
         <assignmentItems>
-            <assignToReference>var_qaSourceContact.B2C_CustomerList_ID__c</assignToReference>
-            <operator>Assign</operator>
+            <assignToReference>errors</assignToReference>
+            <operator>Add</operator>
             <value>
-                <stringValue>RefArch</stringValue>
+                <elementReference>var_contactResolutionError</elementReference>
             </value>
         </assignmentItems>
-        <assignmentItems>
-            <assignToReference>var_qaSourceContact.LastName</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <stringValue>Testing User</stringValue>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>asn_overwriteSourceContact</targetReference>
-        </connector>
     </assignments>
     <assignments>
         <description>... set the success flag and announce that the Contact Processing was successful</description>
@@ -645,6 +618,28 @@
             <targetReference>recGet_ParentAccountForPAContact</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Resolved</defaultConnectorLabel>
+        <rules>
+            <name>decOut_resolutionError</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>var_contactResolutionSuccess</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>var_contactResolutionError</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>asn_resolutionError</targetReference>
+            </connector>
+            <label>Resolution Error</label>
+        </rules>
         <rules>
             <name>decOut_ContactWasNotResolved</name>
             <conditionLogic>and</conditionLogic>
@@ -804,7 +799,7 @@
     <decisions>
         <description>... evaluate if the B2C CustomerID is valid and well-formed.</description>
         <name>dec_isB2CCustomerIDValid</name>
-        <label>Was the B2C CustomerID Valid?</label>
+        <label>Was the B2C CustomerID Valid and a CustomerList Not Defined?</label>
         <locationX>2606</locationX>
         <locationY>650</locationY>
         <defaultConnector>
@@ -966,7 +961,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>asn_qaContactProperties</targetReference>
+                <targetReference>sub_overrideTheContact</targetReference>
             </connector>
             <label>Is Enabled</label>
         </rules>
@@ -1195,7 +1190,7 @@
         <description>... evaluate if a B2C Commerce CustomerList was provided; do not allow Contact Processing to continue if a CustomerList was not provided.</description>
         <name>dec_wasB2CCustomerListProvidedAndThrowError</name>
         <label>Throw an Error if No CustomerList Exists?</label>
-        <locationX>2607</locationX>
+        <locationX>2608</locationX>
         <locationY>1013</locationY>
         <defaultConnector>
             <targetReference>asn_ErrorNoCustomerListProvided</targetReference>
@@ -1623,7 +1618,7 @@
     </recordUpdates>
     <start>
         <locationX>1797</locationX>
-        <locationY>30</locationY>
+        <locationY>35</locationY>
         <connector>
             <targetReference>dec_isQAModeEnabled</targetReference>
         </connector>
@@ -1868,7 +1863,7 @@
         <name>sub_contactResolutionHelper</name>
         <label>Attempt to Resolve the Contact</label>
         <locationX>2018</locationX>
-        <locationY>1274</locationY>
+        <locationY>1270</locationY>
         <connector>
             <targetReference>dec_CanWeResolveThisContact</targetReference>
         </connector>
@@ -1894,6 +1889,33 @@
         <outputAssignments>
             <assignToReference>var_resolvedContactCount</assignToReference>
             <name>var_resolvedContactCount</name>
+        </outputAssignments>
+    </subflows>
+    <subflows>
+        <description>... use the QA Helper to override the contact being processed with configurable values.</description>
+        <name>sub_overrideTheContact</name>
+        <label>Override the Contact</label>
+        <locationX>2110</locationX>
+        <locationY>279</locationY>
+        <connector>
+            <targetReference>dec_wasContactIDSet</targetReference>
+        </connector>
+        <flowName>B2CCommerce_Process_QAModeHelper</flowName>
+        <inputAssignments>
+            <name>var_qaB2CCustomerListID</name>
+            <value>
+                <elementReference>var_qaB2CCustomerListID</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>var_qaEmailAddress</name>
+            <value>
+                <elementReference>var_qaEmailAddress</elementReference>
+            </value>
+        </inputAssignments>
+        <outputAssignments>
+            <assignToReference>sourceContact</assignToReference>
+            <name>var_qaContact</name>
         </outputAssignments>
     </subflows>
     <variables>
@@ -2003,11 +2025,51 @@
         <objectType>Contact</objectType>
     </variables>
     <variables>
+        <description>... represents the customerID used to process the Contact within the flow.</description>
+        <name>var_qaB2CCustomerID</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>... represents the B2C CustomerList ID used to test the B2C Contact Process flow.</description>
+        <name>var_qaB2CCustomerListID</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>... represents the customerNo the be used to process the Contact within the flow.</description>
+        <name>var_qaB2CCustomerNo</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>... represents the emailAddress used to test the B2CContactProcess sub-flow.</description>
+        <name>var_qaEmailAddress</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>... placeholder variable for the contact&apos;s lastName.</description>
+        <name>var_qaLastName</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
         <description>... describes if the current flow is operating in QAMode</description>
         <name>var_qaMode</name>
         <dataType>Boolean</dataType>
         <isCollection>false</isCollection>
-        <isInput>false</isInput>
+        <isInput>true</isInput>
         <isOutput>false</isOutput>
         <value>
             <booleanValue>false</booleanValue>
