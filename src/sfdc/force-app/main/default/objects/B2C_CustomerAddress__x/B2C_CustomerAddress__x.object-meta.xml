@@ -121,7 +121,6 @@
     <enableSearch>false</enableSearch>
     <externalDataSource>B2C_Customer_Address_Book</externalDataSource>
     <externalName>B2C_CustomerAddress</externalName>
-    <gender>Feminine</gender>
     <label>B2C Customer Address</label>
     <pluralLabel>B2C Customer Addresses</pluralLabel>
     <searchLayouts/>
