@@ -24,6 +24,7 @@
     "crm-sync:sf:org:details": "node cli.js crm-sync:sf:org:details",
     "crm-sync:sf:org:status": "node cli.js crm-sync:sf:org:status",
     "crm-sync:sf:org:open": "node cli.js crm-sync:sf:org:open",
+    "crm-sync:sf:user:details": "node cli.js crm-sync:sf:user:details",
     "crm-sync:sf:build": "node cli.js crm-sync:sf:build",
     "crm-sync:sf:auth:usercreds": "node cli.js crm-sync:sf:auth:usercreds",
     "crm-sync:b2c:env:list": "node cli.js crm-sync:b2c:env:list",
