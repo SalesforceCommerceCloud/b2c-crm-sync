@@ -36,10 +36,8 @@ describe('Registering a new B2C Customer Profile via the OCAPI Shop API', functi
         profileUpdateAlt,
         customerListId,
         siteId,
-        b2cGuestAuth,
         b2cAdminAuthToken,
         sfdcAuthCredentials,
-        registeredB2CCustomerNo,
         syncGlobalEnable,
         syncDisableOCAPI,
         syncDisableOnLogin,
@@ -122,6 +120,9 @@ describe('Registering a new B2C Customer Profile via the OCAPI Shop API', functi
         // First, ensure that b2c-crm-sync is disabled in the specified environment
         await useCaseProcesses.b2cCRMSyncConfigManager(environmentDef, b2cAdminAuthToken, siteId, syncDisableOCAPI);
 
+        // Implement a pause after setting the configuration settings
+        await useCaseProcesses.sleep(sleepTimeout);
+
         // Register the B2C Commerce customer profile using the current set of configuration properties
         output.b2cRegisterResults = await useCaseProcesses.b2cCustomerRegister(environmentDef, b2cAdminAuthToken, siteId, testProfile);
 
@@ -139,7 +140,7 @@ describe('Registering a new B2C Customer Profile via the OCAPI Shop API', functi
         await useCaseProcesses.b2cCRMSyncConfigManager(environmentDef, b2cAdminAuthToken, siteId, syncDisableOnLogin);
 
         // Implement a pause to allow the B2C Commerce environment to set
-        await useCaseProcesses.sleep(sleepTimeout / 2);
+        await useCaseProcesses.sleep(sleepTimeout);
 
         // Register the B2C Commerce customer profile using the current set of configuration properties
         output.b2cRegisterResults = await useCaseProcesses.b2cCustomerRegister(environmentDef, b2cAdminAuthToken, siteId, testProfile);
@@ -158,7 +159,7 @@ describe('Registering a new B2C Customer Profile via the OCAPI Shop API', functi
         await useCaseProcesses.b2cCRMSyncConfigManager(environmentDef, b2cAdminAuthToken, siteId, syncDisableCustomers);
 
         // Implement a pause to allow the B2C Commerce environment to set
-        await useCaseProcesses.sleep(sleepTimeout / 2);
+        await useCaseProcesses.sleep(sleepTimeout);
 
         // Register the B2C Commerce customer profile using the current set of configuration properties
         output.b2cRegisterResults = await useCaseProcesses.b2cCustomerRegister(environmentDef, b2cAdminAuthToken, siteId, testProfile);
@@ -177,10 +178,14 @@ describe('Registering a new B2C Customer Profile via the OCAPI Shop API', functi
         await useCaseProcesses.b2cCRMSyncConfigManager(environmentDef, b2cAdminAuthToken, siteId, syncDisableOnLogin);
 
         // Implement a pause to allow the B2C Commerce environment to set
-        await useCaseProcesses.sleep(sleepTimeout / 2);
+        await useCaseProcesses.sleep(sleepTimeout);
 
         // Register the B2C Commerce customer profile using the current set of configuration properties
         output.b2cRegisterResults = await useCaseProcesses.b2cCustomerRegister(environmentDef, b2cAdminAuthToken, siteId, testProfile);
+
+        // Implement a pause to allow the B2C Commerce environment to set
+        await useCaseProcesses.sleep(sleepTimeout);
+        await useCaseProcesses.sleep(sleepTimeout);
 
         // Retrieve the SFDC Contact record that corresponds to the B2C Commerce customer record
         output.sfdcContactResults = await sObjectAPIs.retrieve(sfdcAuthCredentials.conn,
@@ -197,6 +202,7 @@ describe('Registering a new B2C Customer Profile via the OCAPI Shop API', functi
             environmentDef.b2cClientId, output.b2cRegisterResults.response.authToken, output.b2cRegisterResults.response.data.customer_id, profileUpdate);
 
         // Implement a pause to ensure the PlatformEvent fires
+        await useCaseProcesses.sleep(sleepTimeout);
         await useCaseProcesses.sleep(sleepTimeout);
 
         // Verify that the update was successfully processed
@@ -217,6 +223,7 @@ describe('Registering a new B2C Customer Profile via the OCAPI Shop API', functi
             environmentDef.b2cClientId, output.b2cRegisterResults.response.authToken, output.b2cRegisterResults.response.data.customer_id, profileUpdateAlt);
 
         // Implement a pause to ensure the PlatformEvent fires
+        await useCaseProcesses.sleep(sleepTimeout);
         await useCaseProcesses.sleep(sleepTimeout);
 
         // Verify that the update was successfully processed
@@ -243,10 +250,14 @@ describe('Registering a new B2C Customer Profile via the OCAPI Shop API', functi
         await useCaseProcesses.b2cCRMSyncConfigManager(environmentDef, b2cAdminAuthToken, siteId, syncDisableOnLogin);
 
         // Implement a pause to allow the B2C Commerce environment to set
-        await useCaseProcesses.sleep(sleepTimeout / 2);
+        await useCaseProcesses.sleep(sleepTimeout);
 
         // Register the B2C Commerce customer profile using the current set of configuration properties
         output.b2cRegisterResults = await useCaseProcesses.b2cCustomerRegister(environmentDef, b2cAdminAuthToken, siteId, testProfile);
+
+        // Implement a pause to ensure the PlatformEvent fires
+        await useCaseProcesses.sleep(sleepTimeout);
+        await useCaseProcesses.sleep(sleepTimeout);
 
         // Retrieve the contact details from the SFDC environment
         output.sfdcContactResults = await sObjectAPIs.retrieve(sfdcAuthCredentials.conn,
@@ -262,13 +273,14 @@ describe('Registering a new B2C Customer Profile via the OCAPI Shop API', functi
         await useCaseProcesses.b2cCRMSyncConfigManager(environmentDef, b2cAdminAuthToken, siteId, syncDisableOCAPI);
 
         // Implement a pause to ensure the environment details update
-        await useCaseProcesses.sleep(sleepTimeout / 2);
+        await useCaseProcesses.sleep(sleepTimeout);
 
         // Update the customer's profile via the shopAPI
         output.b2cFirstProfileUpdateResults = await shopAPIs.customerPatch(environmentDef, siteId,
             environmentDef.b2cClientId, output.b2cRegisterResults.response.authToken, output.b2cRegisterResults.response.data.customer_id, profileUpdate);
 
         // Implement a pause to ensure the PlatformEvent fires
+        await useCaseProcesses.sleep(sleepTimeout);
         await useCaseProcesses.sleep(sleepTimeout);
 
         // Verify that the update was successfully processed
@@ -295,10 +307,14 @@ describe('Registering a new B2C Customer Profile via the OCAPI Shop API', functi
         await useCaseProcesses.b2cCRMSyncConfigManager(environmentDef, b2cAdminAuthToken, siteId, syncDisableOnLogin);
 
         // Implement a pause to allow the B2C Commerce environment to set
-        await useCaseProcesses.sleep(sleepTimeout / 2);
+        await useCaseProcesses.sleep(sleepTimeout);
 
         // Register the B2C Commerce customer profile using the current set of configuration properties
         output.b2cRegisterResults = await useCaseProcesses.b2cCustomerRegister(environmentDef, b2cAdminAuthToken, siteId, testProfile);
+
+        // Implement a pause to ensure the PlatformEvent fires
+        await useCaseProcesses.sleep(sleepTimeout);
+        await useCaseProcesses.sleep(sleepTimeout);
 
         // Retrieve the contact details from the SFDC environment
         output.sfdcContactResults = await sObjectAPIs.retrieve(sfdcAuthCredentials.conn,
@@ -314,13 +330,14 @@ describe('Registering a new B2C Customer Profile via the OCAPI Shop API', functi
         await useCaseProcesses.b2cCRMSyncConfigManager(environmentDef, b2cAdminAuthToken, siteId, syncDisableCustomers);
 
         // Implement a pause to ensure the environment details update
-        await useCaseProcesses.sleep(sleepTimeout / 2);
+        await useCaseProcesses.sleep(sleepTimeout);
 
         // Update the customer's profile via the shopAPI
         output.b2cFirstProfileUpdateResults = await shopAPIs.customerPatch(environmentDef, siteId,
             environmentDef.b2cClientId, output.b2cRegisterResults.response.authToken, output.b2cRegisterResults.response.data.customer_id, profileUpdate);
 
         // Implement a pause to ensure the PlatformEvent fires
+        await useCaseProcesses.sleep(sleepTimeout);
         await useCaseProcesses.sleep(sleepTimeout);
 
         // Verify that the update was successfully processed

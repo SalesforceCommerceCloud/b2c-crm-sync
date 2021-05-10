@@ -5,7 +5,6 @@ const config = require('config');
 
 // Initialize local libraries for B2C Commerce
 const dataAPIs = require('../../../lib/apis/sfcc/ocapi/data');
-const shopAPIs = require('../../../lib/apis/sfcc/ocapi/shop');
 const b2cRequestLib = require('../../../lib/_common/request');
 
 // Initialize tearDown helpers
@@ -40,7 +39,6 @@ describe('Updating an SFDC Contact representing a B2C Commerce Customer Profile 
         siteId,
         b2cAdminAuthToken,
         sfdcAuthCredentials,
-        registeredB2CCustomerNo,
         syncGlobalEnable,
         sleepTimeout,
         purgeSleepTimeout;
@@ -120,18 +118,16 @@ describe('Updating an SFDC Contact representing a B2C Commerce Customer Profile 
         await useCaseProcesses.b2cCRMSyncConfigManager(environmentDef, b2cAdminAuthToken, siteId, syncGlobalEnable);
 
         // Implement a pause to allow the B2C Commerce environment to set
-        await useCaseProcesses.sleep(sleepTimeout / 2);
+        await useCaseProcesses.sleep(sleepTimeout);
 
         // Register the B2C Commerce customer profile using the current set of configuration properties
         output.b2cRegisterResults = await useCaseProcesses.b2cCustomerRegister(environmentDef, b2cAdminAuthToken, siteId, testProfile);
-
-        // Implement a pause to allow the PlatformEvent to fire
-        await useCaseProcesses.sleep(sleepTimeout);
 
         // Validate that the B2C Customer Profile was successfully created with SFDC attributes
         common.validateRegisteredUserWithSFDCAttributes(output.b2cRegisterResults.response);
 
         // Implement a pause to allow the PlatformEvent to fire
+        await useCaseProcesses.sleep(sleepTimeout);
         await useCaseProcesses.sleep(sleepTimeout);
 
         // Update the B2C Commerce properties for the related contactRecord
@@ -171,7 +167,7 @@ describe('Updating an SFDC Contact representing a B2C Commerce Customer Profile 
         await useCaseProcesses.b2cCRMSyncConfigManager(environmentDef, b2cAdminAuthToken, siteId, syncGlobalEnable);
 
         // Implement a pause to allow the B2C Commerce environment to set
-        await useCaseProcesses.sleep(sleepTimeout / 2);
+        await useCaseProcesses.sleep(sleepTimeout);
 
         // Register the B2C Commerce customer profile using the current set of configuration properties
         output.b2cRegisterResults = await useCaseProcesses.b2cCustomerRegister(environmentDef, b2cAdminAuthToken, siteId, testProfile);
@@ -179,12 +175,19 @@ describe('Updating an SFDC Contact representing a B2C Commerce Customer Profile 
         // Validate that the B2C Customer Profile was successfully created with SFDC attributes
         common.validateRegisteredUserWithSFDCAttributes(output.b2cRegisterResults.response);
 
+        // Implement a pause to allow the B2C Commerce environment to set
+        await useCaseProcesses.sleep(sleepTimeout);
+        await useCaseProcesses.sleep(sleepTimeout);
+
         // Disable b2c-crm-sync integration on the Contact record
         output.sfdcDisableIntegrationContactResults = await sObjectAPIs.update(sfdcAuthCredentials.conn,
             'Contact', {
                 Id: output.b2cRegisterResults.response.data.c_b2ccrm_contactId,
                 B2C_Disable_Integration__c: true
             });
+
+        // Implement a pause to allow the B2C Commerce environment to set
+        await useCaseProcesses.sleep(sleepTimeout);
 
         // Update the B2C Commerce properties for the related contactRecord
         output.sfdcContactResults = await sObjectAPIs.update(sfdcAuthCredentials.conn,
@@ -196,10 +199,14 @@ describe('Updating an SFDC Contact representing a B2C Commerce Customer Profile 
 
         // Implement a pause to allow the PlatformEvent to fire (it should not)
         await useCaseProcesses.sleep(sleepTimeout);
+        await useCaseProcesses.sleep(sleepTimeout);
 
         // Retrieve the contact details from the SFDC environment
         output.sfdcContactResults = await sObjectAPIs.retrieve(sfdcAuthCredentials.conn,
             'Contact', output.b2cRegisterResults.response.data.c_b2ccrm_contactId);
+
+        // Implement a pause to allow the PlatformEvent to fire (it should not)
+        await useCaseProcesses.sleep(sleepTimeout);
 
         // Retrieve the B2C Customer details to validate and compare results
         output.b2cCustomerProfileResults = await dataAPIs.customerGet(
