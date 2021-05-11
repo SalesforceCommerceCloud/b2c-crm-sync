@@ -113,7 +113,12 @@ public with sharing class B2CHttpRequestHelper {
      * @return HttpRequest Returns an http-object pre-configured data-api request
      * */
     public static HttpRequest getCustomerProfileAddressRequest(String namedCredential, String apiVersion, String b2cCustomerListId, String b2cCustomerNo, String addressId) {
-        return getOCAPIDataAPIHttpRequest(namedCredential, '/customer_lists/' + b2cCustomerListId + '/customers/' + b2cCustomerNo + '/addresses/' + addressId, apiVersion, 'get', '');
+
+        // Replace the space-identifier in the address id to functionally support spaces
+        String updatedAddressId = addressId.replaceAll('\\+', '%20');
+
+        return getOCAPIDataAPIHttpRequest(namedCredential, '/customer_lists/' + b2cCustomerListId + '/customers/' + b2cCustomerNo + '/addresses/' + updatedAddressId, apiVersion, 'get', '');
+
     }
 
     /**
@@ -128,7 +133,12 @@ public with sharing class B2CHttpRequestHelper {
      * @return HttpRequest Returns an http-object pre-configured data-api request
      * */
     public static HttpRequest getCustomerProfileAddressPatchRequest(String namedCredential, String apiVersion, String b2cCustomerListId, String b2cCustomerNo, String addressId, String b2cAddressJSON) {
-        return getOCAPIDataAPIHttpRequest(namedCredential, '/customer_lists/' + b2cCustomerListId + '/customers/' + b2cCustomerNo + '/addresses/' + addressId, apiVersion, 'patch', b2cAddressJSON);
+
+        // Replace the space-identifier in the address id to functionally support spaces
+        String updatedAddressId = addressId.replaceAll(' ', '%20');
+
+        return getOCAPIDataAPIHttpRequest(namedCredential, '/customer_lists/' + b2cCustomerListId + '/customers/' + b2cCustomerNo + '/addresses/' + updatedAddressId, apiVersion, 'patch', b2cAddressJSON);
+
     }
 
     /**
