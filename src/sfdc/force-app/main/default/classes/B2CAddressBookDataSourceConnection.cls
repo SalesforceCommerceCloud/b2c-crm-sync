@@ -13,9 +13,8 @@ global class B2CAddressBookDataSourceConnection extends DataSource.Connection {
     }
 
     /**
-     * Splits the given external ID to retrive the customer No and the address ID from it
-     *
-     * @param {String} externalId The external Id to split
+     * @description Splits the given external ID to retrieve the customer No and the address ID from it
+     * @param externalId {String} The external Id to split
      *
      * @return {Map<String, String>} The map that contains the customer No and address ID
      */
@@ -29,7 +28,7 @@ global class B2CAddressBookDataSourceConnection extends DataSource.Connection {
     }
 
     /**
-     * Abstract Methos sync() must be implemented as part of DataSource.Connection class
+     * @description Abstract Method sync() must be implemented as part of DataSource.Connection class
      * This method defines the Customer Address Schema of External Object
      *
      * @return {List<DataSource.Table>} tables
@@ -65,10 +64,9 @@ global class B2CAddressBookDataSourceConnection extends DataSource.Connection {
     }
 
     /**
-     * This method is called everytime when SOQL is issued against external Object
+     * @description This method is called everytime when SOQL is issued against external Object
      * or while using list view or viewing detail page.
-     *
-     * @param {DataSource.QueryContext} context The context of the performed query against the external object
+     * @param context {DataSource.QueryContext} The context of the performed query against the external object
      *
      * @return {DataSource.TableResult} The found addresses based on the query context
      * */
@@ -98,9 +96,8 @@ global class B2CAddressBookDataSourceConnection extends DataSource.Connection {
     }
 
     /**
-     * Update the given rows within the B2C Commerce instance
-     *
-     * @param {DataSource.UpsertContext} The upsert context to use to update the rows
+     * @description Update the given rows within the B2C Commerce instance
+     * @param context {DataSource.UpsertContext} The upsert context to use to update the rows
      *
      * @return {List<DataSource.UpsertResult>} The results of the updates
      */
@@ -126,11 +123,10 @@ global class B2CAddressBookDataSourceConnection extends DataSource.Connection {
     }
 
     /**
-     * Updates the address within B2C Commerce based on the given row
-     *
-     * @param {Map<String, Object>} row The row that contains the fields updated
-     * @param {String} customerNo The customer number of the customer to which to update the address
-     * @param {String} addressId The customer address to update
+     * @description Updates the address within B2C Commerce based on the given row
+     * @param row {Map<String, Object>} The row that contains the fields updated
+     * @param customerNo {String} The customer number of the customer to which to update the address
+     * @param addressId {String} The customer address to update
      *
      * @return {Boolean} True if the update succeed, or false otherwise
      */
@@ -178,10 +174,11 @@ global class B2CAddressBookDataSourceConnection extends DataSource.Connection {
     }
 
     /**
-     * Performs the REST API call against the B2C Commerce instance to get the customer addresses records based on the given customer number and address ID
+     * @description Performs the REST API call against the B2C Commerce instance to get the customer addresses records based on the given customer number and address ID
+     * @param customerNo {String} The customer number of the customer from which to get the addresses
+     * @param addressId {String} (Optional) The address Id to use while retrieve a specific address (in case of detail page)
      *
-     * @param {String} customerNo The customer number of the customer from which to get the addresses
-     * @param {String} addressId (Optional) The address Id to use while retrieve a specific address (in case of detail page)
+     * @returns {List<Map<String,Object>>} Returns a collection of maps representing the address data
      * */
     private List<Map<String,Object>> getData(String customerNo, String addressId) {
         List<Map<String, Object>> addresses =  new List<Map<String, Object>>();
@@ -258,10 +255,9 @@ global class B2CAddressBookDataSourceConnection extends DataSource.Connection {
     }
 
     /**
-     * This method maps the retrieved address from OCAPI to the core external object, ready to be consumed by Salesforce Connect, based on the configured field mappings
-     *
-     * @param {String} customerNo The customer number of the customer from which we get the addresses
-     * @param {JSONParse} addressData The parsed JSON of the address
+     * @description This method maps the retrieved address from OCAPI to the core external object, ready to be consumed by Salesforce Connect, based on the configured field mappings
+     * @param customerNo {String} The customer number of the customer from which we get the addresses
+     * @param addressData {JSONParse} The parsed JSON of the address
      *
      * @return {Map<String, Object>} The address map, ready to be consumed by Salesforce Connect
      */
