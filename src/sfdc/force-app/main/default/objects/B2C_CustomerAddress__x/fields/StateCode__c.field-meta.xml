@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>StateCode__c</fullName>
-    <description>StateCode</description>
+    <description>... represents the state code, territory, or province that is associated with a given B2C Commerce Customer address.</description>
     <externalDeveloperName>StateCode</externalDeveloperName>
     <externalId>false</externalId>
+    <inlineHelpText>... represents the state code, territory, or province that is associated with a given B2C Commerce Customer address.</inlineHelpText>
     <isFilteringDisabled>false</isFilteringDisabled>
     <isNameField>false</isNameField>
     <isSortingDisabled>false</isSortingDisabled>
     <label>State Code</label>
     <length>255</length>
     <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
     <type>Text</type>
     <unique>false</unique>
 </CustomField>

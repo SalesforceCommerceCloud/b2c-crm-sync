@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>FirstName__c</fullName>
-    <description>FirstName</description>
+    <description>... represents the first name of the customer associated with a given B2C Commerce Customer address.</description>
     <externalDeveloperName>FirstName</externalDeveloperName>
     <externalId>false</externalId>
+    <inlineHelpText>... represents the first name of the customer associated with a given B2C Commerce Customer address.</inlineHelpText>
     <isFilteringDisabled>false</isFilteringDisabled>
     <isNameField>false</isNameField>
     <isSortingDisabled>false</isSortingDisabled>
     <label>First Name</label>
     <length>255</length>
     <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
     <type>Text</type>
     <unique>false</unique>
 </CustomField>

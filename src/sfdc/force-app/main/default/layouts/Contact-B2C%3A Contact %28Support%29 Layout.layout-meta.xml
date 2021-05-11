@@ -372,16 +372,17 @@
         </relatedContentItems>
     </relatedContent>
     <relatedLists>
+        <excludeButtons>New</excludeButtons>
         <fields>ExternalId</fields>
         <fields>FirstName__c</fields>
         <fields>LastName__c</fields>
+        <fields>Phone__c</fields>
         <fields>Address1__c</fields>
         <fields>Address2__c</fields>
         <fields>City__c</fields>
-        <fields>PostalCode__c</fields>
         <fields>StateCode__c</fields>
+        <fields>PostalCode__c</fields>
         <fields>CountryCode__c</fields>
-        <fields>Phone__c</fields>
         <relatedList>B2C_CustomerAddress__x.Customer_No__c</relatedList>
     </relatedLists>
     <relatedLists>
@@ -436,7 +437,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00h1X000002Ze8T</masterLabel>
+        <masterLabel>00h3F000004394b</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>
