@@ -19,6 +19,14 @@
         <value xsi:type="xsd:boolean">true</value>
     </values>
     <values>
+        <field>Field_Description__c</field>
+        <value xsi:type="xsd:string">... represents the first line of a B2C Commerce Customer&apos;s personal address.</value>
+    </values>
+    <values>
+        <field>Field_Label__c</field>
+        <value xsi:type="xsd:string">Address (Line 1)</value>
+    </values>
+    <values>
         <field>Is_Test_Record__c</field>
         <value xsi:type="xsd:boolean">false</value>
     </values>

@@ -12,8 +12,15 @@ global class B2CAddressBookDataSourceConnection extends DataSource.Connection {
     private List<B2C_Integration_Field_Mappings__mdt> retrievalFieldMappings;
     private List<B2C_Integration_Field_Mappings__mdt> publishingFieldMappings;
 
+    // Initialize the name of the virtual table used manage B2C Customer Addresses
+    // and uniquely identify customer address for individual customers
     private final String TABLE_NAME = 'B2C_CustomerAddress';
+    private final String TABLE_LABEL_SINGULAR = 'B2C Customer Address';
+    private final String TABLE_LABEL_PLURAL = 'B2C Customer Addresses';
+    private final String TABLE_DESCRIPTION = '... represents the addresses found in the personal address book of the represented B2C Commerce Customer';
     private final String INDIRECT_LOOKUP_COLUMN = 'CustomerId';
+    private final String INDIRECT_LOOKUP_COLUMN_LABEL = 'Parent Customer';
+    private final String INDIRECT_LOOKUP_COLUMN_DESCRIPTION = '... represents the B2C Commerce Customer that owns the addresses being represented via their Personal Address Book';
 
     /**
      * @constructor
@@ -36,6 +43,8 @@ global class B2CAddressBookDataSourceConnection extends DataSource.Connection {
     override global List<DataSource.Table> sync() {
 
         // Initialize the local / output variables
+        DataSource.Column thisColumn;
+        DataSource.Column indirectColumn;
         String dataDomain = B2CAddressBookDataHelper.getDataDomain();
         String targetField = B2CAddressBookDataHelper.getTargetField();
         List<DataSource.Table> tables = new List<DataSource.Table>();
@@ -45,32 +54,59 @@ global class B2CAddressBookDataSourceConnection extends DataSource.Connection {
         // and add them to the columns list
         for (B2C_Integration_Field_Mappings__mdt fieldMapping : this.retrievalFieldMappings) {
 
+            // Initialize the data-source column
+            thisColumn = new DataSource.Column();
+
+            // Specify the individual data-types required by mapped fields
             if (fieldMapping.B2C_Commerce_Attribute_Type__c == 'boolean') {
-                columns.add(DataSource.Column.boolean(fieldMapping.Service_Cloud_Attribute__c));
+                thisColumn = DataSource.Column.boolean(fieldMapping.Service_Cloud_Attribute__c);
             } else if (fieldMapping.B2C_Commerce_Attribute_Type__c == 'integer') {
-                columns.add(DataSource.Column.integer(fieldMapping.Service_Cloud_Attribute__c, 10));
+                thisColumn = DataSource.Column.integer(fieldMapping.Service_Cloud_Attribute__c, 10);
             } else if (fieldMapping.B2C_Commerce_Attribute_Type__c == 'number') {
-                columns.add(DataSource.Column.number(fieldMapping.Service_Cloud_Attribute__c, 10, 2));
+                thisColumn = DataSource.Column.number(fieldMapping.Service_Cloud_Attribute__c, 10, 2);
             } else { // By default treat as a string
-                columns.add(DataSource.Column.text(fieldMapping.Service_Cloud_Attribute__c, 255));
+                thisColumn = DataSource.Column.text(fieldMapping.Service_Cloud_Attribute__c, 255);
             }
+
+            // Define the label and description for a given column
+            thisColumn.label = fieldMapping.Field_Label__c;
+            thisColumn.description = fieldMapping.Field_Description__c;
+
+            // Add the current column to the collection
+            columns.add(thisColumn);
 
         }
 
+        // Debugging: output the derived dataDomain and targetField
         System.debug('--> dataDomain: ' + dataDomain);
         System.debug('--> targetField: ' + targetField);
         System.debug('--> INDIRECT_LOOKUP_COLUMN: ' + INDIRECT_LOOKUP_COLUMN);
+
+        // Create the indirect look-up column governing the address-book relationships
+        indirectColumn = DataSource.Column.indirectLookup(INDIRECT_LOOKUP_COLUMN, dataDomain, targetField);
+        indirectColumn.label = INDIRECT_LOOKUP_COLUMN_LABEL;
+        indirectColumn.description = INDIRECT_LOOKUP_COLUMN_DESCRIPTION;
 
         // Always apply the following columns:
         // - ExternalId -> Required by Salesforce Connect as unique identifier in the Core Platform
         // - Display URL -> Required by Salesforce Connect to be able to open the detail page within the external system
         // - customerId -> The indirect lookup to the Contact record
-        columns.add(DataSource.Column.indirectLookup(INDIRECT_LOOKUP_COLUMN, dataDomain, targetField));
+        columns.add(indirectColumn);
         columns.add(DataSource.Column.text('ExternalId', 255));
         columns.add(DataSource.Column.url('DisplayUrl'));
 
         // Create the table definition by adding to the columns and mapping to the externalID
-        tables.add(DataSource.Table.get(this.TABLE_NAME, 'ExternalId', columns));
+        tables.add(
+            DataSource.Table.get(
+                this.TABLE_NAME,
+                this.TABLE_LABEL_SINGULAR,
+                this.TABLE_LABEL_PLURAL,
+                this.TABLE_DESCRIPTION,
+                'ExternalId', columns
+            )
+        );
+
+        // Return the table collection
         return tables;
 
     }
@@ -177,6 +213,7 @@ global class B2CAddressBookDataSourceConnection extends DataSource.Connection {
      * @return {Boolean} True if the update succeed, or false otherwise
      */
     private Boolean updateData(Map<String, Object> row, String customerId, String addressId) {
+
         // If no customer no is provided, abort and return an empty list
         if (String.isEmpty(customerId)) {
             return false;
@@ -193,10 +230,13 @@ global class B2CAddressBookDataSourceConnection extends DataSource.Connection {
             FROM Contact
             WHERE B2C_Customer_ID__c = :customerId
         ];
+
         // If no contact is found, abort
         if (contacts.size() == 0) {
             return false;
         }
+
+        // Retrieve the contact record
         Contact contact = contacts.get(0);
 
         // Build the address object to send to the B2C Commerce instance, based on the field mappings
@@ -217,6 +257,7 @@ global class B2CAddressBookDataSourceConnection extends DataSource.Connection {
         Http https = new Http();
         HttpResponse res = https.send(req);
         return res.getStatusCode() == 200; // Consider the update as a success if the status code is 200
+
     }
 
     /**
@@ -245,10 +286,13 @@ global class B2CAddressBookDataSourceConnection extends DataSource.Connection {
             FROM Contact
             WHERE B2C_Customer_ID__c = :customerId
         ];
+
         // If no contact is found, abort
         if (contacts.size() == 0) {
             return addresses;
         }
+
+        // Retrieve the contact record
         Contact contact = contacts.get(0);
 
         HttpRequest req;
@@ -270,6 +314,7 @@ global class B2CAddressBookDataSourceConnection extends DataSource.Connection {
                 contact.B2C_Customer_No__c
             );
         }
+
         Http https = new Http();
         HttpResponse res = https.send(req);
         JSONParse responseParsedJSON = new JSONParse(res.getBody());
@@ -308,10 +353,14 @@ global class B2CAddressBookDataSourceConnection extends DataSource.Connection {
      * @return {Map<String, Object>} The address map, ready to be consumed by Salesforce Connect
      */
     private Map<String, Object> mapAddress(String customerId, JSONParse addressData) {
+
+        // Initialize local variables
         Map<String, Object> address = new Map<String, Object>();
         String addressId = addressData.get('address_id').getStringValue();
 
+        // Loop over the collection of fieldMappings to retrieve the address data
         for (B2C_Integration_Field_Mappings__mdt fieldMapping : this.retrievalFieldMappings) {
+
             try {
                 if (fieldMapping.B2C_Commerce_Attribute_Type__c == 'boolean') {
                     address.put(fieldMapping.Service_Cloud_Attribute__c, addressData.get(fieldMapping.B2C_Commerce_OCAPI_Attribute__c).getBooleanValue());
@@ -331,15 +380,20 @@ global class B2CAddressBookDataSourceConnection extends DataSource.Connection {
                                 ' for the customer [' + customerId + '].'
                 );
             }
+
         }
 
         // Fill out the customer No as indirect lookup
         address.put(INDIRECT_LOOKUP_COLUMN, customerId);
+
         // Fill out the external Id, mandatory field, with the customer no and the address Id
         // We require the customer no here because the address Id might not be unique across customers (this is not an UUID)
         address.put('ExternalId', customerId + '__' + addressId);
         address.put('DisplayUrl', '');
 
+        // Return the retrieved address
         return address;
+
     }
+
 }

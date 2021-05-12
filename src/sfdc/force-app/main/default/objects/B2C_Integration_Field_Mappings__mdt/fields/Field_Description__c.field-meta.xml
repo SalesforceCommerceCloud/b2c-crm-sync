@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Field_Description__c</fullName>
+    <description>... represents the customer-facing description for a given field.  This should only be used to describe fields for externalObjects, as Salesforce Object fields will carry their own field descriptions.</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>... represents the customer-facing description for a given field.  This should only be used to describe fields for externalObjects, as Salesforce Object fields will carry their own field descriptions.</inlineHelpText>
+    <label>Field Description</label>
+    <length>255</length>
+    <required>false</required>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

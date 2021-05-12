@@ -19,6 +19,14 @@
         <value xsi:type="xsd:boolean">true</value>
     </values>
     <values>
+        <field>Field_Description__c</field>
+        <value xsi:type="xsd:string">... represents the zip / postal code associated with a B2C Commerce Customer&apos;s personal address.</value>
+    </values>
+    <values>
+        <field>Field_Label__c</field>
+        <value xsi:type="xsd:string">Postal Code</value>
+    </values>
+    <values>
         <field>Is_Test_Record__c</field>
         <value xsi:type="xsd:boolean">false</value>
     </values>
@@ -27,12 +35,12 @@
         <value xsi:type="xsd:boolean">true</value>
     </values>
     <values>
-        <field>Service_Cloud_Attribute_Alt__c</field>
-        <value xsi:type="xsd:string"></value>
-    </values>
-    <values>
         <field>Seed_Property_on_First_Time_Sync__c</field>
         <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>Service_Cloud_Attribute_Alt__c</field>
+        <value xsi:nil="true"/>
     </values>
     <values>
         <field>Service_Cloud_Attribute__c</field>
