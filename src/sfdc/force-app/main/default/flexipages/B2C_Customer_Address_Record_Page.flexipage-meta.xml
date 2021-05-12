@@ -8,16 +8,10 @@
                     <name>actionNames</name>
                     <valueList>
                         <valueListItems>
-                            <value>Global.NewEvent</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Global.NewTask</value>
-                        </valueListItems>
-                        <valueListItems>
                             <value>Edit</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Global.NewContact</value>
+                            <value>Global.NewTask</value>
                         </valueListItems>
                         <valueListItems>
                             <value>Global.NewCase</value>

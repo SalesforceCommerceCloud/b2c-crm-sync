@@ -383,7 +383,7 @@
         <fields>StateCode__c</fields>
         <fields>PostalCode__c</fields>
         <fields>CountryCode__c</fields>
-        <relatedList>B2C_CustomerAddress__x.Customer_No__c</relatedList>
+        <relatedList>B2C_CustomerAddress__x.CustomerId__c</relatedList>
     </relatedLists>
     <relatedLists>
         <excludeButtons>MassChangeOwner</excludeButtons>

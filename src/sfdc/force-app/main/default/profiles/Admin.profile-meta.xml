@@ -383,7 +383,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>B2C_CustomerAddress__x.Customer_No__c</field>
+        <field>B2C_CustomerAddress__x.CustomerId__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
