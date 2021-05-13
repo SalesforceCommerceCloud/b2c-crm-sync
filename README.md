@@ -2,10 +2,10 @@
 
 ## Introduction ##
 
-Salesforce B2C Commerce / CRM Sync is an enablement solution provided by Salesforce Architect Success designed to teach Salesforce's B2C Customer Data Strategy for multi-cloud use-cases.  The solution demonstrates a contemporary view on the integration between Salesforce B2C Commerce and the Salesforce Customer 360 Platform.  This project provides a framework to integrating these two clouds leveraging public REST APIs to share and synchronize customer profile data between the two clouds.
+Salesforce B2C Commerce / CRM Sync is an enablement solution provided by the Salesforce Architect Success Team designed to teach Salesforce's B2C Customer Data Strategy for multi-cloud use-cases.  The solution demonstrates a contemporary approach to the integration between Salesforce B2C Commerce and the Salesforce Customer 360 Platform.  This project provides a framework for integrating these two clouds leveraging REST APIs and the declarative capabilities of the Salesforce Platform to power frictionless customer experiences across B2C Commerce, Service, and Marketing Clouds. 
 
 ##### Now Supporting PersonAccounts AND Accounts / Contacts
-We've just merged in our updates to support both PersonAccounts and Accounts / Contacts as customerModels within the Salesforce Platform.  Our overall **Apex unit-test coverage is at 84%**, and we've expanded our suite of [multi-cloud unit tests](test/_use-cases) to exercise over forty individual test-cases.
+We've just merged in our updates to support both PersonAccounts and Accounts / Contacts as customerModels within the Salesforce Platform.  Our overall **Apex unit-test coverage is at 85%**, and we've expanded our suite of [multi-cloud unit tests](test/_use-cases) to exercise almost fifty individual multi-cloud integration test-cases.
 
 > :warning: &nbsp;This repository is currently in **beta** as we continue to harden our tests and the MVP feature-set.  Solution trustworthiness is critical for our success.  Please visit our [issues-list](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/issues) to see outstanding issues and features, and visit our [discussions](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/discussions) to ask questions. &nbsp;:warning:
 
@@ -15,13 +15,11 @@ We've just merged in our updates to support both PersonAccounts and Accounts / C
 
 ## Application Overview ##
 
-###### This section provides a high-level summary of the purpose and architectural structure of the Salesforce B2C Commerce and Salesforce Customer 360 Platform Integration.
-
-The b2c-crm-sync project enables the viewing and management of Salesforce B2C Commerce Customer Profiles within the Salesforce Platform as either Accounts / Contacts or Person Accounts.  The project serves as a contemporary foundation for integration between B2C Commerce and the Salesforce Platform.  It is designed to teach the data strategy used to synchronize B2C Customer Profiles -- and extended to support multi-cloud use-cases between B2C Commerce, Marketing Cloud, and the Salesforce Platform (ex. Service, Sales, Loyalty Cloud, etc).
+b2c-crm-sync enables the resolution, viewing, and management of Salesforce B2C Commerce Customer Profiles within the Salesforce Platform as either Accounts / Contacts or Person Accounts.  The project serves as foundation for customized integration between B2C Commerce and the Salesforce Platform.  It is designed to teach the data strategy used to synchronize B2C Customer Profiles -- and extended to support multi-cloud use-cases between B2C Commerce, Marketing Cloud, and the Salesforce Platform (ex. Service, Sales, Loyalty Cloud, etc).
 
 > Please note that this integration is an 'above the API' integration achieved via REST services -- and is not a low-level platform integration.  Think of this repository as a guide for integrating B2C Commerce and the Salesforce Customer 360 Platform leveraging REST APIs, custom code, and a subset of its declarative features.
 
-The b2c-crm-sync project leverages Salesforce B2C Commerce Open Commerce REST APIs to interact with B2C Customer Profiles -- and a series of Salesforce Platform REST services to 'announce' when relevant custom profiles B2C Commerce have been created or modified. Through these announcements, the Salesforce Platform requests the identified data objects (ex. customers) via REST APIs -- and then ingests elements of those data objects to create Account / Contact or PersonAccount representations of B2C Commerce Customer Profiles.
+b2c-crm-sync project leverages Salesforce B2C Commerce Open Commerce REST APIs to interact with B2C Customer Profiles -- and a series of Salesforce Platform REST services to 'announce' when relevant custom profiles B2C Commerce have been created or modified. Through these announcements, the Salesforce Platform requests the identified data objects (ex. customers) via REST APIs -- and then ingests elements of those data objects to create Account / Contact or PersonAccount representations of B2C Commerce Customer Profiles.
 
 ### License
 This project, its source code, and sample assets are all licensed under the [BSD 3-Clause](License.md) License.
@@ -31,7 +29,7 @@ Please remember that this project **should not be treated as Salesforce Product*
 > Roadmap, enhancements, and defect resolution will be driven by the Salesforce Architect Community.  You are invited to [log an issue](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/issues/new/choose) or [submit a pull-request](Contributing.md) to receive an Architect Success hoodie.
 
 ### Support
-This repository is maintained and contributed to by the Salesforce Community, Architect Success Team, and the SCPPE and Service Delivery teams within the Customer Success Group (CSG). This repository isn’t supported by Salesforce Commerce Cloud or Salesforce Platform Technical Support.
+This repository is maintained and contributed to by the Salesforce Architect Success Team, the Salesforce SCPPE and Service Delivery teams within the Customer Success Group (CSG), and the broader the Salesforce Community. This repository isn’t supported by Salesforce Commerce Cloud or Salesforce Platform Technical Support.
 
 > :confetti_ball: &nbsp; We are always seeking contributions from our community of Architects and developers.  If you're curious to learn more about how you can [get an Architect Success Hoody](Contributing.md) -- please review our [contribution guidelines](Contributing.md).
 
@@ -50,7 +48,10 @@ The following high-level features are supported by the b2c-crm-sync:
 - Granular integration control managing which instances, customerLists, and sites can interact with B2C Commerce and receive integration messages
 - Supports both PersonAccounts and Account / Contact customer models within the Salesforce Customer 360 Platform
 - Synchronization of registered Salesforce B2C Commerce customer profiles between the Salesforce Customer 360 Platform and Salesforce B2C Commerce
+- Federated Access to the B2C Commerce Customer Address Books of Registered B2C Commerce Customers
 - Order on Behalf of style Assisted Shopping for Customer Service Representatives configured and launched from within the Salesforce Platform
+
+> We leverage [Salesforce SFDX for Deployment](https://trailhead.salesforce.com/content/learn/modules/sfdx_app_dev), [Flow for Automation](https://trailhead.salesforce.com/en/content/learn/modules/flow-builder), [Platform Events for Messaging](https://trailhead.salesforce.com/en/content/learn/modules/platform_events_basics), Account Manager as an Auth Provider, [Salesforce Connect for Data Federation](https://trailhead.salesforce.com/en/content/learn/projects/quickstart-lightning-connect), and [Apex Invocable Actions](https://trailhead.salesforce.com/en/content/learn/projects/quick-start-explore-the-automation-comps-sample-app) to support these features.
 
 ### Setup Guidance
 
