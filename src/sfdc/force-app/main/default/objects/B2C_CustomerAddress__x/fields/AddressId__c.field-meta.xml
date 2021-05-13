@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AddressId__c</fullName>
+    <description>... represents the internal identifier for a given B2C Commerce Customer Address -- uniquely identifying the address within the customer&apos;s personal address book.</description>
+    <externalDeveloperName>AddressId</externalDeveloperName>
+    <externalId>false</externalId>
+    <inlineHelpText>... represents the internal identifier for a given B2C Commerce Customer Address -- uniquely identifying the address within the customer&apos;s personal address book.</inlineHelpText>
+    <isFilteringDisabled>false</isFilteringDisabled>
+    <isNameField>false</isNameField>
+    <isSortingDisabled>false</isSortingDisabled>
+    <label>Address ID</label>
+    <length>255</length>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

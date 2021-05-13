@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ExternalDataSource xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customConfiguration>{&quot;noIdMapping&quot;:&quot;false&quot;}</customConfiguration>
+    <isWritable>true</isWritable>
+    <label>B2C Customer Address Book</label>
+    <principalType>Anonymous</principalType>
+    <protocol>NoAuthentication</protocol>
+    <type>B2CAddressBookDataSourceProvider</type>
+</ExternalDataSource>

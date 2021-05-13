@@ -70,7 +70,7 @@ public with sharing class B2CHttpRequestHelper {
      *
      * @param namedCredential {String} Represents the name credential to use to get the sites
      * @param apiVersion {String} Represents the API version that should be used for the current REST API call
-     * @return HttpRequest Returns an http-object pre-configured data-api site retrieval request
+     * @return HttpRequest Returns an http-object pre-configured data-api request
      * */
     public static HttpRequest getAllSitesRequest(String namedCredential, String apiVersion) {
         return getOCAPIDataAPIHttpRequest(namedCredential, '/sites?select=(**)', apiVersion, 'get', '');
@@ -79,26 +79,77 @@ public with sharing class B2CHttpRequestHelper {
     /**
      * @description Generates the httpRequest to retrieve a B2C Commerce Customer Profile
      *
-     * @param siteUrl {String} Represents the name credential to use to get the customer profile
+     * @param namedCredential {String} Represents the name credential to use to get the customer profile
      * @param apiVersion {String} Represents the API version that should be used for the current REST API call
      * @param b2cCustomerListId {String} Represents the B2C Commerce CustomerList that owns the customer profile being requested
      * @param b2cCustomerNo {String} Represents the B2C Commerce Customer Number of the customer profile being retrieved
-     * @return HttpRequest Returns an http-object pre-configured data-api site retrieval request
+     * @return HttpRequest Returns an http-object pre-configured data-api request
      * */
     public static HttpRequest getCustomerProfileRequest(String namedCredential, String apiVersion, String b2cCustomerListId, String b2cCustomerNo) {
         return getOCAPIDataAPIHttpRequest(namedCredential, '/customer_lists/' + b2cCustomerListId + '/customers/' + b2cCustomerNo, apiVersion, 'get', '');
     }
 
+    /**
+     * @description Generates the httpRequest to retrieve a B2C Commerce Customer Addresses from the customer's address book
+     *
+     * @param namedCredential {String} Represents the name credential to use to get the customer addresses
+     * @param apiVersion {String} Represents the API version that should be used for the current REST API call
+     * @param b2cCustomerListId {String} Represents the B2C Commerce CustomerList that owns the customer profile being requested
+     * @param b2cCustomerNo {String} Represents the B2C Commerce Customer Number of the customer profile being retrieved
+     * @return HttpRequest Returns an http-object pre-configured data-api request
+     * */
+    public static HttpRequest getCustomerProfileAddressesRequest(String namedCredential, String apiVersion, String b2cCustomerListId, String b2cCustomerNo) {
+        return getOCAPIDataAPIHttpRequest(namedCredential, '/customer_lists/' + b2cCustomerListId + '/customers/' + b2cCustomerNo + '/addresses', apiVersion, 'get', '');
+    }
 
     /**
-     * @description Generates the httpRequest to retrieve a B2C Commerce Customer Profile
+     * @description Generates the httpRequest to retrieve a B2C Commerce Customer Address from the customer's address book
+     *
+     * @param namedCredential {String} Represents the name credential to use to get the customer addresses
+     * @param apiVersion {String} Represents the API version that should be used for the current REST API call
+     * @param b2cCustomerListId {String} Represents the B2C Commerce CustomerList that owns the customer profile being requested
+     * @param b2cCustomerNo {String} Represents the B2C Commerce Customer Number of the customer profile being retrieved
+     * @param addressId {String} Represents the B2C Commerce Address ID of the customer's address being retrieved
+     * @return HttpRequest Returns an http-object pre-configured data-api request
+     * */
+    public static HttpRequest getCustomerProfileAddressRequest(String namedCredential, String apiVersion, String b2cCustomerListId, String b2cCustomerNo, String addressId) {
+
+        // Replace the space-identifier in the address id to functionally support spaces
+        String updatedAddressId = addressId.replaceAll('\\+', '%20');
+
+        return getOCAPIDataAPIHttpRequest(namedCredential, '/customer_lists/' + b2cCustomerListId + '/customers/' + b2cCustomerNo + '/addresses/' + updatedAddressId, apiVersion, 'get', '');
+
+    }
+
+    /**
+     * @description Generates the httpRequest to update a B2C Commerce Customer Address from the customer's address book
+     *
+     * @param namedCredential {String} Represents the name credential to use to get the customer addresses
+     * @param apiVersion {String} Represents the API version that should be used for the current REST API call
+     * @param b2cCustomerListId {String} Represents the B2C Commerce CustomerList that owns the customer profile being updated
+     * @param b2cCustomerNo {String} Represents the B2C Commerce Customer Number of the customer profile being updated
+     * @param addressId {String} Represents the B2C Commerce Address ID of the customer's address being updated
+     * @param b2cAddressJSON {String} Represents the address object being published to B2C Commerce
+     * @return HttpRequest Returns an http-object pre-configured data-api request
+     * */
+    public static HttpRequest getCustomerProfileAddressPatchRequest(String namedCredential, String apiVersion, String b2cCustomerListId, String b2cCustomerNo, String addressId, String b2cAddressJSON) {
+
+        // Replace the space-identifier in the address id to functionally support spaces
+        String updatedAddressId = addressId.replaceAll(' ', '%20');
+
+        return getOCAPIDataAPIHttpRequest(namedCredential, '/customer_lists/' + b2cCustomerListId + '/customers/' + b2cCustomerNo + '/addresses/' + updatedAddressId, apiVersion, 'patch', b2cAddressJSON);
+
+    }
+
+    /**
+     * @description Generates the httpRequest to update a B2C Commerce Customer Profile
      *
      * @param namedCredential {String} Represents the name credential to use to update the customer profile
      * @param apiVersion {String} Represents the API version that should be used for the current REST API call
      * @param b2cCustomerListId {String} Represents the B2C Commerce CustomerList that owns the customer profile being requested
      * @param b2cCustomerNo {String} Represents the B2C Commerce Customer Number of the customer profile being retrieved
      * @param b2cCustomerProfileJSON {String} Represents the customerProfile object being published to B2C Commerce
-     * @return HttpRequest Returns an http-object pre-configured data-api site retrieval request
+     * @return HttpRequest Returns an http-object pre-configured data-api request
      * */
     public static HttpRequest getCustomerProfilePatchRequest(String namedCredential, String apiVersion, String b2cCustomerListId, String b2cCustomerNo, String b2cCustomerProfileJSON) {
         return getOCAPIDataAPIHttpRequest(namedCredential, '/customer_lists/' + b2cCustomerListId + '/customers/' + b2cCustomerNo, apiVersion, 'patch', b2cCustomerProfileJSON);

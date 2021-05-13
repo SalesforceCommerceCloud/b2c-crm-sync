@@ -78,7 +78,9 @@ public with sharing class B2CMetaFieldMappings extends B2CBaseMeta {
                     Seed_Property_on_First_Time_Sync__c,
                     Push_Updates_to_B2C_Commerce__c,
                     Consume_Updates_from_B2C_Commerce__c,
-                    Enable_for_Integration__c
+                    Enable_for_Integration__c,
+                    Field_Label__c,
+                    Field_Description__c
             FROM    B2C_Integration_Field_Mappings__mdt
             WHERE   Service_Cloud_Object__c = :objectType
                     AND Enable_for_Integration__c = TRUE
@@ -114,10 +116,13 @@ public with sharing class B2CMetaFieldMappings extends B2CBaseMeta {
                         Service_Cloud_Attribute__c,
                         Service_Cloud_Attribute_Alt__c,
                         B2C_Commerce_OCAPI_Attribute__c,
+                        B2C_Commerce_Attribute_Type__c,
                         Seed_Property_on_First_Time_Sync__c,
                         Push_Updates_to_B2C_Commerce__c,
                         Consume_Updates_from_B2C_Commerce__c,
-                        Enable_for_Integration__c
+                        Enable_for_Integration__c,
+                        Field_Label__c,
+                        Field_Description__c
                 FROM    B2C_Integration_Field_Mappings__mdt
                 WHERE   Service_Cloud_Object__c = :objectType
                         AND Enable_for_Integration__c = TRUE
@@ -155,10 +160,13 @@ public with sharing class B2CMetaFieldMappings extends B2CBaseMeta {
                         Service_Cloud_Attribute__c,
                         Service_Cloud_Attribute_Alt__c,
                         B2C_Commerce_OCAPI_Attribute__c,
+                        B2C_Commerce_Attribute_Type__c,
                         Seed_Property_on_First_Time_Sync__c,
                         Push_Updates_to_B2C_Commerce__c,
                         Consume_Updates_from_B2C_Commerce__c,
-                        Enable_for_Integration__c
+                        Enable_for_Integration__c,
+                        Field_Label__c,
+                        Field_Description__c
                 FROM    B2C_Integration_Field_Mappings__mdt
                 WHERE   Service_Cloud_Object__c = :objectType
                         AND Enable_for_Integration__c = TRUE

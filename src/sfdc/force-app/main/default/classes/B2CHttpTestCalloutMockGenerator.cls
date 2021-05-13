@@ -31,78 +31,67 @@ public class B2CHttpTestCalloutMockGenerator implements HttpCalloutMock {
      * @return HttpResponse Returns a mock http-response
      */
     public HttpResponse respond(HttpRequest req) {
+        Map<String, String> responseObj;
 
-        // Initialize local variables
-        HttpResponse res;
-
-        // First, evaluate if we're testing the access-token related requests
-        if (this.requestType.equalsIgnoreCase('AccessToken')) {
-            responseObj = getAccessTokenSuccessResponse();
+        switch on this.requestType {
+            when 'AccessToken' {
+                responseObj = getAccessTokenSuccessResponse();
+            }
+            when 'AccessTokenFailure' {
+                responseObj = getAccessTokenFailureResponse();
+            }
+            when 'CustomerListSuccess' {
+                responseObj = getCustomerListSuccessResponse();
+            }
+            when 'CustomerListFailure' {
+                responseObj = getCustomerListFailureResponse();
+            }
+            when 'CustomerDetailsSuccess' {
+                responseObj = getCustomerDetailsSuccessResponse();
+            }
+            when 'CustomerDetailsFailure' {
+                responseObj = getCustomerDetailsFailureResponse();
+            }
+            when 'CustomerAddressSuccess' {
+                responseObj = getCustomerAddressSuccessResponse();
+            }
+            when 'CustomerAddressFailure' {
+                responseObj = getCustomerAddressFailureResponse();
+            }
+            when 'CustomerAddressesSuccess' {
+                responseObj = getCustomerAddressesSuccessResponse();
+            }
+            when 'CustomerAddressesFailure' {
+                responseObj = getCustomerAddressesFailureResponse();
+            }
+            when 'CustomerAddressPatchSuccess' {
+                responseObj = getCustomerAddressPatchSuccessResponse();
+            }
+            when 'CustomerAddressPatchFailure' {
+                responseObj = getCustomerAddressPatchFailureResponse();
+            }
+            when 'BusinessManager' {
+                responseObj = getAccessTokenSuccessResponse();
+            }
+            when 'CustomerListsSites' {
+                responseObj = getCustomerListSuccessResponse();
+                responseObj.put(
+                    'body',
+                    '{"count":"10","data":[{"id":"id","link":"link","customer_list_link":{"customer_list_id":"customer_list_id","link":"link"},"display_name":{"default":"default"}}]}'
+                );
+            }
+            when 'CustomerAuth' {
+                HttpResponse resCustomerAuth = new HttpResponse();
+                resCustomerAuth.setHeader('Content-Type', 'application/json');
+                resCustomerAuth.setHeader('authorization', 'authorizationtoken');
+                resCustomerAuth.setBody('{}');
+                resCustomerAuth.setStatus('OK');
+                resCustomerAuth.setStatusCode(200);
+                return resCustomerAuth;
+            }
         }
 
-        // Next, evaluate if we're testing the access-token failure scenario
-        if (this.requestType.equalsIgnoreCase('AccessTokenFailure')) {
-            responseObj = getAccessTokenFailureResponse();
-        }
-
-        // Next, evaluate if we're testing the customer-list success scenarios
-        if (this.requestType.equalsIgnoreCase('CustomerListSuccess')) {
-            responseObj = getCustomerListSuccessResponse();
-        }
-
-        // Next, evaluate if we're testing the customer-list failure scenarios
-        if (this.requestType.equalsIgnoreCase('CustomerListFailure')) {
-            responseObj = getCustomerListFailureResponse();
-        }
-
-        // Next, evaluate if we're testing the get customer profile success scenarios
-        if (this.requestType.equalsIgnoreCase('CustomerDetailsSuccess')) {
-            responseObj = getCustomerDetailsSuccessResponse();
-        }
-
-        // Next, evaluate if we're testing the get customer profile failure scenarios
-        if (this.requestType.equalsIgnoreCase('CustomerDetailsFailure')) {
-            responseObj = getCustomerDetailsFailureResponse();
-        }
-
-        // Evaluate if testing customer auth for oobo
-        if (this.requestType.equalsIgnoreCase('CustomerAuth')) {
-
-            HttpResponse resCustomerAuth = new HttpResponse();
-            resCustomerAuth.setHeader('Content-Type', 'application/json');
-            resCustomerAuth.setHeader('authorization', 'authorizationtoken');
-            resCustomerAuth.setBody('{}');
-
-            // Set the status details
-            resCustomerAuth.setStatus('OK');
-            resCustomerAuth.setStatusCode(200);
-
-            // Return the response object
-            return resCustomerAuth;
-
-        }
-
-        if (this.requestType.equalsIgnoreCase('BusinessManager')) {
-            responseObj = getAccessTokenSuccessResponse();
-        }
-
-        // Evaluate if testing getting a business manager token for oobo
-        if (this.requestType.equalsIgnoreCase('CustomerListsSites')) {
-            responseObj = getCustomerListSuccessResponse();
-            responseObj.put(
-                'body',
-                '{"count":"10","data":[{"id":"id","link":"link","customer_list_link":{"customer_list_id":"customer_list_id","link":"link"},"display_name":{"default":"default"}}]}'
-            );
-        }
-
-
-
-        // Retrieve the default http response
-        res = buildMockHttpResponse(responseObj);
-
-        // Return the mock response
-        return res;
-
+        return buildMockHttpResponse(responseObj);
     }
 
 
@@ -186,7 +175,7 @@ public class B2CHttpTestCalloutMockGenerator implements HttpCalloutMock {
 
         // Build out the success response details
         bodyContent = '{\n' +
-            '"_v": "20.9",\n' +
+            '"_v": "21.3",\n' +
             '"_type": "customer_list",\n' +
             '"id": "RefArch"\n' +
         '}';
@@ -197,6 +186,46 @@ public class B2CHttpTestCalloutMockGenerator implements HttpCalloutMock {
         // Seed the mock-response details
         responseObj.put('status', 'OK');
         responseObj.put('statusCode', '200');
+        responseObj.put('body', bodyContent);
+
+        // Return the mock response details
+        return responseObj;
+
+    }
+
+    /**
+     * @description Helper function to return the customer response
+     * code and body-content details.  This models the failed retrieval of
+     * a B2C Commerce Customer.
+     *
+     * @return Map<String, String> Returns a map containing the
+     * successful response attributes
+     */
+    public static Map<String, String> getCustomerDetailsFailureResponse() {
+
+        // Initialize local variables
+        Map<String, String> responseObj;
+        String bodyContent;
+
+        // Build out the success response details
+        bodyContent = '{\n' +
+            '"_v": "21.3",\n' +
+            '"fault": {\n' +
+            '"arguments": {\n' +
+            '"customerNo": "C0000000099",\n' +
+            '"customerListId": "RefArch"\n' +
+            '},\n' +
+            '"type": "CustomerListCustomerNotFoundException",\n' +
+            '"message": "No customer with number \'C0000000099\' for customer list \'RefArch\' could be found."\n' +
+            '}\n' +
+        '}';
+
+        // Initialize the mock response
+        responseObj = new Map<String, String>();
+
+        // Seed the mock-response details
+        responseObj.put('status', 'ERROR');
+        responseObj.put('statusCode', '404');
         responseObj.put('body', bodyContent);
 
         // Return the mock response details
@@ -221,7 +250,7 @@ public class B2CHttpTestCalloutMockGenerator implements HttpCalloutMock {
         // Build out the success response details
         //noinspection SpellCheckingInspection
         bodyContent = '{\n' +
-            '"_v": "20.9",\n' +
+            '"_v": "21.3",\n' +
             '"_type": "customer",\n' +
             '"_resource_state": "495f86a4e72211f02037e58c34903a9dbb242e453ab6cad28b3251447870c415",\n' +
             '"creation_date": "2021-03-29T17:33:05.000Z",\n' +
@@ -258,47 +287,6 @@ public class B2CHttpTestCalloutMockGenerator implements HttpCalloutMock {
 
         // Return the mock response details
         return responseObj;
-
-    }
-
-    /**
-     * @description Helper function to return the customer response
-     * code and body-content details.  This models the failed retrieval of
-     * a B2C Commerce Customer.
-     *
-     * @return Map<String, String> Returns a map containing the
-     * successful response attributes
-     */
-    public static Map<String, String> getCustomerDetailsFailureResponse() {
-
-        // Initialize local variables
-        Map<String, String> responseObj;
-        String bodyContent;
-
-        // Build out the success response details
-        bodyContent = '{\n' +
-            '"_v": "20.9",\n' +
-            '"fault": {\n' +
-            '"arguments": {\n' +
-            '"customerNo": "C0000000099",\n' +
-            '"customerListId": "RefArch"\n' +
-            '},\n' +
-            '"type": "CustomerListCustomerNotFoundException",\n' +
-            '"message": "No customer with number \'C0000000099\' for customer list \'RefArch\' could be found."\n' +
-            '}\n' +
-        '}';
-
-        // Initialize the mock response
-        responseObj = new Map<String, String>();
-
-        // Seed the mock-response details
-        responseObj.put('status', 'ERROR');
-        responseObj.put('statusCode', '404');
-        responseObj.put('body', bodyContent);
-
-        // Return the mock response details
-        return responseObj;
-
     }
 
     /**
@@ -317,7 +305,7 @@ public class B2CHttpTestCalloutMockGenerator implements HttpCalloutMock {
 
         // Build out the failure response details
         bodyContent = '{\n' +
-            '"_v": "20.9",\n' +
+            '"_v": "21.3",\n' +
             '"fault": {\n' +
                 '"arguments": {\n' +
                     '"customerListId": "RefArch1"\n' +
@@ -338,6 +326,196 @@ public class B2CHttpTestCalloutMockGenerator implements HttpCalloutMock {
         // Return the mock response details
         return responseObj;
 
+    }
+
+    /**
+     * @description Helper function to return the customer addresses response
+     * code and body-content details.  This models the successful retrieval of
+     * a B2C Commerce Customer Addresses.
+     *
+     * @return Map<String, String> Returns a map containing the
+     * successful response attributes
+     */
+    public static Map<String, String> getCustomerAddressesSuccessResponse() {
+        Map<String, String> responseObj = new Map<String, String>();
+        String bodyContent = '{\n' +
+            '"_v": "21.3",\n' +
+            '"_type": "customer_address_result",\n' +
+            '"count" : 10,\n' +
+            '"data" : [{\n' +
+            '"_resource_state" : "860cde3040519cce439cd99e209f8a87c3ad0b7e2813edbf6f5501f763b73bd5",\n' +
+            '"address1" : "Lodyweg",\n' +
+            '"address_id" : "my_home_address",\n' +
+            '"city" : "Washingtonville",\n' +
+            '"company_name" : "Salesforce Commerce Cloud",\n' +
+            '"country_code" : "SH",\n' +
+            '"first_name" : "Pit",\n' +
+            '"full_name" : "Pit Snipes",\n' +
+            '"job_title" : "",\n' +
+            '"last_name" : "Snipes",\n' +
+            '"phone" : "001-111-1111",\n' +
+            '"postal_code" : "15361",\n' +
+            '"state_code" : "DE"\n' +
+            '}],\n' +
+            '"next" : "https://example.com/dw/data/v21_3/customer_lists/4711/customers/0815/addresses?count=10&start=10",\n' +
+            '"start" : 0,\n' +
+            '"total" : 151\n' +
+        '}';
+
+        responseObj.put('status', 'OK');
+        responseObj.put('statusCode', '200');
+        responseObj.put('body', bodyContent);
+        return responseObj;
+    }
+
+    /**
+     * @description Helper function to return the customer addresses response
+     * code and body-content details.  This models the failed retrieval of
+     * a B2C Commerce Customer Addresses (that doesn't exist)
+     *
+     * @return Map<String, String> Returns a map containing the
+     * failed response attributes
+     */
+    public static Map<String, String> getCustomerAddressesFailureResponse() {
+        Map<String, String> responseObj = new Map<String, String>();
+        String bodyContent = '{\n' +
+            '"_v": "21.3",\n' +
+            '"fault": {\n' +
+                '"arguments": {\n' +
+                    '"customerListId": "RefArch1"\n' +
+                '},\n' +
+                '"type": "CustomerListNotFoundException",\n' +
+                '"message": "No customer list with ID \'RefArch1\' could be found."\n' +
+            '}\n' +
+        '}';
+
+        responseObj.put('status', 'ERROR');
+        responseObj.put('statusCode', '404');
+        responseObj.put('body', bodyContent);
+        return responseObj;
+    }
+
+    /**
+     * @description Helper function to return the customer address response
+     * code and body-content details.  This models the successful retrieval of
+     * a B2C Commerce Customer Address
+     *
+     * @return Map<String, String> Returns a map containing the
+     * successful response attributes
+     */
+    public static Map<String, String> getCustomerAddressSuccessResponse() {
+        Map<String, String> responseObj = new Map<String, String>();
+        String bodyContent = '{\n' +
+            '"_v": "21.3",\n' +
+            '"_resource_state" : "860cde3040519cce439cd99e209f8a87c3ad0b7e2813edbf6f5501f763b73bd5",\n' +
+            '"_type": "customer_address",\n' +
+            '"address1" : "Lodyweg",\n' +
+            '"address_id" : "my_home_address",\n' +
+            '"city" : "Washingtonville",\n' +
+            '"company_name" : "Salesforce Commerce Cloud",\n' +
+            '"country_code" : "SH",\n' +
+            '"first_name" : "Pit",\n' +
+            '"full_name" : "Pit Snipes",\n' +
+            '"job_title" : "",\n' +
+            '"last_name" : "Snipes",\n' +
+            '"phone" : "001-111-1111",\n' +
+            '"postal_code" : "15361",\n' +
+            '"state_code" : "DE"\n' +
+        '}';
+
+        responseObj.put('status', 'OK');
+        responseObj.put('statusCode', '200');
+        responseObj.put('body', bodyContent);
+        return responseObj;
+    }
+
+    /**
+     * @description Helper function to return the customer address response
+     * code and body-content details.  This models the failed retrieval of
+     * a B2C Commerce Customer Address (that doesn't exist)
+     *
+     * @return Map<String, String> Returns a map containing the
+     * failed response attributes
+     */
+    public static Map<String, String> getCustomerAddressFailureResponse() {
+        Map<String, String> responseObj = new Map<String, String>();
+        String bodyContent = '{\n' +
+            '"_v": "21.3",\n' +
+            '"fault": {\n' +
+                '"arguments": {\n' +
+                    '"customerListId": "RefArch1"\n' +
+                '},\n' +
+                '"type": "CustomerListNotFoundException",\n' +
+                '"message": "No customer list with ID \'RefArch1\' could be found."\n' +
+            '}\n' +
+        '}';
+
+        responseObj.put('status', 'ERROR');
+        responseObj.put('statusCode', '404');
+        responseObj.put('body', bodyContent);
+        return responseObj;
+    }
+
+
+    /**
+     * @description Helper function to return the customer address response
+     * code and body-content details.  This models the successful update of
+     * a B2C Commerce Customer Address
+     *
+     * @return Map<String, String> Returns a map containing the
+     * successful response attributes
+     */
+    public static Map<String, String> getCustomerAddressPatchSuccessResponse() {
+        Map<String, String> responseObj = new Map<String, String>();
+        String bodyContent = '{\n' +
+            '"_v": "21.3",\n' +
+            '"_resource_state" : "860cde3040519cce439cd99e209f8a87c3ad0b7e2813edbf6f5501f763b73bd5",\n' +
+            '"_type": "customer_address",\n' +
+            '"address1" : "Lodyweg",\n' +
+            '"address_id" : "my_home_address",\n' +
+            '"city" : "Washingtonville",\n' +
+            '"company_name" : "Salesforce Commerce Cloud",\n' +
+            '"country_code" : "SH",\n' +
+            '"first_name" : "Pit",\n' +
+            '"full_name" : "Pit Snipes",\n' +
+            '"job_title" : "",\n' +
+            '"last_name" : "Snipes",\n' +
+            '"phone" : "001-111-1111",\n' +
+            '"postal_code" : "15361",\n' +
+            '"state_code" : "DE"\n' +
+        '}';
+
+        responseObj.put('status', 'OK');
+        responseObj.put('statusCode', '200');
+        responseObj.put('body', bodyContent);
+        return responseObj;
+    }
+
+    /**
+     * @description Helper function to return the customer address response
+     * code and body-content details.  This models the failed update of
+     * a B2C Commerce Customer Address (that doesn't exist)
+     *
+     * @return Map<String, String> Returns a map containing the
+     * failed response attributes
+     */
+    public static Map<String, String> getCustomerAddressPatchFailureResponse() {
+        Map<String, String> responseObj = new Map<String, String>();
+        String bodyContent = '{\n' +
+            '"_v": "21.3",\n' +
+            '"fault": {\n' +
+                '"arguments": {\n' +
+                    '"customerListId": "RefArch1"\n' +
+                '},\n' +
+                '"type": "CustomerListNotFoundException",\n' +
+                '"message": "No customer list with ID \'RefArch1\' could be found."\n' +
+            '}\n' +
+        '}';
+
+        responseObj.put('status', 'ERROR');
+        responseObj.put('statusCode', '404');
+        responseObj.put('body', bodyContent);
+        return responseObj;
     }
 
     /**
