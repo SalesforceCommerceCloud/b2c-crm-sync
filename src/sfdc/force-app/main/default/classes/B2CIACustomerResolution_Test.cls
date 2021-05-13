@@ -240,61 +240,6 @@ private class B2CIACustomerResolution_Test {
     /**
      * @see B2CIACustomerResolution.findDupes
      * @description This test-case exercises the CustomerResolution IA and attempts to resolve
-     * a Contact record via a customerList and customerId.  It resolves multiple records resulting
-     * from duplicates found in the platform.
-     */
-    @IsTest
-    private static void testResolveByB2CCustomerIDMultipleResults() {
-
-        // Initialize local variables
-        Map<String, Object> flowResults;
-        Contact contactToResolve;
-        Contact testContact;
-        Map<String, Object> contactToResolveMap;
-
-        // Initialize the map describing the contact to create
-        contactToResolveMap = new Map<String, Object>();
-
-        // Define the map representing the Account / Contact record
-        contactToResolveMap.put('B2C_CustomerList_ID__c', testCustomerListID);
-        contactToResolveMap.put('B2C_Customer_ID__c', testCustomerID);
-        contactToResolveMap.put('Email', testEmail);
-        contactToResolveMap.put('LastName', testLastName);
-
-        // Create the Contact record to resolve
-        contactToResolve = B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
-
-        // Create a second and third contact record (as duplicates)
-        B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
-        B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
-
-        // Define the Contact record to resolve
-        testContact = new Contact(
-            B2C_CustomerList_ID__c = testCustomerListID,
-            B2C_Customer_ID__c = testCustomerID
-        );
-
-        Test.startTest();
-        //-------------------------------------------
-        // Test: Start exercising the resolutionFlow
-        //-------------------------------------------
-
-            // Execute the flow results
-            flowResults = B2CIACustomerResolution_TestHelper.executeResolutionProcess(testContact);
-
-        //-------------------------------------------
-        // Test: Finish exercising the resolutionFlow
-        //-------------------------------------------
-        Test.stopTest();
-
-        // Validate the zero-result details
-        B2CIACustomerResolution_TestHelper.validateMultipleResults(flowResults);
-
-    }
-
-    /**
-     * @see B2CIACustomerResolution.findDupes
-     * @description This test-case exercises the CustomerResolution IA and attempts to resolve
      * a Contact record via a customerList and customerId.  It throws an error resulting from
      * mismatched secondary ID values.
      */
