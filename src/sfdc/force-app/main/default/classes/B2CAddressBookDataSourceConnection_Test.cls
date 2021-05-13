@@ -17,7 +17,7 @@ public with sharing class B2CAddressBookDataSourceConnection_Test {
         Contact contact = (Contact)TestDataFactory.createSObject('Contact', new Map<String,Object>{
             'LastName' => 'lastname',
             'B2C_CustomerList_ID__c' => customerList.Id,
-            'B2C_Customer_No__c' => '001'
+            'B2C_Customer_ID__c' => '001'
         });
     }
 
@@ -108,11 +108,11 @@ public with sharing class B2CAddressBookDataSourceConnection_Test {
         DataSource.QueryContext context = new DataSource.QueryContext();
         // create the filter class and set the ColumnName
         DataSource.Filter filter = new DataSource.Filter();
-        filter.columnName = 'Customer_No';
+        filter.columnName = 'CustomerId';
         filter.columnValue = '001';
         filter.type = DataSource.FilterType.EQUALS;
         DataSource.Filter subFilter = new DataSource.Filter();
-        subFilter.columnName = 'Customer_No';
+        subFilter.columnName = 'CustomerId';
         subFilter.columnValue = '001';
         subFilter.type = DataSource.FilterType.EQUALS;
         filter.subfilters = new List<DataSource.Filter>{ subFilter };
@@ -147,11 +147,11 @@ public with sharing class B2CAddressBookDataSourceConnection_Test {
         DataSource.QueryContext context = new DataSource.QueryContext();
         // create the filter class and set the ColumnName
         DataSource.Filter filter = new DataSource.Filter();
-        filter.columnName = 'Customer_No';
+        filter.columnName = 'CustomerId';
         filter.columnValue = '';
         filter.type = DataSource.FilterType.EQUALS;
         DataSource.Filter subFilter = new DataSource.Filter();
-        subFilter.columnName = 'Customer_No';
+        subFilter.columnName = 'CustomerId';
         subFilter.columnValue = '';
         subFilter.type = DataSource.FilterType.EQUALS;
         filter.subfilters = new List<DataSource.Filter>{ subFilter };
@@ -187,11 +187,11 @@ public with sharing class B2CAddressBookDataSourceConnection_Test {
         DataSource.QueryContext context = new DataSource.QueryContext();
         // create the filter class and set the ColumnName
         DataSource.Filter filter = new DataSource.Filter();
-        filter.columnName = 'Customer_No';
+        filter.columnName = 'CustomerId';
         filter.columnValue = '002';
         filter.type = DataSource.FilterType.EQUALS;
         DataSource.Filter subFilter = new DataSource.Filter();
-        subFilter.columnName = 'Customer_No';
+        subFilter.columnName = 'CustomerId';
         subFilter.columnValue = '002';
         subFilter.type = DataSource.FilterType.EQUALS;
         filter.subfilters = new List<DataSource.Filter>{ subFilter };
@@ -226,11 +226,11 @@ public with sharing class B2CAddressBookDataSourceConnection_Test {
         DataSource.QueryContext context = new DataSource.QueryContext();
         // create the filter class and set the ColumnName
         DataSource.Filter filter = new DataSource.Filter();
-        filter.columnName = 'Customer_No';
+        filter.columnName = 'CustomerId';
         filter.columnValue = '001';
         filter.type = DataSource.FilterType.EQUALS;
         DataSource.Filter subFilter = new DataSource.Filter();
-        subFilter.columnName = 'Customer_No';
+        subFilter.columnName = 'CustomerId';
         subFilter.columnValue = '001';
         subFilter.type = DataSource.FilterType.EQUALS;
         filter.subfilters = new List<DataSource.Filter>{ subFilter };
