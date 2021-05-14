@@ -634,6 +634,14 @@ module.exports = {
                         "position": "before",
                         "target": "int_b2ccrmsync"
                     }
+                },
+
+                {
+                    "name": "skin_b2ccrmsync",
+                    "postBody": {
+                        "name": "skin_b2ccrmsync",
+                        "position": "first"
+                    }
                 }
 
             ]
