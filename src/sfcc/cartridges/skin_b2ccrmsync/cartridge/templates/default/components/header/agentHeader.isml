@@ -1,0 +1,37 @@
+<iscomment>Render the Service Agent header -- identifying the customer being assisted</iscomment>
+
+<isscript>
+
+  // Retrieve the agent header parameter from the collection of httpParameters
+  let agentHeaderParam = request.httpParameterMap.get('show-agentheader');
+
+  // Evaluate if b2c-crm-sync is enabled -- and if the agentHeader is enabled as well
+  let isSyncEnabled = Site.current.getCustomPreferenceValue('b2ccrm_syncIsEnabled');
+  let isAgentHeaderEnabled = Site.current.getCustomPreferenceValue('b2ccrm_syncAgentHeaderIsEnabled');
+
+</isscript>
+
+<iscomment>Evaluate if the agentHeader should be rendered for the current context</iscomment>
+<isif condition="${(agentHeaderParam.value != null || (isSyncEnabled == true && isAgentHeaderEnabled == true && session.userName != 'storefront' && session.userName != 'registered'))}">
+
+  <div class="bg-danger pt-1 pb-1">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <div class="content">
+
+            <iscomment>Render the Service Agent header -- identifying the customer being assisted</iscomment>
+            <isif condition="${session.userName != 'storefront' && session.customer.authenticated }">
+              <div class="text-white text-center"><strong>CustomerNo. ${session.customer.profile.customerNo} | ${session.customer.profile.firstName} ${session.customer.profile.lastName} (${session.customer.profile.credentials.login})</strong></div>
+              <iselse>
+                <div class="text-white text-center"><strong>Anonymous Shopping Session</strong></div>
+              </iselse>
+            </isif>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</isif>
