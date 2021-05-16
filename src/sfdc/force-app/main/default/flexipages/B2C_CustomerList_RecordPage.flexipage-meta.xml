@@ -27,6 +27,18 @@
                         <valueListItems>
                             <value>B2C_CustomerList__c.Update_Site_Counts</value>
                         </valueListItems>
+                        <valueListItems>
+                            <value>B2C_CustomerList__c.Reset_B2C_ClientID_Values</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>B2C_CustomerList__c.Apply_B2C_ClientID_Values</value>
+                            <visibilityRule>
+                                <criteria>
+                                    <leftValue>{!Record.B2C_Client_ID__c}</leftValue>
+                                    <operator>NE</operator>
+                                </criteria>
+                            </visibilityRule>
+                        </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>

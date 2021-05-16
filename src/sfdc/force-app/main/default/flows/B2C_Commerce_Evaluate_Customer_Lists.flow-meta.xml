@@ -3,9 +3,9 @@
     <apiVersion>51.0</apiVersion>
     <assignments>
         <name>copyNamedCredential</name>
-        <label>copyNamedCredential</label>
-        <locationX>1012</locationX>
-        <locationY>758</locationY>
+        <label>Copy the Named Credential</label>
+        <locationX>1203</locationX>
+        <locationY>912</locationY>
         <assignmentItems>
             <assignToReference>CurrentCustomerList_Loop.Named_Credential_Developer_Name__c</assignToReference>
             <operator>Assign</operator>
@@ -19,9 +19,9 @@
     </assignments>
     <assignments>
         <name>CopyValues_Assignment</name>
-        <label>CopyValues Assignment</label>
-        <locationX>1144</locationX>
-        <locationY>974</locationY>
+        <label>Copy Related Values</label>
+        <locationX>808</locationX>
+        <locationY>904</locationY>
         <assignmentItems>
             <assignToReference>CurrentCustomerList_Loop.API_Url__c</assignToReference>
             <operator>Assign</operator>
@@ -42,9 +42,9 @@
     </assignments>
     <assignments>
         <name>Create_Name_Credential_Assignment</name>
-        <label>Create Name Credential Assignment</label>
-        <locationX>792</locationX>
-        <locationY>1526</locationY>
+        <label>Assign the Named Credential</label>
+        <locationX>267</locationX>
+        <locationY>424</locationY>
         <assignmentItems>
             <assignToReference>EvalCustomerList_Loop.Named_Credential_Developer_Name__c</assignToReference>
             <operator>Assign</operator>
@@ -58,9 +58,9 @@
     </assignments>
     <assignments>
         <name>CreateRecord_Assignment</name>
-        <label>CreateRecord Assignment</label>
-        <locationX>792</locationX>
-        <locationY>1646</locationY>
+        <label>Add the CustomerList to the Create Collection</label>
+        <locationX>267</locationX>
+        <locationY>206</locationY>
         <assignmentItems>
             <assignToReference>CreateCustomerList</assignToReference>
             <operator>Add</operator>
@@ -74,9 +74,9 @@
     </assignments>
     <assignments>
         <name>recordFound_False_Assignment</name>
-        <label>recordFound False Assignment</label>
-        <locationX>924</locationX>
-        <locationY>278</locationY>
+        <label>Default the RecordFound Flag</label>
+        <locationX>808</locationX>
+        <locationY>208</locationY>
         <assignmentItems>
             <assignToReference>recordFound</assignToReference>
             <operator>Assign</operator>
@@ -90,9 +90,9 @@
     </assignments>
     <assignments>
         <name>UpdateRecord_Assignment</name>
-        <label>UpdateRecord Assignment</label>
-        <locationX>1144</locationX>
-        <locationY>1094</locationY>
+        <label>Add the CustomerList to the Update Collection</label>
+        <locationX>808</locationX>
+        <locationY>630</locationY>
         <assignmentItems>
             <assignToReference>UpdateCustomerList</assignToReference>
             <operator>Add</operator>
@@ -113,13 +113,13 @@
     </assignments>
     <decisions>
         <name>CurrentEval_Decision</name>
-        <label>CurrentEval Decision</label>
-        <locationX>1298</locationX>
-        <locationY>518</locationY>
+        <label>Compare CustomerList Properties</label>
+        <locationX>1192</locationX>
+        <locationY>423</locationY>
         <defaultConnector>
             <targetReference>CurrentCustomerList_Loop</targetReference>
         </defaultConnector>
-        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <defaultConnectorLabel>Do Not Match</defaultConnectorLabel>
         <rules>
             <name>OutcomeIs_EvalEqCurrent</name>
             <conditionLogic>and</conditionLogic>
@@ -140,19 +140,19 @@
             <connector>
                 <targetReference>existsNamedCredential</targetReference>
             </connector>
-            <label>OutcomeIs EvalEqCurrent</label>
+            <label>CustomerLists Match</label>
         </rules>
     </decisions>
     <decisions>
         <description>Check if record&apos;s Named_Credential_Developer_Name__c value is not blank.</description>
         <name>existsNamedCredential</name>
-        <label>existsNamedCredential</label>
-        <locationX>1144</locationX>
-        <locationY>638</locationY>
+        <label>Is the Named Credential Defined?</label>
+        <locationX>1195</locationX>
+        <locationY>665</locationY>
         <defaultConnector>
             <targetReference>CopyValues_Assignment</targetReference>
         </defaultConnector>
-        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <defaultConnectorLabel>Defined</defaultConnectorLabel>
         <rules>
             <name>populateNamedCredential</name>
             <conditionLogic>or</conditionLogic>
@@ -173,18 +173,18 @@
             <connector>
                 <targetReference>copyNamedCredential</targetReference>
             </connector>
-            <label>populateNamedCredential</label>
+            <label>Not Defined</label>
         </rules>
     </decisions>
     <decisions>
         <name>RecordNotFound_Decision</name>
-        <label>RecordNotFound Decision</label>
-        <locationX>924</locationX>
-        <locationY>1406</locationY>
+        <label>Was a Match / CustomerList Found?</label>
+        <locationX>528</locationX>
+        <locationY>425</locationY>
         <defaultConnector>
             <targetReference>EvalCustomerList_Loop</targetReference>
         </defaultConnector>
-        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <defaultConnectorLabel>Found</defaultConnectorLabel>
         <rules>
             <name>OutcomeIs_RecordNotFound</name>
             <conditionLogic>and</conditionLogic>
@@ -198,16 +198,17 @@
             <connector>
                 <targetReference>Create_Name_Credential_Assignment</targetReference>
             </connector>
-            <label>OutcomeIs RecordNotFound</label>
+            <label>Not Found</label>
         </rules>
     </decisions>
+    <description>... this flow is used to evaluate new CustomerLists against existing ones, and determine if lists should be created or updated.</description>
     <interviewLabel>B2C Commerce: Evaluate Customer Lists {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>B2C Commerce: Evaluate Customer Lists</label>
+    <label>B2C Commerce: CustomerLists: Evaluate</label>
     <loops>
         <name>CurrentCustomerList_Loop</name>
-        <label>CurrentCustomerList Loop</label>
-        <locationX>924</locationX>
-        <locationY>398</locationY>
+        <label>Loop Over the Collection of Current CustomerLists</label>
+        <locationX>808</locationX>
+        <locationY>424</locationY>
         <collectionReference>CurrentCustomerList</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -219,9 +220,9 @@
     </loops>
     <loops>
         <name>EvalCustomerList_Loop</name>
-        <label>EvalCustomerList Loop</label>
-        <locationX>176</locationX>
-        <locationY>158</locationY>
+        <label>Evaluate the Collection of CustomerLists</label>
+        <locationX>536</locationX>
+        <locationY>206</locationY>
         <collectionReference>EvalCustomerList</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -237,7 +238,7 @@
     <processMetadataValues>
         <name>CanvasMode</name>
         <value>
-            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
         </value>
     </processMetadataValues>
     <processMetadataValues>
@@ -248,8 +249,8 @@
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
     <start>
-        <locationX>50</locationX>
-        <locationY>0</locationY>
+        <locationX>410</locationX>
+        <locationY>48</locationY>
         <connector>
             <targetReference>EvalCustomerList_Loop</targetReference>
         </connector>

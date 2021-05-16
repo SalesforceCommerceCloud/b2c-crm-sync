@@ -4,7 +4,6 @@
  *
  * @description This class helps identify relevant duplicates for a contact which can be used to decide how to process updates or inserts
 */
-
 public inherited sharing class B2CIACustomerResolution {
 
     /**

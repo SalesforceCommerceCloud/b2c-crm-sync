@@ -46,7 +46,7 @@
     </decisions>
     <description>... this flow is used to activate the CustomerLists associated to a given B2C Instance.</description>
     <interviewLabel>B2C Commerce: Quick Action: Activate CustomerLists {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>B2C Commerce: Quick Action: Activate CustomerLists</label>
+    <label>B2C Commerce: Quick Action: B2C Instance: CustomerLists: Activate</label>
     <loops>
         <description>... iterate over the collection of updated customerLists and explain which have been activated.</description>
         <name>loop_provideB2CCustomerListStatus</name>
