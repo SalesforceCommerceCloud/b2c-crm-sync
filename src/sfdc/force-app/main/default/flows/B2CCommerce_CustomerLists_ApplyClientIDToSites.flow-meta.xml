@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>51.0</apiVersion>
+    <assignments>
+        <description>... assign the current loop / iterative property value to a local variable.</description>
+        <name>asn_b2cCustomerListValue</name>
+        <label>Shorthand the B2C CustomerList</label>
+        <locationX>1318</locationX>
+        <locationY>669</locationY>
+        <assignmentItems>
+            <assignToReference>thisCustomerList</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>loop_b2cCustomerLists</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>dec_wasClientIDSpecified</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>... assign the parent customerLists&apos; ClientID to each qualifying child site.</description>
+        <name>asn_B2CSiteClientIDFromCustomerList</name>
+        <label>Assign the CustomerList&apos;s ClientID</label>
+        <locationX>50</locationX>
+        <locationY>684</locationY>
+        <assignmentItems>
+            <assignToReference>thisSite.B2C_Client_ID__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>thisCustomerList.B2C_Client_ID__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>asn_B2CSiteToOutputCollection</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>... assigns the current Site to the collection used to process bulk updates.</description>
+        <name>asn_B2CSiteToOutputCollection</name>
+        <label>Assign the Site to the Output Collection</label>
+        <locationX>50</locationX>
+        <locationY>1088</locationY>
+        <assignmentItems>
+            <assignToReference>var_b2cSitesToUpdate</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>thisSite</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>loop_b2cSites</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>... assign the current loop / iterative property value to a local variable.</description>
+        <name>asn_b2cSiteValue</name>
+        <label>Shorthand the B2C Site</label>
+        <locationX>294</locationX>
+        <locationY>893</locationY>
+        <assignmentItems>
+            <assignToReference>thisSite</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>loop_b2cSites</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>dec_isB2CSiteClientIDDefined</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <description>... evaluates if the B2C CustomerList / ClientID propagation has been enabled.</description>
+        <name>dec_isB2CClientIDPropagationEnabled</name>
+        <label>Is ClientID Propagation Enabled?</label>
+        <locationX>1021</locationX>
+        <locationY>412</locationY>
+        <defaultConnectorLabel>Is Not Enabled</defaultConnectorLabel>
+        <rules>
+            <name>decOut_isEnabled</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>recGet_configurationProfile.Apply_B2CCustomerList_ClientIDToSites__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>loop_b2cCustomerLists</targetReference>
+            </connector>
+            <label>Is Enabled</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>... evaluate if the ClientID for a given site is not defined; if not -- we&apos;ll update it.</description>
+        <name>dec_isB2CSiteClientIDDefined</name>
+        <label>Is the ClientID Not Defined</label>
+        <locationX>286</locationX>
+        <locationY>686</locationY>
+        <defaultConnector>
+            <targetReference>loop_b2cSites</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Defined</defaultConnectorLabel>
+        <rules>
+            <name>dec_isB2CSiteClientIDNotDefined</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>thisSite.B2C_Client_ID__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>asn_B2CSiteClientIDFromCustomerList</targetReference>
+            </connector>
+            <label>Not Defined</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>... avaluate if we need to process B2C Commerce Site Updates</description>
+        <name>dec_processB2CSiteUpdates</name>
+        <label>Do Site Updates Need to be Processed?</label>
+        <locationX>688</locationX>
+        <locationY>678</locationY>
+        <defaultConnectorLabel>Do Not Process</defaultConnectorLabel>
+        <rules>
+            <name>Process_Updates</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>var_b2cSitesToUpdate</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>recUpd_b2cSitesToUpdate</targetReference>
+            </connector>
+            <label>Process Updates</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>... evaluates if a ClientID value was specified on the B2C CustomerList.</description>
+        <name>dec_wasClientIDSpecified</name>
+        <label>Was a Client ID Specified?</label>
+        <locationX>1310</locationX>
+        <locationY>860</locationY>
+        <defaultConnector>
+            <targetReference>loop_b2cCustomerLists</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Specified</defaultConnectorLabel>
+        <rules>
+            <name>decOut_clientIDWasSpecified</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>thisCustomerList.B2C_Client_ID__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>recGet_b2cSites</targetReference>
+            </connector>
+            <label>Was Specified</label>
+        </rules>
+    </decisions>
+    <description>... this flow to is used to iterate over a collection of B2C CustomerLists -- and evaluate if the B2C CustomerList should be applied to the collection of layouts.</description>
+    <interviewLabel>B2C Commerce: CustomerLists: Apply ClientID to Sites {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>B2C Commerce: CustomerLists: Apply ClientID to Sites (1)</label>
+    <loops>
+        <description>... iterate over the collection of B2C CustomerLists passed into this flow.</description>
+        <name>loop_b2cCustomerLists</name>
+        <label>Loop Over the CustomerLists</label>
+        <locationX>1029</locationX>
+        <locationY>679</locationY>
+        <collectionReference>B2CCustomerLists</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>asn_b2cCustomerListValue</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>dec_processB2CSiteUpdates</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <description>... iterate over the collection of sites and process updates to each one.</description>
+        <name>loop_b2cSites</name>
+        <label>Loop Over the Collection of Sites</label>
+        <locationX>596</locationX>
+        <locationY>1080</locationY>
+        <collectionReference>recGet_b2cSites</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>asn_b2cSiteValue</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>loop_b2cCustomerLists</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <description>... retrieve the collection of sites that are associated to the B2C CustomerList.</description>
+        <name>recGet_b2cSites</name>
+        <label>Retrieve the CustomerList&apos;s Sites</label>
+        <locationX>1318</locationX>
+        <locationY>1088</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>loop_b2cSites</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Customer_List__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>thisCustomerList.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>B2C_Site__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>... retrieve the configuration profile being leveraged as the defaultConfiguration.</description>
+        <name>recGet_configurationProfile</name>
+        <label>Get the Configuration Profil</label>
+        <locationX>1223</locationX>
+        <locationY>240</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>dec_isB2CClientIDPropagationEnabled</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recGet_defaultConfiguration.Active_Configuration__c</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>B2C_CRMSync_Setting__mdt</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>... retrieve the default configuration for the application.</description>
+        <name>recGet_defaultConfiguration</name>
+        <label>Get Default Configuration</label>
+        <locationX>1025</locationX>
+        <locationY>240</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>recGet_configurationProfile</targetReference>
+        </connector>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>B2C_CRM_Sync_Default_Configuration__mdt</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordUpdates>
+        <description>... update and process changes to each B2C Site record.</description>
+        <name>recUpd_b2cSitesToUpdate</name>
+        <label>Update the Site Records</label>
+        <locationX>696</locationX>
+        <locationY>461</locationY>
+        <inputReference>var_b2cSitesToUpdate</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>899</locationX>
+        <locationY>50</locationY>
+        <connector>
+            <targetReference>recGet_defaultConfiguration</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <variables>
+        <description>... represents the collection of customerLists to evaluate.</description>
+        <name>B2CCustomerLists</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+        <objectType>B2C_CustomerList__c</objectType>
+    </variables>
+    <variables>
+        <description>... represents the current B2C CustomerList being evaluated.</description>
+        <name>thisCustomerList</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>B2C_CustomerList__c</objectType>
+    </variables>
+    <variables>
+        <description>... represents the current site being iterated over.</description>
+        <name>thisSite</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>B2C_Site__c</objectType>
+    </variables>
+    <variables>
+        <description>... represents the collection of B2C Sites based on changes made to each site record.</description>
+        <name>var_b2cSitesToUpdate</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>B2C_Site__c</objectType>
+    </variables>
+</Flow>
