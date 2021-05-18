@@ -70,7 +70,7 @@ public with sharing class B2CIAProcessCustomerProfile extends B2CBaseAttributeAs
                 thisCustomerProfile.put('Last_Platform_Event_Applied_Updates__c', true);
 
                 // Increment the count of updates applied to the specified contact
-                totalContactUpdates = Integer.valueOf(thisCustomerProfile.get('Total_Updates_From_B2C_Commerce__c')) + 1;
+                totalContactUpdates = thisCustomerProfile.get('Total_Updates_From_B2C_Commerce__c') == null ? 1 : Integer.valueOf(thisCustomerProfile.get('Total_Updates_From_B2C_Commerce__c')) + 1;
 
                 // Increase the total updates and flag that this record was updated via a B2C Platform Event
                 thisCustomerProfile.put('Total_Updates_From_B2C_Commerce__c', totalContactUpdates);
