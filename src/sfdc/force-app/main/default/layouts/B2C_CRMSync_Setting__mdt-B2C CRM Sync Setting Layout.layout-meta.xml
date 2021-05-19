@@ -33,6 +33,10 @@
                 <behavior>Required</behavior>
                 <field>Account_Record_Type_Developername__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Required</behavior>
+                <field>OOBO_Customer_Number__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

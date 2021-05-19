@@ -577,7 +577,14 @@ module.exports = {
             head: ["Salesforce Platform Authentication Token"],
             colWidths: [119],
             colAligns: ["left"]
-        }
+        },
+
+        // Define the structure for environment errors
+        "customerDetails": {
+            head: ["Customer Attribute", "Registration Value"],
+            colWidths: [25, 93],
+            colAligns: ["right", "left"]
+        },
 
     },
 
@@ -595,6 +602,26 @@ module.exports = {
 
         // Define the OCAPI version number to use
         "ocapiVersion": "v20_10",
+
+        // Define the customer footprint for the OOBO Customer record; this record is used
+        // to authenticate an anonymous Agent session for a Service Agent
+        "ooboCustomer": {
+
+            // Default the customerNo used for the OOBO user
+            "customerNo": "9999999",
+
+            // Default the email domain from which to generate email / usernames
+            "emailDomain": "crmsync.salesforce.com",
+
+            // Default the profile to render / process
+            "profile": {
+                "customer": {
+                    "first_name":"Anonymous",
+                    "last_name":"OOBO Customer"
+                }
+            }
+
+        },
 
         // Define the baseUrls for account manager
         "accountManager": {

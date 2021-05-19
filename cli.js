@@ -98,6 +98,9 @@ program = cliInterface.b2cSitesCartridgesAdd(program);
 // Attach the command used to generate the services metadata file based on the template
 program = cliInterface.b2cServicesCreate(program);
 
+// Attach the command used to retrieve or create the OOBO Customer used for anonymous authentication
+program = cliInterface.b2cOOBOCustomerCreate(program);
+
 // Attach the command used to generate the meta-data, deploy the meta-data and deploy the code to the B2C Commerce instance
 program = cliInterface.b2cBuild(program);
 
