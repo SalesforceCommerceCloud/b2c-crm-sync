@@ -602,17 +602,34 @@ Please note that the code-version specified in the .env file must be valid in or
 
 > The 'base' scratchOrg profile supports Accounts and Contacts.  The 'personaccounts' scratchOrg profile supports PersonAccounts.  If any other value is provided, the 'base' profile will be defaulted.
 
-7. Specify your default dev hub username by executing the following CLI command, this should be the username of the Environment Hub enabled Org that will host your scratchOrg ([Enable Dev Hub Features in Your Org](https://help.salesforce.com/articleView?id=sf.sfdx_setup_enable_devhub.htm&type=5))
+### Verify Salesforce DevHub Access
+
+7. List your supported Salesforce DevHubs, scratchOrgs, and their connected status.  You can use this command to verify that your DevHub is available.
+
+```bash
+sfdx force:org:list --all
+```
+> Please refer to [Salesforce DX Usernames and Orgs](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_cli_usernames_orgs.htm), the [SFDX Org command-set](https://developer.salesforce.com/docs/atlas.en-us.sfdx_cli_reference.meta/sfdx_cli_reference/cli_reference_force_org.htm), and the [Salesforce Platform DevHub Trail](https://trailhead.salesforce.com/content/learn/modules/sfdx_app_dev) for resources on how to manage scratchOrgs.
+
+8. Specify your default DevHub username by executing the following CLI command.  The devHubOrg-username this represent the DevHub that will host your scratchOrg.  Please see [Enable Dev Hub Features in Your Org](https://help.salesforce.com/articleView?id=sf.sfdx_setup_enable_devhub.htm&type=5) for details on how to setup a DevHub environment.
 
 ```bash
 sfdx config:set defaultdevhubusername=[devHubOrg-username]
 ```
 
-8. Authenticate with your Environment Hub Org using:
+> If you experience the error **ERROR running config:set: No AuthInfo found for name [dev hub username]**, please authenticate against the selected DevHub using the [web:login SFDX command](https://developer.salesforce.com/docs/atlas.en-us.sfdx_cli_reference.meta/sfdx_cli_reference/cli_reference_auth_web.htm).
+
+Authenticate against your Salesforce DevHub by executing the following CLI command:
 
 ```bash
 sfdx auth:web:login
 ```
+
+The [web:login command](https://developer.salesforce.com/docs/atlas.en-us.sfdx_cli_reference.meta/sfdx_cli_reference/cli_reference_auth_web.htm) supports multiple arguments to enable authentication against registered orgs (via the `-d -a [DebHub]` alias) or authenticate against new orgs (via the `-r [login-url]` option).  
+
+> Once executed, this command should open the Salesforce org in your browser and allow you to authenticate against the specified org with valid credentials.  You should only need to execute this command when connecting to a new DevHub, and you can use the `sfdx config:set defaultdevhubusername=[devHubOrg-username]` to make this specific org your default DevHub.
+
+After you have successfully authenticated against your DevHub, you can move forward with generating a new ScratchOrg.
 
 ### Create a ScratchOrg and Deploy b2c-crm-sync
 
