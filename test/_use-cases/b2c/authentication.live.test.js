@@ -46,10 +46,7 @@ describe('Authenticating a B2C Customer Profile via the OCAPI Shop API', functio
         syncDisableOnLogin,
         syncEnabledSyncOnceDisabled,
         syncDisableCustomers,
-        sleepTimeout,
-        purgeSleepTimeout,
-        pauseSleepTimeout,
-        miniSleepTimeout;
+        sleepTimeout;
 
     // Attempt to register the B2C Commerce Customer
     // noinspection DuplicatedCode
@@ -63,9 +60,6 @@ describe('Authenticating a B2C Customer Profile via the OCAPI Shop API', functio
 
         // Default the sleepTimeout to enforce in unit-tests
         sleepTimeout = config.get('unitTests.testData.sleepTimeout');
-        purgeSleepTimeout = sleepTimeout / 2;
-        pauseSleepTimeout = purgeSleepTimeout / 2;
-        miniSleepTimeout = pauseSleepTimeout / 2;
 
         // Retrieve the site and customerList used to testing
         customerListId = config.get('unitTests.testData.b2cCustomerList').toString();
@@ -105,7 +99,7 @@ describe('Authenticating a B2C Customer Profile via the OCAPI Shop API', functio
             sfdcAuthCredentials = initResults.multiCloudInitResults.sfdcAuthCredentials;
 
             // Attempt to remove any stray and domain-specific customer records from B2C Commerce and the Salesforce Platform
-            await useCaseProcesses.b2cCRMSyncCustomersPurgeManager(disablePurge, purgeSleepTimeout, b2cAdminAuthToken, sfdcAuthCredentials);
+            await useCaseProcesses.b2cCRMSyncCustomersPurgeManager(disablePurge, sleepTimeout, b2cAdminAuthToken, sfdcAuthCredentials);
 
         } catch (e) {
 
@@ -120,7 +114,7 @@ describe('Authenticating a B2C Customer Profile via the OCAPI Shop API', functio
     beforeEach(async function () {
 
         // Attempt to remove any stray and domain-specific customer records from B2C Commerce and the Salesforce Platform
-        await useCaseProcesses.b2cCRMSyncCustomersPurgeManager(disablePurge, purgeSleepTimeout, b2cAdminAuthToken, sfdcAuthCredentials);
+        await useCaseProcesses.b2cCRMSyncCustomersPurgeManager(disablePurge, sleepTimeout, b2cAdminAuthToken, sfdcAuthCredentials);
 
     });
 
@@ -229,6 +223,9 @@ describe('Authenticating a B2C Customer Profile via the OCAPI Shop API', functio
         // First, ensure that b2c-crm-sync is disabled in the specified environment
         await useCaseProcesses.b2cCRMSyncConfigManager(environmentDef, b2cAdminAuthToken, siteId, syncDisableOCAPI);
 
+        // Implement a pause to allow the configuration to update
+        await useCaseProcesses.sleep(sleepTimeout);
+
         // Register the B2C Commerce customer profile using the current set of configuration properties
         output.b2cRegisterResults = await useCaseProcesses.b2cCustomerRegister(environmentDef, b2cAdminAuthToken, siteId, testProfile);
 
@@ -239,7 +236,7 @@ describe('Authenticating a B2C Customer Profile via the OCAPI Shop API', functio
         await useCaseProcesses.b2cCRMSyncConfigManager(environmentDef, b2cAdminAuthToken, siteId, syncEnabledSyncOnceDisabled);
 
         // Implement a pause to allow the configuration to update
-        await useCaseProcesses.sleep(miniSleepTimeout);
+        await useCaseProcesses.sleep(sleepTimeout);
 
         // Authenticate the B2C Commerce customer via OCAPI
         output.b2cAuthenticationResults = await shopAPIs.authAsRegistered(
@@ -464,7 +461,7 @@ describe('Authenticating a B2C Customer Profile via the OCAPI Shop API', functio
     afterEach(async function () {
 
         // Attempt to remove any stray and domain-specific customer records from B2C Commerce and the Salesforce Platform
-        await useCaseProcesses.b2cCRMSyncCustomersPurgeManager(disablePurge, purgeSleepTimeout, b2cAdminAuthToken, sfdcAuthCredentials);
+        await useCaseProcesses.b2cCRMSyncCustomersPurgeManager(disablePurge, sleepTimeout, b2cAdminAuthToken, sfdcAuthCredentials);
 
     });
 
@@ -509,7 +506,7 @@ async function _performB2CCommerceProfileUpdateAndRetrieveSFDCContact(environmen
     common.validateRegisteredUserPatchResults(output.b2cPatchResults);
 
     // Implement a pause to ensure the PlatformEvent fires
-    await useCaseProcesses.sleep(sleepTimeout / 4);
+    await useCaseProcesses.sleep(sleepTimeout);
 
     // Re-authenticate the B2C Commerce customer via OCAPI (to validate the update works)
     output.b2cFirstUpdateAuthenticationResults = await shopAPIs.authAsRegistered(

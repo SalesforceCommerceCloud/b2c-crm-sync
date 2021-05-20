@@ -19,6 +19,14 @@ const getSiteDetail = require('../../../../../lib/apis/ci/sites/_getDetail');
 
 describe('Retrieval of a Specific Site via the OCAPI Data API', function () {
 
+    // Establish a thirty-second time-out or multi-cloud unit tests
+    // noinspection JSAccessibilityCheck
+    this.timeout(config.get('unitTests.testData.describeTimeout'));
+
+    // Configure the total number of retries supported per test
+    // noinspection JSAccessibilityCheck
+    this.retries(config.get('unitTests.testData.testRetryCount'));
+
     // Clear out the nock interceptors before each test is executed
     beforeEach(function (done) { resetNocks(nock, done); });
 

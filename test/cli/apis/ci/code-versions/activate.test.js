@@ -18,6 +18,15 @@ const getCodeVersionPatchFailureNock = require('../../../../../lib/qa/nocks/b2c/
 const activateCodeVersion = require('../../../../../lib/apis/ci/code-versions/_activate');
 
 describe('Activating a specific Code Version via SFCC-CI', function () {
+
+    // Establish a thirty-second time-out or multi-cloud unit tests
+    // noinspection JSAccessibilityCheck
+    this.timeout(config.get('unitTests.testData.describeTimeout'));
+
+    // Configure the total number of retries supported per test
+    // noinspection JSAccessibilityCheck
+    this.retries(config.get('unitTests.testData.testRetryCount'));
+
     // Clear out the nock interceptors before each test is executed
     beforeEach(function (done) { resetNocks(nock, done); });
 
