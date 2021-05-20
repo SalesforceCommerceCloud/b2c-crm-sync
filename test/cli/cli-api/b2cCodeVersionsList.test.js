@@ -10,7 +10,7 @@ const assert = require('chai').assert;
 const resetNocks = require('../../../lib/qa/nocks/_resetNocks');
 
 // Initialize local test dependencies
-const b2cCodeVersionsList = require('../../../lib/cli-api/_b2cCOdeVersionsList');
+const b2cCodeVersionsList = require('../../../lib/cli-api/_b2cCodeVersionsList');
 const getRuntimeEnvironment = require('../../../lib/cli-api/_getRuntimeEnvironment');
 const CommandObjMock = require('../../../lib/qa/util/_commandObjMock');
 

@@ -20,6 +20,15 @@ const codeVersionPut = require('../../../../../../lib/apis/sfcc/ocapi/data/_code
 const requestLib = require('../../../../../../lib/_common/request');
 
 describe('Creating a B2C Commerce Code Version via the OCAPI Data API', function () {
+
+    // Establish a thirty-second time-out or multi-cloud unit tests
+    // noinspection JSAccessibilityCheck
+    this.timeout(config.get('unitTests.testData.describeTimeout'));
+
+    // Configure the total number of retries supported per test
+    // noinspection JSAccessibilityCheck
+    this.retries(config.get('unitTests.testData.testRetryCount'));
+
     // Clear out the nock interceptors before each test is executed
     beforeEach(function (done) { resetNocks(nock, done); });
 

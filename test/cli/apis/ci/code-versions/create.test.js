@@ -19,8 +19,22 @@ const getInternalServerErrorNock = require('../../../../../lib/qa/nocks/b2c/ocap
 const createCodeVersion = require('../../../../../lib/apis/ci/code-versions/_create');
 
 describe('Creating a Specific Code Version via the CLI', function () {
+
+    // Establish a thirty-second time-out or multi-cloud unit tests
+    // noinspection JSAccessibilityCheck
+    this.timeout(config.get('unitTests.testData.describeTimeout'));
+
+    // Configure the total number of retries supported per test
+    // noinspection JSAccessibilityCheck
+    this.retries(config.get('unitTests.testData.testRetryCount'));
+
     // Clear out the nock interceptors before each test is executed
-    beforeEach(function (done) { resetNocks(nock, done); });
+    beforeEach(function (done) {
+
+        // Reset the nocks
+        resetNocks(nock, done);
+
+    });
 
     it('returns true if the code-version was created', function (done) {
         // Initialize local variables
@@ -39,7 +53,7 @@ describe('Creating a Specific Code Version via the CLI', function () {
         codeVersionSuccessNock = getCodeVersionPutSuccessNock(environmentDef, 'put');
 
         // Attempt to invoke the mock request and evaluate the result
-        createCodeVersion(environmentDef, authToken, undefined)
+        createCodeVersion(environmentDef, authToken)
             .then(codeVersionResult => {
                 // Assert that the results are returned as a boolean value
                 assert.isBoolean(codeVersionResult, 'the verification result should be returned as a boolean');
@@ -67,7 +81,7 @@ describe('Creating a Specific Code Version via the CLI', function () {
         codeVersionFailureNock = getCodeVersionPutFailureNock(environmentDef, 'put');
 
         // Attempt to invoke the mock request and evaluate the result
-        createCodeVersion(environmentDef, authToken, undefined)
+        createCodeVersion(environmentDef, authToken)
             .then(codeVersionResult => {
                 // Assert that the results are returned as a boolean value
                 assert.isBoolean(codeVersionResult, 'the verification result should be returned as a boolean');
@@ -95,7 +109,7 @@ describe('Creating a Specific Code Version via the CLI', function () {
         codeVersionFailureNock = getInternalServerErrorNock(environmentDef, 'put');
 
         // Attempt to invoke the mock request and evaluate the result
-        createCodeVersion(environmentDef, authToken, undefined)
+        createCodeVersion(environmentDef, authToken)
             .catch(e => assert.isNotNull(e, 'expected an error to be thrown'))
             .finally(() => done());
     });
