@@ -54,7 +54,7 @@
     </assignments>
     <description>... this flow calculates the total siteCount and customerListCount for a given parent B2C CustomerList and its parent B2C Instance when updates are made to child customerLists.</description>
     <interviewLabel>B2C Commerce: Trigger: Update B2C Instance Totals: CustomerLists {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>B2C Commerce: Trigger: Update B2C Instance Totals: CustomerLists</label>
+    <label>B2C Commerce: Trigger: B2C CustomerList: Update Instance Counts</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -92,6 +92,13 @@
                 <elementReference>$Record.Id</elementReference>
             </value>
         </filters>
+        <filters>
+            <field>IsDeleted</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
         <getFirstRecordOnly>false</getFirstRecordOnly>
         <object>B2C_Site__c</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
@@ -112,6 +119,13 @@
             <operator>EqualTo</operator>
             <value>
                 <elementReference>$Record.B2C_Instance__c</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>IsDeleted</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>false</booleanValue>
             </value>
         </filters>
         <getFirstRecordOnly>false</getFirstRecordOnly>
@@ -135,6 +149,13 @@
             <operator>EqualTo</operator>
             <value>
                 <elementReference>$Record.B2C_Instance__c</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>IsDeleted</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>false</booleanValue>
             </value>
         </filters>
         <getFirstRecordOnly>false</getFirstRecordOnly>

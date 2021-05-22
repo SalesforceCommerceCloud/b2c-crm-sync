@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Enable_B2C_Update_Counts_Trigger__c</fullName>
+    <defaultValue>true</defaultValue>
+    <description>... managed whether the B2C Update Counts trigger is enabled and used to calculate site and customerList counts.</description>
+    <externalId>false</externalId>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <inlineHelpText>... managed whether the B2C Update Counts trigger is enabled and used to calculate site and customerList counts.</inlineHelpText>
+    <label>Enable B2C Update Counts Trigger</label>
+    <type>Checkbox</type>
+</CustomField>
