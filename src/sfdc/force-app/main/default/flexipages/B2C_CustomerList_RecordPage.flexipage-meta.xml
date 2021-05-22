@@ -25,10 +25,10 @@
                             <value>B2C_CustomerList__c.Deactivate_B2C_CustomerList</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>B2C_CustomerList__c.Update_Site_Counts</value>
+                            <value>B2C_CustomerList__c.Activate_B2C_Sites</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>B2C_CustomerList__c.Reset_B2C_ClientID_Values</value>
+                            <value>B2C_CustomerList__c.Deactivate_B2C_Sites</value>
                         </valueListItems>
                         <valueListItems>
                             <value>B2C_CustomerList__c.Apply_B2C_ClientID_Values</value>
@@ -38,6 +38,24 @@
                                     <operator>NE</operator>
                                 </criteria>
                             </visibilityRule>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>B2C_CustomerList__c.Reset_B2C_ClientID_Values</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>B2C_CustomerList__c.Apply_Named_Credential_to_Sites</value>
+                            <visibilityRule>
+                                <criteria>
+                                    <leftValue>{!Record.Named_Credential_Developer_Name__c}</leftValue>
+                                    <operator>NE</operator>
+                                </criteria>
+                            </visibilityRule>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>B2C_CustomerList__c.Reset_Named_Credential_Site_Values</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>B2C_CustomerList__c.Update_Site_Counts</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>

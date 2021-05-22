@@ -2,7 +2,7 @@
 <QuickAction xmlns="http://soap.sforce.com/2006/04/metadata">
     <description>... resets the B2C ClientID values for the selected CustomerList and child Sites.</description>
     <flowDefinition>B2CCommerce_QuickAction_CustomerListResetClientIDs</flowDefinition>
-    <label>Reset B2C ClientID Values</label>
+    <label>Reset B2C ClientID Site Values</label>
     <optionsCreateFeedItem>false</optionsCreateFeedItem>
     <type>Flow</type>
 </QuickAction>

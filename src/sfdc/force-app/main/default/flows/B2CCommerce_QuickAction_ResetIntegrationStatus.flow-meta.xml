@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>51.0</apiVersion>
-    <description>... this flow resets the integration status for a Contac to support REST API interactions with B2C Commerce.</description>
+    <description>... this flow resets the integration status for a Contact to support REST API interactions with B2C Commerce.</description>
     <interviewLabel>B2C Commerce: Quick Action: Reset Integration Status {!$Flow.CurrentDateTime}</interviewLabel>
     <label>B2C Commerce: Quick Action: Integration Status Enable</label>
     <processMetadataValues>
