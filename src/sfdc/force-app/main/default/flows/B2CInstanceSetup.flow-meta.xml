@@ -5,7 +5,7 @@
         <name>ia_getCustomerListsAndSites</name>
         <label>Get B2C Instance CustomerLists and Sites</label>
         <locationX>787</locationX>
-        <locationY>1098</locationY>
+        <locationY>1286</locationY>
         <actionName>B2CIAGetCustomerListsSites</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -36,7 +36,7 @@
         <name>AddCustomerList_Assignment</name>
         <label>AddCustomerList Assignment</label>
         <locationX>1073</locationX>
-        <locationY>1699</locationY>
+        <locationY>1887</locationY>
         <assignmentItems>
             <assignToReference>EvalCustomerList</assignToReference>
             <operator>Assign</operator>
@@ -52,7 +52,7 @@
         <name>AddSiteList_Assignment</name>
         <label>AddSiteList Assignment</label>
         <locationX>1294</locationX>
-        <locationY>2141</locationY>
+        <locationY>2329</locationY>
         <assignmentItems>
             <assignToReference>EvalSiteList</assignToReference>
             <operator>Assign</operator>
@@ -69,7 +69,7 @@
         <name>asn_b2cInstanceMissingVersionNoNamedCredentials</name>
         <label>Set the Error Message</label>
         <locationX>234</locationX>
-        <locationY>662</locationY>
+        <locationY>850</locationY>
         <assignmentItems>
             <assignToReference>errorMessage</assignToReference>
             <operator>Add</operator>
@@ -83,7 +83,7 @@
         <name>asn_b2cInstanceNamedCredentailNotFound</name>
         <label>Assign the NamedCredential Error Message</label>
         <locationX>235</locationX>
-        <locationY>1094</locationY>
+        <locationY>1282</locationY>
         <assignmentItems>
             <assignToReference>errorMessage</assignToReference>
             <operator>Add</operator>
@@ -96,8 +96,8 @@
         <description>... assign the B2C Instance that was retrieved to the output variable.</description>
         <name>asn_b2CInstanceOutput</name>
         <label>Assign the B2C Instance to the Output Variable</label>
-        <locationX>736</locationX>
-        <locationY>254</locationY>
+        <locationX>524</locationX>
+        <locationY>407</locationY>
         <assignmentItems>
             <assignToReference>b2cInstance</assignToReference>
             <operator>Assign</operator>
@@ -114,12 +114,40 @@
         <name>asn_b2CInstanceOutput_Update</name>
         <label>Assign the B2C Instance to the Output Variable</label>
         <locationX>1297</locationX>
-        <locationY>2548</locationY>
+        <locationY>2736</locationY>
         <assignmentItems>
             <assignToReference>b2cInstance</assignToReference>
             <operator>Assign</operator>
             <value>
                 <elementReference>recGet_outB2CInstance</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>createdB2CSites</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>EvaluateSites_Subflow.CreateSiteList</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>updatedB2CSites</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>EvaluateSites_Subflow.UpdateSiteList</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>createdB2CCustomerLists</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>EvaluateCustomerLists_Subflow.CreateCustomerList</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>updatedB2CCustomerLists</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>EvaluateCustomerLists_Subflow.UpdateCustomerList</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -131,7 +159,7 @@
         <name>asn_b2cInstanceProcessingSuccess</name>
         <label>Set the Success Message</label>
         <locationX>1072</locationX>
-        <locationY>2548</locationY>
+        <locationY>2736</locationY>
         <assignmentItems>
             <assignToReference>success</assignToReference>
             <operator>Assign</operator>
@@ -145,7 +173,7 @@
         <name>asn_b2cInstanceUnableToRetrieveCustomerListsSites</name>
         <label>Set the CustomerList / Sites Retrieval Error Message</label>
         <locationX>475</locationX>
-        <locationY>1493</locationY>
+        <locationY>1681</locationY>
         <assignmentItems>
             <assignToReference>errorMessage</assignToReference>
             <operator>Add</operator>
@@ -166,7 +194,7 @@
         <name>asn_errorMessageB2CInstanceNotFound</name>
         <label>Set the Error Message</label>
         <locationX>238</locationX>
-        <locationY>426</locationY>
+        <locationY>614</locationY>
         <assignmentItems>
             <assignToReference>errorMessage</assignToReference>
             <operator>Add</operator>
@@ -180,7 +208,7 @@
         <name>dec_doesB2CInstanceHaveRequiredFields</name>
         <label>Does the B2C Instance Have Required Fields</label>
         <locationX>517</locationX>
-        <locationY>668</locationY>
+        <locationY>856</locationY>
         <defaultConnector>
             <targetReference>recGet_B2CInstanceNamedCredential</targetReference>
         </defaultConnector>
@@ -213,7 +241,7 @@
         <name>dec_doesB2CInstanceNamedCredentialExist</name>
         <label>Does the Associated Named Credential Exist?</label>
         <locationX>518</locationX>
-        <locationY>1097</locationY>
+        <locationY>1285</locationY>
         <defaultConnector>
             <targetReference>ia_getCustomerListsAndSites</targetReference>
         </defaultConnector>
@@ -239,7 +267,7 @@
         <name>dec_wasB2CInstanceFound</name>
         <label>Was a valid B2C Instance Retrieved?</label>
         <locationX>516</locationX>
-        <locationY>433</locationY>
+        <locationY>621</locationY>
         <defaultConnector>
             <targetReference>asn_errorMessageB2CInstanceNotFound</targetReference>
         </defaultConnector>
@@ -265,7 +293,7 @@
         <name>dec_wereCustomerListsSitesSuccessfullyRetrieved</name>
         <label>Were CustomerLists and Sites Successfully Retrieved?</label>
         <locationX>779</locationX>
-        <locationY>1498</locationY>
+        <locationY>1686</locationY>
         <defaultConnector>
             <targetReference>CurrentCustomerLists_GetRecords</targetReference>
         </defaultConnector>
@@ -312,7 +340,7 @@
         <name>CustomerList_CreateRecords</name>
         <label>CustomerList CreateRecords</label>
         <locationX>1298</locationX>
-        <locationY>1920</locationY>
+        <locationY>2108</locationY>
         <connector>
             <targetReference>CustomerList_UpdateRecords</targetReference>
         </connector>
@@ -322,7 +350,7 @@
         <name>Site_CreateRecords</name>
         <label>Site CreateRecords</label>
         <locationX>1074</locationX>
-        <locationY>2361</locationY>
+        <locationY>2549</locationY>
         <connector>
             <targetReference>Site_UpdateRecords</targetReference>
         </connector>
@@ -332,7 +360,7 @@
         <name>CurrentCustomerLists_GetRecords</name>
         <label>CurrentCustomerLists GetRecords</label>
         <locationX>1073</locationX>
-        <locationY>1496</locationY>
+        <locationY>1684</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>AddCustomerList_Assignment</targetReference>
@@ -342,7 +370,7 @@
             <field>B2C_Instance__c</field>
             <operator>EqualTo</operator>
             <value>
-                <elementReference>recordId</elementReference>
+                <elementReference>recGet_getB2CInstance.Id</elementReference>
             </value>
         </filters>
         <getFirstRecordOnly>false</getFirstRecordOnly>
@@ -354,7 +382,7 @@
         <name>recGet_B2CInstanceNamedCredential</name>
         <label>Retrieve the B2C Instance Named Credential</label>
         <locationX>526</locationX>
-        <locationY>903</locationY>
+        <locationY>1091</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>dec_doesB2CInstanceNamedCredentialExist</targetReference>
@@ -382,8 +410,8 @@
         <description>... retrieve the active B2C Instance used to invoke this flow.</description>
         <name>recGet_getB2CInstance</name>
         <label>Get the B2C Instance</label>
-        <locationX>526</locationX>
-        <locationY>246</locationY>
+        <locationX>524</locationX>
+        <locationY>221</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>asn_b2CInstanceOutput</targetReference>
@@ -412,7 +440,7 @@
         <name>recGet_outB2CInstance</name>
         <label>Get the Updated B2C Instance</label>
         <locationX>1492</locationX>
-        <locationY>2548</locationY>
+        <locationY>2736</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>asn_b2CInstanceOutput_Update</targetReference>
@@ -427,13 +455,25 @@
         </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
         <object>B2C_Instance__c</object>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>API_Url__c</queriedFields>
+        <queriedFields>Instance_Type__c</queriedFields>
+        <queriedFields>Instance_Description__c</queriedFields>
+        <queriedFields>Name</queriedFields>
+        <queriedFields>Is_Active__c</queriedFields>
+        <queriedFields>Total_CustomerLists__c</queriedFields>
+        <queriedFields>Total_Sites__c</queriedFields>
+        <queriedFields>OCAPI_Version_No__c</queriedFields>
+        <queriedFields>Named_Credential_Developer_Name__c</queriedFields>
+        <queriedFields>CreatedDate</queriedFields>
+        <queriedFields>LastModifiedDate</queriedFields>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
         <name>Site_GetRecords</name>
         <label>Site GetRecords</label>
         <locationX>1488</locationX>
-        <locationY>2141</locationY>
+        <locationY>2329</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>AddSiteList_Assignment</targetReference>
@@ -443,7 +483,7 @@
             <field>B2C_Instance_Id__c</field>
             <operator>EqualTo</operator>
             <value>
-                <elementReference>recordId</elementReference>
+                <elementReference>recGet_getB2CInstance.Id</elementReference>
             </value>
         </filters>
         <getFirstRecordOnly>false</getFirstRecordOnly>
@@ -454,7 +494,7 @@
         <name>CustomerList_UpdateRecords</name>
         <label>CustomerList UpdateRecords</label>
         <locationX>1488</locationX>
-        <locationY>1920</locationY>
+        <locationY>2108</locationY>
         <connector>
             <targetReference>Site_GetRecords</targetReference>
         </connector>
@@ -464,7 +504,7 @@
         <name>InstanceCounts_UpdateRecord</name>
         <label>InstanceCounts UpdateRecord</label>
         <locationX>1492</locationX>
-        <locationY>2361</locationY>
+        <locationY>2549</locationY>
         <connector>
             <targetReference>recGet_outB2CInstance</targetReference>
         </connector>
@@ -495,7 +535,7 @@
         <name>recUpd_B2CInstanceAuditRequest</name>
         <label>Audit the Request to the B2C Instance</label>
         <locationX>787</locationX>
-        <locationY>1300</locationY>
+        <locationY>1488</locationY>
         <connector>
             <targetReference>dec_wereCustomerListsSitesSuccessfullyRetrieved</targetReference>
         </connector>
@@ -543,7 +583,7 @@
         <name>Site_UpdateRecords</name>
         <label>Site UpdateRecords</label>
         <locationX>1295</locationX>
-        <locationY>2361</locationY>
+        <locationY>2549</locationY>
         <connector>
             <targetReference>InstanceCounts_UpdateRecord</targetReference>
         </connector>
@@ -551,7 +591,7 @@
     </recordUpdates>
     <runInMode>DefaultMode</runInMode>
     <start>
-        <locationX>400</locationX>
+        <locationX>398</locationX>
         <locationY>50</locationY>
         <connector>
             <targetReference>recGet_getB2CInstance</targetReference>
@@ -562,7 +602,7 @@
         <name>EvaluateCustomerLists_Subflow</name>
         <label>EvaluateCustomerLists Subflow</label>
         <locationX>1073</locationX>
-        <locationY>1920</locationY>
+        <locationY>2108</locationY>
         <connector>
             <targetReference>CustomerList_CreateRecords</targetReference>
         </connector>
@@ -585,7 +625,7 @@
         <name>EvaluateSites_Subflow</name>
         <label>EvaluateSites Subflow</label>
         <locationX>1074</locationX>
-        <locationY>2141</locationY>
+        <locationY>2329</locationY>
         <connector>
             <targetReference>Site_CreateRecords</targetReference>
         </connector>
@@ -618,6 +658,24 @@
         <isInput>false</isInput>
         <isOutput>true</isOutput>
         <objectType>B2C_Instance__c</objectType>
+    </variables>
+    <variables>
+        <description>... represents the collection of created B2C CustomerLists.</description>
+        <name>createdB2CCustomerLists</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+        <objectType>B2C_CustomerList__c</objectType>
+    </variables>
+    <variables>
+        <description>... represents the collection of created B2C storefronts.</description>
+        <name>createdB2CSites</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+        <objectType>B2C_Site__c</objectType>
     </variables>
     <variables>
         <description>... used to capture any error messages displayed back to the caller describing the processing outcome.</description>
@@ -671,6 +729,24 @@
         </value>
     </variables>
     <variables>
+        <description>... represents the collection of updated B2C CustomerLists.</description>
+        <name>updatedB2CCustomerLists</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+        <objectType>B2C_CustomerList__c</objectType>
+    </variables>
+    <variables>
+        <description>... represents the collection of updated B2C Sites.</description>
+        <name>updatedB2CSites</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+        <objectType>B2C_Site__c</objectType>
+    </variables>
+    <variables>
         <description>... represents the total number of customerLists associated to the B2C Instance that was processed.</description>
         <name>varB2CInstanceCustomerListRecordCount</name>
         <dataType>Number</dataType>
@@ -687,23 +763,5 @@
         <isInput>false</isInput>
         <isOutput>false</isOutput>
         <scale>0</scale>
-    </variables>
-    <variables>
-        <description>... represents the collection of processed B2C CustomerLists.</description>
-        <name>varProcessedB2CCustomerLists</name>
-        <dataType>SObject</dataType>
-        <isCollection>true</isCollection>
-        <isInput>false</isInput>
-        <isOutput>true</isOutput>
-        <objectType>B2C_CustomerList__c</objectType>
-    </variables>
-    <variables>
-        <description>... represents the collection of process B2C storefronts.</description>
-        <name>varProcessedB2CSites</name>
-        <dataType>SObject</dataType>
-        <isCollection>true</isCollection>
-        <isInput>false</isInput>
-        <isOutput>true</isOutput>
-        <objectType>B2C_Site__c</objectType>
     </variables>
 </Flow>
