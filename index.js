@@ -79,6 +79,9 @@ exports.sfB2CInstanceCreate = require('./lib/cli-api/_sfB2CInstanceCreate');
 // Expose the ability to update a B2C Instance seed-record using environment file definitions
 exports.sfB2CInstanceUpdate = require('./lib/cli-api/_sfB2CInstanceUpdate');
 
+// Expose the ability to create the B2C Instance child records
+exports.sfB2CInstanceSetup = require('./lib/cli-api/_sfB2CInstanceSetup');
+
 // Expose the ability to create scratchOrgs driven by the crm-sync repositories
 exports.sfScratchOrgCreate = require('./lib/cli-api/_sfScratchOrgCreate');
 

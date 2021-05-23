@@ -579,9 +579,16 @@ module.exports = {
             colAligns: ["left"]
         },
 
-        // Define the structure for environment errors
+        // Define the structure for the customerDetails display
         "customerDetails": {
             head: ["Customer Attribute", "Registration Value"],
+            colWidths: [25, 93],
+            colAligns: ["right", "left"]
+        },
+
+        // Define the structure for the b2cInstance setup
+        "b2cInstanceSetup": {
+            head: ["Setup Attribute", "Setup Results"],
             colWidths: [25, 93],
             colAligns: ["right", "left"]
         },
