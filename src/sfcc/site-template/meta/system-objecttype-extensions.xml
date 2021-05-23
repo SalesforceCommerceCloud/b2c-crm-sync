@@ -159,7 +159,6 @@
                 <attribute attribute-id="b2ccrm_syncCustomersOnLoginEnabled"/>
                 <attribute attribute-id="b2ccrm_syncCustomersOnLoginOnceEnabled"/>
                 <attribute attribute-id="b2ccrm_syncCustomersViaOCAPI"/>
-
             </attribute-group>
         </group-definitions>
     </type-extension>
