@@ -185,7 +185,10 @@ describe('Registering a new B2C Customer Profile via the OCAPI Shop API', functi
 
         // Implement a pause to allow the B2C Commerce environment to set
         await useCaseProcesses.sleep(sleepTimeout);
-        await useCaseProcesses.sleep(sleepTimeout);
+        if (!output.b2cRegisterResults.response.data.c_b2ccrm_contactId) {
+            await useCaseProcesses.sleep(sleepTimeout);
+            await useCaseProcesses.sleep(sleepTimeout);
+        }
 
         // Retrieve the SFDC Contact record that corresponds to the B2C Commerce customer record
         output.sfdcContactResults = await sObjectAPIs.retrieve(sfdcAuthCredentials.conn,
@@ -257,7 +260,10 @@ describe('Registering a new B2C Customer Profile via the OCAPI Shop API', functi
 
         // Implement a pause to ensure the PlatformEvent fires
         await useCaseProcesses.sleep(sleepTimeout);
-        await useCaseProcesses.sleep(sleepTimeout);
+        if (!output.b2cRegisterResults.response.data.c_b2ccrm_contactId) {
+            await useCaseProcesses.sleep(sleepTimeout);
+            await useCaseProcesses.sleep(sleepTimeout);
+        }
 
         // Retrieve the contact details from the SFDC environment
         output.sfdcContactResults = await sObjectAPIs.retrieve(sfdcAuthCredentials.conn,
