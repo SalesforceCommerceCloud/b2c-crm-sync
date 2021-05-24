@@ -288,7 +288,7 @@ describe('Progressive resolution B2C Commerce Customer creation scenarios via th
         await common.executeAndVerifyB2CProcessResult(environmentDef, sfdcAuthCredentials.conn.accessToken, refArchGlobalResolveBody);
 
         // Execute a separate query to retrieve the contact details searching by email
-        testResults = await contactAPIs.getByEmail(sfdcAuthCredentials.conn, testContact.Email, 10);
+        testResults = await contactAPIs.getByEmail(sfdcAuthCredentials.conn, testContact.Email, 10, false);
 
         // Validate that two separate contact records were retrieved
         assert.equal(testResults.length, 2, ' -- expected to find two Contact record associated to the test email address.');
@@ -327,7 +327,7 @@ describe('Progressive resolution B2C Commerce Customer creation scenarios via th
         await common.executeAndVerifyB2CProcessResult(environmentDef, sfdcAuthCredentials.conn.accessToken, resolveBody);
 
         // Execute a separate query to retrieve the contact details searching by email
-        testResults = await contactAPIs.getByEmail(sfdcAuthCredentials.conn, testContact.Email, 10);
+        testResults = await contactAPIs.getByEmail(sfdcAuthCredentials.conn, testContact.Email, 10, false);
 
         // Validate that two separate contact records were retrieved
         assert.equal(testResults.length, 3, ' -- expected to find three Contact record associated to the test email address.');
