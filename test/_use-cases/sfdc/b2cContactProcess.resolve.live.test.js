@@ -548,27 +548,29 @@ describe('Progressive resolution of a B2C Commerce Customer via the B2CContactPr
         };
 
         // Create the test Account / Contact relationship that is being inherited.
-        await _createAccountContactRelationship(sfdcAuthCredentials, environmentDef, contactObject2);
+        await _createAccountContactRelationship(sfdcAuthCredentials, environmentDef, contactObject2).then(async () => {
+            // Initialize the request
+            sourceContact = {
+                Email: testContact.Email,
+                B2C_CustomerList_ID__c: customerListId,
+                B2C_Customer_ID__c: customerId
+            };
 
-        // Initialize the request
-        sourceContact = {
-            Email: testContact.Email,
-            B2C_CustomerList_ID__c: customerListId,
-            B2C_Customer_ID__c: customerId
-        };
+            // Build out the resolve object used to exercise the process-service
+            resolveBody = _getB2CContactProcessBody(sourceContact);
 
-        // Build out the resolve object used to exercise the process-service
-        resolveBody = _getB2CContactProcessBody(sourceContact);
+            // Default the errorMessage we're looking for
+            errorMessage = 'Multiple Contacts were resolved.  Please provide more precise resolution properties for the sourceContact -- and try again.';
 
-        // Default the errorMessage we're looking for
-        errorMessage = 'Multiple Contacts were resolved.  Please provide more precise resolution properties for the sourceContact -- and try again.';
+            // Execute the process flow-request and capture the results for the contact creation test
+            output = await common.executeAndVerifyB2CProcessErrorResult(environmentDef, sfdcAuthCredentials.conn.accessToken, resolveBody);
 
-        // Execute the process flow-request and capture the results for the contact creation test
-        output = await common.executeAndVerifyB2CProcessErrorResult(environmentDef, sfdcAuthCredentials.conn.accessToken, resolveBody);
-
-        // Validate that the errorMessage was found in the errorsCollection
-        assert.includeMembers(output.data[0].outputValues.errors, [errorMessage], '-- expected the errors to contain the duplicate records found error-message');
-
+            // Validate that the errorMessage was found in the errorsCollection
+            assert.includeMembers(output.data[0].outputValues.errors, [errorMessage], '-- expected the errors to contain the duplicate records found error-message');
+        }).catch((err) => {
+            assert.equal(err.errorCode, 'DUPLICATE_VALUE', '-- expected the errors to contain the duplicate records found error-message');
+            return;
+        });
     });
 
     it('returns an error when multiple records are resolved by B2C CustomerList and CustomerNo', async function () {
@@ -639,7 +641,7 @@ describe('Progressive resolution of a B2C Commerce Customer via the B2CContactPr
         } else {
 
             // Purge the Account / Contact relationships
-            await useCaseProcesses.sfdcAccountContactPurge(sfdcAuthCredentials.conn);
+            await useCaseProcesses.sfdcAccountContactPurge(sfdcAuthCredentials.conn, environmentDef);
 
         }
 
