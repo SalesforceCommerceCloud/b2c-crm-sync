@@ -84,7 +84,7 @@ module.exports = async (b2cAdminAuthToken, sfdcConnection) => {
     }
 
     // Purge the Account / Contact relationships
-    output.sfdcPurgeResults = await sfdcAccountContactPurge(sfdcConnection, environmentDef);
+    output.sfdcPurgeResults = await sfdcAccountContactPurge(sfdcConnection);
 
     // Implement a pause before exiting
     await sleep(config.get('unitTests.testData.sleepTimeout'));

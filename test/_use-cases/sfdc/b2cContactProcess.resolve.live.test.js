@@ -641,7 +641,7 @@ describe('Progressive resolution of a B2C Commerce Customer via the B2CContactPr
         } else {
 
             // Purge the Account / Contact relationships
-            await useCaseProcesses.sfdcAccountContactPurge(sfdcAuthCredentials.conn, environmentDef);
+            await useCaseProcesses.sfdcAccountContactPurge(sfdcAuthCredentials.conn);
 
         }
 

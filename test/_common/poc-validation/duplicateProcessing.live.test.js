@@ -58,7 +58,7 @@ describe('Duplicate Contact record processing via Salesforce Platform REST APIs'
                 environmentDef.sfSecurityToken);
 
             // Purge the Account / Contact contacts using the test user profile
-            await sfdcAccountContactPurge(sfdcAuthCredentials.conn, environmentDef);
+            await sfdcAccountContactPurge(sfdcAuthCredentials.conn);
 
         } catch (e) {
 
@@ -244,7 +244,7 @@ describe('Duplicate Contact record processing via Salesforce Platform REST APIs'
     afterEach(async function () {
 
         // Purge the Account / Contact contacts
-        //await sfdcAccountContactPurge(sfdcAuthCredentials.conn, environmentDef);
+        await sfdcAccountContactPurge(sfdcAuthCredentials.conn);
 
     });
 
