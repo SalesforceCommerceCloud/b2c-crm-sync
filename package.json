@@ -1,6 +1,6 @@
 {
   "name": "b2c-crm-sync",
-  "version": "0.7.5.1",
+  "version": "0.7.8",
   "description": "Enablement solution teaching the Salesforce Architect Success B2C Customer Data Strategy -- facilitating the progressive resolution of B2C Customer Profiles between B2C Commerce and the Salesforce Platform.",
   "main": "cli.js",
   "engines": {
@@ -46,7 +46,9 @@
     "crm-sync:b2c:data:zip": "node cli.js crm-sync:b2c:data:zip",
     "crm-sync:b2c:code:deploy": "node cli.js crm-sync:b2c:code:deploy",
     "crm-sync:b2c:data:deploy": "node cli.js crm-sync:b2c:data:deploy",
-    "crm-sync:b2c:oobo:customer:create": "node cli.js crm-sync:b2c:oobo:customer:create",
+    "crm-sync:b2c:oobo:customers:create": "node cli.js crm-sync:b2c:oobo:customers:create",
+    "crm-sync:b2c:oobo:customers:delete": "node cli.js crm-sync:b2c:oobo:customers:delete",
+    "crm-sync:b2c:oobo:customers:verify": "node cli.js crm-sync:b2c:oobo:customers:verify",
     "crm-sync:b2c:build": "node cli.js crm-sync:b2c:build",
     "crm-sync:help": "node cli.js --help",
     "crm-sync:test": "mocha \"test/**/*.test.js\"",

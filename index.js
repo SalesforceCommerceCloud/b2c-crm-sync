@@ -19,8 +19,9 @@ exports.b2cCodeVersionActivate = require('./lib/cli-api/_b2cCodeVersionActivate'
 exports.b2cCodeVersionToggle = require('./lib/cli-api/_b2cCodeVersionToggle');
 
 // Expose the ability to create the B2C Commerce OOBO Customer profiles
-exports.b2cOOBOCustomerCreate = require('./lib/cli-api/_b2cOOBOCustomerCreate');
-exports.b2cOOBOCustomerDeploy = require('./lib/cli-api/_b2cOOBOCustomersDeploy');
+exports.b2cOOBOCustomersCreate = require('./lib/cli-api/_b2cOOBOCustomersCreate');
+exports.b2cOOBOCustomersVerify = require('./lib/cli-api/_b2cOOBOCustomersVerify');
+exports.b2cOOBOCustomerDelete = require('./lib/cli-api/_b2cOOBOCustomerDelete');
 
 // Expose the ability to verify site and code-versions exist
 exports.b2cVerify = require('./lib/cli-api/_b2cVerify');
