@@ -1,7 +1,7 @@
 module.exports = {
 
     // Describes the current versionNo of the service-cloud-connector
-    "versionNo": "0.7.7",
+    "versionNo": "0.7.8",
 
     // Manages debug mode for the CLI application
     "debugMode": true,
@@ -577,21 +577,7 @@ module.exports = {
             head: ["Salesforce Platform Authentication Token"],
             colWidths: [119],
             colAligns: ["left"]
-        },
-
-        // Define the structure for the customerDetails display
-        "customerDetails": {
-            head: ["Customer Attribute", "Registration Value"],
-            colWidths: [25, 93],
-            colAligns: ["right", "left"]
-        },
-
-        // Define the structure for the b2cInstance setup
-        "b2cInstanceSetup": {
-            head: ["Setup Attribute", "Setup Results"],
-            colWidths: [25, 93],
-            colAligns: ["right", "left"]
-        },
+        }
 
     },
 
@@ -609,26 +595,6 @@ module.exports = {
 
         // Define the OCAPI version number to use
         "ocapiVersion": "v20_10",
-
-        // Define the customer footprint for the OOBO Customer record; this record is used
-        // to authenticate an anonymous Agent session for a Service Agent
-        "ooboCustomer": {
-
-            // Default the customerNo used for the OOBO user
-            "customerNo": "9999999",
-
-            // Default the email domain from which to generate email / usernames
-            "emailDomain": "crmsync.salesforce.com",
-
-            // Default the profile to render / process
-            "profile": {
-                "customer": {
-                    "first_name":"Anonymous",
-                    "last_name":"OOBO Customer"
-                }
-            }
-
-        },
 
         // Define the baseUrls for account manager
         "accountManager": {
@@ -667,14 +633,6 @@ module.exports = {
                         "name": "plugin_b2ccrmsync",
                         "position": "before",
                         "target": "int_b2ccrmsync"
-                    }
-                },
-
-                {
-                    "name": "skin_b2ccrmsync",
-                    "postBody": {
-                        "name": "skin_b2ccrmsync",
-                        "position": "first"
                     }
                 }
 

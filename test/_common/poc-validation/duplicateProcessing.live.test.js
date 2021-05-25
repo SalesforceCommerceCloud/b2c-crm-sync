@@ -244,7 +244,7 @@ describe('Duplicate Contact record processing via Salesforce Platform REST APIs'
     afterEach(async function () {
 
         // Purge the Account / Contact contacts
-        //await sfdcAccountContactPurge(sfdcAuthCredentials.conn);
+        await sfdcAccountContactPurge(sfdcAuthCredentials.conn);
 
     });
 

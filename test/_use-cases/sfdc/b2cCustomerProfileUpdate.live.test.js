@@ -123,6 +123,12 @@ describe('Updating an SFDC Contact representing a B2C Commerce Customer Profile 
         // Register the B2C Commerce customer profile using the current set of configuration properties
         output.b2cRegisterResults = await useCaseProcesses.b2cCustomerRegister(environmentDef, b2cAdminAuthToken, siteId, testProfile);
 
+        // Implement a pause to allow the B2C Commerce environment to set
+        await useCaseProcesses.sleep(sleepTimeout);
+        if (!output.b2cRegisterResults.response.data.c_b2ccrm_contactId) {
+            await useCaseProcesses.sleep(sleepTimeout);
+        }
+
         // Validate that the B2C Customer Profile was successfully created with SFDC attributes
         common.validateRegisteredUserWithSFDCAttributes(output.b2cRegisterResults.response);
 
