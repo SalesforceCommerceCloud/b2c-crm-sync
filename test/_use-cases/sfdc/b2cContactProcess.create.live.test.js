@@ -342,7 +342,6 @@ describe('Progressive resolution B2C Commerce Customer creation scenarios via th
 
         // Update the B2C CustomerList and activate the B2C CustomerList
         await useCaseProcesses.sfdcB2CCustomerListUpdate(sfdcAuthCredentials.conn, customerListId, true);
-        await useCaseProcesses.sfdcB2CCustomerListUpdate(sfdcAuthCredentials.conn, customerListIdAlt, true);
 
     });
 
