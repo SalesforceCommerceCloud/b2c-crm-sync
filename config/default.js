@@ -1,7 +1,7 @@
 module.exports = {
 
     // Describes the current versionNo of the service-cloud-connector
-    "versionNo": "0.7.6",
+    "versionNo": "0.7.7",
 
     // Manages debug mode for the CLI application
     "debugMode": true,
