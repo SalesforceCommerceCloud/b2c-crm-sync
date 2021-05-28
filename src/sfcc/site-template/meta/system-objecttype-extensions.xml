@@ -137,20 +137,20 @@
                 <externally-managed-flag>false</externally-managed-flag>
                 <default-value>true</default-value>
             </attribute-definition>
-            <attribute-definition attribute-id="b2ccrm_OOBOGuestCustomerId">
+            <attribute-definition attribute-id="b2ccrm_syncOOBOGuestCustomerId">
                 <display-name xml:lang="x-default">Assisted Shopping (OOBO) CustomerId</display-name>
                 <description xml:lang="x-default">Represents the internal B2C Commerce CustomerId of the customer profile used to authenticate for an anonymous Assisted Shopping session.</description>
                 <type>string</type>
                 <mandatory-flag>false</mandatory-flag>
                 <externally-managed-flag>false</externally-managed-flag>
-                <default-value/>
+                <default-value>not-defined</default-value>
             </attribute-definition>
         </custom-attribute-definitions>
          <group-definitions>
             <attribute-group group-id="B2CCRMSyncAssistedShopping">
                 <display-name xml:lang="x-default">B2C-CRM-Sync Experience: Assisted Shopping</display-name>
                 <attribute attribute-id="b2ccrm_syncAgentHeaderIsEnabled"/>
-                <attribute attribute-id="b2ccrm_OOBOGuestCustomerId"/>
+                <attribute attribute-id="b2ccrm_syncOOBOGuestCustomerId"/>
             </attribute-group>
             <attribute-group group-id="B2CCRMSync">
                 <display-name xml:lang="x-default">B2C-CRM-Sync Properties</display-name>
