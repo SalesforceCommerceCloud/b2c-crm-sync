@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
-    <apiVersion>51.0</apiVersion>
+    <apiVersion>52.0</apiVersion>
     <assignments>
-        <description>... set the B2C CustomerList ID to align with the B2C CustomerList record relationship.</description>
-        <name>asn_setB2CCustomerListID</name>
-        <label>Set the B2C CustomerList ID</label>
-        <locationX>769</locationX>
-        <locationY>376</locationY>
+        <name>Set_the_B2C_Attributes_on_the_Account_record</name>
+        <label>Set the B2C Attributes on the Account record</label>
+        <locationX>176</locationX>
+        <locationY>311</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.B2C_Customer_ID__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.B2C_Customer_ID__pc</elementReference>
+            </value>
+        </assignmentItems>
         <assignmentItems>
             <assignToReference>$Record.B2C_CustomerList_ID__pc</assignToReference>
             <operator>Assign</operator>
@@ -14,13 +20,9 @@
                 <elementReference>$Record.B2C_CustomerList__pr.Name</elementReference>
             </value>
         </assignmentItems>
-        <connector>
-            <targetReference>recUpd_setB2CCustomerListID_Account</targetReference>
-        </connector>
     </assignments>
-    <description>... set the B2C CustomerList ID value based on the parent B2C CustomerList relationship for PersonAccounts.</description>
-    <interviewLabel>B2C Commerce: Trigger: Account: Set B2C CustomerList ID {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>B2C Commerce: Trigger: Account: Set B2C CustomerList ID</label>
+    <interviewLabel>B2C Commerce: Trigger: Contact: Set Attributes on Account {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>B2C Commerce: Trigger: Contact: Set Attributes on Account</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -30,7 +32,7 @@
     <processMetadataValues>
         <name>CanvasMode</name>
         <value>
-            <stringValue>FREE_FORM_CANVAS</stringValue>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
         </value>
     </processMetadataValues>
     <processMetadataValues>
@@ -40,21 +42,27 @@
         </value>
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
-    <recordUpdates>
-        <description>... update the PersonAccount and manually align the B2C CustomerList ID with its corresponding customerList value.</description>
-        <name>recUpd_setB2CCustomerListID_Account</name>
-        <label>Update the Account and Set the B2C CustomerList ID</label>
-        <locationX>769</locationX>
-        <locationY>544</locationY>
-        <inputReference>$Record</inputReference>
-    </recordUpdates>
     <start>
-        <locationX>643</locationX>
-        <locationY>80</locationY>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
         <connector>
-            <targetReference>asn_setB2CCustomerListID</targetReference>
+            <targetReference>Set_the_B2C_Attributes_on_the_Account_record</targetReference>
         </connector>
-        <filterLogic>and</filterLogic>
+        <filterLogic>(1 AND 2) OR (3 AND 4)</filterLogic>
+        <filters>
+            <field>B2C_Customer_ID__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>B2C_Customer_ID__pc</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
         <filters>
             <field>B2C_CustomerList__pc</field>
             <operator>IsNull</operator>
@@ -71,7 +79,7 @@
         </filters>
         <object>Account</object>
         <recordTriggerType>CreateAndUpdate</recordTriggerType>
-        <triggerType>RecordAfterSave</triggerType>
+        <triggerType>RecordBeforeSave</triggerType>
     </start>
     <status>Active</status>
 </Flow>

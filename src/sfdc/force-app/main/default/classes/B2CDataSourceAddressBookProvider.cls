@@ -5,7 +5,7 @@
  * @description This class is used to initialize the dataSourceProvider used
  * to support the retrieval of B2C Commerce Customer addresses via externalObjects.
 */
-public class B2CAddressBookDataSourceProvider extends DataSource.Provider{
+public class B2CDataSourceAddressBookProvider extends DataSource.Provider {
     /**
      * @description Returns the supported authentication capabilities of this provider
      *
@@ -39,7 +39,7 @@ public class B2CAddressBookDataSourceProvider extends DataSource.Provider{
      * @return {DataSource.Connection} The connection to use to work with customer addresses
      **/
     override public DataSource.Connection getConnection(DataSource.ConnectionParams connectionParams) {
-        return new B2CAddressBookDataSourceConnection(connectionParams);
+        return new B2CDataSourceAddressBookConnection(connectionParams);
     }
 }
 

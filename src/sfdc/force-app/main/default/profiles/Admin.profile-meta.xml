@@ -6,11 +6,11 @@
         <visible>true</visible>
     </applicationVisibilities>
     <classAccesses>
-        <apexClass>B2CAddressBookDataSourceConnection</apexClass>
+        <apexClass>B2CDataSourceAddressBookConnection</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>B2CAddressBookDataSourceProvider</apexClass>
+        <apexClass>B2CDataSourceAddressBookProvider</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>

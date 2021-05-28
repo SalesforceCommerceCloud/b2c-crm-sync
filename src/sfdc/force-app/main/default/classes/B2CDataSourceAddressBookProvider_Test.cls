@@ -1,10 +1,10 @@
 @isTest
-public with sharing class B2CAddressBookDataSourceProvider_Test {
+public with sharing class B2CDataSourceAddressBookProvider_Test {
     @isTest
     static void testGetConnection() {
         Test.startTest();
             DataSource.ConnectionParams connectionParams = new DataSource.ConnectionParams();
-            B2CAddressBookDataSourceProvider provider = new B2CAddressBookDataSourceProvider();
+            B2CDataSourceAddressBookProvider provider = new B2CDataSourceAddressBookProvider();
             DataSource.Connection connection = provider.getConnection(connectionParams);
         Test.stopTest();
 
@@ -14,7 +14,7 @@ public with sharing class B2CAddressBookDataSourceProvider_Test {
     @isTest
     static void testGetAuthenticationCapabilities() {
         Test.startTest();
-            B2CAddressBookDataSourceProvider provider = new B2CAddressBookDataSourceProvider();
+            B2CDataSourceAddressBookProvider provider = new B2CDataSourceAddressBookProvider();
             List<DataSource.AuthenticationCapability> capabilities = provider.getAuthenticationCapabilities();
         Test.stopTest();
 
@@ -25,7 +25,7 @@ public with sharing class B2CAddressBookDataSourceProvider_Test {
     @isTest
     static void testGetCapabilities() {
         Test.startTest();
-            B2CAddressBookDataSourceProvider provider = new B2CAddressBookDataSourceProvider();
+            B2CDataSourceAddressBookProvider provider = new B2CDataSourceAddressBookProvider();
             List<DataSource.Capability> capabilities = provider.getCapabilities();
         Test.stopTest();
 
