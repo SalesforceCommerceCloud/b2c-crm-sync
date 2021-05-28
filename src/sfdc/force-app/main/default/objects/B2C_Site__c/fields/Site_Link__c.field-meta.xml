@@ -3,7 +3,7 @@
     <fullName>Site_Link__c</fullName>
     <description>... represents a direct-link to the B2C Commerce Storefront</description>
     <externalId>false</externalId>
-    <formula>HYPERLINK(Base_Site_Url__c, Storefront_Name__c,  Name)</formula>
+    <formula>HYPERLINK(Base_Internal_Site_Url__c, Storefront_Name__c,  Name)</formula>
     <inlineHelpText>... represents a direct-link to the B2C Commerce Storefront</inlineHelpText>
     <label>Site Link</label>
     <required>false</required>

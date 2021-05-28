@@ -132,15 +132,6 @@
     <flexiPageRegions>
         <itemInstances>
             <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Base_Site_Url__c</fieldItem>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
                 <fieldItem>Record.Description__c</fieldItem>
             </fieldInstance>
         </itemInstances>
@@ -226,17 +217,49 @@
     <flexiPageRegions>
         <itemInstances>
             <fieldInstance>
+                <fieldItem>Record.Base_Internal_Site_Url__c</fieldItem>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldItem>Record.Base_Custom_Site_Url__c</fieldItem>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldItem>Record.OOBO_Active_Url__c</fieldItem>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldItem>Record.OOBO_Named_Credential_Developer_Name__c</fieldItem>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-2646ba37-0fed-43ca-a008-c8ceedb51db9</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-2646ba37-0fed-43ca-a008-c8ceedb51db9</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-46f4327b-b7f8-4b10-8d20-b38ec84e38ef</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
                 <fieldItem>Record.OOBO_Customer_ID__c</fieldItem>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
             <fieldInstance>
                 <fieldItem>Record.OOBO_Customer_Number__c</fieldItem>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldItem>Record.OOBO_Named_Credential_Developer_Name__c</fieldItem>
             </fieldInstance>
         </itemInstances>
         <name>Facet-65504282-9aa2-4e15-aa0e-f8ba030513b8</name>
@@ -258,36 +281,13 @@
     <flexiPageRegions>
         <itemInstances>
             <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Enable_Profile_Creation__c</fieldItem>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Enable_Profile_Updates__c</fieldItem>
+                <fieldItem>Record.Enable_Order_on_Behalf_Of__c</fieldItem>
             </fieldInstance>
         </itemInstances>
         <name>Facet-9a2c4697-9808-44a5-a50f-d8a2c6f04738</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
-        <itemInstances>
-            <fieldInstance>
-                <fieldItem>Record.Enable_Address_Creation__c</fieldItem>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldItem>Record.Enable_Address_Updates__c</fieldItem>
-            </fieldInstance>
-        </itemInstances>
         <name>Facet-20cbaed5-f30e-4711-882e-f229c8e0d092</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -349,6 +349,19 @@
                 <componentInstanceProperties>
                     <name>label</name>
                     <value>B2C Commerce Integration Properties</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:fieldSection</componentName>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>columns</name>
+                    <value>Facet-46f4327b-b7f8-4b10-8d20-b38ec84e38ef</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>label</name>
+                    <value>Order On Behalf Of Integration Properties</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
             </componentInstance>
