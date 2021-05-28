@@ -824,6 +824,16 @@ npm run crm-sync:b2c:build
 ```
 > This CLI command will generate the services.xml file based on the previously generated connected apps step #4, generate a zip archive containing the metadata required by b2c-crm-sync, deploy this archive, generate a zip archive containing the b2c-crm-sync cartridges and deploy this archive to the B2C Commerce instance.
 
+### Databse initialization considerations
+
+In case, when installing the b2c-crm-sync tool on your instances, you need to initialize the Salesforce Core Platform database with all the already-existing profiles from the Salesforce B2C Commerce platform, you can leverage multiple options here:
+1. Relying on the existing create / update hooks, which will synchronize the customer profiles at profile creation and update. This means the existing database won't be synchronized until the customer login again on the storefront and updates its profile
+2. On top of the first option, you can enable from the Custom Site Preferences the "first-login" synchronization, which will synchronize the customer profile at their first login after the deployment of the b2c-crm-sync tool. This allows you to transfer the profiles database to the Salesforce Core Platform with only the customers which are involved in your website.
+3. The third option that can also be used is the `custom.B2CCRMSync.SynchronizeCustomers` job step. This job step can be configured to export the whole database of profiles from B2C Commerce to the Salesforce Core platform. This allows you to initialize the Core platform database in one or multiple loads. This job step contains a Query parameter which allow you to specify which profiles to synchronise by providing an valid and executable query (see [documentation](https://documentation.b2c.commercecloud.salesforce.com/DOC2/topic/com.demandware.dochelp/DWAPI/scriptapi/html/api/class_dw_customer_CustomerMgr.html#dw_customer_CustomerMgr_searchProfiles_Map_String_DetailAnchor) for more details on what is a valid and executable query).
+The query can contain two dynamic placeholders which allow dynamic timeframes: `_today` and `_now_`. This can be used to dynamically put the date and datetime from the job-step execution time. You can also provide dynamic values in the past, for example:
+- `_today_ -2` will dynamically use the date when the job run minus 2 days (starting at midnight)
+- `_now_ - 180` will dynamically use the date time when the job run minus 180 minutes
+
 ### Salesforce Customer 360 Platform Configuration Instructions
 
 #### Validate Your Installation

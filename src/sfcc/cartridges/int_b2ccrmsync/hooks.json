@@ -9,6 +9,10 @@
       "script": "~/cartridge/scripts/hooks/customer.process"
     },
     {
+      "name": "app.customer.synchronized",
+      "script": "~/cartridge/scripts/hooks/customer.process"
+    },
+    {
       "name": "app.customer.updated",
       "script": "~/cartridge/scripts/hooks/customer.process"
     },

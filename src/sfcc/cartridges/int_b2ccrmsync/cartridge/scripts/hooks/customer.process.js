@@ -26,25 +26,23 @@ function isIntegrationEnabled() {
  * if the ContactID attribute exists, was set, and has an actual value.
  *
  * @param {dw/customer/Profile} profile
+ *
  * @return {Boolean}
  */
 function sfdcContactIDIdentifierPresent(profile) {
+    if (!profile) {
+        return false;
+    }
 
-    // Is the profile empty?
-    if (profile === null || profile === undefined) { return false; }
+    if (!profile.custom.hasOwnProperty('b2ccrm_contactId')) {
+        return false;
+    }
 
-    // Is the contactId present in the profile?
-    if (!profile.custom.hasOwnProperty('b2ccrm_contactId')) { return false; }
+    if (!profile.custom.b2ccrm_contactId || profile.custom.b2ccrm_contactId.valueOf().length === 0) {
+        return false;
+    }
 
-    // Is the contactId value empty or not set?
-    if (profile.custom.b2ccrm_contactId === null || profile.custom.b2ccrm_contactId === undefined) { return false; }
-
-    // Evaluate the length of the SFDC property
-    if (profile.custom.b2ccrm_contactId.valueOf().length === 0) { return false; }
-
-    // If all conditions pass, there's a contactId
     return true;
-
 }
 
 /**
@@ -53,10 +51,12 @@ function sfdcContactIDIdentifierPresent(profile) {
  * And if so, process the customer sync with the Salesforce Core platform
  *
  * @param {dw/customer/Profile} profile
+ *
+ * @return {Boolean} If the process has been a success or not
  */
 function customerLoggedIn(profile) {
     if (!isIntegrationEnabled() || !profile) {
-        return;
+        return false;
     }
 
     // Ensure the login sync is also enabled
@@ -65,10 +65,10 @@ function customerLoggedIn(profile) {
     var isSyncEnabled = Site.getCustomPreferenceValue('b2ccrm_syncCustomersOnLoginEnabled');
     var isSyncOnceEnabled = Site.getCustomPreferenceValue('b2ccrm_syncCustomersOnLoginOnceEnabled');
     if (!isSyncEnabled || (isSyncEnabled && isSyncOnceEnabled && sfdcContactIDIdentifierPresent(profile))) {
-        return;
+        return false;
     }
 
-    handleProcess(profile, 'login');
+    return handleProcess(profile, 'login');
 }
 
 /**
@@ -76,13 +76,31 @@ function customerLoggedIn(profile) {
  * Ensure the customer sync is enabled, and if so, process the customer sync with the Salesforce platform
  *
  * @param {dw/customer/Profile} profile
+ *
+ * @return {Boolean} If the process has been a success or not
  */
 function customerCreated(profile) {
     if (!isIntegrationEnabled() || !profile) {
-        return;
+        return false;
     }
 
-    handleProcess(profile, 'create');
+    return handleProcess(profile, 'create');
+}
+
+/**
+ * Customer synchronized (by the job)
+ * Ensure the customer sync is enabled, and if so, process the customer sync with the Salesforce platform
+ *
+ * @param {dw/customer/Profile} profile
+ *
+ * @return {Boolean} If the process has been a success or not
+ */
+function customerSynchronized(profile) {
+    if (!isIntegrationEnabled() || !profile) {
+        return false;
+    }
+
+    return handleProcess(profile, 'synchronize');
 }
 
 /**
@@ -90,13 +108,15 @@ function customerCreated(profile) {
  * Ensure the customer sync is enabled, and if so, process the customer sync with the Salesforce platform
  *
  * @param {dw/customer/Profile} profile
+ *
+ * @return {Boolean} If the process has been a success or not
  */
 function customerUpdated(profile) {
     if (!isIntegrationEnabled() || !profile) {
-        return;
+        return false;
     }
 
-    handleProcess(profile, 'update');
+    return handleProcess(profile, 'update');
 }
 
 /**
@@ -104,6 +124,8 @@ function customerUpdated(profile) {
  *
  * @param {dw/customer/Profile} profile
  * @param {String} action The action that triggered the process (create/update/login)
+ *
+ * @return {Boolean} If the process has been a success or not
  */
 function handleProcess(profile, action) {
     var ServiceMgr = require('../services/ServiceMgr');
@@ -122,7 +144,7 @@ function handleProcess(profile, action) {
             profileModel.updateStatus('failed');
             profileModel.updateSyncResponseText(require('dw/util/StringUtils').format('Status {0} ({1}): {2}', result.error, result.msg, result.errorMessage));
             LOGGER.error('Error occurred while exporting customer profile: {0}({1}): {2}', result.status, result.msg, result.errorMessage);
-            return;
+            return false;
         }
 
         // The flow always return multiple values, but we only get the first one
@@ -134,7 +156,7 @@ function handleProcess(profile, action) {
             profileModel.updateStatus('failed');
             profileModel.updateSyncResponseText(errorsAsString);
             LOGGER.error('Error occurred while exporting customer profile: {0}', errorsAsString);
-            return;
+            return false;
         }
 
         // The export succeed
@@ -142,13 +164,17 @@ function handleProcess(profile, action) {
         profileModel.updateExternalId(resultObject.outputValues.Contact.AccountId, resultObject.outputValues.Contact.Id);
         profileModel.updateStatus('exported');
         profileModel.updateSyncResponseText(require('dw/util/StringUtils').format('Successfully exported to Salesforce Core platform during the "{0}" logic.', action));
+        return true;
     } catch (e) {
         profileModel.updateStatus('failed');
         profileModel.updateSyncResponseText(e.message);
         LOGGER.error('Error occurred while exporting customer profile: {0}', e.message);
     }
+
+    return false;
 }
 
 module.exports.loggedIn = customerLoggedIn;
 module.exports.created = customerCreated;
+module.exports.synchronized = customerSynchronized;
 module.exports.updated = customerUpdated;
