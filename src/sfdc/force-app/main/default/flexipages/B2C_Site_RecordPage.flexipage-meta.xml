@@ -193,11 +193,6 @@
                 <fieldItem>Record.OCAPI_Version_No__c</fieldItem>
             </fieldInstance>
         </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldItem>Record.CustomerList_ID__c</fieldItem>
-            </fieldInstance>
-        </itemInstances>
         <name>Facet-61fea554-72d3-4ecd-b432-78335c262f9e</name>
         <type>Facet</type>
     </flexiPageRegions>
