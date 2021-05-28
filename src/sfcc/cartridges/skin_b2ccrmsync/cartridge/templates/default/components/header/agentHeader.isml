@@ -6,8 +6,9 @@
   let agentHeaderParam = request.httpParameterMap.get('show-agentheader');
 
   // Evaluate if b2c-crm-sync is enabled -- and if the agentHeader is enabled as well
-  let isSyncEnabled = Site.current.getCustomPreferenceValue('b2ccrm_syncIsEnabled');
-  let isAgentHeaderEnabled = Site.current.getCustomPreferenceValue('b2ccrm_syncAgentHeaderIsEnabled');
+  let Site = require('dw/system/Site').getCurrent();
+  let isSyncEnabled = Site.getCustomPreferenceValue('b2ccrm_syncIsEnabled');
+  let isAgentHeaderEnabled = Site.getCustomPreferenceValue('b2ccrm_syncAgentHeaderIsEnabled');
 
 </isscript>
 

@@ -10,7 +10,7 @@
 function sessionHandler() {
 
     // Initialize constants
-    const Site = require('dw/system/Site');
+    const Site = require('dw/system/Site').getCurrent();
     const CustomerMgr = require('dw/customer/CustomerMgr');
 
     // Initialize local Variables
@@ -18,13 +18,13 @@ function sessionHandler() {
         OOBOGuestCustomerId;
 
     // First, evaluate if b2c-crm-sync is enabled
-    isSyncEnabled = Site.current.getCustomPreferenceValue('b2ccrm_syncIsEnabled');
+    isSyncEnabled = Site.getCustomPreferenceValue('b2ccrm_syncIsEnabled');
 
     // Exit early the integration isn't enabled
     if (isSyncEnabled) {
 
         // Otherwise, evaluate if the OOBO / anonymous customer scenario is valid; Get the OOBO placeholder customerId value
-        OOBOGuestCustomerId = Site.current.getCustomPreferenceValue('b2ccrm_OOBOGuestCustomerId');
+        OOBOGuestCustomerId = Site.current.getCustomPreferenceValue('b2ccrm_syncOOBOGuestCustomerId');
 
         // Is the current customer the OOBO placeholder customer? If so, then logout the customer
         if (session.customer && session.customerAuthenticated && OOBOGuestCustomerId && session.customer.ID === OOBOGuestCustomerId) {
