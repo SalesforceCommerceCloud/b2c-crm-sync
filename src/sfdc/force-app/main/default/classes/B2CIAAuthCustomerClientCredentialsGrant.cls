@@ -44,6 +44,9 @@ public with sharing class B2CIAAuthCustomerClientCredentialsGrant {
                 // Seed the response object with the access token details
                 accessTokenResult.accessToken = res.getHeader('authorization');
 
+                // If the accessToken is empty -- then try one more time to retrieve the authorizationHeader changing the case
+                if (accessTokenResult.accessToken == null) { accessTokenResult.accessToken = res.getHeader('Authorization'); }
+
             } else {
 
                 // Otherwise, capture the error message
