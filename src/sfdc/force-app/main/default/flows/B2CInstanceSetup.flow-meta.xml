@@ -151,14 +151,14 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>asn_b2cInstanceProcessingSuccess</targetReference>
+            <targetReference>sub_activateB2CCustomerListsSites</targetReference>
         </connector>
     </assignments>
     <assignments>
         <description>... set the success message -- as all processing has succeeded.</description>
         <name>asn_b2cInstanceProcessingSuccess</name>
         <label>Set the Success Message</label>
-        <locationX>1072</locationX>
+        <locationX>855</locationX>
         <locationY>2736</locationY>
         <assignmentItems>
             <assignToReference>success</assignToReference>
@@ -646,6 +646,24 @@
             <name>var_NamedCredentialDeveloperName</name>
             <value>
                 <elementReference>recGet_getB2CInstance.Named_Credential_Developer_Name__c</elementReference>
+            </value>
+        </inputAssignments>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </subflows>
+    <subflows>
+        <description>... activate the B2C CustomerLists and Sites associated to the specified Instance.</description>
+        <name>sub_activateB2CCustomerListsSites</name>
+        <label>Activate CustomerLists and Sites</label>
+        <locationX>1075</locationX>
+        <locationY>2736</locationY>
+        <connector>
+            <targetReference>asn_b2cInstanceProcessingSuccess</targetReference>
+        </connector>
+        <flowName>B2CCommerce_B2CInstance_ActivateCustomerListsSites</flowName>
+        <inputAssignments>
+            <name>recordId</name>
+            <value>
+                <elementReference>b2cInstance.Id</elementReference>
             </value>
         </inputAssignments>
         <storeOutputAutomatically>true</storeOutputAutomatically>

@@ -68,6 +68,12 @@
             </value>
         </filters>
         <inputAssignments>
+            <field>Enable_Order_on_Behalf_Of__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>Is_Active__c</field>
             <value>
                 <booleanValue>true</booleanValue>

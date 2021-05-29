@@ -275,7 +275,7 @@
             <targetReference>recGet_B2CCustomerLists</targetReference>
         </connector>
     </start>
-    <status>Active</status>
+    <status>Draft</status>
     <variables>
         <description>... represents the collection of B2C CustomerLists associated to the current B2C Instance.</description>
         <name>recCol_B2CCustomerLists</name>

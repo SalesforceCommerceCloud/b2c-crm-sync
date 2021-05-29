@@ -145,6 +145,12 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <field>Enable_Order_on_Behalf_Of__c</field>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>Enable_Profile_Creation__c</field>
             <value>
                 <booleanValue>false</booleanValue>
