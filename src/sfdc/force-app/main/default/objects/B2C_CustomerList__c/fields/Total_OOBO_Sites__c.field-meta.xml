@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Total_OOBO_Sites__c</fullName>
+    <description>... represents the total number of child B2C Sites that are active and have the OOBO permission enabled.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>... represents the total number of child B2C Sites that are active and have the OOBO permission enabled.</inlineHelpText>
+    <label>Total OOBO Sites</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>
