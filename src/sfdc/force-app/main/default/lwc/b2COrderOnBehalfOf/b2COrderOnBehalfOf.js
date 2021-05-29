@@ -16,7 +16,7 @@ export default class SCCOrderOnBehalfOf extends LightningElement {
 
         xhr.onreadystatechange = () => {
             if (xhr.readyState === 4 && (xhr.status === 200 || xhr.status === 204)) {
-                window.open(`${this.shopDomain}/on/demandware.store/Sites-${this.siteId}-Site`, '_blank');
+                window.open(`${this.shopDomain}`, '_blank');
             }
         };
 
