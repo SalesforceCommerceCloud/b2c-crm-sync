@@ -2,6 +2,10 @@
 
 <isscript>
 
+  // Initialize the agent logoutUrl
+  let URLUtils = require('dw/web/URLUtils');
+  let logoutUrl = URLUtils.url('Login-Logout').toString();
+
   // Retrieve the agent header parameter from the collection of httpParameters
   let agentHeaderParam = request.httpParameterMap.get('show-agentheader');
 
@@ -22,10 +26,10 @@
           <div class="content">
 
             <iscomment>Render the Service Agent header -- identifying the customer being assisted</iscomment>
-            <isif condition="${session.userName != 'storefront' && session.customer.authenticated }">
-              <div class="text-white text-center"><strong>CustomerNo. ${session.customer.profile.customerNo} | ${session.customer.profile.firstName} ${session.customer.profile.lastName} (${session.customer.profile.credentials.login})</strong></div>
+              <isif condition="${session.userName != 'storefront' && session.customer.authenticated }">
+                <div class="text-white text-center"><strong><small>${Resource.msg('agentheader.agenttitle','b2ccrmsync',null)} ${session.userName} | ${Resource.msg('agentheader.customerno','b2ccrmsync',null)} ${session.customer.profile.customerNo} | ${session.customer.profile.firstName} ${session.customer.profile.lastName} | <a style="color:white" href="${logoutUrl}">${Resource.msg('agentheader.agentlogout','b2ccrmsync',null)}</a></small></strong></div>
               <iselse>
-                <div class="text-white text-center"><strong>Anonymous Shopping Session</strong></div>
+                <div class="text-white text-center"><strong><small>${Resource.msg('agentheader.agenttitle','b2ccrmsync',null)} ${session.userName} | ${Resource.msg('agentheader.anonshopping','b2ccrmsync',null)} | <a style="color:white" href="${logoutUrl}">${Resource.msg('agentheader.agentlogout','b2ccrmsync',null)}</a></small></strong></div>
               </iselse>
             </isif>
 
