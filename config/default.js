@@ -594,7 +594,7 @@ module.exports = {
         "timeout":20000,
 
         // Define the OCAPI version number to use
-        "ocapiVersion": "v20_10",
+        "ocapiVersion": "v21_03",
 
         // Define the baseUrls for account manager
         "accountManager": {

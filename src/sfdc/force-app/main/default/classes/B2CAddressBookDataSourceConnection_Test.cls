@@ -12,7 +12,7 @@ public with sharing class B2CAddressBookDataSourceConnection_Test {
             'CustomerList_ID__c' => 'RefArch',
             'API_Url__c' => 'https://test.com',
             'Named_Credential_Developer_Name__c' => 'NamedCredential',
-            'OCAPI_Version_No__c' => 'v20_10'
+            'OCAPI_Version_No__c' => 'v21_03'
         });
         Contact contact = (Contact)TestDataFactory.createSObject('Contact', new Map<String,Object>{
             'LastName' => 'lastname',
