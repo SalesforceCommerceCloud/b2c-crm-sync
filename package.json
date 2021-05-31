@@ -30,6 +30,7 @@
     "crm-sync:sf:auth:usercreds": "node cli.js crm-sync:sf:auth:usercreds",
     "crm-sync:b2c:env:list": "node cli.js crm-sync:b2c:env:list",
     "crm-sync:b2c:auth:clientcreds": "node cli.js crm-sync:b2c:auth:clientcreds",
+    "crm-sync:b2c:auth:bmuser": "node cli.js crm-sync:b2c:auth:bmuser",
     "crm-sync:b2c:verify": "node cli.js crm-sync:b2c:verify",
     "crm-sync:b2c:sites:verify": "node cli.js crm-sync:b2c:sites:verify",
     "crm-sync:b2c:site:cartridges:add": "node cli.js crm-sync:b2c:site:cartridges:add",

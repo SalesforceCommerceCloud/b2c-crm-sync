@@ -68,6 +68,9 @@ program = cliInterface.b2cVerify(program);
 // Attach the command used to verify that the configuration can be authed successfully
 program = cliInterface.b2cAuthClientCredentials(program);
 
+// Attach the command used to verify Business Manager user credentials can authenticate
+program = cliInterface.b2cAuthBMUser(program);
+
 // Attach the command used to verify the setup of the B2C Commerce deployment folders
 program = cliInterface.b2cDeploySetup(program);
 
