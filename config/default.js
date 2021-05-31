@@ -449,7 +449,7 @@ module.exports = {
         // Define the structure for displaying deployment results
         "scratchOrgDeployResults": {
             head: ["State", "Type", "FilePath"],
-            colWidths: [20, 20, 77],
+            colWidths: [25, 20, 77],
             colAligns: ["middle", "middle", "left"]
         },
 
@@ -491,14 +491,14 @@ module.exports = {
         // Define the structure for code-version errors
         "codeVersionErrors": {
             head: ["Code Version", "Validation Error(s) for Configured Values"],
-            colWidths: [25, 93],
+            colWidths: [30, 88],
             colAligns: ["right", "left"]
         },
 
         // Define the structure for site-errors
         "siteErrors": {
             head: ["Site Identifier", "Validation Error(s) for Configured Values"],
-            colWidths: [25, 93],
+            colWidths: [30, 88],
             colAligns: ["right", "left"]
         },
 
@@ -526,7 +526,7 @@ module.exports = {
         // Define the structure for environment errors
         "environmentErrors": {
             head: ["Env. Property Name", "Validation Error(s) for Configured Values"],
-            colWidths: [25, 93],
+            colWidths: [30, 88],
             colAligns: ["right", "left"]
         },
 
@@ -577,6 +577,27 @@ module.exports = {
             head: ["Salesforce Platform Authentication Token"],
             colWidths: [119],
             colAligns: ["left"]
+        },
+
+        // Define the structure for environment errors
+        "customerDetails": {
+            head: ["Customer Attribute", "Registration Value"],
+            colWidths: [30, 88],
+            colAligns: ["right", "left"]
+        },
+
+        // Define the structure for the b2cInstance setup
+        "b2cInstanceSetup": {
+            head: ["Attribute", "B2C Instance Value"],
+            colWidths: [30, 88],
+            colAligns: ["right", "left"]
+        },
+
+        // Define the structure for the sitePreference details
+        "sitePreferenceDetails": {
+            head: ["Attribute", "Site Preference Value"],
+            colWidths: [30, 88],
+            colAligns: ["right", "left"]
         }
 
     },
@@ -595,6 +616,32 @@ module.exports = {
 
         // Define the OCAPI version number to use
         "ocapiVersion": "v20_10",
+
+        // Define the namedCredential suffix for OOBO
+        "ooboNamedCredentialSuffix": "_B2C_OOBO",
+
+        // Define the customer footprint for the OOBO Customer record; this record is used
+        // to authenticate an anonymous Agent session for a Service Agent
+        "ooboCustomer": {
+
+            // Default the customerNo used for the OOBO user
+            "customerNo": "9999999",
+
+            // Default the email domain from which to generate email / usernames
+            "emailDomain": "crmsync.salesforce.com",
+
+            // Default the profile to render / process
+            "profile": {
+                "customer": {
+                    "first_name":"Anonymous",
+                    "last_name":"OOBO Customer"
+                }
+            },
+
+            // Default the preferenceGroup for the OOBO configuration settings
+            "preferenceGroup": "B2CCRMSyncAssistedShopping"
+
+        },
 
         // Define the baseUrls for account manager
         "accountManager": {
@@ -633,6 +680,14 @@ module.exports = {
                         "name": "plugin_b2ccrmsync",
                         "position": "before",
                         "target": "int_b2ccrmsync"
+                    }
+                },
+
+                {
+                    "name": "skin_b2ccrmsync",
+                    "postBody": {
+                        "name": "skin_b2ccrmsync",
+                        "position": "first"
                     }
                 }
 

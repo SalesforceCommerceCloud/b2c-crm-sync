@@ -23,6 +23,10 @@ exports.b2cOOBOCustomersCreate = require('./lib/cli-api/_b2cOOBOCustomersCreate'
 exports.b2cOOBOCustomersVerify = require('./lib/cli-api/_b2cOOBOCustomersVerify');
 exports.b2cOOBOCustomerDelete = require('./lib/cli-api/_b2cOOBOCustomerDelete');
 
+// Expose the ability to retrieve and update the OOBO configuration sitPreferences
+exports.b2cOOBOSitePrefsUpdate = require('./lib/cli-api/_b2cOOBOSitePrefsUpdate');
+exports.b2cOOBOSitePrefsGet = require('./lib/cli-api/_b2cOOBOSitePrefsGet');
+
 // Expose the ability to verify site and code-versions exist
 exports.b2cVerify = require('./lib/cli-api/_b2cVerify');
 
@@ -75,9 +79,8 @@ exports.sfNamedCredentialsOOBOCreate = require('./lib/cli-api/_sfNamedCredential
 exports.sfAuthUserCredentials = require('./lib/cli-api/_sfAuthUserCredentials');
 
 // Expose the ability to create a B2C Instance seed-record using environment file definitions
+exports.sfB2CInstanceGet = require('./lib/cli-api/_sfB2CInstanceGet');
 exports.sfB2CInstanceCreate = require('./lib/cli-api/_sfB2CInstanceCreate');
-
-// Expose the ability to update a B2C Instance seed-record using environment file definitions
 exports.sfB2CInstanceUpdate = require('./lib/cli-api/_sfB2CInstanceUpdate');
 
 // Expose the ability to create the B2C Instance child records
@@ -112,3 +115,7 @@ exports.sfUserPasswordReset = require('./lib/cli-api/_sfUserPasswordReset');
 
 // Expose the ability to assign a permission-set to a given user
 exports.sfUserPermsetAssign = require('./lib/cli-api/_sfUserPermsetAssign');
+
+// Expose the ability to reset the B2C Site-specific OOBO customer properties
+exports.sfOOBOB2CSitesReset = require('./lib/cli-api/_sfOOBOB2CSitesReset');
+exports.sfOOBOB2CSitesUpdate = require('./lib/cli-api/_sfOOBOB2CSitesUpdate');
