@@ -598,6 +598,20 @@ module.exports = {
             head: ["Attribute", "Site Preference Value"],
             colWidths: [30, 88],
             colAligns: ["right", "left"]
+        },
+
+        // Define the structure for the sitePreference details
+        "ocapiConfig": {
+            head: ["API Type", "OCAPI Configuration"],
+            colWidths: [30, 88],
+            colAligns: ["right", "left"]
+        },
+
+        // Define the structure for the sitePreference details
+        "genericFault": {
+            head: ["Attribute", "Error Property"],
+            colWidths: [30, 88],
+            colAligns: ["right", "left"]
         }
 
     },

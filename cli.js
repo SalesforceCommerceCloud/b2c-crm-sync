@@ -71,6 +71,9 @@ program = cliInterface.b2cAuthClientCredentials(program);
 // Attach the command used to verify Business Manager user credentials can authenticate
 program = cliInterface.b2cAuthBMUser(program);
 
+// Attach the commands used to retrieve and push OCAPI user credentials
+program = cliInterface.b2cOCAPIGet(program);
+
 // Attach the command used to verify the setup of the B2C Commerce deployment folders
 program = cliInterface.b2cDeploySetup(program);
 

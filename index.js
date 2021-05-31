@@ -34,6 +34,9 @@ exports.b2cVerify = require('./lib/cli-api/_b2cVerify');
 exports.b2cAuthClientCredentials = require('./lib/cli-api/_b2cAuthClientCredentials');
 exports.b2cAuthBMUser = require('./lib/cli-api/_b2cAuthBMUser');
 
+// Expose the ability to retrieve and update OCAPI configuration(s)
+exports.b2cOCAPIGet = require('./lib/cli-api/_b2cOCAPIConfigGet');
+
 // Expose the ability to setup the B2C Commerce deployment folders
 exports.b2cDeploySetup = require('./lib/cli-api/_b2cDeploySetup');
 
