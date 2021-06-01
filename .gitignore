@@ -76,6 +76,7 @@ $RECYCLE.BIN/
 
 # Ignore the rendered connectedAppCredentails file
 /config-dx/connectedAppCredentials.json
+/config-dx/*.ocapi.json
 
 # Ignore sfcc services.xml meta-data generated-files
 /src/sfcc/site-template/services.xml

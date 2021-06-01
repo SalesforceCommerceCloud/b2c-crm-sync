@@ -49,7 +49,6 @@
     "crm-sync:b2c:data:deploy": "node cli.js crm-sync:b2c:data:deploy",
     "crm-sync:b2c:build": "node cli.js crm-sync:b2c:build",
     "crm-sync:b2c:ocapi:get": "node cli.js crm-sync:b2c:ocapi:get",
-    "crm-sync:b2c:ocapi:set": "node cli.js crm-sync:b2c:ocapi:set",
     "crm-sync:oobo:customers:create": "node cli.js crm-sync:oobo:customers:create",
     "crm-sync:oobo:customers:delete": "node cli.js crm-sync:oobo:customers:delete",
     "crm-sync:oobo:customers:verify": "node cli.js crm-sync:oobo:customers:verify",
