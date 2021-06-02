@@ -40,6 +40,11 @@ pids
 *.seed
 *.pid.lock
 
+# Certificates
+*.pem
+*.crt
+*.key
+
 # Optional npm cache directory
 /.npm
 
