@@ -44,6 +44,8 @@ pids
 *.pem
 *.crt
 *.key
+*.jks
+*.key.pub
 
 # Optional npm cache directory
 /.npm
