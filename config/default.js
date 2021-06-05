@@ -698,9 +698,9 @@ module.exports = {
                 },
 
                 {
-                    "name": "skin_b2ccrmsync",
+                    "name": "plugin_b2ccrmsync_oobo",
                     "postBody": {
-                        "name": "skin_b2ccrmsync",
+                        "name": "plugin_b2ccrmsync_oobo",
                         "position": "first"
                     }
                 }
