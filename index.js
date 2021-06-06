@@ -70,9 +70,6 @@ exports.sfTrustedSitesCreate = require('./lib/cli-api/_sfTrustedSitesCreate');
 // Expose the ability to generate the sfdx remoteSiteSettings meta-data template
 exports.sfRemoteSitesCreate = require('./lib/cli-api/_sfRemoteSitesCreate');
 
-// Expose the ability to generate the sfdx auth provider for B2CAM meta-data template
-exports.sfAuthProviderCreate = require('./lib/cli-api/_sfAuthProviderCreate');
-
 // Expose the ability to generate the sfdx named credentials for B2CAM meta-data template
 exports.sfNamedCredentialsAMCreate = require('./lib/cli-api/_sfNamedCredentialsAMCreate');
 
