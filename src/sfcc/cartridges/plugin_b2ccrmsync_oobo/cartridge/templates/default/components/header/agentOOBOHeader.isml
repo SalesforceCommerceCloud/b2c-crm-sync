@@ -10,6 +10,7 @@
             <strong><small>
             ${Resource.msg('agentheader.agenttitle','b2ccrmsync',null)} ${session.userName} |
 
+              <iscomment>Evaluate rendering the registered-user header</iscomment>
               <isif condition="${pdict.agentHeader == 'customer'}">
                 ${Resource.msg('agentheader.customernolabel','b2ccrmsync',null)}
                 <isif condition="${pdict.customerNo.length > 0}">
@@ -25,6 +26,7 @@
                   ${Resource.msg('agentheader.customername','b2ccrmsync',null)}
                 </iselse>
                 </isif>
+              <iscomment>Evaluate rendering the anonymous agent shopping-session header</iscomment>
               <iselseif condition="${pdict.agentHeader == 'anonymous'}">
                 ${Resource.msg('agentheader.anonshopping','b2ccrmsync',null)}
               </iselseif>

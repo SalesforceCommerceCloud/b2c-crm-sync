@@ -64,7 +64,7 @@ function renderAgentHeader() {
             }
 
         // Otherwise, handle rendering the anonymous customer agentHeader
-        } else if (session.userName == 'storefront' || agentHeaderParam.value == 'anonymous') {
+        } else if ((session.userName != 'storefront' && session.userName != 'registered') || agentHeaderParam.value == 'anonymous') {
             displayAgentHeader = 'anonymous';
         }
 
