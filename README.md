@@ -806,9 +806,9 @@ The Order on Behalf Of shopping experience requires that Service Agents in the S
 |  Username |x| Your B2C Commerce environment username |
 |  Password |x| Your B2C Commerce AccessKey + ':' + B2C Commerce ClientSecret |
 
-> The **username** property should use your .env file's `B2C_USERNAME` value.  The **password** property should use your .env file's `B2C_ACCESSKEY` and `B2C_CLIENTSECRET` values -- separated by a `:`.
+> The **username** property should use your .env file's `B2C_USERNAME` value.  The **password** property should use your .env file's `B2C_ACCESSKEY` and `B2C_CLIENTSECRET` values -- separated by a `:`.  It should look something similar to `1nY%|GvAnu]}tvNNe[~7zkn12]ZLU)lV~CbXzO{w:yourclientsecretpassword`.
 
-- When all form fields have been completed, please click the `Save` button save this per-user Named Credential definition.
+- When all form fields have been completed, please click the `Save` button save this per-user Named Credential definition.  Confirm that the per-user Named Credential has been created within your Personal Settings.
 
 #### Configure Duplicate Rules Leveraged by b2c-crm-sync
 
