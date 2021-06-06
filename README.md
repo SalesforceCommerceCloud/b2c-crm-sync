@@ -756,9 +756,19 @@ npm run crm-sync:sf:authprovider:build
 
 > This command will create the Auth Provider into the scratch org and then deploy the related Named Credentials that will leverage it. This named credential is then used by the b2c-crm-sync package to perform API calls against the B2C Commerce instance.
 
+The AccountManager ClientID must be configured with a callbackUrl provided by the Salesforce AuthProvider.  To retrieve this url:
+
+- Enter Setup within your scratchOrg and in the quick-find, search for `auth`.
+- Select the `Auth. Providers` option found under the Identity menu.
+- Click on the name of the auth. provider represented as your .env file's B2C Instance Name
+- Under the Salesforce Configuration section of the detail page, find the `Callback URL`
+- Copy the entire callback url to the clipboard
+
+> The callback url should be the third item in the Salesforce Configuration section of the Auth. Provider detail display.  It will have the string `authcallback` present in the url (ex. https://mysalesforceenvironment.cs01.my.salesforce.com/services/authcallback/b2cinstance001).
+
 #### Setup the AuthProvider Callback in Account Manager
 
-17. By executing the `crm-sync:sf:authprovider:build` command, the callback URL of the auth provider will be printed in the CLI console. Please copy this URL and paste it in the Redirect URIs field of the previously created Account Manager Client ID.
+17. With the authProvider callback url copied to the clipboard, please paste it in the Redirect URIs field of the previously created Account Manager Client ID.
 
 - Toggle to the Account Manager ClientID page opened in the step **Create Your B2C Commerce Client ID**.
 - Locate the `Redirect URIs` form-field on your ClientID page.
