@@ -774,17 +774,47 @@ npm run crm-sync:sf:authprovider:build
 - Open the scratch org and open the `Setup` menu.
 - Type in the Quick Find field and search for `Named Credentials`.
 - In front of the `<b2c instance name>: B2C: Client Credentials` named credentials, click on the edit button.
-- Immediately click on `Save`. Performing an edit of the named credential will start the authentication process behind the scene between the Salesforce core org and the B2C Commerce instance.
+- Immediately click on `Save`. 
+  
+Performing an edit of the named credential will start the authentication process behind the scene between the Salesforce core org and the B2C Commerce instance.
 
 > You should be able to see that the named credential has been successfully authenticated when opening back the named credential, as per the following screenshot:
 
 ![Successfully authenticated B2C Commerce Named Credential](/docs/images/B2C-Authenticated-Named-Credential.png)
 
+#### Create your Order on Behalf of Authentication Credentials
+
+The Order on Behalf Of shopping experience requires that Service Agents in the Salesforce Platform authenticate against the B2C Commerce environment prior to creating the shopping session.  This authentication is managed by a Per-User Named Credential via the Salesforce Platform.
+
+19.  Create the per-user Named Credential in the Salesforce Platform that will be used by the ScratchOrg user to act as an Agent and create virtual shopping sessions.
+
+- From the ScratchOrg, click on the Astro icon in the upper right-hand corner of the Salesforce org.
+- Select the option titled `Settings` under the User Display.
+- In the `My Personal Information` Menu, select the option titled 'Authentication Settings for External Systems'.
+- Select the `New` button to creat a new set of authentication credentials.
+
+> The **Authentication Settings for External Systems** form captures the credentials that can be used by agents to authenticate against other systems.  Use this form to configure the B2C Commerce credentials the agent will use to authenticate against B2C Commerce.
+
+- Map the per-user Named Credential to your scratchOrg user by clicking on the magnifying glass-icon to the right of the `User` field.  Select your user from the list of Recently Viewed users.
+- Use the table below to complete the remaining fields of the per-user Named Credential form.
+
+| Property Name | Required | Expected Value                       |
+|--------------:|:----:|:-----------------------------------|
+|  External System Definition |x| Named Credential |
+|  Named Credential |x| [b2cInstanceName]: B2C: OOBO: Named Credential |
+|  Authentication Protocol |x| Password Authentication |
+|  Username |x| Your B2C Commerce environment username |
+|  Password |x| Your B2C Commerce AccessKey + ':' + B2C Commerce ClientSecret |
+
+> The **username** property should use your .env file's `B2C_USERNAME` value.  The **password** property should use your .env file's `B2C_ACCESSKEY` and `B2C_CLIENTSECRET` values -- separated by a `:`.
+
+- When all form fields have been completed, please click the `Save` button save this per-user Named Credential definition.
+
 #### Configure Duplicate Rules Leveraged by b2c-crm-sync
 
 b2c-crm-sync leverages match and duplicate rules to enforce the B2C Customer Data Strategy it employs.  These rules are leveraged to alert administrators of potential duplicate B2C Commerce Customer Profiles -- and assist in resolving customer profiles using a sub-set of customer attributes.
 
-19. In the setup quick-find, search for Duplicate Rules (searching for 'dup' should bring up Duplicate and Match Rules).  Once located, select the Match Rules setup option from the filtered setup menu.
+20. In the setup quick-find, search for Duplicate Rules (searching for 'dup' should bring up Duplicate and Match Rules).  Once located, select the Match Rules setup option from the filtered setup menu.
 
 ##### Account / Contact Match Rules Setup Guidance
 
@@ -803,7 +833,6 @@ From the duplicate rules listing, select the rule titled **B2C Commerce: Standar
 ```bash
 1 OR (2 AND 3) OR (2 AND 4 AND 5) OR (2 AND 4) OR (4 AND 5 AND 6)
 ```
-
 ##### PersonAccount Match Rules Setup Guidance
 
 - Ensure that the **B2C Commerce Standard Person Account** match rule is activated.  This rule must be active in the scratchOrg as part of the PersonAccounts implementation.  The corresponding Duplicate Rule is dependent on this Match Rule being activated.
@@ -827,28 +856,15 @@ From the duplicate rules listing, select the rule titled **B2C Commerce: Standar
 ```bash
 1 OR (2 AND 3) OR (2 AND 4 AND 5) OR (2 AND 4) OR (4 AND 5 AND 6)
 ```
-
 #### Configure Your B2C Instance
 
-With the AuthProvider verified and match rules in place, you are now in a position to conduct your first test of the integration between B2C Commerce and the Salesforce Platform.
+With the AuthProvider verified and match rules in place, you are now in a position to conduct your first test of the integration between B2C Commerce and the Salesforce Platform.  Please execute the following CLI command to configure your B2C Instance:
 
-20. Open the appLauncher, and search for 'CRM' in the quick-find. Verify that the **B2C CRM Sync** application is visible.
+```bash
+npm run crm-sync:sf:b2cinstance:setup
+```
 
-> Select the **B2C CRM Sync** application and open it.  Verify that the B2C Instances, B2C CustomerLists, B2C Sites, Accounts, and Contacts tabs are visible from within the application.
-
-- Click on the B2C Instances Tab, and verify that a record exists in the record listing.
-
-> The instance definition should match the B2C Commerce Sandbox definition present in your .env file.  If the instance definition does not match your .env file -- please re-generate your Salesforce scratchOrg.
-
-- Select the pre-configured B2C instance.  A record should already exist that is mapped to the B2C Commerce environment defined in your .env file.
-
-- Select the drop-down arrow next to the 'Printable View' quick action in the top right of the B2C Instance record detail view and select 'Seed CustomerLists and Sites'.
-
-> This will retrieve the configured list of B2C CustomerLists and Sites from the B2C Instance.  These records will be seeded in the b2c-crm-sync application, and will drive integration with B2C Commerce.
-
-- Select the drop-down arrow next to the 'Printable View' quick action in the top right of the B2C Instance record detail view and select 'Activate B2C CustomerLists'.
-
-> This will enable all retrieved CustomerLists for integration with B2C Commerce.  All integration capabilities for CustomerLists can be managed via the Active and Permission Flags on the B2C Commerce Instance, CustomerList, and Site records.
+> This command will seed the B2C Instance record, retrieve the B2C Commerce CustomerLists and Sites, and set up the base configuration for all of these records.  It leverages a Salesforce REST API that interacts with B2C Commerce via OCAPI.
 
 #### Build and Deploy b2c-crm-sync to Your Commerce Cloud Sandbox
 
@@ -858,6 +874,52 @@ With the AuthProvider verified and match rules in place, you are now in a positi
 npm run crm-sync:b2c:build
 ```
 > This CLI command will generate the services.xml file based on the previously generated connected apps step #4, generate a zip archive containing the metadata required by b2c-crm-sync, deploy this archive, generate a zip archive containing the b2c-crm-sync cartridges and deploy this archive to the B2C Commerce instance.
+
+#### Update the Allowed Origins in OCAPI Permissions to Allow ScratchOrg Access
+
+22.  The B2C Commerce instance's OCAPI permissions must be extended to allow the scratchOrg to create a storefront session for the Order on Behalf Of shopping experience.  This can be done by adding the scratchOrg urls to the OCAPI shop permissions as allowed origins.
+
+- Log into the Business Manager.
+- Navigate to Administration > Site Development > Open Commerce API Settings.
+- Select 'Shop API' and 'Global' from the available select boxes.
+- Add your Salesforce scratchOrg urls to the `allowed origins` section of the configuration.
+  
+```json
+    "client_id": "[-------insert your clientId here---------------]",
+    "allowed_origins": [
+        "https://[---scratchOrg custom urlPrefix----].lightning.force.com",
+        "https://[---scratchOrg custom urlPrefix----].my.salesforce.com"
+    ],
+```
+
+The `scratchOrg custom urlPrefix` represents the portion of the scratchOrg url that is dynamical generated and unique.  The `allowed_origins` setting should have two urls that leverage this prefix with different suffixes.
+
+If your scratchOrg url is `enterprise-ability-12345-dev-ed.lightning.force.com`, your `allowed_origins` entries will be:
+
+```json
+    "client_id": "[-------insert your clientId here---------------]",
+    "allowed_origins": [
+        "https://enterprise-ability-12345-dev-ed.lightning.force.com",
+        "https://enterprise-ability-12345-dev-ed.my.salesforce.com"
+    ],
+
+```
+
+- Always remember to save your changes and confirm that they've been written to your Business Manager environment.
+
+#### Create the Order of Behalf Of Anonymous Customers
+
+The B2C Commerce Order on Behalf Of feature only supports the creation of shopping sessions for registered storefront customers.  b2c-crm-sync extends this capability to anonymous storefront shoppers.  
+
+23.  Execute the following CLI command to create B2C Commerce customer profiles that will be used by Service Agents to authenticate against B2C Commerce to create anonymous agent-driven shopping sessions.
+
+```bash
+npm run crm-sync:oobo:customers:create
+```
+
+> This command will register a B2C Commerce customerProfile with the customerNo `9999999` for every customerList mapped to configured sites.  These customers are mapped to B2C Sites created in the Salesforce Platform so that agents can create shopping sessions using these profiles.
+
+The Agent will log in to the storefront using these customerProfiles when creating anonymous shopping sessions.  The storefront will recognize the anonymous OOBO customer profiles, and automatically log the customerProfile out of their registered session.  This leaves the Agent with the anonymous shopping session.
 
 ### Salesforce Customer 360 Platform Configuration Instructions
 
