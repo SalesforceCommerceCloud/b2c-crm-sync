@@ -582,7 +582,6 @@ The build tools will use this information to create scratchOrgs, set default pre
 
 You will leverage the .env file's configuration properties to dramatically simplify the build and deployment of b2c-crm-sync.  Check the package.json for the complete set of CLI commands that can be used to automate meta-data generation, service definition creation, and validate environment configurations prior to deployment.
 
-
 ### Deployment Instructions
 The b2c-crm-sync repository includes a collection of CLI commands that can be used to prepare and deploy the b2c-crm-sync assets to B2C Commerce and a Salesforce Customer 360 Platform scratchOrg.  
 
@@ -757,15 +756,22 @@ npm run crm-sync:sf:authprovider:build
 
 > This command will create the Auth Provider into the scratch org and then deploy the related Named Credentials that will leverage it. This named credential is then used by the b2c-crm-sync package to perform API calls against the B2C Commerce instance.
 
+#### Setup the AuthProvider Callback in Account Manager
+
 17. By executing the `crm-sync:sf:authprovider:build` command, the callback URL of the auth provider will be printed in the CLI console. Please copy this URL and paste it in the Redirect URIs field of the previously created Account Manager Client ID.
+
+- Toggle to the Account Manager ClientID page opened in the step **Create Your B2C Commerce Client ID**.
+- Locate the `Redirect URIs` form-field on your ClientID page.
+- Paste the callbackUrl copied from the Salesforce scratchOrg in the Redirect URIs field.
+- Click `Save` to apply the callbackUrl to the ClientID definition.
 
 > If you don't find the callback URL of the Auth Provider within the CLI console, you can find it from the Salesforce org. To do so, please go to the `Setup` menu, then type in the Quick Find field and search for `Auth. Providers` and open the Auth provider named with the B2C Commerce instance name. You'll find the callback URL at the bottom of the page.
 
-#### Setup the AuthProvider Callback in Account Manager
+#### Enable your Connection between B2C Commerce and the Salesforce Platform
 
 18. Now that both the Auth Provider and the related Named Credentials are deployed, you have to perform a first authentication from the Salesforce Core platform. This step is manual as it requires you to validate the authentication flow.
 
-- To perform this action. please go, on the scratch org, to the `Setup` menu.
+- Open the scratch org and open the `Setup` menu.
 - Type in the Quick Find field and search for `Named Credentials`.
 - In front of the `<b2c instance name>: B2C: Client Credentials` named credentials, click on the edit button.
 - Immediately click on `Save`. Performing an edit of the named credential will start the authentication process behind the scene between the Salesforce core org and the B2C Commerce instance.
