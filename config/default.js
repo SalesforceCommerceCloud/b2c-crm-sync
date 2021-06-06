@@ -170,9 +170,11 @@ module.exports = {
             "type": "b2c",
             "required": false,
             "minLength": 3,
+            "maxLength": 10,
             "cli": "-bcn, --b2c-instance-name <b2cinstancename>",
             "description": "describes a shorthand name for a given B2C instance.",
             "envProperty": "B2C_INSTANCENAME",
+            "validator": "validateB2CInstanceName",
             "configProperty": null,
             "defaultType": "env"
         },
