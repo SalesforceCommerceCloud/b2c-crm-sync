@@ -93,7 +93,7 @@
     "sfdx-node": "^2.2.0",
     "validate.js": "^0.13.1",
     "validator": "^13.6.0",
-    "zip-a-folder": "^1.0.1"
+    "zip-a-folder": "^0.0.12"
   },
   "devDependencies": {
     "@prettier/plugin-xml": "^0.13.1",
