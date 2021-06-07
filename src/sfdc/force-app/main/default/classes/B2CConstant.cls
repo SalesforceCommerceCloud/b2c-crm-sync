@@ -86,6 +86,10 @@ public with sharing class B2CConstant {
         Contact_SynchronizeProperties_ToSkip_Attributes
     };
 
+    // Define the expiration in minutes that will be used to evaluate Account Manager
+    // authToken validity (if the authToken is older than this value -- get a new one)
+    public static final Integer AuthToken_Expiration_Minutes = 25;
+
     /**
      * @description This method is used to build / create error messages by tying together string
      * attributes with a base message.
