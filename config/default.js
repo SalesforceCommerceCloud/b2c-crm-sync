@@ -451,7 +451,7 @@ module.exports = {
         // Define the structure for displaying deployment results
         "scratchOrgDeployResults": {
             head: ["State", "Type", "FilePath"],
-            colWidths: [25, 20, 77],
+            colWidths: [25, 20, 73],
             colAligns: ["middle", "middle", "left"]
         },
 
