@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>51.0</apiVersion>
+    <decisions>
+        <description>... evaluate if this Contact has the OOBO Customer Number.</description>
+        <name>dec_doesContactHaveOOBOCustomerNo</name>
+        <label>Does this Contact the OOBO Customer Number?</label>
+        <locationX>168</locationX>
+        <locationY>767</locationY>
+        <defaultConnectorLabel>Not OOBO Related</defaultConnectorLabel>
+        <rules>
+            <name>decOut_hasOOBOCustomerNo</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.B2C_Customer_No__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>recGet_configurationSettings.OOBO_Customer_Number__c</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>recUpd_relatedSitesWithOOBOProperties</targetReference>
+            </connector>
+            <label>Has OOBO Customer No</label>
+        </rules>
+    </decisions>
+    <description>... automates applying the OOBO Contact properties to each of the sites associated to the Contact&apos;s parent customerList -- when a Contact is updated that has the designated OOBO Customer No.</description>
+    <interviewLabel>B2C Commerce: Trigger: Contact: Set Site OOBO Properties {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>B2C Commerce: Trigger: Contact: Set Site OOBO Properties</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <description>... retrieve the configuration settings for the default configuration.</description>
+        <name>recGet_configurationSettings</name>
+        <label>Retrieve the Configuration Settings</label>
+        <locationX>176</locationX>
+        <locationY>564</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>dec_doesContactHaveOOBOCustomerNo</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recGet_defaultConfiguration.Active_Configuration__c</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>B2C_CRMSync_Setting__mdt</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>... retrieve the default configuration for the application.</description>
+        <name>recGet_defaultConfiguration</name>
+        <label>Retrieve the Default Configuration</label>
+        <locationX>176</locationX>
+        <locationY>376</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>recGet_configurationSettings</targetReference>
+        </connector>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>B2C_CRM_Sync_Default_Configuration__mdt</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordUpdates>
+        <description>... update the Sites related to the B2C CustomList for this Contact with the OOBO details.</description>
+        <name>recUpd_relatedSitesWithOOBOProperties</name>
+        <label>Update the Related Sites with the OOBO Properties</label>
+        <locationX>177</locationX>
+        <locationY>1004</locationY>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Customer_List__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.B2C_CustomerList__c</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>OOBO_Customer_ID__c</field>
+            <value>
+                <elementReference>$Record.B2C_Customer_ID__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>OOBO_Customer_Number__c</field>
+            <value>
+                <elementReference>$Record.B2C_Customer_No__c</elementReference>
+            </value>
+        </inputAssignments>
+        <object>B2C_Site__c</object>
+    </recordUpdates>
+    <start>
+        <locationX>50</locationX>
+        <locationY>50</locationY>
+        <connector>
+            <targetReference>recGet_defaultConfiguration</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>B2C_Customer_ID__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>B2C_Customer_No__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>B2C_CustomerList__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <object>Contact</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

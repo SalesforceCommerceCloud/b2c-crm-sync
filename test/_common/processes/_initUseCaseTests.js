@@ -5,7 +5,6 @@ const config = require('config');
 
 // Initialize tearDown helpers
 const multiCloudInit = require('../../../test/_common/processes/_multiCloudInit');
-const b2cCustomersPurge = require('../../../test/_common/processes/_b2cCustomersPurge');
 const b2cCRMSyncConfigManager = require('../../../test/_common/processes/_b2cCRMSyncConfigManager');
 const getEmailForTestProfile = require('../../../test/_use-cases/_common/_getEmailForTestProfile');
 

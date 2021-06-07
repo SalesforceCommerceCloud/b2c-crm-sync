@@ -3,9 +3,9 @@
     <apiVersion>51.0</apiVersion>
     <assignments>
         <name>assignNamedCredential</name>
-        <label>AssignNamedCredentialToSite</label>
-        <locationX>792</locationX>
-        <locationY>1526</locationY>
+        <label>Assign the Named Credential</label>
+        <locationX>1258</locationX>
+        <locationY>446</locationY>
         <assignmentItems>
             <assignToReference>EvalSite_Loop.Named_Credential_Developer_Name__c</assignToReference>
             <operator>Assign</operator>
@@ -19,9 +19,9 @@
     </assignments>
     <assignments>
         <name>copyNamedCredentialToSite</name>
-        <label>copyNamedCredentialToSite</label>
-        <locationX>1012</locationX>
-        <locationY>758</locationY>
+        <label>Assign the Named Credential</label>
+        <locationX>201</locationX>
+        <locationY>668</locationY>
         <assignmentItems>
             <assignToReference>CurrentSite_Loop.Named_Credential_Developer_Name__c</assignToReference>
             <operator>Assign</operator>
@@ -35,9 +35,9 @@
     </assignments>
     <assignments>
         <name>CopyValues_Assignment</name>
-        <label>CopyValues Assignment</label>
-        <locationX>1144</locationX>
-        <locationY>974</locationY>
+        <label>Copy Eval Site Values</label>
+        <locationX>577</locationX>
+        <locationY>668</locationY>
         <assignmentItems>
             <assignToReference>CurrentSite_Loop.API_Url__c</assignToReference>
             <operator>Assign</operator>
@@ -65,9 +65,9 @@
     </assignments>
     <assignments>
         <name>CreateRecord_Assignment</name>
-        <label>CreateRecord Assignment</label>
-        <locationX>792</locationX>
-        <locationY>1646</locationY>
+        <label>Add to the Create Collection</label>
+        <locationX>1258</locationX>
+        <locationY>241</locationY>
         <assignmentItems>
             <assignToReference>CreateSiteList</assignToReference>
             <operator>Add</operator>
@@ -80,10 +80,11 @@
         </connector>
     </assignments>
     <assignments>
+        <description>... set the recordFound flag to false for every site record being evaluated.</description>
         <name>recordFoundInit_Assignment</name>
-        <label>recordFoundInit Assignment</label>
-        <locationX>924</locationX>
-        <locationY>278</locationY>
+        <label>Default the recordFound flag</label>
+        <locationX>747</locationX>
+        <locationY>244</locationY>
         <assignmentItems>
             <assignToReference>recordFound</assignToReference>
             <operator>Assign</operator>
@@ -97,9 +98,9 @@
     </assignments>
     <assignments>
         <name>UpdateRecord_Assignment</name>
-        <label>UpdateRecord Assignment</label>
-        <locationX>1144</locationX>
-        <locationY>1094</locationY>
+        <label>Add to the Update Collection</label>
+        <locationX>199</locationX>
+        <locationY>457</locationY>
         <assignmentItems>
             <assignToReference>UpdateSiteList</assignToReference>
             <operator>Add</operator>
@@ -120,13 +121,13 @@
     </assignments>
     <decisions>
         <name>existsNamedCredentialForSite</name>
-        <label>existsNamedCredentialForSite</label>
-        <locationX>1144</locationX>
-        <locationY>638</locationY>
+        <label>Is the Named Credential Mapped for this Site?</label>
+        <locationX>194</locationX>
+        <locationY>916</locationY>
         <defaultConnector>
             <targetReference>CopyValues_Assignment</targetReference>
         </defaultConnector>
-        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <defaultConnectorLabel>Exists</defaultConnectorLabel>
         <rules>
             <name>populateNameCredentialForSite</name>
             <conditionLogic>or</conditionLogic>
@@ -147,18 +148,18 @@
             <connector>
                 <targetReference>copyNamedCredentialToSite</targetReference>
             </connector>
-            <label>populateNameCredentialForSite</label>
+            <label>Does Not Exist</label>
         </rules>
     </decisions>
     <decisions>
         <name>RecordFound_Decision</name>
-        <label>RecordFound Decision</label>
-        <locationX>1298</locationX>
-        <locationY>518</locationY>
+        <label>Was the Eval Site Found in the Current Site Collection?</label>
+        <locationX>738</locationX>
+        <locationY>923</locationY>
         <defaultConnector>
             <targetReference>CurrentSite_Loop</targetReference>
         </defaultConnector>
-        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <defaultConnectorLabel>Record Is Not Found</defaultConnectorLabel>
         <rules>
             <name>OutcomeIs_RecordFound</name>
             <conditionLogic>and</conditionLogic>
@@ -179,18 +180,19 @@
             <connector>
                 <targetReference>existsNamedCredentialForSite</targetReference>
             </connector>
-            <label>OutcomeIs RecordFound</label>
+            <label>Record Is Found</label>
         </rules>
     </decisions>
     <decisions>
+        <description>... evaluate if a Site was matched between the current and evaluation collections.</description>
         <name>RecordNotFound_Decision</name>
-        <label>RecordNotFound Decision</label>
-        <locationX>924</locationX>
-        <locationY>1406</locationY>
+        <label>Was a Site Found?</label>
+        <locationX>972</locationX>
+        <locationY>447</locationY>
         <defaultConnector>
             <targetReference>EvalSite_Loop</targetReference>
         </defaultConnector>
-        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <defaultConnectorLabel>Found</defaultConnectorLabel>
         <rules>
             <name>OutcomeIs_RecordNotFound</name>
             <conditionLogic>and</conditionLogic>
@@ -204,16 +206,17 @@
             <connector>
                 <targetReference>assignNamedCredential</targetReference>
             </connector>
-            <label>OutcomeIs RecordNotFound</label>
+            <label>Not Found</label>
         </rules>
     </decisions>
     <interviewLabel>B2C Commerce: Evaluate Sites {!$Flow.CurrentDateTime}</interviewLabel>
     <label>B2C Commerce: Evaluate Sites</label>
     <loops>
+        <description>... loop over the collection of currently configured / setup sites.</description>
         <name>CurrentSite_Loop</name>
-        <label>CurrentSite Loop</label>
-        <locationX>924</locationX>
-        <locationY>398</locationY>
+        <label>Loop Over the Current Site Collection</label>
+        <locationX>748</locationX>
+        <locationY>449</locationY>
         <collectionReference>CurrentSiteList</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -226,8 +229,8 @@
     <loops>
         <name>EvalSite_Loop</name>
         <label>EvalSite Loop</label>
-        <locationX>176</locationX>
-        <locationY>158</locationY>
+        <locationX>981</locationX>
+        <locationY>241</locationY>
         <collectionReference>EvalSiteList</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -243,7 +246,7 @@
     <processMetadataValues>
         <name>CanvasMode</name>
         <value>
-            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
         </value>
     </processMetadataValues>
     <processMetadataValues>
@@ -254,8 +257,8 @@
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
     <start>
-        <locationX>50</locationX>
-        <locationY>0</locationY>
+        <locationX>854</locationX>
+        <locationY>50</locationY>
         <connector>
             <targetReference>EvalSite_Loop</targetReference>
         </connector>

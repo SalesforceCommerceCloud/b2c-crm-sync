@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Apply_B2CCustomerList_ClientIDToSites__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>... when enabled, any new records or updates to a B2C Commerce ClientID will be automatically applied to all child sites.</description>
+    <externalId>false</externalId>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <inlineHelpText>... when enabled, any new records or updates to a B2C Commerce ClientID will be automatically applied to all child sites.</inlineHelpText>
+    <label>Apply B2C CList ClientID to Sites</label>
+    <type>Checkbox</type>
+</CustomField>

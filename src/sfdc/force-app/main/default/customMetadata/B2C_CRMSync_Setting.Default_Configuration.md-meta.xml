@@ -11,6 +11,10 @@
         <value xsi:type="xsd:string">B2CBusinessAccount</value>
     </values>
     <values>
+        <field>Apply_B2CCustomerList_ClientIDToSites__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
         <field>Default_Account_Name__c</field>
         <value xsi:type="xsd:string">Unknown Customer</value>
     </values>
@@ -25,5 +29,13 @@
     <values>
         <field>Enable_B2C_Process_Contact_Trigger__c</field>
         <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>Enable_B2C_Update_Counts_Trigger__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>OOBO_Customer_Number__c</field>
+        <value xsi:type="xsd:string">9999999</value>
     </values>
 </CustomMetadata>

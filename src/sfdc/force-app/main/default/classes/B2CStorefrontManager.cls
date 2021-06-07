@@ -184,7 +184,9 @@ public with sharing class B2CStorefrontManager extends B2CBaseMeta {
         siteQuery.selectField('CustomerList_ID__c');
         siteQuery.selectField('Storefront_Name__c');
         siteQuery.selectField('Storefront_Status__c');
-        siteQuery.selectField('Base_Site_Url__c');
+        siteQuery.selectField('Base_Custom_Site_Url__c');
+        siteQuery.selectField('Base_Internal_Site_Url__c');
+        siteQuery.selectField('OOBO_Active_Url__c');
         siteQuery.selectField('API_Url__c');
         siteQuery.selectField('Named_Credential_Developer_Name__c');
         //siteQuery.selectField('Audit_OCAPI_API_Response__c');

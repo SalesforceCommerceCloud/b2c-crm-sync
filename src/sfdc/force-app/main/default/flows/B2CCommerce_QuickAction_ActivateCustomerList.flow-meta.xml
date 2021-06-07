@@ -48,7 +48,7 @@
     </assignments>
     <description>... activates the selected B2C Commerce CustomerList and enable integration with B2C Commerce.</description>
     <interviewLabel>B2C Commerce: Quick Action: Activate CustomerList {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>B2C Commerce: Quick Action: Activate CustomerList</label>
+    <label>B2C Commerce: Quick Action: CustomerList: Activate</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>

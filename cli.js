@@ -68,6 +68,12 @@ program = cliInterface.b2cVerify(program);
 // Attach the command used to verify that the configuration can be authed successfully
 program = cliInterface.b2cAuthClientCredentials(program);
 
+// Attach the command used to verify Business Manager user credentials can authenticate
+program = cliInterface.b2cAuthBMUser(program);
+
+// Attach the commands used to retrieve and push OCAPI user credentials
+program = cliInterface.b2cOCAPIGet(program);
+
 // Attach the command used to verify the setup of the B2C Commerce deployment folders
 program = cliInterface.b2cDeploySetup(program);
 
@@ -97,6 +103,15 @@ program = cliInterface.b2cSitesCartridgesAdd(program);
 
 // Attach the command used to generate the services metadata file based on the template
 program = cliInterface.b2cServicesCreate(program);
+
+// Attach the command used to retrieve or create the OOBO Customer used for anonymous authentication
+program = cliInterface.b2cOOBOCustomersCreate(program);
+
+// Attach the command used to delete the OOBO Customer used for anonymous authentication
+program = cliInterface.b2cOOBOCustomersDelete(program);
+
+// Attach the command used to retrieve the OOBO Customer used for anonymous authentication
+program = cliInterface.b2cOOBOCustomersVerify(program);
 
 // Attach the command used to generate the meta-data, deploy the meta-data and deploy the code to the B2C Commerce instance
 program = cliInterface.b2cBuild(program);
@@ -158,6 +173,9 @@ program = cliInterface.sfScratchOrgBuild(program);
 
 // Attach the command used to display a user's details
 program = cliInterface.sfUserDetails(program);
+
+// Attach the command used to seed customerLists and sites (instance setup)
+program = cliInterface.sfInstanceSetup(program);
 
 // Parse the command-line arguments
 program.parse(process.argv);

@@ -4,8 +4,8 @@
     <assignments>
         <name>Lookup_Assignment</name>
         <label>Lookup Assignment</label>
-        <locationX>180</locationX>
-        <locationY>498</locationY>
+        <locationX>177</locationX>
+        <locationY>514</locationY>
         <assignmentItems>
             <assignToReference>$Record.Customer_List__c</assignToReference>
             <operator>Assign</operator>
@@ -16,7 +16,7 @@
     </assignments>
     <description>... this updates the B2C CustomerList association for a given B2C Site whenever the site&apos;s B2C CustomerList ID value is set.</description>
     <interviewLabel>B2C Commerce: Site Trigger {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>B2C Commerce: Trigger: Update Site CustomerList Relationship</label>
+    <label>B2C Commerce: Trigger: B2C Site: Update CustomerList Relationship</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>

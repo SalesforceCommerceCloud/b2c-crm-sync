@@ -151,7 +151,7 @@
     </decisions>
     <description>... retrieves all the B2C Commerce CustomerLists and related Sites associated to the current B2C Commerce instance.</description>
     <interviewLabel>B2C Commerce: Quick Action: Seed CustomerLists and Sites {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>B2C Commerce: Quick Action: Seed CustomerLists and Sites</label>
+    <label>B2C Commerce: Quick Action: B2C Instance: Seed CustomerLists and Sites</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>

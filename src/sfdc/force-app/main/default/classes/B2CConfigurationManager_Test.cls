@@ -47,6 +47,32 @@ public with sharing class B2CConfigurationManager_Test {
             configurationProfile.Active_Configuration__r.Enable_B2C_Process_Contact_Trigger__c,
             isB2CProcessContactTriggerEnabled,
             'Retrieve ProcessContactTrigger from config'
-    );
+        );
+
     }
+
+
+    @IsTest
+    public static void isB2CUpdateCountsTriggerEnabled() {
+        B2C_CRM_Sync_Default_Configuration__mdt configurationProfile = [
+                SELECT  Active_Configuration__r.DeveloperName,
+                        Active_Configuration__r.MasterLabel,
+                        Active_Configuration__r.Enable_B2C_Update_Counts_Trigger__c
+                FROM    B2C_CRM_Sync_Default_Configuration__mdt
+                WHERE   DeveloperName = 'Production_Configuration'
+                LIMIT   1
+        ];
+
+        Test.startTest();
+        Boolean isB2CUpdateCountsTriggerEnabled = B2CConfigurationManager.isB2CUpdateCountsTriggerEnabled();
+        Test.stopTest();
+
+        System.assertEquals(
+                configurationProfile.Active_Configuration__r.Enable_B2C_Update_Counts_Trigger__c,
+                isB2CUpdateCountsTriggerEnabled,
+                'Retrieve UpdateCountsTrigger from config'
+        );
+
+    }
+
 }

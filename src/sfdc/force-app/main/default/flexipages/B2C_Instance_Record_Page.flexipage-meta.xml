@@ -23,6 +23,43 @@
                         </valueListItems>
                         <valueListItems>
                             <value>B2C_Instance__c.Activate_B2C_CustomerLists</value>
+                            <visibilityRule>
+                                <criteria>
+                                    <leftValue>{!Record.Total_CustomerLists__c}</leftValue>
+                                    <operator>GT</operator>
+                                    <rightValue>0</rightValue>
+                                </criteria>
+                            </visibilityRule>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>B2C_Instance__c.Deactivate_B2C_CustomerLists</value>
+                            <visibilityRule>
+                                <criteria>
+                                    <leftValue>{!Record.Total_CustomerLists__c}</leftValue>
+                                    <operator>GT</operator>
+                                    <rightValue>0</rightValue>
+                                </criteria>
+                            </visibilityRule>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>B2C_Instance__c.Activate_B2C_Sites</value>
+                            <visibilityRule>
+                                <criteria>
+                                    <leftValue>{!Record.Total_Sites__c}</leftValue>
+                                    <operator>GT</operator>
+                                    <rightValue>0</rightValue>
+                                </criteria>
+                            </visibilityRule>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>B2C_Instance__c.Deactivate_B2C_Sites</value>
+                            <visibilityRule>
+                                <criteria>
+                                    <leftValue>{!Record.Total_Sites__c}</leftValue>
+                                    <operator>GT</operator>
+                                    <rightValue>0</rightValue>
+                                </criteria>
+                            </visibilityRule>
                         </valueListItems>
                         <valueListItems>
                             <value>B2C_Instance__c.Update_Site_Counts</value>

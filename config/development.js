@@ -219,6 +219,7 @@ module.exports = {
             },
 
             // Describe the preference group to leverage
+            "crmSyncOOBOSitePreferenceGroup": "B2CCRMSyncAssistedShopping",
             "crmSyncSitePreferenceGroup": "B2CCRMSync",
 
             // Define the template used to reset SFDX properties in B2C Commerce

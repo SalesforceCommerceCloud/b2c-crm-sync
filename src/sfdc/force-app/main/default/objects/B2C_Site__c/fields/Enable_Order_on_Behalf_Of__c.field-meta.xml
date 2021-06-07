@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Enable_Order_on_Behalf_Of__c</fullName>
+    <defaultValue>true</defaultValue>
+    <description>... describes whether the current storefront can be used to launch Order on Behalf Of shopping sessions.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>... describes whether the current storefront can be used to launch Order on Behalf Of shopping sessions.</inlineHelpText>
+    <label>Enable Order on Behalf Of</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

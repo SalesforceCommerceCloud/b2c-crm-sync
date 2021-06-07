@@ -1,38 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <actionCalls>
-        <name>BusinessManagerGrant_Action</name>
-        <label>BusinessManagerGrant Action</label>
-        <locationX>476</locationX>
-        <locationY>489</locationY>
-        <actionName>B2CIABusinessManagerGrant</actionName>
-        <actionType>apex</actionType>
-        <connector>
-            <targetReference>BusinessManager_Decision</targetReference>
-        </connector>
-        <inputParameters>
-            <name>clientId</name>
-            <value>
-                <elementReference>selectedClientId</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>namedCredential</name>
-            <value>
-                <elementReference>selectedNamedCredential</elementReference>
-            </value>
-        </inputParameters>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </actionCalls>
-    <actionCalls>
         <name>CustomerAuth_Action</name>
         <label>CustomerAuth Action</label>
-        <locationX>476</locationX>
-        <locationY>676</locationY>
+        <locationX>1545</locationX>
+        <locationY>2692</locationY>
         <actionName>B2CIAAuthCustomerClientCredentialsGrant</actionName>
         <actionType>apex</actionType>
         <connector>
-            <targetReference>CustomerAuth_Decision</targetReference>
+            <targetReference>dec_OOBOCustomerAuth</targetReference>
         </connector>
         <inputParameters>
             <name>clientId</name>
@@ -61,7 +37,7 @@
         <inputParameters>
             <name>token</name>
             <value>
-                <elementReference>BusinessManagerGrant_Action.accessToken</elementReference>
+                <elementReference>ia_getBusinessManagerUserGrant.accessToken</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
@@ -72,51 +48,62 @@
         </inputParameters>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </actionCalls>
+    <actionCalls>
+        <description>... obtain a Business Manager user grant from the B2C Instance.</description>
+        <name>ia_getBusinessManagerUserGrant</name>
+        <label>Obtain a Business Manager User Grant</label>
+        <locationX>1289</locationX>
+        <locationY>2515</locationY>
+        <actionName>B2CIABusinessManagerGrant</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>dec_wasBMUserGrantAuthTokenReturned</targetReference>
+        </connector>
+        <inputParameters>
+            <name>clientId</name>
+            <value>
+                <elementReference>selectedClientId</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>namedCredential</name>
+            <value>
+                <elementReference>selectedOOBONamedCredential</elementReference>
+            </value>
+        </inputParameters>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </actionCalls>
     <apiVersion>51.0</apiVersion>
     <assignments>
-        <name>CustomerId_Assignment</name>
-        <label>CustomerId Assignment</label>
-        <locationX>1183</locationX>
-        <locationY>79</locationY>
+        <description>... assign the active B2C Site Count to a local variable.</description>
+        <name>asn_activeB2CSites</name>
+        <label>Assign the Active B2C Site Count</label>
+        <locationX>1299</locationX>
+        <locationY>503</locationY>
         <assignmentItems>
-            <assignToReference>selectedCustomerId</assignToReference>
+            <assignToReference>activeB2CSitesCount</assignToReference>
+            <operator>AssignCount</operator>
+            <value>
+                <elementReference>recGet_activeB2CSites</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>activeB2CSites</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>Contact_GetRecord.B2C_Customer_ID__c</elementReference>
+                <elementReference>recGet_activeB2CSites</elementReference>
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Screen_Site_Selection</targetReference>
+            <targetReference>dec_wasActiveB2CSiteFound</targetReference>
         </connector>
     </assignments>
     <assignments>
-        <name>CustomerListId_Assignment</name>
-        <label>CustomerListId and CustomerId Assignment</label>
-        <locationX>1112</locationX>
-        <locationY>318</locationY>
-        <assignmentItems>
-            <assignToReference>CustomerListId</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>Contact_GetRecord.B2C_CustomerList__r.Name</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>selectedCustomerId</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>Contact_GetRecord.B2C_Customer_ID__c</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>Screen_Site_Selection</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
-        <name>OOBOCustomerId_Assignment</name>
-        <label>OOBOCustomerId Assignment</label>
-        <locationX>1074</locationX>
-        <locationY>578</locationY>
+        <description>... take the anonymous customer identifiers and assign them to the OOBO session.</description>
+        <name>asn_anonOOBOIdentifiers</name>
+        <label>Assign the Anonymous OOBO Identifiers</label>
+        <locationX>1540</locationX>
+        <locationY>2292</locationY>
         <assignmentItems>
             <assignToReference>selectedCustomerId</assignToReference>
             <operator>Assign</operator>
@@ -124,47 +111,297 @@
                 <elementReference>selectedOOBOCustomerId</elementReference>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>isAnonymousShoppingSession</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
         <connector>
-            <targetReference>CanInvokeCallouts_Decisions</targetReference>
+            <targetReference>dec_validateOOBOConfigRequirements</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>... capture the Contact identifiers used to identify the B2C Customer record.</description>
+        <name>asn_b2cCustomerListAndCustomerID</name>
+        <label>Capture the B2C CustomerList ID</label>
+        <locationX>1463</locationX>
+        <locationY>1415</locationY>
+        <assignmentItems>
+            <assignToReference>selectedCustomerListId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>recGet_contactRecord.B2C_CustomerList__r.Name</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>selectedCustomerId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>recGet_contactRecord.B2C_Customer_ID__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>isAnonymousShoppingSession</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>contactCustomerListId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>recGet_contactRecord.B2C_CustomerList__r.Name</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>dec_wasOnlyOneSiteFound</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>... default the CustomerList of the Contact record.</description>
+        <name>asn_customerIDAssignment</name>
+        <label>Default the B2C CustomerList</label>
+        <locationX>1108</locationX>
+        <locationY>1410</locationY>
+        <assignmentItems>
+            <assignToReference>selectedCustomerId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>recGet_contactRecord.B2C_Customer_ID__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>selectedCustomerListId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue/>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>isAnonymousShoppingSession</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>dec_wasOnlyOneSiteFound</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>... take the properties from the single B2C Site and copy them to the collection of selected values.</description>
+        <name>asn_selectedB2CSiteValues</name>
+        <label>Assign the Selected Site Values</label>
+        <locationX>1537</locationX>
+        <locationY>1788</locationY>
+        <assignmentItems>
+            <assignToReference>selectedClientId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>loop_iterateB2CSites.B2C_Client_ID__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>selectedCustomerListId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>loop_iterateB2CSites.CustomerList_ID__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>selectedNamedCredential</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>loop_iterateB2CSites.Named_Credential_Developer_Name__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>selectedOOBOCustomerId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>loop_iterateB2CSites.OOBO_Customer_ID__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>selectedOOBOCustomerNo</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>loop_iterateB2CSites.OOBO_Customer_Number__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>selectedOOBONamedCredential</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>loop_iterateB2CSites.OOBO_Named_Credential_Developer_Name__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>selectedShopUrlCustom</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>loop_iterateB2CSites.Base_Custom_Site_Url__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>selectedShopUrlInternal</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>loop_iterateB2CSites.Base_Internal_Site_Url__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>selectedShopUrlType</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>loop_iterateB2CSites.OOBO_Active_Url__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>selectedSiteApi</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>loop_iterateB2CSites.API_Url__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>selectedSiteId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>loop_iterateB2CSites.Name</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>selectedSiteVersion</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>loop_iterateB2CSites.OCAPI_Version_No__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>loop_iterateB2CSites</targetReference>
         </connector>
     </assignments>
     <decisions>
-        <name>BusinessManager_Decision</name>
-        <label>BusinessManager Decision</label>
-        <locationX>322</locationX>
-        <locationY>581</locationY>
+        <description>... evaluate if the OOBO CustomerID mapped to the selected storefront is valid.</description>
+        <name>dec_b2cSiteIsAnonCustomerIDValid</name>
+        <label>Was a Valid Anon CustomerID Found?</label>
+        <locationX>1532</locationX>
+        <locationY>2028</locationY>
+        <defaultConnector>
+            <targetReference>scrn_noAnonCustomerIDSiteConfig</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Is Not Valid</defaultConnectorLabel>
+        <rules>
+            <name>decOut_b2cSiteIsAnonCustomerIDValidTrue</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>selectedOOBOCustomerId</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>asn_anonOOBOIdentifiers</targetReference>
+            </connector>
+            <label>Is Valid</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>... evaluate if the CustomerList associated to a given Contact is active or present.</description>
+        <name>dec_isB2CCustomerListActive</name>
+        <label>Evaluate the Contact&apos;s B2C CustomerList</label>
+        <locationX>1292</locationX>
+        <locationY>1240</locationY>
+        <defaultConnector>
+            <targetReference>asn_b2cCustomerListAndCustomerID</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Exists</defaultConnectorLabel>
+        <rules>
+            <name>decOut_isB2CCustomerListActiveNotExists</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>recGet_contactRecord.B2C_CustomerList__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>asn_customerIDAssignment</targetReference>
+            </connector>
+            <label>Does Not Exist</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>... evaluate if the OOBO customerAuthentication event succeeded with no errors.</description>
+        <name>dec_OOBOCustomerAuth</name>
+        <label>Was the OOBO Customer Authentication Successful?</label>
+        <locationX>1537</locationX>
+        <locationY>2957</locationY>
         <defaultConnector>
             <targetReference>Screen_Error_Auth</targetReference>
         </defaultConnector>
-        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <defaultConnectorLabel>Was Not Successful</defaultConnectorLabel>
         <rules>
-            <name>OutcomeIs_BusinessManagerNotError</name>
+            <name>decOut_OOBOCustomerAuthWasSuccessful</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>BusinessManagerGrant_Action.isError</leftValueReference>
+                <leftValueReference>CustomerAuth_Action.isError</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>CustomerAuth_Action</targetReference>
+                <targetReference>scrn_launchOOBOShoppingSession</targetReference>
             </connector>
-            <label>OutcomeIs BusinessManagerNotError</label>
+            <label>Was Successful</label>
         </rules>
     </decisions>
     <decisions>
-        <name>CanInvokeCallouts_Decisions</name>
-        <label>CanInvokeCallouts Decisions</label>
-        <locationX>836</locationX>
-        <locationY>482</locationY>
+        <description>... evaluate if we can use the Contact&apos;s B2C Commerce profile for the OOBO shopping session with the specified site.</description>
+        <name>dec_useB2CCustomerProfileForOOBO</name>
+        <label>Use the Contact&apos;s B2C Commerce Customer Profile?</label>
+        <locationX>1281</locationX>
+        <locationY>2032</locationY>
         <defaultConnector>
-            <targetReference>Screen_CouldNotInvokeCallout</targetReference>
+            <targetReference>dec_b2cSiteIsAnonCustomerIDValid</targetReference>
         </defaultConnector>
-        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <defaultConnectorLabel>Us Anonymous Profile</defaultConnectorLabel>
         <rules>
-            <name>OutcomeIs_CanInvokeCallouts</name>
+            <name>decOut_CustomerListNotFound</name>
             <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>selectedCustomerListId</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>contactCustomerListId</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>dec_validateOOBOConfigRequirements</targetReference>
+            </connector>
+            <label>Use Customer Profile</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>... evaluate the configuration requirements for OOBO and determine if the user can proceed.</description>
+        <name>dec_validateOOBOConfigRequirements</name>
+        <label>Validate OOBO Configuration Requirements</label>
+        <locationX>1280</locationX>
+        <locationY>2294</locationY>
+        <defaultConnector>
+            <targetReference>scrn_OOBOConfigurationInvalid</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Is Not Valid</defaultConnectorLabel>
+        <rules>
+            <name>decOut_validateOOBOConfigRequirementsIsValid</name>
+            <conditionLogic>(1 AND 2 AND 3 AND 4 AND 5 AND 6) AND ((7 AND 8) OR (9 AND 10))</conditionLogic>
             <conditions>
                 <leftValueReference>selectedClientId</leftValueReference>
                 <operator>IsNull</operator>
@@ -173,21 +410,7 @@
                 </rightValue>
             </conditions>
             <conditions>
-                <leftValueReference>selectedCustomerId</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
                 <leftValueReference>selectedNamedCredential</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>selectedShopUrl</leftValueReference>
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
@@ -214,96 +437,129 @@
                     <booleanValue>false</booleanValue>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>selectedShopUrlType</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>selectedShopUrlType</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Internal</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>selectedShopUrlInternal</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>selectedShopUrlType</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>External</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>lbl_b2cSiteCustomShopUrl</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
             <connector>
-                <targetReference>BusinessManagerGrant_Action</targetReference>
+                <targetReference>ia_getBusinessManagerUserGrant</targetReference>
             </connector>
-            <label>OutcomeIs CanInvokeCallouts</label>
+            <label>Is Valid</label>
         </rules>
     </decisions>
     <decisions>
-        <name>CustomerAuth_Decision</name>
-        <label>CustomerAuth Decision</label>
-        <locationX>326</locationX>
-        <locationY>895</locationY>
+        <description>... evaluate if at least one (1) active B2C Site was retrieved</description>
+        <name>dec_wasActiveB2CSiteFound</name>
+        <label>Was an Active B2C Site Found?</label>
+        <locationX>1290</locationX>
+        <locationY>674</locationY>
+        <defaultConnector>
+            <targetReference>scrn_noActiveB2CSitesFound</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Was Not Found</defaultConnectorLabel>
+        <rules>
+            <name>decOut_ActiveB2CSiteFound</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>activeB2CSitesCount</leftValueReference>
+                <operator>GreaterThan</operator>
+                <rightValue>
+                    <numberValue>0.0</numberValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Screen_Init_OOBO</targetReference>
+            </connector>
+            <label>Was Found</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>... evaluate if a Business Manager User Grant authToken was returned.</description>
+        <name>dec_wasBMUserGrantAuthTokenReturned</name>
+        <label>Was an AuthToken Returned?</label>
+        <locationX>1281</locationX>
+        <locationY>2697</locationY>
         <defaultConnector>
             <targetReference>Screen_Error_Auth</targetReference>
         </defaultConnector>
-        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <defaultConnectorLabel>Was Not Returned</defaultConnectorLabel>
         <rules>
-            <name>OutcomeIs_CustomerAuthNotError</name>
+            <name>decOut_BMUserAuthTokenReturned</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>CustomerAuth_Action.isError</leftValueReference>
+                <leftValueReference>ia_getBusinessManagerUserGrant.isError</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Screen_OrderOnBehalfOf</targetReference>
+                <targetReference>CustomerAuth_Action</targetReference>
             </connector>
-            <label>OutcomeIs CustomerAuthNotError</label>
+            <label>Was Returned</label>
         </rules>
     </decisions>
     <decisions>
-        <name>CustomerId_Decision</name>
-        <label>CustomerId Decision</label>
-        <locationX>1272</locationX>
-        <locationY>475</locationY>
+        <description>... evaluate if only one site was found among the list of available B2C Sites supporting OOBO.</description>
+        <name>dec_wasOnlyOneSiteFound</name>
+        <label>Was Only One Site Found?</label>
+        <locationX>1278</locationX>
+        <locationY>1565</locationY>
         <defaultConnector>
-            <targetReference>OOBOCustomerId_Assignment</targetReference>
+            <targetReference>scrn_b2cSiteSelect</targetReference>
         </defaultConnector>
-        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <defaultConnectorLabel>Multiple Sites</defaultConnectorLabel>
         <rules>
-            <name>OutcomeIs_CustomerIdIsNotNull</name>
+            <name>decOut_wasOnlyOneSiteFound_oneSite</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>Contact_GetRecord.B2C_Customer_ID__c</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>CanInvokeCallouts_Decisions</targetReference>
-            </connector>
-            <label>OutcomeIs CustomerIdIsNotNull</label>
-        </rules>
-    </decisions>
-    <decisions>
-        <name>Is_Active_B2C_Customer_List</name>
-        <label>Is Active B2C Customer List?</label>
-        <locationX>766</locationX>
-        <locationY>327</locationY>
-        <defaultConnector>
-            <targetReference>CustomerListId_Assignment</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>Customer List Is Active</defaultConnectorLabel>
-        <rules>
-            <name>No_Active_Customer_List_Found</name>
-            <conditionLogic>or</conditionLogic>
-            <conditions>
-                <leftValueReference>Contact_GetRecord.B2C_CustomerList__r.Is_Active__c</leftValueReference>
+                <leftValueReference>activeB2CSitesCount</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>Contact_GetRecord.B2C_CustomerList__c</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
+                    <numberValue>1.0</numberValue>
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Screen_Error_B2CCustomomerListNotActive</targetReference>
+                <targetReference>loop_iterateB2CSites</targetReference>
             </connector>
-            <label>No Active Customer List Found</label>
+            <label>Only One Site</label>
         </rules>
     </decisions>
+    <description>... this flow is used to launch the Order on Behalf Of shopping experience for Service Agents.</description>
     <dynamicChoiceSets>
-        <name>ActiveCustomerListsRecordChoiceSet</name>
+        <description>... represents the collection of active B2C Sites mapped to the selected / filtered CustomerList.</description>
+        <name>rcActiveB2CSites</name>
         <dataType>String</dataType>
         <displayField>Name</displayField>
         <filterLogic>and</filterLogic>
@@ -314,27 +570,22 @@
                 <booleanValue>true</booleanValue>
             </value>
         </filters>
-        <object>B2C_CustomerList__c</object>
-        <outputAssignments>
-            <assignToReference>CustomerListId</assignToReference>
-            <field>Name</field>
-        </outputAssignments>
-        <valueField>Name</valueField>
-    </dynamicChoiceSets>
-    <dynamicChoiceSets>
-        <name>SiteRecordChoiceSet</name>
-        <dataType>String</dataType>
-        <displayField>Name</displayField>
-        <filterLogic>and</filterLogic>
         <filters>
-            <field>CustomerList_ID__c</field>
+            <field>Enable_Order_on_Behalf_Of__c</field>
             <operator>EqualTo</operator>
             <value>
-                <elementReference>CustomerListId</elementReference>
+                <booleanValue>true</booleanValue>
             </value>
         </filters>
         <filters>
-            <field>Is_Active__c</field>
+            <field>Is_CustomerList_Active__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Is_Instance_Active__c</field>
             <operator>EqualTo</operator>
             <value>
                 <booleanValue>true</booleanValue>
@@ -350,31 +601,68 @@
             <field>Base_API_Url__c</field>
         </outputAssignments>
         <outputAssignments>
-            <assignToReference>selectedShopUrl</assignToReference>
-            <field>Base_Site_Url__c</field>
+            <assignToReference>selectedShopUrlCustom</assignToReference>
+            <field>Base_Custom_Site_Url__c</field>
+        </outputAssignments>
+        <outputAssignments>
+            <assignToReference>selectedShopUrlInternal</assignToReference>
+            <field>Base_Internal_Site_Url__c</field>
         </outputAssignments>
         <outputAssignments>
             <assignToReference>selectedSiteId</assignToReference>
             <field>Name</field>
         </outputAssignments>
         <outputAssignments>
+            <assignToReference>selectedNamedCredential</assignToReference>
+            <field>Named_Credential_Developer_Name__c</field>
+        </outputAssignments>
+        <outputAssignments>
             <assignToReference>selectedSiteVersion</assignToReference>
             <field>OCAPI_Version_No__c</field>
+        </outputAssignments>
+        <outputAssignments>
+            <assignToReference>selectedShopUrlType</assignToReference>
+            <field>OOBO_Active_Url__c</field>
         </outputAssignments>
         <outputAssignments>
             <assignToReference>selectedOOBOCustomerId</assignToReference>
             <field>OOBO_Customer_ID__c</field>
         </outputAssignments>
         <outputAssignments>
-            <assignToReference>selectedNamedCredential</assignToReference>
+            <assignToReference>selectedOOBOCustomerNo</assignToReference>
+            <field>OOBO_Customer_Number__c</field>
+        </outputAssignments>
+        <outputAssignments>
+            <assignToReference>selectedOOBONamedCredential</assignToReference>
             <field>OOBO_Named_Credential_Developer_Name__c</field>
         </outputAssignments>
         <sortField>Name</sortField>
         <sortOrder>Asc</sortOrder>
         <valueField>Name</valueField>
     </dynamicChoiceSets>
+    <formulas>
+        <description>... evaluates which storefrontUrl to leverage -- the internalUrl or the customUrl driven by the urlType configuration.</description>
+        <name>frm_selectedStorefrontUrl</name>
+        <dataType>String</dataType>
+        <expression>IF({!selectedShopUrlType} = &quot;Internal&quot;, {!selectedShopUrlInternal}, IF(ISBLANK({!selectedShopUrlCustom}),{!selectedShopUrlInternal}, {!selectedShopUrlCustom}))</expression>
+    </formulas>
     <interviewLabel>B2C Commerce: Order On Behalf Of {!$Flow.CurrentDateTime}</interviewLabel>
     <label>B2C Commerce: Order On Behalf Of: Contacts</label>
+    <loops>
+        <description>... loop over the collection of B2C Sites that are available</description>
+        <name>loop_iterateB2CSites</name>
+        <label>Loop Over the B2C Sites</label>
+        <locationX>1288</locationX>
+        <locationY>1788</locationY>
+        <collectionReference>recGet_activeB2CSites</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>asn_selectedB2CSiteValues</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>dec_useB2CCustomerProfileForOOBO</targetReference>
+        </noMoreValuesConnector>
+    </loops>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -395,13 +683,57 @@
     </processMetadataValues>
     <processType>Flow</processType>
     <recordLookups>
-        <name>Contact_GetRecord</name>
-        <label>Contact GetRecord</label>
-        <locationX>477</locationX>
+        <description>... retrieve the collection of active B2C Sites to validate that at least one (1) exists.</description>
+        <name>recGet_activeB2CSites</name>
+        <label>Get B2C Sites</label>
+        <locationX>1299</locationX>
         <locationY>325</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Is_Active_B2C_Customer_List</targetReference>
+            <targetReference>asn_activeB2CSites</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Is_Active__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Is_CustomerList_Active__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Is_Instance_Active__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Enable_Order_on_Behalf_Of__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>B2C_Site__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>... retrieve the contact record used to launch the OOBO flow.</description>
+        <name>recGet_contactRecord</name>
+        <label>Retrieve the Contact</label>
+        <locationX>1300</locationX>
+        <locationY>1063</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>dec_isB2CCustomerListActive</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -413,140 +745,160 @@
         </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
         <object>Contact</object>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>B2C_Instance__c</queriedFields>
+        <queriedFields>B2C_CustomerList_ID__c</queriedFields>
+        <queriedFields>B2C_CustomerList__c</queriedFields>
+        <queriedFields>B2C_Customer_ID__c</queriedFields>
+        <queriedFields>B2C_Customer_No__c</queriedFields>
+        <queriedFields>FirstName</queriedFields>
+        <queriedFields>LastName</queriedFields>
+        <queriedFields>Email</queriedFields>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <screens>
-        <name>Screen_CouldNotInvokeCallout</name>
-        <label>CouldNotInvokeCallout Screen</label>
-        <locationX>845</locationX>
-        <locationY>697</locationY>
-        <allowBack>false</allowBack>
-        <allowFinish>true</allowFinish>
-        <allowPause>false</allowPause>
-        <fields>
-            <name>CouldNotInvokeCallout_DisplayText</name>
-            <fieldText>&lt;p&gt;&lt;b&gt;Order On Behalf Of could not be launched.&lt;/b&gt;&lt;/p&gt;&lt;p&gt;Either customer or site information is missing.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Please, confirm that the following data is populated:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Client ID&lt;/li&gt;&lt;li&gt;Customer ID&lt;/li&gt;&lt;li&gt;Named Credential&lt;/li&gt;&lt;li&gt;Shop URL&lt;/li&gt;&lt;li&gt;Site API URL&lt;/li&gt;&lt;li&gt;Site ID&lt;/li&gt;&lt;li&gt;Site Version&lt;/li&gt;&lt;/ul&gt;</fieldText>
-            <fieldType>DisplayText</fieldType>
-        </fields>
-        <showFooter>true</showFooter>
-        <showHeader>true</showHeader>
-    </screens>
-    <screens>
-        <name>Screen_CustomerAuth</name>
-        <label>DEBUG_CustomerAuth_Screen</label>
-        <locationX>347</locationX>
-        <locationY>736</locationY>
-        <allowBack>false</allowBack>
-        <allowFinish>true</allowFinish>
-        <allowPause>false</allowPause>
-        <connector>
-            <targetReference>CustomerAuth_Decision</targetReference>
-        </connector>
-        <fields>
-            <name>CustomerAuth_DisplayText</name>
-            <fieldText>&lt;p&gt;{!CustomerAuth_Action.accessToken}&lt;/p&gt;</fieldText>
-            <fieldType>DisplayText</fieldType>
-        </fields>
-        <showFooter>true</showFooter>
-        <showHeader>true</showHeader>
-    </screens>
-    <screens>
-        <name>Screen_Debug_BusinessManager</name>
-        <label>DEBUG_BusinessManager Screen</label>
-        <locationX>328</locationX>
-        <locationY>429</locationY>
-        <allowBack>false</allowBack>
-        <allowFinish>true</allowFinish>
-        <allowPause>false</allowPause>
-        <connector>
-            <targetReference>BusinessManager_Decision</targetReference>
-        </connector>
-        <fields>
-            <name>BusinessManagerToken_DisplayText</name>
-            <fieldText>&lt;p&gt;{!BusinessManagerGrant_Action.accessToken}&lt;/p&gt;</fieldText>
-            <fieldType>DisplayText</fieldType>
-        </fields>
-        <showFooter>true</showFooter>
-        <showHeader>true</showHeader>
-    </screens>
-    <screens>
-        <name>Screen_DEBUG_ContactFields</name>
-        <label>DEBUG ContactFields</label>
-        <locationX>1048</locationX>
-        <locationY>182</locationY>
-        <allowBack>true</allowBack>
-        <allowFinish>true</allowFinish>
-        <allowPause>true</allowPause>
-        <connector>
-            <targetReference>CustomerListId_Assignment</targetReference>
-        </connector>
-        <fields>
-            <name>contact_displaytext</name>
-            <fieldText>&lt;p&gt;{!Contact_GetRecord.Id}&lt;/p&gt;</fieldText>
-            <fieldType>DisplayText</fieldType>
-        </fields>
-        <showFooter>true</showFooter>
-        <showHeader>true</showHeader>
-    </screens>
-    <screens>
         <name>Screen_Error_Auth</name>
         <label>Error Screen</label>
-        <locationX>32</locationX>
-        <locationY>708</locationY>
+        <locationX>1290</locationX>
+        <locationY>2957</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <fields>
-            <name>DisplayText_ErrorWithAuth</name>
-            <fieldText>&lt;p&gt;&lt;b&gt;Order On Behalf of Customer&lt;/b&gt; could not be launched, please review details below.&lt;/p&gt;</fieldText>
+            <name>lbl_b2cCommerceRESTAPIError_Headline</name>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 16px;&quot;&gt;Unable to Create an Order on Behalf Of Shopping Session&lt;/b&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
-            <name>Text_ErrorMsg</name>
-            <defaultValue>
-                <stringValue>{!BusinessManagerGrant_Action.errorMessage}
-{!CustomerAuth_Action.errorMessage}</stringValue>
-            </defaultValue>
-            <fieldText>Error Message:</fieldText>
-            <fieldType>LargeTextArea</fieldType>
+            <name>Screen_Error_Auth_Section1</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>Screen_Error_Auth_Section1_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>DisplayText_ErrorWithAuth</name>
+                    <fieldText>&lt;p&gt;&lt;b&gt;The B2C Commerce Instance&apos;s REST API Responded With an Error&lt;/b&gt;&lt;/p&gt;&lt;p&gt;An error occurred when interacting with the B2C Commerce environment and attempting to authenticate the Service Against.  Please review the REST API error message(s) below for details regarding this failure.&lt;/p&gt;&lt;ul&gt;&lt;li&gt;The &lt;a href=&quot;https://documentation.b2c.commercecloud.salesforce.com/DOC2/topic/com.demandware.dochelp/OCAPI/current/usage/OAuth.html&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;&lt;b&gt;Business Manager User Grant&lt;/b&gt;&lt;/a&gt; is used to authenticate the Service Agent against the B2C Commerce Instane&lt;/li&gt;&lt;li&gt;The &lt;a href=&quot;https://documentation.b2c.commercecloud.salesforce.com/DOC2/topic/com.demandware.dochelp/OCAPI/current/shop/Resources/Customers.html#id152104953__id-1055795270&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;&lt;b&gt;OOBO Customer Authentication&lt;/b&gt;&lt;/a&gt; is used to authenticate the B2C Commerce Customer (either anonymous or registered) against the selected storefront&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>8</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>Screen_Error_Auth_Section1_Column2</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>lbl_restAPIError_Image</name>
+                    <extensionName>flowruntime:image</extensionName>
+                    <fieldType>ComponentInstance</fieldType>
+                    <inputParameters>
+                        <name>imageName</name>
+                        <value>
+                            <stringValue>astroemergency</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>horizontalAlignment</name>
+                        <value>
+                            <stringValue>center</stringValue>
+                        </value>
+                    </inputParameters>
+                    <isRequired>true</isRequired>
+                    <storeOutputAutomatically>true</storeOutputAutomatically>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>4</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
             <isRequired>false</isRequired>
         </fields>
         <fields>
-            <name>Text_ErrorDetails</name>
-            <defaultValue>
-                <stringValue>{!BusinessManagerGrant_Action.responseBody}
-{!CustomerAuth_Action.responseBody}</stringValue>
-            </defaultValue>
-            <fieldText>Error Details:</fieldText>
-            <fieldType>LargeTextArea</fieldType>
+            <name>Screen_Error_Auth_Section2</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>Screen_Error_Auth_Section2_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>lbl_bmUserGrantAuthError_subTitle</name>
+                    <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 14px;&quot;&gt;Business Manager User Grant&lt;/b&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <fields>
+                    <name>lbl_BMUserGrantErrorMessage</name>
+                    <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>ia_getBusinessManagerUserGrant.errorMessage</elementReference>
+                    </defaultValue>
+                    <fieldText>B2C User Grant Error Message</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <isRequired>false</isRequired>
+                </fields>
+                <fields>
+                    <name>lbl_BMUserGrantResponseBody</name>
+                    <defaultValue>
+                        <stringValue>{!ia_getBusinessManagerUserGrant.responseBody}</stringValue>
+                    </defaultValue>
+                    <fieldText>B2C User Grant Response Body</fieldText>
+                    <fieldType>LargeTextArea</fieldType>
+                    <isRequired>false</isRequired>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>Screen_Error_Auth_Section2_Column2</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>lbl_ooboCustomerAuthError_subTitle</name>
+                    <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 14px;&quot;&gt;OOBO Customer Authentication&lt;/b&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <fields>
+                    <name>lbl_OOBOCustomerAuthErrorMessage</name>
+                    <dataType>String</dataType>
+                    <defaultValue>
+                        <stringValue> {!CustomerAuth_Action.errorMessage}</stringValue>
+                    </defaultValue>
+                    <fieldText>OOBO Customer Authentication Error Message</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <isRequired>false</isRequired>
+                </fields>
+                <fields>
+                    <name>lbl_OOBOCustomerAuthResponseBody</name>
+                    <defaultValue>
+                        <stringValue>{!CustomerAuth_Action.responseBody}</stringValue>
+                    </defaultValue>
+                    <fieldText>OOBO Customer Authentication Response Body</fieldText>
+                    <fieldType>LargeTextArea</fieldType>
+                    <isRequired>false</isRequired>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
             <isRequired>false</isRequired>
         </fields>
-        <showFooter>true</showFooter>
-        <showHeader>true</showHeader>
-    </screens>
-    <screens>
-        <name>Screen_Error_B2CCustomomerListNotActive</name>
-        <label>B2CCustomerListNotActive</label>
-        <locationX>773</locationX>
-        <locationY>79</locationY>
-        <allowBack>true</allowBack>
-        <allowFinish>true</allowFinish>
-        <allowPause>false</allowPause>
-        <connector>
-            <targetReference>CustomerId_Assignment</targetReference>
-        </connector>
         <fields>
-            <name>Display_B2CCustomerListMustBeActiveErrorMsg</name>
-            <fieldText>&lt;p&gt;&lt;b&gt;Order On Behalf Of Customer requires an active B2C Customer List assigned or selected.&lt;/b&gt;&lt;/p&gt;</fieldText>
+            <name>lbl_OOBORESTAPIError</name>
+            <fieldText>&lt;p&gt;Please resolve these error(s) prior to launching another OOBO Shopping Session.  Verify that the&lt;a href=&quot;https://platform-velocity-6771-dev-ed.lightning.force.com/one/one.app#/settings/personal/ExternalObjectUserSettings/home&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;&lt;b&gt; Per-User NamedCredential&lt;/b&gt;&lt;/a&gt; for the Service Agent is configured property -- and that the password follows the &lt;a href=&quot;https://documentation.b2c.commercecloud.salesforce.com/DOC2/topic/com.demandware.dochelp/OCAPI/current/usage/OAuth.html?cp=0_15_2_23&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;&lt;b&gt;SFCC &quot;Password:ClientSecret&quot; Based64 encoding structure&lt;/b&gt;&lt;/a&gt;.&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
-        </fields>
-        <fields>
-            <name>ActiveCustomerLists</name>
-            <choiceReferences>ActiveCustomerListsRecordChoiceSet</choiceReferences>
-            <dataType>String</dataType>
-            <fieldText>Select an Active Customer List:</fieldText>
-            <fieldType>DropdownBox</fieldType>
-            <isRequired>true</isRequired>
         </fields>
         <showFooter>true</showFooter>
         <showHeader>true</showHeader>
@@ -555,117 +907,956 @@
         <description>Initial screen, start of OOBO dialog</description>
         <name>Screen_Init_OOBO</name>
         <label>Init Screen</label>
-        <locationX>476</locationX>
-        <locationY>204</locationY>
+        <locationX>1300</locationX>
+        <locationY>886</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <connector>
-            <targetReference>Contact_GetRecord</targetReference>
+            <targetReference>recGet_contactRecord</targetReference>
         </connector>
         <fields>
-            <name>OOBO_DisplayText</name>
-            <fieldText>&lt;p&gt;To launch &lt;b&gt;Order On Behalf of Customer&lt;/b&gt;, please make sure that&lt;/p&gt;&lt;ul&gt;&lt;li&gt;B2C Customer List is active&lt;/li&gt;&lt;li&gt;B2C Site is active&lt;/li&gt;&lt;li&gt;You configured Client ID and Named Credential&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Click &lt;b&gt;Next &lt;/b&gt;to continue.&lt;/p&gt;</fieldText>
+            <name>lbl_launchAnOOBOSession_headline</name>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 16px;&quot;&gt;Launch an Order on Behalf Of Shopping Session&lt;/b&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>Screen_Init_OOBO_Section1</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>Screen_Init_OOBO_Section1_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>lbl_ooboIntroduction</name>
+                    <fieldText>&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;b&gt;About the Order on Behalf Of Configuration Requirements&lt;/b&gt;&lt;/p&gt;&lt;p&gt;The Order on Behalf Of use-case has a &lt;b&gt;number of configuration requirements&lt;/b&gt; that must be set in order. for this feature to execute successfully. Please ensure that the following items have been configured in your Salesforce environment:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;The &lt;a href=&quot;/lightning/o/B2C_Site__c/home&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;B2C Site&lt;/a&gt; where OOBO is enabled is Active&lt;/li&gt;&lt;li&gt;The &lt;a href=&quot;/lightning/o/B2C_Site__c/home&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;B2C Site&lt;/a&gt; is configured with a valid Client ID&lt;/li&gt;&lt;li&gt;The &lt;a href=&quot;/lightning/o/B2C_Site__c/home&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;B2C Site&lt;/a&gt; is configured with a valid AM Named Credential&lt;/li&gt;&lt;li&gt;The &lt;a href=&quot;/lightning/o/B2C_Site__c/home&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;B2C Site&lt;/a&gt; is configured with a valid OOBO Named Credential&lt;/li&gt;&lt;li&gt;The &lt;a href=&quot;/lightning/o/B2C_CustomerList__c/home&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;B2C CustomList&lt;/a&gt; for the configured Site is Active&lt;/li&gt;&lt;li&gt;The &lt;a href=&quot;/lightning/o/B2C_Instance__c/home&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;B2C Instance&lt;/a&gt; for the related B2C CustomerList is Active&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;In addition to this, the &lt;a href=&quot;/lightning/o/B2C_Site__c/home&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;B2C Site&lt;/a&gt; record should be configured with the CustomerID and CustomerNo of the storefront customer that will be used to authenticate against the storefront for non-registered customers.&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>8</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>Screen_Init_OOBO_Section1_Column2</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>lbl_welcomeImage</name>
+                    <extensionName>flowruntime:image</extensionName>
+                    <fieldType>ComponentInstance</fieldType>
+                    <inputParameters>
+                        <name>imageName</name>
+                        <value>
+                            <stringValue>astrotrailblazer</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>horizontalAlignment</name>
+                        <value>
+                            <stringValue>center</stringValue>
+                        </value>
+                    </inputParameters>
+                    <isRequired>true</isRequired>
+                    <storeOutputAutomatically>true</storeOutputAutomatically>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>4</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>lbl_introTextFooter</name>
+            <fieldText>&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;b&gt;Setup Your Agent Per-User Named Credential&lt;/b&gt;&lt;/p&gt;&lt;p&gt;Lastly, a &lt;a href=&quot;/one/one.app#/settings/personal/ExternalObjectUserSettings/home&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;&lt;b&gt;per-user Named Credential&lt;/b&gt;&lt;/a&gt; must be configured for each Service Agent that can place orders on behalf of customers.  These users must also have SFCC Account Manager Accounts mapped to the B2C Commerce storefront.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Click &lt;b&gt;Next&lt;/b&gt; to Continue.&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <showFooter>true</showFooter>
         <showHeader>true</showHeader>
     </screens>
     <screens>
-        <name>Screen_OrderOnBehalfOf</name>
-        <label>OrderOnBehalfOf Screen</label>
-        <locationX>445</locationX>
-        <locationY>1103</locationY>
-        <allowBack>false</allowBack>
+        <description>... select a B2C Site based on the customerList that was identified.</description>
+        <name>scrn_b2cSiteSelect</name>
+        <label>Select a B2C Site</label>
+        <locationX>1107</locationX>
+        <locationY>1795</locationY>
+        <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
-        <allowPause>false</allowPause>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>dec_useB2CCustomerProfileForOOBO</targetReference>
+        </connector>
         <fields>
-            <name>DisplayText_launchOOBO</name>
-            <fieldText>&lt;p&gt;Launch &lt;b&gt;Order On Behalf Of&lt;/b&gt; in a new browser Tab by clicking the button below.&lt;/p&gt;</fieldText>
+            <name>lbl_selectB2CStorefront_headline</name>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 16px;&quot;&gt;Please Select a B2C Commerce Storefront&lt;/b&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
-            <name>B2COrderOnBehalfOf_LWC</name>
-            <extensionName>c:b2COrderOnBehalfOf</extensionName>
-            <fieldType>ComponentInstance</fieldType>
-            <inputParameters>
-                <name>domain</name>
-                <value>
-                    <elementReference>selectedSiteApi</elementReference>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>shopDomain</name>
-                <value>
-                    <elementReference>selectedShopUrl</elementReference>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>siteId</name>
-                <value>
-                    <elementReference>selectedSiteId</elementReference>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>token</name>
-                <value>
-                    <elementReference>CustomerAuth_Action.accessToken</elementReference>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>version</name>
-                <value>
-                    <elementReference>selectedSiteVersion</elementReference>
-                </value>
-            </inputParameters>
-            <isRequired>true</isRequired>
-            <storeOutputAutomatically>true</storeOutputAutomatically>
+            <name>scrn_b2cSiteSelect_Section1</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>scrn_b2cSiteSelect_Section1_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>DisplayText_SelectSite</name>
+                    <fieldText>&lt;p&gt;&lt;b&gt;Order on Behalf Of Customer requires an active B2C Site&lt;/b&gt;&lt;/p&gt;&lt;p&gt;Please select the B2C Commerce Site that should be used to launch the Order on Behalf of shopping experience.  &lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <fields>
+                    <name>pklB2CSite</name>
+                    <choiceReferences>rcActiveB2CSites</choiceReferences>
+                    <dataType>String</dataType>
+                    <fieldText>Select the B2C Site for the OOBO Shopping Experience</fieldText>
+                    <fieldType>DropdownBox</fieldType>
+                    <isRequired>true</isRequired>
+                </fields>
+                <fields>
+                    <name>lbl_changeYourCustomerList</name>
+                    <fieldText>&lt;p&gt;Service Agents can launch two kinds of Order on Behalf Of shopping experiences:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;b&gt;Registered Shopper&lt;/b&gt;.  Service Agents can log into the selected B2C Commerce storefront if the chosen Contact&apos;s B2 CustomerList is assigned to the selected storefront.&lt;/li&gt;&lt;li&gt;&lt;b&gt;Anonymous Shopper&lt;/b&gt;.  Service Agents can launch anonymous shopping sessions for Contacts not registered to B2C Commerce Storefronts -- or for customers not registered to the selected storefront.&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Please select an active B2C Site and Click &lt;b&gt;Next&lt;/b&gt; to continue.&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>8</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>scrn_b2cSiteSelect_Section1_Column2</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>lbl_storefrontSelectImage</name>
+                    <extensionName>flowruntime:image</extensionName>
+                    <fieldType>ComponentInstance</fieldType>
+                    <inputParameters>
+                        <name>imageName</name>
+                        <value>
+                            <stringValue>astroshopping</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>horizontalAlignment</name>
+                        <value>
+                            <stringValue>center</stringValue>
+                        </value>
+                    </inputParameters>
+                    <isRequired>true</isRequired>
+                    <storeOutputAutomatically>true</storeOutputAutomatically>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>4</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
+        <description>... launch the shopping session for OOBO.</description>
+        <name>scrn_launchOOBOShoppingSession</name>
+        <label>Launch OOBO Shopping Session</label>
+        <locationX>1546</locationX>
+        <locationY>3209</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>lbl_successMessage_headline</name>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 16px;&quot;&gt;Your Order On Behalf Of Shopping Session Was Successfully Created&lt;/b&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>scrn_launchOOBOShoppingSession_Section1</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>scrn_launchOOBOShoppingSession_Section1_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>lbl_launchOOBOSuccessMessage</name>
+                    <fieldText>&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;font-family: var(--lwc-fontFamily,&amp;quot;Salesforce Sans&amp;quot;, Arial, sans-serif); font-size: 14px; color: var(--lwc-colorTextWeak,rgb(62, 62, 60)); background-color: var(--lwc-colorBackgroundInput,rgb(255, 255, 255));&quot;&gt;Click on the Launch Button to Open Your OOBO Shopping Session&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-family: var(--lwc-fontFamily,&amp;quot;Salesforce Sans&amp;quot;, Arial, sans-serif); font-size: var(--lwc-fontSize3,0.8125rem); color: var(--lwc-colorTextWeak,rgb(62, 62, 60)); background-color: var(--lwc-colorBackgroundInput,rgb(255, 255, 255));&quot;&gt;You can now launch an &lt;/span&gt;&lt;b style=&quot;font-family: var(--lwc-fontFamily,&amp;quot;Salesforce Sans&amp;quot;, Arial, sans-serif); font-size: var(--lwc-fontSize3,0.8125rem); color: var(--lwc-colorTextWeak,rgb(62, 62, 60)); background-color: var(--lwc-colorBackgroundInput,rgb(255, 255, 255));&quot;&gt;Order On Behalf Of &lt;/b&gt;&lt;span style=&quot;font-family: var(--lwc-fontFamily,&amp;quot;Salesforce Sans&amp;quot;, Arial, sans-serif); font-size: var(--lwc-fontSize3,0.8125rem); color: var(--lwc-colorTextWeak,rgb(62, 62, 60)); background-color: var(--lwc-colorBackgroundInput,rgb(255, 255, 255));&quot;&gt;shopping session for the selected contact by clicking the button below.  The shopping session will open in a new browser tab using the following url.&lt;/span&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <fields>
+                    <name>lbl_storefrontUrlToRender</name>
+                    <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>frm_selectedStorefrontUrl</elementReference>
+                    </defaultValue>
+                    <fieldText>Configured B2C Site Storefront URL</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <isRequired>false</isRequired>
+                </fields>
+                <fields>
+                    <name>lbl_ooboShoppingSessionIsAnonymous</name>
+                    <dataType>Boolean</dataType>
+                    <defaultValue>
+                        <elementReference>isAnonymousShoppingSession</elementReference>
+                    </defaultValue>
+                    <fieldText>This OOBO Shopping Session will be anonymous</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <isRequired>true</isRequired>
+                </fields>
+                <fields>
+                    <name>B2COrderOnBehalfOf_LWC</name>
+                    <extensionName>c:b2COrderOnBehalfOf</extensionName>
+                    <fieldType>ComponentInstance</fieldType>
+                    <inputParameters>
+                        <name>domain</name>
+                        <value>
+                            <elementReference>selectedSiteApi</elementReference>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>shopDomain</name>
+                        <value>
+                            <elementReference>selectedShopUrlInternal</elementReference>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>siteId</name>
+                        <value>
+                            <elementReference>selectedSiteId</elementReference>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>token</name>
+                        <value>
+                            <elementReference>CustomerAuth_Action.accessToken</elementReference>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>version</name>
+                        <value>
+                            <elementReference>selectedSiteVersion</elementReference>
+                        </value>
+                    </inputParameters>
+                    <isRequired>true</isRequired>
+                    <storeOutputAutomatically>true</storeOutputAutomatically>
+                </fields>
+                <fields>
+                    <name>lbl_launchOOBOFollowUpMessage</name>
+                    <fieldText>&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;b&gt;NOTE&lt;/b&gt;: If a new browser-tab fails to open, please check the browser console for CORS errors.  These errors can be mitigated by &lt;a href=&quot;https://documentation.b2c.commercecloud.salesforce.com/DOC2/index.jsp?topic=%2Fcom.demandware.dochelp%2FOCAPI%2Fcurrent%2Fusage%2FCORS.html&amp;amp;cp=0_15_2_5&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;&lt;b&gt;adding the Salesforce Org urls to the allowed origins&lt;/b&gt;&lt;/a&gt; in the B2C Commerce SHOP API OCAPI configuration settings.&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>8</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>scrn_launchOOBOShoppingSession_Section1_Column2</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>lbl_ooboSuccess_image</name>
+                    <extensionName>flowruntime:image</extensionName>
+                    <fieldType>ComponentInstance</fieldType>
+                    <inputParameters>
+                        <name>imageName</name>
+                        <value>
+                            <stringValue>astrosuccess</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>horizontalAlignment</name>
+                        <value>
+                            <stringValue>center</stringValue>
+                        </value>
+                    </inputParameters>
+                    <isRequired>true</isRequired>
+                    <storeOutputAutomatically>true</storeOutputAutomatically>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>4</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>lbl_OOBOSuccessCustomerDetails</name>
+            <fieldText>&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;font-size: 14px;&quot;&gt;Customer Details&lt;/b&gt;&lt;/p&gt;&lt;p&gt;The OOBO shopping session will be launched for this customer.&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>scrn_launchOOBOShoppingSession_Section2</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>scrn_launchOOBOShoppingSession_Section2_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>lbl_OOBOSuccessContactID</name>
+                    <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>recGet_contactRecord.Id</elementReference>
+                    </defaultValue>
+                    <fieldText>Contact ID</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <isRequired>false</isRequired>
+                </fields>
+                <fields>
+                    <name>lbl_OOBOSuccessFirstName</name>
+                    <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>recGet_contactRecord.FirstName</elementReference>
+                    </defaultValue>
+                    <fieldText>First Name</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <isRequired>false</isRequired>
+                </fields>
+                <fields>
+                    <name>lbl_OOBOSuccessLastName</name>
+                    <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>recGet_contactRecord.LastName</elementReference>
+                    </defaultValue>
+                    <fieldText>Last Name</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <isRequired>false</isRequired>
+                </fields>
+                <fields>
+                    <name>lbl_OOBOSuccessEmail</name>
+                    <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>recGet_contactRecord.Email</elementReference>
+                    </defaultValue>
+                    <fieldText>Email Address</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <isRequired>false</isRequired>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>scrn_launchOOBOShoppingSession_Section2_Column2</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>lbl_B2CCustomerListID</name>
+                    <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>recGet_contactRecord.B2C_CustomerList_ID__c</elementReference>
+                    </defaultValue>
+                    <fieldText>B2C CustomerList ID</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <isRequired>false</isRequired>
+                </fields>
+                <fields>
+                    <name>lbl_OOBOSuccessCustomerID</name>
+                    <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>recGet_contactRecord.B2C_Customer_ID__c</elementReference>
+                    </defaultValue>
+                    <fieldText>B2C Customer ID</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <isRequired>false</isRequired>
+                </fields>
+                <fields>
+                    <name>lbl_OOBOSuccessCustomerNo</name>
+                    <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>recGet_contactRecord.B2C_Customer_No__c</elementReference>
+                    </defaultValue>
+                    <fieldText>B2C Customer No</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <isRequired>false</isRequired>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>lbl_OOBOSuccessStorefrontDetails</name>
+            <fieldText>&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;font-size: 14px;&quot;&gt;Storefront Details&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;The OOBO shopping session will be launched via this B2C Commerce storefront.&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>scrn_launchOOBOShoppingSession_Section3</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>scrn_launchOOBOShoppingSession_Section3_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>lbl_OOBOSuccessB2CClientID</name>
+                    <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>selectedClientId</elementReference>
+                    </defaultValue>
+                    <fieldText>B2C Client ID</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <isRequired>false</isRequired>
+                </fields>
+                <fields>
+                    <name>lbl_OOBOSuccessUrlType</name>
+                    <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>selectedShopUrlType</elementReference>
+                    </defaultValue>
+                    <fieldText>Configured Storefront URL</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <isRequired>false</isRequired>
+                </fields>
+                <fields>
+                    <name>lbl_OOBOSuccessInternalUrl</name>
+                    <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>selectedShopUrlInternal</elementReference>
+                    </defaultValue>
+                    <fieldText>Internal Storefront URL</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <isRequired>false</isRequired>
+                </fields>
+                <fields>
+                    <name>lbl_OOBOSuccessExternalUrl</name>
+                    <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>selectedShopUrlCustom</elementReference>
+                    </defaultValue>
+                    <fieldText>Custom Storefront URL</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <isRequired>false</isRequired>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>scrn_launchOOBOShoppingSession_Section3_Column2</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>lbl_OOBOSuccessAMNC</name>
+                    <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>selectedNamedCredential</elementReference>
+                    </defaultValue>
+                    <fieldText>Account Manager Named Credential</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <isRequired>false</isRequired>
+                </fields>
+                <fields>
+                    <name>lbl_OOBOSuccessOOBONC</name>
+                    <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>selectedOOBONamedCredential</elementReference>
+                    </defaultValue>
+                    <fieldText>OOBO Per-User Named Credential</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <isRequired>false</isRequired>
+                </fields>
+                <fields>
+                    <name>lbl_OOBOSuccessOOBOCustomerID</name>
+                    <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>selectedOOBOCustomerId</elementReference>
+                    </defaultValue>
+                    <fieldText>OOBO Customer ID</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <isRequired>false</isRequired>
+                    <visibilityRule>
+                        <conditionLogic>and</conditionLogic>
+                        <conditions>
+                            <leftValueReference>isAnonymousShoppingSession</leftValueReference>
+                            <operator>EqualTo</operator>
+                            <rightValue>
+                                <booleanValue>true</booleanValue>
+                            </rightValue>
+                        </conditions>
+                    </visibilityRule>
+                </fields>
+                <fields>
+                    <name>lbl_OOBOSuccessOOBOCustomerNo</name>
+                    <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>selectedOOBOCustomerNo</elementReference>
+                    </defaultValue>
+                    <fieldText>OOBO Customer No</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <isRequired>false</isRequired>
+                    <visibilityRule>
+                        <conditionLogic>and</conditionLogic>
+                        <conditions>
+                            <leftValueReference>isAnonymousShoppingSession</leftValueReference>
+                            <operator>EqualTo</operator>
+                            <rightValue>
+                                <booleanValue>true</booleanValue>
+                            </rightValue>
+                        </conditions>
+                    </visibilityRule>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
         </fields>
         <helpText>&lt;p&gt;Click &lt;b&gt;Finish &lt;/b&gt;to &lt;b&gt;cancel &lt;/b&gt;OOBO launch.&lt;/p&gt;</helpText>
         <showFooter>true</showFooter>
         <showHeader>false</showHeader>
     </screens>
     <screens>
-        <name>Screen_Site_Selection</name>
-        <label>Site Screen</label>
-        <locationX>1323</locationX>
-        <locationY>318</locationY>
-        <allowBack>true</allowBack>
+        <description>... no active B2C Sites was configured.  OOBO cannot be processed.</description>
+        <name>scrn_noActiveB2CSitesFound</name>
+        <label>Error: No Active B2C Sites Found</label>
+        <locationX>1047</locationX>
+        <locationY>670</locationY>
+        <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
-        <allowPause>true</allowPause>
-        <connector>
-            <targetReference>CustomerId_Decision</targetReference>
-        </connector>
+        <allowPause>false</allowPause>
         <fields>
-            <name>DisplayText_SelectSite</name>
-            <fieldText>&lt;p&gt;&lt;b&gt;Available active storefront sites for Order On Behalf Of Customer.&lt;/b&gt;&lt;/p&gt;</fieldText>
+            <name>lbl_noActiveB2CSitesExistHeadline</name>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 16px;&quot;&gt;Unable to Launch Order of Behalf Of Shopping Session&lt;/b&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
-            <name>Site_Picklist</name>
-            <choiceReferences>SiteRecordChoiceSet</choiceReferences>
-            <dataType>String</dataType>
-            <fieldText>Select a Site</fieldText>
-            <fieldType>DropdownBox</fieldType>
-            <isRequired>true</isRequired>
+            <name>scrn_noActiveB2CSitesFound_Section1</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>scrn_noActiveB2CSitesFound_Section1_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>lbl_noActiveB2CSitesIntroText</name>
+                    <fieldText>&lt;p&gt;&lt;b&gt;No Active B2C Sites Exists&lt;/b&gt;&lt;/p&gt;&lt;p&gt;The Order on Behalf of Shopping session requires that at least one (1) active B2C Site is configured in this Salesforce org.  The shopping session cannot be launched without this configuration pre-requisite.  Please ensure that:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;The parent &lt;a href=&quot;/lightning/o/B2C_Instance__c/home&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;B2C Instance&lt;/a&gt; is active&lt;/li&gt;&lt;li&gt;At least one (1) &lt;a href=&quot;/lightning/o/B2C_CustomerList__c/home&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;B2C CustomerList&lt;/a&gt; is active&lt;/li&gt;&lt;li&gt;At least one (1) B2C Site of the active &lt;a href=&quot;/lightning/o/B2C_CustomerList__c/home&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;B2C CustomerList&lt;/a&gt; is active&lt;/li&gt;&lt;li&gt;The active &lt;a href=&quot;/lightning/o/B2C_Site__c/home&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;B2C Site&lt;/a&gt; has the &lt;b&gt;Enable OOBO&lt;/b&gt; permission turned on&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(62, 62, 60); background-color: rgb(255, 255, 255);&quot;&gt;Please review each of these configuration properties to ensure that related &lt;/span&gt;&lt;a href=&quot;/lightning/o/B2C_Instance__c/home&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;color: rgb(62, 62, 60); background-color: rgb(255, 255, 255);&quot;&gt;&lt;u&gt;Instance&lt;/u&gt;&lt;/a&gt;&lt;span style=&quot;color: rgb(62, 62, 60); background-color: rgb(255, 255, 255);&quot;&gt;, &lt;/span&gt;&lt;a href=&quot;/lightning/o/B2C_CustomerList__c/home&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;color: rgb(62, 62, 60); background-color: rgb(255, 255, 255);&quot;&gt;&lt;u&gt;CustomerList&lt;/u&gt;&lt;/a&gt;&lt;span style=&quot;color: rgb(62, 62, 60); background-color: rgb(255, 255, 255);&quot;&gt;, and &lt;/span&gt;&lt;a href=&quot;/lightning/o/B2C_Site__c/home&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;color: rgb(61, 62, 63); background-color: rgb(255, 255, 255);&quot;&gt;&lt;u&gt;Site&lt;/u&gt;&lt;/a&gt;&lt;span style=&quot;color: rgb(62, 62, 60); background-color: rgb(255, 255, 255);&quot;&gt; are enabled -- and then retry launching the Order on Behalf Of shopping session.&lt;/span&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>8</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>scrn_noActiveB2CSitesFound_Section1_Column2</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>lbl_noActiveB2CSitesErrorImage</name>
+                    <extensionName>flowruntime:image</extensionName>
+                    <fieldType>ComponentInstance</fieldType>
+                    <inputParameters>
+                        <name>imageName</name>
+                        <value>
+                            <stringValue>astrosecurity</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>horizontalAlignment</name>
+                        <value>
+                            <stringValue>center</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>imageAlt</name>
+                        <value>
+                            <stringValue>OOBO Setup: Info</stringValue>
+                        </value>
+                    </inputParameters>
+                    <isRequired>true</isRequired>
+                    <storeOutputAutomatically>true</storeOutputAutomatically>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>4</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
+        <description>... no anonymous B2C Site CustomerID value was configured.  OOBO cannot be processed.</description>
+        <name>scrn_noAnonCustomerIDSiteConfig</name>
+        <label>Error: No Anon. CustomerID Configured for Selected Site</label>
+        <locationX>1806</locationX>
+        <locationY>2026</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>lbl_missingAnonPropertiesError</name>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;background-color: rgb(255, 255, 255); color: rgb(62, 62, 60); font-size: 16px;&quot;&gt;An Order On Behalf Of Shopping Session Could Not Be Created&lt;/b&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>scrn_b2cSiteMissingAnonCustomerDetails</name>
+            <fieldText>&lt;p&gt;&lt;b&gt;The B2C Site Configuration is Missing the Anonymous B2C Customer ID / Customer No&lt;/b&gt;&lt;/p&gt;&lt;p&gt;The Contact that was selected is not a B2C Commerce Customer, and does not have a B2C Commerce Customer ID present on their record.  Launching OOBO for this customer requires that the selected B2C Site have a OOBO CustomerID / CustomerNo pair that can be used in-place for initial site authentication.&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>scrn_noAnonCustomerIDSiteConfig_Section1</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>scrn_noAnonCustomerIDSiteConfig_Section1_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>lbl_ContactHeading</name>
+                    <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 14px;&quot;&gt;Selected Contact Details&lt;/b&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <fields>
+                    <name>lbl_ContactName</name>
+                    <dataType>String</dataType>
+                    <defaultValue>
+                        <stringValue>{!recGet_contactRecord.FirstName} {!recGet_contactRecord.LastName}</stringValue>
+                    </defaultValue>
+                    <fieldText>Contact Name</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <isRequired>false</isRequired>
+                </fields>
+                <fields>
+                    <name>lblCustomerContactID</name>
+                    <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>recGet_contactRecord.Id</elementReference>
+                    </defaultValue>
+                    <fieldText>Contact ID</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <isRequired>false</isRequired>
+                </fields>
+                <fields>
+                    <name>lbl_CustomerB2CCustomerID</name>
+                    <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>recGet_contactRecord.B2C_Customer_ID__c</elementReference>
+                    </defaultValue>
+                    <fieldText>B2C Customer ID</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <isRequired>false</isRequired>
+                </fields>
+                <fields>
+                    <name>lbl_CustomerB2CCustomerNo</name>
+                    <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>recGet_contactRecord.B2C_Customer_No__c</elementReference>
+                    </defaultValue>
+                    <fieldText>lbl_CustomerB2CCustomerNo</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <isRequired>false</isRequired>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>scrn_noAnonCustomerIDSiteConfig_Section1_Column2</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>lbl_selectedSiteDetails</name>
+                    <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 14px;&quot;&gt;Selected B2C Site Details&lt;/b&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <fields>
+                    <name>lbl_selectedSite</name>
+                    <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>selectedSiteId</elementReference>
+                    </defaultValue>
+                    <fieldText>Site ID</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <isRequired>false</isRequired>
+                </fields>
+                <fields>
+                    <name>lbl_SiteOOBOCustomerID</name>
+                    <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>selectedOOBOCustomerId</elementReference>
+                    </defaultValue>
+                    <fieldText>B2C Site: OOBO CustomerID</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <isRequired>false</isRequired>
+                </fields>
+                <fields>
+                    <name>lbl_B2CSiteCustomerNo</name>
+                    <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>selectedOOBOCustomerNo</elementReference>
+                    </defaultValue>
+                    <fieldText>B2C Site: OOBO Customer No</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <isRequired>false</isRequired>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>lbl_CustomerNoIssueFooter</name>
+            <fieldText>&lt;p&gt;Please configure the current B2C Site with a valid OOBO CustomerID and CustomerNo value -- and then try launching OOBO for this customer.&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
+        <description>... explain to the user that the OOBO configuration is invalid -- and could not be advanced.</description>
+        <name>scrn_OOBOConfigurationInvalid</name>
+        <label>Error: OOBO Configuration Invalid</label>
+        <locationX>1057</locationX>
+        <locationY>2291</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>lbl_b2cSiteConfigurationInvalid_Headline</name>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 16px;&quot;&gt;Unable to Create an Order on Behalf Of Shopping Session&lt;/b&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>CouldNotInvokeCallout_DisplayText</name>
+            <fieldText>&lt;p&gt;&lt;b&gt;The B2C Site Configuration Is Invalid&lt;/b&gt;&lt;/p&gt;&lt;p&gt;Please validate that the selected Storefront&apos;s configuration is valid -- and is not missing key details.  Review the following configuration values and note which values are missing or potentially configured incorrectly.&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Remember to create the Per-User Named Credential for the Service Agent&lt;/li&gt;&lt;li&gt;The siteUrlType specified must have a corresponding URL define&lt;/li&gt;&lt;/ul&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>scrn_OOBOConfigurationInvalid_Section1</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>scrn_OOBOConfigurationInvalid_Section1_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>lbl_errorConfigSite</name>
+                    <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 14px;&quot;&gt;B2C Site Details&lt;/b&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <fields>
+                    <name>lbl_b2cSiteId</name>
+                    <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>selectedSiteId</elementReference>
+                    </defaultValue>
+                    <fieldText>Site ID</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <isRequired>false</isRequired>
+                </fields>
+                <fields>
+                    <name>lbl_b2cSiteAMNamedCredential</name>
+                    <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>selectedNamedCredential</elementReference>
+                    </defaultValue>
+                    <fieldText>AM Named Credential</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <helpText>&lt;p&gt;... represents the namedCredential used to perform system-to-system REST API interactions between the Salesforce Platform and B2C Commerce.&lt;/p&gt;</helpText>
+                    <isRequired>false</isRequired>
+                </fields>
+                <fields>
+                    <name>lbl_b2cSiteOCAPIVersion</name>
+                    <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>selectedSiteVersion</elementReference>
+                    </defaultValue>
+                    <fieldText>OCAPI Version</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <helpText>&lt;p&gt;... represents the OCAPI Version number used to drive OOBO REST API interactions.&lt;/p&gt;</helpText>
+                    <isRequired>false</isRequired>
+                </fields>
+                <fields>
+                    <name>lbl_b2cSiteShopUrlType</name>
+                    <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>selectedShopUrlType</elementReference>
+                    </defaultValue>
+                    <fieldText>Configured Shop URL</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <helpText>&lt;p&gt;... represents the version of the storefront url that will be used to launch the OOBO shopping session.&lt;/p&gt;</helpText>
+                    <isRequired>false</isRequired>
+                </fields>
+                <fields>
+                    <name>lbl_b2cSiteInteralShopUrl</name>
+                    <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>selectedShopUrlInternal</elementReference>
+                    </defaultValue>
+                    <fieldText>Internal Shop URL</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <helpText>&lt;p&gt;... represents the internal SFCC storefront url leveraging the base B2C Instance Url.&lt;/p&gt;</helpText>
+                    <isRequired>false</isRequired>
+                </fields>
+                <fields>
+                    <name>lbl_b2cSiteCustomShopUrl</name>
+                    <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>selectedShopUrlCustom</elementReference>
+                    </defaultValue>
+                    <fieldText>Custom Shop URL</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <helpText>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;... represents the external customer-facing SFCC storefront url.&lt;/span&gt;&lt;/p&gt;</helpText>
+                    <isRequired>false</isRequired>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>scrn_OOBOConfigurationInvalid_Section1_Column2</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>lbl_errorConfigCustomerList</name>
+                    <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 14px;&quot;&gt;B2C Site OOBO Details&lt;/b&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <fields>
+                    <name>lbl_b2cSiteOOBONamedCredential</name>
+                    <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>selectedOOBONamedCredential</elementReference>
+                    </defaultValue>
+                    <fieldText>OOBO Per-User Named Credential</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <helpText>&lt;p&gt;... represents the per-user Named Credential used to authenticate Service Agents as B2C Commerce Business Manager Agents.&lt;/p&gt;</helpText>
+                    <isRequired>false</isRequired>
+                </fields>
+                <fields>
+                    <name>lbl_b2cSiteOOBOCustomerID</name>
+                    <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>selectedOOBOCustomerId</elementReference>
+                    </defaultValue>
+                    <fieldText>OOBO Customer ID</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <helpText>&lt;p&gt;... represents the CustomerID of the placeholder B2C Commerce Customer Profile used to authenticate against for non-registered OOBO shopping sessions.&lt;/p&gt;</helpText>
+                    <isRequired>false</isRequired>
+                </fields>
+                <fields>
+                    <name>lbl_b2cSiteOOBOCustomerNo</name>
+                    <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>selectedOOBOCustomerNo</elementReference>
+                    </defaultValue>
+                    <fieldText>OOBO Customer No</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <helpText>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;... represents the CustomerNo of the placeholder B2C Commerce Customer Profile used to authenticate against for non-registered OOBO shopping sessions.&lt;/span&gt;&lt;/p&gt;</helpText>
+                    <isRequired>false</isRequired>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>lbl_b2cSiteConfigurationErrorFooter</name>
+            <fieldText>&lt;p&gt;Please note that the configured Shop URL type must have a valid URL value.  Validate that each of these settings is configured with correct values -- and try launching the OOBO shopping session for the selected customer.&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
         </fields>
         <showFooter>true</showFooter>
         <showHeader>true</showHeader>
     </screens>
     <start>
-        <locationX>351</locationX>
-        <locationY>48</locationY>
+        <locationX>1173</locationX>
+        <locationY>149</locationY>
         <connector>
-            <targetReference>Screen_Init_OOBO</targetReference>
+            <targetReference>recGet_activeB2CSites</targetReference>
         </connector>
     </start>
     <status>Active</status>
     <variables>
-        <name>CustomerListId</name>
+        <description>... records the number of active customerLists present.</description>
+        <name>activeB2CCustomerListCount</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+        <value>
+            <numberValue>0.0</numberValue>
+        </value>
+    </variables>
+    <variables>
+        <description>... represents the collection of active B2C Sites configured for the current Salesforce org.</description>
+        <name>activeB2CSites</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>B2C_Site__c</objectType>
+    </variables>
+    <variables>
+        <description>... manages the count of active B2C Sites for the selected B2C CustomerList</description>
+        <name>activeB2CSitesCount</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+        <value>
+            <numberValue>0.0</numberValue>
+        </value>
+    </variables>
+    <variables>
+        <description>... represents the customerList attached to the Contact</description>
+        <name>contactCustomerListId</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>
         <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>... describes whether the current shopping session is anonymous or for a specific customer</description>
+        <name>isAnonymousShoppingSession</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
     </variables>
     <variables>
         <name>recordId</name>
@@ -689,6 +1880,14 @@
         <isOutput>false</isOutput>
     </variables>
     <variables>
+        <description>... represents the selected B2C CustomerList</description>
+        <name>selectedCustomerListId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
         <name>selectedNamedCredential</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
@@ -703,7 +1902,39 @@
         <isOutput>false</isOutput>
     </variables>
     <variables>
-        <name>selectedShopUrl</name>
+        <description>... represents the CustomerNo mapped to a given OOBO user.</description>
+        <name>selectedOOBOCustomerNo</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>... represents the OOBO Named Credential (per-user used to authenticate an Agent).</description>
+        <name>selectedOOBONamedCredential</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>... represents the custom storefront Url for a given B2C Site.</description>
+        <name>selectedShopUrlCustom</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>selectedShopUrlInternal</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>... represents the type of shopUrl that is active for the OOBO experience.</description>
+        <name>selectedShopUrlType</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>
@@ -728,6 +1959,14 @@
     </variables>
     <variables>
         <name>selectedSiteVersion</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>... represents the configured storefrontUrl (either the internal or custom based on the urlType configured).</description>
+        <name>selectedStorefrontUrl</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>

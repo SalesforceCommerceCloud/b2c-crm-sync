@@ -521,11 +521,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>B2C_Site__c.Base_Site_Url__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>B2C_Site__c.CustomerList_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>

@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>51.0</apiVersion>
+    <decisions>
+        <description>... evaluate if the parent Account has a valid Contact record.</description>
+        <name>dec_wasContactRetrieved</name>
+        <label>Was a Contact Retrieved</label>
+        <locationX>270</locationX>
+        <locationY>392</locationY>
+        <defaultConnector>
+            <targetReference>scrn_noContactFoundError</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Does Not Exist</defaultConnectorLabel>
+        <rules>
+            <name>decOut_wasContactRetrieved_True</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>recGet_Contact</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>sub_launchOOBOExperience</targetReference>
+            </connector>
+            <label>Contact Exists</label>
+        </rules>
+    </decisions>
+    <description>... this flow is used to manage the OOBO experience for parent Account records.</description>
+    <interviewLabel>B2C Commerce: Order On Behalf Of Person Account {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>B2C Commerce: Order On Behalf Of: Accounts</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Flow</processType>
+    <recordLookups>
+        <description>... retrieve the Contact associated to the parent Account.</description>
+        <name>recGet_Contact</name>
+        <label>Retrieve the Contact</label>
+        <locationX>278</locationX>
+        <locationY>211</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>dec_wasContactRetrieved</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>AccountId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>IsDeleted</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Contact</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <screens>
+        <description>... convey that no Contact was found associated to this Account and the OOBO experience cannot be started.</description>
+        <name>scrn_noContactFoundError</name>
+        <label>Error: No Contact Found</label>
+        <locationX>50</locationX>
+        <locationY>392</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <fields>
+            <name>lbl_noContactFoundHeadline</name>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 16px;&quot;&gt;Unable to Launch the Order on Behalf of Shopping Experience&lt;/b&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>scrn_noContactFoundError_Section1</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>scrn_noContactFoundError_Section1_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>lbl_noContactErrorCopy</name>
+                    <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 14px;&quot;&gt;No Contact Was Found Associated to this Account&lt;/b&gt;&lt;/p&gt;&lt;p&gt;The Order on Behalf Of shopping experience requires a Salesforce Contact.  No Contact was found associated to this Account.  As a result, the Order on Behalf Of shopping experience could not be launched.&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <fields>
+                    <name>lbl_accountId</name>
+                    <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>recordId</elementReference>
+                    </defaultValue>
+                    <fieldText>Account ID</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <isRequired>false</isRequired>
+                </fields>
+                <fields>
+                    <name>lbl_noContactExistsError_footer</name>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;color: rgb(62, 62, 60); background-color: rgb(255, 255, 255);&quot;&gt;Please review this Account and verify that a Contact record was expected to exist.  You can re-launch the Order on Behalf Of shopping experience from the Account or Contact quick action menus.&lt;/span&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>8</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>scrn_noContactFoundError_Section1_Column2</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>lbl_noContactErrorImage</name>
+                    <extensionName>flowruntime:image</extensionName>
+                    <fieldType>ComponentInstance</fieldType>
+                    <inputParameters>
+                        <name>imageName</name>
+                        <value>
+                            <stringValue>astroemergency</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>horizontalAlignment</name>
+                        <value>
+                            <stringValue>center</stringValue>
+                        </value>
+                    </inputParameters>
+                    <isRequired>true</isRequired>
+                    <storeOutputAutomatically>true</storeOutputAutomatically>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>4</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <start>
+        <locationX>152</locationX>
+        <locationY>50</locationY>
+        <connector>
+            <targetReference>recGet_Contact</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <subflows>
+        <description>... launch the Order on Behalf Of shopping experience using the Contact associated to the parent Account.</description>
+        <name>sub_launchOOBOExperience</name>
+        <label>Launch the OOBO Experience</label>
+        <locationX>279</locationX>
+        <locationY>639</locationY>
+        <flowName>B2C_Commerce_Order_On_Behalf_Of</flowName>
+        <inputAssignments>
+            <name>recordId</name>
+            <value>
+                <elementReference>recGet_Contact.Id</elementReference>
+            </value>
+        </inputAssignments>
+    </subflows>
+    <variables>
+        <name>recordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>

@@ -2,7 +2,7 @@
 
 ## Introduction ##
 
-Salesforce B2C Commerce / CRM Sync is an enablement solution provided by the Salesforce Architect Success Team designed to teach Salesforce's B2C Customer Data Strategy for multi-cloud use-cases.  The solution demonstrates a contemporary approach to the integration between Salesforce B2C Commerce and the Salesforce Customer 360 Platform.  This project provides a framework for integrating these two clouds leveraging REST APIs and the declarative capabilities of the Salesforce Platform to power frictionless customer experiences across B2C Commerce, Service, and Marketing Clouds. 
+Salesforce B2C Commerce / CRM Sync is an enablement solution provided by the Salesforce Architect Success Team designed to teach Salesforce's B2C Customer Data Strategy for multi-cloud use-cases.  The solution demonstrates a contemporary approach to the integration between Salesforce B2C Commerce and the Salesforce Customer 360 Platform.  This project provides a framework for integrating these two clouds leveraging REST APIs -- and the declarative capabilities of the Salesforce Platform to power frictionless customer experiences across B2C Commerce, Service, and Marketing Clouds.
 
 ##### Now Supporting PersonAccounts AND Accounts / Contacts
 We've just merged in our updates to support both PersonAccounts and Accounts / Contacts as customerModels within the Salesforce Platform.  Our overall **Apex unit-test coverage is at 85%**, and we've expanded our suite of [multi-cloud unit tests](test/_use-cases) to exercise almost fifty individual multi-cloud integration test-cases.
@@ -29,7 +29,7 @@ Please remember that this project **should not be treated as Salesforce Product*
 > Roadmap, enhancements, and defect resolution will be driven by the Salesforce Architect Community.  You are invited to [log an issue](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/issues/new/choose) or [submit a pull-request](Contributing.md) to receive an Architect Success hoodie.
 
 ### Support
-This repository is maintained and contributed to by the Salesforce Architect Success Team, the Salesforce SCPPE and Service Delivery teams within the Customer Success Group (CSG), and the broader the Salesforce Community. This repository isn’t supported by Salesforce Commerce Cloud or Salesforce Platform Technical Support.
+The Salesforce Architect Success Team maintains this repository, and it is contributed to by the Salesforce SCPPE and Service Delivery teams within the Customer Success Group (CSG) -- as well as the broader Salesforce Community. This repository isn’t supported by Salesforce Commerce Cloud or Salesforce Platform Technical Support.
 
 > :confetti_ball: &nbsp; We are always seeking contributions from our community of Architects and developers.  If you're curious to learn more about how you can [get an Architect Success Hoody](Contributing.md) -- please review our [contribution guidelines](Contributing.md).
 
@@ -63,13 +63,13 @@ This repository should be considered a developer framework that can be extended 
 #### Environment Requirements
 b2c-crm-sync requires a [B2C Commerce Sandbox](https://trailhead.salesforce.com/content/learn/modules/b2c-on-demand-sandbox) and a [Salesforce DevHub](https://help.salesforce.com/articleView?id=sf.sfdx_setup_enable_devhub.htm&type=5) capable of creating [scratchOrgs](https://trailhead.salesforce.com/content/learn/projects/quick-start-salesforce-dx).  It can also be deployed to [Salesforce Sandboxes](https://help.salesforce.com/articleView?id=sf.data_sandbox_create.htm&type=5)  leveraging [SFDX and Salesforce's metadata API](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_develop_any_org.htm).
 
-> b2c-crm-sync is designed to be deployed to a B2C Commerce Sandbox and Salesforce scratchOrg in 15 minutes following the instructions ourlined in this ReadMe.  Please setup your Salesforce DevHub and SFDX before moving forward with the install process.
+> b2c-crm-sync is designed to be deployed to a B2C Commerce Sandbox and Salesforce scratchOrg in 15 minutes following the instructions outlined in this ReadMe.  Please set up your Salesforce DevHub and SFDX before moving forward with the installation process.
 
 #### Node.js Setup Instructions
 
 b2c-crm-sync leverages [node.js enabled CLI](https://github.com/tj/commander.js/) and [SFDX (Salesforce CLI)](https://developer.salesforce.com/tools/sfdxcli) commands.  You'll want to ensure that you have [node v15.2.1](https://nodejs.org/en/blog/release/v15.2.1/) running.  If you're new to node, we recommend setting up [nvm](https://github.com/nvm-sh/nvm) to manage multiple node versions.
 
-> Use these articles to setup [nvm](https://github.com/nvm-sh/nvm) on your local workstation.  It's worth the effort to set this up, as it introduces great flexibility if you have projects that are dependent on specific node versions.
+> Use these articles to set up [nvm](https://github.com/nvm-sh/nvm) on your local workstation.  It's worth the effort to set this up, as it introduces great flexibility if you have projects that are dependent on specific node versions.
 
 - You can [install nvm on the mac](https://jamesauble.medium.com/install-nvm-on-mac-with-brew-adb921fb92cc) using [brew](https://jamesauble.medium.com/install-nvm-on-mac-with-brew-adb921fb92cc).
 
@@ -81,7 +81,7 @@ Once you have node installed, you can verify your local node version with the fo
 node --version
 ```
 
-> This should return the version number of your active node.js version.  If everything is setup correctly, the command should return **v15.2.1**.
+> This should return the version number of your active node.js version.  If everything is set up correctly, the command should return **v15.2.1**.
 
 With node.js setup, you can now install the project dependencies with the standard npm install command:
 
@@ -90,7 +90,7 @@ npm install
 ```
 > Installing the project dependencies will take a moment or two.  Please [log an issue](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/issues/new) if you run into installation issues setting up the project.
 
-Once the install has been completed, you can apply non-breaking updates to node packages that are leveraged by b2c-crm-sync:
+Once the installation has been completed, you can apply non-breaking updates to node packages that are leveraged by b2c-crm-sync:
 
 ```bash
 npm audit fix
@@ -105,26 +105,20 @@ b2c-crm-sync also requires [SFDX](https://developer.salesforce.com/tools/sfdxcli
 sfdx --version
 ```
 
-#### About the b2c-crm-sync Library of CLI Commands
-
-b2c-crm-sync includes a library of CLI commands that can be used to validate your setup and incrementally deploy B2C Commerce and Salesforce Platform components to your B2C Commerce sandbox and Salesforce scratchOrg.  We recommend reviewing the [package.json](package.json) to view a complete list of commands available.
-
-> The CLI commands are designed to run off of the [.env file](sample.env) configuration.  They also include support for command-line argument equivalents of the .env configuration values.  Lastly, each command has an associated [api method](lib/cli-api) that can be leveraged from within custom deployment scripts.
-
 #### B2C Commerce Setup Instructions
 
-##### b2c-crm-sync's Unit Tests Leverage SFRA's Base CustomerLists and Sites
+##### Setup the Demo B2C Commerce Storefronts
 
-One of the great things about b2c-crm-sync is that is ships with over forty integrated-based unit-tests that can be used to verify your setup once installation is complete.  These tests are designed to leverage [Salesforce's Storefront Reference Architecture](https://trailhead.salesforce.com/content/learn/modules/cc-digital-for-developers) storefront and data.
+b2c-crm-sync is designed to work with existing B2C Commerce storefronts.  In the event that you do not have a storefront, you can use the existing leverage [Salesforce's Storefront Reference Architecture](https://trailhead.salesforce.com/content/learn/modules/cc-digital-for-developers) storefronts provided by Salesforce.  The RefArch and RefArchGlobal storefronts can be installed in any B2C Commerce sandbox using these instructions.
 
-> If you have a B2C Commerce Sandbox, you can install the latest SFRA Build from the Administration Menu.  This **will not impact any other sites** you may have setup in your sandbox environment.
+> If you have a B2C Commerce Sandbox, you can install the latest SFRA Build from the Administration Menu.  This **will not impact any other sites** that may already exist in your sandbox environment.
 
 1. Open the Business Manager Administration Menu.
 2. Under Site Development, select the `Site Import / Export` menu option.
-3. In the import section, select `Storefront Reference Architecture Demo Sites` and click the Import Button to continue.
-4. Select which SFRA build you'd like to leverage, scroll down to the bottom of the page and click the Deploy Button to install the site.
+3. In the import section, select `Storefront Reference Architecture Demo Sites` and click the `Import` Button to continue.
+4. Select which SFRA build you'd like to leverage, scroll down to the bottom of the page and click the `Deploy` Button to install the site.
 
-> The setup process takes about 10 minutes, and your sandbox environment will notify you via email when SFRA is setup.  We recommend using the default build for b2c-crm-sync.
+> If you are new to B2C Commerce, please use the default SFRA build to deploy in your sandbox.  The deployment and setup process takes about 10 minutes, and your sandbox environment will notify you via email when the deployment is complete.
 
 ##### Setup the RefArchGlobal Site to Use Its Own CustomerList
 
@@ -134,13 +128,39 @@ b2c-crm-sync supports [multiple sites and customerLists](https://documentation.b
 
 1. Open the Business Manager Administration Menu.
 2. Select the`Manage Sites` option under the Sites menu.
-3. Select the RefArchGlobal site from the list of available sites by clicking on the siteId.
+3. Select the `RefArchGlobal` site from the list of available sites by clicking on the siteId.
 4. Update the CustomerList association by changing the select value to **RefArchGlobal**.
-5. Click Save to save your changes.
+5. Click `Save` to save your changes.
 
 Please note that this isn't a requirement -- but if you want a 100% pass-rate on our multi-cloud unit tests, you should make this change.  A number of our unit-tests exercise the RefArch and RefArchGlobal customer lists to test our customer resolution business rules.
 
 >  A subset of the Multi-cloud unit tests will fail if your RefArch and RefArchGlobal sites leverage the same customerLists vs. having their own.  If you experience test failures, please review the test description for references to multiple customerLists.
+
+##### Enable the Agent Permissions on the Administrator Role
+
+The Order on Behalf Of (Assisted Shopping) use-case requires that Business Manager users representing Customer Service Agents have B2C Commerce permissions to login and place orders on behalf of registered storefront shoppers.  The Administrator role can be extended to include these permissions.
+
+> In a production environment, a separate role should be created for Agents that provides the minimally required functional permissions.  Do not provide Agents with access to an over-permissioned Administrator role. 
+
+1. Open the Business Manager Administration Menu.
+2. Select the `Roles and Permissions` option from the Organization menu.
+3. Select the `Administrator` role.
+4. Select the `Functional Permissions` tab within the Administrator role properties.
+5. Select the `RefArch` and `RefArchGlobal` sites from the Context modal.  This will set the context for permission changes applied to the Administrator role.
+6. Click the `Apply` button to view the functional permissions for these sites.
+7. Add the following functional permissions to the Administrator role by clicking each permission's checkbox:
+    - Login_On_Behalf
+    - Login_Agent
+    - Adjust_Item_Price
+    - Adjust_Shipping_Price
+    - Adjust_Order_Price
+    - Create_Order_On_Behalf_Of
+    - Search_Orders 
+    - Handle_External_Orders
+    
+> The Order on Behalf Of experience minimally requires the `Login_On_Behalf`, `Login_Agent`, and `Create_Order_On_Behalf_Of` functional permissions.  The other permissions can be included to extend the Agent capabilities. 
+
+8. Click `Update` to apply these functional permissions to the Administrator role.
 
 ##### Create Your B2C Commerce Client ID
 
@@ -149,19 +169,19 @@ Before setting up the b2c-crm-sync environment, you have to create a B2C Commerc
 1. Go to [https://account.demandware.com](https://account.demandware.com)
 2. Go to the `API Client` menu
 3. Click on the `Add API Client` button at the top right of the page
-4. Enter a display name and a password. The password corresponds to the `B2C_CLIENTSECRET` environment variable that you'll setup in the next section.
+4. Enter a display name and a password. The password corresponds to the `B2C_CLIENTSECRET` environment variable that you'll set up in the next section.
 5. Within the OpenID Connect section, please ensure to configure at least the following:
-    1. Default Scopes: `refresh_token` and `mail` (on separate lines)
-    2. Allowed Scopes: `refresh_token` and `mail` (on separate lines)
-    3. Token Endpoint Auth Method: `client_secret_post`
-    4. Access Token Format: `UUID`
-6. Click the `Save` button
+    - Default Scopes: `mail`
+    - Allowed Scopes: `mail`, `roles`, `tenantFilter`, and `profile` (on separate lines)
+    - Token Endpoint Auth Method: `client_secret_post`
+    - Access Token Format: `UUID`
+6. Click the `Save` button to apply these changes to your ClientID's configuration.
 
-Now that the client ID is created, and you are seeing the list of client IDs for your organization, open the client ID's page and keep it open until the last section of the setup.
+Re-open the ClientID page -- and keep it open until the last section of the setup.  You'll have to add the callback URL of the Salesforce Core Auth Provider to the Redirect URIs field of your newly created client ID.
 
-> You'll have to add the callback URL of the Salesforce Core Auth Provider to the Redirect URIs field of your newly created client ID.
+> Remember to also capture the password applied to the ClientID.  You will need to add the password to the .env file via the `B2C_CLIENTSECRET` property.
 
-##### Setup a .env file
+##### Setup a .env File
 To begin, we use the [dotenv](https://medium.com/@thejasonfile/using-dotenv-package-to-create-environment-variables-33da4ac4ea8f) node.js library to store environment-specific configuration settings used to authenticate against a given B2C Commerce environment.  Before installing any of the project package dependencies, please follow these instructions to build-out a .env file that contains your environment's configuration settings.
 
 - Rename the example file 'sample.env' to '.env' in the root of the repository.
@@ -192,9 +212,9 @@ The following table describes each of the B2C Commerce specific .env file variab
 |--------------:|:----:|:-----------------------------------|
 |  B2C_HOSTNAME |x| Represents the host name portion of the URL for the B2C Commerce environment to which b2c-crm-sync will be deployed |
 |  B2C_INSTANCENAME | | Represents a shorthand descriptor for the B2C_HOSTNAME |
-|  B2C_CLIENTID |x| Represents the B2C Commerce Account Manager ClientID used to authenticate against the identified B2C Commerce environment. See the following [Create Your B2C Commerce Client ID](#b2ccommerceclientidcreation) chapter for additional information.|
+|  B2C_CLIENTID |x| Represents the B2C Commerce Account Manager ClientID used to authenticate against the identified B2C Commerce environment. See the following [Create Your B2C Commerce Client ID](#create-your-b2c-commerce-client-id) chapter for additional information.|
 |  B2C_CLIENTSECRET |x| Represents the B2C Commerce Account Manager password that corresponds to the identified ClientID|
-| B2C_SITEIDS |x| Represents a comma-delimited list of sites to deploy b2c-crm-sync to |
+|  B2C_SITEIDS |x| Represents a comma-delimited list of sites to deploy b2c-crm-sync to |
 |  B2C_CODEVERSION |x| Represents the B2C Commerce code version to which the b2c-crm-sync's plugin cartridges will be deployed.  See [Manage Code Versions](https://documentation.b2c.commercecloud.salesforce.com/DOC1/topic/com.demandware.dochelp/content/b2c_commerce/topics/site_development/b2c_managing_code_versions.html#) for additional information.|
 |  B2C_DATARELEASE |x| Represents the B2C Commerce data release to be deployed to the specified B2C Commerce environment|
 |  B2C_USERNAME |x| Represents the Account Manager username with permissions to access the B2C Commerce environment identified in the hostname |
@@ -530,7 +550,7 @@ The build scripts in this repository require that the clientId configured in the
 #### Setup ScratchOrg Creation and Management Preferences
 All Salesforce Customer 360 Platform code and meta-data can be deployed to a [scratch org leveraging SFDX](https://trailhead.salesforce.com/content/learn/projects/quick-start-salesforce-dx).  CLI commands in this repository support automation of the deployment process, and the .env file can be extended to include additional variables to automate B2C Commerce service and metadata configuration.
 
-> Please use [Trailhead's Quick Start: Salesforce DX](https://trailhead.salesforce.com/content/learn/projects/quick-start-salesforce-dx) as a guide to setup a DevHub that can generate Salesforce scratchOrgs.
+> Please use [Trailhead's Quick Start: Salesforce DX](https://trailhead.salesforce.com/content/learn/projects/quick-start-salesforce-dx) as a guide to set up a DevHub that can generate Salesforce scratchOrgs.
 
 - Open the .env file and edit the following information.  Please use these defaults -- and edit them to accommodate your org creation and deployment preferences.
 
@@ -563,15 +583,23 @@ The build tools will use this information to create scratchOrgs, set default pre
 You will leverage the .env file's configuration properties to dramatically simplify the build and deployment of b2c-crm-sync.  Check the package.json for the complete set of CLI commands that can be used to automate meta-data generation, service definition creation, and validate environment configurations prior to deployment.
 
 ### Deployment Instructions
-The b2c-crm-sync repository includes a collection of CLI commands that can be used to prepare and deploy the b2c-crm-sync assets to B2C Commerce and a Salesforce Customer 360 Platform scratchOrg.
+The b2c-crm-sync repository includes a collection of CLI commands that can be used to prepare and deploy the b2c-crm-sync assets to B2C Commerce and a Salesforce Customer 360 Platform scratchOrg.  
 
-> Before running any commands below be sure to run 'npm install' from the root of the b2c-crm-sync repository folder.  These commands are dependent on the project successfully being installed in your workspace.
+The CLI commands are designed to run off of the [.env file](sample.env) configuration.  They also include support for command-line argument equivalents of the .env configuration values.  Lastly, each command has an associated [api method](lib/cli-api) that can be leveraged from within custom deployment scripts.
 
-1. Configure the initial collection B2C Commerce OCAPI and WebDAV permissions.  The 'allowed_origins' properties can be set after a Salesforce ScratchOrg has been created.
+> Before running any commands below be sure to run `npm install` from the root of the b2c-crm-sync repository folder.  These commands are dependent on the project successfully being installed in your workspace.  You can inspect the complete collection of commands via the [package.json](package.json)'s scripts section.
 
-2. Create the B2C Commerce .env configuration properties.
+### B2C Commerce Sandbox Configuration Instructions
 
-3. Execute the CLI unit-tests to verify that the CLI install, setup, and configuration is working as expected.
+1. Setup the B2C Commerce storefront(s) that will be used to exercise b2c-crm-sync.  If you do not have a storefront, you can use the demo SFRA storefronts available in any B2C Commerce sandbox.
+
+2. Configure the initial collection B2C Commerce OCAPI and WebDAV permissions.  The `allowed_origins` properties can be set after a Salesforce ScratchOrg has been created.
+
+3. Setup the Agent permissions on the Administrator role.  This is a requirement if you'd like to exercise the Order on Behalf of use-case.
+
+4. Create the B2C Commerce .env configuration properties.
+
+5. Execute the CLI unit-tests to verify that the CLI install, setup, and configuration is working as expected.
 
 ```bash
 npm run crm-sync:test:cli
@@ -579,7 +607,7 @@ npm run crm-sync:test:cli
 
 > Please note that not all CLI commands have test-coverage (most of the B2C commands do, only some SFDC commands do).  That said, you shouldn't expect to see any test failures.  We're always looking for more tests -- if you're interested in an Architect Success Hoody.
 
-4. Execute the B2C Commerce unit-tests to verify that the B2C Commerce cartridge and OCAPI Hook code is trustworthy.
+6. Execute the B2C Commerce unit-tests to verify that the B2C Commerce cartridge and OCAPI Hook code is trustworthy.
 
 ```bash
 npm run crm-sync:test:b2c
@@ -589,7 +617,7 @@ npm run crm-sync:test:b2c
 
 ### Validate Your .env B2C Commerce Sandbox Credentials
 
-5. Verify that your B2C Commerce configuration properties are defined accurately in the .env file by executing the following CLI command:
+7. Verify that your B2C Commerce configuration properties are defined accurately in the .env file by executing the following CLI command:
 
 ```bash
 npm run crm-sync:b2c:verify
@@ -598,20 +626,20 @@ npm run crm-sync:b2c:verify
 
 Please note that the code-version specified in the .env file must be valid in order for the verify command to complete successfully.  The code version must be accurate to deploy the B2C Commerce SFRA cartridges that are leveraged by b2c-crm-sync.
 
-6. Create the Salesforce ScratchOrg .env configuration properties.  Follow the guidance above, and specify the type of scratchOrg to generate.
+8. Create the Salesforce ScratchOrg .env configuration properties.  Follow the guidance above, and specify the type of scratchOrg to generate.
 
 > The 'base' scratchOrg profile supports Accounts and Contacts.  The 'personaccounts' scratchOrg profile supports PersonAccounts.  If any other value is provided, the 'base' profile will be defaulted.
 
 ### Verify Salesforce DevHub Access
 
-7. List your supported Salesforce DevHubs, scratchOrgs, and their connected status.  You can use this command to verify that your DevHub is available.
+9. List your supported Salesforce DevHubs, scratchOrgs, and their connected status.  You can use this command to verify that your DevHub is available.
 
 ```bash
 sfdx force:org:list --all
 ```
 > Please refer to [Salesforce DX Usernames and Orgs](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_cli_usernames_orgs.htm), the [SFDX Org command-set](https://developer.salesforce.com/docs/atlas.en-us.sfdx_cli_reference.meta/sfdx_cli_reference/cli_reference_force_org.htm), and the [Salesforce Platform DevHub Trail](https://trailhead.salesforce.com/content/learn/modules/sfdx_app_dev) for resources on how to manage scratchOrgs.
 
-8. Specify your default DevHub username by executing the following CLI command.  The devHubOrg-username this represent the DevHub that will host your scratchOrg.  Please see [Enable Dev Hub Features in Your Org](https://help.salesforce.com/articleView?id=sf.sfdx_setup_enable_devhub.htm&type=5) for details on how to setup a DevHub environment.
+10. Specify your default DevHub username by executing the following CLI command.  The devHubOrg-username represents the DevHub that will host your scratchOrg.  Please see [Enable Dev Hub Features in Your Org](https://help.salesforce.com/articleView?id=sf.sfdx_setup_enable_devhub.htm&type=5) for details on how to set up a DevHub environment.
 
 ```bash
 sfdx config:set defaultdevhubusername=[devHubOrg-username]
@@ -625,7 +653,7 @@ Authenticate against your Salesforce DevHub by executing the following CLI comma
 sfdx auth:web:login
 ```
 
-The [web:login command](https://developer.salesforce.com/docs/atlas.en-us.sfdx_cli_reference.meta/sfdx_cli_reference/cli_reference_auth_web.htm) supports multiple arguments to enable authentication against registered orgs (via the `-d -a [DebHub]` alias) or authenticate against new orgs (via the `-r [login-url]` option).  
+The [web:login command](https://developer.salesforce.com/docs/atlas.en-us.sfdx_cli_reference.meta/sfdx_cli_reference/cli_reference_auth_web.htm) supports multiple arguments to enable authentication against registered orgs (via the `-d -a [DebHub]` alias) or authenticate against new orgs (via the `-r [login-url]` option).
 
 > Once executed, this command should open the Salesforce org in your browser and allow you to authenticate against the specified org with valid credentials.  You should only need to execute this command when connecting to a new DevHub, and you can use the `sfdx config:set defaultdevhubusername=[devHubOrg-username]` to make this specific org your default DevHub.
 
@@ -633,7 +661,7 @@ After you have successfully authenticated against your DevHub, you can move forw
 
 ### Create a ScratchOrg and Deploy b2c-crm-sync
 
-9. Generate the Salesforce metadata required by b2c-crm-sync, create a scratchOrg, and deploy the b2c-crm-sync Salesforce Platform code by executing the following CLI command:
+11. Generate the Salesforce metadata required by b2c-crm-sync, create a scratchOrg, and deploy the b2c-crm-sync Salesforce Platform code by executing the following CLI command:
 
 ```bash
 npm run crm-sync:sf:build
@@ -641,9 +669,9 @@ npm run crm-sync:sf:build
 
 > This CLI command automates the steps outlined above.  Automation results will be output through the CLI.  If successful, a browser tab will be opened to the created scratchOrg.
 
-10.  In your scratchOrg, enter Setup and find the User avatar in the header (the avatar should look like Astro, and be displayed in the upper right corner of the browser.  Hovering over Astro will display the label "View Profile".
+12.  In your scratchOrg, enter Setup and find the User avatar in the header (the avatar should look like Astro, and be displayed in the upper right corner of the browser).  Hovering over Astro will display the label "View Profile".
 
-11.  Click on the User avatar and select the option titled **Settings**.  From the settings menu, click on the option titled **Reset Security Token** to generate a new token for your scratchOrg user.
+13.  Click on the User avatar and select the option titled **Settings**.  From the settings menu, click on the option titled **Reset Security Token** to generate a new token for your scratchOrg user.
 
 > Please note that you will receive two emails declaring that a new securityToken has been generated.  The first is from the password reset that was performed.  The second is from this action.  Copy the securityToken from the second email to the .env file.
 
@@ -685,7 +713,7 @@ The build tools will use this information to create the B2C Commerce service def
 
 #### Update the .env File With Your Salesforce ScratchOrg Credentials
 
-12.  Ensure that the following .env Salesforce Platforms scratchOrg configuration properties displayed via the CLI output after the scratchOrg was successfully deployed.
+14.  Ensure that the following .env Salesforce Platforms scratchOrg configuration properties displayed via the CLI output after the scratchOrg was successfully deployed.
 
 ```
 ######################################################################
@@ -704,11 +732,11 @@ Remember that these values need to be driven by your scratchOrg user and environ
 
 Once your token has been reset, check your email for the reset notification from your Salesforce scratchOrg.  Copy the securityToken from the email to the SF_SECURITYTOKEN property of your .env file.
 
-> Do not proceed with the next step until your securityToken has been reset and copied to your .env file.  You authentication attempt **will faill** if you attempt it without the securityToken.
+> Do not proceed with the next step until your securityToken has been reset and copied to your .env file.  Your authentication attempts **will fail** if you authenticate without leveraging the securityToken.
 
 #### Validate Your .env Salesforce ScratchOrg Credentials
 
-13.  Test your Salesforce Platform Configuration properties by executing the following CLI Command:
+15.  Test your Salesforce Platform Configuration properties by executing the following CLI Command:
 
 ```bash
 npm run crm-sync:sf:auth:usercreds
@@ -720,7 +748,7 @@ npm run crm-sync:sf:auth:usercreds
 
 #### Configure Account Manager as a Salesforce AuthProvider
 
-14. Now that the scratch org has been created, the b2c-crm-sync package has been deployed, and the credentials of the user validated, you have to build the Auth Provider that will allow the Salesforce core platform to authenticate with the B2C instance. To do so, please execute the following CLI Command:
+16. Now that the scratch org has been created, the b2c-crm-sync package has been deployed, and the credentials of the user validated, an Auth Provider must be defined that will allow the Salesforce platform to authenticate with the B2C instance. To do so, please execute the following CLI Command:
 
 ```bash
 npm run crm-sync:sf:authprovider:build
@@ -728,28 +756,75 @@ npm run crm-sync:sf:authprovider:build
 
 > This command will create the Auth Provider into the scratch org and then deploy the related Named Credentials that will leverage it. This named credential is then used by the b2c-crm-sync package to perform API calls against the B2C Commerce instance.
 
-15. By executing the `crm-sync:sf:authprovider:build` command, the callback URL of the auth provider will be printed in the CLI console. Please copy this URL and paste it in the Redirect URIs field of the previously created Account Manager Client ID.
+The AccountManager ClientID must be configured with a callbackUrl provided by the Salesforce AuthProvider.  To retrieve this url:
 
-> If you don't find the callback URL of the Auth Provider within the CLI console, you can find it from the Salesforce org. To do so, please go to the `Setup` menu, then type in the Quick Find field and search for `Auth. Providers` and open the Auth provider named with the B2C Commerce instance name. You'll find the callback URL at the bottom of the page.
+- Enter Setup within your scratchOrg and in the quick-find, search for `auth`.
+- Select the `Auth. Providers` option found under the Identity menu.
+- Click on the name of the auth. provider represented as your .env file's B2C Instance Name
+- Under the Salesforce Configuration section of the detail page, find the `Callback URL`
+- Copy the entire callback url to the clipboard
+
+> The callback url should be the third item in the Salesforce Configuration section of the Auth. Provider detail display.  It will have the string `authcallback` present in the url (ex. https://mysalesforceenvironment.cs01.my.salesforce.com/services/authcallback/b2cinstance001).
 
 #### Setup the AuthProvider Callback in Account Manager
 
-16. Now that both the Auth Provider and the related Named Credentials are deployed, you have to perform a first authentication from the Salesforce Core platform. This step is manual as it requires you to validate the authentication flow.
+17. With the authProvider callback url copied to the clipboard, please paste it in the Redirect URIs field of the previously created Account Manager Client ID.
 
-- To perform this action. please go, on the scratch org, to the `Setup` menu.
+- Toggle to the Account Manager ClientID page opened in the step **Create Your B2C Commerce Client ID**.
+- Locate the `Redirect URIs` form-field on your ClientID page.
+- Paste the callbackUrl copied from the Salesforce scratchOrg in the Redirect URIs field.
+- Click `Save` to apply the callbackUrl to the ClientID definition.
+
+> If you don't find the callback URL of the Auth Provider within the CLI console, you can find it from the Salesforce org. To do so, please go to the `Setup` menu, then type in the Quick Find field and search for `Auth. Providers` and open the Auth provider named with the B2C Commerce instance name. You'll find the callback URL at the bottom of the page.
+
+#### Enable your Connection between B2C Commerce and the Salesforce Platform
+
+18. Now that both the Auth Provider and the related Named Credentials are deployed, you have to perform a first authentication from the Salesforce Core platform. This step is manual as it requires you to validate the authentication flow.
+
+- Open the scratch org and open the `Setup` menu.
 - Type in the Quick Find field and search for `Named Credentials`.
 - In front of the `<b2c instance name>: B2C: Client Credentials` named credentials, click on the edit button.
-- Immediately click on `Save`. Performing an edit of the named credential will start the authentication process behind the scene between the Salesforce core org and the B2C Commerce instance.
+- Immediately click on `Save`. 
+  
+Performing an edit of the named credential will start the authentication process between the Salesforce scratchOrg -- and the B2C Commerce instance.
 
 > You should be able to see that the named credential has been successfully authenticated when opening back the named credential, as per the following screenshot:
 
 ![Successfully authenticated B2C Commerce Named Credential](/docs/images/B2C-Authenticated-Named-Credential.png)
 
+#### Create your Order on Behalf of Authentication Credentials
+
+The Order on Behalf Of shopping experience requires that Service Agents in the Salesforce Platform authenticate against the B2C Commerce environment prior to creating the shopping session.  This authentication is managed by a Per-User Named Credential via the Salesforce Platform.
+
+19.  Create the per-user Named Credential in the Salesforce Platform that will be used by the ScratchOrg user to act as an Agent and create virtual shopping sessions.
+
+- From the ScratchOrg, click on the Astro icon in the upper right-hand corner of the Salesforce org.
+- Select the option titled `Settings` under the User Display.
+- In the `My Personal Information` Menu, select the option titled 'Authentication Settings for External Systems'.
+- Select the `New` button to creat a new set of authentication credentials.
+
+> The **Authentication Settings for External Systems** form captures the credentials that can be used by agents to authenticate against other systems.  Use this form to configure the B2C Commerce credentials the agent will use to authenticate against B2C Commerce.
+
+- Map the per-user Named Credential to your scratchOrg user by clicking on the magnifying glass-icon to the right of the `User` field.  Select your user from the list of Recently Viewed users.
+- Use the table below to complete the remaining fields of the per-user Named Credential form.
+
+| Property Name | Required | Expected Value                       |
+|--------------:|:----:|:-----------------------------------|
+|  External System Definition |x| Named Credential |
+|  Named Credential |x| [b2cInstanceName]: B2C: OOBO: Named Credential |
+|  Authentication Protocol |x| Password Authentication |
+|  Username |x| Your B2C Commerce environment username |
+|  Password |x| Your B2C Commerce AccessKey + ':' + B2C Commerce ClientSecret |
+
+> The **username** property should use your .env file's `B2C_USERNAME` value.  The **password** property should use your .env file's `B2C_ACCESSKEY` and `B2C_CLIENTSECRET` values -- separated by a `:`.  It should look something similar to `1nY%|GvAnu]}tvNNe[~7zkn12]ZLU)lV~CbXzO{w:yourclientsecretpassword`.
+
+- When all form fields have been completed, please click the `Save` button save this per-user Named Credential definition.  Confirm that the per-user Named Credential has been created within your Personal Settings.
+
 #### Configure Duplicate Rules Leveraged by b2c-crm-sync
 
 b2c-crm-sync leverages match and duplicate rules to enforce the B2C Customer Data Strategy it employs.  These rules are leveraged to alert administrators of potential duplicate B2C Commerce Customer Profiles -- and assist in resolving customer profiles using a sub-set of customer attributes.
 
-17. In the setup quick-find, search for Duplicate Rules (searching for 'dup' should bring up Duplicate and Match Rules).  Once located, select the Match Rules setup option from the filtered setup menu.
+20. In the setup quick-find, search for Duplicate Rules (searching for 'dup' should bring up Duplicate and Match Rules).  Once located, select the Match Rules setup option from the filtered setup menu.
 
 ##### Account / Contact Match Rules Setup Guidance
 
@@ -768,7 +843,6 @@ From the duplicate rules listing, select the rule titled **B2C Commerce: Standar
 ```bash
 1 OR (2 AND 3) OR (2 AND 4 AND 5) OR (2 AND 4) OR (4 AND 5 AND 6)
 ```
-
 ##### PersonAccount Match Rules Setup Guidance
 
 - Ensure that the **B2C Commerce Standard Person Account** match rule is activated.  This rule must be active in the scratchOrg as part of the PersonAccounts implementation.  The corresponding Duplicate Rule is dependent on this Match Rule being activated.
@@ -792,37 +866,70 @@ From the duplicate rules listing, select the rule titled **B2C Commerce: Standar
 ```bash
 1 OR (2 AND 3) OR (2 AND 4 AND 5) OR (2 AND 4) OR (4 AND 5 AND 6)
 ```
-
 #### Configure Your B2C Instance
 
-With the AuthProvider verified and match rules in place, you are now in a position to conduct your first test of the integration between B2C Commerce and the Salesforce Platform.  
+With the AuthProvider verified and match rules in place, you are now in a position to conduct your first test of the integration between B2C Commerce and the Salesforce Platform.  Please execute the following CLI command to configure your B2C Instance:
 
-18. Open the appLauncher, and search for 'CRM' in the quick-find. Verify that the **B2C CRM Sync** application is visible.
-    
-> Select the **B2C CRM Sync** application and open it.  Verify that the B2C Instances, B2C CustomerLists, B2C Sites, Accounts, and Contacts tabs are visible from within the application.
+```bash
+npm run crm-sync:sf:b2cinstance:setup
+```
 
-- Click on the B2C Instances Tab, and verify that a record exists in the record listing.
-
-> The instance definition should match the B2C Commerce Sandbox definition present in your .env file.  If the instance definition does not match your .env file -- please re-generate your Salesforce scratchOrg.
-
-- Select the pre-configured B2C instance.  A record should already exist that is mapped to the B2C Commerce environment defined in your .env file.
-
-- Select the drop-down arrow next to the 'Printable View' quick action in the top right of the B2C Instance record detail view and select 'Seed CustomerLists and Sites'.
-
-> This will retrieve the configured list of B2C CustomerLists and Sites from the B2C Instance.  These records will be seeded in the b2c-crm-sync application, and will drive integration with B2C Commerce.
-
-- Select the drop-down arrow next to the 'Printable View' quick action in the top right of the B2C Instance record detail view and select 'Activate B2C CustomerLists'.
-
-> This will enable all retrieved CustomerLists for integration with B2C Commerce.  All integration capabilities for CustomerLists can be managed via the Active and Permission Flags on the B2C Commerce Instance, CustomerList, and Site records.
+> This command will seed the B2C Instance record, retrieve the B2C Commerce CustomerLists and Sites, and set up the base configuration for all of these records.  It leverages a Salesforce REST API that interacts with B2C Commerce via OCAPI.
 
 #### Build and Deploy b2c-crm-sync to Your Commerce Cloud Sandbox
 
-19. Generate the B2C Commerce metadata required by b2c-crm-sync and deploy both the code metadata to the Salesforce B2C Commerce instance by executing the following CLI command:
+21. Generate the B2C Commerce metadata required by b2c-crm-sync and deploy both the code metadata to the Salesforce B2C Commerce instance by executing the following CLI command:
 
 ```bash
 npm run crm-sync:b2c:build
 ```
 > This CLI command will generate the services.xml file based on the previously generated connected apps step #4, generate a zip archive containing the metadata required by b2c-crm-sync, deploy this archive, generate a zip archive containing the b2c-crm-sync cartridges and deploy this archive to the B2C Commerce instance.
+
+#### Update the Allowed Origins in OCAPI Permissions to Allow ScratchOrg Access
+
+22.  The B2C Commerce instance's OCAPI permissions must be extended to allow the scratchOrg to create a storefront session for the Order on Behalf Of shopping experience.  This can be done by adding the scratchOrg urls to the OCAPI shop permissions as allowed origins.
+
+- Log into the Business Manager.
+- Navigate to Administration > Site Development > Open Commerce API Settings.
+- Select 'Shop API' and 'Global' from the available select boxes.
+- Add your Salesforce scratchOrg urls to the `allowed origins` section of the configuration.
+  
+```json
+    "client_id": "[-------insert your clientId here---------------]",
+    "allowed_origins": [
+        "https://[---scratchOrg custom urlPrefix----].lightning.force.com",
+        "https://[---scratchOrg custom urlPrefix----].my.salesforce.com"
+    ],
+```
+
+The `scratchOrg custom urlPrefix` represents the portion of the scratchOrg url that is dynamical generated and unique.  The `allowed_origins` setting should have two urls that leverage this prefix with different suffixes.
+
+If your scratchOrg url is `enterprise-ability-12345-dev-ed.lightning.force.com`, your `allowed_origins` entries will be:
+
+```json
+    "client_id": "[-------insert your clientId here---------------]",
+    "allowed_origins": [
+        "https://enterprise-ability-12345-dev-ed.lightning.force.com",
+        "https://enterprise-ability-12345-dev-ed.my.salesforce.com"
+    ],
+
+```
+
+- Always remember to save your changes and confirm that they've been written to your Business Manager environment.
+
+#### Create the Order of Behalf Of Anonymous Customers
+
+The B2C Commerce Order on Behalf Of feature only supports the creation of shopping sessions for registered storefront customers.  b2c-crm-sync extends this capability to anonymous storefront shoppers.  
+
+23.  Execute the following CLI command to create B2C Commerce customer profiles that will be used by Service Agents to authenticate against B2C Commerce to create anonymous agent-driven shopping sessions.
+
+```bash
+npm run crm-sync:oobo:customers:create
+```
+
+> This command will register a B2C Commerce customerProfile with the customerNo `9999999` for every customerList mapped to configured sites.  These customers are mapped to B2C Sites created in the Salesforce Platform so that agents can create shopping sessions using these profiles.
+
+The Agent will log in to the storefront using these customerProfiles when creating anonymous shopping sessions.  The storefront will recognize the anonymous OOBO customer profiles, and automatically log the customerProfile out of their registered session.  This leaves the Agent with the anonymous shopping session.
 
 ### Salesforce Customer 360 Platform Configuration Instructions
 
@@ -835,7 +942,7 @@ Apex unit-tests can be executed directly from the command-line via SFDX.  Please
 ```bash
 sfdx force:apex:test:run
 ```
-> The Apex unit-tests should return with a message providing instructions on how to view the test results.  For additional SFDX commands related to executing Apex tests, please visit the [Salesforce Platform CLI Refernece: Apex Commands](https://developer.salesforce.com/docs/atlas.en-us.sfdx_cli_reference.meta/sfdx_cli_reference/cli_reference_force_apex.htm) page.
+> The Apex unit-tests should return with a message providing instructions on how to view the test results.  For additional SFDX commands related to executing Apex tests, please visit the [Salesforce Platform CLI Reference: Apex Commands](https://developer.salesforce.com/docs/atlas.en-us.sfdx_cli_reference.meta/sfdx_cli_reference/cli_reference_force_apex.htm) page.
 
 ##### Executing Multi-Cloud Unit Tests
 The multi-cloud unit-tests are designed to exercise your B2C Commerce Sandbox and Salesforce Platform ScratchOrg via REST APIs to validate the installation is successful.

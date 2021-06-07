@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>51.0</apiVersion>
+    <assignments>
+        <description>... assign the current recordCount to a local variable to simplify processing.</description>
+        <name>asn_B2CSiteRecordCount</name>
+        <label>Assign the B2C Site Recordcount</label>
+        <locationX>535</locationX>
+        <locationY>362</locationY>
+        <assignmentItems>
+            <assignToReference>var_b2cSiteCount</assignToReference>
+            <operator>AssignCount</operator>
+            <value>
+                <elementReference>recCol_B2CSites</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>dec_B2CSitesExist</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <description>... evaluates if any B2C Sites were found -- and if not, exit early</description>
+        <name>dec_B2CSitesExist</name>
+        <label>Were B2C Sites Found?</label>
+        <locationX>528</locationX>
+        <locationY>537</locationY>
+        <defaultConnector>
+            <targetReference>recUpd_activateB2CSites</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>B2C Sites Were Found</defaultConnectorLabel>
+        <rules>
+            <name>decOutcome_B2CSitesNotFound</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>var_b2cSiteCount</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <numberValue>0.0</numberValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>screen_B2CSitessNotFound</targetReference>
+            </connector>
+            <label>B2C Sites Were Not Found</label>
+        </rules>
+    </decisions>
+    <description>... activate the B2C Commerce Sites associated to a given B2C Instance via their CustomerList association.</description>
+    <interviewLabel>B2C Commerce: Quick Action: B2C Instance: Sites: Activate {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>B2C Commerce: Quick Action: B2C Instance: Sites: Activate</label>
+    <loops>
+        <description>... iterate over the collection of updated Sites and explain which have been activated.</description>
+        <name>loop_provideB2CSiteStatus</name>
+        <label>Provide B2C Site Status</label>
+        <locationX>733</locationX>
+        <locationY>822</locationY>
+        <collectionReference>recCol_B2CSites</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>screen_activateB2CSiteMessage_Success</targetReference>
+        </nextValueConnector>
+    </loops>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Flow</processType>
+    <recordLookups>
+        <description>... retrieve the B2C Sites associated to the parent B2C Instance.</description>
+        <name>recGet_B2CSites</name>
+        <label>Get the Related B2C Sites</label>
+        <locationX>536</locationX>
+        <locationY>196</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>asn_B2CSiteRecordCount</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>B2C_Instance_Id__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <object>B2C_Site__c</object>
+        <outputReference>recCol_B2CSites</outputReference>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>Enable_Address_Creation__c</queriedFields>
+        <queriedFields>Enable_Address_Updates__c</queriedFields>
+        <queriedFields>Enable_Profile_Creation__c</queriedFields>
+        <queriedFields>Enable_Profile_Updates__c</queriedFields>
+        <queriedFields>Enable_Address_Sync__c</queriedFields>
+        <queriedFields>Is_Active__c</queriedFields>
+        <queriedFields>B2C_Instance_Id__c</queriedFields>
+        <queriedFields>B2C_Instance_Name__c</queriedFields>
+        <queriedFields>Name</queriedFields>
+        <queriedFields>CustomerList_ID__c</queriedFields>
+        <queriedFields>Customer_List__c</queriedFields>
+    </recordLookups>
+    <recordUpdates>
+        <description>... turn on all the activation flags for the selected B2C Sites.</description>
+        <name>recUpd_activateB2CSites</name>
+        <label>Update the B2C Sites</label>
+        <locationX>537</locationX>
+        <locationY>822</locationY>
+        <connector>
+            <targetReference>loop_provideB2CSiteStatus</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>B2C_Instance_Id__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Enable_Address_Creation__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Enable_Address_Sync__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Enable_Address_Updates__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Enable_Order_on_Behalf_Of__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Enable_Profile_Creation__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Enable_Profile_Updates__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Is_Active__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <object>B2C_Site__c</object>
+    </recordUpdates>
+    <screens>
+        <description>... display to the user that the B2C Site has been activated successfully.</description>
+        <name>screen_activateB2CSiteMessage_Success</name>
+        <label>Display Activation Status for the B2C Site</label>
+        <locationX>895</locationX>
+        <locationY>976</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>loop_provideB2CSiteStatus</targetReference>
+        </connector>
+        <fields>
+            <name>lbl_activateB2CSiteHeader_Update</name>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 14px;&quot;&gt;This B2C Site Has Been Activated for Integration&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;The active and profile integration flags for the following B2C Site have been activated.  The REST APIs exposed by this B2C Commerce storefront (ex. OCAPI Shop or Shopper) can now be leveraged via b2c-crm-sync to enable integrated use-cases.&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>B2C_CustomerList_ID</name>
+            <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>loop_provideB2CSiteStatus.Customer_List__c</elementReference>
+            </defaultValue>
+            <fieldText>B2C CustomerList ID</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>B2C_CustomerList</name>
+            <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>loop_provideB2CSiteStatus.CustomerList_ID__c</elementReference>
+            </defaultValue>
+            <fieldText>B2C CustomerList</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>lbl_activateB2CSiteId</name>
+            <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>loop_provideB2CSiteStatus.Id</elementReference>
+            </defaultValue>
+            <fieldText>B2C Site ID</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>lbl_activateB2CSiteName</name>
+            <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>loop_provideB2CSiteStatus.Name</elementReference>
+            </defaultValue>
+            <fieldText>B2C Site</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>lbl_activateB2CSiteIsActive</name>
+            <dataType>Boolean</dataType>
+            <defaultValue>
+                <booleanValue>true</booleanValue>
+            </defaultValue>
+            <fieldText>B2C Site Is Active</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>lbl_screenB2CSiteActivateFooter</name>
+            <fieldText>&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;This Site can now be used to extend and augment the customer&apos;s shopping experience.  Use cases such as Assisted Shopping can now be supported via this B2C Commerce storefront..&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <description>... display this screen to alert the user that no B2C Sites were found associated to the B2C Instance.</description>
+        <name>screen_B2CSitessNotFound</name>
+        <label>No B2C Sites Were Found</label>
+        <locationX>268</locationX>
+        <locationY>538</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <fields>
+            <name>lbl_noB2CSitesFound</name>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 14px;&quot;&gt;No B2C Sites Found for this B2C Instance&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;No B2C Sites were found related to the current B2C Instance.  Please attempt to &lt;/span&gt;&lt;b style=&quot;font-size: 12px;&quot;&gt;Seed B2C CustomerLists and Sites&lt;/b&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt; using the Quick Actions available in the layout menu.&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <start>
+        <locationX>410</locationX>
+        <locationY>48</locationY>
+        <connector>
+            <targetReference>recGet_B2CSites</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <variables>
+        <description>... represents the collection of B2C Sites associated to a given B2C CustomerList.</description>
+        <name>recCol_B2CSites</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>B2C_Site__c</objectType>
+    </variables>
+    <variables>
+        <description>... represents the recordId of the B2C Commerce CustomerList being activated.</description>
+        <name>recordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>... represents the number of B2C Sites found associated to a given B2C Instance.</description>
+        <name>var_b2cSiteCount</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+        <value>
+            <numberValue>0.0</numberValue>
+        </value>
+    </variables>
+</Flow>

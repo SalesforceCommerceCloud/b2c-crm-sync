@@ -1,0 +1,33 @@
+<div class="bg-danger pt-1 pb-1">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="content">
+
+                    <iscomment>Render the Service Agent header -- identifying the customer being assisted</iscomment>
+                    <div class="text-white text-center">
+
+                        <strong><small>
+                            ${Resource.msg("agentheader.agenttitle", "b2ccrmsync", null);} ${session.userName;} |
+
+                            <iscomment>Evaluate rendering the registered-user header</iscomment>
+                            <isif condition="${pdict.agentHeader == 'customer'}">
+                                ${Resource.msg("agentheader.customernolabel", "b2ccrmsync", null);}
+                                <isprint value="${pdict.customerNo}" /> | <isprint value="${pdict.customerName}" />
+
+                                <iscomment>Evaluate rendering the anonymous agent shopping-session header</iscomment>
+                                <iselseif condition="${pdict.agentHeader == 'anonymous'}">
+                                    ${Resource.msg("agentheader.anonshopping", "b2ccrmsync", null);}
+                                </iselseif>
+                            </isif>
+
+                            | <a style="color:white" href='<isprint value="${pdict.logoutUrl}">'>${Resource.msg("agentheader.agentlogout", "b2ccrmsync", null);}</a>
+                        </small></strong>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
