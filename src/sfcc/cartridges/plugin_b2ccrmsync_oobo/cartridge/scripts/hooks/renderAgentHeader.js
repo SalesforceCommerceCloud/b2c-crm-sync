@@ -12,6 +12,7 @@ function renderAgentHeader() {
     // Initialize local variables
     let ISML,
         URLUtils,
+        Resource,
         agentHeaderParam,
         Site,
         isSyncEnabled,
@@ -23,6 +24,7 @@ function renderAgentHeader() {
     // Initialize classes
     ISML = require('dw/template/ISML');
     URLUtils = require('dw/web/URLUtils');
+    Resource = require('dw/web/Resource');
 
     // Retrieve the agent header parameter from the collection of httpParameters
     agentHeaderParam = request.httpParameterMap.get('show-agentheader');
@@ -67,6 +69,10 @@ function renderAgentHeader() {
         } else if ((session.userName != 'storefront' && session.userName != 'registered') || agentHeaderParam.value == 'anonymous') {
             displayAgentHeader = 'anonymous';
         }
+
+        // Default the customerName and customerNo using resourceLabels if the values were not automatically defaulted
+        if (customerName.length == 0) { customerName = Resource.msg('agentheader.customername','b2ccrmsync',null); }
+        if (customerNo.length == 0) { customerNo = Resource.msg('agentheader.customerno','b2ccrmsync',null); }
 
         // Render the Service Agent OOBO Header
         ISML.renderTemplate('components/header/agentOOBOHeader',{
