@@ -17,6 +17,7 @@
     <tabs>B2C_Instance__c</tabs>
     <tabs>B2C_CustomerList__c</tabs>
     <tabs>B2C_Site__c</tabs>
+    <tabs>B2C_AuthToken__c</tabs>
     <tabs>standard-Account</tabs>
     <tabs>standard-Contact</tabs>
     <uiType>Lightning</uiType>
