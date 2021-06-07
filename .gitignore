@@ -57,6 +57,7 @@ pids
 /.scratch
 /.jekyll-cache
 /_deploy
+/_jwt
 /node_modules
 
 # dotenv environment variables file
