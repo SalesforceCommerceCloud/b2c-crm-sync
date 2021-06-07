@@ -76,6 +76,7 @@ ehthumbs.db
 $RECYCLE.BIN/
 
 # Ignore rendered sfdx meta-data templates (vs. the template)
+/src/sfdc/force-app/main/default/certs/
 /src/sfdc/force-app/main/default/cspTrustedSites/
 /src/sfdc/force-app/main/default/remoteSiteSettings/
 /src/sfdc/force-app/main/default/namedCredentials/
