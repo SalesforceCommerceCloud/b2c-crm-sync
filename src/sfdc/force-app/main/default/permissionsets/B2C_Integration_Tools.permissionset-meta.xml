@@ -231,12 +231,22 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>B2C_CustomerList__c.JWT_Certificate_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>B2C_CustomerList__c.Named_Credential_Developer_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>B2C_CustomerList__c.OCAPI_Version_No__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>B2C_CustomerList__c.Total_OOBO_Sites__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -287,6 +297,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>B2C_Instance__c.Is_Active__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>B2C_Instance__c.JWT_Certificate_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -447,6 +462,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>B2C_Site__c.Is_Instance_Active__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>B2C_Site__c.JWT_Certificate_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

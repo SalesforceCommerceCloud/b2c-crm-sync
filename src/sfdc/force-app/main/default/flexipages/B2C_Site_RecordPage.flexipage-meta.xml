@@ -190,6 +190,21 @@
         </itemInstances>
         <itemInstances>
             <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.JWT_Certificate_Name__c</fieldItem>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Name}</leftValue>
+                        <operator>NE</operator>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
                 <fieldItem>Record.OCAPI_Version_No__c</fieldItem>
             </fieldInstance>
         </itemInstances>
@@ -213,6 +228,12 @@
         <itemInstances>
             <fieldInstance>
                 <fieldItem>Record.Base_Internal_Site_Url__c</fieldItem>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Name}</leftValue>
+                        <operator>NE</operator>
+                    </criteria>
+                </visibilityRule>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -228,6 +249,12 @@
         <itemInstances>
             <fieldInstance>
                 <fieldItem>Record.OOBO_Named_Credential_Developer_Name__c</fieldItem>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Name}</leftValue>
+                        <operator>NE</operator>
+                    </criteria>
+                </visibilityRule>
             </fieldInstance>
         </itemInstances>
         <name>Facet-2646ba37-0fed-43ca-a008-c8ceedb51db9</name>

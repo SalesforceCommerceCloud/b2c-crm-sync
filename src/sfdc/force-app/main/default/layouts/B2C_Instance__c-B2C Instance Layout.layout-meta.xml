@@ -67,6 +67,10 @@
                 <behavior>Edit</behavior>
                 <field>OCAPI_Version_No__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>JWT_Certificate_Name__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
