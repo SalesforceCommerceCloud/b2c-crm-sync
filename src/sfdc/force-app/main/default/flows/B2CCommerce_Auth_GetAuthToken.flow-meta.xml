@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>51.0</apiVersion>
+    <assignments>
+        <description>... expose the verified / valid B2C AuthToken and its expirationDate to the caller.</description>
+        <name>asn_setOutputValues</name>
+        <label>Expose the Valid B2C AuthToken</label>
+        <locationX>590</locationX>
+        <locationY>406</locationY>
+        <assignmentItems>
+            <assignToReference>B2CAuthToken</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>recGet_ValidAuthToken.B2C_AuthToken__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ExpirationDate</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>recGet_ValidAuthToken.Expiration_Date__c</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <decisions>
+        <description>... evaluate if a valid authToken was found -- or, does an authToken need to be requested.</description>
+        <name>dec_wasValidAuthTokenFound</name>
+        <label>Was a Valid AuthToken Found?</label>
+        <locationX>175</locationX>
+        <locationY>409</locationY>
+        <defaultConnectorLabel>Was Not Found</defaultConnectorLabel>
+        <rules>
+            <name>Was_Found</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>recGet_ValidAuthToken</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>recUpd_incrementAuthTokenUsage</targetReference>
+            </connector>
+            <label>Was Found</label>
+        </rules>
+    </decisions>
+    <description>... this flow is used to retrieve / request a REST API AuthToken from B2C Commerce&apos;s Account Manager for a given NamedCredential and B2C ClientID combination.</description>
+    <formulas>
+        <description>... increment the usageCount for the validated B2C AuthToken by one.</description>
+        <name>frmIncrementUsageCount</name>
+        <dataType>Number</dataType>
+        <expression>IF({!recGet_ValidAuthToken.Total_Usage__c} = 0, 1, ({!recGet_ValidAuthToken.Total_Usage__c} + 1))</expression>
+        <scale>2</scale>
+    </formulas>
+    <interviewLabel>B2C Commerce: Auth: Get AuthToken {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>B2C Commerce: Auth: Get AuthToken</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <description>... attempt to retrieve a valid B2C Commerce / Account Manager AuthToken for the NamedCredential / B2C ClientID combination.</description>
+        <name>recGet_ValidAuthToken</name>
+        <label>Retrieve the First Valid AuthToken</label>
+        <locationX>182</locationX>
+        <locationY>219</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>dec_wasValidAuthTokenFound</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>NamedCredential_DeveloperName__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>NamedCredential</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>B2C_Client_ID__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>B2CClientID</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Is_Valid__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>B2C_AuthToken__c</object>
+        <sortField>Expiration_Date__c</sortField>
+        <sortOrder>Desc</sortOrder>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordUpdates>
+        <description>... increment the usageCount for the B2C AuthToken by one.</description>
+        <name>recUpd_incrementAuthTokenUsage</name>
+        <label>Increment the Usage Count</label>
+        <locationX>402</locationX>
+        <locationY>406</locationY>
+        <connector>
+            <targetReference>asn_setOutputValues</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recGet_ValidAuthToken.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Total_Usage__c</field>
+            <value>
+                <elementReference>frmIncrementUsageCount</elementReference>
+            </value>
+        </inputAssignments>
+        <object>B2C_AuthToken__c</object>
+    </recordUpdates>
+    <start>
+        <locationX>57</locationX>
+        <locationY>32</locationY>
+        <connector>
+            <targetReference>recGet_ValidAuthToken</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <variables>
+        <description>... represents the valid B2C AuthToken retrieved for the NamedCredential / B2C ClientID combination.</description>
+        <name>B2CAuthToken</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <description>... represents the B2C ClientID used to retrieve a B2C Commerce REST API AuthToken via Account Manager.</description>
+        <name>B2CClientID</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>... describes the expirationDate for the B2C AuthToken that was retrieved.</description>
+        <name>ExpirationDate</name>
+        <dataType>DateTime</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <description>... represents the developerName of the NamedCredential seeking a B2C Commerce AuthToken.</description>
+        <name>NamedCredential</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>
