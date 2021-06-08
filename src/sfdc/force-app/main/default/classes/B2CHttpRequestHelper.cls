@@ -10,7 +10,7 @@ public with sharing class B2CHttpRequestHelper {
     /**
      * @description Helper class to generate the core http-request structure for retrieving customer profiles.
      *
-     * @param siteUrl {String} Represents the current storefront baseUrl used to access rest APIs
+     * @param namedCredential {String} Represents the namedCredential used to perform the API request
      * @param OCAPISuffix {String} Represents the suffix to apply to the url representing the Data API endpoint
      * @param apiVersion {String} Represents the API version that should be used for the current REST API call
      * @param httpMethod {String} Represents the httpMethod to apply to the current request
@@ -49,9 +49,13 @@ public with sharing class B2CHttpRequestHelper {
     /**
      * @description Generates the httpRequest to retrieve all storefront sites.
      *
-     * @param namedCredential {String} Represents the name credential to use to get the sites
-     * @param clientId {String} Represents the client Id to use to authenticate the request
-     * @return HttpRequest Returns an http-object pre-configured data-api site retrieval request
+     * @param siteUrl {String} Represents the siteUrl used to invoke this request
+     * @param siteId {String} Represents the siteId used to invoke the request
+     * @param apiVersion {String} Represents the apiVersion used to invoke the request
+     * @param customerId {String} Represents the B2C ClientID used to drive this request
+     * @param clientId {String} Represents the customerId of the customer being authenticated
+     * @param accessToken {String} Represents the B2C Commerce authToken used for this request
+     * @return HttpRequest Returns an http-object pre-configured shop-api site retrieval request
      * */
     public static HttpRequest getCustomerAuthRequest(String siteUrl, String siteId, String apiVersion, String customerId, String clientId, String accessToken) {
         HttpRequest req = new HttpRequest();
