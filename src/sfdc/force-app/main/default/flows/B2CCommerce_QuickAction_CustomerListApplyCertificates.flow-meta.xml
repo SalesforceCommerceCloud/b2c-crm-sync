@@ -2,9 +2,9 @@
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>51.0</apiVersion>
     <decisions>
-        <description>... evaluate if the current CustomerList has a valid ClientID?</description>
-        <name>dec_wasB2CClientIDFound</name>
-        <label>Was a ClientID found?</label>
+        <description>... evaluate if the current CustomerList has a valid Certificate?</description>
+        <name>dec_wasB2CCertificateFound</name>
+        <label>Was a Certificate found?</label>
         <locationX>527</locationX>
         <locationY>465</locationY>
         <defaultConnector>
@@ -12,24 +12,24 @@
         </defaultConnector>
         <defaultConnectorLabel>Does Not Exist</defaultConnectorLabel>
         <rules>
-            <name>decOut_ClientIDExists</name>
+            <name>decOut_CertificateExists</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>thisCustomerList.B2C_Client_ID__c</leftValueReference>
+                <leftValueReference>thisCustomerList.JWT_Certificate_Name__c</leftValueReference>
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>sub_applyCustomerListClientIDToSites</targetReference>
+                <targetReference>sub_applyCertToChildSites</targetReference>
             </connector>
-            <label>ClientID Exists</label>
+            <label>Certificate Exists</label>
         </rules>
     </decisions>
-    <description>... apply the ClientID value configured for a given B2C CustomerList to all child Sites.</description>
-    <interviewLabel>B2C Commerce: QuickAction: B2C CustomerList: ClientIDs: Apply {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>B2C Commerce: Quick Action: B2C CustomerList: Sites: B2C ClientIDs: Apply</label>
+    <description>... apply the configured Certificate value to all child B2C Sites for a given CustomerList.</description>
+    <interviewLabel>B2C Commerce: Quick Action: B2C CustomerList: Sites: Certificates: Apply {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>B2C Commerce: Quick Action: B2C CustomerList: Sites: Certificates: Apply</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -57,7 +57,7 @@
         <locationY>260</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>dec_wasB2CClientIDFound</targetReference>
+            <targetReference>dec_wasB2CCertificateFound</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -70,7 +70,7 @@
         <object>B2C_CustomerList__c</object>
         <outputReference>thisCustomerList</outputReference>
         <queriedFields>Id</queriedFields>
-        <queriedFields>B2C_Client_ID__c</queriedFields>
+        <queriedFields>JWT_Certificate_Name__c</queriedFields>
         <queriedFields>Name</queriedFields>
     </recordLookups>
     <screens>
@@ -78,13 +78,13 @@
         <name>screen_B2CCustomerListMessage</name>
         <label>Display Status for the B2C CustomerList</label>
         <locationX>536</locationX>
-        <locationY>928</locationY>
+        <locationY>903</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <fields>
             <name>lbl_resetB2CClientIDsHeader</name>
-            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 14px;&quot;&gt;The B2C ClientID For this CustomerList Has Been Applied to Its Sites&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;The B2C ClientID value associated to this CustomerList have been applied to its child Sites.  Details of this update are included below:&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 14px;&quot;&gt;The JWT Certificate For this CustomerList Has Been Applied to Its Sites&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;The JWT Certificate developerName value associated to this CustomerList have been applied to its child Sites.  Details of this update are included below:&lt;/span&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
@@ -108,12 +108,12 @@
             <isRequired>false</isRequired>
         </fields>
         <fields>
-            <name>B2C_ClientID</name>
+            <name>JWT_Certificate</name>
             <dataType>String</dataType>
             <defaultValue>
-                <elementReference>thisCustomerList.B2C_Client_ID__c</elementReference>
+                <elementReference>thisCustomerList.JWT_Certificate_Name__c</elementReference>
             </defaultValue>
-            <fieldText>B2C ClientID</fieldText>
+            <fieldText>JWT Certificate Developer Name</fieldText>
             <fieldType>InputField</fieldType>
             <isRequired>false</isRequired>
         </fields>
@@ -121,7 +121,7 @@
             <name>lbl_numberOfSitesUpdatedClientID</name>
             <dataType>Number</dataType>
             <defaultValue>
-                <elementReference>sub_applyCustomerListClientIDToSites.recOut_sitesRecordCount</elementReference>
+                <elementReference>sub_applyCertToChildSites.recOut_sitesRecordCount</elementReference>
             </defaultValue>
             <fieldText>Number of Sites Updated</fieldText>
             <fieldType>InputField</fieldType>
@@ -130,7 +130,7 @@
         </fields>
         <fields>
             <name>lbl_footer</name>
-            <fieldText>&lt;p&gt;Please remember that any external service-calls to B2C Commerce are dependent on the ClientID values attached to the CustomerList of corresponding Sites.  If these calls begin to fail, please check the ClientID values and ensure that they are valid.  &lt;/p&gt;</fieldText>
+            <fieldText>&lt;p&gt;Please remember that any external service-calls to B2C Commerce are dependent on the JWT Certificate and B2C ClientID values attached to the CustomerList of corresponding Sites.  If these calls begin to fail, please ensure that the JWT Certificate and B2C ClientID values are valid.  &lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <showFooter>true</showFooter>
@@ -146,8 +146,8 @@
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <fields>
-            <name>lbl_resetB2CClientIDsHeader_Header</name>
-            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 14px; background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;The B2C ClientID For this CustomerList Has Not Been Set&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 12px; background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;The B2C Client ID value associated to this CustomerList has not been set.  Please update this CustomerList with a valid B2C Client ID before applying this value to child Sites.&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <name>lbl_resetCertificateHeader_Header</name>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;color: rgb(62, 62, 60); background-color: rgb(255, 255, 255); font-size: 14px;&quot;&gt;The Certificate For this CustomerList Has Not Been Set&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(62, 62, 60); background-color: rgb(255, 255, 255); font-size: 12px;&quot;&gt;The JWT Certificate value associated to this CustomerList has not been set.  Please update this CustomerList with a valid Certificate developerName before applying this value to child Sites.&lt;/span&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
@@ -171,18 +171,18 @@
             <isRequired>false</isRequired>
         </fields>
         <fields>
-            <name>B2C_ClientID_0</name>
+            <name>B2C_JWTCertificate</name>
             <dataType>String</dataType>
             <defaultValue>
-                <elementReference>thisCustomerList.B2C_Client_ID__c</elementReference>
+                <elementReference>thisCustomerList.JWT_Certificate_Name__c</elementReference>
             </defaultValue>
-            <fieldText>B2C ClientID</fieldText>
+            <fieldText>JWT Certificate</fieldText>
             <fieldType>InputField</fieldType>
             <isRequired>false</isRequired>
         </fields>
         <fields>
             <name>lbl_footer_0</name>
-            <fieldText>&lt;p&gt;Please remember that any external service-calls to B2C Commerce are dependent on the ClientID values attached to the CustomerList of corresponding Sites.  If these calls begin to fail, please check the ClientID values and ensure that they are valid.  &lt;/p&gt;</fieldText>
+            <fieldText>&lt;p&gt;Please remember that any external service-calls to B2C Commerce are dependent on the JWT Certificate and B2C Client ID values attached to the CustomerList of corresponding Sites.  If these calls begin to fail, please check the &lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;JWT Certificate and &lt;/span&gt;ClientID values and ensure that they are valid.  &lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <showFooter>true</showFooter>
@@ -197,15 +197,15 @@
     </start>
     <status>Active</status>
     <subflows>
-        <description>... apply the current customerList&apos;s ClientID value to its child Sites.</description>
-        <name>sub_applyCustomerListClientIDToSites</name>
-        <label>Apply the CustomerList ClientID to Child Sites</label>
+        <description>... apply the certificate associated to this B2C CustomerList to its child Sites.</description>
+        <name>sub_applyCertToChildSites</name>
+        <label>Apply the Certificate to Child Sites</label>
         <locationX>536</locationX>
-        <locationY>716</locationY>
+        <locationY>692</locationY>
         <connector>
             <targetReference>screen_B2CCustomerListMessage</targetReference>
         </connector>
-        <flowName>B2CCommerce_B2CCustomerLists_ApplyClientIDsToSites</flowName>
+        <flowName>B2CCommerce_B2CCustomerLists_ApplyCertToSites</flowName>
         <inputAssignments>
             <name>recordId</name>
             <value>

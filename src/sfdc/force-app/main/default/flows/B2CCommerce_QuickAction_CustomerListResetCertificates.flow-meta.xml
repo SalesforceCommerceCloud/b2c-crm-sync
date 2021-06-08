@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>51.0</apiVersion>
-    <description>... reset the ClientIDs for the selected CustomerList and Child Sites.</description>
-    <interviewLabel>B2C Commerce: Quick Action: CustomerList: Reset ClientIDs {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>B2C Commerce: Quick Action: B2C CustomerList: Sites: B2C ClientIDs: Reset</label>
+    <description>... reset the JWT Certificate values associated to the sites of a parent B2C CustomerList.</description>
+    <interviewLabel>B2C Commerce: Quick Action: B2C CustomerList: Sites: {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>B2C Commerce: Quick Action: B2C CustomerList: Sites: Certificates: Reset</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -33,8 +33,8 @@
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <fields>
-            <name>lbl_resetB2CClientIDsHeader</name>
-            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 14px;&quot;&gt;The B2C ClientIDs Have Been Reset for this CustomerList&apos;s Sites&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;The B2C ClientID values on this customerList&apos;s child Sites have been reset.  Please note that any integration features dependent on ClientIDs will no longer function.  Consider updating the customerList&apos;s Sites with a new ClientID value to re-enable dependent features.&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <name>lbl_resetCertificatesHeader</name>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 14px;&quot;&gt;The Certificate Values Have Been Reset for this CustomerList&apos;s Sites&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;The JWT Certificate values on this customerList&apos;s child Sites have been reset.  Please note that any integration features dependent on assigned certificates will no longer function.  Consider updating the customerList&apos;s Sites with a new JWT Certificate value to re-enable dependent features.&lt;/span&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
@@ -70,7 +70,7 @@
         </fields>
         <fields>
             <name>lbl_footer</name>
-            <fieldText>&lt;p&gt;Please remember that any external service-calls to B2C Commerce dependent on the ClientID values attached to the CustomerList&apos;s Sites will require new ClientID values to function.  &lt;/p&gt;</fieldText>
+            <fieldText>&lt;p&gt;Please remember that any external service-calls to B2C Commerce dependent on the JWT Certificate values attached to the CustomerList&apos;s Sites will require new  values to function.  &lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <showFooter>true</showFooter>
@@ -89,7 +89,7 @@
         <name>sub_resetClientIDsForListAndSites</name>
         <label>Reset the ClientIDs for the B2C CustomerList and Sites</label>
         <locationX>536</locationX>
-        <locationY>250</locationY>
+        <locationY>252</locationY>
         <connector>
             <targetReference>screen_activateB2CCustomerListMessage</targetReference>
         </connector>

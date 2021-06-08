@@ -31,6 +31,18 @@
                             <value>B2C_CustomerList__c.Deactivate_B2C_Sites</value>
                         </valueListItems>
                         <valueListItems>
+                            <value>B2C_CustomerList__c.Apply_JWTCertificate_Values</value>
+                            <visibilityRule>
+                                <criteria>
+                                    <leftValue>{!Record.JWT_Certificate_Name__c}</leftValue>
+                                    <operator>NE</operator>
+                                </criteria>
+                            </visibilityRule>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>B2C_CustomerList__c.Reset_Certificate_Site_Values</value>
+                        </valueListItems>
+                        <valueListItems>
                             <value>B2C_CustomerList__c.Apply_B2C_ClientID_Values</value>
                             <visibilityRule>
                                 <criteria>
