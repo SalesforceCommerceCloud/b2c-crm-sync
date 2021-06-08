@@ -169,11 +169,13 @@
     </nameField>
     <pluralLabel>B2C AuthTokens</pluralLabel>
     <searchLayouts>
-        <searchResultsAdditionalFields>B2C_AuthToken__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>NamedCredential_DeveloperName__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>B2C_Client_ID__c</searchResultsAdditionalFields>
-        <searchResultsAdditionalFields>CREATED_DATE</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Is_Valid__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>B2C_AuthToken__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Total_Usage__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Expiration_Date__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>LAST_UPDATE</searchResultsAdditionalFields>
     </searchLayouts>
     <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>

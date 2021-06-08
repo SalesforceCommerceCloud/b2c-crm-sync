@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Total_Usage__c</fullName>
-    <defaultValue>0</defaultValue>
+    <defaultValue>1</defaultValue>
     <description>... describes how many times a given B2C AuthToken has been used to authorize a B2C Commerce REST API request.</description>
     <externalId>false</externalId>
     <inlineHelpText>... describes how many times a given B2C AuthToken has been used to authorize a B2C Commerce REST API request.</inlineHelpText>
@@ -9,7 +9,7 @@
     <precision>18</precision>
     <required>false</required>
     <scale>0</scale>
-    <trackFeedHistory>false</trackFeedHistory>
+    <trackFeedHistory>true</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Number</type>
