@@ -15,6 +15,10 @@
         <value xsi:type="xsd:boolean">true</value>
     </values>
     <values>
+        <field>B2C_CRM_Sync_AuthToken_Settings__c</field>
+        <value xsi:type="xsd:string">AM_Production</value>
+    </values>
+    <values>
         <field>Default_Account_Name__c</field>
         <value xsi:type="xsd:string">Unknown Customer</value>
     </values>

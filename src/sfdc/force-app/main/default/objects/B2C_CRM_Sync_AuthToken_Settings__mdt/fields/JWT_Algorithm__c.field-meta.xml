@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>JWT_Algorithm__c</fullName>
+    <description>... represents the collection of algorithms to select from and specify in a JWT header when minting a JWT.</description>
+    <externalId>false</externalId>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <inlineHelpText>... represents the collection of algorithms to select from and specify in a JWT header when minting a JWT.</inlineHelpText>
+    <label>JWT Algorithm</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>RS256</fullName>
+                <default>true</default>
+                <label>RS256</label>
+            </value>
+            <value>
+                <fullName>RS384</fullName>
+                <default>false</default>
+                <label>RS384</label>
+            </value>
+            <value>
+                <fullName>RS512</fullName>
+                <default>false</default>
+                <label>RS512</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>
