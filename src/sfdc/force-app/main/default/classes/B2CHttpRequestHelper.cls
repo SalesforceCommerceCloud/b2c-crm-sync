@@ -7,31 +7,27 @@
  * REST APIs.
  */
 public with sharing class B2CHttpRequestHelper {
+
     /**
-     * @description Helper class to generate the core http-request structure for retrieving customer profiles.
+     * @description Generates the httpRequest to authenticate an against the B2C Commerce
+     * Account Manager and retrieve an accessToken for REST API access.
      *
-     * @param namedCredential {String} Represents the namedCredential used to perform the API request
-     * @param OCAPISuffix {String} Represents the suffix to apply to the url representing the Data API endpoint
-     * @param apiVersion {String} Represents the API version that should be used for the current REST API call
-     * @param httpMethod {String} Represents the httpMethod to apply to the current request
-     * @param bodyAsJSON {String} Represents the body as JSON to send within the request
-     * @return HttpRequest Returns an http-object pre-configured data-api customer-retrieval request
+     * @param baseAccountManagerUrl {String} Represents the base accountManager Url used to authenticate against
+     * @param JWT {String} Represents the generated JWT that will be used to perform authentication
+     * @return HttpRequest Returns an http-object pre-configured accountManager authentication request
      * */
-    private static HttpRequest getOCAPIDataAPIHttpRequest(String namedCredential, String OCAPISuffix, String apiVersion, String httpMethod, String bodyAsJSON) {
+    public static HttpRequest getAccountManagerAuthRequest(String baseAccountManagerUrl, String JWT) {
         HttpRequest req = new HttpRequest();
-        req.setMethod(httpMethod.toUpperCase());
-        req.setHeader('Content-Type', 'application/json; charset=UTF-8');
-        req.setEndpoint('callout:' + namedCredential + '/s/-/dw/data/' + apiVersion + OCAPISuffix);
-
-        if (!String.isEmpty(bodyAsJSON)) {
-            req.setBody(bodyAsJSON);
-        }
-
+        req.setEndpoint(baseAccountManagerUrl + '/dwsso/oauth2/access_token');
+        req.setHeader('Content-Type', 'application/x-www-form-urlencoded');
+        req.setBody('grant_type=client_credentials&client_assertion_type=urn%3Aietf%3Aparams%3Aoauth%3Aclient-assertion-type%3Ajwt-bearer&client_assertion=' + JWT);
+        req.setMethod('POST');
         return req;
     }
 
     /**
-     * @description Generates the httpRequest to retrieve all storefront sites.
+     * @description Generates the httpRequest to authenticate an against against a B2C Commerce
+     * instance as a Business Manager user.
      *
      * @param namedCredential {String} Represents the name credential to use to get the sites
      * @param clientId {String} Represents the client Id to use to authenticate the request
@@ -47,7 +43,8 @@ public with sharing class B2CHttpRequestHelper {
     }
 
     /**
-     * @description Generates the httpRequest to retrieve all storefront sites.
+     * @description Generates the httpRequest to authenticate a B2C Commerce storefront customer
+     * against a given B2C Commerce storefront instance.
      *
      * @param siteUrl {String} Represents the siteUrl used to invoke this request
      * @param siteId {String} Represents the siteId used to invoke the request
@@ -94,7 +91,7 @@ public with sharing class B2CHttpRequestHelper {
     }
 
     /**
-     * @description Generates the httpRequest to retrieve a B2C Commerce Customer Addresses from the customer's address book
+     * @description Generates the httpRequest to retrieve B2C Commerce Customer Addresses from the customer's address book
      *
      * @param namedCredential {String} Represents the name credential to use to get the customer addresses
      * @param apiVersion {String} Represents the API version that should be used for the current REST API call
@@ -120,7 +117,6 @@ public with sharing class B2CHttpRequestHelper {
 
         // Replace the space-identifier in the address id to functionally support spaces
         String updatedAddressId = addressId.replaceAll('\\+', '%20');
-
         return getOCAPIDataAPIHttpRequest(namedCredential, '/customer_lists/' + b2cCustomerListId + '/customers/' + b2cCustomerNo + '/addresses/' + updatedAddressId, apiVersion, 'get', '');
 
     }
@@ -140,7 +136,6 @@ public with sharing class B2CHttpRequestHelper {
 
         // Replace the space-identifier in the address id to functionally support spaces
         String updatedAddressId = addressId.replaceAll(' ', '%20');
-
         return getOCAPIDataAPIHttpRequest(namedCredential, '/customer_lists/' + b2cCustomerListId + '/customers/' + b2cCustomerNo + '/addresses/' + updatedAddressId, apiVersion, 'patch', b2cAddressJSON);
 
     }
@@ -158,4 +153,29 @@ public with sharing class B2CHttpRequestHelper {
     public static HttpRequest getCustomerProfilePatchRequest(String namedCredential, String apiVersion, String b2cCustomerListId, String b2cCustomerNo, String b2cCustomerProfileJSON) {
         return getOCAPIDataAPIHttpRequest(namedCredential, '/customer_lists/' + b2cCustomerListId + '/customers/' + b2cCustomerNo, apiVersion, 'patch', b2cCustomerProfileJSON);
     }
+
+
+    /**
+     * @description Helper class to generate the core http-request structure for retrieving customer profiles.
+     *
+     * @param namedCredential {String} Represents the namedCredential used to perform the API request
+     * @param OCAPISuffix {String} Represents the suffix to apply to the url representing the Data API endpoint
+     * @param apiVersion {String} Represents the API version that should be used for the current REST API call
+     * @param httpMethod {String} Represents the httpMethod to apply to the current request
+     * @param bodyAsJSON {String} Represents the body as JSON to send within the request
+     * @return HttpRequest Returns an http-object pre-configured data-api customer-retrieval request
+     * */
+    private static HttpRequest getOCAPIDataAPIHttpRequest(String namedCredential, String OCAPISuffix, String apiVersion, String httpMethod, String bodyAsJSON) {
+        HttpRequest req = new HttpRequest();
+        req.setMethod(httpMethod.toUpperCase());
+        req.setHeader('Content-Type', 'application/json; charset=UTF-8');
+        req.setEndpoint('callout:' + namedCredential + '/s/-/dw/data/' + apiVersion + OCAPISuffix);
+
+        if (!String.isEmpty(bodyAsJSON)) {
+            req.setBody(bodyAsJSON);
+        }
+
+        return req;
+    }
+
 }

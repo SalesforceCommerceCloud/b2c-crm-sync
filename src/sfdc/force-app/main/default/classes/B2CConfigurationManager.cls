@@ -8,6 +8,44 @@
 public with sharing class B2CConfigurationManager {
 
     /**
+     * @description Helper function retrieves the associated Account Manager / JWT authentication
+     * configuration settings that are related to the active configuration.
+     * @return {Map<String, String>} Returns a map containing the related accountManager configuration settings
+     */
+    public static Map<String, String> getAccountManagerSettings() {
+
+        // Initialize local variables
+        B2C_CRM_Sync_Default_Configuration__mdt configurationProfile;
+        Map<String, String> output;
+
+        // Initialize the output map
+        output = new Map<String, String>();
+
+        // Get the default configuration profile
+        configurationProfile = [
+                SELECT  Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.Account_Manager_Url__c,
+                        Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.Account_Manager_Port__c,
+                        Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.Account_Manager_Token_Url__c,
+                        Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.Expiration_in_Minutes__c,
+                        Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.JWT_Algorithm__c
+                FROM    B2C_CRM_Sync_Default_Configuration__mdt
+                WHERE   DeveloperName = 'Production_Configuration'
+                LIMIT   1
+        ];
+
+        // Set the output variable to contain the Account Manager configuration settings to leverage
+        output.put('AccountManagerUrl', configurationProfile.Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.Account_Manager_Url__c);
+        output.put('AccountManagerPort', configurationProfile.Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.Account_Manager_Port__c);
+        output.put('AccountManagerSuffix', configurationProfile.Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.Account_Manager_Token_Url__c);
+        output.put('ExpirationInMinutes', configurationProfile.Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.Expiration_in_Minutes__c);
+        output.put('JWTAlgorithm', configurationProfile.Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.JWT_Algorithm__c);
+
+        // Return the associated Account Manager configuration settings
+        return output;
+
+    }
+
+    /**
      * @description Helper function retrieves the default businessAccount
      * developerName used for accounts / contacts.
      * @return {String} Returns the developerName for the B2c Business Account
