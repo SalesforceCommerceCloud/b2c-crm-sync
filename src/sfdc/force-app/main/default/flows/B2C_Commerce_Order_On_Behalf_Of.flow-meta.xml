@@ -10,6 +10,7 @@
         <connector>
             <targetReference>dec_OOBOCustomerAuth</targetReference>
         </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>clientId</name>
             <value>
@@ -59,6 +60,7 @@
         <connector>
             <targetReference>dec_wasBMUserGrantAuthTokenReturned</targetReference>
         </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>clientId</name>
             <value>

@@ -94,7 +94,7 @@
     </decisions>
     <description>... this flow can be used to reset the Account Manager NamedCredential employed by the B2C Sites associated to a given CustomerList.</description>
     <interviewLabel>B2C Commerce: B2C CustomerList: Sites: Reset AM NamedCredential {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>B2C Commerce: B2C CustomerList: Sites: Reset AM NamedCredential</label>
+    <label>B2C Commerce: B2C CustomerList: Sites: AM NamedCredentials: Reset</label>
     <loops>
         <description>... iterate over the collection of sites and process updates to each one.</description>
         <name>loop_b2cSites</name>

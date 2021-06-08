@@ -11,6 +11,7 @@
         <connector>
             <targetReference>recUpd_B2CInstanceAuditRequest</targetReference>
         </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>b2cInstanceId</name>
             <value>
@@ -318,7 +319,7 @@
     </decisions>
     <description>... automates the setup of a B2C Instance by auto-populating the associated B2C CustomerList and B2C Site definitions.</description>
     <interviewLabel>B2C Commerce: B2C Instance: Setup CustomerLists and Sites {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>B2C Commerce: B2C Instance: Setup CustomerLists and Sites</label>
+    <label>B2C Commerce: B2C Instance: CustomerLists and Sites: Setup</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>

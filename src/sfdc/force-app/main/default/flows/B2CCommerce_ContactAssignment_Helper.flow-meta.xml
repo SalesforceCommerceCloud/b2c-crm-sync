@@ -11,6 +11,7 @@
         <connector>
             <targetReference>dec_auditB2COCAPIResponses</targetReference>
         </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>sourceContact</name>
             <value>

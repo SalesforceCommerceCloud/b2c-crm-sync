@@ -203,7 +203,7 @@
     </decisions>
     <description>... this flow is used to evaluate new CustomerLists against existing ones, and determine if lists should be created or updated.</description>
     <interviewLabel>B2C Commerce: Evaluate Customer Lists {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>B2C Commerce: CustomerLists: Evaluate</label>
+    <label>B2C Commerce: B2C Instance: CustomerLists: Evaluate</label>
     <loops>
         <name>CurrentCustomerList_Loop</name>
         <label>Loop Over the Collection of Current CustomerLists</label>

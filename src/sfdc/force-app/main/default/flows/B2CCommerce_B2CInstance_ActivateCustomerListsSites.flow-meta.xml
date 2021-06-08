@@ -3,7 +3,7 @@
     <apiVersion>51.0</apiVersion>
     <description>... activates the CustomerLists and Sites associated to a B2C Instance.</description>
     <interviewLabel>B2C Commerce: B2C Instance: Activate CustomerLists and Sites {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>B2C Commerce: B2C Instance: Activate CustomerLists and Sites</label>
+    <label>B2C Commerce: B2C Instance: CustomerLists and Sites: Activate</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>

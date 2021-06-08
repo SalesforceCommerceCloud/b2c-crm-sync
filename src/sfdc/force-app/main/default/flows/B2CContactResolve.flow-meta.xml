@@ -10,6 +10,7 @@
         <connector>
             <targetReference>isSuccess_Assignment</targetReference>
         </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>contactListList</name>
             <value>

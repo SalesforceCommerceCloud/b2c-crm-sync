@@ -11,6 +11,7 @@
         <connector>
             <targetReference>dec_wasResolutionErrorCaught</targetReference>
         </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>contactList</name>
             <value>

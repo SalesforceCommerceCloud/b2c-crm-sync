@@ -94,7 +94,7 @@
     </decisions>
     <description>... resets / removes the B2C ClientIDs configured for all the sites related to a given B2C CustomerList.</description>
     <interviewLabel>B2C Commerce: CustomerLists: Reset ClientIDs for List and Sites {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>B2C Commerce: CustomerList: Reset ClientIDs for Sites</label>
+    <label>B2C Commerce: B2C CustomerList: Sites: B2C ClientIDs: Reset</label>
     <loops>
         <description>... iterate over the collection of sites and process updates to each one.</description>
         <name>loop_b2cSites</name>

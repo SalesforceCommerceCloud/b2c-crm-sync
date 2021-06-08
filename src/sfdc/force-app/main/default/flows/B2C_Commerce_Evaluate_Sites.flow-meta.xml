@@ -83,7 +83,7 @@
         <description>... set the recordFound flag to false for every site record being evaluated.</description>
         <name>recordFoundInit_Assignment</name>
         <label>Default the recordFound flag</label>
-        <locationX>747</locationX>
+        <locationX>748</locationX>
         <locationY>244</locationY>
         <assignmentItems>
             <assignToReference>recordFound</assignToReference>
@@ -210,7 +210,7 @@
         </rules>
     </decisions>
     <interviewLabel>B2C Commerce: Evaluate Sites {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>B2C Commerce: Evaluate Sites</label>
+    <label>B2C Commerce: B2C Instance: Sites: Evaluate</label>
     <loops>
         <description>... loop over the collection of currently configured / setup sites.</description>
         <name>CurrentSite_Loop</name>
@@ -257,7 +257,7 @@
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
     <start>
-        <locationX>854</locationX>
+        <locationX>855</locationX>
         <locationY>50</locationY>
         <connector>
             <targetReference>EvalSite_Loop</targetReference>

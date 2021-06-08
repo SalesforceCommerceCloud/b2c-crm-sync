@@ -29,7 +29,7 @@
     </decisions>
     <description>... apply the ClientID value configured for a given B2C CustomerList to all child Sites.</description>
     <interviewLabel>B2C Commerce: QuickAction: B2C CustomerList: ClientIDs: Apply {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>B2C Commerce: QuickAction: B2C CustomerList: ClientIDs: Apply</label>
+    <label>B2C Commerce: Quick Action: B2C CustomerList: ClientIDs: Apply</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>

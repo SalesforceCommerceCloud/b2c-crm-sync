@@ -94,7 +94,7 @@
     </decisions>
     <description>... apply the ClientID associated with the current B2C CustomerList to all child B2C Sites.</description>
     <interviewLabel>B2C Commerce: B2C CustomerLists: Apply ClientIDs to Sites {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>B2C Commerce: B2C CustomerLists: Apply ClientIDs to Sites</label>
+    <label>B2C Commerce: B2C CustomerList: Sites: B2C ClientIDs: Apply</label>
     <loops>
         <description>... iterate over the collection of sites and process updates to each one.</description>
         <name>loop_b2cSites</name>
