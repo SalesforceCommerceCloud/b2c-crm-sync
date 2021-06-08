@@ -9,6 +9,8 @@ We've just merged in our updates to support both PersonAccounts and Accounts / C
 
 > :warning: &nbsp;This repository is currently in **beta** as we continue to harden our tests and the MVP feature-set.  Solution trustworthiness is critical for our success.  Please visit our [issues-list](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/issues) to see outstanding issues and features, and visit our [discussions](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/discussions) to ask questions. &nbsp;:warning:
 
+> :warning: &nbsp;Please note that this enablement solution **should not be deployed in production environments** until [issue 117](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/issues/117) has been addressed.  The delcarative OAuth2 flow implemented to authenticate the Salesforce Org against B2C Commerce's Account Manager is not designed for system-to-system use -- and will result in authentication expiring after 24 hours.  We're replacing this with a custom JWT approach that is not subject to this expiration.  In the meantime, please do not deploy b2c-crm-sync in a production environment until this issue has been resolved. &nbsp; :warning:
+
 ![Introducing b2c-crm-sync](/docs/images/crm-sync.gif)
 
 > That's correct.  If you have a B2C Commerce Sandbox and a [Salesforce Platform DevHub](https://trailhead.salesforce.com/content/learn/modules/sfdx_app_dev) -- you can get this integration setup in 15 minutes.
