@@ -4,7 +4,7 @@
     <protected>false</protected>
     <values>
         <field>B2C_Commerce_Attribute_Type__c</field>
-        <value xsi:type="xsd:string">boolean</value>
+        <value xsi:type="xsd:string">integer</value>
     </values>
     <values>
         <field>B2C_Commerce_OCAPI_Attribute__c</field>
