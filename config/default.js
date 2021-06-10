@@ -632,6 +632,14 @@ module.exports = {
             colAligns: ["right", "left"]
         },
 
+        // Define the structure for the jwt output
+        "b2cJWTOutput": {
+            head: ["JWT Authentication Property", "Property Value"],
+            colWidths: [30, 88],
+            colAligns: ["right", "left"]
+        },
+
+
         // Define the structure for the jks property details
         "jksSummary": {
             head: ["jks Property", "Property Value"],
