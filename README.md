@@ -915,7 +915,7 @@ From the duplicate rules listing, select the rule titled **B2C Commerce: Standar
 ```
 #### Configure Your B2C Instance
 
-With the AuthProvider verified and match rules in place, you are now in a position to conduct your first test of the integration between B2C Commerce and the Salesforce Platform.  Please execute the following CLI command to configure your B2C Instance:
+18. With the AuthProvider verified and match rules in place, you are now in a position to conduct your first test of the integration between B2C Commerce and the Salesforce Platform.  Please execute the following CLI command to configure your B2C Instance:
 
 ```bash
 npm run crm-sync:sf:b2cinstance:setup
@@ -925,7 +925,7 @@ npm run crm-sync:sf:b2cinstance:setup
 
 #### Build and Deploy b2c-crm-sync to Your Commerce Cloud Sandbox
 
-18. Generate the B2C Commerce metadata required by b2c-crm-sync and deploy both the code metadata to the Salesforce B2C Commerce instance by executing the following CLI command:
+19. Generate the B2C Commerce metadata required by b2c-crm-sync and deploy both the code metadata to the Salesforce B2C Commerce instance by executing the following CLI command:
 
 ```bash
 npm run crm-sync:b2c:build
@@ -934,7 +934,7 @@ npm run crm-sync:b2c:build
 
 #### Update the Allowed Origins in OCAPI Permissions to Allow ScratchOrg Access
 
-19.  The B2C Commerce instance's OCAPI permissions must be extended to allow the scratchOrg to create a storefront session for the Order on Behalf Of shopping experience.  This can be done by adding the scratchOrg urls to the OCAPI shop permissions as allowed origins.
+20.  The B2C Commerce instance's OCAPI permissions must be extended to allow the scratchOrg to create a storefront session for the Order on Behalf Of shopping experience.  This can be done by adding the scratchOrg urls to the OCAPI shop permissions as allowed origins.
 
 - Log into the Business Manager.
 - Navigate to Administration > Site Development > Open Commerce API Settings.
@@ -968,7 +968,7 @@ If your scratchOrg url is `enterprise-ability-12345-dev-ed.lightning.force.com`,
 
 The B2C Commerce Order on Behalf Of feature only supports the creation of shopping sessions for registered storefront customers.  b2c-crm-sync extends this capability to anonymous storefront shoppers.  
 
-20.  Execute the following CLI command to create B2C Commerce customer profiles that will be used by Service Agents to authenticate against B2C Commerce to create anonymous agent-driven shopping sessions.
+21.  Execute the following CLI command to create B2C Commerce customer profiles that will be used by Service Agents to authenticate against B2C Commerce to create anonymous agent-driven shopping sessions.
 
 ```bash
 npm run crm-sync:oobo:customers:create
