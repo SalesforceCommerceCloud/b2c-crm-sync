@@ -23,6 +23,10 @@
                 <field>Service_Cloud_Attribute__c</field>
             </layoutItems>
             <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Service_Cloud_Attribute_Alt__c</field>
+            </layoutItems>
+            <layoutItems>
                 <behavior>Required</behavior>
                 <field>B2C_Commerce_OCAPI_Attribute__c</field>
             </layoutItems>
@@ -135,7 +139,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00h54000003kDi8</masterLabel>
+        <masterLabel>00h54000004Ely1</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>

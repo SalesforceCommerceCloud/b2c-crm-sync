@@ -4,6 +4,7 @@
     <columns>MasterLabel</columns>
     <columns>DeveloperName</columns>
     <columns>B2C_Commerce_OCAPI_Attribute__c</columns>
+    <columns>Service_Cloud_Attribute_Alt__c</columns>
     <columns>Service_Cloud_Attribute__c</columns>
     <columns>Enable_for_Integration__c</columns>
     <filterScope>Everything</filterScope>
