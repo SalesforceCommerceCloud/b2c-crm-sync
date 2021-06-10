@@ -17,16 +17,6 @@
                 <default>true</default>
                 <label>RS256</label>
             </value>
-            <value>
-                <fullName>RS384</fullName>
-                <default>false</default>
-                <label>RS384</label>
-            </value>
-            <value>
-                <fullName>RS512</fullName>
-                <default>false</default>
-                <label>RS512</label>
-            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
