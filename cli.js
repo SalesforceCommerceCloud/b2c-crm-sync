@@ -71,6 +71,9 @@ program = cliInterface.b2cAuthClientCredentials(program);
 // Attach the command used to verify Business Manager user credentials can authenticate
 program = cliInterface.b2cAuthBMUser(program);
 
+// Attach the command used to verify Account Manager authentication via JWT
+program = cliInterface.b2cAuthJWT(program);
+
 // Attach the commands used to retrieve and push OCAPI user credentials
 program = cliInterface.b2cOCAPIGet(program);
 
@@ -120,6 +123,9 @@ program = cliInterface.b2cBuild(program);
 // SFDX related CI-CLI commands
 ////////////////////////////////////////////////////////////////////////////////
 
+// Attach the command used to retrieve public / private keys from the self-signed JKS
+program = cliInterface.sfCertPublicKeyGet(program);
+
 // Attach the command used to retrieve the environment details
 program = cliInterface.sfGetEnvironment(program);
 
@@ -134,12 +140,6 @@ program = cliInterface.sfTrustedSitesCreate(program);
 
 // Attach the command used to generate the SFDX remote sites template
 program = cliInterface.sfRemoteSitesCreate(program);
-
-// Attach the command used to generate the SFDX B2C Account Manager Auth Provider template
-program = cliInterface.sfAuthProviderBuild(program);
-
-// Attach the command used to generate the SFDX B2C Account Manager Auth Provider template
-program = cliInterface.sfAuthProviderCreate(program);
 
 // Attach the command used to generate the SFDX B2C Account Manager Named Credentials template
 program = cliInterface.sfNamedCredentialsAMCreate(program);

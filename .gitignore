@@ -76,7 +76,7 @@ ehthumbs.db
 [Dd]esktop.ini
 $RECYCLE.BIN/
 
-# Ignore rendered sfdx meta-data templates (vs. the template)
+# Ignore rendered sfdx meta-data folders (vs. the template)
 /src/sfdc/force-app/main/default/certs/
 /src/sfdc/force-app/main/default/cspTrustedSites/
 /src/sfdc/force-app/main/default/remoteSiteSettings/
@@ -86,6 +86,7 @@ $RECYCLE.BIN/
 # Ignore the rendered connectedAppCredentails file
 /config-dx/connectedAppCredentials.json
 /config-dx/*.ocapi.json
+/config-dx/*.jks.json
 
 # Ignore sfcc services.xml meta-data generated-files
 /src/sfcc/site-template/services.xml

@@ -33,6 +33,7 @@ exports.b2cVerify = require('./lib/cli-api/_b2cVerify');
 // Expose the ability to verify b2c authentication via OCAPI is possible
 exports.b2cAuthClientCredentials = require('./lib/cli-api/_b2cAuthClientCredentials');
 exports.b2cAuthBMUser = require('./lib/cli-api/_b2cAuthBMUser');
+exports.b2cAuthJWT = require('./lib/cli-api/_b2cAuthJWT');
 
 // Expose the ability to retrieve and update OCAPI configuration(s)
 exports.b2cOCAPIGet = require('./lib/cli-api/_b2cOCAPIConfigGet');

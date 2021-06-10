@@ -53,6 +53,10 @@ module.exports = {
                 // Define the path representing the location of personAccounts meta-data
                 "personaccounts": "./src/sfdc/person-accounts",
 
+                // Define the path representing the location of downloaded certs
+                "certs-root": "./_jwt",
+                "certs-sfdc": "./_jwt/sfdc"
+
             },
 
             "b2c": {
@@ -393,6 +397,18 @@ module.exports = {
             "configProperty": null,
             "defaultType": "env"
         },
+        "sfCertDeveloperName": {
+            "type": "sf",
+            "required": false,
+            "minLength": 3,
+            "maxLength": 25,
+            "cli": "-sft, --sf-cert-developer-name <sfcertdevelopername>",
+            "description": "describes the developer name of the self-signed Salesforce certificate used for JWT-based authentication with Account Manager.",
+            "envProperty": "SF_CERTDEVELOPERNAME",
+            "validator": "validateB2CInstanceName",
+            "configProperty": "sfCertDeveloperName",
+            "defaultType": "env"
+        },
         "sfConsumerKey": {
             "type": "sf",
             "required": false,
@@ -614,7 +630,14 @@ module.exports = {
             head: ["Attribute", "Error Property"],
             colWidths: [30, 88],
             colAligns: ["right", "left"]
-        }
+        },
+
+        // Define the structure for the jks property details
+        "jksSummary": {
+            head: ["jks Property", "Property Value"],
+            colWidths: [30, 88],
+            colAligns: ["right", "left"]
+        },
 
     },
 
@@ -663,7 +686,8 @@ module.exports = {
         "accountManager": {
             "baseUrl": "https://account.demandware.com",
             "authUrl": "/dwsso/oauth2/access_token",
-            "authorizeUrl": "/dwsso/oauth2/authorize"
+            "authorizeUrl": "/dwsso/oauth2/authorize",
+            "port": 443
         },
 
         // Define the cartridge deploy properties
@@ -744,7 +768,7 @@ module.exports = {
         "b2c": {
 
             // Define common errors related to B2C Commerce CI activities
-            "badEnvironment": "Error while validating the environment, abort",
+            "badEnvironment": "Error while validating the environment; unable to proceed due to incomplete configuration.",
             "cannotFindMetadataArchive": "Cannot find the meta-data archive. Please run the \"crm-sync:b2c:data:zip\" command first",
             "unableToUploadMetadataArchive": "Unable to upload the meta-data archive",
             "unableToImportMetadataArchive": "Unable to import the meta-data archive",
@@ -771,7 +795,7 @@ module.exports = {
         "sf": {
 
             // Define common errors related to Salesforce CI activities
-            "badEnvironment": "Error while validating the environment, abort.",
+            "badEnvironment": "Error while validating the environment; unable to proceed due to incomplete configuration.",
             "unableToAuthenticate": "Unable to authenticate against the Salesforce instance; please verify your configuration properties",
             "connectedAppCredentialsParsingError": "Unable to parse the connectedApp credentials .json file; please execute 'npm run crm-sync:sf:connectedapps' to render this file"
 

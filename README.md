@@ -722,19 +722,14 @@ SF_PASSWORD=P@ssw0rd!
 |  SF_USERNAME |x| Represents the username of the scratchOrg user|
 |  SF_PASSWORD |x| Represents the password of the scratchOrg user.  See [Generate or Change a Password for a Scratch Org User](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_scratch_orgs_passwd.htm) for additional information. |
 |  SF_SECURITYTOKEN |x| Represents the securityToken of the scratchOrg user. You can create or reset the security token from your scratchOrg User Settings under 'Reset My Security Token.'|
-|  SF_CERTDEVELOPERNAME |x| Represents the developerName of the self-signed certificate used by the Salesforce Platform to mint JWT tokens and by the B2C Commerce Account Manager to validate JWT tokens.|
 
 The build tools will use this information to create the B2C Commerce service definitions facilitating the integration with the Salesforce scratchOrg.  
 
-> The certDeveloperName will be used to broker REST API authorization between the Salesforce Platform and B2C Commerce -- enabling the Salesforce Platform to leverage B2C Commerce REST APIs.  It will not be present in the user-details output.
-
 #### Update the .env File With Your Salesforce ScratchOrg Credentials
 
-10.  Copy the .env Salesforce Platform Configuration Properties to your .env file -- and save it.
+10.  Copy the .env Salesforce Platform Configuration Properties to your .env file -- and save it.  You may need to scroll-up before the success message display to find this section of the output display in the console.
 
-> You may need to scroll-up before the success message display to find this section of the output display in the console.
-
-Remember that these values need to be driven by your scratchOrg user and environment.  These values must be accurate to ensure that the B2C Commerce meta-data is successfully generated and supports the integration with the Salesforce Platform.
+:warning:&nbsp; Remember that these values need to be driven by your scratchOrg user and environment.  These values must be accurate to ensure that the B2C Commerce meta-data is successfully generated and supports the integration with the Salesforce Platform. &nbsp;:warning:
 
 > Do not proceed with the next step until your securityToken has been reset and copied to your .env file.  Your authentication attempts **will fail** if you authenticate without leveraging the reset securityToken.
 
@@ -811,10 +806,19 @@ SF_PASSWORD=P@ssw0rd!
 SF_SECURITYTOKEN=5aqzr1tpENbIpiWt1E9X2ruOV
 SF_CERTDEVELOPERNAME=powerdream1234
 ```
+The Salesforce Platform Configuration Properties now include the `SF_CERTDEVELOPERNAME` property.  This key / value pair must be copied to your .env file.
+
+| Property Name | Required | Description                       |
+|--------------:|:----:|:-----------------------------------|
+|  SF_CERTDEVELOPERNAME |x| Represents the developerName of the self-signed certificate used by the Salesforce Platform to mint JWT tokens and by the B2C Commerce Account Manager to validate JWT tokens.|
+
+> The certDeveloperName will be used to broker REST API authorization between the Salesforce Platform and B2C Commerce -- enabling the Salesforce Platform to leverage B2C Commerce REST APIs.  The certificate will be written to the `_jwt/sfdc` directory using the certificate developerName as the filename.  You can access this file if you need to reference the certificate in the future.
 
 #### Setup the JWT Certificate and AuthToken Format in Account Manager
 
 14. Now that you have extracted the Salesforce self-signed Certificate from the downloaded JavaKeyStore, please copy the certificate definition to your clipboard.  Copy everything in-between and including the `-----BEGIN CERTIFICATE-----` and `-----END CERTIFICATE-----` tags -- and log into Account Manager to update your Client ID.
+
+> A copy of the certificate should exist in your `_jwt/sfdc` directory.  If you do not have one, please re-run the `crm-sync:sf:cert:publickey:get` command -- as this will re-generate the .cert file for you.
 
 - Toggle to the Account Manager ClientID page opened in the step **Create Your B2C Commerce Client ID**.
 - Locate the `Client JWT Bearer Public Key` form field under the **JWT** heading.
@@ -822,22 +826,18 @@ SF_CERTDEVELOPERNAME=powerdream1234
 - Locate the `Token Endpoint Auth Method` form field near the bottom of the form.  Change this value to `private_key_jwt`.
 - Click `Save` to apply the callbackUrl to the ClientID definition.
 
-> These updates to your ClientID change the authentication method from being ClientID / ClientSecret driven to ClientID and certificate driven.  The JWT approach to authentication eliminates the need for passwords.  This makes it a preferred, trustworthy, and lower risk authentication method.
+> These updates to your ClientID will change the authentication method from being ClientID / ClientSecret driven to ClientID and Certificate driven, as the JWT approach to authentication eliminates the need for passwords.  The non-password authentication approach makes it a preferred, trustworthy, and lower risk authentication method.
 
 #### Validate that You Can Retrieve an Account Manager AuthToken Leverage JWT
 
-15. Now that both the Auth Provider and the related Named Credentials are deployed, you have to perform a first authentication from the Salesforce Core platform. This step is manual as it requires you to validate the authentication flow.
+15. Now that the .env file has been configured to include the Salesforce self-signed certificate developerName -- we test retrieving a B2C Commerce REST API AuthToken from Account Manager leveraging the JWT authentication approach.  Please execute the following CLI command:
 
-- Open the scratch org and open the `Setup` menu.
-- Type in the Quick Find field and search for `Named Credentials`.
-- In front of the `<b2c instance name>: B2C: Client Credentials` named credentials, click on the edit button.
-- Immediately click on `Save`. 
-  
-Performing an edit of the named credential will start the authentication process between the Salesforce scratchOrg -- and the B2C Commerce instance.
+```bash
+npm run crm-sync:b2c:auth:jwt
+```
+> This command is dependent on the correct JWT-specific configuration of the B2C ClientID via Account Manager, access to the public / private keys belonging to the Salesforce self-signed certificate keyStore, and the configuration of the certificate developerName.  Please ensure that these three configuration elements have been successfully completed before continuing.
 
-> You should be able to see that the named credential has been successfully authenticated when opening back the named credential, as per the following screenshot:
-
-![Successfully authenticated B2C Commerce Named Credential](/docs/images/B2C-Authenticated-Named-Credential.png)
+If successful, the CLI output should render the authToken provided by the B2C Commerce Account Manager -- in response to successful authentication leveraging JWT.  Any errors will be output to the console -- along with the request properties that were used to mint the JWT.
 
 #### Create your Order on Behalf of Authentication Credentials
 
