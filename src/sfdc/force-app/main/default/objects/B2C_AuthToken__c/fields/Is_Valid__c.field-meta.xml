@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <fullName>Is_Valid__c</fullName>
     <description>... describes if a given B2C AuthToken is valid and should be used to authorize B2C Commerce REST API interactions.</description>
     <externalId>false</externalId>

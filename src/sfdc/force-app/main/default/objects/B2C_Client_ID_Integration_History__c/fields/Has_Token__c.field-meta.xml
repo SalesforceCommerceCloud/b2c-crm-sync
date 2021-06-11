@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Has_Token__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>... describes if an authToken was provided in the response by the B2C Commerce Account Manager.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>... describes if an authToken was provided in the response by the B2C Commerce Account Manager.</inlineHelpText>
+    <label>Has Token</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

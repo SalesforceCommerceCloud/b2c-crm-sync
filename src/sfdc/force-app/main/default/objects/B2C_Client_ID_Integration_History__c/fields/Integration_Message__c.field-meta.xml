@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Integration_Message__c</fullName>
+    <description>... represents an ad-hoc integration message attached to source objects via the last triggered platformEvent.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>... represents an ad-hoc integration message attached to source objects via the last triggered platformEvent.</inlineHelpText>
+    <label>Integration Message</label>
+    <length>255</length>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <fullName>All</fullName>
-    <columns>NAME</columns>
-    <columns>NamedCredential_DeveloperName__c</columns>
     <columns>B2C_Client_ID__c</columns>
+    <columns>B2C_ClientID_Value__c</columns>
     <columns>Is_Valid__c</columns>
-    <columns>B2C_AuthToken__c</columns>
     <columns>Total_Usage__c</columns>
     <columns>Expiration_Date__c</columns>
     <columns>LAST_UPDATE</columns>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AuthToken_Successes__c</fullName>
+    <defaultValue>0</defaultValue>
+    <description>... represents the total number of B2C Commerce Account Manager authTokens retrieved.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>... represents the total number of B2C Commerce Account Manager authTokens retrieved.</inlineHelpText>
+    <label>AuthToken Successes</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackFeedHistory>true</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

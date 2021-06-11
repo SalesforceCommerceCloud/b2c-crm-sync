@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <fullName>Total_Usage__c</fullName>
     <defaultValue>1</defaultValue>
     <description>... describes how many times a given B2C AuthToken has been used to authorize a B2C Commerce REST API request.</description>

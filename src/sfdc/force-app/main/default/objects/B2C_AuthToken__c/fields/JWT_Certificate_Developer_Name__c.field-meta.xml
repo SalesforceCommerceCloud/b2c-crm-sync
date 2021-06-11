@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <fullName>JWT_Certificate_Developer_Name__c</fullName>
+    <description>... represents the Developer Name of the certificate that signs / mints the JWTs presented to the B2C Commerce Account Manager.</description>
+    <externalId>false</externalId>
+    <formula>B2C_Client_ID__r.JWT_Certificate_Name__c</formula>
+    <inlineHelpText>... represents the Developer Name of the certificate that signs / mints the JWTs presented to the B2C Commerce Account Manager.</inlineHelpText>
+    <label>JWT Certificate Developer Name</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

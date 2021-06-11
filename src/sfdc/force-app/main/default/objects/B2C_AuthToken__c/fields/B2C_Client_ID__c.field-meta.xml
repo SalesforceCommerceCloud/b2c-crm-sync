@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <fullName>B2C_Client_ID__c</fullName>
-    <description>... represents the B2C ClientID used to generate a B2C Commerce / Account Manager AuthToken.</description>
+    <description>... represents the B2C Client ID used to request an authToken from the B2C Commerce Account Manager.</description>
     <externalId>false</externalId>
-    <inlineHelpText>... represents the B2C ClientID used to generate a B2C Commerce / Account Manager AuthToken.</inlineHelpText>
+    <inlineHelpText>... represents the B2C Client ID used to request an authToken from the B2C Commerce Account Manager.</inlineHelpText>
     <label>B2C Client ID</label>
-    <length>255</length>
-    <required>true</required>
-    <trackFeedHistory>true</trackFeedHistory>
+    <referenceTo>B2C_Client_ID__c</referenceTo>
+    <relationshipLabel>B2C AuthTokens</relationshipLabel>
+    <relationshipName>B2C_AuthTokens</relationshipName>
+    <relationshipOrder>0</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
-    <type>Text</type>
-    <unique>false</unique>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
 </CustomField>
