@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <fullName>B2C_Client_ID_Compact_Layout</fullName>
-    <fields>B2C_Client_ID__c</fields>
     <fields>JWT_Certificate_Name__c</fields>
     <fields>Is_Active__c</fields>
     <fields>Is_Certificate_Verfied__c</fields>

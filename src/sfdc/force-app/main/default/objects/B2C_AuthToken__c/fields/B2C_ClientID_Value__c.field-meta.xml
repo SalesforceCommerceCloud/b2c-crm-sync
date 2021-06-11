@@ -3,7 +3,7 @@
     <fullName>B2C_ClientID_Value__c</fullName>
     <description>... represents the B2C Client ID value used to request an authToken from the B2C Commerce Account Manager.</description>
     <externalId>false</externalId>
-    <formula>B2C_Client_ID__r.B2C_Client_ID__c</formula>
+    <formula>B2C_Client_ID__r.Name</formula>
     <inlineHelpText>... represents the B2C Client ID value used to request an authToken from the B2C Commerce Account Manager.</inlineHelpText>
     <label>B2C Client ID Value</label>
     <required>false</required>

@@ -47,23 +47,12 @@
     <flexiPageRegions>
         <itemInstances>
             <fieldInstance>
-                <fieldItem>Record.Name</fieldItem>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
                 <fieldItem>Record.B2C_Client_ID__c</fieldItem>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
             <fieldInstance>
-                <fieldItem>Record.Total_Usage__c</fieldItem>
-                <visibilityRule>
-                    <criteria>
-                        <leftValue>{!Record.Name}</leftValue>
-                        <operator>NE</operator>
-                    </criteria>
-                </visibilityRule>
+                <fieldItem>Record.Name</fieldItem>
             </fieldInstance>
         </itemInstances>
         <name>Facet-3267fb33-4cb0-471f-b73c-c493b7e38c96</name>
@@ -88,17 +77,6 @@
                     <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Expiration_Date__c</fieldItem>
-                <visibilityRule>
-                    <criteria>
-                        <leftValue>{!Record.Name}</leftValue>
-                        <operator>NE</operator>
-                    </criteria>
-                </visibilityRule>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldItem>Record.Is_Expired__c</fieldItem>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.Name}</leftValue>
@@ -206,6 +184,58 @@
     </flexiPageRegions>
     <flexiPageRegions>
         <itemInstances>
+            <fieldInstance>
+                <fieldItem>Record.Total_Usage__c</fieldItem>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Name}</leftValue>
+                        <operator>NE</operator>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-03da814c-6e34-49a3-a78e-050a2ec3069a</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldItem>Record.Is_Expired__c</fieldItem>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Name}</leftValue>
+                        <operator>NE</operator>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-1675ed9c-7394-4967-b07d-5af7e1d39437</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-03da814c-6e34-49a3-a78e-050a2ec3069a</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-1675ed9c-7394-4967-b07d-5af7e1d39437</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-91dbff68-6d0f-49c6-81b3-017b88a3e8f9</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
                     <name>columns</name>
@@ -246,6 +276,19 @@
                 <componentInstanceProperties>
                     <name>label</name>
                     <value>Description</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:fieldSection</componentName>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>columns</name>
+                    <value>Facet-91dbff68-6d0f-49c6-81b3-017b88a3e8f9</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>label</name>
+                    <value>B2C AuthToken Usage</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
             </componentInstance>

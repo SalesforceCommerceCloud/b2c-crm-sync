@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <fullName>InActive_B2C_Client_IDs</fullName>
     <columns>NAME</columns>
-    <columns>B2C_Client_ID__c</columns>
     <columns>JWT_Certificate_Name__c</columns>
     <columns>Is_Active__c</columns>
     <columns>Is_Certificate_Verfied__c</columns>

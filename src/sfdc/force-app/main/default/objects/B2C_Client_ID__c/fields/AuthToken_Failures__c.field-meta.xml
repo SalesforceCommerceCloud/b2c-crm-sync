@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <fullName>AuthToken_Failures__c</fullName>
     <defaultValue>0</defaultValue>
     <description>... represents the total number of failed B2C Commerce Account Manager AuthToken requests.</description>

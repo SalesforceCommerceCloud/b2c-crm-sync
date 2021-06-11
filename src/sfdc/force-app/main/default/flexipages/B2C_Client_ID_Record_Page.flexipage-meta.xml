@@ -50,11 +50,7 @@
     <flexiPageRegions>
         <itemInstances>
             <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>required</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.B2C_Client_ID__c</fieldItem>
+                <fieldItem>Record.Name</fieldItem>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -151,7 +147,24 @@
     <flexiPageRegions>
         <itemInstances>
             <fieldInstance>
-                <fieldItem>Record.AuthToken_Successes__c</fieldItem>
+                <fieldItem>Record.Last_Success_On__c</fieldItem>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Name}</leftValue>
+                        <operator>NE</operator>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldItem>Record.Total_Success_Count__c</fieldItem>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Name}</leftValue>
+                        <operator>NE</operator>
+                    </criteria>
+                </visibilityRule>
             </fieldInstance>
         </itemInstances>
         <name>Facet-f7cb20e9-8ab3-4d2b-b54a-5cb68cc3ad72</name>
@@ -160,7 +173,24 @@
     <flexiPageRegions>
         <itemInstances>
             <fieldInstance>
-                <fieldItem>Record.AuthToken_Failures__c</fieldItem>
+                <fieldItem>Record.Last_Failure_On__c</fieldItem>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Name}</leftValue>
+                        <operator>NE</operator>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldItem>Record.Total_Failure_Count__c</fieldItem>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Name}</leftValue>
+                        <operator>NE</operator>
+                    </criteria>
+                </visibilityRule>
             </fieldInstance>
         </itemInstances>
         <name>Facet-1af512be-971a-417a-a48b-59e1ec0b4d2f</name>
@@ -223,9 +253,15 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>label</name>
-                    <value>AuthToken Request Summary</value>
+                    <value>24 Hour Request Summary</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Name}</leftValue>
+                        <operator>NE</operator>
+                    </criteria>
+                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <name>Facet-0bd28c1e-a330-410a-bf83-710d377f46a2</name>
