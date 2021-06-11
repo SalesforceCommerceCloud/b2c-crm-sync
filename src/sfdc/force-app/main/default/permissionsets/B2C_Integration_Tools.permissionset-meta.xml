@@ -125,7 +125,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>B2C_Client_ID__c.Is_Certificate_Verfied__c</field>
         <readable>true</readable>
     </fieldPermissions>

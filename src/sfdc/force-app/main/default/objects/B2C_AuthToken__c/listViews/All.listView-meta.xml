@@ -4,6 +4,7 @@
     <columns>B2C_Client_ID__c</columns>
     <columns>NAME</columns>
     <columns>Is_Valid__c</columns>
+    <columns>Is_Expired__c</columns>
     <columns>Total_Usage__c</columns>
     <columns>Expiration_Date__c</columns>
     <columns>LAST_UPDATE</columns>

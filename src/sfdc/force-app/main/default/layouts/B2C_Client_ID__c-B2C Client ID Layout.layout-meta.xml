@@ -93,6 +93,16 @@
         <excludeButtons>MassChangeOwner</excludeButtons>
         <excludeButtons>New</excludeButtons>
         <fields>NAME</fields>
+        <fields>Integration_Message__c</fields>
+        <fields>Status_Code__c</fields>
+        <fields>Has_Error__c</fields>
+        <fields>LAST_UPDATE</fields>
+        <relatedList>B2C_Client_ID_Integration_History__c.B2C_Client_ID__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <excludeButtons>MassChangeOwner</excludeButtons>
+        <excludeButtons>New</excludeButtons>
+        <fields>NAME</fields>
         <fields>Total_Usage__c</fields>
         <fields>Is_Expired__c</fields>
         <fields>Is_Valid__c</fields>
@@ -100,16 +110,6 @@
         <relatedList>B2C_AuthToken__c.B2C_Client_ID__c</relatedList>
         <sortField>Expiration_Date__c</sortField>
         <sortOrder>Desc</sortOrder>
-    </relatedLists>
-    <relatedLists>
-        <excludeButtons>MassChangeOwner</excludeButtons>
-        <excludeButtons>New</excludeButtons>
-        <fields>NAME</fields>
-        <fields>Integration_Message__c</fields>
-        <fields>Status_Code__c</fields>
-        <fields>Has_Error__c</fields>
-        <fields>LAST_UPDATE</fields>
-        <relatedList>B2C_Client_ID_Integration_History__c.B2C_Client_ID__c</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>
