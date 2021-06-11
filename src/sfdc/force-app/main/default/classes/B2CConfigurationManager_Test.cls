@@ -3,6 +3,35 @@
 public with sharing class B2CConfigurationManager_Test {
 
     @IsTest
+    public static void getAccountManagerSettingsTest() {
+
+        // Get the default configuration profile
+        B2C_CRM_Sync_Default_Configuration__mdt configurationProfile = [
+            SELECT  Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.Account_Manager_Url__c,
+                    Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.Account_Manager_Port__c,
+                    Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.Account_Manager_Token_Url__c,
+                    Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.Expiration_in_Minutes__c,
+                    Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.JWT_Algorithm__c
+            FROM    B2C_CRM_Sync_Default_Configuration__mdt
+            WHERE   DeveloperName = 'Production_Configuration'
+            LIMIT   1
+        ];
+
+        Test.startTest();
+
+            Map<String, String> accountManagerSettings = B2CConfigurationManager.getAccountManagerSettings();
+
+        Test.stopTest();
+
+        System.assertEquals(
+            configurationProfile.Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.Account_Manager_Url__c,
+            accountManagerSettings.get('AccountManagerUrl'),
+            'Could not verify accountManagerUrl via the getAccountManagerSettings() method.'
+        );
+
+    }
+
+    @IsTest
     public static void getDefaultAccountContactNames() {
 
         B2C_CRM_Sync_Default_Configuration__mdt configurationProfile = [
@@ -12,8 +41,11 @@ public with sharing class B2CConfigurationManager_Test {
             WHERE   DeveloperName = 'Production_Configuration'
             LIMIT   1
         ];
+
         Test.startTest();
-        Map<String, String> defaultAccountContactNames = B2CConfigurationManager.getDefaultAccountContactNames();
+
+            Map<String, String> defaultAccountContactNames = B2CConfigurationManager.getDefaultAccountContactNames();
+
         Test.stopTest();
 
         System.assertEquals(
@@ -21,26 +53,29 @@ public with sharing class B2CConfigurationManager_Test {
             defaultAccountContactNames.get('accountName'),
             'Retrieve Account Name from config'
         );
+
         System.assertEquals(
-                configurationProfile.Active_Configuration__r.Default_Contact_Name__c,
-                defaultAccountContactNames.get('contactName'),
-                'Retrieve Contact Name from config'
+            configurationProfile.Active_Configuration__r.Default_Contact_Name__c,
+            defaultAccountContactNames.get('contactName'),
+            'Retrieve Contact Name from config'
         );
     }
 
     @IsTest
     public static void isB2CProcessContactTriggerEnabled() {
         B2C_CRM_Sync_Default_Configuration__mdt configurationProfile = [
-                SELECT  Active_Configuration__r.DeveloperName,
-                        Active_Configuration__r.MasterLabel,
-                        Active_Configuration__r.Enable_B2C_Process_Contact_Trigger__c
-                FROM    B2C_CRM_Sync_Default_Configuration__mdt
-                WHERE   DeveloperName = 'Production_Configuration'
-                LIMIT   1
+            SELECT  Active_Configuration__r.DeveloperName,
+                    Active_Configuration__r.MasterLabel,
+                    Active_Configuration__r.Enable_B2C_Process_Contact_Trigger__c
+            FROM    B2C_CRM_Sync_Default_Configuration__mdt
+            WHERE   DeveloperName = 'Production_Configuration'
+            LIMIT   1
         ];
 
         Test.startTest();
-        Boolean isB2CProcessContactTriggerEnabled = B2CConfigurationManager.isB2CProcessContactTriggerEnabled();
+
+            Boolean isB2CProcessContactTriggerEnabled = B2CConfigurationManager.isB2CProcessContactTriggerEnabled();
+
         Test.stopTest();
 
         System.assertEquals(
@@ -55,22 +90,24 @@ public with sharing class B2CConfigurationManager_Test {
     @IsTest
     public static void isB2CUpdateCountsTriggerEnabled() {
         B2C_CRM_Sync_Default_Configuration__mdt configurationProfile = [
-                SELECT  Active_Configuration__r.DeveloperName,
-                        Active_Configuration__r.MasterLabel,
-                        Active_Configuration__r.Enable_B2C_Update_Counts_Trigger__c
-                FROM    B2C_CRM_Sync_Default_Configuration__mdt
-                WHERE   DeveloperName = 'Production_Configuration'
-                LIMIT   1
+            SELECT  Active_Configuration__r.DeveloperName,
+                    Active_Configuration__r.MasterLabel,
+                    Active_Configuration__r.Enable_B2C_Update_Counts_Trigger__c
+            FROM    B2C_CRM_Sync_Default_Configuration__mdt
+            WHERE   DeveloperName = 'Production_Configuration'
+            LIMIT   1
         ];
 
         Test.startTest();
-        Boolean isB2CUpdateCountsTriggerEnabled = B2CConfigurationManager.isB2CUpdateCountsTriggerEnabled();
+
+            Boolean isB2CUpdateCountsTriggerEnabled = B2CConfigurationManager.isB2CUpdateCountsTriggerEnabled();
+
         Test.stopTest();
 
         System.assertEquals(
-                configurationProfile.Active_Configuration__r.Enable_B2C_Update_Counts_Trigger__c,
-                isB2CUpdateCountsTriggerEnabled,
-                'Retrieve UpdateCountsTrigger from config'
+            configurationProfile.Active_Configuration__r.Enable_B2C_Update_Counts_Trigger__c,
+            isB2CUpdateCountsTriggerEnabled,
+            'Retrieve UpdateCountsTrigger from config'
         );
 
     }

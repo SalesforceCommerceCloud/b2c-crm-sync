@@ -13,6 +13,9 @@ public with sharing class B2CConstant {
      */
     public static final String
 
+        // Define the string that will be used to test / exercise the existence of defined certificates
+        CertTest_Validate_CertificateCanSign = '--> B2C Client ID Test: Validating that the certificate associated to a B2C ClientID exists by attempting to use it.',
+
         // Define the different data exception names
         Errors_ExceptionName_DataRecordMissing = 'B2CMetaDataRecordMissingException',
 

@@ -13,9 +13,9 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>RS256</fullName>
+                <fullName>RSA-SHA256</fullName>
                 <default>true</default>
-                <label>RS256</label>
+                <label>RSA-SHA256</label>
             </value>
         </valueSetDefinition>
     </valueSet>

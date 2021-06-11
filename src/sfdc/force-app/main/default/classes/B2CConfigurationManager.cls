@@ -35,9 +35,9 @@ public with sharing class B2CConfigurationManager {
 
         // Set the output variable to contain the Account Manager configuration settings to leverage
         output.put('AccountManagerUrl', configurationProfile.Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.Account_Manager_Url__c);
-        output.put('AccountManagerPort', configurationProfile.Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.Account_Manager_Port__c);
+        output.put('AccountManagerPort', String.valueOf(configurationProfile.Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.Account_Manager_Port__c));
         output.put('AccountManagerSuffix', configurationProfile.Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.Account_Manager_Token_Url__c);
-        output.put('ExpirationInMinutes', configurationProfile.Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.Expiration_in_Minutes__c);
+        output.put('ExpirationInMinutes', String.valueOf(configurationProfile.Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.Expiration_in_Minutes__c));
         output.put('JWTAlgorithm', configurationProfile.Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.JWT_Algorithm__c);
 
         // Return the associated Account Manager configuration settings

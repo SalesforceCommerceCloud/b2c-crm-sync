@@ -20,6 +20,6 @@
     </values>
     <values>
         <field>JWT_Algorithm__c</field>
-        <value xsi:type="xsd:string">RS256</value>
+        <value xsi:type="xsd:string">RSA-SHA256</value>
     </values>
 </CustomMetadata>
