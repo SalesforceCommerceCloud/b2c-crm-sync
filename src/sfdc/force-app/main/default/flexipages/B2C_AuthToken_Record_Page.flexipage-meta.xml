@@ -47,12 +47,12 @@
     <flexiPageRegions>
         <itemInstances>
             <fieldInstance>
-                <fieldItem>Record.B2C_Client_ID__c</fieldItem>
+                <fieldItem>Record.Name</fieldItem>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
             <fieldInstance>
-                <fieldItem>Record.Name</fieldItem>
+                <fieldItem>Record.B2C_Client_ID__c</fieldItem>
             </fieldInstance>
         </itemInstances>
         <name>Facet-3267fb33-4cb0-471f-b73c-c493b7e38c96</name>
@@ -185,6 +185,10 @@
     <flexiPageRegions>
         <itemInstances>
             <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
                 <fieldItem>Record.Total_Usage__c</fieldItem>
                 <visibilityRule>
                     <criteria>
@@ -291,6 +295,12 @@
                     <value>B2C AuthToken Usage</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Name}</leftValue>
+                        <operator>NE</operator>
+                    </criteria>
+                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <name>Facet-4f1f8bf5-0b65-42aa-bf9b-83c22460ab0c</name>
@@ -300,6 +310,12 @@
         <itemInstances>
             <fieldInstance>
                 <fieldItem>Record.CreatedById</fieldItem>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Name}</leftValue>
+                        <operator>NE</operator>
+                    </criteria>
+                </visibilityRule>
             </fieldInstance>
         </itemInstances>
         <name>Facet-89376b72-c133-4a37-aced-a89e617b3445</name>
@@ -313,6 +329,12 @@
                     <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.LastModifiedById</fieldItem>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Name}</leftValue>
+                        <operator>NE</operator>
+                    </criteria>
+                </visibilityRule>
             </fieldInstance>
         </itemInstances>
         <name>Facet-a3db6553-976d-4530-892c-e7b356e1c77b</name>
@@ -429,7 +451,7 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>relatedListComponentOverride</name>
-                    <value>NONE</value>
+                    <value>ADVGRID</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>rowsToDisplay</name>

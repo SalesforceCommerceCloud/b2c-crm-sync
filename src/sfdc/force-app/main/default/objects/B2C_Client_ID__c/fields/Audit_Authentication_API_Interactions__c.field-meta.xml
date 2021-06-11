@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<CustomField xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Audit_Authentication_API_Interactions__c</fullName>
     <defaultValue>false</defaultValue>
     <description>... when checked -- all B2C Commerce Account Manager authentication interactions are audited.</description>

@@ -32,14 +32,6 @@
                 <field>Is_Certificate_Verfied__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
-                <field>AuthToken_Successes__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>AuthToken_Failures__c</field>
-            </layoutItems>
-            <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Last_Success_On__c</field>
             </layoutItems>
@@ -54,6 +46,10 @@
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Total_Failure_Count__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>B2C_Client_ID_Label__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>

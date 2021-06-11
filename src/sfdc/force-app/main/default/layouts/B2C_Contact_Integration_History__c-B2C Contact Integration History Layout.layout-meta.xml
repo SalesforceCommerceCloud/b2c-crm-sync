@@ -50,6 +50,10 @@
                 <behavior>Readonly</behavior>
                 <field>Contact_Last_Modified_Date__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>B2C_AuthToken__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns/>
         <style>TwoColumnsTopToBottom</style>

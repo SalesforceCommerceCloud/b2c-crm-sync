@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<CustomField xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>JWT_Certificate_Name__c</fullName>
     <description>... represents the Certificate that will be used to mint JWT tokens that can be exchanged for REST API AuthTokens via the B2C Commerce Account Manager.</description>
     <externalId>false</externalId>

@@ -87,6 +87,15 @@
                 <fieldItem>Record.B2C_CustomerList__c</fieldItem>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>required</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.B2C_AuthToken__c</fieldItem>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-0cd6efa2-7951-4752-ac7d-49409a8cb632</name>
         <type>Facet</type>
     </flexiPageRegions>

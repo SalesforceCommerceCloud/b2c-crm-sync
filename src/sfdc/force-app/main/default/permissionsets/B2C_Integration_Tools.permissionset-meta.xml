@@ -111,12 +111,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>B2C_Client_ID__c.AuthToken_Failures__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>B2C_Client_ID__c.AuthToken_Successes__c</field>
+        <field>B2C_Client_ID__c.B2C_Client_ID_Label__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -132,6 +127,31 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>B2C_Client_ID__c.Is_Certificate_Verfied__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>B2C_Client_ID__c.Last_Failure_On__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>B2C_Client_ID__c.Last_Success_On__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>B2C_Client_ID__c.Total_Failure_Count__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>B2C_Client_ID__c.Total_Success_Count__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>B2C_Contact_Integration_History__c.B2C_AuthToken__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

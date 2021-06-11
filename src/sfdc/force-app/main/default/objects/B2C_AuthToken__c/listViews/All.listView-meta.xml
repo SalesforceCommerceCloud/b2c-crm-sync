@@ -2,7 +2,7 @@
 <ListView xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <fullName>All</fullName>
     <columns>B2C_Client_ID__c</columns>
-    <columns>B2C_ClientID_Value__c</columns>
+    <columns>NAME</columns>
     <columns>Is_Valid__c</columns>
     <columns>Total_Usage__c</columns>
     <columns>Expiration_Date__c</columns>
