@@ -47,7 +47,7 @@ public with sharing class B2CJWTHelper {
      * @param input {Blob} Represents the string being encoded
      * @return Returns the base64 encoded string with a little string-manipulation applied
      */
-    private static String base64UrlEncode(Blob input) {
+    public static String base64UrlEncode(Blob input) {
 
         // Initialize local variables
         String output;
@@ -75,7 +75,7 @@ public with sharing class B2CJWTHelper {
      * @param algorithm {String} Represents the type of hashing algorithm used
      * @return {String} Returns an encoded string representing the JWT header
      */
-    private static String buildJWTHeader(String algorithm) {
+    public static String buildJWTHeader(String algorithm) {
 
         // Initialize local Variables
         JSONGenerator headerGenerator;
@@ -106,7 +106,7 @@ public with sharing class B2CJWTHelper {
      *
      * @return {String} Returns an encoded string representing the JWT payload
      */
-    private static String buildJWTPayload(String B2CClientID, String audienceUrl, Integer expiresInMinutes) {
+    public static String buildJWTPayload(String B2CClientID, String audienceUrl, Integer expiresInMinutes) {
 
         // Initialize local Variables
         Datetime now;
@@ -146,7 +146,7 @@ public with sharing class B2CJWTHelper {
      *
      * @return {String} Returns a string representing the signed JWT token
      */
-    private static String buildJWTSignature(String header, String payload, String certDeveloperName) {
+    public static String buildJWTSignature(String header, String payload, String certDeveloperName) {
 
         // Initialize local variables
         String JWTAsString;
@@ -155,7 +155,7 @@ public with sharing class B2CJWTHelper {
 
         // Create the JWT object-to-be-signed
         JWTAsString = header + '.' + payload;
-        Blob JWTAsBlob = Blob.valueOf(JWTAsString);
+        JWTAsBlob = Blob.valueOf(JWTAsString);
 
         // Generate the JWT signature the specified certificate
         Blob signature = Crypto.signWithCertificate('RSA-SHA256', JWTAsBlob, certDeveloperName);
