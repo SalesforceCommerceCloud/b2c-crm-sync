@@ -18,6 +18,15 @@
                         <valueListItems>
                             <value>PrintableView</value>
                         </valueListItems>
+                        <valueListItems>
+                            <value>B2C_Client_ID__c.Verify_JWT_Certificate</value>
+                            <visibilityRule>
+                                <criteria>
+                                    <leftValue>{!Record.JWT_Certificate_Name__c}</leftValue>
+                                    <operator>NE</operator>
+                                </criteria>
+                            </visibilityRule>
+                        </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>

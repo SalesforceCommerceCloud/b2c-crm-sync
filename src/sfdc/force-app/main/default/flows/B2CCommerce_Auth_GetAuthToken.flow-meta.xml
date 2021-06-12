@@ -11,7 +11,7 @@
             <assignToReference>B2CAuthToken</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>recGet_ValidAuthToken.B2C_AuthToken__c</elementReference>
+                <elementReference>recGet_ValidAuthToken.Name</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -86,20 +86,6 @@
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
-            <field>NamedCredential_DeveloperName__c</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>NamedCredential</elementReference>
-            </value>
-        </filters>
-        <filters>
-            <field>B2C_Client_ID__c</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>B2CClientID</elementReference>
-            </value>
-        </filters>
-        <filters>
             <field>Is_Valid__c</field>
             <operator>EqualTo</operator>
             <value>
@@ -126,7 +112,7 @@
             <field>Id</field>
             <operator>EqualTo</operator>
             <value>
-                <elementReference>recGet_ValidAuthToken.Id</elementReference>
+                <elementReference>recGet_ValidAuthToken.Name</elementReference>
             </value>
         </filters>
         <inputAssignments>
@@ -168,13 +154,5 @@
         <isCollection>false</isCollection>
         <isInput>false</isInput>
         <isOutput>true</isOutput>
-    </variables>
-    <variables>
-        <description>... represents the developerName of the NamedCredential seeking a B2C Commerce AuthToken.</description>
-        <name>NamedCredential</name>
-        <dataType>String</dataType>
-        <isCollection>false</isCollection>
-        <isInput>true</isInput>
-        <isOutput>false</isOutput>
     </variables>
 </Flow>

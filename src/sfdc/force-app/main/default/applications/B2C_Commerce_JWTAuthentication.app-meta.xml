@@ -1,24 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomApplication xmlns="http://soap.sforce.com/2006/04/metadata">
     <brand>
-        <headerColor>#2FBE04</headerColor>
-        <logo>astrob2c</logo>
+        <headerColor>#81C241</headerColor>
+        <logo>astrotrustb2c</logo>
         <logoVersion>1</logoVersion>
         <shouldOverrideOrgTheme>false</shouldOverrideOrgTheme>
     </brand>
-    <description>CustomerLists, Sites, and synchronized customer profiles.</description>
+    <description>JWT configuration for Account Manager authentication.</description>
     <formFactors>Small</formFactors>
     <formFactors>Large</formFactors>
     <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
     <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
-    <label>B2C CRM Sync</label>
+    <label>B2C CRM Jwt</label>
     <navType>Standard</navType>
-    <tabs>B2C_Admin</tabs>
-    <tabs>B2C_Instance__c</tabs>
-    <tabs>B2C_CustomerList__c</tabs>
-    <tabs>B2C_Site__c</tabs>
-    <tabs>standard-Account</tabs>
-    <tabs>standard-Contact</tabs>
+    <tabs>B2C_Client_ID__c</tabs>
+    <tabs>B2C_AuthToken__c</tabs>
     <uiType>Lightning</uiType>
-    <utilityBar>B2C_Commerce_UtilityBar</utilityBar>
+    <utilityBar>B2C_CRM_JWT_UtilityBar</utilityBar>
 </CustomApplication>

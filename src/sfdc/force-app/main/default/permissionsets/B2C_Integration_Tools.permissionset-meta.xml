@@ -4,6 +4,10 @@
         <application>B2C_Commerce_Integration</application>
         <visible>true</visible>
     </applicationVisibilities>
+    <applicationVisibilities>
+        <application>B2C_Commerce_JWTAuthentication</application>
+        <visible>true</visible>
+    </applicationVisibilities>
     <customMetadataTypeAccesses>
         <enabled>true</enabled>
         <name>B2C_Integration_Field_Mappings__mdt</name>
