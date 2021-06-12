@@ -63,6 +63,13 @@
                 <booleanValue>true</booleanValue>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>B2CClientID</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>recGet_B2CClientID</elementReference>
+            </value>
+        </assignmentItems>
         <connector>
             <targetReference>ia_validateB2CClientIDCertificate</targetReference>
         </connector>
@@ -167,6 +174,15 @@
         </connector>
     </start>
     <status>Active</status>
+    <variables>
+        <description>... represents the B2C Client ID that was validated and retrieved.  This is the B2C Client ID whose JWT Certificate will be verified.</description>
+        <name>B2CClientID</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+        <objectType>B2C_Client_ID__c</objectType>
+    </variables>
     <variables>
         <description>... represents the error message returned by the certificate validation exercise.</description>
         <name>errorMessage</name>
