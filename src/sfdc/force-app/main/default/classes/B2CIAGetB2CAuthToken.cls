@@ -33,7 +33,7 @@ public with sharing class B2CIAGetB2CAuthToken {
         accountManagerConfigSettings = B2CConfigurationManager.getAccountManagerSettings();
 
         // Build out the audience and authentication urls
-        audienceUrl = 'https://' + accountManagerConfigSettings.get('AccountManagerUrl') + ':' + accountManagerConfigSettings.get('AccountManagerPort').toString() + accountManagerConfigSettings.get('AccountManagerSuffix');
+        audienceUrl = 'https://' + accountManagerConfigSettings.get('AccountManagerUrl') + ':' + String.valueOf(accountManagerConfigSettings.get('AccountManagerPort')) + accountManagerConfigSettings.get('AccountManagerSuffix');
         authUrl = 'https://' + accountManagerConfigSettings.get('AccountManagerUrl') + accountManagerConfigSettings.get('AccountManagerSuffix');
 
         // Iterate over the collection of Named Credentials
