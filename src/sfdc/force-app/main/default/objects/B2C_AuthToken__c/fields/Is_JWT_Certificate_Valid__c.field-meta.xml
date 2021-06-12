@@ -3,7 +3,7 @@
     <fullName>Is_JWT_Certificate_Valid__c</fullName>
     <description>... describes if the JWT Certificate has been verified / validated and can be used to mint JWT tokens.</description>
     <externalId>false</externalId>
-    <formula>B2C_Client_ID__r.Is_Certificate_Verfied__c</formula>
+    <formula>B2C_Client_ID__r.Is_Certificate_Verified__c</formula>
     <inlineHelpText>... describes if the JWT Certificate has been verified / validated and can be used to mint JWT tokens.</inlineHelpText>
     <label>Is JWT Certificate Valid</label>
     <trackHistory>false</trackHistory>

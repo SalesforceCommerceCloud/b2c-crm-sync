@@ -15,6 +15,7 @@ public with sharing class B2CConstant {
 
         // Define the string that will be used to test / exercise the existence of defined certificates
         CertTest_Validate_CertificateCanSign = '--> B2C Client ID Test: Validating that the certificate associated to a B2C ClientID exists by attempting to use it.',
+        Errors_B2CClientID_UnableToVerifyCertificate = 'We could not find a certificate with the JWT Certificate Name you specified.  Please double-check your value; this should map to the unique-name of an existing Salesforce certificate.',
 
         // Define the different data exception names
         Errors_ExceptionName_DataRecordMissing = 'B2CMetaDataRecordMissingException',

@@ -5,12 +5,12 @@
     <columns>NAME</columns>
     <columns>JWT_Certificate_Name__c</columns>
     <columns>Is_Active__c</columns>
-    <columns>Is_Certificate_Verfied__c</columns>
+    <columns>Is_Certificate_Verified__c</columns>
     <columns>CREATED_DATE</columns>
     <columns>LAST_UPDATE</columns>
     <filterScope>Everything</filterScope>
     <filters>
-        <field>Is_Certificate_Verfied__c</field>
+        <field>Is_Certificate_Verified__c</field>
         <operation>equals</operation>
         <value>0</value>
     </filters>

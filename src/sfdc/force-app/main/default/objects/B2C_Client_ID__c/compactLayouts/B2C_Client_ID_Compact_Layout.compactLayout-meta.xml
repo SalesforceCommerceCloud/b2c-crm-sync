@@ -5,6 +5,6 @@
     <fields>Name</fields>
     <fields>JWT_Certificate_Name__c</fields>
     <fields>Is_Active__c</fields>
-    <fields>Is_Certificate_Verfied__c</fields>
+    <fields>Is_Certificate_Verified__c</fields>
     <label>B2C Client ID Compact Layout</label>
 </CompactLayout>

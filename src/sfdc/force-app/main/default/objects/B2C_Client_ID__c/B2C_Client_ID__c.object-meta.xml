@@ -172,7 +172,7 @@
         <searchResultsAdditionalFields>B2C_Client_ID_Label__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>JWT_Certificate_Name__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Is_Active__c</searchResultsAdditionalFields>
-        <searchResultsAdditionalFields>Is_Certificate_Verfied__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Is_Certificate_Verified__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>CREATED_DATE</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>LAST_UPDATE</searchResultsAdditionalFields>
     </searchLayouts>

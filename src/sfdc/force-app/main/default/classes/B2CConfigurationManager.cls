@@ -179,4 +179,29 @@ public with sharing class B2CConfigurationManager {
 
     }
 
+
+    /**
+     * @description Helper function that retrieves the current default configuration.
+     * @return {Boolean} Returns the enabled / active status of the B2C ClientID CertValidation trigger
+     */
+    public static Boolean isB2CClientIDCertValidationTriggerEnabled() {
+
+        // Initialize local variables
+        B2C_CRM_Sync_Default_Configuration__mdt configurationProfile;
+
+        // Get the default configuration profile
+        configurationProfile = [
+                SELECT  Active_Configuration__r.DeveloperName,
+                        Active_Configuration__r.MasterLabel,
+                        Active_Configuration__r.Enable_Client_ID_CertValidation_Trigger__c
+                FROM    B2C_CRM_Sync_Default_Configuration__mdt
+                WHERE   DeveloperName = 'Production_Configuration'
+                LIMIT   1
+        ];
+
+        // Return the enabled status of the B2C CLient ID certValidation trigger
+        return configurationProfile.Active_Configuration__r.Enable_Client_ID_CertValidation_Trigger__c;
+
+    }
+
 }

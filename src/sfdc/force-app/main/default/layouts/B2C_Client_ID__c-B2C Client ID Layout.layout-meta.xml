@@ -29,7 +29,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Is_Certificate_Verfied__c</field>
+                <field>Is_Certificate_Verified__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>

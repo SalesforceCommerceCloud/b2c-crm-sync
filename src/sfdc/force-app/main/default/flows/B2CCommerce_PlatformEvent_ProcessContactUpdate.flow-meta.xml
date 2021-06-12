@@ -494,7 +494,7 @@
         <locationY>434</locationY>
         <defaultConnectorLabel>Not Found</defaultConnectorLabel>
         <rules>
-            <name>decOut_ContactWasVerfiied</name>
+            <name>decOut_ContactWasVerified</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
                 <leftValueReference>$Record.CRM_Contact_ID__c</leftValueReference>
