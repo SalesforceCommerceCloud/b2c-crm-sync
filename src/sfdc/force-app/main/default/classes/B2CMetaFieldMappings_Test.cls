@@ -13,6 +13,69 @@ private class B2CMetaFieldMappings_Test {
     private static String metaDataMissingRecordExceptionName = B2CConstant.Errors_ExceptionName_DataRecordMissing;
 
     /**
+     * @see B2CMetaFieldMappings.toggleAlternateObjectAttributes
+     * @description Helper method to exercise toggling alternate object attributes.  We use
+     * this method to expose personAccount fieldMappings.
+     */
+    @IsTest
+    static void testToggleAlternateObjectAttributes() {
+
+        // Initialize local Variables
+        List<B2C_Integration_Field_Mappings__mdt> fieldMappingsToToggle;
+        List<B2C_Integration_Field_Mappings__mdt> fieldMappingsOutput;
+        List<B2C_Integration_Field_Mappings__mdt> originalFieldMappings;
+        B2C_Integration_Field_Mappings__mdt thisOriginalFieldMapping;
+        Integer currentRowIndex;
+
+        // Default the rowIndex
+        currentRowIndex = 0;
+
+        Test.startTest();
+
+            // Retrieve the fieldMappings to process
+            fieldMappingsToToggle = [
+                SELECT  Id,
+                        DeveloperName,
+                        Service_Cloud_Object__c,
+                        Service_Cloud_Attribute__c,
+                        Service_Cloud_Attribute_Alt__c
+                FROM    B2C_Integration_Field_Mappings__mdt
+                WHERE   Service_Cloud_Object__c = 'Contact'
+            ];
+
+            // Retrieve the field mappings for an object that does not exist (should throw an error)
+            fieldMappingsOutput = B2CMetaFieldMappings.toggleAlternateObjectAttributes(fieldMappingsToToggle);
+
+            // Retrieve the fieldMappings to process
+            originalFieldMappings = [
+                    SELECT  Id,
+                            DeveloperName,
+                            Service_Cloud_Object__c,
+                            Service_Cloud_Attribute__c,
+                            Service_Cloud_Attribute_Alt__c
+                    FROM    B2C_Integration_Field_Mappings__mdt
+                    WHERE   Service_Cloud_Object__c = 'Contact'
+            ];
+
+        Test.stopTest();
+
+        // Validate that the fieldMapping toggle was successful
+        for (B2C_Integration_Field_Mappings__mdt thisFieldMapping: fieldMappingsOutput) {
+
+            // Retrieve the current fieldMapping row from the original collection
+            thisOriginalFieldMapping = originalFieldMappings.get(currentRowIndex);
+
+            // Validate that the fieldMappings have been successfully toggled for the source collection
+            System.assertEquals(thisOriginalFieldMapping.Service_Cloud_Attribute_Alt__c, thisFieldMapping.Service_Cloud_Attribute__c, 'Expected the alternateFieldMappings in the original collection to map to the sourceFieldMappings in the new collection');
+
+            // Increment the currentRowIndex
+            currentRowIndex++;
+
+        }
+
+    }
+
+    /**
      * @see B2CMetaFieldMappings.getFieldMappings
      * @description This method is used to test the retrieval of field mappings using
      * identifiers that aren't defined.  It tests that failed mapping requests behave
@@ -35,8 +98,8 @@ private class B2CMetaFieldMappings_Test {
 
             Test.startTest();
 
-            // Retrieve the field mappings for an object that does not exist (should throw an error)
-            fieldMappings = B2CMetaFieldMappings.getFieldMappings(mappingObjectType);
+                // Retrieve the field mappings for an object that does not exist (should throw an error)
+                fieldMappings = B2CMetaFieldMappings.getFieldMappings(mappingObjectType);
 
             Test.stopTest();
 
