@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Active_AuthTokens</fullName>
+    <columns>B2C_Client_ID__c</columns>
+    <columns>NAME</columns>
+    <columns>Is_Valid__c</columns>
+    <columns>Is_Expired__c</columns>
+    <columns>Total_Usage__c</columns>
+    <columns>Expiration_Date__c</columns>
+    <columns>LAST_UPDATE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Is_Valid__c</field>
+        <operation>equals</operation>
+        <value>1</value>
+    </filters>
+    <filters>
+        <field>Is_Expired__c</field>
+        <operation>equals</operation>
+        <value>0</value>
+    </filters>
+    <label>Active AuthTokens</label>
+</ListView>
