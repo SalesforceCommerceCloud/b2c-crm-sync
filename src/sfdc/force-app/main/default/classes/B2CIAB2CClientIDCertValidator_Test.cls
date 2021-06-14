@@ -8,20 +8,6 @@
 @IsTest
 private class B2CIAB2CClientIDCertValidator_Test {
 
-    /**
-     * @description Setup method that creates the customerList record(s) required to support testing.
-     */
-    @TestSetup static void setup() {
-
-        // Setup a single clientId we can use for testing / validation
-        B2C_Client_ID__c B2CClientID = (B2C_Client_ID__c) TestDataFactory.createSObject('B2C_Client_ID__c', new Map<String, Object>{
-            'Name' => 'abcd1234',
-            'JWT_Certificate_Name__c' => 'myCertificateName',
-            'Is_Active__c' => true
-        });
-
-    }
-
     @IsTest
     static void validateCertificateTest() {
 
@@ -29,20 +15,20 @@ private class B2CIAB2CClientIDCertValidator_Test {
         List<B2CIAB2CClientIDCertValidatorInput> validatorInputs;
         List<B2CIAB2CClientIDCertValidatorResult> validationResults;
         B2CIAB2CClientIDCertValidatorInput validatorInput;
+        B2C_Client_ID__c thisB2CClientID;
 
-        // Initialize the input
+        // Initialize the inputs
         validatorInputs = new List<B2CIAB2CClientIDCertValidatorInput>();
         validatorInput = new B2CIAB2CClientIDCertValidatorInput();
+        thisB2CClientID = new B2C_Client_ID__c();
+
+        // Default the minimal attributes of the ClientID
+        thisB2CClientID.Name = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa';
+        thisB2CClientID.JWT_Certificate_Name__c = 'myCertificateName';
+        thisB2CClientID.Is_Active__c = true;
 
         // Seed the clientId to work with
-        validatorInput.B2CClientID = [
-            SELECT  Id,
-                    Name,
-                    JWT_Certificate_Name__c,
-                    Is_Active__c
-            FROM    B2C_Client_ID__c
-            LIMIT   1
-        ];
+        validatorInput.B2CClientID = thisB2CClientID;
 
         // Add the input to the processing collection
         validatorInputs.add(validatorInput);

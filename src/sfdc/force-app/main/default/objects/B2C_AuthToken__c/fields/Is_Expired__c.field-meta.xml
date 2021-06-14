@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<CustomField xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Is_Expired__c</fullName>
     <description>...describes if the current AuthToken is expired and should not be used for B2C Commerce REST API interactions.</description>
     <externalId>false</externalId>

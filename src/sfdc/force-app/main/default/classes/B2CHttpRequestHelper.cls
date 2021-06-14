@@ -18,7 +18,7 @@ public with sharing class B2CHttpRequestHelper {
      * */
     public static HttpRequest getAccountManagerAuthRequest(String baseAccountManagerUrl, String JWT) {
         HttpRequest req = new HttpRequest();
-        req.setEndpoint(baseAccountManagerUrl + '/dwsso/oauth2/access_token');
+        req.setEndpoint(baseAccountManagerUrl);
         req.setHeader('Content-Type', 'application/x-www-form-urlencoded');
         req.setBody('grant_type=client_credentials&client_assertion_type=urn%3Aietf%3Aparams%3Aoauth%3Aclient-assertion-type%3Ajwt-bearer&client_assertion=' + JWT);
         req.setMethod('POST');

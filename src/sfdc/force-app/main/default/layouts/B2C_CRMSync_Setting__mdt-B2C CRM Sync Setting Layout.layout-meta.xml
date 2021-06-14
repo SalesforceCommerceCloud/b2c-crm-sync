@@ -74,6 +74,10 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>Enable_Client_ID_CertValidation_Trigger__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>Apply_B2CCustomerList_ClientIDToSites__c</field>
             </layoutItems>
         </layoutColumns>

@@ -5,7 +5,7 @@
     <externalId>false</externalId>
     <fieldManageability>SubscriberControlled</fieldManageability>
     <inlineHelpText>... represents the collection of algorithms to select from and specify in a JWT header when minting a JWT.</inlineHelpText>
-    <label>JWT Algorithm</label>
+    <label>JWT SFDC Algorithm</label>
     <required>false</required>
     <type>Picklist</type>
     <valueSet>

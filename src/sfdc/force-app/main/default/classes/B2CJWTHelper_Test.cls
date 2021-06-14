@@ -10,6 +10,7 @@ private class B2CJWTHelper_Test {
 
     // Default the test constants
     public static String testAlgorithm = 'TEST123';
+    public static String jwtSFDCAlgorithm = 'RSA-SHA256';
     public static String B2CClientID = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa';
     public static String audienceUrl = 'https://sandbox.us01.dx.commercecloud.salesforce.com';
     public static Integer expiresInMinutes = 25;
@@ -116,7 +117,7 @@ private class B2CJWTHelper_Test {
                 jwtPayload = B2CJWTHelper.buildJWTPayload(B2CClientID, audienceUrl, expiresInMinutes);
 
                 // Attempt to create the jwtToken
-                jwt = B2CJWTHelper.buildJWTSignature(jwtHeader, jwtPayload, testCertificateName);
+                jwt = B2CJWTHelper.buildJWTSignature(jwtHeader, jwtPayload, testCertificateName, jwtSFDCAlgorithm);
 
             } catch (Exception e) {
 
@@ -150,7 +151,7 @@ private class B2CJWTHelper_Test {
             try {
 
                 // Attempt to create the jwtToken using the test values
-                jwt = B2CJWTHelper.getJWT(testAlgorithm, B2CClientID, testCertificateName, audienceUrl, expiresInMinutes);
+                jwt = B2CJWTHelper.getJWT(testAlgorithm, jwtSFDCAlgorithm, B2CClientID, testCertificateName, audienceUrl, expiresInMinutes);
 
             } catch (Exception e) {
 

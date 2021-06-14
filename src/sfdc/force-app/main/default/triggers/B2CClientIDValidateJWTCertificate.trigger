@@ -14,7 +14,6 @@ trigger B2CClientIDValidateJWTCertificate on B2C_Client_ID__c (before insert, be
         List<B2CIAB2CClientIDCertValidatorInput> validatorInputs;
         B2CIAB2CClientIDCertValidatorInput validatorInput;
         List<B2CIAB2CClientIDCertValidatorResult> validationResults;
-        B2C_Client_ID__c thisB2CClientID;
 
         // Initialize the input collection
         validatorInputs = new List<B2CIAB2CClientIDCertValidatorInput>();
@@ -34,8 +33,6 @@ trigger B2CClientIDValidateJWTCertificate on B2C_Client_ID__c (before insert, be
 
         // Loop over the results collection and evaluate the results
         for (B2CIAB2CClientIDCertValidatorResult thisResult : validationResults) {
-
-            System.debug(thisResult);
 
             // Evaluate if the certificate-test was successful
             if (thisResult.isCertificateValid == true) {

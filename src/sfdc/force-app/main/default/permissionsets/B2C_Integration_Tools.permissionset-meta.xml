@@ -80,6 +80,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>B2C_Client_ID_Integration_History__c.Auth_Token_Value__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>B2C_Client_ID_Integration_History__c.B2C_AuthToken__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>B2C_Client_ID_Integration_History__c.Has_Error__c</field>
         <readable>true</readable>
     </fieldPermissions>

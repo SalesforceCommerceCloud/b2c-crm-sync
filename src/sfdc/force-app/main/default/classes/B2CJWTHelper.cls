@@ -12,7 +12,8 @@ public with sharing class B2CJWTHelper {
     /**
      * @description Helper function to create the JWT token that will be used to authenticate against B2C Commerce's Account Manager
      *
-     * @param headerAlgorithm {String} Represents the algorithm used to perform encoding (ex. RS256)
+     * @param sfccHeaderAlgorithm {String} Represents the SFCC algorithm to include in the JWT Header (ex. RS256)
+     * @param sfdcHeaderAlgorithm {String} Represents the SFCC algorithm used  mint the JWT (ex. RSA-SHA256)
      * @param B2CClientID {String} Represents the Account Manager ClientID used to authenticate
      * @param certDeveloperName {String} Represents the developerName of the Certificate used to sign the JWT
      * @param audienceUrl {String} Represents the destinationUrl that will be verified via the JWT
@@ -20,7 +21,7 @@ public with sharing class B2CJWTHelper {
      *
      * @return {String} Returns the encoded JWT token that will be used to authenticate against B2C Commerce
      */
-    public static String getJWT(String headerAlgorithm, String B2CClientID, String certDeveloperName, String audienceUrl, Integer expiresInMinutes) {
+    public static String getJWT(String sfccHeaderAlgorithm, String sfdcHeaderAlgorithm, String B2CClientID, String certDeveloperName, String audienceUrl, Integer expiresInMinutes) {
 
         // Initialize local variables
         String header;
@@ -29,9 +30,9 @@ public with sharing class B2CJWTHelper {
         String JWT;
 
         // Build the JWT components
-        header = buildJWTHeader(headerAlgorithm);
+        header = buildJWTHeader(sfccHeaderAlgorithm);
         payload = buildJWTPayload(B2CClientID, audienceUrl, expiresInMinutes);
-        signature = buildJWTSignature(header, payload, certDeveloperName);
+        signature = buildJWTSignature(header, payload, certDeveloperName, sfdcHeaderAlgorithm);
 
         // Create the JWT by joining the components
         JWT = header + '.' + payload + '.' + signature;
@@ -143,10 +144,11 @@ public with sharing class B2CJWTHelper {
      * @param header {String} Represents the generated JWT header
      * @param payload {String} Represents the generated JWT payload
      * @param certDeveloperName {String} Represents the developerName of the cert used to sign the JWT
+     * @param sfdcHeaderAlgorithm {String} Represents the SFCC algorithm used  mint the JWT (ex. RSA-SHA256)
      *
      * @return {String} Returns a string representing the signed JWT token
      */
-    public static String buildJWTSignature(String header, String payload, String certDeveloperName) {
+    public static String buildJWTSignature(String header, String payload, String certDeveloperName, String sfdcHeaderAlgorithm) {
 
         // Initialize local variables
         String JWTAsString;
@@ -158,7 +160,7 @@ public with sharing class B2CJWTHelper {
         JWTAsBlob = Blob.valueOf(JWTAsString);
 
         // Generate the JWT signature the specified certificate
-        Blob signature = Crypto.signWithCertificate('RSA-SHA256', JWTAsBlob, certDeveloperName);
+        Blob signature = Crypto.signWithCertificate(sfdcHeaderAlgorithm, JWTAsBlob, certDeveloperName);
 
         // Encode the signature
         signedJWT = base64UrlEncode(signature);

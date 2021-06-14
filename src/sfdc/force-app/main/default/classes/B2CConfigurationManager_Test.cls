@@ -11,7 +11,8 @@ public with sharing class B2CConfigurationManager_Test {
                     Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.Account_Manager_Port__c,
                     Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.Account_Manager_Token_Url__c,
                     Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.Expiration_in_Minutes__c,
-                    Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.JWT_Algorithm__c
+                    Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.JWT_Algorithm__c,
+                    Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.JWT_SFCC_Algorithm__c
             FROM    B2C_CRM_Sync_Default_Configuration__mdt
             WHERE   DeveloperName = 'Production_Configuration'
             LIMIT   1

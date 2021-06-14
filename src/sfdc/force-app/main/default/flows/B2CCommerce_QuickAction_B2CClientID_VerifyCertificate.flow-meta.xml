@@ -55,7 +55,7 @@
     </decisions>
     <description>... this quickAction can be used to validate that the JWT certificate associated to a B2C Client ID is valid and usable to mint JWTs.</description>
     <interviewLabel>B2C Commerce: Quick Action: B2C Client ID: Verify Certificate {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>B2C Commerce: Quick Action: B2C Client ID: Verify Certificate</label>
+    <label>B2C Commerce: Quick Action: B2C Client ID: Verify JWT Certificate</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>

@@ -52,7 +52,7 @@ public with sharing class B2CIAB2CClientIDCertValidator {
 
                 // Attempt the signature
                 Crypto.signWithCertificate(
-                    accountManagerSettings.get('JWTAlgorithm'),
+                    accountManagerSettings.get('JWTSFDCAlgorithm'),
                     testStringAsBlob,
                     thisB2CClientID.B2CClientID.JWT_Certificate_Name__c
                 );

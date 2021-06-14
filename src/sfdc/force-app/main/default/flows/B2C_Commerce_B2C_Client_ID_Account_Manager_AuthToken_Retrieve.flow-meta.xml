@@ -1,0 +1,427 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <description>... attempts to request a B2C AuthToken from the B2C Commerce Account Manager.</description>
+        <name>ia_requestB2CAuthToken</name>
+        <label>Request a B2C AuthToken</label>
+        <locationX>533</locationX>
+        <locationY>1413</locationY>
+        <actionName>B2CIARequestB2CAuthToken</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>dec_wasAuthTokenRetrievalSuccessful</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>auditAuthenticationAPIInteractions</name>
+            <value>
+                <elementReference>B2CClientID.Audit_Authentication_API_Interactions__c</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>b2cClientId</name>
+            <value>
+                <elementReference>B2CClientID.Name</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>Id</name>
+            <value>
+                <elementReference>B2CClientID.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>jwtCertificate</name>
+            <value>
+                <elementReference>B2CClientID.JWT_Certificate_Name__c</elementReference>
+            </value>
+        </inputParameters>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </actionCalls>
+    <apiVersion>52.0</apiVersion>
+    <assignments>
+        <description>... audit the authToken failure -- since the retryCount was exceeded and no authToken was retrieved.</description>
+        <name>asn_auditAuthTokenFailure</name>
+        <label>Audit the AuthToken Failure</label>
+        <locationX>762</locationX>
+        <locationY>1192</locationY>
+        <assignmentItems>
+            <assignToReference>ErrorMessage</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <stringValue>Unable to retrieve an Account Manager AuthToken for the specified B2C Client ID.</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>IsSuccess</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <description>... audit the authToken success -- and set the AuthToken output variable.</description>
+        <name>asn_auditAuthTokenSuccess</name>
+        <label>Audit the AuthToken Success</label>
+        <locationX>755</locationX>
+        <locationY>1662</locationY>
+        <assignmentItems>
+            <assignToReference>AuthToken</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>ia_requestB2CAuthToken.accessToken</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>IsSuccess</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ExpiresIn</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>ia_requestB2CAuthToken.expiresIn</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <description>... throw an error that the B2C ClientID in question cannot be used to retrieve an authToken.</description>
+        <name>asn_B2CClientIDIsNotUsable</name>
+        <label>State that the B2C Client ID is Not Usable</label>
+        <locationX>285</locationX>
+        <locationY>216</locationY>
+        <assignmentItems>
+            <assignToReference>IsSuccess</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ErrorMessage</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <stringValue>Unable to use B2C Client ID.  Please check the isActive and isCertificateValid status of the B2C Client ID.</stringValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <description>... increment the retryCount by one value</description>
+        <name>asn_incrementRetryCount</name>
+        <label>Increment the RetryCount by One</label>
+        <locationX>348</locationX>
+        <locationY>1412</locationY>
+        <assignmentItems>
+            <assignToReference>RetryCountCurrent</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <numberValue>1.0</numberValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>dec_attemptToRetrieveAuthToken</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>... assign the retryCount picklist value.</description>
+        <name>asn_retryCountPicklistValue</name>
+        <label>Assign the RetryCount Picklist Value</label>
+        <locationX>532</locationX>
+        <locationY>1002</locationY>
+        <assignmentItems>
+            <assignToReference>RetryCountPicklistValue</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>recGet_accountManagerConfig.Retry_Count__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>dec_attemptToRetrieveAuthToken</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>... assign the configuration keys used to look-up configuration settings and accountManager settings.</description>
+        <name>asn_runtimeConfigurationKeys</name>
+        <label>Assign the Configuration Keys</label>
+        <locationX>532</locationX>
+        <locationY>634</locationY>
+        <assignmentItems>
+            <assignToReference>AccountManagerConfigKey</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>recGet_defaultConfiguration.Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.DeveloperName</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>recGet_accountManagerConfig</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <description>... can we retrieve an authToken -- by evaluating the total number of retries compared to how many retry attempts we&apos;ve processed.</description>
+        <name>dec_attemptToRetrieveAuthToken</name>
+        <label>Have We Exceeded RetryCount Limit?</label>
+        <locationX>524</locationX>
+        <locationY>1194</locationY>
+        <defaultConnector>
+            <targetReference>asn_auditAuthTokenFailure</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Yes</defaultConnectorLabel>
+        <rules>
+            <name>decOut_attemptToRetrieveAuthTokenTrue</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>RetryCountCurrent</leftValueReference>
+                <operator>LessThanOrEqualTo</operator>
+                <rightValue>
+                    <elementReference>RetryCountLimit</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>ia_requestB2CAuthToken</targetReference>
+            </connector>
+            <label>No</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>... evaluate is the B2C Client ID is active and usable.</description>
+        <name>dec_isB2CClientIDActive</name>
+        <label>Is the B2C Client ID Active?</label>
+        <locationX>523</locationX>
+        <locationY>218</locationY>
+        <defaultConnector>
+            <targetReference>asn_B2CClientIDIsNotUsable</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Is Not Active</defaultConnectorLabel>
+        <rules>
+            <name>Is_Active</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>B2CClientID.Is_Active__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>B2CClientID.Is_Certificate_Verified__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>B2CClientID.IsDeleted</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>recGet_defaultConfiguration</targetReference>
+            </connector>
+            <label>Is Active</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>... evaluate if the authToken retrieval was successful.</description>
+        <name>dec_wasAuthTokenRetrievalSuccessful</name>
+        <label>Was the AuthToken Retrieval Successful?</label>
+        <locationX>525</locationX>
+        <locationY>1666</locationY>
+        <defaultConnector>
+            <targetReference>asn_incrementRetryCount</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Was Not Successful</defaultConnectorLabel>
+        <rules>
+            <name>dec_wasAuthTokenRetrievalSuccessfulTrue</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>ia_requestB2CAuthToken.isError</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>ia_requestB2CAuthToken.statusCode</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <numberValue>200.0</numberValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>asn_auditAuthTokenSuccess</targetReference>
+            </connector>
+            <label>Was Successful</label>
+        </rules>
+    </decisions>
+    <description>... retrieve a B2C Commerce Account Manager AuthToken using the verified B2C Client ID.</description>
+    <formulas>
+        <description>... converts the retryCount picklist value to an integer we can count / measure</description>
+        <name>RetryCountLimit</name>
+        <dataType>Number</dataType>
+        <expression>VALUE({!RetryCountPicklistValue})</expression>
+        <scale>0</scale>
+    </formulas>
+    <interviewLabel>B2C Commerce: B2C Client ID: Account Manager AuthToken: Retrieve {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>B2C Commerce: B2C Client ID: Account Manager AuthToken: Retrieve</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <description>... retrieve the Account Manager configuration settings.</description>
+        <name>recGet_accountManagerConfig</name>
+        <label>Retrieve the Account Manager Configuration Settings</label>
+        <locationX>532</locationX>
+        <locationY>826</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>asn_retryCountPicklistValue</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>AccountManagerConfigKey</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>B2C_CRM_Sync_AuthToken_Settings__mdt</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>... retrieve the default configuration used to govern b2c-crm-sync behavior.</description>
+        <name>recGet_defaultConfiguration</name>
+        <label>Retrieve the Default Configuration</label>
+        <locationX>532</locationX>
+        <locationY>459</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>asn_runtimeConfigurationKeys</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Production_Configuration</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>B2C_CRM_Sync_Default_Configuration__mdt</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <start>
+        <locationX>405</locationX>
+        <locationY>50</locationY>
+        <connector>
+            <targetReference>dec_isB2CClientIDActive</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <variables>
+        <description>... represents the developerName / configuration key of the mapped accountManager / auth settings.</description>
+        <name>AccountManagerConfigKey</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>... represents the AuthToken retrieved for the B2C Client ID.</description>
+        <name>AuthToken</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <description>... describes if an authToken was successfully able to be retrieved -- of if the authToken generated failed.</description>
+        <name>AuthTokenWasRetrieved</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
+    </variables>
+    <variables>
+        <description>... represents the B2C Client ID used to retrieve an Account Manager AuthToken</description>
+        <name>B2CClientID</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+        <objectType>B2C_Client_ID__c</objectType>
+    </variables>
+    <variables>
+        <description>... generic variable used to capture error messages.</description>
+        <name>ErrorMessage</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <description>... describes the expires-property for a given B2C AuthToken.</description>
+        <name>ExpiresIn</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+        <scale>0</scale>
+    </variables>
+    <variables>
+        <description>... describes if the outcome of calling this flow was successful and generated an output that was expected.</description>
+        <name>IsSuccess</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
+    </variables>
+    <variables>
+        <description>... describes the current iteration / retryCount for retrieving the AuthToken associated to the specified B2C Client ID.</description>
+        <name>RetryCountCurrent</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+        <value>
+            <numberValue>0.0</numberValue>
+        </value>
+    </variables>
+    <variables>
+        <description>... represents the pickList value from the accountManager configuration settings representing the retryCount.</description>
+        <name>RetryCountPicklistValue</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>
