@@ -115,6 +115,45 @@
         <sortField>LAST_UPDATE</sortField>
         <sortOrder>Desc</sortOrder>
     </relatedLists>
+    <relatedLists>
+        <excludeButtons>MassChangeOwner</excludeButtons>
+        <excludeButtons>New</excludeButtons>
+        <fields>NAME</fields>
+        <fields>Instance_Type__c</fields>
+        <fields>Is_Active__c</fields>
+        <fields>Total_CustomerLists__c</fields>
+        <fields>Total_Sites__c</fields>
+        <fields>LAST_UPDATE</fields>
+        <relatedList>B2C_Instance__c.B2C_Client_ID__c</relatedList>
+        <sortField>LAST_UPDATE</sortField>
+        <sortOrder>Desc</sortOrder>
+    </relatedLists>
+    <relatedLists>
+        <excludeButtons>MassChangeOwner</excludeButtons>
+        <excludeButtons>New</excludeButtons>
+        <fields>NAME</fields>
+        <fields>B2C_Instance__c</fields>
+        <fields>Is_Active__c</fields>
+        <fields>Audit_OCAPI_API_Response__c</fields>
+        <fields>Total_Sites__c</fields>
+        <fields>LAST_UPDATE</fields>
+        <relatedList>B2C_CustomerList__c.B2C_Client_ID__c</relatedList>
+        <sortField>LAST_UPDATE</sortField>
+        <sortOrder>Desc</sortOrder>
+    </relatedLists>
+    <relatedLists>
+        <excludeButtons>MassChangeOwner</excludeButtons>
+        <excludeButtons>New</excludeButtons>
+        <fields>NAME</fields>
+        <fields>Customer_List__c</fields>
+        <fields>B2C_Instance_Name__c</fields>
+        <fields>B2C_Client_ID_Value__c</fields>
+        <fields>Is_Active__c</fields>
+        <fields>LAST_UPDATE</fields>
+        <relatedList>B2C_Site__c.B2C_Client_ID__c</relatedList>
+        <sortField>LAST_UPDATE</sortField>
+        <sortOrder>Desc</sortOrder>
+    </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>
     <showInteractionLogPanel>false</showInteractionLogPanel>

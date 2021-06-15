@@ -169,6 +169,32 @@
     </nameField>
     <pluralLabel>B2C Sites</pluralLabel>
     <searchLayouts>
+        <customTabListAdditionalFields>CustomerList_ID__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>B2C_Instance_Name__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>B2C_Client_ID__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Is_Active__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>LAST_UPDATE</customTabListAdditionalFields>
+        <excludedStandardButtons>OpenListInQuip</excludedStandardButtons>
+        <excludedStandardButtons>Accept</excludedStandardButtons>
+        <excludedStandardButtons>IsotopeSubscription</excludedStandardButtons>
+        <excludedStandardButtons>MassChangeOwner</excludedStandardButtons>
+        <excludedStandardButtons>ChangeOwner</excludedStandardButtons>
+        <lookupDialogsAdditionalFields>CustomerList_ID__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>B2C_Instance_Name__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Is_Active__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>B2C_Client_ID__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>LAST_UPDATE</lookupDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>CustomerList_ID__c</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>B2C_Instance_Name__c</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>B2C_Client_ID__c</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>Is_Active__c</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>LAST_UPDATE</lookupPhoneDialogsAdditionalFields>
+        <searchFilterFields>NAME</searchFilterFields>
+        <searchFilterFields>CustomerList_ID__c</searchFilterFields>
+        <searchFilterFields>B2C_Instance_Name__c</searchFilterFields>
+        <searchFilterFields>B2C_Client_ID__c</searchFilterFields>
+        <searchFilterFields>Is_Active__c</searchFilterFields>
+        <searchFilterFields>LAST_UPDATE</searchFilterFields>
         <searchResultsAdditionalFields>B2C_Instance_Name__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Customer_List__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Site_Link__c</searchResultsAdditionalFields>

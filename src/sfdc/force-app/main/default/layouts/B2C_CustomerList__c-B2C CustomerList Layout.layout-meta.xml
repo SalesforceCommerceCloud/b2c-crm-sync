@@ -55,7 +55,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>B2C_Client_ID__c</field>
+                <field>B2C_Client_ID_Old__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
@@ -83,6 +83,26 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>JWT_Certificate_Name_OLD__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>B2C_Client_ID__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>B2C_Client_ID_Value__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Is_B2C_Client_ID_Active__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Is_JWT_Certificate_Verified__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
                 <field>JWT_Certificate_Name__c</field>
             </layoutItems>
         </layoutColumns>
@@ -122,7 +142,7 @@
         <excludeButtons>MassChangeOwner</excludeButtons>
         <fields>NAME</fields>
         <fields>B2C_Instance_Name__c</fields>
-        <fields>CustomerList_ID__c</fields>
+        <fields>B2C_Client_ID__c</fields>
         <fields>Storefront_Name__c</fields>
         <fields>Site_Link__c</fields>
         <fields>Is_Active__c</fields>
@@ -163,7 +183,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00hR0000002wRTc</masterLabel>
+        <masterLabel>00h54000004Elxz</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>

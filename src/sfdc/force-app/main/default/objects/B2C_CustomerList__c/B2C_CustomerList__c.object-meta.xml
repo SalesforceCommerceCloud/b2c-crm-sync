@@ -169,9 +169,31 @@
     </nameField>
     <pluralLabel>B2C CustomerLists</pluralLabel>
     <searchLayouts>
+        <customTabListAdditionalFields>B2C_Instance__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>B2C_Client_ID__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Is_Active__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Total_Sites__c</customTabListAdditionalFields>
+        <excludedStandardButtons>OpenListInQuip</excludedStandardButtons>
+        <excludedStandardButtons>Accept</excludedStandardButtons>
+        <excludedStandardButtons>IsotopeSubscription</excludedStandardButtons>
+        <excludedStandardButtons>MassChangeOwner</excludedStandardButtons>
+        <excludedStandardButtons>ChangeOwner</excludedStandardButtons>
+        <lookupDialogsAdditionalFields>B2C_Instance__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>B2C_Client_ID__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Is_Active__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Total_Sites__c</lookupDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>B2C_Instance__c</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>B2C_Client_ID__c</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>Is_Active__c</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>Total_Sites__c</lookupPhoneDialogsAdditionalFields>
+        <searchFilterFields>NAME</searchFilterFields>
+        <searchFilterFields>B2C_Instance__c</searchFilterFields>
+        <searchFilterFields>B2C_Client_ID__c</searchFilterFields>
+        <searchFilterFields>Is_Active__c</searchFilterFields>
+        <searchFilterFields>Total_Sites__c</searchFilterFields>
         <searchResultsAdditionalFields>B2C_Instance__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>B2C_Client_ID__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Is_Active__c</searchResultsAdditionalFields>
-        <searchResultsAdditionalFields>Default_Storefront__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Total_Sites__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>LAST_UPDATE</searchResultsAdditionalFields>
     </searchLayouts>

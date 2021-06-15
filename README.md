@@ -2,10 +2,7 @@
 
 ## Introduction ##
 
-Salesforce B2C Commerce / CRM Sync is an enablement solution provided by the Salesforce Architect Success Team designed to teach Salesforce's B2C Customer Data Strategy for multi-cloud use-cases.  The solution demonstrates a contemporary approach to the integration between Salesforce B2C Commerce and the Salesforce Customer 360 Platform.  This project provides a framework for integrating these two clouds leveraging REST APIs -- and the declarative capabilities of the Salesforce Platform to power frictionless customer experiences across B2C Commerce, Service, and Marketing Clouds.
-
-##### Now Supporting PersonAccounts AND Accounts / Contacts
-We've just merged in our updates to support both PersonAccounts and Accounts / Contacts as customerModels within the Salesforce Platform.  Our overall **Apex unit-test coverage is at 85%**, and we've expanded our suite of [multi-cloud unit tests](test/_use-cases) to exercise almost fifty individual multi-cloud integration test-cases.
+Salesforce B2C Commerce / CRM Sync is an enablement solution designed by the Salesforce Architect Success Team to teach Salesforce's B2C Customer Data Strategy for multi-cloud use-cases.  The solution demonstrates a contemporary approach to the integration between Salesforce B2C Commerce and the Cloud products running on the Salesforce Customer 360 Platform.  This project provides a framework for integrating these clouds (ex. B2C Commerce and Service Cloud) -- leveraging REST APIs, and the declarative capabilities of the Salesforce Platform.  This approach powers frictionless customer experiences across B2C Commerce, Service, and Marketing Clouds by resolving and synchronizing customer profiles across these Salesforce products.
 
 > :warning: &nbsp;This repository is currently in **beta** as we continue to harden our tests and the MVP feature-set.  Solution trustworthiness is critical for our success.  Please visit our [issues-list](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/issues) to see outstanding issues and features, and visit our [discussions](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/discussions) to ask questions. &nbsp;:warning:
 
@@ -15,11 +12,11 @@ We've just merged in our updates to support both PersonAccounts and Accounts / C
 
 ## Application Overview ##
 
-b2c-crm-sync enables the resolution, viewing, and management of Salesforce B2C Commerce Customer Profiles within the Salesforce Platform as either Accounts / Contacts or Person Accounts.  The project serves as foundation for customized integration between B2C Commerce and the Salesforce Platform.  It is designed to teach the data strategy used to synchronize B2C Customer Profiles -- and extended to support multi-cloud use-cases between B2C Commerce, Marketing Cloud, and the Salesforce Platform (ex. Service, Sales, Loyalty Cloud, etc).
+b2c-crm-sync enables the resolution, synchronization, viewing, and management of Salesforce B2C Commerce Customer Profiles within the Salesforce Platform as either Accounts / Contacts or Person Accounts.  The project serves as foundation for customized integration between B2C Commerce and the Salesforce Platform.  It is designed to teach the data strategy used to synchronize B2C Customer Profiles -- and extended to support multi-cloud use-cases between B2C Commerce, Marketing Cloud, and the Salesforce Platform (ex. Service, Sales, Loyalty Cloud, etc).
 
 > Please note that this integration is an 'above the API' integration achieved via REST services -- and is not a low-level platform integration.  Think of this repository as a guide for integrating B2C Commerce and the Salesforce Customer 360 Platform leveraging REST APIs, custom code, and a subset of its declarative features.
 
-b2c-crm-sync project leverages Salesforce B2C Commerce Open Commerce REST APIs to interact with B2C Customer Profiles -- and a series of Salesforce Platform REST services to 'announce' when relevant custom profiles B2C Commerce have been created or modified. Through these announcements, the Salesforce Platform requests the identified data objects (ex. customers) via REST APIs -- and then ingests elements of those data objects to create Account / Contact or PersonAccount representations of B2C Commerce Customer Profiles.
+b2c-crm-sync leverages Salesforce B2C Commerce Open Commerce REST APIs to interact with B2C Customer Profiles -- and a Salesforce Platform REST API to 'announce' when shoppers register or modify B2C Commerce Customer Profiles. Through these announcements, the Salesforce Platform requests the identified data objects (ex. customers) via REST APIs -- and then ingests elements of those data objects to create Account / Contact or PersonAccount representations of B2C Commerce Customer Profiles.
 
 ### License
 This project, its source code, and sample assets are all licensed under the [BSD 3-Clause](License.md) License.
@@ -39,7 +36,7 @@ For feature requests or bugs, please [open a GitHub issue](https://github.com/sf
 
 > Please keep in mind that [hoody-worthy](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/issues?q=is%3Aopen+is%3Aissue+label%3Ahoody-worthy) issues need to solve real business or project problems.  That said -- contribute, let us support you, and collect your swag. It's really that simple.  Visit our [contribution guidelines](Contributing.md) for details.
 
-### Feature Summary
+## Feature Summary
 
 b2c-crm-sync supports the following high-level features:
 
@@ -54,19 +51,19 @@ b2c-crm-sync supports the following high-level features:
 
 > We leverage [Salesforce SFDX for Deployment](https://trailhead.salesforce.com/content/learn/modules/sfdx_app_dev), [Flow for Automation](https://trailhead.salesforce.com/en/content/learn/modules/flow-builder), [Platform Events for Messaging](https://trailhead.salesforce.com/en/content/learn/modules/platform_events_basics), Account Manager as an Auth Provider, [Salesforce Connect for Data Federation](https://trailhead.salesforce.com/en/content/learn/projects/quickstart-lightning-connect), and [Apex Invocable Actions](https://trailhead.salesforce.com/en/content/learn/projects/quick-start-explore-the-automation-comps-sample-app) to support these features.
 
-### Setup Guidance
+## Setup Guidance
 
-#### Deployment Considerations
+### Deployment Considerations
 This repository should be considered a developer framework that can be extended by customers and partners to support their specific implementation needs.  Implementing this solution will require configuration, customization, runtime-performance evaluation, and testing.  That said, it should also accelerate your implementation by providing you with a foundation you can build on.
 
 > Do NOT deploy this enablement solution directly to a staging or production environment without first going through your development, QA, or CI process.  Remember that this solution is not supported by Salesforce Technical Support.
 
-#### Environment Requirements
+### Environment Requirements
 b2c-crm-sync requires a [B2C Commerce Sandbox](https://trailhead.salesforce.com/content/learn/modules/b2c-on-demand-sandbox) and a [Salesforce DevHub](https://help.salesforce.com/articleView?id=sf.sfdx_setup_enable_devhub.htm&type=5) capable of creating [scratchOrgs](https://trailhead.salesforce.com/content/learn/projects/quick-start-salesforce-dx).  It can also be deployed to [Salesforce Sandboxes](https://help.salesforce.com/articleView?id=sf.data_sandbox_create.htm&type=5)  leveraging [SFDX and Salesforce's metadata API](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_develop_any_org.htm).
 
 > b2c-crm-sync can be deployed to a B2C Commerce Sandbox and Salesforce scratchOrg in 15 minutes following the instructions outlined in this ReadMe.  Please [set up your Salesforce DevHub](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_setup_enable_devhub.htm) and [SFDX](https://developer.salesforce.com/tools/sfdxcli) before moving forward with the installation process.
 
-#### Node.js Setup Instructions
+### Node.js Setup Instructions
 
 b2c-crm-sync leverages [node.js enabled CLI](https://github.com/tj/commander.js/) and [SFDX (Salesforce CLI)](https://developer.salesforce.com/tools/sfdxcli) commands.  You'll want to ensure that you have [node v15.2.1](https://nodejs.org/en/blog/release/v15.2.1/) running.  If you're new to node, we recommend setting up [nvm](https://github.com/nvm-sh/nvm) to manage multiple node versions.
 
@@ -99,16 +96,16 @@ npm audit fix
 
 > Please remember that forcing breaking changes with the `--force` option can also break the b2c-crm-sync install process.  This isn't recommended.
 
-#### Install SFDX for SFDC Deployments
+### Install SFDX for SFDC Deployments
 b2c-crm-sync also requires [SFDX](https://developer.salesforce.com/tools/sfdxcli) -- as it is used to create scratchOrgs and deploy the meta-data that powers it.  You can [verify your SFDX installation](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_install_cli.htm) with the following command:
 
 ```bash
 sfdx --version
 ```
 
-#### B2C Commerce Setup Instructions
+## B2C Commerce Setup Instructions
 
-##### Setup the Demo B2C Commerce Storefronts
+### Setup the Demo B2C Commerce Storefronts
 
 b2c-crm-sync is designed to work with existing B2C Commerce storefronts.  In the event that you do not have a storefront, you can use the existing leverage [Salesforce's Storefront Reference Architecture](https://trailhead.salesforce.com/content/learn/modules/cc-digital-for-developers) storefronts provided by Salesforce.  The RefArch and RefArchGlobal storefronts can be installed in any B2C Commerce sandbox using these instructions.
 
@@ -121,7 +118,7 @@ b2c-crm-sync is designed to work with existing B2C Commerce storefronts.  In the
 
 > If you are new to B2C Commerce, please use the default SFRA build to deploy in your sandbox.  The deployment and setup process takes about 10 minutes, and your sandbox environment will notify you via email when the deployment is complete.
 
-##### Setup the RefArchGlobal Site to Use Its Own CustomerList
+### Setup the RefArchGlobal Site to Use Its Own CustomerList
 
 b2c-crm-sync supports [multiple sites and customerLists](https://documentation.b2c.commercecloud.salesforce.com/DOC2/index.jsp?topic=%2Fcom.demandware.dochelp%2Fcontent%2Fb2c_commerce%2Ftopics%2Fcustomers%2Fb2c_customer_lists.html).  To see this in action, please ensure that the RefArchGlobal site leverages its own CustomerList.  SFRA ships with multiple customerLists -- but with its default setup, the RefArch customerList is associated to both the RefArch and RefArchGlobal sites.
 
@@ -137,7 +134,7 @@ Please note that this isn't a requirement -- but if you want a 100% pass-rate on
 
 >  A subset of the Multi-cloud unit tests will fail if your RefArch and RefArchGlobal sites leverage the same customerLists vs. having their own.  If you experience test failures, please review the test description for references to multiple customerLists.
 
-##### Enable the Agent Permissions on the Administrator Role
+### Enable the Agent Permissions on the Administrator Role
 
 The Order on Behalf Of (Assisted Shopping) use-case requires that Business Manager users representing Customer Service Agents have B2C Commerce permissions to login and place orders on behalf of registered storefront shoppers.  The Administrator role can be extended to include these permissions.
 
@@ -163,7 +160,7 @@ The Order on Behalf Of (Assisted Shopping) use-case requires that Business Manag
 
 8. Click `Update` to apply these functional permissions to the Administrator role.
 
-##### Create Your B2C Commerce Client ID
+### Create Your B2C Commerce Client ID
 
 Before setting up the b2c-crm-sync environment, you have to create a B2C Commerce Client ID. This has to be done through the Account Manager Portal. Please follow these steps in order to create the client ID used in the environment bellow:
 
@@ -182,7 +179,7 @@ Re-open the ClientID page -- and keep it open until the last section of the setu
 
 > Remember to also capture the password applied to the ClientID.  You will need to add the password to the .env file via the `B2C_CLIENTSECRET` property.
 
-##### Setup a .env File
+### Setup a .env File
 To begin, we use the [dotenv](https://medium.com/@thejasonfile/using-dotenv-package-to-create-environment-variables-33da4ac4ea8f) node.js library to store environment-specific configuration settings used to authenticate against a given B2C Commerce environment.  Before installing any of the project package dependencies, please follow these instructions to build-out a .env file that contains your environment's configuration settings.
 
 - Rename the example file 'sample.env' to '.env' in the root of the repository.
@@ -227,12 +224,12 @@ The CLI build tools present within this solution will use this information to re
 
 > Prior to saving your file, please verify that the url is correct, and that the clientId / clientSecret are accurate.  The instance name should represent a shorthand nickname for the B2C Commerce environment.  This information must be accurate in order for these activities to successfully process the site-import.
 
-#### Configure Your B2C Commerce OCAPI Permissions
+### Configure Your B2C Commerce OCAPI Permissions
 The build scripts in this repository leverage B2C Commerce's [sfcc-ci](https://github.com/SalesforceCommerceCloud/sfcc-ci) automation library.  This library performs a number of continuous-integration related activities that enable the site-data uploading and import.  Before we can leverage the automation tasks, the Salesforce B2C Commerce environment's OCAPI Data API permissions must be enabled to support remote interactions.
 
 > Yes, we will be porting this to leverage the new B2C Commerce APIs in a future release.  For now, all use-cases can be satisfied via OCAPI.
 
-##### Configure Your Shop API Permissions
+#### Configure Your Shop API Permissions
 
 > We leverage the Shop API to facilitate enable Headless use-cases, multi-cloud unit tests that can be executed via the CLI, and to support Assisted Shopping (OOBO) via the B2C Commerce storefront.
 
@@ -338,7 +335,7 @@ The build scripts in this repository leverage B2C Commerce's [sfcc-ci](https://g
 
 > Depending on your sandbox configuration, you may need to copy these configuration settings to specific Sites (vs. applying them globally).
 
-##### Configure Your Data API Permissions
+#### Configure Your Data API Permissions
 
 > We leverage the Data API to facilitate server-to-server updates from the Salesforce Platform to B2C Commerce.  When a user modifies a customer profile in the Salesforce Platform, the platform publishes those updates to B2C Commerce via the B2C Commerce DATA API.
 
@@ -583,7 +580,7 @@ The build tools will use this information to create scratchOrgs, set default pre
 
 You will leverage the .env file's configuration properties to dramatically simplify the build and deployment of b2c-crm-sync.  Check the package.json for the complete set of CLI commands that can be used to automate meta-data generation, service definition creation, and validate environment configurations prior to deployment.
 
-### Deployment Instructions
+## Deployment Instructions
 The b2c-crm-sync repository includes a collection of CLI commands that can be used to prepare and deploy the b2c-crm-sync assets to B2C Commerce and a Salesforce Customer 360 Platform scratchOrg.  
 
 The CLI commands leverage the [.env file](sample.env) configuration to retrieve runtime execution values.  They also include support for command-line argument equivalents of the .env configuration values.  Each command has an associated [api method](lib/cli-api) that can be leveraged from within custom deployment scripts.
@@ -876,7 +873,9 @@ b2c-crm-sync leverages match and duplicate rules to enforce the B2C Customer Dat
 
 > If you are setting up PersonAccounts, please skip this section and proceed to the section titled [PersonAccount Match Rules Setup Guidance](#personaccount-match-rules-setup-guidance).
 
-- Ensure that the **B2C Commerce: Standard Contacts** Match rule is activated.  This rule must be active in the scratchOrg as part of the Accounts / Contacts implementation.  The corresponding duplicate rule is dependent on this Match Rule being activated.
+- Ensure that the **B2C Commerce: Standard Contacts** Match rule is active.  
+  
+> This rule must be active in the scratchOrg as part of the Accounts / Contacts implementation.  The corresponding duplicate rule is dependent on this Match Rule.
 
 ##### Account / Contact Duplicate Rules Setup Guidance
 

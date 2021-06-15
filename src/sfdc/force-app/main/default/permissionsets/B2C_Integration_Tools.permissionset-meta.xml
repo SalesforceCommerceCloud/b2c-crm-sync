@@ -275,6 +275,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>B2C_CustomerList__c.B2C_Client_ID_Old__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>B2C_CustomerList__c.B2C_Client_ID_Value__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>B2C_CustomerList__c.B2C_Client_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -344,7 +354,22 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>B2C_CustomerList__c.Is_B2C_Client_ID_Active__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>B2C_CustomerList__c.Is_JWT_Certificate_Verified__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
+        <field>B2C_CustomerList__c.JWT_Certificate_Name_OLD__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>B2C_CustomerList__c.JWT_Certificate_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -510,6 +535,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>B2C_Site__c.B2C_Client_ID_OLD__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>B2C_Site__c.B2C_Client_ID_Value__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>B2C_Site__c.B2C_Client_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -590,6 +625,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>B2C_Site__c.Is_B2C_Client_ID_Active__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>B2C_Site__c.Is_CustomerList_Active__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -599,7 +639,17 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>B2C_Site__c.Is_JWT_Certificate_Verified__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
+        <field>B2C_Site__c.JWT_Certificate_Name_OLD__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>B2C_Site__c.JWT_Certificate_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
