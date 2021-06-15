@@ -154,7 +154,6 @@ public with sharing class B2CHttpRequestHelper {
         return getOCAPIDataAPIHttpRequest(namedCredential, '/customer_lists/' + b2cCustomerListId + '/customers/' + b2cCustomerNo, apiVersion, 'patch', b2cCustomerProfileJSON);
     }
 
-
     /**
      * @description Helper class to generate the core http-request structure for retrieving customer profiles.
      *

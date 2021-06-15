@@ -374,6 +374,16 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>B2C_Instance__c.B2C_Client_ID_Value__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>B2C_Instance__c.B2C_Client_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>B2C_Instance__c.Instance_Description__c</field>
         <readable>true</readable>
@@ -414,7 +424,17 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
+        <field>B2C_Instance__c.Is_B2C_Client_ID_Active__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>B2C_Instance__c.Is_JWT_Certificate_Verified__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>B2C_Instance__c.JWT_Certificate_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>

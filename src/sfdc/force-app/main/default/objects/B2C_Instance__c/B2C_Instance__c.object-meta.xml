@@ -159,7 +159,7 @@
     <enableSearch>true</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
-    <externalSharingModel>Private</externalSharingModel>
+    <externalSharingModel>ReadWrite</externalSharingModel>
     <label>B2C Instance</label>
     <nameField>
         <label>B2C Instance Name</label>
@@ -169,11 +169,24 @@
     </nameField>
     <pluralLabel>B2C Instances</pluralLabel>
     <searchLayouts>
-        <excludedStandardButtons>New</excludedStandardButtons>
+        <customTabListAdditionalFields>Instance_Type__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Is_Active__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>B2C_Client_ID_Value__c</customTabListAdditionalFields>
         <excludedStandardButtons>OpenListInQuip</excludedStandardButtons>
+        <excludedStandardButtons>Accept</excludedStandardButtons>
+        <excludedStandardButtons>IsotopeSubscription</excludedStandardButtons>
         <excludedStandardButtons>MassChangeOwner</excludedStandardButtons>
         <excludedStandardButtons>ChangeOwner</excludedStandardButtons>
-        <excludedStandardButtons>Accept</excludedStandardButtons>
+        <lookupDialogsAdditionalFields>Instance_Type__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Is_Active__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>B2C_Client_ID_Value__c</lookupDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>Instance_Type__c</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>Is_Active__c</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>B2C_Client_ID_Value__c</lookupPhoneDialogsAdditionalFields>
+        <searchFilterFields>NAME</searchFilterFields>
+        <searchFilterFields>Instance_Type__c</searchFilterFields>
+        <searchFilterFields>Is_Active__c</searchFilterFields>
+        <searchFilterFields>B2C_Client_ID__c</searchFilterFields>
         <searchResultsAdditionalFields>Instance_Type__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>API_Url__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Is_Active__c</searchResultsAdditionalFields>

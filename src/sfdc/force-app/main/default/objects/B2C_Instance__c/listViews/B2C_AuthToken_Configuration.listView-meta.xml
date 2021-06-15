@@ -4,11 +4,11 @@
     <columns>NAME</columns>
     <columns>Instance_Type__c</columns>
     <columns>Is_Active__c</columns>
-    <columns>Named_Credential_Developer_Name__c</columns>
+    <columns>B2C_Client_ID__c</columns>
     <columns>JWT_Certificate_Name__c</columns>
     <columns>Total_CustomerLists__c</columns>
     <columns>Total_Sites__c</columns>
     <columns>LAST_UPDATE</columns>
     <filterScope>Everything</filterScope>
-    <label>B2C AuthToken Configuration</label>
+    <label>B2C Client ID Configuration</label>
 </ListView>
