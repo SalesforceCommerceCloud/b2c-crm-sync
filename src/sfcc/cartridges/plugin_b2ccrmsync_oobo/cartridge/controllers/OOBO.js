@@ -1,17 +1,11 @@
 'use strict';
 
-/**
- * @private
- * @function function renderAgentHeader
- * @description Overriding the session-initialization to handle the Order-On-Behalf from Service-Cloud for guest customers.
- * For guest customers, PlaceHolder customer is used to establish an Auth between SC & CC. This is to create an agent session.
- * Once the auth is created, this PlaceHolder session is explicitly invalidated, but the agent context remains active.
- */
-function renderAgentHeader() {
+var server = require('server');
 
+server.get('agentHeader', server.middleware.include, function(req, res, next){
+    
     // Initialize local variables
-    let ISML,
-        URLUtils,
+    var URLUtils,
         Resource,
         agentHeaderParam,
         Site,
@@ -22,7 +16,6 @@ function renderAgentHeader() {
         customerNo;
 
     // Initialize classes
-    ISML = require('dw/template/ISML');
     URLUtils = require('dw/web/URLUtils');
     Resource = require('dw/web/Resource');
 
@@ -60,7 +53,7 @@ function renderAgentHeader() {
                 // Append the lastName to the customerName
                 if (session.customer.profile.lastName.length > 0) {
                     if (customerName.length > 0) { customerName = customerName + ' '; }
-                    customerName = customerName & session.customer.profile.lastName;
+                    customerName = customerName + session.customer.profile.lastName;
                 }
 
             }
@@ -74,17 +67,15 @@ function renderAgentHeader() {
         if (customerName.length == 0) { customerName = Resource.msg('agentheader.customername','b2ccrmsync',null); }
         if (customerNo.length == 0) { customerNo = Resource.msg('agentheader.customerno','b2ccrmsync',null); }
 
-        // Render the Service Agent OOBO Header
-        ISML.renderTemplate('components/header/agentOOBOHeader',{
+        res.render('components/header/agentOOBOHeader',{
             customerName: customerName,
             customerNo: customerNo,
             agentHeader: displayAgentHeader,
             logoutUrl: URLUtils.url('Login-Logout').toString()
         });
-
     }
+    
+    return next();
+});
 
-}
-
-exports.beforeHeader = renderAgentHeader;
-
+module.exports = server.exports();
