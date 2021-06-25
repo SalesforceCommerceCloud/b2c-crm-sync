@@ -1,0 +1,503 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>51.0</apiVersion>
+    <assignments>
+        <description>... assign the B2C Instance that was retrieved to the output variable.</description>
+        <name>asn_b2CInstanceOutput_Update</name>
+        <label>Assign the B2C Instance to the Output Variable</label>
+        <locationX>788</locationX>
+        <locationY>4610</locationY>
+        <assignmentItems>
+            <assignToReference>b2cInstance</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>recGet_outB2CInstance</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>createdB2CSites</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sub_evaluateB2CSites.CreateSiteList</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>updatedB2CSites</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sub_evaluateB2CSites.UpdateSiteList</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>createdB2CCustomerLists</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sub_evaluateCustomerLists.CreateCustomerList</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>updatedB2CCustomerLists</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sub_evaluateCustomerLists.UpdateCustomerList</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>sub_activateB2CCustomerListsSites</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>... set the success message -- as all processing has succeeded.</description>
+        <name>asn_b2cInstanceProcessingSuccess</name>
+        <label>Set the Success Message</label>
+        <locationX>788</locationX>
+        <locationY>5087</locationY>
+        <assignmentItems>
+            <assignToReference>success</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <description>... assign the retrieved B2C Sites to the evaluation list.</description>
+        <name>asn_b2cSitesEvaluationList</name>
+        <label>Add B2C Sites to the Evaluation List</label>
+        <locationX>788</locationX>
+        <locationY>3269</locationY>
+        <assignmentItems>
+            <assignToReference>EvalSiteList</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>b2cSites</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>sub_evaluateB2CSites</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Assign the collection of customerLists to the evaluation variable.</description>
+        <name>asn_evaluationCollectionCustomerList</name>
+        <label>Set the Evaluation CustomerList Collection</label>
+        <locationX>788</locationX>
+        <locationY>2137</locationY>
+        <assignmentItems>
+            <assignToReference>EvalCustomerList</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>b2cCustomerLists</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>sub_evaluateCustomerLists</targetReference>
+        </connector>
+    </assignments>
+    <description>... this flow abstracts the processing of CustomerLists and Sites -- so that this logic is re-usable between the service and quickAction B2C Instance Setup flows.</description>
+    <interviewLabel>B2C Commerce: B2C Instance: CustomerLists and Sites: Process {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>B2C Commerce: B2C Instance: CustomerLists and Sites: Process</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordCreates>
+        <description>... create the B2C CustomerLists that are missing / not already defined for the parent B2C Instance.</description>
+        <name>recCre_b2cCustomerLists</name>
+        <label>Create the Missing CustomerLists</label>
+        <locationX>788</locationX>
+        <locationY>2583</locationY>
+        <connector>
+            <targetReference>recUpd_b2cCustomerLists</targetReference>
+        </connector>
+        <inputReference>sub_evaluateCustomerLists.CreateCustomerList</inputReference>
+    </recordCreates>
+    <recordCreates>
+        <description>... create the applicable B2C Site records for the current B2C Instance.</description>
+        <name>recCre_b2cSites</name>
+        <label>Create Applicable B2C Site Records</label>
+        <locationX>788</locationX>
+        <locationY>3693</locationY>
+        <connector>
+            <targetReference>recUpd_b2cSiteRecords</targetReference>
+        </connector>
+        <inputReference>sub_evaluateB2CSites.CreateSiteList</inputReference>
+    </recordCreates>
+    <recordLookups>
+        <description>... retrieve the B2C CustomerLists associated to the current instance.</description>
+        <name>recGet_B2CInstanceCustomerLists</name>
+        <label>Get the CustomerLists Associated to this Instance</label>
+        <locationX>788</locationX>
+        <locationY>1923</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>asn_evaluationCollectionCustomerList</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>B2C_Instance__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>b2cInstance.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>B2C_CustomerList__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>... retrieve the B2C Sites for the parent B2C Instance.</description>
+        <name>recGet_b2cSites</name>
+        <label>Retrieve the B2C Sites</label>
+        <locationX>788</locationX>
+        <locationY>3056</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>asn_b2cSitesEvaluationList</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>B2C_Instance_Id__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>b2cInstance.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>B2C_Site__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>... retrieve the updated version of the B2C Instance -- taking into account the processing results.</description>
+        <name>recGet_outB2CInstance</name>
+        <label>Get the Updated B2C Instance</label>
+        <locationX>788</locationX>
+        <locationY>4365</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>asn_b2CInstanceOutput_Update</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>b2cInstance.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>B2C_Instance__c</object>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>API_Url__c</queriedFields>
+        <queriedFields>Instance_Type__c</queriedFields>
+        <queriedFields>Instance_Description__c</queriedFields>
+        <queriedFields>Name</queriedFields>
+        <queriedFields>Is_Active__c</queriedFields>
+        <queriedFields>Total_CustomerLists__c</queriedFields>
+        <queriedFields>Total_Sites__c</queriedFields>
+        <queriedFields>OCAPI_Version_No__c</queriedFields>
+        <queriedFields>Named_Credential_Developer_Name__c</queriedFields>
+        <queriedFields>CreatedDate</queriedFields>
+        <queriedFields>LastModifiedDate</queriedFields>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordUpdates>
+        <description>... update the B2C CustomerLists that are already defined for the parent B2C Instance.</description>
+        <name>recUpd_b2cCustomerLists</name>
+        <label>Update the Existing CustomerLists</label>
+        <locationX>788</locationX>
+        <locationY>2811</locationY>
+        <connector>
+            <targetReference>recGet_b2cSites</targetReference>
+        </connector>
+        <inputReference>sub_evaluateCustomerLists.UpdateCustomerList</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <description>... update the B2C Instance counts for B2C Sites and CustomerLists.</description>
+        <name>recUpd_b2cInstanceCountsUpdate</name>
+        <label>Update the B2C Instance Counts</label>
+        <locationX>788</locationX>
+        <locationY>4146</locationY>
+        <connector>
+            <targetReference>recGet_outB2CInstance</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Total_CustomerLists__c</field>
+            <value>
+                <elementReference>totalCustomerLists</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Total_Sites__c</field>
+            <value>
+                <elementReference>totalSites</elementReference>
+            </value>
+        </inputAssignments>
+        <object>B2C_Instance__c</object>
+    </recordUpdates>
+    <recordUpdates>
+        <description>... update the corresponding B2C Site records that are assigned to this B2C Instance.</description>
+        <name>recUpd_b2cSiteRecords</name>
+        <label>Update B2C Site Records</label>
+        <locationX>788</locationX>
+        <locationY>3909</locationY>
+        <connector>
+            <targetReference>recUpd_b2cInstanceCountsUpdate</targetReference>
+        </connector>
+        <inputReference>sub_evaluateB2CSites.UpdateSiteList</inputReference>
+    </recordUpdates>
+    <runInMode>DefaultMode</runInMode>
+    <start>
+        <locationX>662</locationX>
+        <locationY>1709</locationY>
+        <connector>
+            <targetReference>recGet_B2CInstanceCustomerLists</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <subflows>
+        <description>... activate the B2C CustomerLists and Sites associated to the specified Instance.</description>
+        <name>sub_activateB2CCustomerListsSites</name>
+        <label>Activate CustomerLists and Sites</label>
+        <locationX>788</locationX>
+        <locationY>4842</locationY>
+        <connector>
+            <targetReference>asn_b2cInstanceProcessingSuccess</targetReference>
+        </connector>
+        <flowName>B2CCommerce_B2CInstance_CustomerListsSites_Activate</flowName>
+        <inputAssignments>
+            <name>recordId</name>
+            <value>
+                <elementReference>b2cInstance.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </subflows>
+    <subflows>
+        <description>... evaluate the collection of B2C Sites to determine which Sites to create and which to update.</description>
+        <name>sub_evaluateB2CSites</name>
+        <label>Evaluate B2C Sites</label>
+        <locationX>788</locationX>
+        <locationY>3473</locationY>
+        <connector>
+            <targetReference>recCre_b2cSites</targetReference>
+        </connector>
+        <flowName>B2CCommerce_B2CSite_SitesEvaluate</flowName>
+        <inputAssignments>
+            <name>CurrentSiteList</name>
+            <value>
+                <elementReference>recGet_b2cSites</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>EvalSiteList</name>
+            <value>
+                <elementReference>EvalSiteList</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>var_B2CClientID</name>
+            <value>
+                <elementReference>b2cInstance.B2C_Client_ID__c</elementReference>
+            </value>
+        </inputAssignments>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </subflows>
+    <subflows>
+        <description>... evaluate the collection of B2C CustomerLists to determine which require creation vs. updates.</description>
+        <name>sub_evaluateCustomerLists</name>
+        <label>Evaluate the B2C CustomerLists</label>
+        <locationX>788</locationX>
+        <locationY>2342</locationY>
+        <connector>
+            <targetReference>recCre_b2cCustomerLists</targetReference>
+        </connector>
+        <flowName>B2CCommerce_B2CCustomerList_ListsEvaluate</flowName>
+        <inputAssignments>
+            <name>CurrentCustomerList</name>
+            <value>
+                <elementReference>recGet_B2CInstanceCustomerLists</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>EvalCustomerList</name>
+            <value>
+                <elementReference>EvalCustomerList</elementReference>
+            </value>
+        </inputAssignments>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </subflows>
+    <variables>
+        <description>... represents the collection of customerLists retrieved via the getCustomerLists and Sites IA.</description>
+        <name>b2cCustomerLists</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+        <objectType>B2C_CustomerList__c</objectType>
+    </variables>
+    <variables>
+        <description>... represents the retrieved B2C Instance record.</description>
+        <name>b2cInstance</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <objectType>B2C_Instance__c</objectType>
+    </variables>
+    <variables>
+        <description>... represents the collection of B2C Sites returned by the process B2C CustomerLists and Sites IA.</description>
+        <name>b2cSites</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+        <objectType>B2C_Site__c</objectType>
+    </variables>
+    <variables>
+        <description>... represents the collection of created B2C CustomerLists.</description>
+        <name>createdB2CCustomerLists</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+        <objectType>B2C_CustomerList__c</objectType>
+    </variables>
+    <variables>
+        <description>... represents the collection of created B2C storefronts.</description>
+        <name>createdB2CSites</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+        <objectType>B2C_Site__c</objectType>
+    </variables>
+    <variables>
+        <description>... used to capture any error messages displayed back to the caller describing the processing outcome.</description>
+        <name>errorMessage</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>EvalCustomerList</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>B2C_CustomerList__c</objectType>
+    </variables>
+    <variables>
+        <name>EvalSiteList</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>B2C_Site__c</objectType>
+    </variables>
+    <variables>
+        <description>... represents the internal-name of the B2C Instance to process.</description>
+        <name>instanceName</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>... represents the internal Id for the active B2C Instance.</description>
+        <name>recordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>... represents if the processing of the B2C Instance was successful.</description>
+        <name>success</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
+    </variables>
+    <variables>
+        <description>... represents the total number of calculated B2C CustomerLists.</description>
+        <name>totalCustomerLists</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+    </variables>
+    <variables>
+        <description>... represents the total number of calculated Sites.</description>
+        <name>totalSites</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+    </variables>
+    <variables>
+        <description>... represents the collection of updated B2C CustomerLists.</description>
+        <name>updatedB2CCustomerLists</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+        <objectType>B2C_CustomerList__c</objectType>
+    </variables>
+    <variables>
+        <description>... represents the collection of updated B2C Sites.</description>
+        <name>updatedB2CSites</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+        <objectType>B2C_Site__c</objectType>
+    </variables>
+    <variables>
+        <description>... represents the total number of customerLists associated to the B2C Instance that was processed.</description>
+        <name>varB2CInstanceCustomerListRecordCount</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+    </variables>
+    <variables>
+        <description>... represents the total number of Sites for the B2C Instance that was processed.</description>
+        <name>varB2CInstanceSiteRecordCount</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+    </variables>
+</Flow>
