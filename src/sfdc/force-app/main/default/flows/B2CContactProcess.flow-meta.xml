@@ -23,7 +23,7 @@
             <name>processedContact</name>
         </outputParameters>
     </actionCalls>
-    <apiVersion>51.0</apiVersion>
+    <apiVersion>52.0</apiVersion>
     <assignments>
         <name>asn_AccountIDToSourceContact</name>
         <label>Assign the AccountID to the Contact</label>
@@ -896,7 +896,7 @@
         <locationX>1757</locationX>
         <locationY>1271</locationY>
         <defaultConnector>
-            <targetReference>sub_contactResolutionHelper</targetReference>
+            <targetReference>B2CCommerce_Process_ContactResolutionHelper</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Integration is Enabled</defaultConnectorLabel>
         <rules>
@@ -1057,7 +1057,7 @@
         <locationX>2447</locationX>
         <locationY>3175</locationY>
         <defaultConnector>
-            <targetReference>sub_contactProcessPlatformEventHelper</targetReference>
+            <targetReference>B2CCommerce_Process_PlatformEventHelper</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Accounts / Contacts Enabled</defaultConnectorLabel>
         <rules>
@@ -1588,7 +1588,7 @@
         <locationX>2201</locationX>
         <locationY>3476</locationY>
         <connector>
-            <targetReference>sub_contactProcessPlatformEventHelper</targetReference>
+            <targetReference>B2CCommerce_Process_PlatformEventHelper</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -1613,7 +1613,7 @@
         <locationX>2419</locationX>
         <locationY>2734</locationY>
         <connector>
-            <targetReference>sub_contactProcessPlatformEventHelper_Update</targetReference>
+            <targetReference>B2CCommerce_PlatformEvent_ProcessContactUpdate</targetReference>
         </connector>
         <inputReference>sourceContact</inputReference>
     </recordUpdates>
@@ -1688,7 +1688,7 @@
         <connector>
             <targetReference>dec_isIntegrationEnabledForPlatformEvent</targetReference>
         </connector>
-        <flowName>B2CCommerce_AllowIntegration_Helper</flowName>
+        <flowName>B2CCommerce_Process_AllowIntegration_Helper</flowName>
         <inputAssignments>
             <name>rec_b2cCustomerList</name>
             <value>
@@ -1718,7 +1718,7 @@
         <connector>
             <targetReference>dec_isIntegrationEnabledForPlatformEventUpdate</targetReference>
         </connector>
-        <flowName>B2CCommerce_AllowIntegration_Helper</flowName>
+        <flowName>B2CCommerce_Process_AllowIntegration_Helper</flowName>
         <inputAssignments>
             <name>rec_b2cCustomerList</name>
             <value>
@@ -1781,7 +1781,7 @@
         <connector>
             <targetReference>asn_AccountNameToBusinessAccount</targetReference>
         </connector>
-        <flowName>B2C_Commerce_AccountAssignment_Helper</flowName>
+        <flowName>B2CCommerce_Process_AccountAssignment_Helper</flowName>
         <inputAssignments>
             <name>sourceContact</name>
             <value>
@@ -1801,14 +1801,14 @@
     </subflows>
     <subflows>
         <description>... generate the Contact Process Platform Event.</description>
-        <name>sub_contactProcessPlatformEventHelper</name>
+        <name>B2CCommerce_Process_PlatformEventHelper</name>
         <label>Create the Contact Process Platform Event</label>
         <locationX>2201</locationX>
         <locationY>3174</locationY>
         <connector>
             <targetReference>ContactCreateSuccess_Assignment</targetReference>
         </connector>
-        <flowName>sub_contactProcessPlatformEventHelper</flowName>
+        <flowName>B2CCommerce_Process_PlatformEventHelper</flowName>
         <inputAssignments>
             <name>var_contactToProcess</name>
             <value>
@@ -1831,14 +1831,14 @@
     </subflows>
     <subflows>
         <description>... generate the Contact Process Platform Event.</description>
-        <name>sub_contactProcessPlatformEventHelper_Update</name>
+        <name>B2CCommerce_PlatformEvent_ProcessContactUpdate</name>
         <label>Create the Contact Process Platform Event</label>
         <locationX>2190</locationX>
         <locationY>2734</locationY>
         <connector>
             <targetReference>dec_isContactMissingAccountID</targetReference>
         </connector>
-        <flowName>sub_contactProcessPlatformEventHelper</flowName>
+        <flowName>B2CCommerce_Process_PlatformEventHelper</flowName>
         <inputAssignments>
             <name>var_contactToProcess</name>
             <value>
@@ -1861,14 +1861,14 @@
     </subflows>
     <subflows>
         <description>... leverage the Contact Resolution Helper to attempt to resolve the sourceContact.</description>
-        <name>sub_contactResolutionHelper</name>
+        <name>B2CCommerce_Process_ContactResolutionHelper</name>
         <label>Attempt to Resolve the Contact</label>
         <locationX>2018</locationX>
         <locationY>1270</locationY>
         <connector>
             <targetReference>dec_CanWeResolveThisContact</targetReference>
         </connector>
-        <flowName>sub_contactResolutionHelper</flowName>
+        <flowName>B2CCommerce_Process_ContactResolutionHelper</flowName>
         <inputAssignments>
             <name>var_contactToResolve</name>
             <value>

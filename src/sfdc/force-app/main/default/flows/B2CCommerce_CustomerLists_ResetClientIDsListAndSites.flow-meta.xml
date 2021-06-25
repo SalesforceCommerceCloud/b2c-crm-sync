@@ -5,7 +5,7 @@
         <description>... apply the current site to the collection used to process updates.</description>
         <name>asn_addB2CSiteToUpdateCollection</name>
         <label>Add the Site to the Update Collection</label>
-        <locationX>496</locationX>
+        <locationX>497</locationX>
         <locationY>1497</locationY>
         <assignmentItems>
             <assignToReference>recCol_b2cSitesToUpdate</assignToReference>
@@ -19,16 +19,16 @@
         </connector>
     </assignments>
     <assignments>
-        <description>... apply the CustomerList&apos;s Client ID to the Site&apos;s ClientID value</description>
-        <name>asn_B2CSiteClientIDSet</name>
-        <label>Apply the ClientID to the Site</label>
-        <locationX>496</locationX>
-        <locationY>1181</locationY>
+        <description>... reset the Site&apos;s ClientID value</description>
+        <name>asn_B2CSiteClientIDReset</name>
+        <label>Reset the Site&apos;s ClientID</label>
+        <locationX>497</locationX>
+        <locationY>1279</locationY>
         <assignmentItems>
             <assignToReference>thisSite.B2C_Client_ID__c</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>thisCustomerList.B2C_Client_ID__c</elementReference>
+                <stringValue/>
             </value>
         </assignmentItems>
         <connector>
@@ -39,8 +39,8 @@
         <description>... apply the recordCount of sites for consuming parent-flows.</description>
         <name>asn_b2cSitesRecordCount</name>
         <label>Set the Sites RecordCount</label>
-        <locationX>1029</locationX>
-        <locationY>781</locationY>
+        <locationX>1026</locationX>
+        <locationY>857</locationY>
         <assignmentItems>
             <assignToReference>recOut_sitesRecordCount</assignToReference>
             <operator>AssignCount</operator>
@@ -56,8 +56,8 @@
         <description>... create a local reference to the current B2C Site being processed.</description>
         <name>asn_b2cSiteToThisSite</name>
         <label>Abstract the Current B2C Site</label>
-        <locationX>675</locationX>
-        <locationY>1181</locationY>
+        <locationX>688</locationX>
+        <locationY>1279</locationY>
         <assignmentItems>
             <assignToReference>thisSite</assignToReference>
             <operator>Assign</operator>
@@ -66,15 +66,15 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>asn_B2CSiteClientIDSet</targetReference>
+            <targetReference>asn_B2CSiteClientIDReset</targetReference>
         </connector>
     </assignments>
     <decisions>
         <description>... evaluate if any B2C Sites were retrieved for a given CustomerList.</description>
         <name>dec_wereB2CSitesRetrieved</name>
         <label>Were Any Sites Retrieved?</label>
-        <locationX>1021</locationX>
-        <locationY>974</locationY>
+        <locationX>1018</locationX>
+        <locationY>1064</locationY>
         <defaultConnector>
             <targetReference>loop_b2cSites</targetReference>
         </defaultConnector>
@@ -92,15 +92,15 @@
             <label>No Sites Found</label>
         </rules>
     </decisions>
-    <description>... apply the ClientID associated with the current B2C CustomerList to all child B2C Sites.</description>
-    <interviewLabel>B2C Commerce: B2C CustomerLists: Apply ClientIDs to Sites {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>B2C Commerce: B2C CustomerList: Sites: B2C ClientIDs: Apply</label>
+    <description>... resets / removes the B2C ClientIDs configured for all the sites related to a given B2C CustomerList.</description>
+    <interviewLabel>B2C Commerce: CustomerLists: Reset ClientIDs for List and Sites {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>B2C Commerce: B2C CustomerList: Sites: B2C ClientIDs: Reset</label>
     <loops>
         <description>... iterate over the collection of sites and process updates to each one.</description>
         <name>loop_b2cSites</name>
         <label>Loop Over the Collection of Sites</label>
-        <locationX>1030</locationX>
-        <locationY>1190</locationY>
+        <locationX>1026</locationX>
+        <locationY>1286</locationY>
         <collectionReference>recGet_b2cSites</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -133,8 +133,8 @@
         <description>... retrieve the B2C Commerce CustomerList to process.</description>
         <name>recGet_b2cCustomerList</name>
         <label>Retrieve the B2C CustomerList</label>
-        <locationX>1028</locationX>
-        <locationY>424</locationY>
+        <locationX>1026</locationX>
+        <locationY>484</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>recGet_b2cSites</targetReference>
@@ -161,8 +161,8 @@
         <description>... retrieve the collection of sites that are associated to the B2C CustomerList.</description>
         <name>recGet_b2cSites</name>
         <label>Retrieve the CustomerList&apos;s Sites</label>
-        <locationX>1028</locationX>
-        <locationY>604</locationY>
+        <locationX>1026</locationX>
+        <locationY>674</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>asn_b2cSitesRecordCount</targetReference>
@@ -183,13 +183,13 @@
         <description>... record the changes to the related B2C Sites</description>
         <name>recUpd_b2cSites</name>
         <label>Update the B2C Sites</label>
-        <locationX>1032</locationX>
-        <locationY>1484</locationY>
+        <locationX>1027</locationX>
+        <locationY>1530</locationY>
         <inputReference>recCol_b2cSitesToUpdate</inputReference>
     </recordUpdates>
     <start>
-        <locationX>902</locationX>
-        <locationY>272</locationY>
+        <locationX>900</locationX>
+        <locationY>304</locationY>
         <connector>
             <targetReference>recGet_b2cCustomerList</targetReference>
         </connector>

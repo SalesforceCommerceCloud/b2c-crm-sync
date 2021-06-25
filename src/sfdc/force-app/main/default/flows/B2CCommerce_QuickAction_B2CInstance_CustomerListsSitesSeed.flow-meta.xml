@@ -1,0 +1,816 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <description>... retrieves the CustomerLists and Sites for the selected B2C Instance.</description>
+        <name>ia_getCustomerListsAndSites</name>
+        <label>Get B2C Instance CustomerLists and Sites</label>
+        <locationX>547</locationX>
+        <locationY>1480</locationY>
+        <actionName>B2CIAGetCustomerListsSites</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>recUpd_B2CInstanceAuditRequest</targetReference>
+        </connector>
+        <flowTransactionModel>Automatic</flowTransactionModel>
+        <inputParameters>
+            <name>b2cAuthToken</name>
+            <value>
+                <elementReference>sub_retrieveB2CAuthToken.B2CAuthToken</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>b2cClientId</name>
+            <value>
+                <elementReference>recGet_B2CClientID</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>b2cInstance</name>
+            <value>
+                <elementReference>recGet_getB2CInstance</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>OCAPIVersion</name>
+            <value>
+                <elementReference>recGet_getB2CInstance.OCAPI_Version_No__c</elementReference>
+            </value>
+        </inputParameters>
+        <outputParameters>
+            <assignToReference>outB2CCustomerLists</assignToReference>
+            <name>b2cCustomerListList</name>
+        </outputParameters>
+        <outputParameters>
+            <assignToReference>outB2CSites</assignToReference>
+            <name>b2cSiteList</name>
+        </outputParameters>
+        <outputParameters>
+            <assignToReference>outErrorMessage</assignToReference>
+            <name>errorMessage</name>
+        </outputParameters>
+        <outputParameters>
+            <assignToReference>outIsError</assignToReference>
+            <name>isError</name>
+        </outputParameters>
+        <outputParameters>
+            <assignToReference>outResponseBody</assignToReference>
+            <name>responseBody</name>
+        </outputParameters>
+        <outputParameters>
+            <assignToReference>outStatusCode</assignToReference>
+            <name>statusCode</name>
+        </outputParameters>
+        <outputParameters>
+            <assignToReference>outTotalCustomerLists</assignToReference>
+            <name>totalCustomerListRecords</name>
+        </outputParameters>
+        <outputParameters>
+            <assignToReference>outTotalSites</assignToReference>
+            <name>totalSiteRecords</name>
+        </outputParameters>
+    </actionCalls>
+    <apiVersion>52.0</apiVersion>
+    <decisions>
+        <description>... this decision evaluates if the B2C Client ID associated to the B2C Instance was found.  If not, an error will be displayed to the user.</description>
+        <name>dec_doesB2CInstanceB2CClientIDExist</name>
+        <label>Was the Associated B2C Client ID Found?</label>
+        <locationX>538</locationX>
+        <locationY>808</locationY>
+        <defaultConnector>
+            <targetReference>sub_retrieveB2CAuthToken</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>The B2C Client ID Was Found</defaultConnectorLabel>
+        <rules>
+            <name>dec_B2CClientIDDoesNotExist</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>recGet_B2CClientID.Id</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>screen_b2cInstanceB2CClientIDMissing</targetReference>
+            </connector>
+            <label>The B2C Client ID Was Not Found</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>... evaluates if the B2C Instance has all required fields.</description>
+        <name>dec_doesB2CInstanceHaveRequiredFields</name>
+        <label>Does the B2C Instance Have Required Fields</label>
+        <locationX>539</locationX>
+        <locationY>407</locationY>
+        <defaultConnector>
+            <targetReference>recGet_B2CClientID</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Required Fields are Present</defaultConnectorLabel>
+        <rules>
+            <name>decOut_B2CInstanceRequiredFieldsAreMissing</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>recGet_getB2CInstance.OCAPI_Version_No__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>recGet_getB2CInstance.B2C_Client_ID__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>recGet_getB2CInstance.IsDeleted</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>recGet_getB2CInstance.B2C_Client_ID__r.Is_Active__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>recGet_getB2CInstance.B2C_Client_ID__r.Is_Certificate_Verified__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>screen_b2cInstanceRequiredFieldsAreMissing</targetReference>
+            </connector>
+            <label>Required Fields are Missing</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>... evaluate if a B2C AuthToken was successfully retrieved via the Account Manager configuration.</description>
+        <name>dec_wasB2CAuthTokenRetrieved</name>
+        <label>Was a B2C AuthToken Retrieved?</label>
+        <locationX>539</locationX>
+        <locationY>1256</locationY>
+        <defaultConnector>
+            <targetReference>screen_errorOccurredRetrievingCustomerListsSites_0</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Was Not Retrieved</defaultConnectorLabel>
+        <rules>
+            <name>dec_wasB2CAuthTokenRetrievedTrue</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>sub_retrieveB2CAuthToken.IsSuccess</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>ia_getCustomerListsAndSites</targetReference>
+            </connector>
+            <label>Was Retrieved</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>... this decision evaluates if the customerList and site response was successful.</description>
+        <name>dec_wereCustomerListsSitesSuccessfullyRetrieved</name>
+        <label>Were CustomerLists and Sites Successfully Retrieved?</label>
+        <locationX>539</locationX>
+        <locationY>1882</locationY>
+        <defaultConnector>
+            <targetReference>sub_processCustomerListsAndSites</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>The Request was Successful</defaultConnectorLabel>
+        <rules>
+            <name>decOut_wasCustomerListSiteRESTAPIRequestSuccessful_False</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>outIsError</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>screen_errorOccurredRetrievingCustomerListsSites</targetReference>
+            </connector>
+            <label>The Request Failed</label>
+        </rules>
+    </decisions>
+    <description>... retrieves all the B2C Commerce CustomerLists and related Sites associated to the current B2C Commerce instance.</description>
+    <interviewLabel>B2C Commerce: Quick Action: Seed CustomerLists and Sites {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>B2C Commerce: Quick Action: B2C Instance: Seed CustomerLists and Sites</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Flow</processType>
+    <recordLookups>
+        <description>... retrieves the B2C Client ID associated to the B2C Instance.</description>
+        <name>recGet_B2CClientID</name>
+        <label>Retrieve the B2C Instance B2C Client ID</label>
+        <locationX>547</locationX>
+        <locationY>627</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>dec_doesB2CInstanceB2CClientIDExist</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recGet_getB2CInstance.B2C_Client_ID__c</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>B2C_Client_ID__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>... retrieve the active B2C Instance used to invoke this flow.</description>
+        <name>recGet_getB2CInstance</name>
+        <label>Get the B2C Instance</label>
+        <locationX>547</locationX>
+        <locationY>201</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>dec_doesB2CInstanceHaveRequiredFields</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>B2C_Instance__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordUpdates>
+        <description>... audits the request to retrieve Sites and CustomerLists back to the B2C Instance.</description>
+        <name>recUpd_B2CInstanceAuditRequest</name>
+        <label>Audit the Request to the B2C Instance</label>
+        <locationX>547</locationX>
+        <locationY>1682</locationY>
+        <connector>
+            <targetReference>dec_wereCustomerListsSitesSuccessfullyRetrieved</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recGet_getB2CInstance.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Integration_Has_Error__c</field>
+            <value>
+                <elementReference>outIsError</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Integration_JSON__c</field>
+            <value>
+                <elementReference>outResponseBody</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Integration_Last_Modified_Date__c</field>
+            <value>
+                <elementReference>$Flow.CurrentDateTime</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Integration_Message__c</field>
+            <value>
+                <elementReference>outErrorMessage</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Integration_Status_Code__c</field>
+            <value>
+                <elementReference>outStatusCode</elementReference>
+            </value>
+        </inputAssignments>
+        <object>B2C_Instance__c</object>
+    </recordUpdates>
+    <screens>
+        <description>... this screen is displayed when the B2C Client ID associated to a B2C Instance could not be verified.</description>
+        <name>screen_b2cInstanceB2CClientIDMissing</name>
+        <label>Associated B2C Client ID Was Not Found</label>
+        <locationX>275</locationX>
+        <locationY>808</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <fields>
+            <name>lbl_b2cInstanceMissingB2CClientIDError</name>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;background-color: rgb(255, 255, 255); font-size: 14px;&quot;&gt;The B2C Client ID for this &lt;/b&gt;&lt;b style=&quot;background-color: rgb(255, 255, 255); font-size: 14px; color: rgb(62, 62, 60);&quot;&gt;B2C Instance &lt;/b&gt;&lt;b style=&quot;background-color: rgb(255, 255, 255); font-size: 14px;&quot;&gt;Could Not be Found&lt;/b&gt;&lt;/p&gt;&lt;p&gt;The B2C Client ID associated to the B2C Instance could not be verified.  Please double-check that the B2C Client ID specified exists -- and re-launch the flow once this issue has been addressed.&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>lblError_b2cInstanceName_0</name>
+            <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>recGet_getB2CInstance.Name</elementReference>
+            </defaultValue>
+            <fieldText>B2C Instance Name</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>lblError_b2cInstanceB2CClientID_Missing</name>
+            <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>recGet_getB2CInstance.B2C_Client_ID__c</elementReference>
+            </defaultValue>
+            <fieldText>B2C Client ID</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>lblError_b2cInstanceB2CClientIDValue_Missing</name>
+            <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>recGet_getB2CInstance.B2C_Client_ID_Value__c</elementReference>
+            </defaultValue>
+            <fieldText>B2C Client ID: Token Value</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <description>... this screen is displayed when required B2C Instance fields are missing -- and prevent retrieval of B2C CustomerLists and Sites.</description>
+        <name>screen_b2cInstanceRequiredFieldsAreMissing</name>
+        <label>Required B2C Instance Fields are Missing</label>
+        <locationX>268</locationX>
+        <locationY>409</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <fields>
+            <name>lbl_b2cInstanceRequiredFieldsError</name>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 14px; background-color: rgb(255, 255, 255);&quot;&gt;Required B2C Instance Fields are Missing&lt;/b&gt;&lt;/p&gt;&lt;p&gt;The selected B2C Instance record must have valid API Url, Active B2C Client ID, and OCAPI Version values to retrieve and process its associated B2C Commerce CustomerLists and Sites.  Please review the fields below, and update via the source record.&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>lblError_b2cInstanceName</name>
+            <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>recGet_getB2CInstance.Name</elementReference>
+            </defaultValue>
+            <fieldText>B2C Instance Name</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>lblError_b2cInstanceOCAPIVersion</name>
+            <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>recGet_getB2CInstance.OCAPI_Version_No__c</elementReference>
+            </defaultValue>
+            <fieldText>OCAPI Version</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>lblError_b2cInstanceSubTitle</name>
+            <fieldText>&lt;p&gt;&lt;b&gt;B2C Client ID Properties&lt;/b&gt;&lt;/p&gt;&lt;p&gt;The following values represent the B2C Client ID associated to the current B2C Instance record.  Please ensure that the B2C Client ID is active and has a valid JWT Certificate value.  The JWT Certificate must represent the unique name of an existing Certificate in this Salesforce org.&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>lblError_b2cInstanceClientIDIdentifier</name>
+            <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>recGet_getB2CInstance.B2C_Client_ID__r.Id</elementReference>
+            </defaultValue>
+            <fieldText>B2C Client ID</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>lblError_b2cInstanceB2CClientID</name>
+            <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>recGet_getB2CInstance.B2C_Client_ID_Value__c</elementReference>
+            </defaultValue>
+            <fieldText>B2C Client ID: Token Value</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>lblError_b2cInstanceB2CClientIDJWTCertName</name>
+            <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>recGet_getB2CInstance.JWT_Certificate_Name__c</elementReference>
+            </defaultValue>
+            <fieldText>JWT Certificate Unique Name</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>lblError_b2cInstanceClientIDIsActive</name>
+            <dataType>Boolean</dataType>
+            <defaultValue>
+                <elementReference>recGet_getB2CInstance.Is_B2C_Client_ID_Active__c</elementReference>
+            </defaultValue>
+            <fieldText>B2C Client ID Is Active</fieldText>
+            <fieldType>InputField</fieldType>
+            <helpText>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;... describes if the the B2C Client ID is Active and available for REST API interactions.&lt;/span&gt;&lt;/p&gt;</helpText>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>lblError_b2cInstanceClientIDIsCertVerified</name>
+            <dataType>Boolean</dataType>
+            <defaultValue>
+                <elementReference>recGet_getB2CInstance.B2C_Client_ID__r.Is_Certificate_Verified__c</elementReference>
+            </defaultValue>
+            <fieldText>B2C Client ID JWT Certificate is Verified</fieldText>
+            <fieldType>InputField</fieldType>
+            <helpText>&lt;p&gt;... describes if the JWT Certificate associated to the B2C Client ID has been verified.&lt;/p&gt;</helpText>
+            <isRequired>true</isRequired>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <description>... announces the completion of CustomerList and Site creation.</description>
+        <name>screen_CustomerListSitesRecordsCreated</name>
+        <label>B2C Commerce CustomerList and Site Records Created</label>
+        <locationX>548</locationX>
+        <locationY>2381</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <fields>
+            <name>lbl_B2CInstancePlatformEventsSummaryDetails</name>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 14px;&quot;&gt;B2C Commerce CustomerList and Site Records Created&lt;/b&gt;&lt;/p&gt;&lt;p&gt;Records representing B2C Commerce CustomerLists and Sites have now been created for this B2C Instance.  This flow can be used to refresh customerList and site instances as they change in B2C Commerce.&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>lbl_totalB2CInstanceCustomerLists</name>
+            <dataType>Number</dataType>
+            <defaultValue>
+                <elementReference>outTotalCustomerLists</elementReference>
+            </defaultValue>
+            <fieldText>Total CustomerLists Processed</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+            <scale>0</scale>
+        </fields>
+        <fields>
+            <name>lbl_totalB2CInstanceSites</name>
+            <dataType>Number</dataType>
+            <defaultValue>
+                <elementReference>outTotalSites</elementReference>
+            </defaultValue>
+            <fieldText>Total Sites Processed</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+            <scale>0</scale>
+        </fields>
+        <fields>
+            <name>lbl_B2CInstanceCustomerListSiteProcessed</name>
+            <fieldText>&lt;ul&gt;&lt;li&gt;These records can be associated to Accounts, Contacts, and PersonAccounts to assign customer representations to B2C Commerce CustomerLists.  &lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Use this flow to automatically update the B2C Commerce CustomerList and Site definitions associated to this B2C Instance.  Please note that you can disable B2C Commerce REST API interactions with this instance via its Active checkbox.&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <description>... this screen is displayed when an error is caught during the retrieval of the B2C Instance&apos;s CustomerLists and Sites.</description>
+        <name>screen_errorOccurredRetrievingCustomerListsSites</name>
+        <label>An Error Occurred Retrieving the B2C Instance Sites and CustomerLists</label>
+        <locationX>280</locationX>
+        <locationY>1880</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <fields>
+            <name>lblError_b2cInstanceRequestFailure</name>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: var(--lwc-fontSize3,0.8125rem); font-family: var(--lwc-fontFamily,&amp;quot;Salesforce Sans&amp;quot;, Arial, sans-serif);&quot;&gt;Unable to Process the CustomerList and Site Retrieval Request&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: var(--lwc-fontSize3,0.8125rem); font-family: var(--lwc-fontFamily,&amp;quot;Salesforce Sans&amp;quot;, Arial, sans-serif);&quot;&gt;An error occurred while attempting to process the REST API request to retrieve B2C Commerce CustomerLists and Sites for this instance.  Please review the following request properties for error details.&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>lblError_ATB2cInstanceName_0</name>
+            <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>recGet_getB2CInstance.Name</elementReference>
+            </defaultValue>
+            <fieldText>B2C Instance Name</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>lblError_ATB2CInstanceAPIUrl</name>
+            <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>recGet_getB2CInstance.API_Url__c</elementReference>
+            </defaultValue>
+            <fieldText>B2C Instance API Url</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>lblError_AuthTokenStatusCode</name>
+            <dataType>Number</dataType>
+            <defaultValue>
+                <elementReference>outStatusCode</elementReference>
+            </defaultValue>
+            <fieldText>Status Code</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+            <scale>0</scale>
+        </fields>
+        <fields>
+            <name>lblError_ErrorMessageDetail</name>
+            <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>outErrorMessage</elementReference>
+            </defaultValue>
+            <fieldText>Error Message</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>lblError_RESTAPIResponse</name>
+            <defaultValue>
+                <stringValue>{!outResponseBody}</stringValue>
+            </defaultValue>
+            <fieldText>Rest API Response</fieldText>
+            <fieldType>LargeTextArea</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <description>... this screen is displayed when an error is caught during the retrieval of the B2C Instance&apos;s CustomerLists and Sites.</description>
+        <name>screen_errorOccurredRetrievingCustomerListsSites_0</name>
+        <label>An Error Occurred Retrieving the B2C Instance Sites and CustomerLists</label>
+        <locationX>279</locationX>
+        <locationY>1253</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <fields>
+            <name>lblError_b2cInstanceAuthFailure</name>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 14px;&quot;&gt;A Error Occurred During the Retrieval of a B2C AuthToken&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;A B2C AuthToken could not be retrieved via the Account Manager configuration.  Please review the following B2C Client ID and AuthToken results -- and try again.&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>lbl_b2cAuthToken_b2cClientIDSubHead</name>
+            <fieldText>&lt;p&gt;&lt;b&gt;B2C Client ID Details&lt;/b&gt;&lt;/p&gt;&lt;p&gt;The following values represent the B2C Client ID values used to request a B2C AuthToken.&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>lbl_b2cClientIDRecordID</name>
+            <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>recGet_B2CClientID.Id</elementReference>
+            </defaultValue>
+            <fieldText>B2C Client ID Record Identifier</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>lbl_b2cClientID</name>
+            <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>recGet_B2CClientID.Name</elementReference>
+            </defaultValue>
+            <fieldText>B2C Client ID</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>lbl_b2cClientIDAuditing</name>
+            <dataType>Boolean</dataType>
+            <defaultValue>
+                <elementReference>recGet_B2CClientID.Audit_Authentication_API_Interactions__c</elementReference>
+            </defaultValue>
+            <fieldText>B2C AuthToken requests are being audited for this B2C Client ID</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>lbl_b2cClientIDCertificateName</name>
+            <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>recGet_B2CClientID.JWT_Certificate_Name__c</elementReference>
+            </defaultValue>
+            <fieldText>Certificate Unique Name</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>lbl_b2cClientIDIsCertificateVerified</name>
+            <dataType>Boolean</dataType>
+            <defaultValue>
+                <elementReference>recGet_B2CClientID.Is_Certificate_Verified__c</elementReference>
+            </defaultValue>
+            <fieldText>This certificate has been verified by b2c-crm-sync</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>lbl_b2cAuthTokenHeader</name>
+            <fieldText>&lt;p&gt;&lt;b&gt;B2C AuthToken Error Details&lt;/b&gt;&lt;/p&gt;&lt;p&gt;The following values represent the REST API response provided during the B2CAuthToken request.  A B2C AuthToken request requires a valid B2C Client ID with a mapped Certificate name.  Please verify these details before requesting another B2C AuthToken.&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>lblError_ErrorMessageDetail_0</name>
+            <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>sub_retrieveB2CAuthToken.ErrorMessage</elementReference>
+            </defaultValue>
+            <fieldText>Error Message</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>lblError_RESTAPIResponse_0</name>
+            <defaultValue>
+                <stringValue>{!sub_retrieveB2CAuthToken.ResponseBody}</stringValue>
+            </defaultValue>
+            <fieldText>Rest API Response</fieldText>
+            <fieldType>LargeTextArea</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <start>
+        <locationX>421</locationX>
+        <locationY>19</locationY>
+        <connector>
+            <targetReference>recGet_getB2CInstance</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <subflows>
+        <description>... process the retrieved B2C CustomerLists and Sites against the existing collection of CustomerLists and Sites.</description>
+        <name>sub_processCustomerListsAndSites</name>
+        <label>Process CustomerLists and Sites</label>
+        <locationX>548</locationX>
+        <locationY>2153</locationY>
+        <connector>
+            <targetReference>screen_CustomerListSitesRecordsCreated</targetReference>
+        </connector>
+        <flowName>B2CCommerce_B2CInstance_CustomerListsSites_Process</flowName>
+        <inputAssignments>
+            <name>b2cCustomerLists</name>
+            <value>
+                <elementReference>outB2CCustomerLists</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>b2cInstance</name>
+            <value>
+                <elementReference>recGet_getB2CInstance</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>b2cSites</name>
+            <value>
+                <elementReference>outB2CSites</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>totalCustomerLists</name>
+            <value>
+                <elementReference>outTotalCustomerLists</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>totalSites</name>
+            <value>
+                <elementReference>outTotalSites</elementReference>
+            </value>
+        </inputAssignments>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </subflows>
+    <subflows>
+        <description>... attempt to retrieve the B2C AuthToken for the validated B2C Client ID.</description>
+        <name>sub_retrieveB2CAuthToken</name>
+        <label>Retrieve the B2C AuthToken</label>
+        <locationX>547</locationX>
+        <locationY>1055</locationY>
+        <connector>
+            <targetReference>dec_wasB2CAuthTokenRetrieved</targetReference>
+        </connector>
+        <flowName>B2CCommerce_B2CClientID_GetB2CAuthToken</flowName>
+        <inputAssignments>
+            <name>B2CClientID</name>
+            <value>
+                <elementReference>recGet_B2CClientID</elementReference>
+            </value>
+        </inputAssignments>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </subflows>
+    <variables>
+        <description>... represents the collection of B2C CustomerLists that were collected for the B2C Instance.</description>
+        <name>outB2CCustomerLists</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>B2C_CustomerList__c</objectType>
+    </variables>
+    <variables>
+        <description>... represents the collection of B2C Sites that were collected for the B2C Instance.</description>
+        <name>outB2CSites</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>B2C_Site__c</objectType>
+    </variables>
+    <variables>
+        <description>... represents the errorMessage provided by the IA in the event of failed processing.</description>
+        <name>outErrorMessage</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>... represents the errorStatus for the processed IA.</description>
+        <name>outIsError</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
+    </variables>
+    <variables>
+        <description>... represents the http-response provided by the IA.</description>
+        <name>outResponseBody</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>... represents the http statusCode provided by the IA.</description>
+        <name>outStatusCode</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>17</scale>
+    </variables>
+    <variables>
+        <description>... represents the total count of processed B2C CustomerLists.</description>
+        <name>outTotalCustomerLists</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+    </variables>
+    <variables>
+        <description>... represents the total counts of processed B2C Sites.</description>
+        <name>outTotalSites</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+    </variables>
+    <variables>
+        <description>... represents the internal Id for the active B2C Instance.</description>
+        <name>recordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>

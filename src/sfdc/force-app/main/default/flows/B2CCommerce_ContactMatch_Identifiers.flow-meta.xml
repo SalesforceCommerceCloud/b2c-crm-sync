@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>52.0</apiVersion>
+    <assignments>
+        <name>AllMatches_Assignment</name>
+        <label>AllMatches Assignment</label>
+        <locationX>177</locationX>
+        <locationY>895</locationY>
+        <assignmentItems>
+            <assignToReference>isSuccess</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <description>... record an error as no match was found for CustomerID.</description>
+        <name>CustomerIdDoesNotMatch_Assignment</name>
+        <label>CustomerID Does Not Match</label>
+        <locationX>797</locationX>
+        <locationY>303</locationY>
+        <assignmentItems>
+            <assignToReference>isSuccess</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>errors</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <stringValue>Could not match the Contact using B2C CustomerID.</stringValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <description>... record an error as no match was found for CustomerList ID.</description>
+        <name>CustomerListIdDoesNotMatch_Assignment</name>
+        <label>CustomerListID Does Not Match</label>
+        <locationX>796</locationX>
+        <locationY>752</locationY>
+        <assignmentItems>
+            <assignToReference>isSuccess</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>errors</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <stringValue>Could not match the Contact using B2C CustomerList ID.</stringValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <description>... record an error as no match as found for the CustomerNo.</description>
+        <name>CustomerNoDoesNotMatch_Assignment</name>
+        <label>CustomerNo Does Not Match</label>
+        <locationX>794</locationX>
+        <locationY>520</locationY>
+        <assignmentItems>
+            <assignToReference>isSuccess</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>errors</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <stringValue>Could not match the Contact using B2C CustomerNo.</stringValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <decisions>
+        <name>DoesCustomerIdMatch_Decision</name>
+        <label>Does CustomerId Match?</label>
+        <locationX>534</locationX>
+        <locationY>308</locationY>
+        <defaultConnector>
+            <targetReference>CustomerIdDoesNotMatch_Assignment</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Does Not Match</defaultConnectorLabel>
+        <rules>
+            <name>OutcomeIs_CustomerIdMatches</name>
+            <conditionLogic>(3 AND 1) OR (3 AND 2) OR (4)</conditionLogic>
+            <conditions>
+                <leftValueReference>SourceContact.B2C_Customer_ID__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>TargetContact.B2C_Customer_ID__c</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>TargetContact.B2C_Customer_ID__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>TargetContact.B2C_Customer_ID__c</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>TargetContact.B2C_Customer_ID__c</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>IsCustomerNoSet_Decision</targetReference>
+            </connector>
+            <label>CustomerId Matches</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>DoesCustomerListIdMatchOrIsBlank_Decision</name>
+        <label>Does CustomerListId Match or Is Blank?</label>
+        <locationX>535</locationX>
+        <locationY>754</locationY>
+        <defaultConnector>
+            <targetReference>CustomerListIdDoesNotMatch_Assignment</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Does Not Match</defaultConnectorLabel>
+        <rules>
+            <name>OutcomeIs_CustomerListIdMatchesOrIsBlank</name>
+            <conditionLogic>(3 AND 1) OR (3 AND 2) OR (4)</conditionLogic>
+            <conditions>
+                <leftValueReference>SourceContact.B2C_CustomerList_ID__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>TargetContact.B2C_CustomerList_ID__c</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>TargetContact.B2C_CustomerList_ID__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>TargetContact.B2C_CustomerList_ID__c</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>TargetContact.B2C_CustomerList_ID__c</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>AllMatches_Assignment</targetReference>
+            </connector>
+            <label>CustomerListId Matches Or Is Blank</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>DoesCustomerNoMatch_Decision</name>
+        <label>Does CustomerNo Match?</label>
+        <locationX>538</locationX>
+        <locationY>524</locationY>
+        <defaultConnector>
+            <targetReference>CustomerNoDoesNotMatch_Assignment</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Does Not Match</defaultConnectorLabel>
+        <rules>
+            <name>OutcomeIs_CustomerNoMatches</name>
+            <conditionLogic>(3 AND 1) OR (3 AND 2) OR (4)</conditionLogic>
+            <conditions>
+                <leftValueReference>SourceContact.B2C_Customer_No__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>TargetContact.B2C_Customer_No__c</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>TargetContact.B2C_Customer_No__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>TargetContact.B2C_Customer_No__c</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>TargetContact.B2C_Customer_No__c</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>IsCustomerListIdSet_Decision</targetReference>
+            </connector>
+            <label>CustomerNo Matches</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>IsCustomerIdSet_Decision</name>
+        <label>Is CustomerId Set?</label>
+        <locationX>168</locationX>
+        <locationY>235</locationY>
+        <defaultConnector>
+            <targetReference>IsCustomerNoSet_Decision</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Was Not Set</defaultConnectorLabel>
+        <rules>
+            <name>OutcomeIs_CustomerIdIsSet</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>SourceContact.B2C_Customer_ID__c</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>DoesCustomerIdMatch_Decision</targetReference>
+            </connector>
+            <label>CustomerId Is Set</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>IsCustomerListIdSet_Decision</name>
+        <label>Is CustomerListId Set?</label>
+        <locationX>168</locationX>
+        <locationY>631</locationY>
+        <defaultConnector>
+            <targetReference>AllMatches_Assignment</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Was Not Set</defaultConnectorLabel>
+        <rules>
+            <name>OutcomeIs_CustomerListIdIsSet</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>SourceContact.B2C_CustomerList_ID__c</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>DoesCustomerListIdMatchOrIsBlank_Decision</targetReference>
+            </connector>
+            <label>CustomerListId Is Set</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>IsCustomerNoSet_Decision</name>
+        <label>Is CustomerNo Set?</label>
+        <locationX>167</locationX>
+        <locationY>405</locationY>
+        <defaultConnector>
+            <targetReference>IsCustomerListIdSet_Decision</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Was Not Set</defaultConnectorLabel>
+        <rules>
+            <name>OutcomeIs_CustomerNoIsSet</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>SourceContact.B2C_Customer_No__c</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>DoesCustomerNoMatch_Decision</targetReference>
+            </connector>
+            <label>CustomerNo Is Set</label>
+        </rules>
+    </decisions>
+    <description>... this flow is used to iterate over the B2C Commerce identifiers and attempt to match a Contact on B2C CustomerList ID, B2C CustomerNo, and B2C CustomerID.  If a match is not found, an error will be recorded.</description>
+    <interviewLabel>B2C Commerce: Contact Match Identifiers {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>B2C Commerce: Process: Contact Validate Identifiers</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>50</locationX>
+        <locationY>50</locationY>
+        <connector>
+            <targetReference>IsCustomerIdSet_Decision</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <variables>
+        <name>errors</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>isSuccess</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+        <value>
+            <booleanValue>true</booleanValue>
+        </value>
+    </variables>
+    <variables>
+        <name>SourceContact</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Contact</objectType>
+    </variables>
+    <variables>
+        <name>TargetContact</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Contact</objectType>
+    </variables>
+</Flow>

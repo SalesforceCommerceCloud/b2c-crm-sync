@@ -29,7 +29,7 @@
             <name>synchronizedTargetContact</name>
         </outputParameters>
     </actionCalls>
-    <apiVersion>51.0</apiVersion>
+    <apiVersion>52.0</apiVersion>
     <assignments>
         <description>...assign the sourceContact&apos;s B2C CustomerID to the resolved contact.</description>
         <name>asn_b2cCustomerIDToAssignedContact</name>

@@ -35,7 +35,7 @@
             <name>isCertificateValid</name>
         </outputParameters>
     </actionCalls>
-    <apiVersion>51.0</apiVersion>
+    <apiVersion>52.0</apiVersion>
     <assignments>
         <description>... set the output variables explaining that no B2C Client ID was found.</description>
         <name>asn_B2CClientIDNotFound</name>

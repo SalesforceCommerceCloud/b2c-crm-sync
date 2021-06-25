@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>52.0</apiVersion>
+    <description>... deletes the full collection of B2C Commerce customerList definitions.</description>
+    <interviewLabel>B2C Commerce: Delete CustomerList Definitions {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>B2C Commerce: Delete CustomerList Definitions</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordDeletes>
+        <description>... deletes the retrieved B2C Commerce customerList definitions.</description>
+        <name>b2c_DeleteCustomerLists</name>
+        <label>Delete B2C Commerce CustomerLists</label>
+        <locationX>176</locationX>
+        <locationY>278</locationY>
+        <inputReference>b2c_getCustomerLists</inputReference>
+    </recordDeletes>
+    <recordLookups>
+        <description>... retrieve the B2C Commerce customerList definitions that are configured.</description>
+        <name>b2c_getCustomerLists</name>
+        <label>Retrieve B2C Commerce CustomerLists</label>
+        <locationX>176</locationX>
+        <locationY>158</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>b2c_DeleteCustomerLists</targetReference>
+        </connector>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>B2C_CustomerList__c</object>
+        <sortField>LastModifiedDate</sortField>
+        <sortOrder>Asc</sortOrder>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>b2c_getCustomerLists</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+</Flow>
