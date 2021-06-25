@@ -1781,7 +1781,7 @@
         <connector>
             <targetReference>dec_isIntegrationEnabledForPlatformEvent</targetReference>
         </connector>
-        <flowName>B2CCommerce_Process_AllowIntegration_Helper</flowName>
+        <flowName>B2CCommerce_Process_AllowIntegrationHelper</flowName>
         <inputAssignments>
             <name>rec_b2cCustomerList</name>
             <value>
@@ -1811,7 +1811,7 @@
         <connector>
             <targetReference>dec_isIntegrationEnabledForPlatformEventUpdate</targetReference>
         </connector>
-        <flowName>B2CCommerce_Process_AllowIntegration_Helper</flowName>
+        <flowName>B2CCommerce_Process_AllowIntegrationHelper</flowName>
         <inputAssignments>
             <name>rec_b2cCustomerList</name>
             <value>
@@ -1841,7 +1841,7 @@
         <connector>
             <targetReference>dec_doesContactHaveLastName</targetReference>
         </connector>
-        <flowName>B2CCommerce_ContactAssignment_Helper</flowName>
+        <flowName>B2CCommerce_Process_ContactAssignmentHelper</flowName>
         <inputAssignments>
             <name>assignedContact</name>
             <value>
@@ -1874,7 +1874,7 @@
         <connector>
             <targetReference>asn_AccountNameToBusinessAccount</targetReference>
         </connector>
-        <flowName>B2CCommerce_Process_AccountAssignment_Helper</flowName>
+        <flowName>B2CCommerce_Process_AccountAssignmentHelper</flowName>
         <inputAssignments>
             <name>sourceContact</name>
             <value>

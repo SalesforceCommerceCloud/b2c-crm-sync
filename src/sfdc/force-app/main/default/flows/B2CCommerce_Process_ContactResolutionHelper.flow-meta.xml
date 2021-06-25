@@ -432,7 +432,7 @@
         <connector>
             <targetReference>Was_There_An_Error_In_Filtering</targetReference>
         </connector>
-        <flowName>B2CCommerce_Contact_Filter_Matches</flowName>
+        <flowName>B2CCommerce_Process_ContactFilterMatches</flowName>
         <inputAssignments>
             <name>Contact</name>
             <value>

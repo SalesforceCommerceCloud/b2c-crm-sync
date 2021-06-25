@@ -1203,7 +1203,7 @@
         <connector>
             <targetReference>DoesCustomerIdIdentifierMatch_Decision</targetReference>
         </connector>
-        <flowName>B2CCommerce_ContactMatch_Identifiers</flowName>
+        <flowName>B2CCommerce_Process_ContactMatchIdentifiers</flowName>
         <inputAssignments>
             <name>SourceContact</name>
             <value>
@@ -1226,7 +1226,7 @@
         <connector>
             <targetReference>Does_CustomerListCustomerNo_Identifier_Match</targetReference>
         </connector>
-        <flowName>B2CCommerce_ContactMatch_Identifiers</flowName>
+        <flowName>B2CCommerce_Process_ContactMatchIdentifiers</flowName>
         <inputAssignments>
             <name>SourceContact</name>
             <value>
@@ -1249,7 +1249,7 @@
         <connector>
             <targetReference>OutcomeIs_DoesCustomerListIdEmailDefaultLastNameIdentifiersMatch</targetReference>
         </connector>
-        <flowName>B2CCommerce_ContactMatch_Identifiers</flowName>
+        <flowName>B2CCommerce_Process_ContactMatchIdentifiers</flowName>
         <inputAssignments>
             <name>SourceContact</name>
             <value>
@@ -1272,7 +1272,7 @@
         <connector>
             <targetReference>Does_CustomerList_Identifier_Match</targetReference>
         </connector>
-        <flowName>B2CCommerce_ContactMatch_Identifiers</flowName>
+        <flowName>B2CCommerce_Process_ContactMatchIdentifiers</flowName>
         <inputAssignments>
             <name>SourceContact</name>
             <value>
@@ -1295,7 +1295,7 @@
         <connector>
             <targetReference>OutcomeIs_DoesCustomerListIdLastNameEmailIdentifiersMatch</targetReference>
         </connector>
-        <flowName>B2CCommerce_ContactMatch_Identifiers</flowName>
+        <flowName>B2CCommerce_Process_ContactMatchIdentifiers</flowName>
         <inputAssignments>
             <name>SourceContact</name>
             <value>
