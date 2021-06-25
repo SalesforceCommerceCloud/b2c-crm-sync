@@ -93,7 +93,7 @@
         <connector>
             <targetReference>screen_activateB2CCustomerListMessage</targetReference>
         </connector>
-        <flowName>B2CCommerce_CustomerLists_ResetClientIDsListAndSites</flowName>
+        <flowName>B2CCommerce_B2CCustomerList_ListSitesClientIDReset</flowName>
         <inputAssignments>
             <name>recordId</name>
             <value>

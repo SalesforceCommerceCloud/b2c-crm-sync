@@ -454,7 +454,7 @@
         <connector>
             <targetReference>dec_wasB2CTokenRetrieved</targetReference>
         </connector>
-        <flowName>B2C_Commerce_B2C_Client_ID_Account_Manager_AuthToken_Retrieve</flowName>
+        <flowName>B2CCommerce_B2CClientID_AccountManager_AuthTokenRetrieve</flowName>
         <inputAssignments>
             <name>B2CClientID</name>
             <value>

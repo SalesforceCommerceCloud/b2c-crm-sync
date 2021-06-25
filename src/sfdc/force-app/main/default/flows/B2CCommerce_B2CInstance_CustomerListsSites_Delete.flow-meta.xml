@@ -37,7 +37,7 @@
         <label>Delete B2C Commerce CustomerLists</label>
         <locationX>176</locationX>
         <locationY>278</locationY>
-        <flowName>B2CCommerce_Delete_Sites</flowName>
+        <flowName>B2CCommerce_B2CSite_Delete</flowName>
     </subflows>
     <subflows>
         <description>... deletes all B2C Commerce storefront definitions -- prior to deleting customerList definitions.</description>
@@ -48,6 +48,6 @@
         <connector>
             <targetReference>Delete_B2C_Commerce_CustomerLists</targetReference>
         </connector>
-        <flowName>B2CCommerce_Delete_Sites</flowName>
+        <flowName>B2CCommerce_B2CSite_Delete</flowName>
     </subflows>
 </Flow>

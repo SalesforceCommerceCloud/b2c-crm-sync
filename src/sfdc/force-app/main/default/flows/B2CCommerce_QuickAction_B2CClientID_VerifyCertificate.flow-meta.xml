@@ -233,7 +233,7 @@
         <connector>
             <targetReference>dec_wasB2CClientIDFound</targetReference>
         </connector>
-        <flowName>B2CCommerce_B2CClientID_JWTCertificate_Validate</flowName>
+        <flowName>B2CCommerce_B2CClientID_JWTCertificateValidate</flowName>
         <inputAssignments>
             <name>recordId</name>
             <value>

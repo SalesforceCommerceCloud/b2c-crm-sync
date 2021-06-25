@@ -210,7 +210,7 @@
         <connector>
             <targetReference>screen_B2CCustomerListMessage</targetReference>
         </connector>
-        <flowName>B2CCommerce_B2CCustomerLists_ApplyClientIDsToSites</flowName>
+        <flowName>B2CCommerce_B2CCustomerList_ListSitesClientIDApply</flowName>
         <inputAssignments>
             <name>recordId</name>
             <value>

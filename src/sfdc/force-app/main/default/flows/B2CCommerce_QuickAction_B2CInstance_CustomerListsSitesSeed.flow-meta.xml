@@ -724,7 +724,7 @@
         <connector>
             <targetReference>dec_wasB2CAuthTokenRetrieved</targetReference>
         </connector>
-        <flowName>B2CCommerce_B2CClientID_GetB2CAuthToken</flowName>
+        <flowName>B2CCommerce_B2CClientID_B2CAuthTokenGet</flowName>
         <inputAssignments>
             <name>B2CClientID</name>
             <value>
