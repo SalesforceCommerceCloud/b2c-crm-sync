@@ -1680,6 +1680,99 @@
         </outputAssignments>
     </subflows>
     <subflows>
+        <description>... generate the Contact Process Platform Event.</description>
+        <name>B2CCommerce_PlatformEvent_ProcessContactUpdate</name>
+        <label>Create the Contact Process Platform Event</label>
+        <locationX>2190</locationX>
+        <locationY>2734</locationY>
+        <connector>
+            <targetReference>dec_isContactMissingAccountID</targetReference>
+        </connector>
+        <flowName>B2CCommerce_Process_PlatformEventHelper</flowName>
+        <inputAssignments>
+            <name>var_contactToProcess</name>
+            <value>
+                <elementReference>sourceContact</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>var_customerList</name>
+            <value>
+                <elementReference>var_b2cCustomerList</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>var_platformEventProcess</name>
+            <value>
+                <stringValue>retrieve</stringValue>
+            </value>
+        </inputAssignments>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </subflows>
+    <subflows>
+        <description>... leverage the Contact Resolution Helper to attempt to resolve the sourceContact.</description>
+        <name>B2CCommerce_Process_ContactResolutionHelper</name>
+        <label>Attempt to Resolve the Contact</label>
+        <locationX>2018</locationX>
+        <locationY>1270</locationY>
+        <connector>
+            <targetReference>dec_CanWeResolveThisContact</targetReference>
+        </connector>
+        <flowName>B2CCommerce_Process_ContactResolutionHelper</flowName>
+        <inputAssignments>
+            <name>var_contactToResolve</name>
+            <value>
+                <elementReference>sourceContact</elementReference>
+            </value>
+        </inputAssignments>
+        <outputAssignments>
+            <assignToReference>var_contactResolutionError</assignToReference>
+            <name>var_errorMessage</name>
+        </outputAssignments>
+        <outputAssignments>
+            <assignToReference>var_contactResolutionSuccess</assignToReference>
+            <name>var_isSuccess</name>
+        </outputAssignments>
+        <outputAssignments>
+            <assignToReference>var_resolvedContact</assignToReference>
+            <name>var_resolvedContact</name>
+        </outputAssignments>
+        <outputAssignments>
+            <assignToReference>var_resolvedContactCount</assignToReference>
+            <name>var_resolvedContactCount</name>
+        </outputAssignments>
+    </subflows>
+    <subflows>
+        <description>... generate the Contact Process Platform Event.</description>
+        <name>B2CCommerce_Process_PlatformEventHelper</name>
+        <label>Create the Contact Process Platform Event</label>
+        <locationX>2201</locationX>
+        <locationY>3174</locationY>
+        <connector>
+            <targetReference>ContactCreateSuccess_Assignment</targetReference>
+        </connector>
+        <flowName>B2CCommerce_Process_PlatformEventHelper</flowName>
+        <inputAssignments>
+            <name>var_contactToProcess</name>
+            <value>
+                <elementReference>Contact</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>var_customerList</name>
+            <value>
+                <elementReference>var_b2cCustomerList</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>var_platformEventProcess</name>
+            <value>
+                <stringValue>retrieve</stringValue>
+            </value>
+        </inputAssignments>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </subflows>
+    <subflows>
         <description>... evaluate the configuration of the specified CustomerList and sourceContact to determine if integration should be enabled.</description>
         <name>sub_allowIntegrationHelper_NoContactID</name>
         <label>Evaluate Integration Configuration</label>
@@ -1797,99 +1890,6 @@
         <outputAssignments>
             <assignToReference>var_accountName</assignToReference>
             <name>var_accountName</name>
-        </outputAssignments>
-    </subflows>
-    <subflows>
-        <description>... generate the Contact Process Platform Event.</description>
-        <name>B2CCommerce_Process_PlatformEventHelper</name>
-        <label>Create the Contact Process Platform Event</label>
-        <locationX>2201</locationX>
-        <locationY>3174</locationY>
-        <connector>
-            <targetReference>ContactCreateSuccess_Assignment</targetReference>
-        </connector>
-        <flowName>B2CCommerce_Process_PlatformEventHelper</flowName>
-        <inputAssignments>
-            <name>var_contactToProcess</name>
-            <value>
-                <elementReference>Contact</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <name>var_customerList</name>
-            <value>
-                <elementReference>var_b2cCustomerList</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <name>var_platformEventProcess</name>
-            <value>
-                <stringValue>retrieve</stringValue>
-            </value>
-        </inputAssignments>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </subflows>
-    <subflows>
-        <description>... generate the Contact Process Platform Event.</description>
-        <name>B2CCommerce_PlatformEvent_ProcessContactUpdate</name>
-        <label>Create the Contact Process Platform Event</label>
-        <locationX>2190</locationX>
-        <locationY>2734</locationY>
-        <connector>
-            <targetReference>dec_isContactMissingAccountID</targetReference>
-        </connector>
-        <flowName>B2CCommerce_Process_PlatformEventHelper</flowName>
-        <inputAssignments>
-            <name>var_contactToProcess</name>
-            <value>
-                <elementReference>sourceContact</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <name>var_customerList</name>
-            <value>
-                <elementReference>var_b2cCustomerList</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <name>var_platformEventProcess</name>
-            <value>
-                <stringValue>retrieve</stringValue>
-            </value>
-        </inputAssignments>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </subflows>
-    <subflows>
-        <description>... leverage the Contact Resolution Helper to attempt to resolve the sourceContact.</description>
-        <name>B2CCommerce_Process_ContactResolutionHelper</name>
-        <label>Attempt to Resolve the Contact</label>
-        <locationX>2018</locationX>
-        <locationY>1270</locationY>
-        <connector>
-            <targetReference>dec_CanWeResolveThisContact</targetReference>
-        </connector>
-        <flowName>B2CCommerce_Process_ContactResolutionHelper</flowName>
-        <inputAssignments>
-            <name>var_contactToResolve</name>
-            <value>
-                <elementReference>sourceContact</elementReference>
-            </value>
-        </inputAssignments>
-        <outputAssignments>
-            <assignToReference>var_contactResolutionError</assignToReference>
-            <name>var_errorMessage</name>
-        </outputAssignments>
-        <outputAssignments>
-            <assignToReference>var_contactResolutionSuccess</assignToReference>
-            <name>var_isSuccess</name>
-        </outputAssignments>
-        <outputAssignments>
-            <assignToReference>var_resolvedContact</assignToReference>
-            <name>var_resolvedContact</name>
-        </outputAssignments>
-        <outputAssignments>
-            <assignToReference>var_resolvedContactCount</assignToReference>
-            <name>var_resolvedContactCount</name>
         </outputAssignments>
     </subflows>
     <subflows>

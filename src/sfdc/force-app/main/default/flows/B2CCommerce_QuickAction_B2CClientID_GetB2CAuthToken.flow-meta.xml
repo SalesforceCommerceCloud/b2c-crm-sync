@@ -1,0 +1,482 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <description>... persist and audit the B2C AuthToken based on the current configuration.</description>
+        <name>ia_persistAndAuditB2CAuthToken</name>
+        <label>Persist and Audit the B2C AuthToken</label>
+        <locationX>757</locationX>
+        <locationY>1451</locationY>
+        <actionName>B2CIAPersistB2CAuthToken</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>scn_b2cAuthToken</targetReference>
+        </connector>
+        <flowTransactionModel>Automatic</flowTransactionModel>
+        <inputParameters>
+            <name>accessToken</name>
+            <value>
+                <elementReference>sub_retrieveB2CAuthToken.AuthToken</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>accountManagerUrl</name>
+            <value>
+                <elementReference>sub_retrieveB2CAuthToken.AccountManagerUrl</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>auditAuthenticationAPIInteractions</name>
+            <value>
+                <elementReference>sub_retrieveB2CAuthToken.AuditAuthenticationAPIInteractions</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>b2cClientId</name>
+            <value>
+                <elementReference>sub_retrieveB2CAuthToken.B2CClientIDValue</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>b2cClientIdRecordId</name>
+            <value>
+                <elementReference>sub_retrieveB2CAuthToken.B2CClientIDRecordID</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>errorMessage</name>
+            <value>
+                <elementReference>sub_retrieveB2CAuthToken.ErrorMessage</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>expiresIn</name>
+            <value>
+                <elementReference>sub_retrieveB2CAuthToken.ExpiresIn</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>isError</name>
+            <value>
+                <elementReference>sub_retrieveB2CAuthToken.IsError</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>persistAuthToken</name>
+            <value>
+                <elementReference>sub_retrieveB2CAuthToken.PersistAuthToken</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>requestBody</name>
+            <value>
+                <elementReference>sub_retrieveB2CAuthToken.RequestBody</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>responseBody</name>
+            <value>
+                <elementReference>sub_retrieveB2CAuthToken.ResponseBody</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>status</name>
+            <value>
+                <elementReference>sub_retrieveB2CAuthToken.Status</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>statusCode</name>
+            <value>
+                <elementReference>sub_retrieveB2CAuthToken.StatusCode</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>tokenType</name>
+            <value>
+                <elementReference>sub_retrieveB2CAuthToken.TokenType</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <apiVersion>52.0</apiVersion>
+    <decisions>
+        <description>... evaluate if the B2C AuthToken that was generated should be persisted / auditied.</description>
+        <name>dec_persistAndAuditB2CAuthToken</name>
+        <label>Persist and Audit the B2C AuthToken?</label>
+        <locationX>527</locationX>
+        <locationY>1169</locationY>
+        <defaultConnector>
+            <targetReference>scn_b2cAuthToken</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Do Not Persist</defaultConnectorLabel>
+        <rules>
+            <name>dec_persistAndAuditB2CAuthTokenTrue</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>sub_retrieveB2CAuthToken.IsSuccess</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sub_retrieveB2CAuthToken.PersistAuthToken</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>ia_persistAndAuditB2CAuthToken</targetReference>
+            </connector>
+            <label>Persist the AuthToken</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>... evaluate if a B2C Token was successfully retrieved via the Account Manager configuration.</description>
+        <name>dec_wasB2CTokenRetrieved</name>
+        <label>Was a B2C Token Retrieved?</label>
+        <locationX>526</locationX>
+        <locationY>931</locationY>
+        <defaultConnector>
+            <targetReference>scn_b2cAuthTokenError</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Was Not Retrieved</defaultConnectorLabel>
+        <rules>
+            <name>dec_wasB2CTokenRetrieved_True</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>sub_retrieveB2CAuthToken.IsSuccess</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>dec_persistAndAuditB2CAuthToken</targetReference>
+            </connector>
+            <label>Was Retrieved</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>... evaluate if a valid B2C Client ID was retrieved using the recordId</description>
+        <name>dec_wasValidB2CClientIDFound</name>
+        <label>Was a Valid B2C Client ID Found?</label>
+        <locationX>525</locationX>
+        <locationY>447</locationY>
+        <defaultConnectorLabel>Was Not Found</defaultConnectorLabel>
+        <rules>
+            <name>decOut_wasValidB2CClientIDFound_True</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>recGet_B2CClientID</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>sub_retrieveB2CAuthToken</targetReference>
+            </connector>
+            <label>Was Found</label>
+        </rules>
+    </decisions>
+    <description>... attempt to retrieve a net-new B2C AuthToken for the specified B2C Client ID.</description>
+    <interviewLabel>B2C Commerce: Quick Action: B2C Client ID: Get B2C AuthToken {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>B2C Commerce: Quick Action: B2C Client ID: Get B2C AuthToken</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Flow</processType>
+    <recordLookups>
+        <description>... retrieve the B2C Client ID specified by the recordId.</description>
+        <name>recGet_B2CClientID</name>
+        <label>Get B2C Client ID</label>
+        <locationX>533</locationX>
+        <locationY>261</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>dec_wasValidB2CClientIDFound</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Is_Active__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Is_Certificate_Verified__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>IsDeleted</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>B2C_Client_ID__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <screens>
+        <description>... display the B2C AuthToken to the user conveying that a B2C AuthToken was retrieved.</description>
+        <name>scn_b2cAuthToken</name>
+        <label>Display the B2C AuthToken</label>
+        <locationX>536</locationX>
+        <locationY>1451</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <fields>
+            <name>scn_b2cAuthTokenSuccessHeader</name>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 14px;&quot;&gt;The B2C AuthToken Was Successfully Retrieved&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;A B2C AuthToken was successfully retrieved via the Account Manager configuration.  Please review the details of the retrieved B2C AuthToken below.&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>lbl_b2cClientIDSubHeader</name>
+            <fieldText>&lt;p&gt;&lt;b&gt;B2C Client ID Details&lt;/b&gt;&lt;/p&gt;&lt;p&gt;The following values represent the B2C Client ID values used to request a B2C AuthToken.&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>lbl_b2cClientIDRecordIDSuccess</name>
+            <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>recGet_B2CClientID.Id</elementReference>
+            </defaultValue>
+            <fieldText>B2C Client ID Record Identifier</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>lbl_b2cClientIDSuccess</name>
+            <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>recGet_B2CClientID.Name</elementReference>
+            </defaultValue>
+            <fieldText>B2C Client ID</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>lbl_b2cClientIDAuthTokenAuditing</name>
+            <dataType>Boolean</dataType>
+            <defaultValue>
+                <elementReference>recGet_B2CClientID.Audit_Authentication_API_Interactions__c</elementReference>
+            </defaultValue>
+            <fieldText>B2C AuthToken requests are being audited for this B2C Client ID</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>lbl_b2cClientIDSuccessCertificateName</name>
+            <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>recGet_B2CClientID.JWT_Certificate_Name__c</elementReference>
+            </defaultValue>
+            <fieldText>Certificate Unique Name</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>lbl_b2cClientIDSuccessIsCertificateVerified</name>
+            <dataType>Boolean</dataType>
+            <defaultValue>
+                <elementReference>recGet_B2CClientID.Is_Certificate_Verified__c</elementReference>
+            </defaultValue>
+            <fieldText>This certificate has been verified by b2c-crm-sync</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>lbl_b2cAuthTokenDetailsHeader</name>
+            <fieldText>&lt;p&gt;&lt;b&gt;B2C AuthToken Details&lt;/b&gt;&lt;/p&gt;&lt;p&gt;The following values represent the REST API response provided during the B2CAuthToken request.  &lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>lbl_b2cAuthTokenValue</name>
+            <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>sub_retrieveB2CAuthToken.AuthToken</elementReference>
+            </defaultValue>
+            <fieldText>B2C AuthToken</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>lbl_b2cAuthTokenRESTResponse_0</name>
+            <defaultValue>
+                <stringValue>{!sub_retrieveB2CAuthToken.ResponseBody}</stringValue>
+            </defaultValue>
+            <fieldText>REST API Response</fieldText>
+            <fieldType>LargeTextArea</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <description>... display an error to the user conveying that a B2C AuthToken wasn&apos;t retrieved.</description>
+        <name>scn_b2cAuthTokenError</name>
+        <label>Display the B2C AuthToken Error</label>
+        <locationX>247</locationX>
+        <locationY>928</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <fields>
+            <name>scn_b2cAuthTokenErrorHeader</name>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 14px;&quot;&gt;A Error Occurred During the Retrieval of a B2C AuthToken&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;A B2C AuthToken could not be retrieved via the Account Manager configuration.  Please review the following B2C Client ID and AuthToken results -- and try again.&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>lbl_b2cAuthToken_b2cClientIDSubHead</name>
+            <fieldText>&lt;p&gt;&lt;b&gt;B2C Client ID Details&lt;/b&gt;&lt;/p&gt;&lt;p&gt;The following values represent the B2C Client ID values used to request a B2C AuthToken.&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>lbl_b2cClientIDRecordID</name>
+            <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>recGet_B2CClientID.Id</elementReference>
+            </defaultValue>
+            <fieldText>B2C Client ID Record Identifier</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>lbl_b2cClientID</name>
+            <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>recGet_B2CClientID.Name</elementReference>
+            </defaultValue>
+            <fieldText>B2C Client ID</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>lbl_b2cClientIDAuditing</name>
+            <dataType>Boolean</dataType>
+            <defaultValue>
+                <elementReference>recGet_B2CClientID.Audit_Authentication_API_Interactions__c</elementReference>
+            </defaultValue>
+            <fieldText>B2C AuthToken requests are being audited for this B2C Client ID</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>lbl_b2cClientIDCertificateName</name>
+            <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>recGet_B2CClientID.JWT_Certificate_Name__c</elementReference>
+            </defaultValue>
+            <fieldText>Certificate Unique Name</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>lbl_b2cClientIDIsCertificateVerified</name>
+            <dataType>Boolean</dataType>
+            <defaultValue>
+                <elementReference>recGet_B2CClientID.Is_Certificate_Verified__c</elementReference>
+            </defaultValue>
+            <fieldText>This certificate has been verified by b2c-crm-sync</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>lbl_b2cAuthTokenHeader</name>
+            <fieldText>&lt;p&gt;&lt;b&gt;B2C AuthToken Error Details&lt;/b&gt;&lt;/p&gt;&lt;p&gt;The following values represent the REST API response provided during the B2CAuthToken request.  A B2C AuthToken request requires a valid B2C Client ID with a mapped Certificate name.  Please verify these details before requesting another B2C AuthToken.&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>lbl_b2cAuthTokenErrorMessage</name>
+            <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>sub_retrieveB2CAuthToken.ErrorMessage</elementReference>
+            </defaultValue>
+            <fieldText>Error Mesage</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>lbl_b2cAuthTokenRESTResponse</name>
+            <defaultValue>
+                <stringValue>{!sub_retrieveB2CAuthToken.ResponseBody}</stringValue>
+            </defaultValue>
+            <fieldText>REST API Response</fieldText>
+            <fieldType>LargeTextArea</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <start>
+        <locationX>407</locationX>
+        <locationY>55</locationY>
+        <connector>
+            <targetReference>recGet_B2CClientID</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <subflows>
+        <description>... attempt to retrieve a B2C AuthToken from the configured Account Manager environment.</description>
+        <name>sub_retrieveB2CAuthToken</name>
+        <label>Retrieve a B2C AuthToken</label>
+        <locationX>534</locationX>
+        <locationY>690</locationY>
+        <connector>
+            <targetReference>dec_wasB2CTokenRetrieved</targetReference>
+        </connector>
+        <flowName>B2C_Commerce_B2C_Client_ID_Account_Manager_AuthToken_Retrieve</flowName>
+        <inputAssignments>
+            <name>B2CClientID</name>
+            <value>
+                <elementReference>recGet_B2CClientID</elementReference>
+            </value>
+        </inputAssignments>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </subflows>
+    <variables>
+        <description>... represents the configurationSettings key for the current application configuration.</description>
+        <name>AccountManagerConfigKey</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>... represents the recordId of the B2C Client ID for which an AuthToken will be generated.</description>
+        <name>recordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>

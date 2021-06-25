@@ -175,7 +175,7 @@
             <targetReference>sub_retrieveContactToProcess</targetReference>
         </connector>
     </start>
-    <status>Draft</status>
+    <status>Active</status>
     <subflows>
         <description>... retrieve the Contact to Process</description>
         <name>sub_retrieveContactToProcess</name>
