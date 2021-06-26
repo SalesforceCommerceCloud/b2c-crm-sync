@@ -13,7 +13,7 @@ function afterPOST(customer, customerAuth) {
     var Status = require('dw/system/Status');
     var Site = require('dw/system/Site');
 
-    if (!Site.getCurrent().getCustomPreferenceValue('b2ccrm_syncCustomersViaOCAPI') || !customer.isAuthenticated()) {
+    if (!Site.getCurrent().getCustomPreferenceValue('b2ccrm_syncCustomersViaOCAPI') || !customer.isAuthenticated() || !require('dw/system/HookMgr').hasHook('app.customer.loggedIn')) {
         return;
     }
 

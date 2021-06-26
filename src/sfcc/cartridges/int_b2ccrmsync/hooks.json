@@ -17,6 +17,10 @@
       "script": "~/cartridge/scripts/hooks/customer.retrieve"
     },
     {
+      "name": "app.order.created",
+      "script": "~/cartridge/scripts/hooks/order.process"
+    },
+    {
       "name": "dw.ocapi.shop.auth.afterPOST",
       "script": "~/cartridge/scripts/hooks/ocapi/shop.auth"
     },
@@ -27,6 +31,10 @@
     {
       "name": "dw.ocapi.shop.customer.afterPATCH",
       "script": "~/cartridge/scripts/hooks/ocapi/shop.customer"
+    },
+    {
+      "name": "dw.ocapi.shop.order.afterPOST",
+      "script": "~/cartridge/scripts/hooks/ocapi/shop.order"
     }
   ]
 }

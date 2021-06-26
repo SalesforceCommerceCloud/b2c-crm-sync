@@ -5,12 +5,6 @@
  */
 
 /**
- * The SFCC Quota on number of entries within a set-of-string is 200, so ensure we never exceed it
- * @type {Number}
- */
-var MAX_SET_ENTRIES = 200;
-
-/**
  * Customer class
  *
  * @constructor
@@ -24,26 +18,27 @@ function Customer(profile) {
      */
     this.profile = profile;
 
-    if (this.profile) {
-        this.profileRequestObjectRepresentation = {
-            B2C_Customer_ID__c: this.profile.getCustomer().getID(),
-            B2C_Customer_No__c: this.profile.getCustomerNo(),
-            FirstName: this.profile.getFirstName(),
-            LastName: this.profile.getLastName(),
-            Email: this.profile.getEmail(),
-            B2C_CustomerList_ID__c: require('dw/customer/CustomerMgr').getSiteCustomerList().getID()
-        };
+    if (!this.profile) {
+        return;
+    }
 
-        // Send the Salesforce Core Account Id in case of update, or null in case of creation
-        if (this.profile.custom.b2ccrm_accountId !== null) {
-            this.profileRequestObjectRepresentation.AccountId = this.profile.custom.b2ccrm_accountId;
-        }
+    this.profileRequestObjectRepresentation = {
+        B2C_Customer_ID__c: this.profile.getCustomer().getID(),
+        B2C_Customer_No__c: this.profile.getCustomerNo(),
+        FirstName: this.profile.getFirstName(),
+        LastName: this.profile.getLastName(),
+        Email: this.profile.getEmail(),
+        B2C_CustomerList_ID__c: require('dw/customer/CustomerMgr').getSiteCustomerList().getID()
+    };
 
-        // Send the Salesforce Core Contact Id in case of update, or null in case of creation
-        if (this.profile.custom.b2ccrm_contactId !== null) {
-            this.profileRequestObjectRepresentation.Id = this.profile.custom.b2ccrm_contactId;
-        }
+    // Send the Salesforce Core Account Id in case of update, or null in case of creation
+    if (this.profile.custom.b2ccrm_accountId !== null) {
+        this.profileRequestObjectRepresentation.AccountId = this.profile.custom.b2ccrm_accountId;
+    }
 
+    // Send the Salesforce Core Contact Id in case of update, or null in case of creation
+    if (this.profile.custom.b2ccrm_contactId !== null) {
+        this.profileRequestObjectRepresentation.Id = this.profile.custom.b2ccrm_contactId;
     }
 }
 
@@ -76,7 +71,7 @@ Customer.prototype = {
      * @returns {String}
      */
     getProcessRequestBody: function () {
-        if (!this.profile) {
+        if (!this.profileRequestObjectRepresentation) {
             return undefined;
         }
 
@@ -138,7 +133,7 @@ Customer.prototype = {
             syncResponseText.push(require('dw/util/StringUtils').format('{0}: {1}', (new Date()).toGMTString(), text));
 
             // In case the number of values is exceeding the quota, remove the oldest entry
-            if (syncResponseText.length >= MAX_SET_ENTRIES) {
+            if (syncResponseText.length >= require('../util/helpers').MAX_SET_ENTRIES) {
                 syncResponseText.shift();
             }
 

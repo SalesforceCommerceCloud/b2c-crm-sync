@@ -10,23 +10,6 @@
 var LOGGER = require('dw/system/Logger').getLogger('int_b2ccrmsync', 'hooks.customer.retrieve');
 
 /**
- * @type {Array}
- */
-var PROFILE_REQUIRED_KEYS = ['Id', 'B2C_Customer_ID__c', 'B2C_CustomerList_ID__c', 'B2C_Customer_No__c', 'Email', 'Lastname'];
-
-/**
- * This returns true if the integration with the Salesforce Platform is enabled or false otherwise
- *
- * @return {Boolean}
- */
-function isIntegrationEnabled() {
-    var Site = require('dw/system/Site').getCurrent();
-    var isSyncEnabled = Site.getCustomPreferenceValue('b2ccrm_syncIsEnabled');
-    var isSyncCustomersEnabled = Site.getCustomPreferenceValue('b2ccrm_syncCustomersEnabled');
-    return isSyncEnabled && isSyncCustomersEnabled;
-}
-
-/**
  * Retrieve the profile within the Salesforce core platform based on the given {profileDetails}
  *
  * @param {dw/customer/Profile|Object} profileDetails The profile details to use while retrieving the customer from the Salesforce Core platform.
@@ -36,16 +19,19 @@ function isIntegrationEnabled() {
  * @return {Object} The response object from the Salesforce Core platform in case the customer has been successfully retrieved, or undefined otherwise
  */
 function customerRetrieve(profileDetails, saveContactIdOnProfile) {
-    if (!isIntegrationEnabled() || !profileDetails) {
+    if (!require('../util/helpers').isIntegrationEnabled() || !profileDetails) {
         return;
     }
 
     saveContactIdOnProfile = saveContactIdOnProfile || false;
     var areDetailsAnInstanceOfProfile = profileDetails instanceof dw.customer.Profile;
+    var PROFILE_REQUIRED_KEYS = require('dw/web/Resource').msg('customer.retrieve.required.fields', 'b2ccrmsync', '').split(',').map(function (key) {
+        return key.trim();
+    });
 
     try {
         var requestBody = undefined;
-        var profileModel = new (require('../models/customer'))(areDetailsAnInstanceOfProfile ? profileDetails : undefined, 'retrieve');
+        var profileModel = new (require('../models/customer'))(areDetailsAnInstanceOfProfile ? profileDetails : undefined);
         if (areDetailsAnInstanceOfProfile) {
             requestBody = profileModel.getRetrieveRequestBody();
         } else {

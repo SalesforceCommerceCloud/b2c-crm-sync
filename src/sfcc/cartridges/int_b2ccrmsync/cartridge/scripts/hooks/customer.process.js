@@ -10,44 +10,6 @@
 var LOGGER = require('dw/system/Logger').getLogger('int_b2ccrmsync', 'hooks.customer.process');
 
 /**
- * This returns true if the integration with the Salesforce Platform is enabled or false otherwise
- *
- * @return {Boolean}
- */
-function isIntegrationEnabled() {
-    var Site = require('dw/system/Site').getCurrent();
-    var isSyncEnabled = Site.getCustomPreferenceValue('b2ccrm_syncIsEnabled');
-    var isSyncCustomersEnabled = Site.getCustomPreferenceValue('b2ccrm_syncCustomersEnabled');
-    return isSyncEnabled && isSyncCustomersEnabled;
-}
-
-/**
- * Helper method to identify if the SFDC identifiers are present in a given customerProfile.  Evaluates
- * if the ContactID attribute exists, was set, and has an actual value.
- *
- * @param {dw/customer/Profile} profile
- * @return {Boolean}
- */
-function sfdcContactIDIdentifierPresent(profile) {
-
-    // Is the profile empty?
-    if (profile === null || profile === undefined) { return false; }
-
-    // Is the contactId present in the profile?
-    if (!profile.custom.hasOwnProperty('b2ccrm_contactId')) { return false; }
-
-    // Is the contactId value empty or not set?
-    if (profile.custom.b2ccrm_contactId === null || profile.custom.b2ccrm_contactId === undefined) { return false; }
-
-    // Evaluate the length of the SFDC property
-    if (profile.custom.b2ccrm_contactId.valueOf().length === 0) { return false; }
-
-    // If all conditions pass, there's a contactId
-    return true;
-
-}
-
-/**
  * Customer logged-in
  * Ensure the customer sync and logged-in sync are enabled, and the customer has never been synchronized to the Salesforce Core platform
  * And if so, process the customer sync with the Salesforce Core platform
@@ -55,7 +17,7 @@ function sfdcContactIDIdentifierPresent(profile) {
  * @param {dw/customer/Profile} profile
  */
 function customerLoggedIn(profile) {
-    if (!isIntegrationEnabled() || !profile) {
+    if (!require('../util/helpers').isIntegrationEnabled() || !profile) {
         return;
     }
 
@@ -64,7 +26,7 @@ function customerLoggedIn(profile) {
     var Site = require('dw/system/Site').getCurrent();
     var isSyncEnabled = Site.getCustomPreferenceValue('b2ccrm_syncCustomersOnLoginEnabled');
     var isSyncOnceEnabled = Site.getCustomPreferenceValue('b2ccrm_syncCustomersOnLoginOnceEnabled');
-    if (!isSyncEnabled || (isSyncEnabled && isSyncOnceEnabled && sfdcContactIDIdentifierPresent(profile))) {
+    if (!isSyncEnabled || (isSyncEnabled && isSyncOnceEnabled && require('../util/helpers').sfdcContactIDIdentifierPresent(profile))) {
         return;
     }
 
@@ -78,7 +40,7 @@ function customerLoggedIn(profile) {
  * @param {dw/customer/Profile} profile
  */
 function customerCreated(profile) {
-    if (!isIntegrationEnabled() || !profile) {
+    if (!require('../util/helpers').isIntegrationEnabled() || !profile) {
         return;
     }
 
@@ -92,7 +54,7 @@ function customerCreated(profile) {
  * @param {dw/customer/Profile} profile
  */
 function customerUpdated(profile) {
-    if (!isIntegrationEnabled() || !profile) {
+    if (!require('../util/helpers').isIntegrationEnabled() || !profile) {
         return;
     }
 
@@ -107,7 +69,7 @@ function customerUpdated(profile) {
  */
 function handleProcess(profile, action) {
     var ServiceMgr = require('../services/ServiceMgr');
-    var profileModel = new (require('../models/customer'))(profile, 'process');
+    var profileModel = new (require('../models/customer'))(profile);
 
     try {
         // Set the profile status, meaning that we start the export process

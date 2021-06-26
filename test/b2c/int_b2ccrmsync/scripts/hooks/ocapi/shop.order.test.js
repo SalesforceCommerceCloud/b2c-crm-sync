@@ -11,12 +11,12 @@ chai.use(sinonChai);
 const proxyquire = require('proxyquire').noCallThru();
 require('dw-api-mock/demandware-globals');
 
-describe('int_b2ccrmsync/cartridge/scripts/hooks/ocapi/shop.auth', function () {
+describe('int_b2ccrmsync/cartridge/scripts/hooks/ocapi/shop.order', function () {
     let sandbox;
     let spy;
     let requireStub;
-    let customer;
-    let shopAuthHook;
+    let order;
+    let shopHook;
 
     before('setup sandbox', function () {
         sandbox = sinon.createSandbox();
@@ -27,11 +27,10 @@ describe('int_b2ccrmsync/cartridge/scripts/hooks/ocapi/shop.auth', function () {
             'dw/system/Site': require('dw-api-mock/dw/system/Site'),
             'dw/system/HookMgr': require('dw-api-mock/dw/system/HookMgr')
         };
-        shopAuthHook = proxyquire(path.join(process.cwd(), 'src/sfcc/cartridges/int_b2ccrmsync/cartridge/scripts/hooks/ocapi/shop.auth'), requireStub);
+        shopHook = proxyquire(path.join(process.cwd(), 'src/sfcc/cartridges/int_b2ccrmsync/cartridge/scripts/hooks/ocapi/shop.order'), requireStub);
 
-        let Profile = require('dw-api-mock/dw/customer/Profile');
-        let Customer = require('dw-api-mock/dw/customer/Customer');
-        customer = new Customer(new Profile());
+        let Order = require('dw-api-mock/dw/order/Order');
+        order = new Order();
         spy = sinon.spy(require('dw-api-mock/dw/system/HookMgr'), 'callHook');
     });
 
@@ -43,42 +42,31 @@ describe('int_b2ccrmsync/cartridge/scripts/hooks/ocapi/shop.auth', function () {
     describe('afterPOST', function () {
         it('should not do anything in case the B2C CRM Sync site preference is disabled', function () {
             const site = require('dw-api-mock/dw/system/Site').getCurrent();
-            site.customPreferences.b2ccrm_syncCustomersViaOCAPI = false;
+            site.customPreferences.b2ccrm_syncCustomersFromOrdersViaOCAPI = false;
             requireStub['dw/system/Site'].getCurrent = sandbox.stub().returns(site);
-            shopAuthHook.afterPOST(customer);
+            shopHook.afterPOST(order);
 
             expect(spy).to.have.not.been.called;
         });
 
         it('should not do anything in case the B2C CRM Sync site hook is not present in the codebase', function () {
             const site = require('dw-api-mock/dw/system/Site').getCurrent();
-            site.customPreferences.b2ccrm_syncCustomersViaOCAPI = false;
+            site.customPreferences.b2ccrm_syncCustomersFromOrdersViaOCAPI = true;
             requireStub['dw/system/Site'].getCurrent = sandbox.stub().returns(site);
             requireStub['dw/system/HookMgr'].hasHook = sandbox.stub().returns(false);
-            shopAuthHook.afterPOST(customer);
+            shopHook.afterPOST(order);
 
             expect(spy).to.have.not.been.called;
         });
 
-        it('should not do anything in case the customer is not authenticated', function () {
+        it('should call the HookMgr if the preference is enabled', function () {
             const site = require('dw-api-mock/dw/system/Site').getCurrent();
-            site.customPreferences.b2ccrm_syncCustomersViaOCAPI = false;
-            requireStub['dw/system/Site'].getCurrent = sandbox.stub().returns(site);
-            customer.authenticated = false;
-            shopAuthHook.afterPOST(customer);
-
-            expect(spy).to.have.not.been.called;
-        });
-
-        it('should call the HookMgr if the preference is enabled and the customer is authenticated', function () {
-            const site = require('dw-api-mock/dw/system/Site').getCurrent();
-            site.customPreferences.b2ccrm_syncCustomersViaOCAPI = true;
+            site.customPreferences.b2ccrm_syncCustomersFromOrdersViaOCAPI = true;
             requireStub['dw/system/Site'].getCurrent = sandbox.stub().returns(site);
             requireStub['dw/system/HookMgr'].hasHook = sandbox.stub().returns(true);
-            customer.authenticated = true;
-            shopAuthHook.afterPOST(customer);
+            shopHook.afterPOST(order);
 
-            expect(spy).to.have.been.calledWith('app.customer.loggedIn', 'loggedIn', customer.getProfile());
+            expect(spy).to.have.been.calledWith('app.order.created', 'created', order);
         });
     });
 });

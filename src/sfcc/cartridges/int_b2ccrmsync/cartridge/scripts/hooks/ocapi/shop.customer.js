@@ -12,11 +12,11 @@ var Site = require('dw/system/Site');
  * @param {Object} customerRegistration Describes the post used to register a customer
  */
 function afterPOST(customer, customerRegistration) {
-    if (!Site.getCurrent().getCustomPreferenceValue('b2ccrm_syncCustomersViaOCAPI') || !customer.isAuthenticated()) {
+    if (!Site.getCurrent().getCustomPreferenceValue('b2ccrm_syncCustomersViaOCAPI') || !customer.isAuthenticated() || !require('dw/system/HookMgr').hasHook('app.customer.created')) {
         return;
     }
 
-    var LOGGER = Logger.getLogger('int_b2ccrmsync', 'hooks.ocapi.shop.auth.afterPOST');
+    var LOGGER = Logger.getLogger('int_b2ccrmsync', 'hooks.ocapi.shop.customer.afterPOST');
     // Call out that we're executing the customer-profile sync
     LOGGER.info('-- B2C-CRM-Sync: Customer Registration: Start: Sync via OCAPI');
     // Invoke the customer-process hook -- and pass-in the created customer-record
@@ -35,11 +35,11 @@ function afterPOST(customer, customerRegistration) {
  * @param {Object} customerRegistration Describes the post used to update the customer profile
  */
 function afterPATCH(customer, customerRegistration) {
-    if (!Site.getCurrent().getCustomPreferenceValue('b2ccrm_syncCustomersViaOCAPI') || !customer.isAuthenticated()) {
+    if (!Site.getCurrent().getCustomPreferenceValue('b2ccrm_syncCustomersViaOCAPI') || !customer.isAuthenticated() || !require('dw/system/HookMgr').hasHook('app.customer.updated')) {
         return;
     }
 
-    var LOGGER = Logger.getLogger('int_b2ccrmsync', 'hooks.ocapi.shop.auth.afterPATCH');
+    var LOGGER = Logger.getLogger('int_b2ccrmsync', 'hooks.ocapi.shop.customer.afterPATCH');
     // Call out that we're executing the customer-profile sync
     LOGGER.info('-- B2C-CRM-Sync: Customer Profile Update: Syncing Customer Profile via OCAPI');
     // Invoke the customer-process hook -- and pass-in the created customer-record
