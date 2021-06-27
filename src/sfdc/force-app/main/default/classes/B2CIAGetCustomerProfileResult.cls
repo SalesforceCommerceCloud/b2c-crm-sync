@@ -38,6 +38,12 @@ public class B2CIAGetCustomerProfileResult {
     public Integer statusCode;
 
     @InvocableVariable
+    public String apiUrl;
+
+    @InvocableVariable
+    public String requestBody;
+
+    @InvocableVariable
     public String responseBody;
 
     ////////////////////////////////////////////////////////////////

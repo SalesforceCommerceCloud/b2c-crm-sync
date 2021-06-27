@@ -224,9 +224,10 @@ global class B2CAddressBookDataSourceConnection extends DataSource.Connection {
         List<Contact> contacts = [
             SELECT
                 B2C_Customer_No__c,
+                B2C_CustomerList__r.Base_API_Url__c,
                 B2C_CustomerList__r.CustomerList_ID__c,
                 B2C_CustomerList__r.OCAPI_Version_No__c,
-                B2C_CustomerList__r.Named_Credential_Developer_Name__c
+                B2C_CustomerList__r.B2C_Client_ID__c
             FROM Contact
             WHERE B2C_Customer_ID__c = :customerId
         ];
@@ -247,7 +248,8 @@ global class B2CAddressBookDataSourceConnection extends DataSource.Connection {
 
         // Performs the patch request
         HttpRequest req = B2CHttpRequestHelper.getCustomerProfileAddressPatchRequest(
-            contact.B2C_CustomerList__r.Named_Credential_Developer_Name__c,
+            contact.B2C_CustomerList__r.API_Url__c,
+            getAuthToken(contact.B2C_CustomerList__r.B2C_Client_ID__c),
             contact.B2C_CustomerList__r.OCAPI_Version_No__c,
             contact.B2C_CustomerList__r.CustomerList_ID__c,
             contact.B2C_Customer_No__c,
@@ -280,9 +282,10 @@ global class B2CAddressBookDataSourceConnection extends DataSource.Connection {
         List<Contact> contacts = [
             SELECT
                 B2C_Customer_No__c,
+                B2C_CustomerList__r.Base_API_Url__c,
                 B2C_CustomerList__r.CustomerList_ID__c,
                 B2C_CustomerList__r.OCAPI_Version_No__c,
-                B2C_CustomerList__r.Named_Credential_Developer_Name__c
+                B2C_CustomerList__r.B2C_Client_ID__c
             FROM Contact
             WHERE B2C_Customer_ID__c = :customerId
         ];
@@ -295,12 +298,18 @@ global class B2CAddressBookDataSourceConnection extends DataSource.Connection {
         // Retrieve the contact record
         Contact contact = contacts.get(0);
 
+        // Initialize the outgoing request
         HttpRequest req;
+
+        // First, get the authToken
+        String b2cAuthToken = getAuthToken(contact.B2C_CustomerList__r.B2C_Client_ID__c);
+
         // If the address Id is provided, get the address
         // Else, get all addresses for this customer
         if (!String.isEmpty(addressId)) {
             req = B2CHttpRequestHelper.getCustomerProfileAddressRequest(
-                contact.B2C_CustomerList__r.Named_Credential_Developer_Name__c,
+                contact.B2C_CustomerList__r.Base_API_Url__c,
+                b2cAuthToken,
                 contact.B2C_CustomerList__r.OCAPI_Version_No__c,
                 contact.B2C_CustomerList__r.CustomerList_ID__c,
                 contact.B2C_Customer_No__c,
@@ -308,7 +317,8 @@ global class B2CAddressBookDataSourceConnection extends DataSource.Connection {
             );
         } else {
             req = B2CHttpRequestHelper.getCustomerProfileAddressesRequest(
-                contact.B2C_CustomerList__r.Named_Credential_Developer_Name__c,
+                contact.B2C_CustomerList__r.Base_API_Url__c,
+                b2cAuthToken,
                 contact.B2C_CustomerList__r.OCAPI_Version_No__c,
                 contact.B2C_CustomerList__r.CustomerList_ID__c,
                 contact.B2C_Customer_No__c
@@ -393,6 +403,41 @@ global class B2CAddressBookDataSourceConnection extends DataSource.Connection {
 
         // Return the retrieved address
         return address;
+
+    }
+
+    private String getAuthToken (String b2cClientID) {
+
+        List<B2C_Client_ID__c> thisClientID;
+        Map<String, Object> flowResults;
+        Boolean isSuccess;
+        List<String> errorMessages;
+        String b2cAuthToken;
+
+        // Create a reference to the associated B2C ClientID value
+        thisClientID = [
+            SELECT  Id,
+                    Name,
+                    Is_Active__c,
+                    Is_Certificate_Verified__c,
+                    Audit_Authentication_API_Interactions__c,
+                    JWT_Certificate_Name__c,
+                    IsDeleted
+            FROM    B2C_Client_ID__c
+            WHERE   Id = :b2cClientID
+            LIMIT   1
+        ];
+
+        // Retrieve the authToken for the associated B2C ClientID
+        flowResults = B2CAuthTokenHelper.getB2CAuthToken(thisClientID.get(0));
+
+        // Create local references to the flowResult variables
+        isSuccess = (Boolean) flowResults.get('isSuccess');
+        errorMessages = (List<String>) flowResults.get('errorMessage');
+        b2cAuthToken = (String) flowResults.get('b2cAuthToken');
+
+        // Return the authToken value
+        return b2cAuthToken;
 
     }
 

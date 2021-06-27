@@ -13,7 +13,10 @@ public class B2CIAPublishCustomerProfileInput {
     ////////////////////////////////////////////////////////////////
 
     @InvocableVariable
-    public String namedCredential;
+    public String b2cAuthToken;
+
+    @InvocableVariable
+    public String apiUrl;
 
     @InvocableVariable
     public String apiVersion;

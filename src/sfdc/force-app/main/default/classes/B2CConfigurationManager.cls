@@ -29,7 +29,8 @@ public with sharing class B2CConfigurationManager {
                         Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.Expiration_in_Minutes__c,
                         Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.JWT_Algorithm__c,
                         Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.JWT_SFCC_Algorithm__c,
-                        Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.Retry_Count__c
+                        Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.Retry_Count__c,
+                        Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.Persist_B2C_AuthTokens__c
                 FROM    B2C_CRM_Sync_Default_Configuration__mdt
                 WHERE   DeveloperName = 'Production_Configuration'
                 LIMIT   1
@@ -43,6 +44,7 @@ public with sharing class B2CConfigurationManager {
         output.put('JWTSFDCAlgorithm', configurationProfile.Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.JWT_Algorithm__c);
         output.put('JWTSFCCAlgorithm', configurationProfile.Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.JWT_SFCC_Algorithm__c);
         output.put('RetryCount', String.valueOf(configurationProfile.Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.Retry_Count__c));
+        output.put('PersistAuthTokens', String.valueOf(configurationProfile.Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.Persist_B2C_AuthTokens__c));
 
         // Return the associated Account Manager configuration settings
         return output;

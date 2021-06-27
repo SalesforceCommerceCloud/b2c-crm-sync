@@ -2,7 +2,7 @@
  * @author Eric Schultz
  * @date April 11th, 2021
  *
- * @description 
+ * @description
 */
 @IsTest
 private class B2CIAPublishCustomerProfile_Test {
@@ -26,7 +26,6 @@ private class B2CIAPublishCustomerProfile_Test {
 
         Database.insert( c );
 
-        input.namedCredential = 'NamedCredential';
         input.apiVersion = 'apiVersion';
         input.b2cCustomerListId = 'id';
         input.b2cCustomerNo = 'customerno';

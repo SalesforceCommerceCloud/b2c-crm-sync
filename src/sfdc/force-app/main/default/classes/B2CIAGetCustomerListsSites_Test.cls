@@ -23,8 +23,7 @@ private class B2CIAGetCustomerListsSites_Test {
 
             B2CIAGetCustomerListsSitesInput req = new B2CIAGetCustomerListsSitesInput();
 
-            req.b2cInstanceId = i.Id;
-            req.namedCredential = 'NamedCredential';
+            req.b2cInstance = i;
             req.OCAPIVersion = 'version';
 
             resultsList = B2CIAGetCustomerListsSites.getAllSites(

@@ -38,9 +38,6 @@ public class B2CIAPublishCustomerProfileResult {
     @InvocableVariable
     public JSONParse b2cCustomerProfile;
 
-    @InvocableVariable
-    public String requestPayload;
-
     ////////////////////////////////////////////////////////////////
     // Include the REST response properties
     ////////////////////////////////////////////////////////////////
@@ -50,6 +47,12 @@ public class B2CIAPublishCustomerProfileResult {
 
     @InvocableVariable
     public Integer statusCode;
+
+    @InvocableVariable
+    public String apiUrl;
+
+    @InvocableVariable
+    public String requestBody;
 
     @InvocableVariable
     public String responseBody;

@@ -13,7 +13,7 @@ public class B2CIARequestB2CAuthTokenInput {
     ////////////////////////////////////////////////////////////////
 
     @InvocableVariable
-    public String Id;
+    public String b2cClientIdRecordId;
 
     @InvocableVariable
     public String b2cClientId;
@@ -23,5 +23,8 @@ public class B2CIARequestB2CAuthTokenInput {
 
     @InvocableVariable
     public Boolean auditAuthenticationAPIInteractions;
+
+    @InvocableVariable
+    public Boolean bypassAuthTokenAuditing;
 
 }

@@ -15,9 +15,6 @@ public class B2CIAGetCustomerListsSitesResult {
     @InvocableVariable
     public String b2cInstanceId;
 
-    @InvocableVariable
-    public String namedCredentialDeveloperName;
-
     ////////////////////////////////////////////////////////////////
     // Include the REST response properties
     ////////////////////////////////////////////////////////////////
@@ -30,9 +27,6 @@ public class B2CIAGetCustomerListsSitesResult {
 
     @InvocableVariable
     public String responseBody;
-
-    @InvocableVariable
-    public JSONParse parsedResponse;
 
     ////////////////////////////////////////////////////////////////
     // Include the deserialized properties from the response

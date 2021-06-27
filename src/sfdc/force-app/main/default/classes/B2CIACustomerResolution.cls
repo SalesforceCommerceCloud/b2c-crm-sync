@@ -107,7 +107,11 @@ public inherited sharing class B2CIACustomerResolution {
                     FirstName,
                     LastName,
                     Email,
-                    B2C_Disable_Integration__c
+                    B2C_UserName__c,
+                    B2C_Disable_Integration__c,
+                    B2C_Date_Last_Modified__c,
+                    CreatedDate,
+                    LastModifiedDate
             FROM    Contact
             WHERE   Id = :duplicateContactRecords
             ORDER BY

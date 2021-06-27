@@ -9,10 +9,13 @@
 public class B2CIAGetCustomerListsSitesInput {
 
     @InvocableVariable
-    public String b2cInstanceId;
+    public B2C_Instance__c b2cInstance;
 
     @InvocableVariable
-    public String namedCredential;
+    public B2C_Client_ID__c b2cClientId;
+
+    @InvocableVariable
+    public String b2cAuthToken;
 
     @InvocableVariable
     public String OCAPIVersion;

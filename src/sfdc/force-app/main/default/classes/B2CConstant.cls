@@ -41,6 +41,7 @@ public with sharing class B2CConstant {
         Contact_Integration_ProcessMode_Retrieve = 'retrieve',
         Contact_Integration_ProcessMode_Publish = 'publish',
         Contact_Integration_ProcessMode_Process = 'process',
+        Contact_Integration_ProcessMode_Resolve = 'resolve',
 
         // Define the error messages related to integration configuration
         Errors_IntegrationConfig_UnknownProcessMode = '--> B2C Exception: Contact ProcessMode is invalid [{0}]; expected [{1}].',
@@ -70,7 +71,8 @@ public with sharing class B2CConstant {
     public static final List<String> contactProcessModes = new List<String>{
         Contact_Integration_ProcessMode_Retrieve,
         Contact_Integration_ProcessMode_Publish,
-        Contact_Integration_ProcessMode_Process
+        Contact_Integration_ProcessMode_Process,
+        Contact_Integration_ProcessMode_Resolve
     };
 
     // Define the collection of PersonAccount properties that we'll manually remove from Contact records

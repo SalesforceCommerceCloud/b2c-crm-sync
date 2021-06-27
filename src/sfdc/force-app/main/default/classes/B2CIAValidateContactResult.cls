@@ -82,8 +82,8 @@ public class B2CIAValidateContactResult {
 
         }
 
-        // Only continue if integration hasn't been disabled (again)
-        if (allowIntegrationProcess == true) {
+        // Only continue if integration hasn't been disabled (again) --- and we're only evaluating resolution(s)
+        if (allowIntegrationProcess == true && this.processMode != B2CConstant.Contact_Integration_ProcessMode_Resolve) {
 
             // Validate the the process-specific integration controls
             validateProcessIntegrationControls();

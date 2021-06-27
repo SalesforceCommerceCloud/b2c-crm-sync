@@ -8,7 +8,7 @@ public with sharing class B2CIACustomerResolution_TestHelper {
 
     /**
      * @description This method is used to assert that a validation error was caught
-     * when conducting filter-matching logic via the B2C_Commerce_Contact_Filter_Matches flow.
+     * when conducting filter-matching logic via the B2CCommerce_Process_ContactFilterMatches flow.
      * @param flowResults {Map<String, Object>} Represents the results processed by the
      * customerResolution class and filterMatches flow results
      */
@@ -42,7 +42,7 @@ public with sharing class B2CIACustomerResolution_TestHelper {
 
     /**
      * @description This method is used to assert that multiple results were resolved
-     * via the B2C_Commerce_Contact_Filter_Matches flow for a given customerResolution result
+     * via the B2CCommerce_Process_ContactFilterMatches flow for a given customerResolution result
      * @param flowResults {Map<String, Object>} Represents the results processed by the
      * customerResolution class and filterMatches flow results
      */
@@ -76,7 +76,7 @@ public with sharing class B2CIACustomerResolution_TestHelper {
 
     /**
      * @description This method is used to assert that zero filter results are returned
-     * via the B2C_Commerce_Contact_Filter_Matches flow from multiple resolution results
+     * via the B2CCommerce_Process_ContactFilterMatches flow from multiple resolution results
      * @param flowResults {Map<String, Object>} Represents the results processed by the
      * customerResolution class and filterMatches flow results
      */
@@ -207,7 +207,7 @@ public with sharing class B2CIACustomerResolution_TestHelper {
         contactFilterMap.put('ContactMatches', contactResolvedList);
 
         // Execute the filterMap flow attempt to resolve the specific contact identified
-        contactFilterMatchFlow = Flow.Interview.createInterview('B2C_Commerce_Contact_Filter_Matches', contactFilterMap);
+        contactFilterMatchFlow = Flow.Interview.createInterview('B2CCommerce_Process_ContactFilterMatches', contactFilterMap);
 
         // Initialize the flow and start it
         contactFilterMatchFlow.start();

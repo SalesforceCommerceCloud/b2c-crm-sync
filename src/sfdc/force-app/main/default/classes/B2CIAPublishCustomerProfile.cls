@@ -28,6 +28,7 @@ public with sharing class B2CIAPublishCustomerProfile extends B2CBaseAttributeAs
         B2CIAPublishCustomerProfileResult customerPublishResult;
         String thisB2CProfileJSON;
         JSONParse parsedJSON;
+        JSONParse parsedBodyJSON;
         String accountContactModel;
 
         // Initialize the request properties
@@ -66,7 +67,7 @@ public with sharing class B2CIAPublishCustomerProfile extends B2CBaseAttributeAs
             }
 
             // Build the request object utilizing the input properties
-            req = B2CHttpRequestHelper.getCustomerProfilePatchRequest(requestInput.namedCredential, requestInput.apiVersion, requestInput.b2cCustomerListId, requestInput.b2cCustomerNo, thisB2CProfileJSON);
+            req = B2CHttpRequestHelper.getCustomerProfilePatchRequest(requestInput.apiUrl, requestInput.b2cAuthToken, requestInput.apiVersion, requestInput.b2cCustomerListId, requestInput.b2cCustomerNo, thisB2CProfileJSON);
 
             // Initialize the request
             https = new Http();
@@ -90,11 +91,13 @@ public with sharing class B2CIAPublishCustomerProfile extends B2CBaseAttributeAs
 
             // Parse the JSON so that we can format the body content
             parsedJSON = new JSONParse(res.getBody());
+            parsedBodyJSON = new JSONParse(req.getBody());
 
             // Seed the default properties of the resultObject
+            customerPublishResult.apiUrl = req.getEndpoint();
             customerPublishResult.status = res.getStatus();
             customerPublishResult.statusCode = res.getStatusCode();
-            customerPublishResult.requestPayload = thisB2CProfileJSON;
+            customerPublishResult.requestBody = parsedBodyJSON.toStringPretty();
             customerPublishResult.responseBody = parsedJSON.toStringPretty();
             customerPublishResult.isError = false;
 
