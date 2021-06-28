@@ -46,6 +46,19 @@
     </flexiPageRegions>
     <flexiPageRegions>
         <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>hideHeader</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentName>force:relatedListQuickLinksContainer</componentName>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-74d97c91-4615-4456-ae46-9210eeef6c80</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
             <fieldInstance>
                 <fieldItem>Record.Name</fieldItem>
             </fieldInstance>
@@ -62,6 +75,17 @@
         <itemInstances>
             <fieldInstance>
                 <fieldItem>Record.Is_Valid__c</fieldItem>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Name}</leftValue>
+                        <operator>NE</operator>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldItem>Record.Is_Expired__c</fieldItem>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.Name}</leftValue>
@@ -108,6 +132,58 @@
             </componentInstance>
         </itemInstances>
         <name>Facet-f708e4ba-89cd-4fc2-987b-fb15c334312b</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldItem>Record.Is_Invalidated__c</fieldItem>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Name}</leftValue>
+                        <operator>NE</operator>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-f1477d29-8a04-426d-b793-e893e73c2bfc</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldItem>Record.Invalidation_Date__c</fieldItem>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Name}</leftValue>
+                        <operator>NE</operator>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-c52df0f4-a5eb-4815-bc19-61d10f8ebb04</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-f1477d29-8a04-426d-b793-e893e73c2bfc</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-c52df0f4-a5eb-4815-bc19-61d10f8ebb04</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-c87c23ea-920b-4c2f-99d7-e847c6c540d8</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -184,62 +260,6 @@
     </flexiPageRegions>
     <flexiPageRegions>
         <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>readonly</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Total_Usage__c</fieldItem>
-                <visibilityRule>
-                    <criteria>
-                        <leftValue>{!Record.Name}</leftValue>
-                        <operator>NE</operator>
-                    </criteria>
-                </visibilityRule>
-            </fieldInstance>
-        </itemInstances>
-        <name>Facet-03da814c-6e34-49a3-a78e-050a2ec3069a</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <fieldInstance>
-                <fieldItem>Record.Is_Expired__c</fieldItem>
-                <visibilityRule>
-                    <criteria>
-                        <leftValue>{!Record.Name}</leftValue>
-                        <operator>NE</operator>
-                    </criteria>
-                </visibilityRule>
-            </fieldInstance>
-        </itemInstances>
-        <name>Facet-1675ed9c-7394-4967-b07d-5af7e1d39437</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-03da814c-6e34-49a3-a78e-050a2ec3069a</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:column</componentName>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-1675ed9c-7394-4967-b07d-5af7e1d39437</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:column</componentName>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-91dbff68-6d0f-49c6-81b3-017b88a3e8f9</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
                     <name>columns</name>
@@ -250,6 +270,25 @@
                     <value>Status</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>columns</name>
+                    <value>Facet-c87c23ea-920b-4c2f-99d7-e847c6c540d8</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>label</name>
+                    <value>Manually Invalidate B2C AuthToken</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:fieldSection</componentName>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Name}</leftValue>
+                        <operator>NE</operator>
+                    </criteria>
+                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -282,25 +321,6 @@
                     <value>Description</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>columns</name>
-                    <value>Facet-91dbff68-6d0f-49c6-81b3-017b88a3e8f9</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>label</name>
-                    <value>B2C AuthToken Usage</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:fieldSection</componentName>
-                <visibilityRule>
-                    <criteria>
-                        <leftValue>{!Record.Name}</leftValue>
-                        <operator>NE</operator>
-                    </criteria>
-                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <name>Facet-4f1f8bf5-0b65-42aa-bf9b-83c22460ab0c</name>
@@ -386,6 +406,23 @@
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-74d97c91-4615-4456-ae46-9210eeef6c80</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>label</name>
+                    <value>Related List QuickLinks</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>name</name>
+                    <value>accordionSection--tjp9me2d7pa</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:accordionSection</componentName>
+            </componentInstance>
+        </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>

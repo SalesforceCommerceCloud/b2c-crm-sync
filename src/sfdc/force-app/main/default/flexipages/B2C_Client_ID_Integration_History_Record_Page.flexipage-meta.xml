@@ -50,10 +50,28 @@
                 <fieldItem>Record.B2C_Client_ID__c</fieldItem>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Has_Error__c</fieldItem>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-7dc4fc91-dbe9-47e5-8b8c-f37512027941</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Has_Token__c</fieldItem>
+            </fieldInstance>
+        </itemInstances>
         <itemInstances>
             <fieldInstance>
                 <fieldInstanceProperties>
@@ -98,34 +116,7 @@
                 <fieldItem>Record.Account_Manager_Url__c</fieldItem>
             </fieldInstance>
         </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldItem>Record.B2C_AuthToken__c</fieldItem>
-            </fieldInstance>
-        </itemInstances>
-        <name>Facet-f6f34352-ad16-47a4-a5a0-318d41df321d</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Has_Error__c</fieldItem>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Has_Token__c</fieldItem>
-            </fieldInstance>
-        </itemInstances>
-        <name>Facet-4a4a82ee-2792-4860-8ecf-6d38d8f4124a</name>
+        <name>Facet-61a07228-7b3c-4c93-a224-5e7b552f6f6e</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -133,31 +124,18 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-f6f34352-ad16-47a4-a5a0-318d41df321d</value>
+                    <value>Facet-61a07228-7b3c-4c93-a224-5e7b552f6f6e</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:column</componentName>
             </componentInstance>
         </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-4a4a82ee-2792-4860-8ecf-6d38d8f4124a</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:column</componentName>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-5465a8fd-659f-48d4-b08f-06385f8558ad</name>
+        <name>Facet-91dbde18-4cd5-4aa5-b0a6-7758b4709366</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
         <itemInstances>
             <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Auth_Token_Value__c</fieldItem>
+                <fieldItem>Record.Integration_Message__c</fieldItem>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -225,7 +203,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>label</name>
-                    <value>AuthToken Parent and Value</value>
+                    <value>B2C Client ID and Auth Token Summary</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
             </componentInstance>
@@ -234,11 +212,11 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>columns</name>
-                    <value>Facet-5465a8fd-659f-48d4-b08f-06385f8558ad</value>
+                    <value>Facet-91dbde18-4cd5-4aa5-b0a6-7758b4709366</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>label</name>
-                    <value>AuthToken Summary</value>
+                    <value>Account Manager Endpoint Url</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
             </componentInstance>

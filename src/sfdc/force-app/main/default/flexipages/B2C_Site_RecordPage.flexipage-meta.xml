@@ -50,7 +50,7 @@
                 <fieldItem>Record.B2C_Instance_Name__c</fieldItem>
                 <visibilityRule>
                     <criteria>
-                        <leftValue>{!Record.Name}</leftValue>
+                        <leftValue>{!Record.CustomerList_ID__c}</leftValue>
                         <operator>NE</operator>
                     </criteria>
                 </visibilityRule>
@@ -223,28 +223,6 @@
     <flexiPageRegions>
         <itemInstances>
             <fieldInstance>
-                <fieldItem>Record.Description__c</fieldItem>
-            </fieldInstance>
-        </itemInstances>
-        <name>Facet-edc8c950-5e95-49a6-afc4-621bf5bd5d76</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-edc8c950-5e95-49a6-afc4-621bf5bd5d76</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:column</componentName>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-bea3b151-1399-4e0c-afd1-788e5a901603</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <fieldInstance>
                 <fieldItem>Record.Base_API_Url__c</fieldItem>
                 <visibilityRule>
                     <criteria>
@@ -283,10 +261,32 @@
     <flexiPageRegions>
         <itemInstances>
             <fieldInstance>
+                <fieldItem>Record.Description__c</fieldItem>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-edc8c950-5e95-49a6-afc4-621bf5bd5d76</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-edc8c950-5e95-49a6-afc4-621bf5bd5d76</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-bea3b151-1399-4e0c-afd1-788e5a901603</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
                 <fieldItem>Record.Base_Internal_Site_Url__c</fieldItem>
                 <visibilityRule>
                     <criteria>
-                        <leftValue>{!Record.Name}</leftValue>
+                        <leftValue>{!Record.Base_API_Url__c}</leftValue>
                         <operator>NE</operator>
                     </criteria>
                 </visibilityRule>
@@ -438,11 +438,11 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>columns</name>
-                    <value>Facet-bea3b151-1399-4e0c-afd1-788e5a901603</value>
+                    <value>Facet-1d9a1743-fb0e-4a61-8efb-69496f9e2247</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>label</name>
-                    <value>Description</value>
+                    <value>B2C Commerce Integration Properties</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
             </componentInstance>
@@ -451,11 +451,11 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>columns</name>
-                    <value>Facet-1d9a1743-fb0e-4a61-8efb-69496f9e2247</value>
+                    <value>Facet-bea3b151-1399-4e0c-afd1-788e5a901603</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>label</name>
-                    <value>B2C Commerce Integration Properties</value>
+                    <value>Description</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
             </componentInstance>

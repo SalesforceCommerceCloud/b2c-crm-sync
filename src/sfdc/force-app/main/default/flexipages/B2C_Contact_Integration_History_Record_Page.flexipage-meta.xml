@@ -87,26 +87,13 @@
                 <fieldItem>Record.B2C_CustomerList__c</fieldItem>
             </fieldInstance>
         </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>required</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.B2C_AuthToken__c</fieldItem>
-            </fieldInstance>
-        </itemInstances>
         <name>Facet-0cd6efa2-7951-4752-ac7d-49409a8cb632</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
         <itemInstances>
             <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>readonly</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Process_Mode__c</fieldItem>
+                <fieldItem>Record.Contact_Last_Modified_Date__c</fieldItem>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -145,68 +132,6 @@
     </flexiPageRegions>
     <flexiPageRegions>
         <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>readonly</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Integration_Has_Error__c</fieldItem>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>readonly</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Integration_Message__c</fieldItem>
-            </fieldInstance>
-        </itemInstances>
-        <name>Facet-05ba3513-9e30-48ed-89ce-49268ce26964</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>readonly</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Integration_Status_Code__c</fieldItem>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldItem>Record.Contact_Last_Modified_Date__c</fieldItem>
-            </fieldInstance>
-        </itemInstances>
-        <name>Facet-18f66852-47e1-472c-af47-deca76390bdc</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-05ba3513-9e30-48ed-89ce-49268ce26964</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:column</componentName>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-18f66852-47e1-472c-af47-deca76390bdc</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:column</componentName>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-2ae0cbe3-d35d-4290-bacd-2cc29e8dcde0</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
                     <name>columns</name>
@@ -219,20 +144,84 @@
                 <componentName>flexipage:fieldSection</componentName>
             </componentInstance>
         </itemInstances>
+        <name>Facet-1c42544e-9d51-4a3c-9ac0-b62651dce4b9</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldItem>Record.Integration_Status_Code__c</fieldItem>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldItem>Record.Integration_Has_Error__c</fieldItem>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-897bca74-b18c-4552-a9d6-a72f509da425</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldItem>Record.B2C_AuthToken__c</fieldItem>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldItem>Record.Integration_Message__c</fieldItem>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-300c63d4-8fe8-409d-ab8e-5009786258f0</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
-                    <name>columns</name>
-                    <value>Facet-2ae0cbe3-d35d-4290-bacd-2cc29e8dcde0</value>
+                    <name>body</name>
+                    <value>Facet-897bca74-b18c-4552-a9d6-a72f509da425</value>
                 </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>label</name>
-                    <value>Integration Status</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:fieldSection</componentName>
+                <componentName>flexipage:column</componentName>
             </componentInstance>
         </itemInstances>
-        <name>Facet-1c42544e-9d51-4a3c-9ac0-b62651dce4b9</name>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-300c63d4-8fe8-409d-ab8e-5009786258f0</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-da07b2e3-41e9-4bdd-875c-f7ff8c802ba3</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldItem>Record.API_Url__c</fieldItem>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldItem>Record.Process_Mode__c</fieldItem>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-ece4f6ca-9258-4a1a-9139-66c1d4055b90</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-ece4f6ca-9258-4a1a-9139-66c1d4055b90</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-16818415-45b5-4ccd-be3f-796b2d85649b</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -250,10 +239,32 @@
     </flexiPageRegions>
     <flexiPageRegions>
         <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Integration_JSON__c</fieldItem>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-548e052e-d3a4-4b7e-82f1-69bc9aad56e6</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
                     <value>Facet-4d26b15a-0450-4da4-b07e-06cacf627c99</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-548e052e-d3a4-4b7e-82f1-69bc9aad56e6</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:column</componentName>
             </componentInstance>
@@ -263,40 +274,14 @@
     </flexiPageRegions>
     <flexiPageRegions>
         <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>readonly</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Integration_JSON__c</fieldItem>
-            </fieldInstance>
-        </itemInstances>
-        <name>Facet-24e73a8f-95c0-4d87-b1c6-28a76ea5363f</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-24e73a8f-95c0-4d87-b1c6-28a76ea5363f</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:column</componentName>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-d0fc327b-7634-480e-ac6a-333cd6cedb72</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
                     <name>columns</name>
-                    <value>Facet-2b6fac89-a28d-42ef-845f-88ae06854fcd</value>
+                    <value>Facet-da07b2e3-41e9-4bdd-875c-f7ff8c802ba3</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>label</name>
-                    <value>JSON Payload to B2C Commerce</value>
+                    <value>REST API Request Status</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
             </componentInstance>
@@ -305,11 +290,24 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>columns</name>
-                    <value>Facet-d0fc327b-7634-480e-ac6a-333cd6cedb72</value>
+                    <value>Facet-16818415-45b5-4ccd-be3f-796b2d85649b</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>label</name>
-                    <value>JSON Response from B2C Commerce</value>
+                    <value>REST API Request Url</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:fieldSection</componentName>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>columns</name>
+                    <value>Facet-2b6fac89-a28d-42ef-845f-88ae06854fcd</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>label</name>
+                    <value>REST API Request and Response Details</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
             </componentInstance>
@@ -408,7 +406,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>label</name>
-                    <value>Integration Payloads</value>
+                    <value>Integration Processing Details</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>name</name>

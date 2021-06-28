@@ -16,9 +16,6 @@
                             <value>PrintableView</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>B2C_CustomerList__c.Assign_Named_Credential</value>
-                        </valueListItems>
-                        <valueListItems>
                             <value>B2C_CustomerList__c.Activate_B2C_CustomerList</value>
                         </valueListItems>
                         <valueListItems>
@@ -31,40 +28,10 @@
                             <value>B2C_CustomerList__c.Deactivate_B2C_Sites</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>B2C_CustomerList__c.Apply_JWTCertificate_Values</value>
-                            <visibilityRule>
-                                <criteria>
-                                    <leftValue>{!Record.JWT_Certificate_Name_OLD__c}</leftValue>
-                                    <operator>NE</operator>
-                                </criteria>
-                            </visibilityRule>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>B2C_CustomerList__c.Reset_Certificate_Site_Values</value>
-                        </valueListItems>
-                        <valueListItems>
                             <value>B2C_CustomerList__c.Apply_B2C_ClientID_Values</value>
-                            <visibilityRule>
-                                <criteria>
-                                    <leftValue>{!Record.B2C_Client_ID_Old__c}</leftValue>
-                                    <operator>NE</operator>
-                                </criteria>
-                            </visibilityRule>
                         </valueListItems>
                         <valueListItems>
                             <value>B2C_CustomerList__c.Reset_B2C_ClientID_Values</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>B2C_CustomerList__c.Apply_Named_Credential_to_Sites</value>
-                            <visibilityRule>
-                                <criteria>
-                                    <leftValue>{!Record.Named_Credential_Developer_Name__c}</leftValue>
-                                    <operator>NE</operator>
-                                </criteria>
-                            </visibilityRule>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>B2C_CustomerList__c.Reset_Named_Credential_Site_Values</value>
                         </valueListItems>
                         <valueListItems>
                             <value>B2C_CustomerList__c.Update_Site_Counts</value>
@@ -97,6 +64,19 @@
         <mode>Replace</mode>
         <name>header</name>
         <type>Region</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>hideHeader</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentName>force:relatedListQuickLinksContainer</componentName>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-d055b720-1f7e-41e7-8794-4437157feca3</name>
+        <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
         <itemInstances>
@@ -345,16 +325,6 @@
                 <fieldItem>Record.Enable_Address_Publishing__c</fieldItem>
             </fieldInstance>
         </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldItem>Record.Enable_Address_Creation__c</fieldItem>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldItem>Record.Enable_Address_Updates__c</fieldItem>
-            </fieldInstance>
-        </itemInstances>
         <name>Facet-6ec14fc1-8ebb-46a7-890a-a9f58f05d393</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -523,6 +493,23 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
+                    <value>Facet-d055b720-1f7e-41e7-8794-4437157feca3</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>label</name>
+                    <value>Related Lists QuickLinks</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>name</name>
+                    <value>accordionSection--u9bpil1k2jj</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:accordionSection</componentName>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
                     <value>Facet-81b22441-ff76-41b4-ba80-0d35dcb0609f</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -557,15 +544,6 @@
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>hideHeader</name>
-                    <value>false</value>
-                </componentInstanceProperties>
-                <componentName>force:relatedListQuickLinksContainer</componentName>
-            </componentInstance>
-        </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>

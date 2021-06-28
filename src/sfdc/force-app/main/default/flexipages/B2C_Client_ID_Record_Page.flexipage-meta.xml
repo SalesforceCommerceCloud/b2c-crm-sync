@@ -13,9 +13,6 @@
                             <value>Delete</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Clone</value>
-                        </valueListItems>
-                        <valueListItems>
                             <value>PrintableView</value>
                         </valueListItems>
                         <valueListItems>
@@ -26,6 +23,9 @@
                                     <operator>NE</operator>
                                 </criteria>
                             </visibilityRule>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>B2C_Client_ID__c.Retrieve_a_B2C_AuthToken</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
@@ -55,6 +55,19 @@
         <mode>Replace</mode>
         <name>header</name>
         <type>Region</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>hideHeader</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentName>force:relatedListQuickLinksContainer</componentName>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-ffaf2b93-17fa-4a00-af39-9a11c4ead988</name>
+        <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
         <itemInstances>
@@ -375,6 +388,23 @@
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-ffaf2b93-17fa-4a00-af39-9a11c4ead988</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>label</name>
+                    <value>Related List QuickLinks</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>name</name>
+                    <value>accordionSection--6z5jv7e3c8f</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:accordionSection</componentName>
+            </componentInstance>
+        </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
