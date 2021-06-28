@@ -731,6 +731,12 @@
                 <elementReference>recGet_B2CClientID</elementReference>
             </value>
         </inputAssignments>
+        <inputAssignments>
+            <name>BypassAuthTokenAuditing</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </subflows>
     <variables>

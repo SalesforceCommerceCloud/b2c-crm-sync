@@ -5,7 +5,7 @@
         <name>ia_resolveB2CCustomerProfile</name>
         <label>Attempt to Resolve the B2C Customer Profile</label>
         <locationX>852</locationX>
-        <locationY>746</locationY>
+        <locationY>710</locationY>
         <actionName>B2CIACustomerResolution</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -53,8 +53,8 @@
         <description>... capture an error message indicating that multiple Contact records were resolved.</description>
         <name>asn_errorMultipleContacts</name>
         <label>Error: Multiple Contacts Resolved</label>
-        <locationX>1321</locationX>
-        <locationY>1870</locationY>
+        <locationX>1320</locationX>
+        <locationY>1869</locationY>
         <assignmentItems>
             <assignToReference>var_errorMessage</assignToReference>
             <operator>Assign</operator>
@@ -132,6 +132,13 @@
                 <elementReference>ContactFilterMatches_Subflow.ContactMatchesResult</elementReference>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>var_resolvedContacts</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>var_recColResolvedContacts</elementReference>
+            </value>
+        </assignmentItems>
         <connector>
             <targetReference>dec_wasOneContactResolved</targetReference>
         </connector>
@@ -172,6 +179,13 @@
                 <booleanValue>false</booleanValue>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>var_resolvedContacts</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>var_recColResolvedContacts</elementReference>
+            </value>
+        </assignmentItems>
     </assignments>
     <assignments>
         <name>Error_No_Contact_Resolved</name>
@@ -196,8 +210,8 @@
     <assignments>
         <name>Error_Resolution_Exception</name>
         <label>Error: Resolution Exception</label>
-        <locationX>1296</locationX>
-        <locationY>941</locationY>
+        <locationX>1295</locationX>
+        <locationY>906</locationY>
         <assignmentItems>
             <assignToReference>var_errorMessage</assignToReference>
             <operator>Assign</operator>
@@ -210,6 +224,13 @@
             <operator>Assign</operator>
             <value>
                 <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>var_resolvedContacts</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>var_recColResolvedContacts</elementReference>
             </value>
         </assignmentItems>
     </assignments>
@@ -311,7 +332,7 @@
         <name>dec_wasResolutionErrorCaught</name>
         <label>Was An Error Caught During Resolution?</label>
         <locationX>844</locationX>
-        <locationY>945</locationY>
+        <locationY>910</locationY>
         <defaultConnector>
             <targetReference>ContactFilterMatches_Subflow</targetReference>
         </defaultConnector>
@@ -428,7 +449,7 @@
         <name>ContactFilterMatches_Subflow</name>
         <label>ContactFilterMatches Subflow</label>
         <locationX>853</locationX>
-        <locationY>1202</locationY>
+        <locationY>1190</locationY>
         <connector>
             <targetReference>Was_There_An_Error_In_Filtering</targetReference>
         </connector>
@@ -651,5 +672,14 @@
         <value>
             <numberValue>0.0</numberValue>
         </value>
+    </variables>
+    <variables>
+        <description>... represents the collection of resolvedContacts exposed by this flow.</description>
+        <name>var_resolvedContacts</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+        <objectType>Contact</objectType>
     </variables>
 </Flow>
