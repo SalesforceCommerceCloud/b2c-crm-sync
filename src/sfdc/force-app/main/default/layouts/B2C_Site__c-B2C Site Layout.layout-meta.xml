@@ -82,10 +82,6 @@
                 <field>B2C_Instance_Id__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
-                <field>B2C_Client_ID_OLD__c</field>
-            </layoutItems>
-            <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Base_API_Url__c</field>
             </layoutItems>
@@ -124,10 +120,6 @@
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Is_Instance_Active__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>JWT_Certificate_Name_OLD__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -187,14 +179,6 @@
         <layoutColumns/>
         <style>CustomLinks</style>
     </layoutSections>
-    <relatedLists>
-        <fields>NAME</fields>
-        <fields>B2C_Instance__c</fields>
-        <fields>B2C_Client_ID__c</fields>
-        <fields>Is_Active__c</fields>
-        <fields>Total_Sites__c</fields>
-        <relatedList>B2C_CustomerList__c.Default_Storefront__c</relatedList>
-    </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>
     <showInteractionLogPanel>false</showInteractionLogPanel>

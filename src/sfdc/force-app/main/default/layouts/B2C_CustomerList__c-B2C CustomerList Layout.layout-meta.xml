@@ -54,10 +54,6 @@
                 <field>OCAPI_Version_No__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
-                <field>B2C_Client_ID_Old__c</field>
-            </layoutItems>
-            <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Base_API_Url__c</field>
             </layoutItems>
@@ -76,14 +72,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Enable_Address_Retrieval__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Total_OOBO_Sites__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>JWT_Certificate_Name_OLD__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>

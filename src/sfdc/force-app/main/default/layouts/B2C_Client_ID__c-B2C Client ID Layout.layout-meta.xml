@@ -93,10 +93,11 @@
         <excludeButtons>MassChangeOwner</excludeButtons>
         <excludeButtons>New</excludeButtons>
         <fields>NAME</fields>
-        <fields>Is_Expired__c</fields>
+        <fields>Is_Invalidated__c</fields>
         <fields>Is_Valid__c</fields>
-        <fields>Total_Usage__c</fields>
+        <fields>Is_Expired__c</fields>
         <fields>Expiration_Date__c</fields>
+        <fields>Invalidation_Date__c</fields>
         <relatedList>B2C_AuthToken__c.B2C_Client_ID__c</relatedList>
         <sortField>Expiration_Date__c</sortField>
         <sortOrder>Desc</sortOrder>

@@ -70,10 +70,6 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Enable_B2C_Update_Counts_Trigger__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>Enable_Client_ID_CertValidation_Trigger__c</field>
             </layoutItems>
             <layoutItems>

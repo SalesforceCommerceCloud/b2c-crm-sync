@@ -28,10 +28,6 @@
                 <field>Is_Valid__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Total_Usage__c</field>
-            </layoutItems>
-            <layoutItems>
                 <behavior>Required</behavior>
                 <field>B2C_Client_ID__c</field>
             </layoutItems>
@@ -50,6 +46,14 @@
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Is_JWT_Certificate_Valid__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Is_Invalidated__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Invalidation_Date__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns/>
@@ -97,21 +101,6 @@
         <fields>LAST_UPDATE</fields>
         <relatedList>B2C_Client_ID_Integration_History__c.B2C_AuthToken__c</relatedList>
         <sortField>LAST_UPDATE</sortField>
-        <sortOrder>Desc</sortOrder>
-    </relatedLists>
-    <relatedLists>
-        <excludeButtons>MassChangeOwner</excludeButtons>
-        <excludeButtons>New</excludeButtons>
-        <fields>NAME</fields>
-        <fields>B2C_CustomerList__c</fields>
-        <fields>Contact__c</fields>
-        <fields>Integration_Has_Error__c</fields>
-        <fields>Integration_Status_Code__c</fields>
-        <fields>Process_Mode__c</fields>
-        <fields>Integration_Message__c</fields>
-        <fields>CREATED_DATE</fields>
-        <relatedList>B2C_Contact_Integration_History__c.B2C_AuthToken__c</relatedList>
-        <sortField>CREATED_DATE</sortField>
         <sortOrder>Desc</sortOrder>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
