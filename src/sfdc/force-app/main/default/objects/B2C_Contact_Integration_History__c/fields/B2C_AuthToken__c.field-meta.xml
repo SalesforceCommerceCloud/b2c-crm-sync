@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>B2C_AuthToken__c</fullName>
-    <deleteConstraint>SetNull</deleteConstraint>
-    <description>... represents the B2C AuthToken that was used to authorize a given B2C Commerce REST API interaction.</description>
+    <description>... represents the B2C AuthToken used to invoke the Contact integration REST API request with B2C Commerce.</description>
     <externalId>false</externalId>
-    <inlineHelpText>... represents the B2C AuthToken that was used to authorize a given B2C Commerce REST API interaction.</inlineHelpText>
+    <inlineHelpText>... represents the B2C AuthToken used to invoke the Contact integration REST API request with B2C Commerce.</inlineHelpText>
     <label>B2C AuthToken</label>
-    <referenceTo>B2C_AuthToken__c</referenceTo>
-    <relationshipLabel>B2C Contact Integration History</relationshipLabel>
-    <relationshipName>B2C_Contact_Integration_History</relationshipName>
+    <length>255</length>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
     <trackTrending>false</trackTrending>
-    <type>Lookup</type>
+    <type>Text</type>
+    <unique>false</unique>
 </CustomField>

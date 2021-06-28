@@ -6,6 +6,11 @@
     <columns>JWT_Certificate_Name__c</columns>
     <columns>Is_Active__c</columns>
     <columns>Is_Certificate_Verified__c</columns>
+    <columns>Audit_Authentication_API_Interactions__c</columns>
+    <columns>Total_Success_Count__c</columns>
+    <columns>Total_Failure_Count__c</columns>
+    <columns>Last_Success_On__c</columns>
+    <columns>Last_Failure_On__c</columns>
     <columns>LAST_UPDATE</columns>
     <filterScope>Everything</filterScope>
     <label>All B2C Client IDs</label>

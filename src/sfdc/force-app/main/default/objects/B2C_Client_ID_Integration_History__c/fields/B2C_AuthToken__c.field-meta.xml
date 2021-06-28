@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>B2C_AuthToken__c</fullName>
-    <deleteConstraint>Restrict</deleteConstraint>
+    <deleteConstraint>SetNull</deleteConstraint>
     <description>... represents the AuthToken provided by the B2C Commerce Account Manager that can be used to power B2C Commerce REST API requests.</description>
     <externalId>false</externalId>
     <inlineHelpText>... represents the AuthToken provided by the B2C Commerce Account Manager that can be used to power B2C Commerce REST API requests.</inlineHelpText>

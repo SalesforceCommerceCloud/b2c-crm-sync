@@ -4,7 +4,6 @@
     <columns>NAME</columns>
     <columns>B2C_Instance_Name__c</columns>
     <columns>Customer_List__c</columns>
-    <columns>CustomerList_ID__c</columns>
     <columns>Is_Active__c</columns>
     <columns>Storefront_Name__c</columns>
     <columns>Storefront_Status__c</columns>

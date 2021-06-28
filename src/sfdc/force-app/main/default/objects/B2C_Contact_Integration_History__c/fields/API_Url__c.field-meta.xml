@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>API_Url__c</fullName>
+    <description>... represents the API Url that was invoked as part of a given REST API request.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>... represents the API Url that was invoked as part of a given REST API request.</inlineHelpText>
+    <label>API Url</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackTrending>false</trackTrending>
+    <type>Url</type>
+</CustomField>

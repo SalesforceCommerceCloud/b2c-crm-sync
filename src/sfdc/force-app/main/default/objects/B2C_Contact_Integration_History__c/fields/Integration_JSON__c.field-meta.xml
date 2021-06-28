@@ -4,7 +4,7 @@
     <description>... describes the last OCAPI JSON response used to drive updates to a given B2C Commerce Customer definition.</description>
     <externalId>false</externalId>
     <inlineHelpText>... describes the last OCAPI JSON response used to drive updates to a given B2C Commerce Customer definition.</inlineHelpText>
-    <label>Integration JSON</label>
+    <label>Integration Response</label>
     <length>64000</length>
     <trackFeedHistory>false</trackFeedHistory>
     <trackTrending>false</trackTrending>

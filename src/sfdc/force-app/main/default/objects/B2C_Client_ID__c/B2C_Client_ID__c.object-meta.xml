@@ -173,7 +173,10 @@
         <searchResultsAdditionalFields>JWT_Certificate_Name__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Is_Active__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Is_Certificate_Verified__c</searchResultsAdditionalFields>
-        <searchResultsAdditionalFields>CREATED_DATE</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Total_Success_Count__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Total_Failure_Count__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Last_Success_On__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Last_Failure_On__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>LAST_UPDATE</searchResultsAdditionalFields>
     </searchLayouts>
     <sharingModel>ReadWrite</sharingModel>
