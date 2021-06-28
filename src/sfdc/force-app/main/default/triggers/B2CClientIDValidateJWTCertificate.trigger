@@ -8,7 +8,7 @@
 trigger B2CClientIDValidateJWTCertificate on B2C_Client_ID__c (before insert, before update) {
 
     // Do not process this trigger if the control on the trigger is disabled
-    if (B2CConfigurationManager.isB2CProcessContactTriggerEnabled() == true ) {
+    if (B2CConfigurationManager.isB2CClientIDCertValidationTriggerEnabled() == true ) {
 
         // Initialize local variables
         List<B2CIAB2CClientIDCertValidatorInput> validatorInputs;
