@@ -147,8 +147,9 @@ module.exports = {
             "instanceType": "Sandbox"
         },
 
-        // Define the permission-set to assign to a given user
-        "permsetName": "B2C_Integration_Tools",
+        // Define the permission-set(s) to assign to a given user
+        "syncPermSetName": "B2C_CRM_SYNC",
+        "jwtPermSetName": "B2C_CRM_JWT",
 
         // Automatically delete scratchOrg deployment failures
         "autoDeleteFailures": true
