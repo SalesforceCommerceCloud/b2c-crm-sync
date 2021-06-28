@@ -171,7 +171,7 @@
     <searchLayouts>
         <customTabListAdditionalFields>Instance_Type__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>Is_Active__c</customTabListAdditionalFields>
-        <customTabListAdditionalFields>B2C_Client_ID_Value__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>B2C_Client_ID__c</customTabListAdditionalFields>
         <excludedStandardButtons>OpenListInQuip</excludedStandardButtons>
         <excludedStandardButtons>Accept</excludedStandardButtons>
         <excludedStandardButtons>IsotopeSubscription</excludedStandardButtons>
@@ -179,10 +179,10 @@
         <excludedStandardButtons>ChangeOwner</excludedStandardButtons>
         <lookupDialogsAdditionalFields>Instance_Type__c</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>Is_Active__c</lookupDialogsAdditionalFields>
-        <lookupDialogsAdditionalFields>B2C_Client_ID_Value__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>B2C_Client_ID__c</lookupDialogsAdditionalFields>
         <lookupPhoneDialogsAdditionalFields>Instance_Type__c</lookupPhoneDialogsAdditionalFields>
         <lookupPhoneDialogsAdditionalFields>Is_Active__c</lookupPhoneDialogsAdditionalFields>
-        <lookupPhoneDialogsAdditionalFields>B2C_Client_ID_Value__c</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>B2C_Client_ID__c</lookupPhoneDialogsAdditionalFields>
         <searchFilterFields>NAME</searchFilterFields>
         <searchFilterFields>Instance_Type__c</searchFilterFields>
         <searchFilterFields>Is_Active__c</searchFilterFields>
