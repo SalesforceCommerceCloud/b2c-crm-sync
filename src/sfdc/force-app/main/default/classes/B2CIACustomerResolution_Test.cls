@@ -69,6 +69,41 @@ private class B2CIACustomerResolution_Test {
     }
 
     //----------------------------------------------------------------
+    // START: Plumbing and Error Handling
+    //----------------------------------------------------------------
+
+    @IsTest
+    private static void testResolveFailure() {
+
+        // Initialize local variables
+        List<B2CIACustomerResolutionResult> resolutionResults;
+        List<Contact> testContacts;
+
+        Test.startTest();
+
+            // Initialize the testContacts collection
+            testContacts = new List<Contact>();
+
+            // Attempt to resolve the empty resultSet
+            resolutionResults = B2CIACustomerResolution.resolve(testContacts);
+
+        Test.stopTest();
+
+        // Iterate over the collection of resolutionResults
+        for (B2CIACustomerResolutionResult thisResult: resolutionResults) {
+
+            // Validate than an error was thrown by the resolveMethod
+            System.assert(thisResult.isError, 'Expected an error to be thrown as no sourceContacts were passed to the resolve() method');
+
+        }
+
+    }
+
+    //----------------------------------------------------------------
+    //   END: Plumbing and Error Handling
+    //----------------------------------------------------------------
+
+    //----------------------------------------------------------------
     // START: B2C CustomerID
     //----------------------------------------------------------------
 

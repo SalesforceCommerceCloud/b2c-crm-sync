@@ -50,11 +50,11 @@ private class B2CBaseAttributeAssignment_Test {
 
         // Create test-data representing the source Contact
         sourceContact = TestDataFactory.createSObject('Contact', new Map<String,Object>{
-                'FirstName' => 'Unknown',
-                'LastName' => 'User',
-                'Email' => 'test@qa.salesforce.com',
-                'Description' => 'This is a test description',
-                'Title' => 'Test Title'
+            'FirstName' => 'Unknown',
+            'LastName' => 'User',
+            'Email' => 'test@qa.salesforce.com',
+            'Description' => 'This is a test description',
+            'Title' => 'Test Title'
         });
 
         // Create test-data representing the target Contact to update
@@ -65,8 +65,8 @@ private class B2CBaseAttributeAssignment_Test {
 
         Test.startTest();
 
-        // Attempt to assign the fieldValues missing from the targetContact
-        outputResults = B2CBaseAttributeAssignment.assignMissingFieldValues(sourceContact, (SObject) targetContact);
+            // Attempt to assign the fieldValues missing from the targetContact
+            outputResults = B2CBaseAttributeAssignment.assignMissingFieldValues(sourceContact, (SObject) targetContact);
 
         Test.stopTest();
 
@@ -103,16 +103,16 @@ private class B2CBaseAttributeAssignment_Test {
 
         // Create test-data representing the source Contact
         sourceContact = TestDataFactory.createSObject('Contact', new Map<String,Object>{
-                'FirstName' => 'Unknown',
-                'LastName' => 'User',
-                'Email' => 'test@qa.salesforce.com'
+            'FirstName' => 'Unknown',
+            'LastName' => 'User',
+            'Email' => 'test@qa.salesforce.com'
         });
 
         // Create test-data representing the target / updated Contact
         targetContact = TestDataFactory.createSObject('Contact', new Map<String,Object>{
-                'FirstName' => 'Known',
-                'LastName' => 'User',
-                'Email' => 'test@qa.updated.salesforce.com'
+            'FirstName' => 'Known',
+            'LastName' => 'User',
+            'Email' => 'test@qa.updated.salesforce.com'
         });
 
         // Retrieve the fieldMappings collection to exercise in this test
@@ -120,13 +120,58 @@ private class B2CBaseAttributeAssignment_Test {
 
         Test.startTest();
 
-        // Evaluate if the target sObject (Contact) has had a field in the fieldMappings collection updated
-        outputResults = B2CBaseAttributeAssignment.hasSObjectBeenUpdated(sourceContact, targetContact, fieldMappings);
+            // Evaluate if the target sObject (Contact) has had a field in the fieldMappings collection updated
+            outputResults = B2CBaseAttributeAssignment.hasSObjectBeenUpdated(sourceContact, targetContact, fieldMappings);
 
         Test.stopTest();
 
         // Validate that the targetContact does show that it was updated
         System.assert(outputResults == true, ' -- should be true; the fields in the targetContact have been updated and align with fieldMappings');
+
+    }
+
+
+    /**
+     * @see B2CBaseAttributeAssignment.getUpdatedFieldMappings
+     * @description This method is used to verify that we can identify the sObject fields that
+     * are updated on a given source sObject.  Should resolve to true.
+     */
+    @IsTest
+    static void testGetUpdatedFieldMappingsSuccess() {
+
+        // Initialize local variables
+        SObject sourceContact;
+        SObject updatedContact;
+        List<B2C_Integration_Field_Mappings__mdt> fieldMappings;
+        List<B2C_Integration_Field_Mappings__mdt> outputResults;
+
+        // Create test-data representing the source Contact
+        sourceContact = TestDataFactory.createSObject('Contact', new Map<String,Object>{
+            'FirstName' => 'Unknown',
+            'LastName' => 'User',
+            'Email' => 'test@qa.salesforce.com'
+        });
+
+        // Create test-data representing the target / updated Contact
+        updatedContact = TestDataFactory.createSObject('Contact', new Map<String,Object>{
+            'FirstName' => 'Unknown',
+            'LastName' => 'User',
+            'Email' => 'test@qa.updated.salesforce.com'
+        });
+
+        // Retrieve the fieldMappings collection to exercise in this test
+        fieldMappings = B2CMetaFieldMappings.getFieldMappings('Contact');
+
+        Test.startTest();
+
+            // Retrieve the updated fieldMappings identified when comparing the two Contacts specified
+            outputResults = B2CBaseAttributeAssignment.getUpdatedFieldMappings(sourceContact, updatedContact, fieldMappings);
+
+        Test.stopTest();
+
+        // Validate that expected fieldMapping is exposed by the method being tested
+        System.assertEquals(outputResults.size(), 1, 'Expected that a single fieldMapping is returned (email was updated)');
+        System.assertEquals(outputResults.get(0).Service_Cloud_Attribute__c, 'Email', ' Expected that Email is the fieldMapping definition that was identified');
 
     }
 
@@ -148,9 +193,9 @@ private class B2CBaseAttributeAssignment_Test {
 
         // Create test-data representing the source Contact
         sourceContact = TestDataFactory.createSObject('Contact', new Map<String,Object>{
-                'FirstName' => 'Unknown',
-                'LastName' => 'User',
-                'Email' => 'test@qa.salesforce.com'
+            'FirstName' => 'Unknown',
+            'LastName' => 'User',
+            'Email' => 'test@qa.salesforce.com'
         });
 
         // Create test-data representing the target / updated Contact (cloned; no updates)
@@ -161,8 +206,8 @@ private class B2CBaseAttributeAssignment_Test {
 
         Test.startTest();
 
-        // Evaluate if the target sObject (Contact) has had a field in the fieldMappings collection updated
-        outputResults = B2CBaseAttributeAssignment.hasSObjectBeenUpdated(sourceContact, targetContact, fieldMappings);
+            // Evaluate if the target sObject (Contact) has had a field in the fieldMappings collection updated
+            outputResults = B2CBaseAttributeAssignment.hasSObjectBeenUpdated(sourceContact, targetContact, fieldMappings);
 
         Test.stopTest();
 
@@ -222,11 +267,11 @@ private class B2CBaseAttributeAssignment_Test {
 
         Test.startTest();
 
-        // Invoke the assignment function and validate the string-value
-        testObject = B2CBaseAttributeAssignment.applyMappedFieldValues(testObject, b2cObjectJSON, fieldMappings);
+            // Invoke the assignment function and validate the string-value
+            testObject = B2CBaseAttributeAssignment.applyMappedFieldValues(testObject, b2cObjectJSON, fieldMappings);
 
-        // Get the string assignment values after processing the field mappings
-        postAssignmentStringValue = String.valueOf(testObject.get('String_Field__c'));
+            // Get the string assignment values after processing the field mappings
+            postAssignmentStringValue = String.valueOf(testObject.get('String_Field__c'));
 
         Test.stopTest();
 
@@ -300,13 +345,13 @@ private class B2CBaseAttributeAssignment_Test {
 
         Test.startTest();
 
-        // Invoke the assignment function and validate the string-value
-        testObject = B2CBaseAttributeAssignment.applyMappedFieldValues(testObject, b2cObjectJSON, fieldMappings);
+            // Invoke the assignment function and validate the string-value
+            testObject = B2CBaseAttributeAssignment.applyMappedFieldValues(testObject, b2cObjectJSON, fieldMappings);
 
-        // Get the string assignment values after processing the field mappings
-        postAssignmentStringValue = String.valueOf(testObject.get('String_Field__c'));
-        postAssignmentPicklistValue = String.valueOf(testObject.get('Picklist_Field__c'));
-        postAssignmentTextareaValue = String.valueOf(testObject.get('Textarea_Field__c'));
+            // Get the string assignment values after processing the field mappings
+            postAssignmentStringValue = String.valueOf(testObject.get('String_Field__c'));
+            postAssignmentPicklistValue = String.valueOf(testObject.get('Picklist_Field__c'));
+            postAssignmentTextareaValue = String.valueOf(testObject.get('Textarea_Field__c'));
 
         Test.stopTest();
 
@@ -345,12 +390,12 @@ private class B2CBaseAttributeAssignment_Test {
 
         Test.startTest();
 
-        // Attempt to assign the specified date-time value to the parent sObject
-        fieldDisplayType = B2CBaseAttributeAssignment.getFieldDisplayType(schemaMap, sObjectTypeName, sfDateTimeAttribute);
-        testObject = B2CBaseAttributeAssignment.assignB2CAttributeValue(b2cObjectJSON, fieldDisplayType, testObject, sfDateTimeAttribute, b2cDateTimeAttribute);
+            // Attempt to assign the specified date-time value to the parent sObject
+            fieldDisplayType = B2CBaseAttributeAssignment.getFieldDisplayType(schemaMap, sObjectTypeName, sfDateTimeAttribute);
+            testObject = B2CBaseAttributeAssignment.assignB2CAttributeValue(b2cObjectJSON, fieldDisplayType, testObject, sfDateTimeAttribute, b2cDateTimeAttribute);
 
-        // Get the set value in a valid datetime format
-        dateTimeValue = (Datetime)testObject.get(sfDateTimeAttribute);
+            // Get the set value in a valid datetime format
+            dateTimeValue = (Datetime)testObject.get(sfDateTimeAttribute);
 
         Test.stopTest();
 
@@ -386,9 +431,9 @@ private class B2CBaseAttributeAssignment_Test {
 
         Test.startTest();
 
-        // Attempt to assign the specified date value to the parent sObject
-        fieldDisplayType = B2CBaseAttributeAssignment.getFieldDisplayType(schemaMap, sObjectTypeName, sfDateAttribute);
-        testObject = B2CBaseAttributeAssignment.assignB2CAttributeValue(b2cObjectJSON, fieldDisplayType, testObject, sfDateAttribute, b2cDateAttribute);
+            // Attempt to assign the specified date value to the parent sObject
+            fieldDisplayType = B2CBaseAttributeAssignment.getFieldDisplayType(schemaMap, sObjectTypeName, sfDateAttribute);
+            testObject = B2CBaseAttributeAssignment.assignB2CAttributeValue(b2cObjectJSON, fieldDisplayType, testObject, sfDateAttribute, b2cDateAttribute);
 
         Test.stopTest();
 
@@ -424,9 +469,9 @@ private class B2CBaseAttributeAssignment_Test {
 
         Test.startTest();
 
-        // Attempt to assign the specified boolean value to the parent sObject
-        fieldDisplayType = B2CBaseAttributeAssignment.getFieldDisplayType(schemaMap, sObjectTypeName, sfBooleanAttribute);
-        testObject = B2CBaseAttributeAssignment.assignB2CAttributeValue(b2cObjectJSON, fieldDisplayType, testObject, sfBooleanAttribute, b2cBooleanAttribute);
+            // Attempt to assign the specified boolean value to the parent sObject
+            fieldDisplayType = B2CBaseAttributeAssignment.getFieldDisplayType(schemaMap, sObjectTypeName, sfBooleanAttribute);
+            testObject = B2CBaseAttributeAssignment.assignB2CAttributeValue(b2cObjectJSON, fieldDisplayType, testObject, sfBooleanAttribute, b2cBooleanAttribute);
 
         Test.stopTest();
 
@@ -462,9 +507,9 @@ private class B2CBaseAttributeAssignment_Test {
 
         Test.startTest();
 
-        // Attempt to assign the specified integer value to the parent sObject
-        fieldDisplayType = B2CBaseAttributeAssignment.getFieldDisplayType(schemaMap, sObjectTypeName, sfIntegerAttribute);
-        testObject = B2CBaseAttributeAssignment.assignB2CAttributeValue(b2cObjectJSON, fieldDisplayType, testObject, sfIntegerAttribute, b2cIntegerAttribute);
+            // Attempt to assign the specified integer value to the parent sObject
+            fieldDisplayType = B2CBaseAttributeAssignment.getFieldDisplayType(schemaMap, sObjectTypeName, sfIntegerAttribute);
+            testObject = B2CBaseAttributeAssignment.assignB2CAttributeValue(b2cObjectJSON, fieldDisplayType, testObject, sfIntegerAttribute, b2cIntegerAttribute);
 
         Test.stopTest();
 
@@ -500,9 +545,9 @@ private class B2CBaseAttributeAssignment_Test {
 
         Test.startTest();
 
-        // Attempt to assign the specified currency value to the parent sObject
-        fieldDisplayType = B2CBaseAttributeAssignment.getFieldDisplayType(schemaMap, sObjectTypeName, sfCurrencyAttribute);
-        testObject = B2CBaseAttributeAssignment.assignB2CAttributeValue(b2cObjectJSON, fieldDisplayType, testObject, sfCurrencyAttribute, b2cCurrencyAttribute);
+            // Attempt to assign the specified currency value to the parent sObject
+            fieldDisplayType = B2CBaseAttributeAssignment.getFieldDisplayType(schemaMap, sObjectTypeName, sfCurrencyAttribute);
+            testObject = B2CBaseAttributeAssignment.assignB2CAttributeValue(b2cObjectJSON, fieldDisplayType, testObject, sfCurrencyAttribute, b2cCurrencyAttribute);
 
         Test.stopTest();
 
@@ -544,17 +589,17 @@ private class B2CBaseAttributeAssignment_Test {
 
         Test.startTest();
 
-        // Attempt to assign the specified string value to the parent sObject
-        fieldDisplayType = B2CBaseAttributeAssignment.getFieldDisplayType(schemaMap, sObjectTypeName, sfStringAttribute);
-        testObject = B2CBaseAttributeAssignment.assignB2CAttributeValue(b2cObjectJSON, fieldDisplayType, testObject, sfStringAttribute, b2cStringAttribute);
+            // Attempt to assign the specified string value to the parent sObject
+            fieldDisplayType = B2CBaseAttributeAssignment.getFieldDisplayType(schemaMap, sObjectTypeName, sfStringAttribute);
+            testObject = B2CBaseAttributeAssignment.assignB2CAttributeValue(b2cObjectJSON, fieldDisplayType, testObject, sfStringAttribute, b2cStringAttribute);
 
-        // Attempt to assign the specified pickList value to the parent sObject
-        fieldDisplayType = B2CBaseAttributeAssignment.getFieldDisplayType(schemaMap, sObjectTypeName, sfPicklistAttribute);
-        testObject = B2CBaseAttributeAssignment.assignB2CAttributeValue(b2cObjectJSON, fieldDisplayType, testObject, sfPicklistAttribute, b2cPicklistAttribute);
+            // Attempt to assign the specified pickList value to the parent sObject
+            fieldDisplayType = B2CBaseAttributeAssignment.getFieldDisplayType(schemaMap, sObjectTypeName, sfPicklistAttribute);
+            testObject = B2CBaseAttributeAssignment.assignB2CAttributeValue(b2cObjectJSON, fieldDisplayType, testObject, sfPicklistAttribute, b2cPicklistAttribute);
 
-        // Attempt to assign the specified textArea value to the parent sObject
-        fieldDisplayType = B2CBaseAttributeAssignment.getFieldDisplayType(schemaMap, sObjectTypeName, sfTextAreaAttribute);
-        testObject = B2CBaseAttributeAssignment.assignB2CAttributeValue(b2cObjectJSON, fieldDisplayType, testObject, sfTextAreaAttribute, b2cStringAttribute);
+            // Attempt to assign the specified textArea value to the parent sObject
+            fieldDisplayType = B2CBaseAttributeAssignment.getFieldDisplayType(schemaMap, sObjectTypeName, sfTextAreaAttribute);
+            testObject = B2CBaseAttributeAssignment.assignB2CAttributeValue(b2cObjectJSON, fieldDisplayType, testObject, sfTextAreaAttribute, b2cStringAttribute);
 
         Test.stopTest();
 
@@ -588,13 +633,13 @@ private class B2CBaseAttributeAssignment_Test {
 
         Test.startTest();
 
-        // Retrieve the string versions of each data-type included in JSON that was parsed
-        assignedStringValue = B2CBaseAttributeAssignment.getB2CAttributeStringValue(parsedJSON, 'testString');
-        assignedDecimalValue = B2CBaseAttributeAssignment.getB2CAttributeStringValue(parsedJSON, 'testDecimal');
-        assignedIntegerValue = B2CBaseAttributeAssignment.getB2CAttributeStringValue(parsedJSON, 'testInteger');
-        assignedBooleanValue = B2CBaseAttributeAssignment.getB2CAttributeStringValue(parsedJSON, 'testBoolean');
-        assignedDateTimeValue = B2CBaseAttributeAssignment.getB2CAttributeStringValue(parsedJSON, 'testDateTime');
-        assignedDateValue = B2CBaseAttributeAssignment.getB2CAttributeStringValue(parsedJSON, 'testDate');
+            // Retrieve the string versions of each data-type included in JSON that was parsed
+            assignedStringValue = B2CBaseAttributeAssignment.getB2CAttributeStringValue(parsedJSON, 'testString');
+            assignedDecimalValue = B2CBaseAttributeAssignment.getB2CAttributeStringValue(parsedJSON, 'testDecimal');
+            assignedIntegerValue = B2CBaseAttributeAssignment.getB2CAttributeStringValue(parsedJSON, 'testInteger');
+            assignedBooleanValue = B2CBaseAttributeAssignment.getB2CAttributeStringValue(parsedJSON, 'testBoolean');
+            assignedDateTimeValue = B2CBaseAttributeAssignment.getB2CAttributeStringValue(parsedJSON, 'testDateTime');
+            assignedDateValue = B2CBaseAttributeAssignment.getB2CAttributeStringValue(parsedJSON, 'testDate');
 
         Test.stopTest();
 

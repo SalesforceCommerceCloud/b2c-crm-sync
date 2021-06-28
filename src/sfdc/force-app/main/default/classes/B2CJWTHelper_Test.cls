@@ -4,6 +4,7 @@
  *
  * @see B2CJWTHelper
  * @description This class is the test class that exercises the B2CJWTHelper class methods.
+ * it exercises the creation, minting, and validation of JWT tokens.
  */
 @IsTest
 private class B2CJWTHelper_Test {

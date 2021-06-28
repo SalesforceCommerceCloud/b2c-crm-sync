@@ -7,6 +7,8 @@
 @IsTest
 private class B2CProcessContactHelper_Test {
 
+
+
     /**
      * @see B2CProcessContactHelper.createPublishPlatformEvent
      * @description Helper method to exercise the creation of the publishPlatformEvent.  This validates that the
@@ -44,7 +46,6 @@ private class B2CProcessContactHelper_Test {
 
             // Include a malformed url (expecting '/s/') to force the baseUrl formula to fail
             API_Url__c = 'https://www.salesforce.com',
-            Named_Credential_Developer_Name__c = 'testNamedCredential',
             Enable_Profile_Retrieval__c = true,
             Enable_Profile_Publishing__c = true,
             Enable_Profile_Creation__c = true,
@@ -166,6 +167,7 @@ private class B2CProcessContactHelper_Test {
     @IsTest
     static void testUpdateInstanceMap() {
 
+        // Initialize the b2cInstance
         B2C_Instance__c instance = new B2C_Instance__c(
             Name = 'INST',
             API_Url__c = 'https://www.salesforce.com'
@@ -173,6 +175,7 @@ private class B2CProcessContactHelper_Test {
 
         Database.insert( instance );
 
+        // Initialize the b2cCustomerList
         B2C_CustomerList__c customerList = new B2C_CustomerList__c(
             Name = 'SF',
             API_Url__c = 'https://www.salesforce.com',
@@ -181,6 +184,7 @@ private class B2CProcessContactHelper_Test {
 
         Database.insert( customerList );
 
+        // Initialize the relatedContacts
         Contact c = new Contact(
             LastName = 'lastname',
             B2C_CustomerList__c = customerList.Id
@@ -188,23 +192,27 @@ private class B2CProcessContactHelper_Test {
 
         Database.insert( c );
 
+        // Retrieve the contact record to process
         c = [SELECT Id, B2C_Instance__c,B2C_CustomerList__c,B2C_CustomerList_ID__c FROM Contact WHERE Id = :c.Id LIMIT 1];
 
         Test.startTest();
 
+            // Update the customerList map to seed the retrieved customerList
             Map<String, B2C_CustomerList__c> m = B2CProcessContactHelper.updateCustomerListMap(
                 c.B2C_CustomerList_ID__c,
                 new Map<String,B2C_CustomerList__c>{
                 }
             );
 
+            // Update the b2cInstance map to seed the retrieved instance
             Map<String, B2C_Instance__c> n = B2CProcessContactHelper.updateInstanceMap(
                 c.B2C_Instance__c,
                 new Map<String,B2C_Instance__c>{
                 }
             );
 
-            B2CProcessContactHelper.getValidateContactInput(
+            // Process the contact record and retrieve the validatedInput class
+            B2CIAValidateContactInput validatedInput = B2CProcessContactHelper.getValidateContactInput(
                 c,
                 instance,
                 customerList
@@ -212,6 +220,93 @@ private class B2CProcessContactHelper_Test {
 
         Test.stopTest();
 
+        // Evaluate if the returned class contains key properties
+        System.assertEquals(validatedInput.processMode, B2CConstant.Contact_Integration_ProcessMode_Publish, 'Expected the processMode returned by the class to equal the publish processMode default');
+        System.assertEquals(validatedInput.contact.Id, c.Id, 'Expected the contactIdentifiers to be aligned');
+
     }
+
+    /**
+     * @see B2CProcessContactHelper.updateCustomerListMap
+     * @description Helper function to exercise the look-up of B2C CustomerLists as part
+     * of contact processing.
+     */
+    @IsTest
+    static void testB2CCustomerListMapLookup() {
+
+        // Initialize the current instance
+        B2C_Instance__c instance = new B2C_Instance__c(
+            Name = 'INST',
+            API_Url__c = 'https://www.salesforce.com'
+        );
+
+        // Create the instance
+        Database.insert( instance );
+
+        // Initialize a related B2C CustomerList
+        B2C_CustomerList__c customerList = new B2C_CustomerList__c(
+            Name = 'SF',
+            API_Url__c = 'https://www.salesforce.com',
+            B2C_Instance__c = instance.Id
+        );
+
+        // Create the customerList
+        Database.insert( customerList );
+
+        Test.startTest();
+
+            // Initialize the customerList map and seed it with the test data
+            Map<String, B2C_CustomerList__c> customerListMap = new Map<String, B2C_CustomerList__c>();
+            customerListMap.put(customerList.Name, customerList);
+
+            // Test exercising the updated customerList map
+            Map<String, B2C_CustomerList__c> m = B2CProcessContactHelper.updateCustomerListMap(
+                customerList.Name,
+                customerListMap
+            );
+
+        Test.stopTest();
+
+        // Evaluate if the returned map contains the customerList specified
+        System.assert(m.containsKey(customerList.Name), 'Expected the map to include the customerList specified that was pre-seeded');
+
+    }
+
+    /**
+     * @see B2CProcessContactHelper.updateInstanceMap
+     * @description Helper function to exercise the look-up of B2C Instance as part
+     * of contact processing.
+     */
+    @IsTest
+    static void testB2CInstanceMapLookup() {
+
+        // Initialize the current instance
+        B2C_Instance__c instance = new B2C_Instance__c(
+            Name = 'INST',
+            API_Url__c = 'https://www.salesforce.com'
+        );
+
+        // Create the instance
+        Database.insert( instance );
+
+        Test.startTest();
+
+            // Initialize the instance map and seed it with the test data
+            Map<String, B2C_Instance__c> instanceMap = new Map<String, B2C_Instance__c>();
+            instanceMap.put(instance.Name, instance);
+
+            // Test exercising the updated customerList map
+            Map<String, B2C_Instance__c> m = B2CProcessContactHelper.updateInstanceMap(
+                instance.Name,
+                instanceMap
+            );
+
+        Test.stopTest();
+
+        // Evaluate if the returned map contains the instance specified
+        System.assert(m.containsKey(instance.Name), 'Expected the map to include the instance specified that was pre-seeded');
+
+    }
+
 
 }

@@ -70,24 +70,29 @@ public class B2CHttpTestCalloutMockGenerator implements HttpCalloutMock {
             when 'CustomerAddressPatchFailure' {
                 responseObj = getCustomerAddressPatchFailureResponse();
             }
-            when 'BusinessManager' {
+            when 'BusinessManagerSuccess' {
                 responseObj = getAccessTokenSuccessResponse();
             }
-            when 'CustomerListsSites' {
-                responseObj = getCustomerListSuccessResponse();
-                responseObj.put(
-                    'body',
-                    '{"count":"10","data":[{"id":"id","link":"link","customer_list_link":{"customer_list_id":"customer_list_id","link":"link"},"display_name":{"default":"default"}}]}'
-                );
+            when 'BusinessManagerFailure' {
+                responseObj = getAccessTokenFailureResponse();
             }
-            when 'CustomerAuth' {
+            when 'CustomerListsSitesSuccess' {
+                responseObj = getCustomerListSitesSuccessResponse();
+            }
+            when 'CustomerListsSitesFailure' {
+                responseObj = getCustomerListSitesFailureResponse();
+            }
+            when 'CustomerAuthSuccess' {
                 HttpResponse resCustomerAuth = new HttpResponse();
                 resCustomerAuth.setHeader('Content-Type', 'application/json');
-                resCustomerAuth.setHeader('authorization', 'authorizationtoken');
+                resCustomerAuth.setHeader('authorization', 'bf1d02e3-9477-436b-84e1-15868daa7984');
                 resCustomerAuth.setBody('{}');
                 resCustomerAuth.setStatus('OK');
                 resCustomerAuth.setStatusCode(200);
                 return resCustomerAuth;
+            }
+            when 'CustomerAuthFailure' {
+                responseObj = getAccessTokenFailureResponse();
             }
         }
 
@@ -194,14 +199,14 @@ public class B2CHttpTestCalloutMockGenerator implements HttpCalloutMock {
     }
 
     /**
-     * @description Helper function to return the customer response
-     * code and body-content details.  This models the failed retrieval of
-     * a B2C Commerce Customer.
+     * @description Helper function to return the customerListSites response
+     * code and body-content details.  This models the successful retrieval of
+     * a B2C Commerce CustomerList and related Sites.
      *
      * @return Map<String, String> Returns a map containing the
      * successful response attributes
      */
-    public static Map<String, String> getCustomerDetailsFailureResponse() {
+    public static Map<String, String> getCustomerListSitesSuccessResponse() {
 
         // Initialize local variables
         Map<String, String> responseObj;
@@ -209,22 +214,94 @@ public class B2CHttpTestCalloutMockGenerator implements HttpCalloutMock {
 
         // Build out the success response details
         bodyContent = '{\n' +
-            '"_v": "21.3",\n' +
-            '"fault": {\n' +
-            '"arguments": {\n' +
-            '"customerNo": "C0000000099",\n' +
-            '"customerListId": "RefArch"\n' +
-            '},\n' +
-            '"type": "CustomerListCustomerNotFoundException",\n' +
-            '"message": "No customer with number \'C0000000099\' for customer list \'RefArch\' could be found."\n' +
-            '}\n' +
-        '}';
+                '    "_v": "21.3",\n' +
+                '    "_type": "sites",\n' +
+                '    "count": 2,\n' +
+                '    "data": [\n' +
+                '        {\n' +
+                '            "_type": "site",\n' +
+                '            "_resource_state": "fe4bb773fff79634b869cb252215138c995c5334f1ce1ea817a4f9ac47f72b44",\n' +
+                '            "cartridges": "plugin_b2ccrmsync_oobo:plugin_cartridge_merge:plugin_instorepickup:plugin_wishlists:plugin_giftregistry:lib_productlist:plugin_productcompare:plugin_sitemap:plugin_applepay:plugin_datadownload:plugin_b2ccrmsync:int_b2ccrmsync:app_storefront_base:plugin_apple_pay:plugin_facebook:plugin_payments:plugin_pinterest_commerce:plugin_web_payments:bc_content:core",\n' +
+                '            "customer_list_link": {\n' +
+                '                "_type": "customer_list_link",\n' +
+                '                "customer_list_id": "RefArch",\n' +
+                '                "link": "https://example.com/s/-/dw/data/v21_3/customer_lists/RefArch"\n' +
+                '            },\n' +
+                '            "display_name": {\n' +
+                '                "default": "RefArch"\n' +
+                '            },\n' +
+                '            "id": "RefArch",\n' +
+                '            "in_deletion": false,\n' +
+                '            "link": "https://example.com/s/-/dw/data/v21_3/sites/RefArch",\n' +
+                '            "storefront_status": "online"\n' +
+                '        },\n' +
+                '        {\n' +
+                '            "_type": "site",\n' +
+                '            "_resource_state": "77b688044277d87598f879c1219157f8e3419f0be52d5d7b5c585fce1287666d",\n' +
+                '            "cartridges": "plugin_b2ccrmsync_oobo:plugin_cartridge_merge:plugin_instorepickup:plugin_wishlists:plugin_giftregistry:lib_productlist:plugin_productcompare:plugin_sitemap:plugin_applepay:plugin_datadownload:plugin_b2ccrmsync:int_b2ccrmsync:app_storefront_base:plugin_apple_pay:plugin_facebook:plugin_payments:plugin_pinterest_commerce:plugin_web_payments:bc_content:core",\n' +
+                '            "customer_list_link": {\n' +
+                '                "_type": "customer_list_link",\n' +
+                '                "customer_list_id": "RefArchGlobal",\n' +
+                '                "link": "https://example.com/s/-/dw/data/v21_3/customer_lists/RefArchGlobal"\n' +
+                '            },\n' +
+                '            "display_name": {\n' +
+                '                "default": "RefArchGlobal"\n' +
+                '            },\n' +
+                '            "id": "RefArchGlobal",\n' +
+                '            "in_deletion": false,\n' +
+                '            "link": "https://example.com/s/-/dw/data/v21_3/sites/RefArchGlobal",\n' +
+                '            "storefront_status": "online"\n' +
+                '        }\n' +
+                '    ],\n' +
+                '    "select": "(**)",\n' +
+                '    "start": 0,\n' +
+                '    "total": 2\n' +
+                '}';
 
         // Initialize the mock response
         responseObj = new Map<String, String>();
 
         // Seed the mock-response details
-        responseObj.put('status', 'ERROR');
+        responseObj.put('status', 'OK');
+        responseObj.put('statusCode', '200');
+        responseObj.put('body', bodyContent);
+
+        // Return the mock response details
+        return responseObj;
+
+    }
+
+    /**
+     * @description Helper function to return the customerListSites response
+     * code and body-content details.  This models the failed retrieval of
+     * a B2C Commerce CustomerList and related Sites.
+     *
+     * @return Map<String, String> Returns a map containing the
+     * successful response attributes
+     */
+    public static Map<String, String> getCustomerListSitesFailureResponse() {
+
+        // Initialize local variables
+        Map<String, String> responseObj;
+        String bodyContent;
+
+        // Build out the success response details
+        bodyContent = '{\n' +
+                '    "_v": "21.3",\n' +
+                '    "fault": {\n' +
+                '        "arguments": {\n' +
+                '            "siteId": "UNKNOWN"\n' +
+                '        },\n' +
+                '        "type": "SiteNotFoundException",\n' +
+                '        "message": "No site with ID \'UNKNOWN\' could be found."\n' +
+                '    }\n' +
+                '}';
+
+        // Initialize the mock response
+        responseObj = new Map<String, String>();
+
+        // Seed the mock-response details
+        responseObj.put('status', 'OK');
         responseObj.put('statusCode', '404');
         responseObj.put('body', bodyContent);
 
@@ -289,6 +366,47 @@ public class B2CHttpTestCalloutMockGenerator implements HttpCalloutMock {
         return responseObj;
     }
 
+
+    /**
+     * @description Helper function to return the customer response
+     * code and body-content details.  This models the failed retrieval of
+     * a B2C Commerce Customer.
+     *
+     * @return Map<String, String> Returns a map containing the
+     * successful response attributes
+     */
+    public static Map<String, String> getCustomerDetailsFailureResponse() {
+
+        // Initialize local variables
+        Map<String, String> responseObj;
+        String bodyContent;
+
+        // Build out the success response details
+        bodyContent = '{\n' +
+                '"_v": "21.3",\n' +
+                '"fault": {\n' +
+                '"arguments": {\n' +
+                '"customerNo": "C0000000099",\n' +
+                '"customerListId": "RefArch"\n' +
+                '},\n' +
+                '"type": "CustomerListCustomerNotFoundException",\n' +
+                '"message": "No customer with number \'C0000000099\' for customer list \'RefArch\' could be found."\n' +
+                '}\n' +
+                '}';
+
+        // Initialize the mock response
+        responseObj = new Map<String, String>();
+
+        // Seed the mock-response details
+        responseObj.put('status', 'ERROR');
+        responseObj.put('statusCode', '404');
+        responseObj.put('body', bodyContent);
+
+        // Return the mock response details
+        return responseObj;
+
+    }
+
     /**
      * @description Helper function to return the customerList response
      * code and body-content details.  This models the failed retrieval of
@@ -343,7 +461,7 @@ public class B2CHttpTestCalloutMockGenerator implements HttpCalloutMock {
             '"_type": "customer_address_result",\n' +
             '"count" : 10,\n' +
             '"data" : [{\n' +
-            '"_resource_state" : "860cde3040519cce439cd99e209f8a87c3ad0b7e2813edbf6f5501f763b73bd5",\n' +
+            '"_resource_state" : "860cde3040519cce439cd99e209f8a87c3ad0b7e2813def6f5501f763b73bd5",\n' +
             '"address1" : "Lodyweg",\n' +
             '"address_id" : "my_home_address",\n' +
             '"city" : "Washingtonville",\n' +
@@ -407,7 +525,7 @@ public class B2CHttpTestCalloutMockGenerator implements HttpCalloutMock {
         Map<String, String> responseObj = new Map<String, String>();
         String bodyContent = '{\n' +
             '"_v": "21.3",\n' +
-            '"_resource_state" : "860cde3040519cce439cd99e209f8a87c3ad0b7e2813edbf6f5501f763b73bd5",\n' +
+            '"_resource_state" : "860cde3040519cce439cd99e209f8a87c3ad0b7e2813def6f5501f763b73bd5",\n' +
             '"_type": "customer_address",\n' +
             '"address1" : "Lodyweg",\n' +
             '"address_id" : "my_home_address",\n' +
@@ -469,7 +587,7 @@ public class B2CHttpTestCalloutMockGenerator implements HttpCalloutMock {
         Map<String, String> responseObj = new Map<String, String>();
         String bodyContent = '{\n' +
             '"_v": "21.3",\n' +
-            '"_resource_state" : "860cde3040519cce439cd99e209f8a87c3ad0b7e2813edbf6f5501f763b73bd5",\n' +
+            '"_resource_state" : "860cde3040519cce439cd99e209f8a87c3ad0b7e2813def6f5501f763b73bd5",\n' +
             '"_type": "customer_address",\n' +
             '"address1" : "Lodyweg",\n' +
             '"address_id" : "my_home_address",\n' +

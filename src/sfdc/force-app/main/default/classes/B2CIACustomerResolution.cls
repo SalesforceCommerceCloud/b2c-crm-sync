@@ -83,7 +83,8 @@ public inherited sharing class B2CIACustomerResolution {
             }
         }
 
-        if(!matchedAccountRecords.isEmpty()){
+        // Were any matchedResults found?
+        if (!matchedAccountRecords.isEmpty()) {
 
             // If so, then retrieve Contacts from the Account
             duplicateContactRecords = [
@@ -94,9 +95,13 @@ public inherited sharing class B2CIACustomerResolution {
 
         } else {
 
+            // Otherwise, add the matched records to the duplicateCollection
             duplicateContactRecords.addAll( matchedContactRecords );
+
         }
 
+        // Return the collection of contacts that matched the sourceContact
+        // by leveraging our configured duplicate rules
         return new List<Contact>([
             SELECT  Id,
                     AccountId,
@@ -114,8 +119,8 @@ public inherited sharing class B2CIACustomerResolution {
                     LastModifiedDate
             FROM    Contact
             WHERE   Id = :duplicateContactRecords
-            ORDER BY
-                    LastModifiedDate DESC
+            ORDER
+            BY      LastModifiedDate DESC
         ]);
 
     }
