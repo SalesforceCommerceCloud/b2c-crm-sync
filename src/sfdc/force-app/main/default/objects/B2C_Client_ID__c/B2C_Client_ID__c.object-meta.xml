@@ -169,6 +169,29 @@
     </nameField>
     <pluralLabel>B2C Client IDs</pluralLabel>
     <searchLayouts>
+        <customTabListAdditionalFields>B2C_Client_ID_Label__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Is_Active__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Is_Certificate_Verified__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Last_Success_On__c</customTabListAdditionalFields>
+        <excludedStandardButtons>OpenListInQuip</excludedStandardButtons>
+        <excludedStandardButtons>Accept</excludedStandardButtons>
+        <excludedStandardButtons>IsotopeSubscription</excludedStandardButtons>
+        <excludedStandardButtons>Import</excludedStandardButtons>
+        <excludedStandardButtons>MassChangeOwner</excludedStandardButtons>
+        <excludedStandardButtons>ChangeOwner</excludedStandardButtons>
+        <lookupDialogsAdditionalFields>B2C_Client_ID_Label__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Is_Active__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Is_Certificate_Verified__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Last_Success_On__c</lookupDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>B2C_Client_ID_Label__c</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>Is_Active__c</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>Is_Certificate_Verified__c</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>Last_Success_On__c</lookupPhoneDialogsAdditionalFields>
+        <searchFilterFields>NAME</searchFilterFields>
+        <searchFilterFields>B2C_Client_ID_Label__c</searchFilterFields>
+        <searchFilterFields>Is_Active__c</searchFilterFields>
+        <searchFilterFields>Is_Certificate_Verified__c</searchFilterFields>
+        <searchFilterFields>Last_Success_On__c</searchFilterFields>
         <searchResultsAdditionalFields>B2C_Client_ID_Label__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>JWT_Certificate_Name__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Is_Active__c</searchResultsAdditionalFields>

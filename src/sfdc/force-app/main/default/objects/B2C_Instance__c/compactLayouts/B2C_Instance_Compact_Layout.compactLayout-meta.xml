@@ -3,8 +3,8 @@
     <fullName>B2C_Instance_Compact_Layout</fullName>
     <fields>Name</fields>
     <fields>Instance_Type__c</fields>
-    <fields>Is_Active__c</fields>
-    <fields>Total_CustomerLists__c</fields>
+    <fields>B2C_Client_ID__c</fields>
     <fields>Total_Sites__c</fields>
+    <fields>Total_CustomerLists__c</fields>
     <label>B2C Instance Compact Layout</label>
 </CompactLayout>
