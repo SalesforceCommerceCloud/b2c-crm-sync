@@ -5,7 +5,7 @@
         <name>Lookup_Assignment</name>
         <label>Lookup Assignment</label>
         <locationX>176</locationX>
-        <locationY>725</locationY>
+        <locationY>784</locationY>
         <assignmentItems>
             <assignToReference>$Record.CustomerList_ID__c</assignToReference>
             <operator>Assign</operator>
@@ -18,7 +18,7 @@
         <name>Lookup_Assignment_0</name>
         <label>Lookup Assignment</label>
         <locationX>488</locationX>
-        <locationY>517</locationY>
+        <locationY>576</locationY>
         <assignmentItems>
             <assignToReference>$Record.Customer_List__c</assignToReference>
             <operator>Assign</operator>
@@ -32,7 +32,7 @@
         <name>dec_hasB2CCustomerListIDBeenSet</name>
         <label>Has a B2C CustomerList ID Been Set?</label>
         <locationX>167</locationX>
-        <locationY>280</locationY>
+        <locationY>339</locationY>
         <defaultConnectorLabel>Has Not Been Set</defaultConnectorLabel>
         <rules>
             <name>dec_hasB2CCustomerListIDBeenSetTrue</name>
@@ -106,7 +106,7 @@
         <name>recGet_B2CCustomerList</name>
         <label>Retrieve the Parent B2C CustomerList</label>
         <locationX>176</locationX>
-        <locationY>511</locationY>
+        <locationY>570</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Lookup_Assignment</targetReference>
@@ -128,7 +128,7 @@
         <name>recGet_B2CCustomerListID</name>
         <label>Retrieve the Parent B2C CustomerList</label>
         <locationX>488</locationX>
-        <locationY>278</locationY>
+        <locationY>337</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Lookup_Assignment_0</targetReference>
@@ -151,6 +151,21 @@
         <connector>
             <targetReference>dec_hasB2CCustomerListIDBeenSet</targetReference>
         </connector>
+        <filterLogic>or</filterLogic>
+        <filters>
+            <field>Customer_List__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>CustomerList_ID__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
         <object>B2C_Site__c</object>
         <recordTriggerType>CreateAndUpdate</recordTriggerType>
         <triggerType>RecordBeforeSave</triggerType>

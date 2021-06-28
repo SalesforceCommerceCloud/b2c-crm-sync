@@ -346,10 +346,18 @@
     </recordUpdates>
     <start>
         <locationX>386</locationX>
-        <locationY>67</locationY>
+        <locationY>18</locationY>
         <connector>
             <targetReference>recGet_B2CListSiteCount</targetReference>
         </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Customer_List__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
         <object>B2C_Site__c</object>
         <recordTriggerType>CreateAndUpdate</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>
