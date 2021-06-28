@@ -341,14 +341,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>B2CUpdateCountsHelper</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>B2CUpdateCountsHelper_Test</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>JSONParse</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -461,11 +453,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>B2C_AuthToken__c.Total_Usage__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>B2C_Client_ID_Integration_History__c.Auth_Token_Value__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -547,6 +534,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>B2C_Client_ID__c.Total_Success_Count__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>B2C_Contact_Integration_History__c.API_Url__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
