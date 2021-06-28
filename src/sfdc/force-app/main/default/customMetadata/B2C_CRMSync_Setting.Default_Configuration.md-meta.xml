@@ -35,10 +35,6 @@
         <value xsi:type="xsd:boolean">true</value>
     </values>
     <values>
-        <field>Enable_B2C_Update_Counts_Trigger__c</field>
-        <value xsi:type="xsd:boolean">true</value>
-    </values>
-    <values>
         <field>Enable_Client_ID_CertValidation_Trigger__c</field>
         <value xsi:type="xsd:boolean">true</value>
     </values>

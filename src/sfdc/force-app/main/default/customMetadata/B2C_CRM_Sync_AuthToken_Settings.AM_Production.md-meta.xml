@@ -27,6 +27,10 @@
         <value xsi:type="xsd:string">RS256</value>
     </values>
     <values>
+        <field>Persist_B2C_AuthTokens__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
         <field>Retry_Count__c</field>
         <value xsi:type="xsd:string">3</value>
     </values>
