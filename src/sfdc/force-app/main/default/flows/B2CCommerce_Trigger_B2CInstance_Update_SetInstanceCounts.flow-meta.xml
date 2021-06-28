@@ -5,8 +5,8 @@
         <description>... assign the total count of B2C CustomerLists for the parent Instance to a local variable.</description>
         <name>asn_B2CCustomerListRecordCountInstance</name>
         <label>Assign the B2C CustomerList Recordcount for the Instance</label>
-        <locationX>176</locationX>
-        <locationY>671</locationY>
+        <locationX>536</locationX>
+        <locationY>928</locationY>
         <assignmentItems>
             <assignToReference>varB2CInstanceCustomerListCount</assignToReference>
             <operator>AssignCount</operator>
@@ -15,15 +15,15 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>recUpd_B2CInstance</targetReference>
+            <targetReference>dec_haveSiteCountsChanged</targetReference>
         </connector>
     </assignments>
     <assignments>
         <description>... assign the total count of B2C Sites for the parent Instance to a local variable.</description>
         <name>asn_B2CSitesRecordCountInstance</name>
         <label>Assign the B2C Sites Recordcount for the Instance</label>
-        <locationX>176</locationX>
-        <locationY>551</locationY>
+        <locationX>536</locationX>
+        <locationY>712</locationY>
         <assignmentItems>
             <assignToReference>varB2CInstanceSiteCount</assignToReference>
             <operator>AssignCount</operator>
@@ -35,9 +35,60 @@
             <targetReference>asn_B2CCustomerListRecordCountInstance</targetReference>
         </connector>
     </assignments>
-    <description>... updates the site and customerList instance counts for a given B2C Instance.</description>
-    <interviewLabel>B2C Commerce: Trigger: B2C Instance: Update {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>B2C Commerce: Trigger: B2C Instance: Instance Counts: Update</label>
+    <assignments>
+        <description>... assign the updates site / customerList counts.</description>
+        <name>asn_updatedSiteCounts</name>
+        <label>Assign the Updated Counts</label>
+        <locationX>537</locationX>
+        <locationY>1397</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.Total_Sites__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>varB2CInstanceSiteCount</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>$Record.Total_CustomerLists__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>varB2CInstanceCustomerListCount</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <decisions>
+        <description>... evaluate if the siteCounts have changed for the current B2C Instance being evaluated.</description>
+        <name>dec_haveSiteCountsChanged</name>
+        <label>Have the Counts Changed?</label>
+        <locationX>528</locationX>
+        <locationY>1127</locationY>
+        <defaultConnectorLabel>Have Not Changed</defaultConnectorLabel>
+        <rules>
+            <name>dec_haveSiteCountsChangedTrue</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Total_CustomerLists__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>varB2CInstanceSiteCount</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Total_CustomerLists__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>varB2CInstanceCustomerListCount</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>asn_updatedSiteCounts</targetReference>
+            </connector>
+            <label>Have Changed</label>
+        </rules>
+    </decisions>
+    <description>... calculate the instanceCounts (including sites and customerLists) for a given customerList when it is created or updated.</description>
+    <interviewLabel>B2C Commerce: Trigger: B2C Instance: Update: Set Instance Counts {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>B2C Commerce: Trigger: B2C Instance: Update: Set Instance Counts</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -47,7 +98,7 @@
     <processMetadataValues>
         <name>CanvasMode</name>
         <value>
-            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
         </value>
     </processMetadataValues>
     <processMetadataValues>
@@ -61,8 +112,8 @@
         <description>... retrieve the collection of B2C CustomerLists associated to the parent B2C Instance (establishing the total recordCount).</description>
         <name>recGet_B2CInstanceCustomerLists</name>
         <label>Get the Count of B2C CustomerLists for the Instance</label>
-        <locationX>176</locationX>
-        <locationY>431</locationY>
+        <locationX>536</locationX>
+        <locationY>509</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>asn_B2CSitesRecordCountInstance</targetReference>
@@ -91,8 +142,8 @@
         <description>... retrieves the collection of B2C Sites associated to the parent Instance.</description>
         <name>recGet_B2CInstanceSites</name>
         <label>Get the Count of B2C Sites for the B2C Instance</label>
-        <locationX>176</locationX>
-        <locationY>311</locationY>
+        <locationX>536</locationX>
+        <locationY>316</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>recGet_B2CInstanceCustomerLists</targetReference>
@@ -116,58 +167,15 @@
         <object>B2C_Site__c</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
-    <recordUpdates>
-        <description>... update the totalSites count for the parent B2C CustomerList based on the calculation that was performed.</description>
-        <name>recUpd_B2CInstance</name>
-        <label>Update Totals for the B2C Instance</label>
-        <locationX>176</locationX>
-        <locationY>791</locationY>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Id</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>$Record.Id</elementReference>
-            </value>
-        </filters>
-        <inputAssignments>
-            <field>Total_CustomerLists__c</field>
-            <value>
-                <elementReference>varB2CInstanceCustomerListCount</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Total_Sites__c</field>
-            <value>
-                <elementReference>varB2CInstanceSiteCount</elementReference>
-            </value>
-        </inputAssignments>
-        <object>B2C_Instance__c</object>
-    </recordUpdates>
     <start>
-        <locationX>50</locationX>
-        <locationY>0</locationY>
+        <locationX>410</locationX>
+        <locationY>47</locationY>
         <connector>
             <targetReference>recGet_B2CInstanceSites</targetReference>
         </connector>
-        <filterLogic>or</filterLogic>
-        <filters>
-            <field>Total_CustomerLists__c</field>
-            <operator>IsNull</operator>
-            <value>
-                <booleanValue>true</booleanValue>
-            </value>
-        </filters>
-        <filters>
-            <field>Total_Sites__c</field>
-            <operator>IsNull</operator>
-            <value>
-                <booleanValue>true</booleanValue>
-            </value>
-        </filters>
         <object>B2C_Instance__c</object>
         <recordTriggerType>CreateAndUpdate</recordTriggerType>
-        <triggerType>RecordAfterSave</triggerType>
+        <triggerType>RecordBeforeSave</triggerType>
     </start>
     <status>Active</status>
     <variables>

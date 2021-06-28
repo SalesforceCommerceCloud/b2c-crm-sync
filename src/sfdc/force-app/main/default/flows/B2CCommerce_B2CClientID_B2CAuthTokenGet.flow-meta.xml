@@ -97,7 +97,7 @@
         <name>asn_setOutputValues_RetrieveSuccess</name>
         <label>Expose the Valid B2C AuthToken</label>
         <locationX>534</locationX>
-        <locationY>2258</locationY>
+        <locationY>2275</locationY>
         <assignmentItems>
             <assignToReference>B2CAuthToken</assignToReference>
             <operator>Assign</operator>
@@ -171,6 +171,32 @@
             <targetReference>dec_wasB2CClientIDFound</targetReference>
         </connector>
     </assignments>
+    <decisions>
+        <description>... evaluate if we need to execute the Pause (we don&apos;t if persistence is being bypassed).</description>
+        <name>dec_isPersistenceBypassed</name>
+        <label>Is Persistence Being Bypassed?</label>
+        <locationX>526</locationX>
+        <locationY>1993</locationY>
+        <defaultConnector>
+            <targetReference>pause_transactionCommit</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Persistence Is Enabled</defaultConnectorLabel>
+        <rules>
+            <name>dec_isPersistenceBypassedTrue</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>BypassAuthTokenAuditing</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>asn_setOutputValues_RetrieveSuccess</targetReference>
+            </connector>
+            <label>Persistence Is Bypassed</label>
+        </rules>
+    </decisions>
     <decisions>
         <description>... evaluate if a B2C Client ID was retrieved</description>
         <name>dec_wasB2CClientIDFound</name>
@@ -307,7 +333,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>pause_transactionCommit</targetReference>
+                <targetReference>dec_isPersistenceBypassed</targetReference>
             </connector>
             <label>Was Retrieved</label>
         </rules>
@@ -581,8 +607,8 @@
         <description>... commit any open transactions and write any of the dataEvents that are open or pending.</description>
         <name>pause_transactionCommit</name>
         <label>Commit the Transaction</label>
-        <locationX>533</locationX>
-        <locationY>1997</locationY>
+        <locationX>787</locationX>
+        <locationY>2276</locationY>
         <defaultConnectorLabel>Pause</defaultConnectorLabel>
         <waitEvents>
             <name>pause_transactionCommit_commitEvent</name>
