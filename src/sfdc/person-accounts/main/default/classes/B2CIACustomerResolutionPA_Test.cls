@@ -78,7 +78,7 @@ private class B2CIACustomerResolutionPA_Test {
                 resolutionResults.contactList
             );
 
-            Flow.Interview.B2C_Commerce_Contact_Filter_Matches contactFilterMatchFlow = new Flow.Interview.B2C_Commerce_Contact_Filter_Matches(contactFilterMap);
+            Flow.Interview.B2CCommerce_Process_ContactFilterMatches contactFilterMatchFlow = new Flow.Interview.B2CCommerce_Process_ContactFilterMatches(contactFilterMap);
             contactFilterMatchFlow.start();
 
             contactFilteredList = (List<Contact>)(contactFilterMatchFlow.getVariableValue('ContactMatchesResult'));
@@ -143,7 +143,7 @@ private class B2CIACustomerResolutionPA_Test {
                 resolutionResults.contactList
             );
 
-            Flow.Interview.B2C_Commerce_Contact_Filter_Matches contactFilterMatchFlow = new Flow.Interview.B2C_Commerce_Contact_Filter_Matches(contactFilterMap);
+            Flow.Interview.B2CCommerce_Process_ContactFilterMatches contactFilterMatchFlow = new Flow.Interview.B2CCommerce_Process_ContactFilterMatches(contactFilterMap);
             contactFilterMatchFlow.start();
 
             contactFilteredList = (List<Contact>)(contactFilterMatchFlow.getVariableValue('ContactMatchesResult'));
@@ -206,7 +206,7 @@ private class B2CIACustomerResolutionPA_Test {
                 resolutionResults.contactList
             );
 
-        Flow.Interview.B2C_Commerce_Contact_Filter_Matches contactFilterMatchFlow = new Flow.Interview.B2C_Commerce_Contact_Filter_Matches(contactFilterMap);
+        Flow.Interview.B2CCommerce_Process_ContactFilterMatches contactFilterMatchFlow = new Flow.Interview.B2CCommerce_Process_ContactFilterMatches(contactFilterMap);
             contactFilterMatchFlow.start();
 
             contactFilteredList = (List<Contact>)(contactFilterMatchFlow.getVariableValue('ContactMatchesResult'));
@@ -271,7 +271,7 @@ private class B2CIACustomerResolutionPA_Test {
                 resolutionResults.contactList
             );
 
-            Flow.Interview.B2C_Commerce_Contact_Filter_Matches contactFilterMatchFlow = new Flow.Interview.B2C_Commerce_Contact_Filter_Matches(contactFilterMap);
+            Flow.Interview.B2CCommerce_Process_ContactFilterMatches contactFilterMatchFlow = new Flow.Interview.B2CCommerce_Process_ContactFilterMatches(contactFilterMap);
             contactFilterMatchFlow.start();
 
             contactFilteredList = (List<Contact>)(contactFilterMatchFlow.getVariableValue('ContactMatchesResult'));
@@ -334,7 +334,7 @@ private class B2CIACustomerResolutionPA_Test {
                 resolutionResults.contactList
             );
 
-            Flow.Interview.B2C_Commerce_Contact_Filter_Matches contactFilterMatchFlow = new Flow.Interview.B2C_Commerce_Contact_Filter_Matches(contactFilterMap);
+            Flow.Interview.B2CCommerce_Process_ContactFilterMatches contactFilterMatchFlow = new Flow.Interview.B2CCommerce_Process_ContactFilterMatches(contactFilterMap);
             contactFilterMatchFlow.start();
 
             contactFilteredList = (List<Contact>)(contactFilterMatchFlow.getVariableValue('ContactMatchesResult'));
@@ -396,7 +396,7 @@ private class B2CIACustomerResolutionPA_Test {
                 resolutionResults.contactList
             );
 
-            Flow.Interview.B2C_Commerce_Contact_Filter_Matches contactFilterMatchFlow = new Flow.Interview.B2C_Commerce_Contact_Filter_Matches(contactFilterMap);
+            Flow.Interview.B2CCommerce_Process_ContactFilterMatches contactFilterMatchFlow = new Flow.Interview.B2CCommerce_Process_ContactFilterMatches(contactFilterMap);
             contactFilterMatchFlow.start();
 
             contactFilteredList = (List<Contact>)(contactFilterMatchFlow.getVariableValue('ContactMatchesResult'));

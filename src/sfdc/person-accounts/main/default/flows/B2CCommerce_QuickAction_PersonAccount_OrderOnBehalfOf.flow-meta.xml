@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
-    <apiVersion>51.0</apiVersion>
+    <apiVersion>52.0</apiVersion>
     <decisions>
         <description>... evaluate if the parent Account has a valid Contact record.</description>
         <name>dec_wasContactRetrieved</name>
@@ -175,7 +175,7 @@
         <label>Launch the OOBO Experience</label>
         <locationX>279</locationX>
         <locationY>639</locationY>
-        <flowName>B2C_Commerce_Order_On_Behalf_Of</flowName>
+        <flowName>B2CCommerce_QuickAction_Contact_OrderOnBehalfOf</flowName>
         <inputAssignments>
             <name>recordId</name>
             <value>
