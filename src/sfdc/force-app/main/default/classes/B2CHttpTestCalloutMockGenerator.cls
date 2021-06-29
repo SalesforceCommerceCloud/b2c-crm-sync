@@ -34,7 +34,7 @@ public class B2CHttpTestCalloutMockGenerator implements HttpCalloutMock {
         Map<String, String> responseObj;
 
         switch on this.requestType {
-            when 'AccessToken' {
+            when 'AccessTokenSuccess' {
                 responseObj = getAccessTokenSuccessResponse();
             }
             when 'AccessTokenFailure' {
@@ -85,7 +85,7 @@ public class B2CHttpTestCalloutMockGenerator implements HttpCalloutMock {
             when 'CustomerAuthSuccess' {
                 HttpResponse resCustomerAuth = new HttpResponse();
                 resCustomerAuth.setHeader('Content-Type', 'application/json');
-                resCustomerAuth.setHeader('authorization', 'bf1d02e3-9477-436b-84e1-15868daa7984');
+                resCustomerAuth.setHeader('authorization', B2CConstant.AuthTest_AuthToken);
                 resCustomerAuth.setBody('{}');
                 resCustomerAuth.setStatus('OK');
                 resCustomerAuth.setStatusCode(200);
@@ -98,7 +98,6 @@ public class B2CHttpTestCalloutMockGenerator implements HttpCalloutMock {
 
         return buildMockHttpResponse(responseObj);
     }
-
 
     /**
      * @description Helper function to return the access token response
@@ -116,7 +115,7 @@ public class B2CHttpTestCalloutMockGenerator implements HttpCalloutMock {
         String accessToken;
 
         // Initialize the access token
-        accessToken = 'bf1d02e3-9477-436b-84e1-15868daa7984';
+        accessToken = B2CConstant.AuthTest_AuthToken;
 
         // Initialize the body content string to be attached to mock response
         bodyContent = '{"access_token": "' + accessToken + '", "expires_in": 899, "token_type": "Bearer" }';

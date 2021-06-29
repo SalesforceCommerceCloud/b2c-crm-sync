@@ -14,8 +14,14 @@ public with sharing class B2CConstant {
     public static final String
 
         // Define the string that will be used to test / exercise the existence of defined certificates
-        CertTest_Validate_CertificateCanSign = '--> B2C Client ID Test: Validating that the certificate associated to a B2C ClientID exists by attempting to use it.',
-        Errors_B2CClientID_UnableToVerifyCertificate = 'We could not find a certificate with the JWT Certificate Name you specified.  Please double-check your value; this should map to the unique-name of an existing Salesforce certificate.',
+        CertTest_Validate_CertificateCanSign = '--> B2C Client ID Test --> Validating that the certificate associated to a B2C ClientID exists by attempting to use it.',
+        Errors_B2CClientID_UnableToVerifyCertificate = '--> B2C Exception --> We could not find a certificate with the JWT Certificate Name you specified.  Please double-check your value; this should map to the unique-name of an existing Salesforce certificate.',
+
+        // Define the certificate that will be used
+        CertTest_Validate_TestCertificateName = 'b2ccrmsync_testing',
+
+        // Define the standard authToken success value
+        AuthTest_AuthToken = 'bf1d02e3-9477-436b-84e1-15868daa7984',
 
         // Define the different data exception names
         Errors_ExceptionName_DataRecordMissing = 'B2CMetaDataRecordMissingException',
@@ -44,21 +50,21 @@ public with sharing class B2CConstant {
         Contact_Integration_ProcessMode_Resolve = 'resolve',
 
         // Define the error messages related to integration configuration
-        Errors_IntegrationConfig_UnknownProcessMode = '--> B2C Exception: Contact ProcessMode is invalid [{0}]; expected [{1}].',
-        Errors_IntegrationConfig_DisabledOnContact = '--> B2C Exception: Integration for the specified Contact [{0}] has been disabled.',
-        Errors_IntegrationConfig_CustomerListIsInActive = '--> B2C Exception: The specified customerList [{0}] is inactive.',
-        Errors_IntegrationConfig_InstanceIsInActive = '--> B2C Exception: The specified Instance [{0}] is inactive.',
-        Errors_IntegrationConfig_ProfileRetrievalDisabled = '--> B2C Exception: The Customer Profile retrieval for the customerList [{0}] is disabled.',
-        Errors_IntegrationConfig_ProfilePublishingDisabled = '--> B2C Exception: The Customer Profile publishing for the customerList [{0}] is disabled.',
-        Errors_IntegrationConfig_ContactUpdateDisabled = '--> B2C Exception: The Contact Updates for the customerList [{0}] are disabled.',
+        Errors_IntegrationConfig_UnknownProcessMode = '--> B2C Exception --> Contact ProcessMode is invalid [{0}]; expected [{1}].',
+        Errors_IntegrationConfig_DisabledOnContact = '--> B2C Exception --> Integration for the specified Contact [{0}] has been disabled.',
+        Errors_IntegrationConfig_CustomerListIsInActive = '--> B2C Exception --> The specified customerList [{0}] is inactive.',
+        Errors_IntegrationConfig_InstanceIsInActive = '--> B2C Exception --> The specified Instance [{0}] is inactive.',
+        Errors_IntegrationConfig_ProfileRetrievalDisabled = '--> B2C Exception --> The Customer Profile retrieval for the customerList [{0}] is disabled.',
+        Errors_IntegrationConfig_ProfilePublishingDisabled = '--> B2C Exception --> The Customer Profile publishing for the customerList [{0}] is disabled.',
+        Errors_IntegrationConfig_ContactUpdateDisabled = '--> B2C Exception --> The Contact Updates for the customerList [{0}] are disabled.',
 
         // Define the error messages leveraged by the application
-        Errors_Common_GetStatus = 'Error: received status code',
-        Errors_Common_UnknownFieldMapping = '--> B2C Exception: B2C Field Mapping [{0}] not found in Object [{1}]',
+        Errors_Common_GetStatus = '--> B2C Exception --> received status code',
+        Errors_Common_UnknownFieldMapping = '--> B2C Exception --> B2C Field Mapping [{0}] not found in Object [{1}]',
 
         // Define the error messages related to OCAPI
-        Errors_OCAPI_AccessTokenNotPresent = 'Error: access_token not present in response',
-        Errors_OCAPI_Non200ErrorOccurred = 'Error: unable to successfully complete this request',
+        Errors_OCAPI_AccessTokenNotPresent = '--> B2C Exception --> access_token not present in response',
+        Errors_OCAPI_Non200ErrorOccurred = '--> B2C Exception --> unable to successfully complete this request',
 
         // Define error messages related to meta-data management
         Errors_Meta_NoRecordsFoundQuery = '--> B2C MetaData --> No records were retrieved by your query.',

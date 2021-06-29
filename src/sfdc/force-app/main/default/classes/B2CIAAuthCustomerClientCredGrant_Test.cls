@@ -39,7 +39,7 @@ private class B2CIAAuthCustomerClientCredGrant_Test {
         // Validate that the request processed successfully
         System.assertEquals(tokenResultList.size() > 0, true, 'Expected a result to be processed and returned in the results');
         System.assertEquals(tokenResultList[0].statusCode, 200, 'Expected a successful http statusCode to be returned as part of this request');
-        System.assertEquals(tokenResultList[0].accessToken, 'bf1d02e3-9477-436b-84e1-15868daa7984', 'Expected the accessToken to equal the test tokenValue.');
+        System.assertEquals(tokenResultList[0].accessToken, B2CConstant.AuthTest_AuthToken, 'Expected the accessToken to equal the test tokenValue.');
 
     }
 
@@ -77,6 +77,5 @@ private class B2CIAAuthCustomerClientCredGrant_Test {
         System.assertEquals(tokenResultList[0].statusCode, 401, 'Expected a failed (401) http statusCode to be returned as part of this request');
 
     }
-
 
 }

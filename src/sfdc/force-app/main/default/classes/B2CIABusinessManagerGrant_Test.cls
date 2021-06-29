@@ -35,7 +35,7 @@ private class B2CIABusinessManagerGrant_Test {
         // Verify that a token was successfully retrieved
         System.assertEquals(tokenResultList.size() > 0, true, 'Expected a result to be populated');
         System.assertEquals(tokenResultList[0].statusCode, 200, 'Expected a statusCode of 200 indicating a successful result');
-        System.assertEquals(tokenResultList[0].accessToken, 'bf1d02e3-9477-436b-84e1-15868daa7984', 'Expected a specific accessToken value to be provided');
+        System.assertEquals(tokenResultList[0].accessToken, B2CConstant.AuthTest_AuthToken, 'Expected a specific accessToken value to be provided');
 
     }
 

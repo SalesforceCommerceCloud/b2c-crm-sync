@@ -15,14 +15,18 @@ public class B2CAuthTokenHelper {
      *
      * @param B2CClientID {B2C_Client_ID__c} Represents the ClientID that will be used to retrieve / request
      * a new B2C AuthToken from the configured AccountManager instance.
+     * @param BypassAuthTokenAuditing {Boolean} Describes if the authToken should be audited
      * @return {Map<String, Object>} Returns the collection of return values from the source flow
      */
-    public static Map<String, Object> getB2CAuthToken(B2C_Client_ID__c B2CClientID) {
+    public static Map<String, Object> getB2CAuthToken(B2C_Client_ID__c B2CClientID, Boolean BypassAuthTokenAuditing) {
 
         // Initialize local variables
         Flow.Interview getAuthTokenFlow;
         Map<String, Object> flowArguments;
         Map<String, Object> output;
+
+        // Provide a default for the bypass-flag if one isn't provided
+        if (BypassAuthTokenAuditing == null) { BypassAuthTokenAuditing = false; }
 
         // Initialize the output variable
         output = new Map<String, Object>();
@@ -30,6 +34,7 @@ public class B2CAuthTokenHelper {
         // Initialize the flow arguments
         flowArguments = new Map<String, Object>();
         flowArguments.put('B2CClientID', B2CClientID);
+        flowArguments.put('BypassAuthTokenAuditing', BypassAuthTokenAuditing);
 
         // Execute the filterMap flow attempt to resolve the specific contact identified
         getAuthTokenFlow = Flow.Interview.createInterview('B2CCommerce_B2CClientID_B2CAuthTokenGet', flowArguments);

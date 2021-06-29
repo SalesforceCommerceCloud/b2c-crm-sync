@@ -35,23 +35,23 @@ public inherited sharing class B2CIACustomerResolution {
         //If so, iterate over them and start checking for potential matches
         for ( Datacloud.FindDuplicatesResult fdr_i : results ) {
 
-            System.debug('--> Iterating Over DataCloud results (' + results.size() + ')');
+            // System.debug('--> Iterating Over DataCloud results (' + results.size() + ')');
 
             // find duplicates based on what was passed in
             for (Datacloud.DuplicateResult dupeResult_i : fdr_i.getDuplicateResults()) {
 
-                System.debug('--> Iterating over duplicateRule results');
+                // System.debug('--> Iterating over duplicateRule results');
 
                 // Iterate over the collection of match / duplicate rules
                 for (Datacloud.MatchResult matchResult_i : dupeResult_i.getMatchResults()) {
 
-                    System.debug('--> Iterating over MatchRule results');
+                    // System.debug('--> Iterating over MatchRule results');
 
                     // Create a reference to the current rule being processed
                     String matchRule = matchResult_i.getRule();
 
-                    System.debug('--> MatchRule: ' + matchRule);
-                    System.debug('--> Matched RecordCount: ' + matchResult_i.getMatchRecords().size());
+                    // System.debug('--> MatchRule: ' + matchRule);
+                    // System.debug('--> Matched RecordCount: ' + matchResult_i.getMatchRecords().size());
 
                     // Instead of processing all rules, we only want to process B2C Commerce-specific rules
                     if (matchRule.contains('B2C') && matchResult_i.getMatchRecords().size() > 0) {
@@ -61,8 +61,8 @@ public inherited sharing class B2CIACustomerResolution {
 
                             // Are we using standard contact model and found contacts
                             if (
-                                    dmr_i.getRecord().getSObjectType() == Schema.Contact.getSObjectType()
-                                &&  B2C_CRMSync_Setting__mdt.getInstance('Default_Configuration').Account_Contact_Model__c != 'Person'
+                                dmr_i.getRecord().getSObjectType() == Schema.Contact.getSObjectType()
+                                && B2C_CRMSync_Setting__mdt.getInstance('Default_Configuration').Account_Contact_Model__c != B2CConstant.AccountContactModel_Person
                             ) {
 
                                 // If so, add it to the Contact Collection
@@ -70,17 +70,23 @@ public inherited sharing class B2CIACustomerResolution {
 
                             // Otherwise, did we find accounts and are using a person account model?
                             } else if (
-                                    dmr_i.getRecord().getSObjectType() == Schema.Account.getSObjectType()
-                                &&  B2C_CRMSync_Setting__mdt.getInstance('Default_Configuration').Account_Contact_Model__c == 'Person'
+                                dmr_i.getRecord().getSObjectType() == Schema.Account.getSObjectType()
+                                && B2C_CRMSync_Setting__mdt.getInstance('Default_Configuration').Account_Contact_Model__c == B2CConstant.AccountContactModel_Person
                             ) {
 
                                 // Add the record to the Account Collection
                                 matchedAccountRecords.add((Account)dmr_i.getRecord());
+
                             }
+
                         }
+
                     }
+
                 }
+
             }
+
         }
 
         // Were any matchedResults found?
