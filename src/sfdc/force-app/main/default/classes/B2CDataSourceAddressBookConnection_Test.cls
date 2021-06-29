@@ -1,5 +1,5 @@
 @isTest
-public with sharing class B2CAddressBookDataSourceConnection_Test {
+public with sharing class B2CDataSourceAddressBookConnection_Test {
     @isTest
     static void prepareData() {
         B2C_Instance__c instance = (B2C_Instance__c)TestDataFactory.createSObject('B2C_Instance__c', new Map<String,Object>{
@@ -24,7 +24,7 @@ public with sharing class B2CAddressBookDataSourceConnection_Test {
     static void testTableSync() {
         Test.startTest();
             DataSource.ConnectionParams connectionParams = new DataSource.ConnectionParams();
-            B2CAddressBookDataSourceProvider provider = new B2CAddressBookDataSourceProvider();
+            B2CDataSourceAddressBookProvider provider = new B2CDataSourceAddressBookProvider();
             DataSource.Connection connection = provider.getConnection(connectionParams);
             List<DataSource.Table> tables = connection.sync();
         Test.stopTest();
@@ -57,7 +57,7 @@ public with sharing class B2CAddressBookDataSourceConnection_Test {
 
         Test.startTest();
             DataSource.ConnectionParams connectionParams = new DataSource.ConnectionParams();
-            B2CAddressBookDataSourceProvider provider = new B2CAddressBookDataSourceProvider();
+            B2CDataSourceAddressBookProvider provider = new B2CDataSourceAddressBookProvider();
             DataSource.Connection connection = provider.getConnection(connectionParams);
             DataSource.TableResult result = connection.query(context);
         Test.stopTest();
@@ -65,6 +65,34 @@ public with sharing class B2CAddressBookDataSourceConnection_Test {
         System.assertEquals(result.success, true, 'The result should be a success.');
         System.assertEquals(result.tableName, 'B2C_CustomerAddress__x', 'The table name should be the one selected.');
         System.assertNotEquals(result.rows.size(), 0, 'The rows should contain at least one result.');
+    }
+
+    @isTest
+    static void testQueryAddressesWithoutFilter() {
+        // create the QueryContext class
+        DataSource.QueryContext context = new DataSource.QueryContext();
+        DataSource.ColumnSelection columnSelection = new DataSource.ColumnSelection();
+        columnSelection.columnName = 'ExternalId';
+        columnSelection.tableName = 'B2C_CustomerAddress__x';
+        // create the TableSelection class, set the filter and add it to the QueryContext
+        DataSource.TableSelection tableSelection = new DataSource.TableSelection();
+        tableSelection.tableSelected = 'B2C_CustomerAddress__x';
+        tableSelection.columnsSelected = new List<DataSource.ColumnSelection>{ columnSelection };
+        context.TableSelection = tableSelection;
+
+        prepareData();
+        Test.setMock(HttpCalloutMock.class, new B2CHttpTestCalloutMockGenerator('CustomerAddressSuccess'));
+
+        Test.startTest();
+            DataSource.ConnectionParams connectionParams = new DataSource.ConnectionParams();
+            B2CDataSourceAddressBookProvider provider = new B2CDataSourceAddressBookProvider();
+            DataSource.Connection connection = provider.getConnection(connectionParams);
+            DataSource.TableResult result = connection.query(context);
+        Test.stopTest();
+
+        System.assertEquals(result.success, true, 'The result should be a success.');
+        System.assertEquals(result.tableName, 'B2C_CustomerAddress__x', 'The table name should be the one selected.');
+        System.assertEquals(result.rows.size(), 0, 'The rows should not contain any result.');
     }
 
     @isTest
@@ -91,7 +119,7 @@ public with sharing class B2CAddressBookDataSourceConnection_Test {
 
         Test.startTest();
             DataSource.ConnectionParams connectionParams = new DataSource.ConnectionParams();
-            B2CAddressBookDataSourceProvider provider = new B2CAddressBookDataSourceProvider();
+            B2CDataSourceAddressBookProvider provider = new B2CDataSourceAddressBookProvider();
             DataSource.Connection connection = provider.getConnection(connectionParams);
             DataSource.TableResult result = connection.query(context);
         Test.stopTest();
@@ -130,7 +158,7 @@ public with sharing class B2CAddressBookDataSourceConnection_Test {
 
         Test.startTest();
             DataSource.ConnectionParams connectionParams = new DataSource.ConnectionParams();
-            B2CAddressBookDataSourceProvider provider = new B2CAddressBookDataSourceProvider();
+            B2CDataSourceAddressBookProvider provider = new B2CDataSourceAddressBookProvider();
             DataSource.Connection connection = provider.getConnection(connectionParams);
             DataSource.TableResult result = connection.query(context);
         Test.stopTest();
@@ -169,7 +197,7 @@ public with sharing class B2CAddressBookDataSourceConnection_Test {
 
         Test.startTest();
             DataSource.ConnectionParams connectionParams = new DataSource.ConnectionParams();
-            B2CAddressBookDataSourceProvider provider = new B2CAddressBookDataSourceProvider();
+            B2CDataSourceAddressBookProvider provider = new B2CDataSourceAddressBookProvider();
             DataSource.Connection connection = provider.getConnection(connectionParams);
             DataSource.TableResult result = connection.query(context);
         Test.stopTest();
@@ -186,12 +214,13 @@ public with sharing class B2CAddressBookDataSourceConnection_Test {
         DataSource.QueryContext context = new DataSource.QueryContext();
         // create the filter class and set the ColumnName
         DataSource.Filter filter = new DataSource.Filter();
+        String customerId = '002';
         filter.columnName = 'CustomerId';
-        filter.columnValue = '002';
+        filter.columnValue = customerId;
         filter.type = DataSource.FilterType.EQUALS;
         DataSource.Filter subFilter = new DataSource.Filter();
         subFilter.columnName = 'CustomerId';
-        subFilter.columnValue = '002';
+        subFilter.columnValue = customerId;
         subFilter.type = DataSource.FilterType.EQUALS;
         filter.subfilters = new List<DataSource.Filter>{ subFilter };
         DataSource.ColumnSelection columnSelection = new DataSource.ColumnSelection();
@@ -208,15 +237,15 @@ public with sharing class B2CAddressBookDataSourceConnection_Test {
         Test.setMock(HttpCalloutMock.class, new B2CHttpTestCalloutMockGenerator('CustomerAddressesSuccess'));
 
         Test.startTest();
+        try{
             DataSource.ConnectionParams connectionParams = new DataSource.ConnectionParams();
-            B2CAddressBookDataSourceProvider provider = new B2CAddressBookDataSourceProvider();
+            B2CDataSourceAddressBookProvider provider = new B2CDataSourceAddressBookProvider();
             DataSource.Connection connection = provider.getConnection(connectionParams);
             DataSource.TableResult result = connection.query(context);
+        } catch (Exception e) {
+            System.assertEquals(B2CConstant.buildErrorMessage(B2CConstant.Errors_Meta_ContactNotFound, customerId), e.getMessage(), 'We should have as much results as rows to update.');
+        }
         Test.stopTest();
-
-        System.assertEquals(result.success, true, 'The result should be a success.');
-        System.assertEquals(result.tableName, 'B2C_CustomerAddress__x', 'The table name should be the one selected.');
-        System.assertEquals(result.rows.size(), 0, 'The rows should contain at least one result.');
     }
 
     @isTest
@@ -248,7 +277,7 @@ public with sharing class B2CAddressBookDataSourceConnection_Test {
 
         Test.startTest();
             DataSource.ConnectionParams connectionParams = new DataSource.ConnectionParams();
-            B2CAddressBookDataSourceProvider provider = new B2CAddressBookDataSourceProvider();
+            B2CDataSourceAddressBookProvider provider = new B2CDataSourceAddressBookProvider();
             DataSource.Connection connection = provider.getConnection(connectionParams);
             DataSource.TableResult result = connection.query(context);
         Test.stopTest();
@@ -266,7 +295,7 @@ public with sharing class B2CAddressBookDataSourceConnection_Test {
         List<Map<String, Object>> rows = new List<Map<String, Object>>();
         Map<String, Object> row = new Map<String, Object>();
         row.put('ExternalId', '__my_home_address');
-        row.put('city', 'Washingtonville');
+        row.put('city', 'San Francisco');
         rows.add(row);
         context.rows = rows;
 
@@ -275,7 +304,7 @@ public with sharing class B2CAddressBookDataSourceConnection_Test {
 
         Test.startTest();
             DataSource.ConnectionParams connectionParams = new DataSource.ConnectionParams();
-            B2CAddressBookDataSourceProvider provider = new B2CAddressBookDataSourceProvider();
+            B2CDataSourceAddressBookProvider provider = new B2CDataSourceAddressBookProvider();
             DataSource.Connection connection = provider.getConnection(connectionParams);
             List<DataSource.UpsertResult> result = connection.upsertRows(context);
         Test.stopTest();
@@ -288,11 +317,12 @@ public with sharing class B2CAddressBookDataSourceConnection_Test {
     static void testUpsertAddressContactNotFound() {
         // create the UpsertContext class
         DataSource.UpsertContext context = new DataSource.UpsertContext();
+        String customerId = '002';
         context.tableSelected = 'B2C_CustomerAddress__x';
         List<Map<String, Object>> rows = new List<Map<String, Object>>();
         Map<String, Object> row = new Map<String, Object>();
-        row.put('ExternalId', '002__my_home_address');
-        row.put('city', 'Washingtonville');
+        row.put('ExternalId', customerId + '__my_home_address');
+        row.put('city', 'San Francisco');
         rows.add(row);
         context.rows = rows;
 
@@ -300,14 +330,15 @@ public with sharing class B2CAddressBookDataSourceConnection_Test {
         Test.setMock(HttpCalloutMock.class, new B2CHttpTestCalloutMockGenerator('CustomerAddressPatchSuccess'));
 
         Test.startTest();
+        try {
             DataSource.ConnectionParams connectionParams = new DataSource.ConnectionParams();
-            B2CAddressBookDataSourceProvider provider = new B2CAddressBookDataSourceProvider();
+            B2CDataSourceAddressBookProvider provider = new B2CDataSourceAddressBookProvider();
             DataSource.Connection connection = provider.getConnection(connectionParams);
             List<DataSource.UpsertResult> result = connection.upsertRows(context);
+        } catch (Exception e) {
+            System.assertEquals(B2CConstant.buildErrorMessage(B2CConstant.Errors_Meta_ContactNotFound, customerId), e.getMessage(), 'We should have as much results as rows to update.');
+        }
         Test.stopTest();
-
-        System.assertEquals(rows.size(), result.size(), 'We should have as much results as rows to update.');
-        System.assertNotEquals(result[0].success, true, 'The update should be a success.');
     }
 
     @isTest
@@ -318,7 +349,7 @@ public with sharing class B2CAddressBookDataSourceConnection_Test {
         List<Map<String, Object>> rows = new List<Map<String, Object>>();
         Map<String, Object> row = new Map<String, Object>();
         row.put('ExternalId', '001__my_home_address');
-        row.put('city', 'Washingtonville');
+        row.put('city', 'San Francisco');
         rows.add(row);
         context.rows = rows;
 
@@ -327,7 +358,7 @@ public with sharing class B2CAddressBookDataSourceConnection_Test {
 
         Test.startTest();
             DataSource.ConnectionParams connectionParams = new DataSource.ConnectionParams();
-            B2CAddressBookDataSourceProvider provider = new B2CAddressBookDataSourceProvider();
+            B2CDataSourceAddressBookProvider provider = new B2CDataSourceAddressBookProvider();
             DataSource.Connection connection = provider.getConnection(connectionParams);
             List<DataSource.UpsertResult> result = connection.upsertRows(context);
         Test.stopTest();
@@ -344,7 +375,7 @@ public with sharing class B2CAddressBookDataSourceConnection_Test {
         List<Map<String, Object>> rows = new List<Map<String, Object>>();
         Map<String, Object> row = new Map<String, Object>();
         row.put('ExternalId', '001__my_home_address');
-        row.put('city', 'Washingtonville');
+        row.put('city', 'San Francisco');
         rows.add(row);
         context.rows = rows;
 
@@ -353,7 +384,7 @@ public with sharing class B2CAddressBookDataSourceConnection_Test {
 
         Test.startTest();
             DataSource.ConnectionParams connectionParams = new DataSource.ConnectionParams();
-            B2CAddressBookDataSourceProvider provider = new B2CAddressBookDataSourceProvider();
+            B2CDataSourceAddressBookProvider provider = new B2CDataSourceAddressBookProvider();
             DataSource.Connection connection = provider.getConnection(connectionParams);
             List<DataSource.UpsertResult> result = connection.upsertRows(context);
         Test.stopTest();

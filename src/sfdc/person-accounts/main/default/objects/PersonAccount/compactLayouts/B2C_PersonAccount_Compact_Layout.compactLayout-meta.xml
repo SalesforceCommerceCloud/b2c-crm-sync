@@ -4,7 +4,7 @@
     <fields>Name</fields>
     <fields>B2C_CustomerList__pc</fields>
     <fields>B2C_Customer_No__pc</fields>
-    <fields>B2C_Customer_ID__pc</fields>
+    <fields>B2C_Customer_ID__c</fields>
     <fields>PersonEmail</fields>
     <fields>Last_B2C_Commerce_Update_Processed__pc</fields>
     <label>B2C: PersonAccount Compact Layout</label>

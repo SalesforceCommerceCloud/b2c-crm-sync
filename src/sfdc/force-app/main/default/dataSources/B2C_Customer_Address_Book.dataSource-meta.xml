@@ -5,5 +5,5 @@
     <label>B2C Customer Address Book</label>
     <principalType>Anonymous</principalType>
     <protocol>NoAuthentication</protocol>
-    <type>B2CAddressBookDataSourceProvider</type>
+    <type>B2CDataSourceAddressBookProvider</type>
 </ExternalDataSource>
