@@ -1,6 +1,6 @@
-@isTest
+@IsTest
 public with sharing class B2CDataSourceAddressBookConnection_Test {
-    @isTest
+    @IsTest
     static void prepareData() {
         B2C_Instance__c instance = (B2C_Instance__c)TestDataFactory.createSObject('B2C_Instance__c', new Map<String,Object>{
             'Name' => 'RefArch',
@@ -20,7 +20,7 @@ public with sharing class B2CDataSourceAddressBookConnection_Test {
         });
     }
 
-    @isTest
+    @IsTest
     static void testTableSync() {
         Test.startTest();
             DataSource.ConnectionParams connectionParams = new DataSource.ConnectionParams();
@@ -33,7 +33,7 @@ public with sharing class B2CDataSourceAddressBookConnection_Test {
         System.assertNotEquals(tables[0].columns.size(), 0, 'The table should contains columns.');
     }
 
-    @isTest
+    @IsTest
     static void testQuerySingleAddressIsSuccess() {
         // create the QueryContext class
         DataSource.QueryContext context = new DataSource.QueryContext();
@@ -67,7 +67,7 @@ public with sharing class B2CDataSourceAddressBookConnection_Test {
         System.assertNotEquals(result.rows.size(), 0, 'The rows should contain at least one result.');
     }
 
-    @isTest
+    @IsTest
     static void testQueryAddressesWithoutFilter() {
         // create the QueryContext class
         DataSource.QueryContext context = new DataSource.QueryContext();
@@ -95,7 +95,7 @@ public with sharing class B2CDataSourceAddressBookConnection_Test {
         System.assertEquals(result.rows.size(), 0, 'The rows should not contain any result.');
     }
 
-    @isTest
+    @IsTest
     static void testQuerySingleAddressIsFailure() {
         // create the QueryContext class
         DataSource.QueryContext context = new DataSource.QueryContext();
@@ -129,7 +129,7 @@ public with sharing class B2CDataSourceAddressBookConnection_Test {
         System.assertEquals(result.rows.size(), 0, 'The rows should not contain any result.');
     }
 
-    @isTest
+    @IsTest
     static void testQueryMultipleAddressesIsSuccess() {
         // create the QueryContext class
         DataSource.QueryContext context = new DataSource.QueryContext();
@@ -168,7 +168,7 @@ public with sharing class B2CDataSourceAddressBookConnection_Test {
         System.assertNotEquals(result.rows.size(), 0, 'The rows should contain at least one result.');
     }
 
-    @isTest
+    @IsTest
     static void testQueryMultipleAddressesWrongCustomerNo() {
         // create the QueryContext class
         DataSource.QueryContext context = new DataSource.QueryContext();
@@ -208,7 +208,7 @@ public with sharing class B2CDataSourceAddressBookConnection_Test {
     }
 
 
-    @isTest
+    @IsTest
     static void testQueryMultipleAddressesContactNotFound() {
         // create the QueryContext class
         DataSource.QueryContext context = new DataSource.QueryContext();
@@ -248,7 +248,7 @@ public with sharing class B2CDataSourceAddressBookConnection_Test {
         Test.stopTest();
     }
 
-    @isTest
+    @IsTest
     static void testQueryMultipleAddressesIsFailure() {
         // create the QueryContext class
         DataSource.QueryContext context = new DataSource.QueryContext();
@@ -287,7 +287,7 @@ public with sharing class B2CDataSourceAddressBookConnection_Test {
         System.assertEquals(result.rows.size(), 0, 'The rows should not contain any result.');
     }
 
-    @isTest
+    @IsTest
     static void testUpsertAddressWrongCustomerNo() {
         // create the UpsertContext class
         DataSource.UpsertContext context = new DataSource.UpsertContext();
@@ -313,7 +313,7 @@ public with sharing class B2CDataSourceAddressBookConnection_Test {
         System.assertNotEquals(result[0].success, true, 'The update should be a success.');
     }
 
-    @isTest
+    @IsTest
     static void testUpsertAddressContactNotFound() {
         // create the UpsertContext class
         DataSource.UpsertContext context = new DataSource.UpsertContext();
@@ -341,7 +341,7 @@ public with sharing class B2CDataSourceAddressBookConnection_Test {
         Test.stopTest();
     }
 
-    @isTest
+    @IsTest
     static void testUpsertAddressIsSuccess() {
         // create the UpsertContext class
         DataSource.UpsertContext context = new DataSource.UpsertContext();
@@ -367,7 +367,7 @@ public with sharing class B2CDataSourceAddressBookConnection_Test {
         System.assertEquals(result[0].success, true, 'The update should be a success.');
     }
 
-    @isTest
+    @IsTest
     static void testUpsertAddressIsFailure() {
         // create the UpsertContext class
         DataSource.UpsertContext context = new DataSource.UpsertContext();

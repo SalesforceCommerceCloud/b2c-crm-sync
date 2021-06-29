@@ -1,6 +1,6 @@
-@isTest
+@IsTest
 public with sharing class B2CDataSourceAddressBookProvider_Test {
-    @isTest
+    @IsTest
     static void testGetConnection() {
         Test.startTest();
             DataSource.ConnectionParams connectionParams = new DataSource.ConnectionParams();
@@ -11,7 +11,7 @@ public with sharing class B2CDataSourceAddressBookProvider_Test {
         System.assertNotEquals(null, connection, 'The connection should not be null.');
     }
 
-    @isTest
+    @IsTest
     static void testGetAuthenticationCapabilities() {
         Test.startTest();
             B2CDataSourceAddressBookProvider provider = new B2CDataSourceAddressBookProvider();
@@ -22,7 +22,7 @@ public with sharing class B2CDataSourceAddressBookProvider_Test {
         System.assertEquals(1, capabilities.size(), 'The authentication capabilities only contain one capability.');
     }
 
-    @isTest
+    @IsTest
     static void testGetCapabilities() {
         Test.startTest();
             B2CDataSourceAddressBookProvider provider = new B2CDataSourceAddressBookProvider();

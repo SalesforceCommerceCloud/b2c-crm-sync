@@ -1,17 +1,24 @@
-global class B2CDataSourceHelper {
+/**
+ * @author Jordane Bachelet
+ * @date June 29th, 2021
+ *
+ * @description This class is a helper class used to create B2C Data Sources on the.
+ * Salesforce Platform that can be leveraged by Salesforce Connect.
+ */
+public with sharing class B2CDataSourceHelper {
     /**
-     * This method creates the Schema of External Object based on configured mapping fields and return the table schema for the External Object generation
+     * @description This method creates the Schema of External Object based on configured mapping fields and return the table schema for the External Object generation
      *
-     * @param {String} tableName
-     * @param {String} tableLabelSingular
-     * @param {String} tableLabelPlural
-     * @param {String} tableDescription
-     * @param {String} indirectLookupColumn
-     * @param {String} indirectLookupColumnLabel
-     * @param {String} indirectLookupColumnDescription
-     * @param {String} indirectLookupTargetObject
-     * @param {String} indirectLookupTargetField
-     *
+     * @param tableName {String}
+     * @param tableLabelSingular {String}
+     * @param tableLabelPlural {String}
+     * @param tableDescription {String}
+     * @param indirectLookupColumn {String}
+     * @param indirectLookupColumnLabel {String}
+     * @param indirectLookupColumnDescription {String}
+     * @param indirectLookupTargetObject {String}
+     * @param indirectLookupTargetField {String}
+     * @param fieldMappings List<B2C_Integration_Field_Mappings__mdt>
      * @return {List<DataSource.Table>} tables
      * */
     public static List<DataSource.Table> generateSyncTables(
@@ -57,10 +64,9 @@ global class B2CDataSourceHelper {
     }
 
     /**
-     * Generate the columns for a table from the given field mappings
+     * @description Generate the columns for a table from the given field mappings
      *
-     * @param {List<B2C_Integration_Field_Mappings__mdt>} fieldMappings The field mappings to use to generate the columns
-     *
+     * @param fieldMappings {List<B2C_Integration_Field_Mappings__mdt>}  The field mappings to use to generate the columns
      * @return {List<DataSource.Column>}
      */
     public static List<DataSource.Column> generateColumns(List<B2C_Integration_Field_Mappings__mdt> fieldMappings) {
@@ -88,11 +94,11 @@ global class B2CDataSourceHelper {
     }
 
     /**
-     * Retrieve the configured field mappings from the given {data}
+     * @description Retrieve the configured field mappings from the given {data}
      *
-     * @param {String} customerId The customer Id
-     * @param {JSONParse} data The data retrieved from the B2C Commerce API
-     *
+     * @param customerId {String}  The customer Id
+     * @param data {JSONParse} The data retrieved from the B2C Commerce API
+     * @param fieldMappings {List<B2C_Integration_Field_Mappings__mdt>} The collection of fieldMappings to process
      * @return {Map<String, Object>} The list of found fields
      */
     public static Map<String, Object> mapFields(String customerId, JSONParse data, List<B2C_Integration_Field_Mappings__mdt> fieldMappings) {
@@ -124,11 +130,10 @@ global class B2CDataSourceHelper {
     }
 
     /**
-     * Get the contact that matches the given {customerId}
+     * @description Get the contact that matches the given {customerId}
      * If multiple records are found, the query limits to the first one
      *
-     * @param {String} customerId The customer Id to use to find the contact
-     *
+     * @param customerId {String} The customer Id to use to find the contact
      * @return {Contact} The found contact or null if none is found
      */
     public static Contact getContactByCustomerId(String customerId) {
