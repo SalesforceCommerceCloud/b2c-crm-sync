@@ -142,9 +142,10 @@ public with sharing class B2CDataSourceHelper {
         contactQuery.selectField('AccountId');
         contactQuery.selectField('B2C_Customer_Id__c');
         contactQuery.selectField('B2C_Customer_No__c');
-        contactQuery.selectField('B2C_CustomerList__r.CustomerList_ID__c');
+        contactQuery.selectField('B2C_CustomerList__r.Name');
+        contactQuery.selectField('B2C_CustomerList__r.API_Url__c');
+        contactQuery.selectField('B2C_CustomerList__r.B2C_Client_ID__c');
         contactQuery.selectField('B2C_CustomerList__r.OCAPI_Version_No__c');
-        contactQuery.selectField('B2C_CustomerList__r.Named_Credential_Developer_Name__c');
         contactQuery.setLimit(1);
         contactQuery.addConditionEq('B2C_Customer_ID__c', customerId);
         contactQuery.addConditionEq('Id', customerId);

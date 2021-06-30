@@ -53,4 +53,50 @@ public class B2CAuthTokenHelper {
 
     }
 
+
+    /**
+     * @description Helper function to retrieve a B2C ClientID for the purpose of
+     * retrieving a B2C AuthToken.
+     *
+     * @param B2CClientIDValue {String} Represents the ClientID that will be used to retrieve / request
+     * a new B2C AuthToken from the configured AccountManager instance.
+     * @param BypassAuthTokenAuditing {Boolean} Describes if the authToken should be audited
+     * @return {String} Returns the authToken that was retrieved
+     */
+    public static String getB2CAuthTokenByClientIDValue(String B2CClientIDValue, Boolean BypassAuthTokenAuditing) {
+
+        // Initialize local variables
+        List<B2C_Client_ID__c> thisClientID;
+        Map<String, Object> flowResults;
+        Boolean isSuccess;
+        List<String> errorMessages;
+        String b2cAuthToken;
+
+        // Create a reference to the associated B2C ClientID value
+        thisClientID = [
+            SELECT  Id,
+                    Name,
+                    Is_Active__c,
+                    Is_Certificate_Verified__c,
+                    Audit_Authentication_API_Interactions__c,
+                    JWT_Certificate_Name__c,
+                    IsDeleted
+            FROM    B2C_Client_ID__c
+            WHERE   Id = :B2CClientIDValue
+            LIMIT   1
+        ];
+
+        // Retrieve the authToken for the associated B2C ClientID
+        flowResults = B2CAuthTokenHelper.getB2CAuthToken(thisClientID.get(0), BypassAuthTokenAuditing);
+
+        // Create local references to the flowResult variables
+        isSuccess = Boolean.valueOf(flowResults.get('isSuccess'));
+        errorMessages = (List<String>) flowResults.get('errorMessage');
+        b2cAuthToken = String.valueOf(flowResults.get('b2cAuthToken'));
+
+        // Return the authToken value
+        return b2cAuthToken;
+
+    }
+
 }

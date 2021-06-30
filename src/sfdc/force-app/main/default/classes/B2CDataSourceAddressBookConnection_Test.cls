@@ -6,9 +6,21 @@ public with sharing class B2CDataSourceAddressBookConnection_Test {
             'Name' => 'RefArch',
             'API_Url__c' => 'https://test.com'
         });
+        B2C_Client_ID__c clientId = (B2C_Client_ID__c)TestDataFactory.createSObject('B2C_Client_ID__c', new Map<String,Object>{
+            'Name' => 'my-test-clientId',
+            'B2C_Client_ID_Label__c' => 'My Test ClientID',
+            'JWT_Certificate_Name__c' => B2CConstant.CertTest_Validate_TestCertificateName,
+            'Is_Active__c' => true,
+            'Audit_Authentication_API_Interactions__c' => true
+        });
+        B2C_AuthToken__c authToken = (B2C_AuthToken__c)TestDataFactory.createSObject('B2C_AuthToken__c', new Map<String,Object>{
+            'Name' => 'my-test-authtoken',
+            'B2C_Client_ID__c' => clientId.Id
+        });
         B2C_CustomerList__c customerList = (B2C_CustomerList__c)TestDataFactory.createSObject('B2C_CustomerList__c', new Map<String,Object>{
             'Name' => 'RefArch',
             'B2C_Instance__c' => instance.Id,
+            'B2C_Client_ID__c' => clientId.Id,
             'CustomerList_ID__c' => 'RefArch',
             'API_Url__c' => 'https://test.com',
             'OCAPI_Version_No__c' => 'v20_10'

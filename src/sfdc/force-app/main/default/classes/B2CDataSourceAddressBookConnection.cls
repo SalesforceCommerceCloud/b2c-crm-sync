@@ -162,9 +162,10 @@ global class B2CDataSourceAddressBookConnection extends DataSource.Connection {
 
         // Performs the patch request
         HttpRequest req = B2CHttpRequestHelper.getCustomerProfileAddressPatchRequest(
-            contact.B2C_CustomerList__r.Named_Credential_Developer_Name__c,
+            contact.B2C_CustomerList__r.API_Url__c,
+            B2CAuthTokenHelper.getB2CAuthTokenByClientIDValue(contact.B2C_CustomerList__r.B2C_Client_ID__c, true),
             contact.B2C_CustomerList__r.OCAPI_Version_No__c,
-            contact.B2C_CustomerList__r.CustomerList_ID__c,
+            contact.B2C_CustomerList__r.Name,
             contact.B2C_Customer_No__c,
             addressId,
             JSON.serialize(addressData, true)
@@ -200,17 +201,19 @@ global class B2CDataSourceAddressBookConnection extends DataSource.Connection {
         // Else, get all addresses for this customer
         if (!String.isEmpty(addressId)) {
             req = B2CHttpRequestHelper.getCustomerProfileAddressRequest(
-                contact.B2C_CustomerList__r.Named_Credential_Developer_Name__c,
+                contact.B2C_CustomerList__r.API_Url__c,
+                B2CAuthTokenHelper.getB2CAuthTokenByClientIDValue(contact.B2C_CustomerList__r.B2C_Client_ID__c, true),
                 contact.B2C_CustomerList__r.OCAPI_Version_No__c,
-                contact.B2C_CustomerList__r.CustomerList_ID__c,
+                contact.B2C_CustomerList__r.Name,
                 contact.B2C_Customer_No__c,
                 addressId
             );
         } else {
             req = B2CHttpRequestHelper.getCustomerProfileAddressesRequest(
-                contact.B2C_CustomerList__r.Named_Credential_Developer_Name__c,
+                contact.B2C_CustomerList__r.API_Url__c,
+                B2CAuthTokenHelper.getB2CAuthTokenByClientIDValue(contact.B2C_CustomerList__r.B2C_Client_ID__c, true),
                 contact.B2C_CustomerList__r.OCAPI_Version_No__c,
-                contact.B2C_CustomerList__r.CustomerList_ID__c,
+                contact.B2C_CustomerList__r.Name,
                 contact.B2C_Customer_No__c
             );
         }

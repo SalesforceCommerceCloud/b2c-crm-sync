@@ -56,7 +56,7 @@ private class B2CIAGetCustomerListsSites_Test {
 
         // Create a default instance for processing
         B2C_Instance__c i = new B2C_Instance__c(
-                API_Url__c = 'https://www.salesfor.com'
+            API_Url__c = 'https://www.salesfor.com'
         );
         Database.insert( i );
 

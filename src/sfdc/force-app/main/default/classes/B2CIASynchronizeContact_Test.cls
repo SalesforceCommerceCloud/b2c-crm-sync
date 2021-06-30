@@ -25,7 +25,7 @@ private class B2CIASynchronizeContact_Test {
         input.sourceContact = (Contact)TestDataFactory.createSObject('Contact', new Map<String,Object>{
                 'FirstName' => 'Test',
                 'LastName' => 'Contact',
-                'Email' => 'test@test.com',
+                'Email' => 'test@example.com',
                 'Description' => 'Test Description',
                 'Title' => 'Test Title'
         });
@@ -36,7 +36,7 @@ private class B2CIASynchronizeContact_Test {
         // Seed the field(s) representing the targetContact properties
         input.targetContact.put('FirstName', 'Alternate');
         input.targetContact.put('LastName', 'Contact');
-        input.targetContact.put('Email', 'test@test.com');
+        input.targetContact.put('Email', 'test@example.com');
 
         // Create the input list
         inputList.add(input);
