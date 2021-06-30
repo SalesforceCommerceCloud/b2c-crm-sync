@@ -27,7 +27,7 @@ public with sharing class B2CDataSourceAddressBookConnection_Test {
         });
         Contact contact = (Contact)TestDataFactory.createSObject('Contact', new Map<String,Object>{
             'LastName' => 'lastname',
-            'B2C_CustomerList_ID__c' => customerList.Id,
+            'B2C_CustomerList__c' => customerList.Id,
             'B2C_Customer_ID__c' => '001'
         });
     }

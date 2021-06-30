@@ -90,9 +90,9 @@ public class B2CAuthTokenHelper {
         flowResults = B2CAuthTokenHelper.getB2CAuthToken(thisClientID.get(0), BypassAuthTokenAuditing);
 
         // Create local references to the flowResult variables
-        isSuccess = Boolean.valueOf(flowResults.get('isSuccess'));
-        errorMessages = (List<String>) flowResults.get('errorMessage');
-        b2cAuthToken = String.valueOf(flowResults.get('b2cAuthToken'));
+        isSuccess = Boolean.valueOf(flowResults.get('IsSuccess'));
+        errorMessages = (List<String>) flowResults.get('ErrorMessage');
+        b2cAuthToken = String.valueOf(flowResults.get('B2CAuthToken'));
 
         // Return the authToken value
         return b2cAuthToken;
