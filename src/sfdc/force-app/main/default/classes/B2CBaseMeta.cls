@@ -50,7 +50,7 @@ public abstract with sharing class B2CBaseMeta {
         String defaultErrorMsg;
 
         // Default the error message
-        defaultErrorMsg = B2CConstant.Errors_Meta_NoRecordsFoundQuery;
+        defaultErrorMsg = B2CConstant.ERRORS_META_NORECORDSFOUNDQUERY;
 
         // Override the error message with the value provided
         if (errorMsg != null) { defaultErrorMsg = errorMsg; }

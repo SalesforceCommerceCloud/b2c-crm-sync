@@ -23,7 +23,7 @@ trigger B2CClientIDValidateJWTCertificate on B2C_Client_ID__c (before insert, be
 
             // Add the current record to the input collection
             validatorInput = new B2CIAB2CClientIDCertValidatorInput();
-            validatorInput.B2CClientID = thisRecord;
+            validatorInput.b2cClientID = thisRecord;
             validatorInputs.add(validatorInput);
 
         }
@@ -38,14 +38,14 @@ trigger B2CClientIDValidateJWTCertificate on B2C_Client_ID__c (before insert, be
             if (thisResult.isCertificateValid == true) {
 
                 // If so, then set the verified checkbox
-                thisResult.B2CClientID.Is_Certificate_Verified__c = true;
+                thisResult.b2cClientID.Is_Certificate_Verified__c = true;
 
             } else {
 
                 // Add an exception to the current B2C Client ID -- alerting that we could not verify
                 // the certificate exists (the JWT Certificate Name should map to the unique-name of
                 // an existing certificate.
-                thisResult.B2CClientID.addError(B2CConstant.Errors_B2CClientID_UnableToVerifyCertificate);
+                thisResult.b2cClientID.addError(B2CConstant.ERRORS_B2CCLIENTID_UNABLETOVERIFYCERTIFICATE);
 
             }
 

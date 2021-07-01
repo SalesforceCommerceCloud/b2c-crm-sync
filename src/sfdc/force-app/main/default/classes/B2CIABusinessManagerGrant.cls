@@ -1,17 +1,25 @@
 /**
  * @author Eric Schultz
  * @date January 2th, 2020
+ * @description This action is used to generate a Business Manager User Grant -- authenticating a specific B2C
+ * Commerce user against a B2C environment.
 */
 public with sharing class B2CIABusinessManagerGrant {
 
     /**
-     * @description This class is used to process the collection of inputs used to retrieve a Business Manager Grant access token from B2C Commerce.
-     * When successful, it returns either an access token for the input arguments, or an error containing the fault that was processed.
+     * @description This class is used to process the collection of inputs used to retrieve a Business Manager
+     * Grant access token from B2C Commerce. When successful, it returns either an access token for the input
+     * arguments, or an error containing the fault that was processed.
      *
-     * @param businessManagerGrantInputList {List<B2CIABusinessManagerGrantInput>} Represents the collection of input properties used to request an access token
-     * @return {List<B2CIAGetAccessTokenResult>} Returns a result representing the access token request response (containing a token or the error
+     * @param businessManagerGrantInputList {List<B2CIABusinessManagerGrantInput>} Represents the collection of
+     * input properties used to request an access token
+     * @return {List<B2CIAGetAccessTokenResult>} Returns a result representing the access token request response
+     * (containing a token or the error)
      */
-    @InvocableMethod(Label='B2C: Get Business Manager Grant Access Token' Description='Retrieve a Business Manager Grant Access Token for BM User API Interactions')
+    @InvocableMethod(
+        Label='B2C: Get Business Manager Grant Access Token'
+        Description='Retrieve a Business Manager Grant Access Token for BM User API Interactions'
+    )
     public static List<B2CIAGetAccessTokenResult> getB2CAccessTokenViaClientCredentials(
         List<B2CIABusinessManagerGrantInput> businessManagerGrantInputList
     ) {
@@ -26,7 +34,12 @@ public with sharing class B2CIABusinessManagerGrant {
 
         // Iterate over the collection of Named Credentials
         for (B2CIABusinessManagerGrantInput b2creq: businessManagerGrantInputList) {
-            HttpRequest req = B2CHttpRequestHelper.getBusinessManagerAuthRequest(b2creq.namedCredential, b2creq.clientId);
+
+            // Retrieve the template authRequest
+            HttpRequest req = B2CHttpRequestHelper.getBusinessManagerAuthRequest(
+                b2creq.namedCredential, b2creq.clientId);
+
+            // Initialize the http-handler
             Http https = new Http();
             HttpResponse res = https.send(req);
 
@@ -53,7 +66,7 @@ public with sharing class B2CIABusinessManagerGrant {
             } else {
 
                 // Otherwise, capture the error message
-                accessTokenResult.errorMessage = B2CConstant.Errors_OCAPI_AccessTokenNotPresent;
+                accessTokenResult.errorMessage = B2CConstant.ERRORS_OCAPI_ACCESSTOKENNOTPRESENT;
                 accessTokenResult.isError = true;
 
             }

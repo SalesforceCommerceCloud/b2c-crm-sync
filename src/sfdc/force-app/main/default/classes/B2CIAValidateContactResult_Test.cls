@@ -92,7 +92,7 @@ private class B2CIAValidateContactResult_Test {
         });
 
         // Default the processMode
-        input.processMode = B2CConstant.Contact_Integration_ProcessMode_Retrieve;
+        input.processMode = B2CConstant.CONTACT_INTEGRATION_PROCESSMODE_RETRIEVE;
 
         // Initialize the contactResult
         validateContactResult = new B2CIAValidateContactResult();
@@ -143,7 +143,7 @@ private class B2CIAValidateContactResult_Test {
         });
 
         // Default the processMode
-        input.processMode = B2CConstant.Contact_Integration_ProcessMode_Retrieve;
+        input.processMode = B2CConstant.CONTACT_INTEGRATION_PROCESSMODE_RETRIEVE;
 
         // Initialize the contactResult
         validateContactResult = new B2CIAValidateContactResult();
@@ -195,7 +195,7 @@ private class B2CIAValidateContactResult_Test {
         });
 
         // Default the processMode
-        input.processMode = B2CConstant.Contact_Integration_ProcessMode_Retrieve;
+        input.processMode = B2CConstant.CONTACT_INTEGRATION_PROCESSMODE_RETRIEVE;
 
         // Initialize the contactResult
         validateContactResult = new B2CIAValidateContactResult();
@@ -247,7 +247,7 @@ private class B2CIAValidateContactResult_Test {
         });
 
         // Default the processMode
-        input.processMode = B2CConstant.Contact_Integration_ProcessMode_Retrieve;
+        input.processMode = B2CConstant.CONTACT_INTEGRATION_PROCESSMODE_RETRIEVE;
 
         // Initialize the contactResult
         validateContactResult = new B2CIAValidateContactResult();
@@ -299,7 +299,7 @@ private class B2CIAValidateContactResult_Test {
         });
 
         // Default the processMode
-        input.processMode = B2CConstant.Contact_Integration_ProcessMode_Publish;
+        input.processMode = B2CConstant.CONTACT_INTEGRATION_PROCESSMODE_PUBLISH;
 
         // Initialize the contactResult
         validateContactResult = new B2CIAValidateContactResult();

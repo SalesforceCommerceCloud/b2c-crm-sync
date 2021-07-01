@@ -20,7 +20,7 @@ private class B2CProcessContactHelper_Test {
         // Initialize local Variables
         B2CIAValidateContactInput contactInput;
         Database.SaveResult output;
-        String JSONString;
+        String jsonString;
         B2C_CustomerList__c tmpCustomerList;
         Boolean threwException;
 
@@ -87,13 +87,13 @@ private class B2CProcessContactHelper_Test {
         Database.insert( contactInput.contact );
 
         // Default the processMode for this test
-        contactInput.processMode = B2CConstant.Contact_Integration_ProcessMode_Publish;
+        contactInput.processMode = B2CConstant.CONTACT_INTEGRATION_PROCESSMODE_PUBLISH;
         contactInput.customerList = tmpCustomerList;
 
         Test.startTest();
 
             // Attempt to create the publish platformEvent
-            output = B2CProcessContactHelper.createPublishPlatformEvent(contactInput, JSONString);
+            output = B2CProcessContactHelper.createPublishPlatformEvent(contactInput, jsonString);
 
         Test.stopTest();
 
@@ -142,7 +142,7 @@ private class B2CProcessContactHelper_Test {
         });
 
         // Default the processMode for this test
-        contactInput.processMode = B2CConstant.Contact_Integration_ProcessMode_Retrieve;
+        contactInput.processMode = B2CConstant.CONTACT_INTEGRATION_PROCESSMODE_RETRIEVE;
 
         Test.startTest();
 
@@ -221,7 +221,7 @@ private class B2CProcessContactHelper_Test {
         Test.stopTest();
 
         // Evaluate if the returned class contains key properties
-        System.assertEquals(validatedInput.processMode, B2CConstant.Contact_Integration_ProcessMode_Publish, 'Expected the processMode returned by the class to equal the publish processMode default');
+        System.assertEquals(validatedInput.processMode, B2CConstant.CONTACT_INTEGRATION_PROCESSMODE_PUBLISH, 'Expected the processMode returned by the class to equal the publish processMode default');
         System.assertEquals(validatedInput.contact.Id, c.Id, 'Expected the contactIdentifiers to be aligned');
 
     }

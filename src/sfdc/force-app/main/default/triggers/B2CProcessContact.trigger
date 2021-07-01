@@ -26,7 +26,7 @@ trigger B2CProcessContact on Contact (before update) {
         // Only process and evaluate updates to Contacts when the trigger is enabled
         // Do not process this trigger if the AccountContactModel is configured for PersonAccounts
         if (Trigger.isUpdate && B2CConfigurationManager.isB2CProcessContactTriggerEnabled() == true &&
-            B2CConfigurationManager.getDefaultAccountContactModel() == B2CConstant.AccountContactModel_Standard) {
+            B2CConfigurationManager.getDefaultAccountContactModel() == B2CConstant.ACCOUNTCONTACTMODEL_STANDARD) {
 
             // Get the fieldMappings for the customerProfile object
             fieldMappings = B2CMetaFieldMappings.getFieldMappingsForPublishing('Contact');
@@ -103,6 +103,11 @@ trigger B2CProcessContact on Contact (before update) {
 
         }
 
-    } catch (Exception e) {}
+    } catch (Exception e) {
+
+        // Audit that an error was caught
+        System.debug(System.LoggingLevel.ERROR, '--> B2C Exception: ' + e.getMessage());
+
+    }
 
 }

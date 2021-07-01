@@ -15,7 +15,9 @@ public with sharing class B2CProcessContactHelper extends B2CBaseAttributeAssign
      * @param customerListMap {Map<String, B2C_CustomerList__c>} Represents the map of B2C CustomerList being maintained
      * @return {Map<String, B2C_CustomerList__c>} Returns an updated instance of B2C CustomerLists
      */
-    public static Map<String, B2C_CustomerList__c> updateCustomerListMap(String b2cCustomerListId, Map<String, B2C_CustomerList__c> customerListMap) {
+    public static Map<String, B2C_CustomerList__c> updateCustomerListMap(
+        String b2cCustomerListId, Map<String, B2C_CustomerList__c> customerListMap
+    ) {
 
         // Initialize local variables
         B2C_CustomerList__c relatedCustomerList;
@@ -45,7 +47,9 @@ public with sharing class B2CProcessContactHelper extends B2CBaseAttributeAssign
      * @param instanceMap {Map<String, B2C_Instance__c>} Represents the map of B2C Instances being maintained
      * @return {Map<String, B2C_Instance__c>} Returns an updated instance of B2C Instances
      */
-    public static Map<String, B2C_Instance__c> updateInstanceMap(String b2cInstanceName, Map<String, B2C_Instance__c> instanceMap) {
+    public static Map<String, B2C_Instance__c> updateInstanceMap(
+        String b2cInstanceName, Map<String, B2C_Instance__c> instanceMap
+    ) {
 
         // Initialize local variables
         B2C_Instance__c relatedInstance;
@@ -55,18 +59,28 @@ public with sharing class B2CProcessContactHelper extends B2CBaseAttributeAssign
             return instanceMap;
         }
 
-        // Retrieve the instance
-        relatedInstance = [
-          SELECT    Id,
-                    Name,
-                    Is_Active__c
-          FROM      B2C_Instance__c
-          WHERE     Name = :b2cInstanceName
-          LIMIT     1
-        ];
+        if(
+            // Validate that we have permissions to access this data-object
+            B2C_Instance__c.SObjectType.getDescribe().isAccessible() &&
+            Schema.SObjectType.B2C_Instance__c.fields.Id.isAccessible() &&
+            Schema.SObjectType.B2C_Instance__c.fields.Name.isAccessible() &&
+            Schema.SObjectType.B2C_Instance__c.fields.Is_Active__c.isAccessible()
+        ) {
 
-        // Add the instance to the map
-        instanceMap.put(relatedInstance.Name, relatedInstance);
+            // Retrieve the instance
+            relatedInstance = [
+                SELECT  Id,
+                        Name,
+                        Is_Active__c
+                FROM    B2C_Instance__c
+                WHERE   Name = :b2cInstanceName
+                LIMIT   1
+            ];
+
+            // Add the instance to the map
+            instanceMap.put(relatedInstance.Name, relatedInstance);
+
+        }
 
         // Return the instanceMap
         return instanceMap;
@@ -82,7 +96,9 @@ public with sharing class B2CProcessContactHelper extends B2CBaseAttributeAssign
      * @param b2cCustomerList {B2C_CustomerList__c} Represents the active B2C CustomerList
      * @return {B2CIAValidateContactInput} Returns an instance of the B2CIAValidateContactInput class
      */
-    public static B2CIAValidateContactInput getValidateContactInput(Contact contactRecord, B2C_Instance__c b2cInstance, B2C_CustomerList__c b2cCustomerList) {
+    public static B2CIAValidateContactInput getValidateContactInput(
+        Contact contactRecord, B2C_Instance__c b2cInstance, B2C_CustomerList__c b2cCustomerList
+    ) {
 
         // Initialize local variables
         B2CIAValidateContactInput output;
@@ -94,7 +110,7 @@ public with sharing class B2CProcessContactHelper extends B2CBaseAttributeAssign
         output.contact = contactRecord;
         output.b2cInstance = b2cInstance;
         output.customerList = b2cCustomerList;
-        output.processMode = B2CConstant.Contact_Integration_ProcessMode_Publish;
+        output.processMode = B2CConstant.CONTACT_INTEGRATION_PROCESSMODE_PUBLISH;
 
         // Return the output
         return output;
@@ -127,13 +143,15 @@ public with sharing class B2CProcessContactHelper extends B2CBaseAttributeAssign
     /**
      * @description Helper function to create a B2C Commerce Contact Publish Platform Event.  The PE
      * triggers a Flow that is responsible for collecting and publishing B2C Commerce Customer Profile
-     * updates via the OCAPI Data REST API.  This version includes the B2CProfileJSON to use in the update.
+     * updates via the OCAPI Data REST API.  This version includes the b2cProfileJSON to use in the update.
      *
      * @param validateContactInput {B2CIAValidateContactInput} Represents the source records for the Platform Event
-     * @param B2CProfileJSON {String} Represents the B2C Profile JSON to use for the publish event
+     * @param b2cProfileJSON {String} Represents the B2C Profile JSON to use for the publish event
      * @return {Database.SaveResult} Returns the processing / saveResults for the Platform Event created
      */
-    public static Database.SaveResult createPublishPlatformEvent(B2CIAValidateContactInput validateContactInput, String B2CProfileJSON) {
+    public static Database.SaveResult createPublishPlatformEvent(
+        B2CIAValidateContactInput validateContactInput, String b2cProfileJSON
+    ) {
 
         // Initialize local variables
         B2C_Commerce_ProcessCustomerDetails__e thisPE;
@@ -152,7 +170,7 @@ public with sharing class B2CProcessContactHelper extends B2CBaseAttributeAssign
         thisPE.Named_Credential__c = validateContactInput.customerList.Named_Credential_Developer_Name__c;
         thisPE.OCAPI_Version_Number__c = validateContactInput.customerList.OCAPI_Version_No__c;
         thisPE.Process_Mode__c = validateContactInput.processMode;
-        thisPE.B2C_Profile_Publish_JSON__c = B2CProfileJSON;
+        thisPE.B2C_Profile_Publish_JSON__c = b2cProfileJSON;
 
         // Publish the Platform Event
         peSaveResult = EventBus.publish(thisPE);

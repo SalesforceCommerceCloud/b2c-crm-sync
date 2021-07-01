@@ -6,19 +6,19 @@
  * This logic is exposed as a future method so that we can embed the authToken call-out
  * with other REST API callouts exposed as invocable actions.
  */
-public class B2CAuthTokenHelper {
+public with sharing class B2CAuthTokenHelper {
 
     /**
      * @description Helper function to retrieve an Account Manager / B2C Commerce REST API authToken.  This function
      * calls a flow that abstracts either retrieving the authToken from cache -- or requesting a new authToken
      * directly from B2C Commerce's Account Manager.
      *
-     * @param B2CClientID {B2C_Client_ID__c} Represents the ClientID that will be used to retrieve / request
+     * @param b2cClientId {B2C_Client_ID__c} Represents the ClientID that will be used to retrieve / request
      * a new B2C AuthToken from the configured AccountManager instance.
-     * @param BypassAuthTokenAuditing {Boolean} Describes if the authToken should be audited
+     * @param byPassAuthTokenAuditing {Boolean} Describes if the authToken should be audited
      * @return {Map<String, Object>} Returns the collection of return values from the source flow
      */
-    public static Map<String, Object> getB2CAuthToken(B2C_Client_ID__c B2CClientID, Boolean BypassAuthTokenAuditing) {
+    public static Map<String, Object> getB2CAuthToken(B2C_Client_ID__c b2cClientId, Boolean byPassAuthTokenAuditing) {
 
         // Initialize local variables
         Flow.Interview getAuthTokenFlow;
@@ -26,15 +26,15 @@ public class B2CAuthTokenHelper {
         Map<String, Object> output;
 
         // Provide a default for the bypass-flag if one isn't provided
-        if (BypassAuthTokenAuditing == null) { BypassAuthTokenAuditing = false; }
+        if (byPassAuthTokenAuditing == null) { byPassAuthTokenAuditing = false; }
 
         // Initialize the output variable
         output = new Map<String, Object>();
 
         // Initialize the flow arguments
         flowArguments = new Map<String, Object>();
-        flowArguments.put('B2CClientID', B2CClientID);
-        flowArguments.put('BypassAuthTokenAuditing', BypassAuthTokenAuditing);
+        flowArguments.put('B2CClientID', b2cClientId);
+        flowArguments.put('BypassAuthTokenAuditing', byPassAuthTokenAuditing);
 
         // Execute the filterMap flow attempt to resolve the specific contact identified
         getAuthTokenFlow = Flow.Interview.createInterview('B2CCommerce_B2CClientID_B2CAuthTokenGet', flowArguments);
@@ -53,17 +53,16 @@ public class B2CAuthTokenHelper {
 
     }
 
-
     /**
      * @description Helper function to retrieve a B2C ClientID for the purpose of
      * retrieving a B2C AuthToken.
      *
-     * @param B2CClientIDValue {String} Represents the ClientID that will be used to retrieve / request
+     * @param b2cClientIdValue {String} Represents the ClientID that will be used to retrieve / request
      * a new B2C AuthToken from the configured AccountManager instance.
-     * @param BypassAuthTokenAuditing {Boolean} Describes if the authToken should be audited
+     * @param byPassAuthTokenAuditing {Boolean} Describes if the authToken should be audited
      * @return {String} Returns the authToken that was retrieved
      */
-    public static String getB2CAuthTokenByClientIDValue(String B2CClientIDValue, Boolean BypassAuthTokenAuditing) {
+    public static String getB2CAuthTokenByClientIDValue(String b2cClientIdValue, Boolean byPassAuthTokenAuditing) {
 
         // Initialize local variables
         List<B2C_Client_ID__c> thisClientID;
@@ -72,27 +71,39 @@ public class B2CAuthTokenHelper {
         List<String> errorMessages;
         String b2cAuthToken;
 
-        // Create a reference to the associated B2C ClientID value
-        thisClientID = [
-            SELECT  Id,
+        if (
+            B2C_Client_ID__c.SObjectType.getDescribe().isAccessible() &&
+            Schema.SObjectType.B2C_Client_ID__c.fields.Id.isAccessible() &&
+            Schema.SObjectType.B2C_Client_ID__c.fields.Name.isAccessible() &&
+            Schema.SObjectType.B2C_Client_ID__c.fields.Is_Active__c.isAccessible() &&
+            Schema.SObjectType.B2C_Client_ID__c.fields.Is_Certificate_Verified__c.isAccessible() &&
+            Schema.SObjectType.B2C_Client_ID__c.fields.Audit_Authentication_API_Interactions__c.isAccessible() &&
+            Schema.SObjectType.B2C_Client_ID__c.fields.JWT_Certificate_Name__c.isAccessible()
+        ) {
+
+            // Create a reference to the associated B2C ClientID value
+            thisClientID = [
+                SELECT Id,
                     Name,
                     Is_Active__c,
                     Is_Certificate_Verified__c,
                     Audit_Authentication_API_Interactions__c,
                     JWT_Certificate_Name__c,
                     IsDeleted
-            FROM    B2C_Client_ID__c
-            WHERE   Id = :B2CClientIDValue
-            LIMIT   1
-        ];
+                FROM B2C_Client_ID__c
+                WHERE Id = :b2cClientIdValue
+                LIMIT 1
+            ];
 
-        // Retrieve the authToken for the associated B2C ClientID
-        flowResults = B2CAuthTokenHelper.getB2CAuthToken(thisClientID.get(0), BypassAuthTokenAuditing);
+            // Retrieve the authToken for the associated B2C ClientID
+            flowResults = getB2CAuthToken(thisClientID.get(0), byPassAuthTokenAuditing);
 
-        // Create local references to the flowResult variables
-        isSuccess = Boolean.valueOf(flowResults.get('IsSuccess'));
-        errorMessages = (List<String>) flowResults.get('ErrorMessage');
-        b2cAuthToken = String.valueOf(flowResults.get('B2CAuthToken'));
+            // Create local references to the flowResult variables
+            isSuccess = Boolean.valueOf(flowResults.get('IsSuccess'));
+            errorMessages = (List<String>) flowResults.get('ErrorMessage');
+            b2cAuthToken = String.valueOf(flowResults.get('B2CAuthToken'));
+
+        }
 
         // Return the authToken value
         return b2cAuthToken;

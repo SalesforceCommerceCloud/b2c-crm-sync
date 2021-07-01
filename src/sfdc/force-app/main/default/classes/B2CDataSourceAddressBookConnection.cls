@@ -5,20 +5,21 @@
  * @description This class is used to retrieve B2C Commerce customer address-book
  * addresses as externalObjects via B2C Commerce REST APIs.
 */
-global class B2CDataSourceAddressBookConnection extends DataSource.Connection {
+global with sharing class B2CDataSourceAddressBookConnection extends DataSource.Connection {
     private List<B2C_Integration_Field_Mappings__mdt> retrievalFieldMappings;
     private List<B2C_Integration_Field_Mappings__mdt> publishingFieldMappings;
 
-    private final String TABLE_NAME = 'B2C_CustomerAddress';
-    private final String TABLE_LABEL_SINGULAR = 'B2C Customer Address';
-    private final String TABLE_LABEL_PLURAL = 'B2C Customer Addresses';
-    private final String TABLE_DESCRIPTION = '... represents the addresses found in the personal address book of the represented B2C Commerce Customer';
+    private final String tableName = 'B2C_CustomerAddress';
+    private final String tableLabelSingular = 'B2C Customer Address';
+    private final String tableLabelPlural = 'B2C Customer Addresses';
+    private final String tableDescription = '... represents the addresses found in the personal address book ' +
+        'of the represented B2C Commerce Customer';
 
-    private final String INDIRECT_LOOKUP_COLUMN = 'CustomerId';
-    private final String INDIRECT_LOOKUP_COLUMN_LABEL = 'Customer';
-    private final String INDIRECT_LOOKUP_COLUMN_DESCRIPTION = 'Represents the B2C Commerce Customer';
-    private final String INDIRECT_LOOKUP_TARGET_FIELD = 'B2C_Customer_ID__c';
-    private String INDIRECT_LOOKUP_TARGET_OBJECT;
+    private final String indirectLookupColumn = 'CustomerId';
+    private final String indirectLookupColumnLabel = 'Customer';
+    private final String indirectLookupColumnDescription = 'Represents the B2C Commerce Customer';
+    private final String indirectLookupTargetField = 'B2C_Customer_ID__c';
+    private String indirectLookupTargetObject;
 
     /**
      * @constructor
@@ -27,26 +28,28 @@ global class B2CDataSourceAddressBookConnection extends DataSource.Connection {
      * the retrieval or publishing of B2C Commerce customer addresses.
      */
     global B2CDataSourceAddressBookConnection(DataSource.ConnectionParams connectionParams) {
-        this.retrievalFieldMappings = B2CMetaFieldMappings.getFieldMappingsForRetrieval(this.TABLE_NAME + '__x');
-        this.publishingFieldMappings = B2CMetaFieldMappings.getFieldMappingsForPublishing(this.TABLE_NAME + '__x');
-        this.INDIRECT_LOOKUP_TARGET_OBJECT = B2CConfigurationManager.getDefaultAccountContactModel() == B2CConstant.AccountContactModel_Person ? 'Account' : 'Contact';
+        this.retrievalFieldMappings = B2CMetaFieldMappings.getFieldMappingsForRetrieval(this.tableName + '__x');
+        this.publishingFieldMappings = B2CMetaFieldMappings.getFieldMappingsForPublishing(this.tableName + '__x');
+        this.indirectLookupTargetObject = B2CConfigurationManager.getDefaultAccountContactModel() ==
+            B2CConstant.ACCOUNTCONTACTMODEL_PERSON ? 'Account' : 'Contact';
     }
+
     /**
-     * This method defines the Schema of External Object based on configured mapping fields
+     * @description This method defines the Schema of External Object based on configured mapping fields
      *
      * @return {List<DataSource.Table>} tables
      * */
     override global List<DataSource.Table> sync() {
         return B2CDataSourceHelper.generateSyncTables(
-            this.TABLE_NAME,
-            this.TABLE_LABEL_SINGULAR,
-            this.TABLE_LABEL_PLURAL,
-            this.TABLE_DESCRIPTION,
-            this.INDIRECT_LOOKUP_COLUMN,
-            this.INDIRECT_LOOKUP_COLUMN_LABEL,
-            this.INDIRECT_LOOKUP_COLUMN_DESCRIPTION,
-            this.INDIRECT_LOOKUP_TARGET_OBJECT,
-            this.INDIRECT_LOOKUP_TARGET_FIELD,
+            this.tableName,
+            this.tableLabelSingular,
+            this.tableLabelPlural,
+            this.tableDescription,
+            this.indirectLookupColumn,
+            this.indirectLookupColumnLabel,
+            this.indirectLookupColumnDescription,
+            this.indirectLookupTargetObject,
+            this.indirectLookupTargetField,
             this.retrievalFieldMappings
         );
     }
@@ -64,9 +67,11 @@ global class B2CDataSourceAddressBookConnection extends DataSource.Connection {
         String addressId;
 
         // Return an empty list in case no filter is applied
-        // As the adresses are always tied to a customer record
+        // As the addresses are always tied to a customer record
         if (filter == null) {
-            return DataSource.TableResult.get(true, null, context.tableSelection.tableSelected, new List<Map<String, Object>>());
+            return DataSource.TableResult.get(
+                true, null, context.tableSelection.tableSelected, new List<Map<String, Object>>()
+            );
         }
 
         if (filter.columnName == 'ExternalId') { // Are we filtering on the externalId?
@@ -75,19 +80,22 @@ global class B2CDataSourceAddressBookConnection extends DataSource.Connection {
             Map<String, String> parts = this.splitExternalId((String)filter.columnValue);
             customerId = parts.get('customerId');
             addressId = EncodingUtil.urlEncode(parts.get('addressId'), 'UTF-8');
-        } else if (filter.columnName == this.INDIRECT_LOOKUP_COLUMN) { // Or filtering on the customerId?
+        } else if (filter.columnName == this.indirectLookupColumn) { // Or filtering on the customerId?
             customerId = (String)filter.columnValue;
         } else {
             // Search the customer Id from the sub filters of the query
             // This is provided when we render the list of addresses from the related list UI
             for (DataSource.Filter subfilter : filter.subfilters) {
-                if (subfilter.columnName == this.INDIRECT_LOOKUP_COLUMN) {
+                if (subfilter.columnName == this.indirectLookupColumn) {
                     customerId = (String)subfilter.columnValue;
                 }
             }
         }
 
-        return DataSource.TableResult.get(true, null, context.tableSelection.tableSelected, DataSource.QueryUtils.process(context, getData(customerId, addressId)));
+        return DataSource.TableResult.get(
+            true, null, context.tableSelection.tableSelected,
+            DataSource.QueryUtils.process(context, getData(customerId, addressId))
+        );
     }
 
     /**
@@ -111,7 +119,8 @@ global class B2CDataSourceAddressBookConnection extends DataSource.Connection {
             if (result) {
                 results.add(DataSource.UpsertResult.success(externalId));
             } else {
-                results.add(DataSource.UpsertResult.failure(externalId, 'Failed to update the address to B2C Commerce.'));
+                results.add(DataSource.UpsertResult.failure(
+                    externalId, 'Failed to update the address to B2C Commerce.'));
             }
 
         }
@@ -157,7 +166,10 @@ global class B2CDataSourceAddressBookConnection extends DataSource.Connection {
         // Build the address object to send to the B2C Commerce instance, based on the field mappings
         Map<String, Object> addressData = new Map<String, Object>();
         for (B2C_Integration_Field_Mappings__mdt fieldMapping : this.publishingFieldMappings) {
-            addressData.put(fieldMapping.B2C_Commerce_OCAPI_Attribute__c, row.get(fieldMapping.Service_Cloud_Attribute__c));
+            addressData.put(
+                fieldMapping.B2C_Commerce_OCAPI_Attribute__c,
+                row.get(fieldMapping.Service_Cloud_Attribute__c)
+            );
         }
 
         // Performs the patch request
@@ -177,11 +189,13 @@ global class B2CDataSourceAddressBookConnection extends DataSource.Connection {
     }
 
     /**
-     * @description Performs the REST API call against the B2C Commerce instance to get the customer addresses records based on the given customer number and address ID
-     * @param customerId {String} The customer number of the customer from which to get the addresses
-     * @param addressId {String} (Optional) The address Id to use while retrieve a specific address (in case of detail page)
+     * @description Performs the REST API call against the B2C Commerce instance to get the customer
+     * addresses records based on the given customer number and address ID
      *
-     * @returns {List<Map<String,Object>>} Returns a collection of maps representing the address data
+     * @param customerId {String} The customer number of the customer from which to get the addresses
+     * @param addressId {String} (Optional) The address Id to use while retrieve a specific
+     * address (in case of detail page)
+     * @return {List<Map<String,Object>>} Returns a collection of maps representing the address data
      * */
     private List<Map<String,Object>> getData(String customerId, String addressId) {
         List<Map<String, Object>> addresses =  new List<Map<String, Object>>();
@@ -223,12 +237,13 @@ global class B2CDataSourceAddressBookConnection extends DataSource.Connection {
         JSONParse responseParsedJSON = new JSONParse(res.getBody());
 
         try {
-            String fault = responseParsedJSON.get('fault').get('message').getStringValue();
+            responseParsedJSON.get('fault').get('message').getStringValue();
             // If the fault message is found, the API call failed, abort and return no addresses
             return addresses;
         } catch (JSONParse.MissingKeyException e) {
             // In case the body misses the fault, then the API call succeed
             // In this case, silently fail and continue
+            System.debug(System.LoggingLevel.INFO, e.getMessage());
         }
 
         // If no address Id is provided, return a list of addresses
@@ -249,20 +264,22 @@ global class B2CDataSourceAddressBookConnection extends DataSource.Connection {
     }
 
     /**
-     * @description This method maps the retrieved address from OCAPI to the core external object, ready to be consumed by Salesforce Connect, based on the configured field mappings
+     * @description This method maps the retrieved address from OCAPI to the core external object,
+     * ready to be consumed by Salesforce Connect, based on the configured field mappings
      * @param customerId {String} The customer number of the customer from which we get the addresses
      * @param addressData {JSONParse} The parsed JSON of the address
      *
      * @return {Map<String, Object>} The address map, ready to be consumed by Salesforce Connect
      */
     private Map<String, Object> mapAddress(String customerId, JSONParse addressData) {
-        Map<String, Object> address = B2CDataSourceHelper.mapFields(customerId, addressData, this.retrievalFieldMappings);
+        Map<String, Object> address = B2CDataSourceHelper.mapFields(
+            customerId, addressData, this.retrievalFieldMappings);
         String addressId = addressData.get('address_id').getStringValue();
 
         // Fill out the customer Id as indirect lookup
-        address.put(this.INDIRECT_LOOKUP_COLUMN, customerId);
-        // Fill out the external Id, mandatory field, with the customer Id and the address Id
-        // We require the customer no here because the address Id might not be unique across customers (this is not an UUID)
+        address.put(this.indirectLookupColumn, customerId);
+        // Fill out the external Id, mandatory field, with the customer Id and the address Id; we require the
+        // customer no here because the address Id might not be unique across customers (this is not an UUID)
         address.put('ExternalId', customerId + '__' + addressId);
         address.put('DisplayUrl', '');
 

@@ -1,4 +1,12 @@
+/**
+ * @author Abraham David lloyd
+ * @date July 1st, 2012
+ * @description This is the input class for OOBO / customer-driven authentication against B2C Commerce.  It
+ * contains the arguments used to obtain a clientCredential grant for a given shopper through an Agent.
+ */
 public with sharing class B2CIAAuthCustomerInput {
+
+    /** @constructor **/
     public B2CIAAuthCustomerInput() {}
 
     @AuraEnabled @InvocableVariable(Required=true)

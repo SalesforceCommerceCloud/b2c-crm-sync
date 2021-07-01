@@ -46,7 +46,7 @@ public with sharing class B2CStorefrontManager extends B2CBaseMeta {
         B2C_Site__c output;
 
         // Default the error message
-        errorMsg = B2CConstant.buildErrorMessage(B2CConstant.Errors_Meta_NoActiveStorefrontFound, siteId);
+        errorMsg = B2CConstant.buildErrorMessage(B2CConstant.ERRORS_META_NOACTIVESTOREFRONTFOUND, siteId);
 
         // Seed the default query structure to leverage
         siteQuery = getDefaultQuery();
@@ -93,7 +93,7 @@ public with sharing class B2CStorefrontManager extends B2CBaseMeta {
         B2C_Site__c output;
 
         // Default the error message
-        errorMsg = B2CConstant.buildErrorMessage(B2CConstant.Errors_Meta_NoActiveStorefrontFound, crmSiteId);
+        errorMsg = B2CConstant.buildErrorMessage(B2CConstant.ERRORS_META_NOACTIVESTOREFRONTFOUND, crmSiteId);
 
         // Seed the default query structure to leverage
         siteQuery = getDefaultQuery();
@@ -139,7 +139,7 @@ public with sharing class B2CStorefrontManager extends B2CBaseMeta {
         B2C_Site__c output;
 
         // Default the error message
-        errorMsg = B2CConstant.buildErrorMessage(B2CConstant.Errors_Meta_NoActiveStorefrontFound, siteId);
+        errorMsg = B2CConstant.buildErrorMessage(B2CConstant.ERRORS_META_NOACTIVESTOREFRONTFOUND, siteId);
 
         // Seed the default query structure to leverage
         siteQuery = getDefaultQuery();

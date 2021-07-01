@@ -111,8 +111,6 @@ private class B2CIAPublishCustomerProfile_Test {
         // Iterate over the collection of publish results
         for (B2CIAPublishCustomerProfileResult thisResult : publishResult) {
 
-            System.debug('--> ' + thisResult.statusCode);
-
             // Validate that the results were processed successfully
             System.assertEquals(thisResult.statusCode, 404, 'Expected the statusCode to equal 404 -- indicating a error occurred during the publishingEvent');
 

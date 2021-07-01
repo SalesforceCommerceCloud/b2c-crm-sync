@@ -5,6 +5,7 @@
  * @description This is a helper class that takes the REST API Response from B2C Commerce
  * and moves forward with parsing, processing, and writing updates to the corresponding customerProfile.
 */
+//noinspection LongLine
 public with sharing class B2CIAPublishCustomerProfile extends B2CBaseAttributeAssignment {
 
     /**
@@ -12,7 +13,7 @@ public with sharing class B2CIAPublishCustomerProfile extends B2CBaseAttributeAs
      * @description Invokable action to publish a Customer Profile update to B2C Commerce
      *
      * @param requestArguments {List<B2CIAPublishCustomerProfileInput>} Represents the request arguments to process
-     * @returns {List<B2CIAPublishCustomerProfileResult>} Returns the response object containing the publish-oriented customer details
+     * @return {List<B2CIAPublishCustomerProfileResult>} Returns the response object containing the publish-oriented customer details
      */
     @InvocableMethod(Label='B2C: Publish Customer Profile Definitions' Description='Attempts to publish Salesforce Platform Contact details to mapped B2C Commerce Customer Profiles via the B2C Commerce OCAPI Data API')
     public static List<B2CIAPublishCustomerProfileResult> publishCustomerProfile(List<B2CIAPublishCustomerProfileInput> requestArguments) {
@@ -22,7 +23,7 @@ public with sharing class B2CIAPublishCustomerProfile extends B2CBaseAttributeAs
         SObject thisCustomerProfileToUpdate;
         Integer totalUpdates;
         Map<String, Object> thisB2CProfile;
-        List<Contact> contactsToUpdate;
+        List<SObject> contactsToUpdate;
         List<B2C_Integration_Field_Mappings__mdt> fieldMappings;
         List<B2CIAPublishCustomerProfileResult> output;
         B2CIAPublishCustomerProfileResult customerPublishResult;
@@ -105,7 +106,7 @@ public with sharing class B2CIAPublishCustomerProfile extends B2CBaseAttributeAs
             if (customerPublishResult.statusCode != 200) {
 
                 // Otherwise, capture the error message
-                customerPublishResult.errorMessage = B2CConstant.Errors_OCAPI_Non200ErrorOccurred;
+                customerPublishResult.errorMessage = B2CConstant.ERRORS_OCAPI_NON200ERROROCCURRED;
                 customerPublishResult.isError = true;
 
             } else {
@@ -126,7 +127,7 @@ public with sharing class B2CIAPublishCustomerProfile extends B2CBaseAttributeAs
                 thisCustomerProfileToUpdate = (SObject) customerPublishResult.crmContact;
 
                 // Are we currently using the personAccount accountContact model?
-                if (accountContactModel == B2CConstant.AccountContactModel_Person) {
+                if (accountContactModel == B2CConstant.ACCOUNTCONTACTMODEL_PERSON) {
 
                     // Remove the AccountID as we can't update it when the person customerModel is employed
                     thisCustomerProfileToUpdate = B2CBaseAttributeAssignment.removePersonAccountProperties(thisCustomerProfile);
@@ -134,9 +135,12 @@ public with sharing class B2CIAPublishCustomerProfile extends B2CBaseAttributeAs
                 }
 
                 // Update the CRM Contact with the audit details
-                update(thisCustomerProfileToUpdate);
+                contactsToUpdate.add(thisCustomerProfileToUpdate);
 
             }
+
+            // Update the contacts
+            update(contactsToUpdate);
 
             // Add the result to the output
             output.add(customerPublishResult);

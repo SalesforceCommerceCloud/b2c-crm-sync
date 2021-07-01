@@ -23,7 +23,7 @@ public abstract with sharing class B2CBaseManager extends B2CBaseAttributeAssign
         if (res.getStatus() != 'OK') {
 
             // Otherwise, create an error explaining the status code was incorrect
-            errorMsg = B2CConstant.Errors_Common_GetStatus + ' [' + res.getStatus() + '] --> ';
+            errorMsg = B2CConstant.ERRORS_COMMON_GETSTATUS + ' [' + res.getStatus() + '] --> ';
             errorMsg += res.getBody();
 
             // Take the error message and throw it as a callout-exception

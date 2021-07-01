@@ -117,9 +117,11 @@ public with sharing class B2CDataSourceHelper {
                 }
             } catch (JSONParse.MissingKeyException e) {
                 // Log the error but don't abort
-                // This probably fires only because the value is not set on the address in the B2C Commerce instance for this address, but the attribute still exists
+                // This probably fires only because the value is not set on the address in the B2C Commerce
+                // instance for this address, but the attribute still exists
                 System.debug(
-                    'The attribute {' + fieldMapping.B2C_Commerce_OCAPI_Attribute__c + '} ' +
+                    System.LoggingLevel.ERROR,
+                    '--> B2C Exception: The attribute {' + fieldMapping.B2C_Commerce_OCAPI_Attribute__c + '} ' +
                     'has not been found in the given object {' + data.toStringPretty() + '} ' +
                     ' for the customer {' + customerId + '}.'
                 );
@@ -137,7 +139,7 @@ public with sharing class B2CDataSourceHelper {
      * @return {Contact} The found contact or null if none is found
      */
     public static Contact getContactByCustomerId(String customerId) {
-        String errorMsg = B2CConstant.buildErrorMessage(B2CConstant.Errors_Meta_ContactNotFound, customerId);
+        String errorMsg = B2CConstant.buildErrorMessage(B2CConstant.ERRORS_META_CONTACTNOTFOUND, customerId);
         Query contactQuery = new Query('Contact');
         contactQuery.selectField('AccountId');
         contactQuery.selectField('B2C_Customer_No__c');

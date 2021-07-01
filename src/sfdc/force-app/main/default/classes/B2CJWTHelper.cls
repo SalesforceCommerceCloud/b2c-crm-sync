@@ -14,7 +14,7 @@ public with sharing class B2CJWTHelper {
      *
      * @param sfccHeaderAlgorithm {String} Represents the SFCC algorithm to include in the JWT Header (ex. RS256)
      * @param sfdcHeaderAlgorithm {String} Represents the SFCC algorithm used  mint the JWT (ex. RSA-SHA256)
-     * @param B2CClientID {String} Represents the Account Manager ClientID used to authenticate
+     * @param b2cClientID {String} Represents the Account Manager ClientID used to authenticate
      * @param certDeveloperName {String} Represents the developerName of the Certificate used to sign the JWT
      * @param audienceUrl {String} Represents the destinationUrl that will be verified via the JWT
      * @param expiresInMinutes {String} Represents in minutes the expected TTL for the retrieved authToken
@@ -22,25 +22,25 @@ public with sharing class B2CJWTHelper {
      * @return {String} Returns the encoded JWT token that will be used to authenticate against B2C Commerce
      */
     public static String getJWT(
-        String sfccHeaderAlgorithm, String sfdcHeaderAlgorithm, String B2CClientID, String certDeveloperName,
+        String sfccHeaderAlgorithm, String sfdcHeaderAlgorithm, String b2cClientID, String certDeveloperName,
         String audienceUrl, Integer expiresInMinutes) {
 
         // Initialize local variables
         String header;
         String payload;
         String signature;
-        String JWT;
+        String jwt;
 
         // Build the JWT components
         header = buildJWTHeader(sfccHeaderAlgorithm);
-        payload = buildJWTPayload(B2CClientID, audienceUrl, expiresInMinutes);
+        payload = buildJWTPayload(b2cClientID, audienceUrl, expiresInMinutes);
         signature = buildJWTSignature(header, payload, certDeveloperName, sfdcHeaderAlgorithm);
 
         // Create the JWT by joining the components
-        JWT = header + '.' + payload + '.' + signature;
+        jwt = header + '.' + payload + '.' + signature;
 
         // Return the JWT
-        return JWT;
+        return jwt;
 
     }
 
@@ -103,13 +103,13 @@ public with sharing class B2CJWTHelper {
     /**
      * @description Helper function to create and encode a JWT payload
      *
-     * @param B2CClientID {String} Represents the Account Manager ClientID that will be authenticated against
+     * @param b2cClientID {String} Represents the Account Manager ClientID that will be authenticated against
      * @param audienceUrl {String} Represents the destinationUrl that will be verified via authentication
      * @param expiresInMinutes {Integer} Represents the TTL in minutes for the JWT / retrieved authToken
      *
      * @return {String} Returns an encoded string representing the JWT payload
      */
-    public static String buildJWTPayload(String B2CClientID, String audienceUrl, Integer expiresInMinutes) {
+    public static String buildJWTPayload(String b2cClientID, String audienceUrl, Integer expiresInMinutes) {
 
         // Initialize local Variables
         Datetime now;
@@ -124,8 +124,8 @@ public with sharing class B2CJWTHelper {
         payloadGenerator.writeStartObject();
 
         // Define each of the JWT payload properties
-        payloadGenerator.writeStringField('iss', B2CClientID);
-        payloadGenerator.writeStringField('sub', B2CClientID);
+        payloadGenerator.writeStringField('iss', b2cClientID);
+        payloadGenerator.writeStringField('sub', b2cClientID);
         payloadGenerator.writeStringField('aud', audienceUrl);
         payloadGenerator.writeNumberField('iat', now.getTime() / 1000);
         payloadGenerator.writeNumberField('exp', now.addMinutes(expiresInMinutes).getTime() / 1000);
@@ -150,19 +150,21 @@ public with sharing class B2CJWTHelper {
      *
      * @return {String} Returns a string representing the signed JWT token
      */
-    public static String buildJWTSignature(String header, String payload, String certDeveloperName, String sfdcHeaderAlgorithm) {
+    public static String buildJWTSignature(
+        String header, String payload, String certDeveloperName, String sfdcHeaderAlgorithm
+    ) {
 
         // Initialize local variables
-        String JWTAsString;
-        Blob JWTAsBlob;
+        String jwtAsString;
+        Blob jwtAsBlob;
         String signedJWT;
 
         // Create the JWT object-to-be-signed
-        JWTAsString = header + '.' + payload;
-        JWTAsBlob = Blob.valueOf(JWTAsString);
+        jwtAsString = header + '.' + payload;
+        jwtAsBlob = Blob.valueOf(jwtAsString);
 
         // Generate the JWT signature the specified certificate
-        Blob signature = Crypto.signWithCertificate(sfdcHeaderAlgorithm, JWTAsBlob, certDeveloperName);
+        Blob signature = Crypto.signWithCertificate(sfdcHeaderAlgorithm, jwtAsBlob, certDeveloperName);
 
         // Encode the signature
         signedJWT = base64UrlEncode(signature);

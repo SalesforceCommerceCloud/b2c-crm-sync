@@ -1105,8 +1105,6 @@ private class B2CIACustomerResolution_Test {
 
     }
 
-    // TODO: Add a section in the flow for lastNames evaluating the default only before customerList and Email
-
     /**
      * @see B2CIACustomerResolution.findDupes
      * @description This test-case exercises the CustomerResolution IA and attempts to resolve

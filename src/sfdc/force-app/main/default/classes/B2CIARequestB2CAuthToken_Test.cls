@@ -20,7 +20,7 @@ private class B2CIARequestB2CAuthToken_Test {
         B2C_Client_ID__c testClientID = new B2C_Client_ID__c(
             Name = 'my-test-clientId',
             B2C_Client_ID_Label__c = 'My Test ClientID',
-            JWT_Certificate_Name__c = B2CConstant.CertTest_Validate_TestCertificateName,
+            JWT_Certificate_Name__c = B2CConstant.CERTTEST_VALIDATE_TESTCERTIFICATENAME,
             Is_Active__c = true,
             Audit_Authentication_API_Interactions__c = true
         );
@@ -58,7 +58,7 @@ private class B2CIARequestB2CAuthToken_Test {
         // Validate that the request processed successfully
         System.assertEquals(tokenResultList.size() > 0, true, 'Expected a result to be processed and returned in the results');
         System.assertEquals(tokenResultList.get(0).statusCode, 200, 'Expected a successful http statusCode to be returned as part of this request');
-        System.assertEquals(tokenResultList.get(0).accessToken, B2CConstant.AuthTest_AuthToken, 'Expected the accessToken to equal the test tokenValue.');
+        System.assertEquals(tokenResultList.get(0).accessToken, B2CConstant.AUTHTEST_AUTHTOKEN, 'Expected the accessToken to equal the test tokenValue.');
 
     }
 
@@ -74,7 +74,7 @@ private class B2CIARequestB2CAuthToken_Test {
         B2C_Client_ID__c testClientID = new B2C_Client_ID__c(
             Name = 'my-test-clientId',
             B2C_Client_ID_Label__c = 'My Test ClientID',
-            JWT_Certificate_Name__c = B2CConstant.CertTest_Validate_TestCertificateName,
+            JWT_Certificate_Name__c = B2CConstant.CERTTEST_VALIDATE_TESTCERTIFICATENAME,
             Is_Active__c = true,
             Audit_Authentication_API_Interactions__c = true
         );

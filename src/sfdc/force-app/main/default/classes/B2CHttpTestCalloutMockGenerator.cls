@@ -85,7 +85,7 @@ public class B2CHttpTestCalloutMockGenerator implements HttpCalloutMock {
             when 'CustomerAuthSuccess' {
                 HttpResponse resCustomerAuth = new HttpResponse();
                 resCustomerAuth.setHeader('Content-Type', 'application/json');
-                resCustomerAuth.setHeader('authorization', B2CConstant.AuthTest_AuthToken);
+                resCustomerAuth.setHeader('authorization', B2CConstant.AUTHTEST_AUTHTOKEN);
                 resCustomerAuth.setBody('{}');
                 resCustomerAuth.setStatus('OK');
                 resCustomerAuth.setStatusCode(200);
@@ -115,7 +115,7 @@ public class B2CHttpTestCalloutMockGenerator implements HttpCalloutMock {
         String accessToken;
 
         // Initialize the access token
-        accessToken = B2CConstant.AuthTest_AuthToken;
+        accessToken = B2CConstant.AUTHTEST_AUTHTOKEN;
 
         // Initialize the body content string to be attached to mock response
         bodyContent = '{"access_token": "' + accessToken + '", "expires_in": 899, "token_type": "Bearer" }';

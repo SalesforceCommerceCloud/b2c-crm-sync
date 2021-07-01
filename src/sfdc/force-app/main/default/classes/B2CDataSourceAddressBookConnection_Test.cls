@@ -9,7 +9,7 @@ public with sharing class B2CDataSourceAddressBookConnection_Test {
         B2C_Client_ID__c clientId = (B2C_Client_ID__c)TestDataFactory.createSObject('B2C_Client_ID__c', new Map<String,Object>{
             'Name' => 'my-test-clientId',
             'B2C_Client_ID_Label__c' => 'My Test ClientID',
-            'JWT_Certificate_Name__c' => B2CConstant.CertTest_Validate_TestCertificateName,
+            'JWT_Certificate_Name__c' => B2CConstant.CERTTEST_VALIDATE_TESTCERTIFICATENAME,
             'Is_Active__c' => true,
             'Audit_Authentication_API_Interactions__c' => true
         });
@@ -255,7 +255,11 @@ public with sharing class B2CDataSourceAddressBookConnection_Test {
             DataSource.Connection connection = provider.getConnection(connectionParams);
             DataSource.TableResult result = connection.query(context);
         } catch (Exception e) {
-            System.assertEquals(B2CConstant.buildErrorMessage(B2CConstant.Errors_Meta_ContactNotFound, customerId), e.getMessage(), 'We should have as much results as rows to update.');
+            System.assertEquals(
+                B2CConstant.buildErrorMessage(B2CConstant.ERRORS_META_CONTACTNOTFOUND, customerId),
+                e.getMessage(),
+                'We should have as much results as rows to update.'
+            );
         }
         Test.stopTest();
     }
@@ -348,7 +352,11 @@ public with sharing class B2CDataSourceAddressBookConnection_Test {
             DataSource.Connection connection = provider.getConnection(connectionParams);
             List<DataSource.UpsertResult> result = connection.upsertRows(context);
         } catch (Exception e) {
-            System.assertEquals(B2CConstant.buildErrorMessage(B2CConstant.Errors_Meta_ContactNotFound, customerId), e.getMessage(), 'We should have as much results as rows to update.');
+            System.assertEquals(
+                B2CConstant.buildErrorMessage(B2CConstant.ERRORS_META_CONTACTNOTFOUND, customerId),
+                e.getMessage(),
+                'We should have as much results as rows to update.'
+            );
         }
         Test.stopTest();
     }

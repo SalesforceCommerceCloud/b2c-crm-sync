@@ -33,7 +33,7 @@ private class B2CIAPersistB2CAuthToken_Test {
             B2C_Client_ID_Label__c = 'Test B2C ClientID',
             Audit_Authentication_API_Interactions__c = true,
             Is_Active__c = true,
-            JWT_Certificate_Name__c = B2CConstant.CertTest_Validate_TestCertificateName
+            JWT_Certificate_Name__c = B2CConstant.CERTTEST_VALIDATE_TESTCERTIFICATENAME
         );
 
         // Insert the ClientID
@@ -115,7 +115,7 @@ private class B2CIAPersistB2CAuthToken_Test {
             B2C_Client_ID_Label__c = 'Test B2C ClientID',
             Audit_Authentication_API_Interactions__c = false,
             Is_Active__c = true,
-            JWT_Certificate_Name__c = B2CConstant.CertTest_Validate_TestCertificateName
+            JWT_Certificate_Name__c = B2CConstant.CERTTEST_VALIDATE_TESTCERTIFICATENAME
         );
 
         // Insert the ClientID
@@ -197,7 +197,7 @@ private class B2CIAPersistB2CAuthToken_Test {
             B2C_Client_ID_Label__c = 'Test B2C ClientID',
             Audit_Authentication_API_Interactions__c = true,
             Is_Active__c = true,
-            JWT_Certificate_Name__c = B2CConstant.CertTest_Validate_TestCertificateName
+            JWT_Certificate_Name__c = B2CConstant.CERTTEST_VALIDATE_TESTCERTIFICATENAME
         );
 
         // Insert the ClientID

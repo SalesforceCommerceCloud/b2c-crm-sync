@@ -29,7 +29,7 @@ private class B2CIAGetCustomerListsSites_Test {
 
             // Default the request arguments
             req.b2cInstance = i;
-            req.OCAPIVersion = 'version';
+            req.ocapiVersion = 'version';
 
             // Execute the request and get the results
             resultsList = B2CIAGetCustomerListsSites.getAllSites(
@@ -70,7 +70,7 @@ private class B2CIAGetCustomerListsSites_Test {
 
             // Default the request arguments
             req.b2cInstance = i;
-            req.OCAPIVersion = 'version';
+            req.ocapiVersion = 'version';
 
             // Execute the request and get the results
             resultsList = B2CIAGetCustomerListsSites.getAllSites(

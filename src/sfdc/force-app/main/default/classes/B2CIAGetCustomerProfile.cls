@@ -68,7 +68,7 @@ public with sharing class B2CIAGetCustomerProfile {
 
             } else {
                 // Otherwise, capture the error message
-                customerProfileResult.errorMessage = B2CConstant.Errors_OCAPI_Non200ErrorOccurred;
+                customerProfileResult.errorMessage = B2CConstant.ERRORS_OCAPI_NON200ERROROCCURRED;
                 customerProfileResult.isError = true;
 
             }

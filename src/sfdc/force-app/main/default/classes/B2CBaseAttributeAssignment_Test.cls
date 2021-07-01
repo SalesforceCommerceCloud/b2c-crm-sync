@@ -746,15 +746,15 @@ private class B2CBaseAttributeAssignment_Test {
     static void testDateTimeAssignment() {
 
         // Initialize local variables
-        String JSONToParse;
+        String jsonToParse;
         JSONParse parsedJSON;
         Datetime attributeValue;
 
         // Default the JSON data we'll parse for this test
-        JSONToParse = '{ "testDate": "2012-04-23T18:25:43.511Z" }';
+        jsonToParse = '{ "testDate": "2012-04-23T18:25:43.511Z" }';
 
         // Attempt to parse the JSON
-        parsedJSON = new JSONParse(JSONToParse);
+        parsedJSON = new JSONParse(jsonToParse);
 
         Test.startTest();
 
@@ -782,15 +782,15 @@ private class B2CBaseAttributeAssignment_Test {
     static void testDateAssignment() {
 
         // Initialize local variables
-        String JSONToParse;
+        String jsonToParse;
         JSONParse parsedJSON;
         Datetime attributeValue;
 
         // Default the JSON data we'll parse for this test
-        JSONToParse = '{ "testDate": "2012-04-23T18:25:43.511Z" }';
+        jsonToParse = '{ "testDate": "2012-04-23T18:25:43.511Z" }';
 
         // Attempt to parse the JSON
-        parsedJSON = new JSONParse(JSONToParse);
+        parsedJSON = new JSONParse(jsonToParse);
 
         Test.startTest();
 

@@ -5,24 +5,24 @@
  * @description This class is used to initialize the dataSourceProvider used
  * to support the retrieval of B2C Commerce Customer addresses via externalObjects.
 */
-public class B2CDataSourceAddressBookProvider extends DataSource.Provider {
+global with sharing class B2CDataSourceAddressBookProvider extends DataSource.Provider {
     /**
      * @description Returns the supported authentication capabilities of this provider
      *
      * @return {List<DataSource.AuthenticationCapability} The supported capabilities
      **/
-    override public List<DataSource.AuthenticationCapability> getAuthenticationCapabilities() {
+    override global List<DataSource.AuthenticationCapability> getAuthenticationCapabilities() {
         List<DataSource.AuthenticationCapability> capabilities =  new List<DataSource.AuthenticationCapability>();
         capabilities.add(DataSource.AuthenticationCapability.ANONYMOUS);
-    	return capabilities;
-	}
+        return capabilities;
+    }
 
     /**
      * @description Returns the supported record capabilities of this provider
      *
      * @return {List<DataSource.Capability} The supported capabilities
      */
-    override public List<DataSource.Capability> getCapabilities() {
+    override global List<DataSource.Capability> getCapabilities() {
         List<DataSource.Capability> capabilities = new List<DataSource.Capability>();
         capabilities.add(DataSource.Capability.ROW_QUERY);
         capabilities.add(DataSource.Capability.ROW_UPDATE);
@@ -38,7 +38,7 @@ public class B2CDataSourceAddressBookProvider extends DataSource.Provider {
      *
      * @return {DataSource.Connection} The connection to use to work with customer addresses
      **/
-    override public DataSource.Connection getConnection(DataSource.ConnectionParams connectionParams) {
+    override global DataSource.Connection getConnection(DataSource.ConnectionParams connectionParams) {
         return new B2CDataSourceAddressBookConnection(connectionParams);
     }
 }

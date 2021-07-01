@@ -10,7 +10,7 @@
 private class B2CCustomerListManager_Test {
 
     // Initialize constants used to drive / inform testing
-    private static String metaDataMissingRecordExceptionName = B2CConstant.Errors_ExceptionName_DataRecordMissing;
+    private static String metaDataMissingRecordExceptionName = B2CConstant.ERRORS_EXCEPTIONNAME_DATARECORDMISSING;
 
     // Default the Ids used to identify customerLists
     private static String activeCustomerListId = 'RefArch_Active';
@@ -29,7 +29,7 @@ private class B2CCustomerListManager_Test {
         B2C_CustomerList__c activeCustomerList;
 
         Test.startTest();
-        
+
         // Create test-data to seed an active B2C Commerce CustomerList
         activeCustomerList = (B2C_CustomerList__c)TestDataFactory.createSObject('B2C_CustomerList__c', new Map<String,Object>{
             'Name' => activeCustomerListId,

@@ -12,6 +12,6 @@ public with sharing class B2CIAB2CClientIDCertValidatorInput {
     ////////////////////////////////////////////////////////////////
 
     @InvocableVariable
-    public B2C_Client_ID__c B2CClientID;
+    public B2C_Client_ID__c b2cClientID;
 
 }

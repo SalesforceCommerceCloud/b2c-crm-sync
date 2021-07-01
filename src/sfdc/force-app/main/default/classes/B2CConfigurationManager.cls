@@ -62,16 +62,26 @@ public with sharing class B2CConfigurationManager {
         B2C_CRM_Sync_Default_Configuration__mdt configurationProfile;
         String output;
 
-        // Get the default configuration profile
-        configurationProfile = [
-                SELECT  Active_Configuration__r.Account_Record_Type_Developername__c
-                FROM    B2C_CRM_Sync_Default_Configuration__mdt
-                WHERE   DeveloperName = 'Production_Configuration'
-                LIMIT   1
-        ];
+        if(
+            // Validate that we have CRUD permissions to access this data
+            B2C_CRM_Sync_Default_Configuration__mdt.SObjectType.getDescribe().isAccessible() &&
+            Schema.SObjectType.B2C_CRM_Sync_Default_Configuration__mdt.fields.DeveloperName.isAccessible() &&
+            B2C_CRMSync_Setting__mdt.SObjectType.getDescribe().isAccessible() &&
+            Schema.SObjectType.B2C_CRMSync_Setting__mdt.fields.Account_Record_Type_Developername__c.isAccessible()
+        ) {
 
-        // Set the output variable to contain the specified configuration property
-        output = configurationProfile.Active_Configuration__r.Account_Record_Type_Developername__c;
+            // Get the default configuration profile
+            configurationProfile = [
+                SELECT Active_Configuration__r.Account_Record_Type_Developername__c
+                FROM B2C_CRM_Sync_Default_Configuration__mdt
+                WHERE DeveloperName = 'Production_Configuration'
+                LIMIT 1
+            ];
+
+            // Set the output variable to contain the specified configuration property
+            output = configurationProfile.Active_Configuration__r.Account_Record_Type_Developername__c;
+
+        }
 
         // Return the configured account / recordType developerName
         return output;
@@ -89,16 +99,26 @@ public with sharing class B2CConfigurationManager {
         B2C_CRM_Sync_Default_Configuration__mdt configurationProfile;
         String output;
 
-        // Get the default configuration profile
-        configurationProfile = [
-                SELECT  Active_Configuration__r.Account_Contact_Model__c
-                FROM    B2C_CRM_Sync_Default_Configuration__mdt
-                WHERE   DeveloperName = 'Production_Configuration'
-                LIMIT   1
-        ];
+        if(
+            // Validate that we have CRUD permissions to access this data
+            B2C_CRM_Sync_Default_Configuration__mdt.SObjectType.getDescribe().isAccessible() &&
+            Schema.SObjectType.B2C_CRM_Sync_Default_Configuration__mdt.fields.DeveloperName.isAccessible() &&
+            B2C_CRMSync_Setting__mdt.SObjectType.getDescribe().isAccessible() &&
+            Schema.SObjectType.B2C_CRMSync_Setting__mdt.fields.Account_Contact_Model__c.isAccessible()
+        ) {
 
-        // Set the output variable to contain the specified configuration property
-        output = configurationProfile.Active_Configuration__r.Account_Contact_Model__c;
+            // Get the default configuration profile
+            configurationProfile = [
+                SELECT Active_Configuration__r.Account_Contact_Model__c
+                FROM B2C_CRM_Sync_Default_Configuration__mdt
+                WHERE DeveloperName = 'Production_Configuration'
+                LIMIT 1
+            ];
+
+            // Set the output variable to contain the specified configuration property
+            output = configurationProfile.Active_Configuration__r.Account_Contact_Model__c;
+
+        }
 
         // Return the configured customerModel
         return output;
@@ -119,18 +139,29 @@ public with sharing class B2CConfigurationManager {
         // Initialize the output map
         output = new Map<String, String>();
 
-        // Get the default configuration profile
-        configurationProfile = [
-            SELECT  Active_Configuration__r.Default_Account_Name__c,
-                    Active_Configuration__r.Default_Contact_Name__c
-            FROM    B2C_CRM_Sync_Default_Configuration__mdt
-            WHERE   DeveloperName = 'Production_Configuration'
-            LIMIT   1
-        ];
+        if(
+            // Validate that we have CRUD permissions to access this data
+            B2C_CRM_Sync_Default_Configuration__mdt.SObjectType.getDescribe().isAccessible() &&
+            Schema.SObjectType.B2C_CRM_Sync_Default_Configuration__mdt.fields.DeveloperName.isAccessible() &&
+            B2C_CRMSync_Setting__mdt.SObjectType.getDescribe().isAccessible() &&
+            Schema.SObjectType.B2C_CRMSync_Setting__mdt.fields.Default_Account_Name__c.isAccessible() &&
+            Schema.SObjectType.B2C_CRMSync_Setting__mdt.fields.Default_Contact_Name__c.isAccessible()
+        ) {
 
-        // Capture and seed the default account / contact names
-        output.put('accountName', configurationProfile.Active_Configuration__r.Default_Account_Name__c);
-        output.put('contactName', configurationProfile.Active_Configuration__r.Default_Contact_Name__c);
+            // Get the default configuration profile
+            configurationProfile = [
+                SELECT  Active_Configuration__r.Default_Account_Name__c,
+                        Active_Configuration__r.Default_Contact_Name__c
+                FROM    B2C_CRM_Sync_Default_Configuration__mdt
+                WHERE   DeveloperName = 'Production_Configuration'
+                LIMIT   1
+            ];
+
+            // Capture and seed the default account / contact names
+            output.put('accountName', configurationProfile.Active_Configuration__r.Default_Account_Name__c);
+            output.put('contactName', configurationProfile.Active_Configuration__r.Default_Contact_Name__c);
+
+        }
 
         // Return the output property
         return output;
@@ -145,19 +176,33 @@ public with sharing class B2CConfigurationManager {
 
         // Initialize local variables
         B2C_CRM_Sync_Default_Configuration__mdt configurationProfile;
+        Boolean output;
 
-        // Get the default configuration profile
-        configurationProfile = [
+        if(
+            // Validate that we have CRUD permissions to access this data
+            B2C_CRM_Sync_Default_Configuration__mdt.SObjectType.getDescribe().isAccessible() &&
+            Schema.SObjectType.B2C_CRMSync_Setting__mdt.fields.DeveloperName.isAccessible() &&
+            Schema.SObjectType.B2C_CRMSync_Setting__mdt.fields.MasterLabel.isAccessible() &&
+            Schema.SObjectType.B2C_CRMSync_Setting__mdt.fields.Enable_B2C_Process_Contact_Trigger__c.isAccessible()
+        ) {
+
+            // Get the default configuration profile
+            configurationProfile = [
                 SELECT  Active_Configuration__r.DeveloperName,
                         Active_Configuration__r.MasterLabel,
                         Active_Configuration__r.Enable_B2C_Process_Contact_Trigger__c
                 FROM    B2C_CRM_Sync_Default_Configuration__mdt
                 WHERE   DeveloperName = 'Production_Configuration'
                 LIMIT   1
-        ];
+            ];
 
-        // Return the enabled status of the B2C ProcessContact Trigger
-        return configurationProfile.Active_Configuration__r.Enable_B2C_Process_Contact_Trigger__c;
+            // Return the enabled status of the B2C ProcessContact Trigger
+            output = configurationProfile.Active_Configuration__r.Enable_B2C_Process_Contact_Trigger__c;
+
+        }
+
+        // Return the output value
+        return output;
 
     }
 
@@ -169,19 +214,33 @@ public with sharing class B2CConfigurationManager {
 
         // Initialize local variables
         B2C_CRM_Sync_Default_Configuration__mdt configurationProfile;
+        Boolean output;
 
-        // Get the default configuration profile
-        configurationProfile = [
-                SELECT  Active_Configuration__r.DeveloperName,
-                        Active_Configuration__r.MasterLabel,
-                        Active_Configuration__r.Enable_Client_ID_CertValidation_Trigger__c
-                FROM    B2C_CRM_Sync_Default_Configuration__mdt
-                WHERE   DeveloperName = 'Production_Configuration'
-                LIMIT   1
-        ];
+        if(
+            // Validate that we have CRUD permissions to access this data
+            B2C_CRM_Sync_Default_Configuration__mdt.SObjectType.getDescribe().isAccessible() &&
+            Schema.SObjectType.B2C_CRMSync_Setting__mdt.fields.DeveloperName.isAccessible() &&
+            Schema.SObjectType.B2C_CRMSync_Setting__mdt.fields.MasterLabel.isAccessible() &&
+            Schema.SObjectType.B2C_CRMSync_Setting__mdt.fields.Enable_B2C_Process_Contact_Trigger__c.isAccessible()
+        ) {
 
-        // Return the enabled status of the B2C CLient ID certValidation trigger
-        return configurationProfile.Active_Configuration__r.Enable_Client_ID_CertValidation_Trigger__c;
+            // Get the default configuration profile
+            configurationProfile = [
+                SELECT Active_Configuration__r.DeveloperName,
+                    Active_Configuration__r.MasterLabel,
+                    Active_Configuration__r.Enable_Client_ID_CertValidation_Trigger__c
+                FROM B2C_CRM_Sync_Default_Configuration__mdt
+                WHERE DeveloperName = 'Production_Configuration'
+                LIMIT 1
+            ];
+
+            // Return the enabled status of the B2C Client ID certValidation trigger
+            output = configurationProfile.Active_Configuration__r.Enable_Client_ID_CertValidation_Trigger__c;
+
+        }
+
+        // Return the output value
+        return output;
 
     }
 

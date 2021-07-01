@@ -18,6 +18,6 @@ public class B2CIAGetCustomerListsSitesInput {
     public String b2cAuthToken;
 
     @InvocableVariable
-    public String OCAPIVersion;
+    public String ocapiVersion;
 
 }

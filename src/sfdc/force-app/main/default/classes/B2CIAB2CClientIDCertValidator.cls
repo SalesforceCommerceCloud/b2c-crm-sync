@@ -11,11 +11,16 @@ public with sharing class B2CIAB2CClientIDCertValidator {
      * @see B2CIAB2CClientIDCertValidator
      * @description Invokable action to validate the certificate associated to a B2C Client ID.
      *
-     * @param B2CClientIDs {List<B2CIAB2CClientIDCertValidatorInput>} Represents the request arguments to process
-     * @returns {List<B2CIAGetCustomerProfileResult>} Returns the response object containing the customer details
+     * @param b2cClientIDs {List<B2CIAB2CClientIDCertValidatorInput>} Represents the request arguments to process
+     * @return {List<B2CIAGetCustomerProfileResult>} Returns the response object containing the customer details
      */
-    @InvocableMethod(Label='B2C: Validate B2C Client ID Certificate' Description='Attempts to verify that the B2C Client ID certificate developerName exists in the Salesforce org')
-    public static List<B2CIAB2CClientIDCertValidatorResult> validateCertificate(List<B2CIAB2CClientIDCertValidatorInput> B2CClientIDs) {
+    @InvocableMethod(
+        Label='B2C: Validate B2C Client ID Certificate'
+        Description='Attempts to verify that the B2C Client ID certificate developerName exists in the Salesforce org'
+    )
+    public static List<B2CIAB2CClientIDCertValidatorResult> validateCertificate(
+        List<B2CIAB2CClientIDCertValidatorInput> b2cClientIDs
+    ) {
 
         // Initialize local variables
         List<B2CIAB2CClientIDCertValidatorResult> validationResults;
@@ -31,14 +36,14 @@ public with sharing class B2CIAB2CClientIDCertValidator {
         validationResults = new List<B2CIAB2CClientIDCertValidatorResult>();
 
         // Initialize the test strings used to test the certificate
-        testString = B2CConstant.CertTest_Validate_CertificateCanSign;
+        testString = B2CConstant.CERTTEST_VALIDATECERTIFICATE_CANSIGN;
         testStringAsBlob = Blob.valueOf(testString);
 
         // Retrieve the accountManager settings for the current configuration
         accountManagerSettings = B2CConfigurationManager.getAccountManagerSettings();
 
         // Loop over the collection of B2C Client IDs to process
-        for (B2CIAB2CClientIDCertValidatorInput thisB2CClientID: B2CClientIDs) {
+        for (B2CIAB2CClientIDCertValidatorInput thisB2CClientID: b2cClientIDs) {
 
             // Default the success flags
             isSuccess = true;
@@ -54,7 +59,7 @@ public with sharing class B2CIAB2CClientIDCertValidator {
                 Crypto.signWithCertificate(
                     accountManagerSettings.get('JWTSFDCAlgorithm'),
                     testStringAsBlob,
-                    thisB2CClientID.B2CClientID.JWT_Certificate_Name__c
+                    thisB2CClientID.b2cClientID.JWT_Certificate_Name__c
                 );
 
             } catch (Exception e) {
@@ -68,7 +73,7 @@ public with sharing class B2CIAB2CClientIDCertValidator {
 
             // Seed the validation / test details
             validationResult.isCertificateValid = isSuccess;
-            validationResult.B2CClientID = thisB2CClientID.B2CClientID;
+            validationResult.b2cClientID = thisB2CClientID.b2cClientID;
             validationResult.errorType = exceptionType;
             validationResult.errorMessage = errorMessage;
 

@@ -10,7 +10,7 @@
 private class B2CStorefrontManager_Test {
 
     // Initialize constants used to drive / inform testing
-    private static String metaDataMissingRecordExceptionName = B2CConstant.Errors_ExceptionName_DataRecordMissing;
+    private static String metaDataMissingRecordExceptionName = B2CConstant.ERRORS_EXCEPTIONNAME_DATARECORDMISSING;
 
     // Default the Ids used to identify storefronts
     private static String activeCustomerListId = 'RefArch_CustomerList_Active';

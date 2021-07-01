@@ -16,7 +16,9 @@ public with sharing class B2CContactManager extends B2CBaseMeta {
      * @param fieldMappings {List<B2C_Integration_Field_Mappings__mdt>} Represents the fieldMappings
      * @return {Contact} Returns an instance of a Contact
      */
-    public static Contact getContactById(String contactId, Boolean returnEmptyObject, List<B2C_Integration_Field_Mappings__mdt> fieldMappings) {
+    public static Contact getContactById(
+        String contactId, Boolean returnEmptyObject, List<B2C_Integration_Field_Mappings__mdt> fieldMappings
+    ) {
 
         // Initialize local variables
         List<Contact> contacts;
@@ -25,7 +27,7 @@ public with sharing class B2CContactManager extends B2CBaseMeta {
         Contact output;
 
         // Default the error message
-        errorMsg = B2CConstant.buildErrorMessage(B2CConstant.Errors_Meta_ContactNotFound, contactId);
+        errorMsg = B2CConstant.buildErrorMessage(B2CConstant.ERRORS_META_CONTACTNOTFOUND, contactId);
 
         // Seed the default query structure to leverage
         contactQuery = getDefaultQuery(fieldMappings);
@@ -53,17 +55,20 @@ public with sharing class B2CContactManager extends B2CBaseMeta {
      * OCAPI Data REST API.
      *
      * @param customerProfile {Contact} Represents the contact being processed for B2C Commerce updates
-     * @param fieldMappings {List<B2C_Integration_Field_Mappings__mdt>} Represents the collection of fieldMappings being evaluated
+     * @param fieldMappings {List<B2C_Integration_Field_Mappings__mdt>} Represents the collection of
+     * fieldMappings being evaluated
      * @return {Map<String, Object>} Returns an object representation of the properties to update
      */
-    public static Map<String, Object> getPublishProfile(Contact customerProfile, List<B2C_Integration_Field_Mappings__mdt> fieldMappings) {
+    public static Map<String, Object> getPublishProfile(
+        Contact customerProfile, List<B2C_Integration_Field_Mappings__mdt> fieldMappings
+    ) {
 
         // Initialize local variables
         Map<String, Object> output;
         List<String> deleteNode;
         Map<String, Object> credentialsNode;
         Object contactPropertyValue;
-        String OCAPISubKey;
+        String oCAPISubKey;
         Boolean hasCredentialInfo;
 
         // Initialize the output map
@@ -77,8 +82,6 @@ public with sharing class B2CContactManager extends B2CBaseMeta {
         output.put('c_b2ccrm_accountId', customerProfile.AccountId);
         output.put('c_b2ccrm_contactId', customerProfile.Id);
 
-        System.debug(output);
-
         // First, determine if this collection has credentials information to publish
         if (hasCredentialInfo == true) {
             credentialsNode = new Map<String, Object>();
@@ -90,7 +93,6 @@ public with sharing class B2CContactManager extends B2CBaseMeta {
             // Create a reference to the property value for this contact
             contactPropertyValue = customerProfile.get(thisFieldMapping.Service_Cloud_Attribute__c);
 
-            // TODO How do we handle deletes for composite / parent-child customer profile nodes (ex. credentials)
             // Is this property empty and is this not a child node?  If so, then add it to the delete node
             if (contactPropertyValue == null && !thisFieldMapping.B2C_Commerce_OCAPI_Attribute__c.contains('.')) {
 
@@ -101,10 +103,10 @@ public with sharing class B2CContactManager extends B2CBaseMeta {
             } else if (thisFieldMapping.B2C_Commerce_OCAPI_Attribute__c.contains('credentials.')) {
 
                 // Get the sub-key in question for the credentials node
-                OCAPISubKey = thisFieldMapping.B2C_Commerce_OCAPI_Attribute__c.replace('credentials.', '');
+                oCAPISubKey = thisFieldMapping.B2C_Commerce_OCAPI_Attribute__c.replace('credentials.', '');
 
                 // Attach the current property value to the credentials node
-                credentialsNode.put(OCAPISubKey, contactPropertyValue);
+                credentialsNode.put(oCAPISubKey, contactPropertyValue);
 
             } else {
 
@@ -134,11 +136,14 @@ public with sharing class B2CContactManager extends B2CBaseMeta {
      * @description Helper function to evaluate if the fieldMappings contain mapping definitions that include
      * a B2C Commerce OCAPI document parent property (ex. credentials.username).
      *
-     * @param fieldMappings {List<B2C_Integration_Field_Mappings__mdt>} Represents the collection of field mappings being evaluated
+     * @param fieldMappings {List<B2C_Integration_Field_Mappings__mdt>} Represents the collection of field
+     * mappings being evaluated
      * @param propertyName {String} Describes the name of the parent property to search for
      * @return {Boolean} Returns true if the parent property exists and false if it does not
      */
-    private static Boolean hasParentProperty(List<B2C_Integration_Field_Mappings__mdt> fieldMappings, String propertyName) {
+    private static Boolean hasParentProperty(
+        List<B2C_Integration_Field_Mappings__mdt> fieldMappings, String propertyName
+    ) {
 
         // Initialize local variables
         Boolean output;

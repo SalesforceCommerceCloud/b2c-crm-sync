@@ -28,7 +28,7 @@ private class B2CIAB2CClientIDCertValidator_Test {
         thisB2CClientID.Is_Active__c = true;
 
         // Seed the clientId to work with
-        validatorInput.B2CClientID = thisB2CClientID;
+        validatorInput.b2cClientID = thisB2CClientID;
 
         // Add the input to the processing collection
         validatorInputs.add(validatorInput);

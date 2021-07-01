@@ -51,7 +51,7 @@ public with sharing class B2CIAGetCustomerListsSites {
             req = B2CHttpRequestHelper.getAllSitesRequest(
                 thisB2CInstanceRequestInput.b2cInstance.API_Url__c,
                 thisB2CInstanceRequestInput.b2cAuthToken,
-                thisB2CInstanceRequestInput.OCAPIVersion
+                thisB2CInstanceRequestInput.ocapiVersion
             );
 
             // Initialize the outbound http request handler and invoke the service request
@@ -96,13 +96,16 @@ public with sharing class B2CIAGetCustomerListsSites {
                     Boolean existingCustomerListFound = false;
 
                     // Loop over the collection of customerLists that were parsed
-                    for (B2C_CustomerList__c c_i : customerListList) {
+                    for (B2C_CustomerList__c cListI : customerListList) {
 
                         // Create a reference to the parsed customerList identifier
-                        String parsedCustomerListID = j.get('customer_list_link').get('customer_list_id').getStringValue();
+                        String parsedCustomerListID = j.get('customer_list_link')
+                            .get('customer_list_id').getStringValue();
 
-                        // Evaluate if the current customerList was found in the collection of already parsed customerLists
-                        if( existingCustomerListFound == false && c_i.CustomerList_ID__c == parsedCustomerListID) { existingCustomerListFound = true; }
+                        // Evaluate if the current customerList was found in the collection of parsed customerLists
+                        if( existingCustomerListFound == false && cListI.CustomerList_ID__c == parsedCustomerListID) {
+                            existingCustomerListFound = true;
+                        }
 
                     }
 
@@ -130,7 +133,7 @@ public with sharing class B2CIAGetCustomerListsSites {
             } else {
 
                 // Otherwise, audit the error (the request could not process)
-                requestResult.errorMessage = B2CConstant.Errors_OCAPI_Non200ErrorOccurred;
+                requestResult.errorMessage = B2CConstant.ERRORS_OCAPI_NON200ERROROCCURRED;
                 requestResult.isError = true;
 
             }

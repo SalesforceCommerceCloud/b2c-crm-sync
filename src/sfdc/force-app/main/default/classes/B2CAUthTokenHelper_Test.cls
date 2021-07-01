@@ -25,7 +25,7 @@ private class B2CAUthTokenHelper_Test {
         B2C_Client_ID__c testClientID = new B2C_Client_ID__c(
             Name = 'my-test-clientId',
             B2C_Client_ID_Label__c = 'My Test ClientID',
-            JWT_Certificate_Name__c = B2CConstant.CertTest_Validate_TestCertificateName,
+            JWT_Certificate_Name__c = B2CConstant.CERTTEST_VALIDATE_TESTCERTIFICATENAME,
             Is_Active__c = true,
             Audit_Authentication_API_Interactions__c = true
         );
@@ -58,7 +58,7 @@ private class B2CAUthTokenHelper_Test {
         Test.stopTest();
 
         // Validate that the request processed successfully
-        System.assertEquals(authTokenResults.get('B2CAuthToken'), B2CConstant.AuthTest_AuthToken, 'Expected the authToken to match the default / test authToken constant');
+        System.assertEquals(authTokenResults.get('B2CAuthToken'), B2CConstant.AUTHTEST_AUTHTOKEN, 'Expected the authToken to match the default / test authToken constant');
         System.assertEquals(authTokenResults.get('IsSuccess'), true, 'Expected a success response of true for the authToken request');
 
     }
@@ -80,7 +80,7 @@ private class B2CAUthTokenHelper_Test {
         B2C_Client_ID__c testClientID = new B2C_Client_ID__c(
                 Name = 'my-test-clientId',
                 B2C_Client_ID_Label__c = 'My Test ClientID',
-                JWT_Certificate_Name__c = B2CConstant.CertTest_Validate_TestCertificateName,
+                JWT_Certificate_Name__c = B2CConstant.CERTTEST_VALIDATE_TESTCERTIFICATENAME,
                 Is_Active__c = true,
                 Audit_Authentication_API_Interactions__c = true
         );

@@ -45,7 +45,7 @@ public abstract with sharing class B2CBaseAttributeAssignment {
         for( String objectFieldName : sourceObjectMap.keySet()) {
 
             // Move along if the field currently being evaluated is flagged for skipping
-            if (B2CConstant.synchronizePropertiesToSkip.contains(objectFieldName)) { continue; }
+            if (B2CConstant.SYNCHRONIZEPROPERTIESTOSKIP.contains(objectFieldName)) { continue; }
 
             // Evaluate if the current field is set with a non-null value in the sourceObject
             if (sourceObject.isSet(objectFieldName) && sourceObject.get(objectFieldName) != null) {
@@ -101,7 +101,7 @@ public abstract with sharing class B2CBaseAttributeAssignment {
         contactMap = new Map<String, Object>(contactToProcess.getPopulatedFieldsAsMap());
 
         // Loop over the collection of personAccountProperties to remove
-        for (String personAccountProperty : B2CConstant.personAccountPropertiesToRemove) {
+        for (String personAccountProperty : B2CConstant.PERSONACCOUNTPROPERTIESTOREMOVE) {
 
             // Does the propertyToRemove exist in the contactMap?
             if (contactMap.containsKey(personAccountProperty)) {
@@ -214,11 +214,11 @@ public abstract with sharing class B2CBaseAttributeAssignment {
      * to the typed sObject.
      *
      * @param thisObject {SObject} Represents the object being updated
-     * @param ObjectJSON {JSONParse} Represents the object definition driving updates
+     * @param objectJSON {JSONParse} Represents the object definition driving updates
      * @param fieldMappings {List<B2C_Integration_Field_Mappings__mdt>} Represents the collection of fieldMappings to process
      * @return {SObject} Returns the updated SObject with fieldMappings applied
      */
-    public static SObject applyMappedFieldValues(SObject thisObject, JSONParse ObjectJSON, List<B2C_Integration_Field_Mappings__mdt> fieldMappings) {
+    public static SObject applyMappedFieldValues(SObject thisObject, JSONParse objectJSON, List<B2C_Integration_Field_Mappings__mdt> fieldMappings) {
 
         // Initialize local variables
         Boolean hasSObjProperty;
@@ -254,9 +254,9 @@ public abstract with sharing class B2CBaseAttributeAssignment {
             b2cAttribute = thisFieldMapping.B2C_Commerce_OCAPI_Attribute__c;
 
             // Determine if this field exists in the processed JSON object
-            hasJSONObjProperty = doesFieldExistInJSONObject(ObjectJSON, b2cAttribute);
+            hasJSONObjProperty = doesFieldExistInJSONObject(objectJSON, b2cAttribute);
 
-            // If this field does not exist in the ObjectJSON, then continue processing fieldMappings
+            // If this field does not exist in the objectJSON, then continue processing fieldMappings
             if (hasJSONObjProperty == false) { continue; }
 
             // Determine if this field exists in the specified Salesforce object
@@ -272,7 +272,7 @@ public abstract with sharing class B2CBaseAttributeAssignment {
             if (fieldDisplayType == null) { continue; }
 
             // Write the field to the property value specified by parsing it from the JSON field
-            thisObject = assignB2CAttributeValue(ObjectJSON, fieldDisplayType, thisObject, coreAttribute, b2cAttribute);
+            thisObject = assignB2CAttributeValue(objectJSON, fieldDisplayType, thisObject, coreAttribute, b2cAttribute);
 
         }
 
@@ -299,7 +299,9 @@ public abstract with sharing class B2CBaseAttributeAssignment {
      * @param b2cAttribute {String} Represents the B2C Commerce attribute being evaluated
      * @return {SObject} Returns the parent object whose attribute value was set by this function
     */
-    public static SObject assignB2CAttributeValue(JSONParse b2cProfileJSON, Schema.DisplayType fieldSchema, SObject parentObject, String scAttribute, String b2cAttribute) {
+    public static SObject assignB2CAttributeValue(
+        JSONParse b2cProfileJSON, Schema.DisplayType fieldSchema,
+        SObject parentObject, String scAttribute, String b2cAttribute) {
 
         // Initialize local variables
         String b2cAttributeValueAsString;
@@ -530,7 +532,14 @@ public abstract with sharing class B2CBaseAttributeAssignment {
         }
 
         // Handle errors and return a default value
-        catch(Exception ex) {}
+        catch(Exception ex) {
+
+            // Audit that an error was thrown
+            System.debug(System.LoggingLevel.ERROR, '--> Exception Caught: ' + ex.getMessage());
+
+        }
+
+        // Default the return statement
         return false;
 
     }
@@ -558,7 +567,14 @@ public abstract with sharing class B2CBaseAttributeAssignment {
         }
 
         // Handle errors and return a default value
-        catch(JSONParse.MissingKeyException ex) {}
+        catch(JSONParse.MissingKeyException ex) {
+
+            // Audit that an error was thrown
+            System.debug(System.LoggingLevel.ERROR, '--> Exception Caught: ' + ex.getMessage());
+
+        }
+
+        // Default the return value
         return false;
 
     }
@@ -590,11 +606,13 @@ public abstract with sharing class B2CBaseAttributeAssignment {
      * @description Helper function to return the fieldDisplayType for a given object schema
      *
      * @param schemaMap {Map<String,Schema.SObjectField>} Represents the fieldSchema for a given sObject
-     * @param SObjectType {String} Represents the name of the sObject being processed
+     * @param fieldSObjectType {String} Represents the name of the sObject being processed
      * @param fieldAttribute {String} Represents the attribute for which the displayType will be retrieved
      * @return {Schema.DisplayType} Returns the fieldDisplayType for the specified schema
      */
-    public static Schema.DisplayType getFieldDisplayType(Map<String,Schema.SObjectField> schemaMap, String SObjectType, String fieldAttribute) {
+    public static Schema.DisplayType getFieldDisplayType(
+        Map<String,Schema.SObjectField> schemaMap, String fieldSObjectType, String fieldAttribute
+    ) {
 
         // Initialize local variables
         Schema.SObjectField fieldSchema;
@@ -606,9 +624,9 @@ public abstract with sharing class B2CBaseAttributeAssignment {
         // Validate that the mapping exists in the source object
         if (fieldSchema == null) {
 
-            // TODO Do we throw an error if a field-mapping isn't found
             // Audit that the specific CRM object attribute was not found in the parent object
-            System.debug(LoggingLevel.WARN, B2CConstant.buildErrorMessage(B2CConstant.Errors_Common_UnknownFieldMapping, SObjectType, fieldAttribute));
+            System.debug(LoggingLevel.WARN, B2CConstant.buildErrorMessage(
+                B2CConstant.ERRORS_COMMON_UNKNOWNFIELDMAPPING, fieldSObjectType, fieldAttribute));
 
         } else {
 

@@ -36,7 +36,7 @@ public with sharing class B2CCustomerListManager extends B2CBaseMeta {
         B2C_CustomerList__c output;
 
         // Default the error message
-        errorMsg = B2CConstant.buildErrorMessage(B2CConstant.Errors_Meta_CustomerListNotFound, customerListId);
+        errorMsg = B2CConstant.buildErrorMessage(B2CConstant.ERRORS_META_CUSTOMERLISTNOTFOUND, customerListId);
 
         // Seed the default query structure to leverage
         customerListQuery = getDefaultQuery();
@@ -83,7 +83,7 @@ public with sharing class B2CCustomerListManager extends B2CBaseMeta {
         B2C_CustomerList__c output;
 
         // Default the error message
-        errorMsg = B2CConstant.buildErrorMessage(B2CConstant.Errors_Meta_CustomerListNotFound, customerListId);
+        errorMsg = B2CConstant.buildErrorMessage(B2CConstant.ERRORS_META_CUSTOMERLISTNOTFOUND, customerListId);
 
         // Seed the default query structure to leverage
         customerListQuery = getDefaultQuery();

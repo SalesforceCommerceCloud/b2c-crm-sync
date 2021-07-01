@@ -10,7 +10,7 @@
 private class B2CMetaFieldMappings_Test {
 
     // Initialize constants used to drive / inform testing
-    private static String metaDataMissingRecordExceptionName = B2CConstant.Errors_ExceptionName_DataRecordMissing;
+    private static String metaDataMissingRecordExceptionName = B2CConstant.ERRORS_EXCEPTIONNAME_DATARECORDMISSING;
 
     /**
      * @see B2CMetaFieldMappings.toggleAlternateObjectAttributes

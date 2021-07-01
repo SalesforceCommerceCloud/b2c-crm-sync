@@ -43,7 +43,7 @@ private class B2CIAGetContact_Test {
         // Initialize local variables
         List<B2CIAGetContactInput> requestArguments = new List<B2CIAGetContactInput>();
         B2CIAGetContactInput input = new B2CIAGetContactInput();
-        String AccountId;
+        String accountId;
         Boolean threwError = false;
 
         // Create a contact that we're exercising
@@ -64,13 +64,13 @@ private class B2CIAGetContact_Test {
             );
 
             // Attempt to retrieve the accountId -- recognizing that we don't expect it to exist
-            AccountId = String.valueOf(results[0].crmContact.get('AccountId'));
+            accountId = String.valueOf(results[0].crmContact.get('AccountId'));
 
         Test.stopTest();
 
         // Verify that the contact retrieved is what we expected
         System.assertEquals(results[0].crmContactId, input.crmContactId, 'Expected the contactIds to be aligned');
-        System.assertEquals(AccountId, null, 'Expected the AccountId to be null / not populated');
+        System.assertEquals(accountId, null, 'Expected the AccountId to be null / not populated');
 
     }
 

@@ -45,7 +45,7 @@ public with sharing class B2CIAProcessCustomerProfile extends B2CBaseAttributeAs
             thisCustomerProfile = B2CContactManager.getContactById(thisCustomerProfileResult.crmContactId, true, fieldMappings);
 
             // Are we currently using the personAccount accountContact model?
-            if (accountContactModel == B2CConstant.AccountContactModel_Person) {
+            if (accountContactModel == B2CConstant.ACCOUNTCONTACTMODEL_PERSON) {
 
                 // Remove the AccountID as we can't update it when the person customerModel is employed
                 thisCustomerProfile = B2CBaseAttributeAssignment.removePersonAccountProperties(thisCustomerProfile);

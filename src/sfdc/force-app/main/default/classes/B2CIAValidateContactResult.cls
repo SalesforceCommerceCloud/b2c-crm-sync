@@ -83,7 +83,7 @@ public class B2CIAValidateContactResult {
         }
 
         // Only continue if integration hasn't been disabled (again) --- and we're only evaluating resolution(s)
-        if (allowIntegrationProcess == true && this.processMode != B2CConstant.Contact_Integration_ProcessMode_Resolve) {
+        if (allowIntegrationProcess == true && this.processMode != B2CConstant.CONTACT_INTEGRATION_PROCESSMODE_RESOLVE) {
 
             // Validate the the process-specific integration controls
             validateProcessIntegrationControls();
@@ -99,10 +99,10 @@ public class B2CIAValidateContactResult {
     private void validateProcessMode() {
 
         // Validate that supported process modes are defined
-        if (!B2CConstant.contactProcessModes.contains(this.processMode)) {
+        if (!B2CConstant.CONTACTPROCESSMODES.contains(this.processMode)) {
 
             // Set the configuration message explaining why integration is being disabled
-            String errorMessage = B2CConstant.buildErrorMessage(B2CConstant.Errors_IntegrationConfig_UnknownProcessMode, processMode, B2CConstant.contactProcessModes.toString());
+            String errorMessage = B2CConstant.buildErrorMessage(B2CConstant.ERRORS_INTEGRATIONCONFIG_UNKNOWNPROCESSMODE, processMode, B2CConstant.CONTACTPROCESSMODES.toString());
 
             // Set the integration status and error message
             setProcessIntegrationStatus(false, errorMessage);
@@ -129,7 +129,7 @@ public class B2CIAValidateContactResult {
             output = false;
 
             // Set the configuration message explaining why integration is being disabled
-            errorMessage = B2CConstant.buildErrorMessage(B2CConstant.Errors_IntegrationConfig_DisabledOnContact, contact.Id);
+            errorMessage = B2CConstant.buildErrorMessage(B2CConstant.ERRORS_INTEGRATIONCONFIG_DISABLEDONCONTACT, contact.Id);
 
         // Is the customerList inActive?
         } else if (customerList.Is_Active__c == false) {
@@ -138,7 +138,7 @@ public class B2CIAValidateContactResult {
             output = false;
 
             // Set the configuration message explaining why integration is being disabled
-            errorMessage = B2CConstant.buildErrorMessage(B2CConstant.Errors_IntegrationConfig_CustomerListIsInActive, customerList.Name);
+            errorMessage = B2CConstant.buildErrorMessage(B2CConstant.ERRORS_INTEGRATIONCONFIG_CUSTOMERLISTISINACTIVE, customerList.Name);
 
         // Is the parent b2cInstance inActive?
         } else if (b2cInstance.Is_Active__c == false) {
@@ -147,7 +147,7 @@ public class B2CIAValidateContactResult {
             output = false;
 
             // Set the configuration message explaining why integration is being disabled
-            errorMessage = B2CConstant.buildErrorMessage(B2CConstant.Errors_IntegrationConfig_InstanceIsInActive, b2cInstance.Name);
+            errorMessage = B2CConstant.buildErrorMessage(B2CConstant.ERRORS_INTEGRATIONCONFIG_INSTANCEISINACTIVE, b2cInstance.Name);
 
         }
 
@@ -172,7 +172,7 @@ public class B2CIAValidateContactResult {
         String errorMessage;
 
         // Evaluate the retrieve process-scenario
-        if (processMode == B2CConstant.Contact_Integration_ProcessMode_Retrieve) {
+        if (processMode == B2CConstant.CONTACT_INTEGRATION_PROCESSMODE_RETRIEVE) {
 
             // Is profile retrieval disabled?
             if (isProfileRetrievalEnabled == false) {
@@ -181,7 +181,7 @@ public class B2CIAValidateContactResult {
                 output = false;
 
                 // Set the configuration message explaining why integration is being disabled
-                errorMessage = B2CConstant.buildErrorMessage(B2CConstant.Errors_IntegrationConfig_ProfileRetrievalDisabled, customerList.Name);
+                errorMessage = B2CConstant.buildErrorMessage(B2CConstant.ERRORS_INTEGRATIONCONFIG_PROFILERETRIEVALDISABLED, customerList.Name);
 
             // Are contact updates disabled?
             } else if (isContactUpdateEnabled == false) {
@@ -190,12 +190,12 @@ public class B2CIAValidateContactResult {
                 output = false;
 
                 // Set the configuration message explaining why integration is being disabled
-                errorMessage = B2CConstant.buildErrorMessage(B2CConstant.Errors_IntegrationConfig_ContactUpdateDisabled, customerList.Name);
+                errorMessage = B2CConstant.buildErrorMessage(B2CConstant.ERRORS_INTEGRATIONCONFIG_CONTACTUPDATEDISABLED, customerList.Name);
 
             }
 
         // Evaluate the publish process-scenario
-        } else if (processMode == B2CConstant.Contact_Integration_ProcessMode_Publish) {
+        } else if (processMode == B2CConstant.CONTACT_INTEGRATION_PROCESSMODE_PUBLISH) {
 
             // Is profile publishing disabled?
             if (isProfilePublishingEnabled == false) {
@@ -204,7 +204,7 @@ public class B2CIAValidateContactResult {
                 output = false;
 
                 // Set the configuration message explaining why integration is being disabled
-                errorMessage = B2CConstant.buildErrorMessage(B2CConstant.Errors_IntegrationConfig_ProfilePublishingDisabled, contact.Id);
+                errorMessage = B2CConstant.buildErrorMessage(B2CConstant.ERRORS_INTEGRATIONCONFIG_PROFILEPUBLISHINGDISABLED, contact.Id);
 
             }
 
@@ -221,6 +221,8 @@ public class B2CIAValidateContactResult {
     }
 
     /**
+     * @description This method is used to default the integration process status and configuration message.
+     * It generates the output that is exposed to callers providing context for the configuration setup.
      * @param supportValue {Boolean} Represents the process integration status
      * @param errorMessage {String} Represents the configuration error message to apply
      */

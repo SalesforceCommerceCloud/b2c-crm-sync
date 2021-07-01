@@ -12,38 +12,45 @@ private class B2CJWTHelper_Test {
     // Default the test constants
     public static String testAlgorithm = 'TEST123';
     public static String jwtSFDCAlgorithm = 'RSA-SHA256';
-    public static String B2CClientID = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa';
+    public static String b2cClientID = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa';
     public static String audienceUrl = 'https://sandbox.us01.dx.commercecloud.salesforce.com';
     public static Integer expiresInMinutes = 25;
     public static String testCertificateName = 'certificateDoesNotExist';
+
+    // Default the error messages being employed
+    public static String certErrorMessage = '-- expected an exception thrown -- due to the cert not being available.';
+    public static String exceptionErrorMessage = '-- expected the exception thrown to be System.NoDataFoundException.';
 
     @IsTest
     static void testBase64UrlEncode() {
 
         // Initialize local variables
-        String TestStringToEncode;
-        Blob TestStringAsBlob;
-        String TestStringAsEncoded;
-        Blob TestStringAsDecodedBlob;
-        String TestStringAsDecoded;
+        String testStringToEncode;
+        Blob testStringAsBlob;
+        String testStringAsEncoded;
+        Blob testStringAsDecodedBlob;
+        String testStringAsDecoded;
 
         // Default the test string to encode
-        TestStringToEncode = 'test-string-to-base64-encode';
-        TestStringAsBlob = Blob.valueOf(TestStringToEncode) ;
+        testStringToEncode = 'test-string-to-base64-encode';
+        testStringAsBlob = Blob.valueOf(testStringToEncode) ;
 
         Test.startTest();
 
             // Encode the test string base64 / url-encoded style
-            TestStringAsEncoded = B2CJWTHelper.base64UrlEncode(TestStringAsBlob);
+            testStringAsEncoded = B2CJWTHelper.base64UrlEncode(testStringAsBlob);
 
         Test.stopTest();
 
         // Decode the encodedString to a Blob and restore back to a string
-        TestStringAsDecodedBlob = EncodingUtil.base64Decode(TestStringAsEncoded);
-        TestStringAsDecoded = TestStringAsDecodedBlob.toString();
+        testStringAsDecodedBlob = EncodingUtil.base64Decode(testStringAsEncoded);
+        testStringAsDecoded = testStringAsDecodedBlob.toString();
 
         // Confirm that the encoded / decoded strings match
-        System.assertEquals(TestStringToEncode, TestStringAsDecoded, '-- The encoded and decoded strings do not match.');
+        System.assertEquals(
+            testStringToEncode, testStringAsDecoded,
+            '-- The encoded and decoded strings do not match.'
+        );
 
     }
 
@@ -67,7 +74,10 @@ private class B2CJWTHelper_Test {
         jwtHeaderAsDecoded = jwtHeaderAsDecodedBlob.toString();
 
         // Confirm that the test algorithm value was not found in the decoded jwtHeader
-        System.assert(jwtHeaderAsDecoded.contains(testAlgorithm), '-- The test algorithm value was not found in the decoded jwtHeader.');
+        System.assert(
+            jwtHeaderAsDecoded.contains(testAlgorithm),
+            '-- The test algorithm value was not found in the decoded jwtHeader.'
+        );
 
     }
 
@@ -82,7 +92,7 @@ private class B2CJWTHelper_Test {
         Test.startTest();
 
             // Create the JWTPayload and encode it
-            jwtPayload = B2CJWTHelper.buildJWTPayload(B2CClientID, audienceUrl, expiresInMinutes);
+            jwtPayload = B2CJWTHelper.buildJWTPayload(b2cClientID, audienceUrl, expiresInMinutes);
 
         Test.stopTest();
 
@@ -91,8 +101,15 @@ private class B2CJWTHelper_Test {
         jwtPayloadAsDecoded = jwtPayloadAsDecodedBlob.toString();
 
         // Confirm that the test algorithm value was not found in the decoded jwtPayload
-        System.assert(jwtPayloadAsDecoded.contains(B2CClientID), '-- The B2CClientID value was not found in the decoded jwtPayload.');
-        System.assert(jwtPayloadAsDecoded.contains(audienceUrl), '-- The audienceUrl value was not found in the decoded jwtPayload.');
+        System.assert(
+            jwtPayloadAsDecoded.contains(b2cClientID),
+            '-- The b2cClientID value was not found in the decoded jwtPayload.'
+        );
+
+        System.assert(
+            jwtPayloadAsDecoded.contains(audienceUrl),
+            '-- The audienceUrl value was not found in the decoded jwtPayload.'
+        );
 
     }
 
@@ -115,7 +132,7 @@ private class B2CJWTHelper_Test {
 
                 // Create the JWTPayload header and payload
                 jwtHeader = B2CJWTHelper.buildJWTHeader(testAlgorithm);
-                jwtPayload = B2CJWTHelper.buildJWTPayload(B2CClientID, audienceUrl, expiresInMinutes);
+                jwtPayload = B2CJWTHelper.buildJWTPayload(b2cClientID, audienceUrl, expiresInMinutes);
 
                 // Attempt to create the jwtToken
                 jwt = B2CJWTHelper.buildJWTSignature(jwtHeader, jwtPayload, testCertificateName, jwtSFDCAlgorithm);
@@ -130,9 +147,9 @@ private class B2CJWTHelper_Test {
 
         Test.stopTest();
 
-        // Audit that the System.NoDataFoundException exception was thrown; we can't test the signature due to cert access
-        System.assertEquals(threwException, true, '-- expected an exception to be thrown -- due to the cert not being available.');
-        System.assertEquals(exceptionType, 'System.NoDataFoundException', '-- expected the exception thrown to be System.NoDataFoundException.');
+        // Audit that the System.NoDataFoundException exception; we can't test the signature due to cert access
+        System.assertEquals(threwException, true, certErrorMessage);
+        System.assertEquals(exceptionType, 'System.NoDataFoundException', exceptionErrorMessage);
 
     }
 
@@ -152,7 +169,8 @@ private class B2CJWTHelper_Test {
             try {
 
                 // Attempt to create the jwtToken using the test values
-                jwt = B2CJWTHelper.getJWT(testAlgorithm, jwtSFDCAlgorithm, B2CClientID, testCertificateName, audienceUrl, expiresInMinutes);
+                jwt = B2CJWTHelper.getJWT(testAlgorithm, jwtSFDCAlgorithm, b2cClientID,
+                    testCertificateName, audienceUrl, expiresInMinutes);
 
             } catch (Exception e) {
 
@@ -164,9 +182,9 @@ private class B2CJWTHelper_Test {
 
         Test.stopTest();
 
-        // Audit that the System.NoDataFoundException exception was thrown; we can't test the signature due to cert access
-        System.assertEquals(threwException, true, '-- expected an exception to be thrown -- due to the cert not being available.');
-        System.assertEquals(exceptionType, 'System.NoDataFoundException', '-- expected the exception thrown to be System.NoDataFoundException.');
+        // Audit that the System.NoDataFoundException exception; we can't test the signature due to cert access
+        System.assertEquals(threwException, true, certErrorMessage);
+        System.assertEquals(exceptionType, 'System.NoDataFoundException', exceptionErrorMessage);
 
     }
 

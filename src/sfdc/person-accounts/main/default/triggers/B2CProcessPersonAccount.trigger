@@ -30,7 +30,7 @@ trigger B2CProcessPersonAccount on Account (before update) {
         // Only process and evaluate updates to PersonAccounts when the trigger is enabled
         // Do not process this trigger if the AccountContactModel is configured for Accounts / Contacts
         if (Trigger.isUpdate && B2CConfigurationManager.isB2CProcessContactTriggerEnabled() == true &&
-                B2CConfigurationManager.getDefaultAccountContactModel() == B2CConstant.AccountContactModel_Person) {
+                B2CConfigurationManager.getDefaultAccountContactModel() == B2CConstant.ACCOUNTCONTACTMODEL_PERSON) {
 
             // Get the fieldMappings for the customerProfile object
             contactFieldMappings = B2CMetaFieldMappings.getFieldMappingsForPublishing('Contact');

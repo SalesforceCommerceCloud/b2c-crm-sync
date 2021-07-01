@@ -7,6 +7,7 @@
  * field-mappings via customer meta-data describing the B2C Commerce object
  * properties that map back to Salesforce object properties.
 */
+//noinspection LongLine
 public with sharing class B2CMetaFieldMappings extends B2CBaseMeta {
 
     /**
@@ -14,10 +15,13 @@ public with sharing class B2CMetaFieldMappings extends B2CBaseMeta {
      * respecting the standard attribute to the alternate attribute.  The alternate attribute describes
      * an alternate field relationship related to the primary one.
      *
-     * @param fieldMappingsToToggle {List<B2C_Integration_Field_Mappings__mdt>} Represents the collection of fieldMappings to toggle
+     * @param fieldMappingsToToggle {List<B2C_Integration_Field_Mappings__mdt>} Represents the collection
+     * of fieldMappings to toggle
      * @return List<B2C_Integration_Field_Mappings__mdt> Returns a collection of field mappings
      */
-    public static List<B2C_Integration_Field_Mappings__mdt> toggleAlternateObjectAttributes(List<B2C_Integration_Field_Mappings__mdt> fieldMappingsToToggle) {
+    public static List<B2C_Integration_Field_Mappings__mdt> toggleAlternateObjectAttributes(
+        List<B2C_Integration_Field_Mappings__mdt> fieldMappingsToToggle
+    ) {
 
         // Initialize local Variables
         List<B2C_Integration_Field_Mappings__mdt> output;
@@ -67,27 +71,46 @@ public with sharing class B2CMetaFieldMappings extends B2CBaseMeta {
         String errorMsg;
 
         // Default the error message
-        errorMsg = B2CConstant.buildErrorMessage(B2CConstant.Errors_Meta_FieldMappingObjectNotFound, objectType);
+        errorMsg = B2CConstant.buildErrorMessage(B2CConstant.ERRORS_META_FIELDMAPPINGOBJECTNOTFOUND, objectType);
 
-        // Retrieve the collection of field-mappings related to this object
-        outputFieldMappings = [
-            SELECT  Service_Cloud_Object__c,
-                    Service_Cloud_Attribute__c,
-                    Service_Cloud_Attribute_Alt__c,
-                    B2C_Commerce_OCAPI_Attribute__c,
-                    Seed_Property_on_First_Time_Sync__c,
-                    Push_Updates_to_B2C_Commerce__c,
-                    Consume_Updates_from_B2C_Commerce__c,
-                    Enable_for_Integration__c,
-                    Field_Label__c,
-                    Field_Description__c
-            FROM    B2C_Integration_Field_Mappings__mdt
-            WHERE   Service_Cloud_Object__c = :objectType
-                    AND Enable_for_Integration__c = TRUE
-        ];
+        if(
+            // Verify that we can access these fields
+            B2C_Integration_Field_Mappings__mdt.SObjectType.getDescribe().isAccessible() &&
+            Schema.SObjectType.B2C_Integration_Field_Mappings__mdt.fields.Service_Cloud_Object__c.isAccessible() &&
+            Schema.SObjectType.B2C_Integration_Field_Mappings__mdt.fields.Service_Cloud_Attribute__c.isAccessible() &&
+            Schema.SObjectType.B2C_Integration_Field_Mappings__mdt.fields.Service_Cloud_Attribute_Alt__c.isAccessible() &&
+            Schema.SObjectType.B2C_Integration_Field_Mappings__mdt.fields.B2C_Commerce_OCAPI_Attribute__c.isAccessible() &&
+            Schema.SObjectType.B2C_Integration_Field_Mappings__mdt.fields.Seed_Property_on_First_Time_Sync__c.isAccessible() &&
+            Schema.SObjectType.B2C_Integration_Field_Mappings__mdt.fields.Push_Updates_to_B2C_Commerce__c.isAccessible() &&
+            Schema.SObjectType.B2C_Integration_Field_Mappings__mdt.fields.Consume_Updates_from_B2C_Commerce__c.isAccessible() &&
+            Schema.SObjectType.B2C_Integration_Field_Mappings__mdt.fields.Enable_for_Integration__c.isAccessible() &&
+            Schema.SObjectType.B2C_Integration_Field_Mappings__mdt.fields.Field_Label__c.isAccessible() &&
+            Schema.SObjectType.B2C_Integration_Field_Mappings__mdt.fields.Field_Description__c.isAccessible() &&
+            Schema.SObjectType.B2C_Integration_Field_Mappings__mdt.fields.Service_Cloud_Object__c.isAccessible() &&
+            Schema.SObjectType.B2C_Integration_Field_Mappings__mdt.fields.Enable_for_Integration__c.isAccessible()
+        ) {
 
-        // Were any records returned by this query?
-        testForEmptyRecordSet(outputFieldMappings.size(), errorMsg);
+            // Retrieve the collection of field-mappings related to this object
+            outputFieldMappings = [
+                SELECT  Service_Cloud_Object__c,
+                        Service_Cloud_Attribute__c,
+                        Service_Cloud_Attribute_Alt__c,
+                        B2C_Commerce_OCAPI_Attribute__c,
+                        Seed_Property_on_First_Time_Sync__c,
+                        Push_Updates_to_B2C_Commerce__c,
+                        Consume_Updates_from_B2C_Commerce__c,
+                        Enable_for_Integration__c,
+                        Field_Label__c,
+                        Field_Description__c
+                FROM    B2C_Integration_Field_Mappings__mdt
+                WHERE   Service_Cloud_Object__c = :objectType
+                AND     Enable_for_Integration__c = TRUE
+            ];
+
+            // Were any records returned by this query?
+            testForEmptyRecordSet(outputFieldMappings.size(), errorMsg);
+
+        }
 
         // Return the field-mapping values
         return outputFieldMappings;
@@ -98,7 +121,8 @@ public with sharing class B2CMetaFieldMappings extends B2CBaseMeta {
      * @description This method is used to retrieve the collection of multi-cloud
      * active field mappings for a given Salesforce object that support API retrieval.
      *
-     * @param objectType {String} Represents the name / type of the Salesforce object whose field-mappings are being retrieved
+     * @param objectType {String} Represents the name / type of the Salesforce object whose
+     * field-mappings are being retrieved
      * @return List<B2C_Integration_Field_Mappings__mdt> Returns a collection of field mappings
      */
     public static List<B2C_Integration_Field_Mappings__mdt> getFieldMappingsForRetrieval(String objectType) {
@@ -108,7 +132,7 @@ public with sharing class B2CMetaFieldMappings extends B2CBaseMeta {
         String errorMsg;
 
         // Default the error message
-        errorMsg = B2CConstant.buildErrorMessage(B2CConstant.Errors_Meta_FieldMappingObjectNotFound, objectType);
+        errorMsg = B2CConstant.buildErrorMessage(B2CConstant.ERRORS_META_FIELDMAPPINGOBJECTNOTFOUND, objectType);
 
         // Retrieve the collection of field-mappings related to this object
         outputFieldMappings = [
@@ -142,7 +166,8 @@ public with sharing class B2CMetaFieldMappings extends B2CBaseMeta {
      * publishable field mappings for a given Salesforce object (ie -- these fields
      * can be published to B2C Commerce
      *
-     * @param objectType {String} Represents the name / type of the Salesforce object whose field-mappings are being retrieved
+     * @param objectType {String} Represents the name / type of the Salesforce object
+     * whose field-mappings are being retrieved
      * @return List<B2C_Integration_Field_Mappings__mdt> Returns a collection of field mappings
      */
     public static List<B2C_Integration_Field_Mappings__mdt> getFieldMappingsForPublishing(String objectType) {
@@ -152,7 +177,7 @@ public with sharing class B2CMetaFieldMappings extends B2CBaseMeta {
         String errorMsg;
 
         // Default the error message
-        errorMsg = B2CConstant.buildErrorMessage(B2CConstant.Errors_Meta_FieldMappingObjectNotFound, objectType);
+        errorMsg = B2CConstant.buildErrorMessage(B2CConstant.ERRORS_META_FIELDMAPPINGOBJECTNOTFOUND, objectType);
 
         // Retrieve the collection of field-mappings related to this object
         outputFieldMappings = [

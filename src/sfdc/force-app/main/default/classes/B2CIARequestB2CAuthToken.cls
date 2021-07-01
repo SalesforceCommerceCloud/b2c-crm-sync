@@ -13,10 +13,16 @@ public with sharing class B2CIARequestB2CAuthToken {
      * @description Invokable action to retrieve a Customer Profile from B2C Commerce
      *
      * @param requestArguments {List<B2CIAGetB2CAuthTokenInput>} Represents the request arguments to process
-     * @returns {List<B2CIARequestB2CAuthTokenResult>} Returns the response object containing the authToken response details
+     * @return {List<B2CIARequestB2CAuthTokenResult>} Returns the response object with the authToken response details
      */
-    @InvocableMethod(Callout=true Label='B2C: Request a B2C AuthToken' Description='Attempts to retrieve a REST API AuthToken from the B2C Commerce Account Manager')
-    public static List<B2CIARequestB2CAuthTokenResult> getB2CAuthTokenViaJWT(List<B2CIARequestB2CAuthTokenInput> requestArguments) {
+    @InvocableMethod(
+        Callout=true
+        Label='B2C: Request a B2C AuthToken'
+        Description='Attempts to retrieve a REST API AuthToken from the B2C Commerce Account Manager'
+    )
+    public static List<B2CIARequestB2CAuthTokenResult> getB2CAuthTokenViaJWT(
+        List<B2CIARequestB2CAuthTokenInput> requestArguments
+    ) {
 
         // Initialize local variables
         Map<String, String> accountManagerConfigSettings;
@@ -25,7 +31,7 @@ public with sharing class B2CIARequestB2CAuthToken {
         List<B2CIARequestB2CAuthTokenResult> output;
         B2CIARequestB2CAuthTokenResult accessTokenResult;
         JSONParse parsedJSON;
-        String JWT;
+        String jwt;
 
         // Initialize the output variable
         output = new List<B2CIARequestB2CAuthTokenResult>();
@@ -34,14 +40,19 @@ public with sharing class B2CIARequestB2CAuthToken {
         accountManagerConfigSettings = B2CConfigurationManager.getAccountManagerSettings();
 
         // Build out the audience and authentication urls
-        audienceUrl = accountManagerConfigSettings.get('AccountManagerUrl') + ':' + String.valueOf(accountManagerConfigSettings.get('AccountManagerPort')) + accountManagerConfigSettings.get('AccountManagerSuffix');
-        authUrl = accountManagerConfigSettings.get('AccountManagerUrl') + accountManagerConfigSettings.get('AccountManagerSuffix');
+        audienceUrl = accountManagerConfigSettings.get('AccountManagerUrl') + ':' +
+            String.valueOf(accountManagerConfigSettings.get('AccountManagerPort')) +
+            accountManagerConfigSettings.get('AccountManagerSuffix');
+
+        // Build out the authenticationUrl
+        authUrl = accountManagerConfigSettings.get('AccountManagerUrl') +
+            accountManagerConfigSettings.get('AccountManagerSuffix');
 
         // Iterate over the collection of Named Credentials
         for (B2CIARequestB2CAuthTokenInput requestInput: requestArguments) {
 
             // Create the JWT that will be used to request an authToken
-            JWT = B2CJWTHelper.getJWT(
+            jwt = B2CJWTHelper.getJWT(
                 accountManagerConfigSettings.get('JWTSFCCAlgorithm'),
                 accountManagerConfigSettings.get('JWTSFDCAlgorithm'),
                 requestInput.b2cClientId,
@@ -51,7 +62,7 @@ public with sharing class B2CIARequestB2CAuthToken {
             );
 
             // Create the AccountManager authRequest -- and include the minted JWT
-            HttpRequest req = B2CHttpRequestHelper.getAccountManagerAuthRequest(authUrl, JWT);
+            HttpRequest req = B2CHttpRequestHelper.getAccountManagerAuthRequest(authUrl, jwt);
 
             // Initialize the http request and process-it
             Http https = new Http();
@@ -89,7 +100,7 @@ public with sharing class B2CIARequestB2CAuthToken {
             } else {
 
                 // Otherwise, capture the error message
-                accessTokenResult.errorMessage = B2CConstant.Errors_OCAPI_AccessTokenNotPresent;
+                accessTokenResult.errorMessage = B2CConstant.ERRORS_OCAPI_ACCESSTOKENNOTPRESENT;
                 accessTokenResult.isError = true;
 
             }

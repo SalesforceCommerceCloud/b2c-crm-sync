@@ -17,20 +17,27 @@ private class B2CHttpRequestHelper_Test {
 
         // Initialize local variables
         String baseAccountManagerUrl = 'https://account.demandware.com';
-        String JWT = 'my-example-jwt';
+        String jwt = 'my-example-jwt';
 
         Test.startTest();
 
             // Generate the base request and capture the details
             HttpRequest requestResults = B2CHttpRequestHelper.getAccountManagerAuthRequest(
-                baseAccountManagerUrl, JWT
+                baseAccountManagerUrl, jwt
             );
 
         Test.stopTest();
 
         // Validate that the request was successfully generated
-        System.assert(requestResults.getEndpoint().contains(baseAccountManagerUrl), 'Expected the apiUrl to be present in the request endpoint');
-        System.assert(requestResults.getBody().contains(JWT), 'Expected the JWT to be present in the request body');
+        System.assert(
+            requestResults.getEndpoint().contains(baseAccountManagerUrl),
+            'Expected the apiUrl to be present in the request endpoint'
+        );
+
+        System.assert(
+            requestResults.getBody().contains(jwt),
+            'Expected the JWT to be present in the request body'
+        );
 
     }
 
@@ -103,7 +110,7 @@ private class B2CHttpRequestHelper_Test {
 
         // Initialize local variables
         String apiUrl = 'https://www.example.com';
-        String accessToken = B2CConstant.AuthTest_AuthToken;
+        String accessToken = B2CConstant.AUTHTEST_AUTHTOKEN;
         String apiVersion = 'v20_10';
         String b2cCustomerListId = 'RefArch';
         String b2cCustomerNo = '9999999';
@@ -136,7 +143,7 @@ private class B2CHttpRequestHelper_Test {
 
         // Initialize local variables
         String apiUrl = 'https://www.example.com';
-        String accessToken = B2CConstant.AuthTest_AuthToken;
+        String accessToken = B2CConstant.AUTHTEST_AUTHTOKEN;
         String apiVersion = 'v20_10';
         String b2cCustomerListId = 'RefArch';
         String b2cCustomerNo = '9999999';
@@ -172,7 +179,7 @@ private class B2CHttpRequestHelper_Test {
 
         // Initialize local variables
         String apiUrl = 'https://www.example.com';
-        String accessToken = B2CConstant.AuthTest_AuthToken;
+        String accessToken = B2CConstant.AUTHTEST_AUTHTOKEN;
         String apiVersion = 'v20_10';
         String b2cCustomerListId = 'RefArch';
         String b2cCustomerNo = '9999999';
@@ -210,7 +217,7 @@ private class B2CHttpRequestHelper_Test {
 
         // Initialize local variables
         String apiUrl = 'https://www.example.com';
-        String accessToken = B2CConstant.AuthTest_AuthToken;
+        String accessToken = B2CConstant.AUTHTEST_AUTHTOKEN;
         String apiVersion = 'v20_10';
 
         Test.startTest();
@@ -239,7 +246,7 @@ private class B2CHttpRequestHelper_Test {
 
         // Initialize local variables
         String apiUrl = 'https://www.example.com';
-        String accessToken = B2CConstant.AuthTest_AuthToken;
+        String accessToken = B2CConstant.AUTHTEST_AUTHTOKEN;
         String apiVersion = 'v20_10';
         String b2cCustomerListId = 'RefArch';
         String b2cCustomerNo = '9999999';
@@ -272,7 +279,7 @@ private class B2CHttpRequestHelper_Test {
 
         // Initialize local variables
         String apiUrl = 'https://www.example.com';
-        String accessToken = B2CConstant.AuthTest_AuthToken;
+        String accessToken = B2CConstant.AUTHTEST_AUTHTOKEN;
         String apiVersion = 'v20_10';
         String b2cCustomerListId = 'RefArch';
         String b2cCustomerNo = '9999999';

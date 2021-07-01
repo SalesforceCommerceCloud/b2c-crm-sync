@@ -21,13 +21,13 @@ public with sharing class B2CBaseMeta_Test {
 
         Test.startTest();
 
-        // Attempt to validate if PersonAccounts are enabled
-        output = B2CBaseMeta.testForPersonAccounts();
+            // Attempt to validate if PersonAccounts are enabled
+            output = B2CBaseMeta.testForPersonAccounts();
 
         Test.stopTest();
 
         // Verify that personAccounts are enabled within the Salesforce org
-        //System.assert(output == true, '--> PersonAccounts do not appear to be enabled in this Salesforce org');
+        System.assertNotEquals(null, '--> Expected a true or false value to be included with the method result.');
 
     }
 
