@@ -6,3 +6,11 @@ src/sfdc/force-app/main/default/classes/Query.cls
 src/sfdc/force-app/main/default/classes/QueryTest.cls
 src/sfdc/force-app/main/default/classes/TestDataFactory.cls
 src/sfdc/force-app/main/default/classes/TestDataFactory_Test.cls
+
+# Ignore our non-customer-facing test libraries
+test/cli
+test/apis
+test/_common/poc-validation
+
+# Ignore the documentation-portal
+docs
