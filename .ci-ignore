@@ -1,0 +1,8 @@
+
+# Ignore libraries that we're leveraging from code-quality metrics
+src/sfdc/force-app/main/default/classes/JSONParse.cls
+src/sfdc/force-app/main/default/classes/JSONParse_Test.cls
+src/sfdc/force-app/main/default/classes/Query.cls
+src/sfdc/force-app/main/default/classes/QueryTest.cls
+src/sfdc/force-app/main/default/classes/TestDataFactory.cls
+src/sfdc/force-app/main/default/classes/TestDataFactory_Test.cls
