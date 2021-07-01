@@ -154,6 +154,7 @@ private class B2CIACustomerResolution_Test {
         Test.stopTest();
 
         // Validate the single result details
+        System.assert(flowResults != null, 'Expected the flowResults to represent an instantiated map');
         B2CIACustomerResolution_TestHelper.validateSingleResult(flowResults, contactToResolve);
 
     }
@@ -213,6 +214,7 @@ private class B2CIACustomerResolution_Test {
         Test.stopTest();
 
         // Validate the single result details
+        System.assert(flowResults != null, 'Expected the flowResults to represent an instantiated map');
         B2CIACustomerResolution_TestHelper.validateSingleResult(flowResults, contactToResolve);
 
     }
@@ -268,6 +270,7 @@ private class B2CIACustomerResolution_Test {
         Test.stopTest();
 
         // Validate the zero-result details
+        System.assert(flowResults != null, 'Expected the flowResults to represent an instantiated map');
         B2CIACustomerResolution_TestHelper.validateZeroResultsFromMultiple(flowResults);
 
     }
@@ -321,6 +324,7 @@ private class B2CIACustomerResolution_Test {
         Test.stopTest();
 
         // Validate the validationError occurred
+        System.assert(flowResults != null, 'Expected the flowResults to represent an instantiated map');
         B2CIACustomerResolution_TestHelper.validateValidationError(flowResults);
 
     }
@@ -374,6 +378,7 @@ private class B2CIACustomerResolution_Test {
         Test.stopTest();
 
         // Validate the validationError occurred
+        System.assert(flowResults != null, 'Expected the flowResults to represent an instantiated map');
         B2CIACustomerResolution_TestHelper.validateValidationError(flowResults);
 
     }
@@ -433,6 +438,7 @@ private class B2CIACustomerResolution_Test {
         Test.stopTest();
 
         // Validate the single result details
+        System.assert(flowResults != null, 'Expected the flowResults to represent an instantiated map');
         B2CIACustomerResolution_TestHelper.validateSingleResult(flowResults, contactToResolve);
 
     }
@@ -492,6 +498,7 @@ private class B2CIACustomerResolution_Test {
         Test.stopTest();
 
         // Validate the single result details
+        System.assert(flowResults != null, 'Expected the flowResults to represent an instantiated map');
         B2CIACustomerResolution_TestHelper.validateSingleResult(flowResults, contactToResolve);
 
     }
@@ -547,6 +554,7 @@ private class B2CIACustomerResolution_Test {
         Test.stopTest();
 
         // Validate the zero-result details
+        System.assert(flowResults != null, 'Expected the flowResults to represent an instantiated map');
         B2CIACustomerResolution_TestHelper.validateZeroResultsFromMultiple(flowResults);
 
     }
@@ -602,6 +610,7 @@ private class B2CIACustomerResolution_Test {
         Test.stopTest();
 
         // Validate the zero-result details
+        System.assert(flowResults != null, 'Expected the flowResults to represent an instantiated map');
         B2CIACustomerResolution_TestHelper.validateMultipleResults(flowResults);
 
     }
@@ -655,6 +664,7 @@ private class B2CIACustomerResolution_Test {
         Test.stopTest();
 
         // Validate the validationError occurred
+        System.assert(flowResults != null, 'Expected the flowResults to represent an instantiated map');
         B2CIACustomerResolution_TestHelper.validateValidationError(flowResults);
 
     }
@@ -708,6 +718,7 @@ private class B2CIACustomerResolution_Test {
         Test.stopTest();
 
         // Validate the validationError occurred
+        System.assert(flowResults != null, 'Expected the flowResults to represent an instantiated map');
         B2CIACustomerResolution_TestHelper.validateValidationError(flowResults);
 
     }
@@ -767,6 +778,7 @@ private class B2CIACustomerResolution_Test {
         Test.stopTest();
 
         // Validate the single result details
+        System.assert(flowResults != null, 'Expected the flowResults to represent an instantiated map');
         B2CIACustomerResolution_TestHelper.validateSingleResult(flowResults, contactToResolve);
 
     }
@@ -826,6 +838,7 @@ private class B2CIACustomerResolution_Test {
         Test.stopTest();
 
         // Validate the single result details
+        System.assert(flowResults != null, 'Expected the flowResults to represent an instantiated map');
         B2CIACustomerResolution_TestHelper.validateSingleResult(flowResults, contactToResolve);
 
     }
@@ -881,6 +894,7 @@ private class B2CIACustomerResolution_Test {
         Test.stopTest();
 
         // Validate the zero-result details
+        System.assert(flowResults != null, 'Expected the flowResults to represent an instantiated map');
         B2CIACustomerResolution_TestHelper.validateZeroResultsFromMultiple(flowResults);
 
     }
@@ -940,6 +954,7 @@ private class B2CIACustomerResolution_Test {
         Test.stopTest();
 
         // Validate the zero-result details
+        System.assert(flowResults != null, 'Expected the flowResults to represent an instantiated map');
         B2CIACustomerResolution_TestHelper.validateMultipleResults(flowResults);
 
     }
@@ -995,6 +1010,7 @@ private class B2CIACustomerResolution_Test {
         Test.stopTest();
 
         // Validate the zero-result details
+        System.assert(flowResults != null, 'Expected the flowResults to represent an instantiated map');
         B2CIACustomerResolution_TestHelper.validateMultipleResults(flowResults);
 
     }
@@ -1048,6 +1064,7 @@ private class B2CIACustomerResolution_Test {
         Test.stopTest();
 
         // Validate the validationError occurred
+        System.assert(flowResults != null, 'Expected the flowResults to represent an instantiated map');
         B2CIACustomerResolution_TestHelper.validateValidationError(flowResults);
 
     }
@@ -1101,6 +1118,7 @@ private class B2CIACustomerResolution_Test {
         Test.stopTest();
 
         // Validate the validationError occurred
+        System.assert(flowResults != null, 'Expected the flowResults to represent an instantiated map');
         B2CIACustomerResolution_TestHelper.validateValidationError(flowResults);
 
     }
@@ -1152,6 +1170,7 @@ private class B2CIACustomerResolution_Test {
         Test.stopTest();
 
         // Validate the single result details
+        System.assert(flowResults != null, 'Expected the flowResults to represent an instantiated map');
         B2CIACustomerResolution_TestHelper.validateSingleResult(flowResults, contactToResolve);
 
     }
@@ -1207,6 +1226,7 @@ private class B2CIACustomerResolution_Test {
         Test.stopTest();
 
         // Validate the filter result details
+        System.assert(flowResults != null, 'Expected the flowResults to represent an instantiated map');
         B2CIACustomerResolution_TestHelper.validateMultipleResults(flowResults);
 
     }
@@ -1266,6 +1286,7 @@ private class B2CIACustomerResolution_Test {
         Test.stopTest();
 
         // Validate the single result details
+        System.assert(flowResults != null, 'Expected the flowResults to represent an instantiated map');
         B2CIACustomerResolution_TestHelper.validateSingleResult(flowResults, contactToResolve);
 
     }
@@ -1331,6 +1352,7 @@ private class B2CIACustomerResolution_Test {
         Test.stopTest();
 
         // Validate the single result details
+        System.assert(flowResults != null, 'Expected the flowResults to represent an instantiated map');
         B2CIACustomerResolution_TestHelper.validateSingleResult(flowResults, contactToResolve);
 
     }
@@ -1389,6 +1411,7 @@ private class B2CIACustomerResolution_Test {
         Test.stopTest();
 
         // Validate the single result details
+        System.assert(flowResults != null, 'Expected the flowResults to represent an instantiated map');
         B2CIACustomerResolution_TestHelper.validateSingleResult(flowResults, contactToResolve);
 
     }
@@ -1439,6 +1462,7 @@ private class B2CIACustomerResolution_Test {
         Test.stopTest();
 
         // Validate the single result details
+        System.assert(flowResults != null, 'Expected the flowResults to represent an instantiated map');
         B2CIACustomerResolution_TestHelper.validateSingleResult(flowResults, contactToResolve);
 
     }
@@ -1497,6 +1521,7 @@ private class B2CIACustomerResolution_Test {
         Test.stopTest();
 
         // Validate the single result details
+        System.assert(flowResults != null, 'Expected the flowResults to represent an instantiated map');
         B2CIACustomerResolution_TestHelper.validateSingleResult(flowResults, contactToResolve);
 
     }
@@ -1555,6 +1580,7 @@ private class B2CIACustomerResolution_Test {
         Test.stopTest();
 
         // Validate the single result details
+        System.assert(flowResults != null, 'Expected the flowResults to represent an instantiated map');
         B2CIACustomerResolution_TestHelper.validateSingleResult(flowResults, contactToResolve);
 
     }
@@ -1609,6 +1635,7 @@ private class B2CIACustomerResolution_Test {
         Test.stopTest();
 
         // Validate the zero-result details
+        System.assert(flowResults != null, 'Expected the flowResults to represent an instantiated map');
         B2CIACustomerResolution_TestHelper.validateZeroResultsFromMultiple(flowResults);
 
     }
@@ -1663,6 +1690,7 @@ private class B2CIACustomerResolution_Test {
         Test.stopTest();
 
         // Validate the zero-result details
+        System.assert(flowResults != null, 'Expected the flowResults to represent an instantiated map');
         B2CIACustomerResolution_TestHelper.validateZeroResultsFromMultiple(flowResults);
 
     }
@@ -1717,6 +1745,7 @@ private class B2CIACustomerResolution_Test {
         Test.stopTest();
 
         // Validate the zero-result details
+        System.assert(flowResults != null, 'Expected the flowResults to represent an instantiated map');
         B2CIACustomerResolution_TestHelper.validateMultipleResults(flowResults);
 
     }
@@ -1775,6 +1804,7 @@ private class B2CIACustomerResolution_Test {
         Test.stopTest();
 
         // Validate the zero-result details
+        System.assert(flowResults != null, 'Expected the flowResults to represent an instantiated map');
         B2CIACustomerResolution_TestHelper.validateMultipleResults(flowResults);
 
     }
@@ -1829,6 +1859,7 @@ private class B2CIACustomerResolution_Test {
         Test.stopTest();
 
         // Validate the zero-result details
+        System.assert(flowResults != null, 'Expected the flowResults to represent an instantiated map');
         B2CIACustomerResolution_TestHelper.validateMultipleResults(flowResults);
 
     }
@@ -1882,6 +1913,7 @@ private class B2CIACustomerResolution_Test {
         Test.stopTest();
 
         // Validate the validationError occurred
+        System.assert(flowResults != null, 'Expected the flowResults to represent an instantiated map');
         B2CIACustomerResolution_TestHelper.validateValidationError(flowResults);
 
     }
@@ -1934,6 +1966,7 @@ private class B2CIACustomerResolution_Test {
         Test.stopTest();
 
         // Validate the validationError occurred
+        System.assert(flowResults != null, 'Expected the flowResults to represent an instantiated map');
         B2CIACustomerResolution_TestHelper.validateValidationError(flowResults);
 
     }
@@ -1992,6 +2025,7 @@ private class B2CIACustomerResolution_Test {
         Test.stopTest();
 
         // Validate the contact was successfully resolved
+        System.assert(flowResults != null, 'Expected the flowResults to represent an instantiated map');
         B2CIACustomerResolution_TestHelper.validateSingleResult(flowResults, contactToResolve);
 
     }
@@ -2051,6 +2085,7 @@ private class B2CIACustomerResolution_Test {
         Test.stopTest();
 
         // Validate the zero-result details
+        System.assert(flowResults != null, 'Expected the flowResults to represent an instantiated map');
         B2CIACustomerResolution_TestHelper.validateSingleResult(flowResults, contactToResolve);
 
     }

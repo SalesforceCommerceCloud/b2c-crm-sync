@@ -59,7 +59,7 @@ public with sharing class B2CProcessContactHelper extends B2CBaseAttributeAssign
             return instanceMap;
         }
 
-        if(
+        if (
             // Validate that we have permissions to access this data-object
             B2C_Instance__c.SObjectType.getDescribe().isAccessible() &&
             Schema.SObjectType.B2C_Instance__c.fields.Id.isAccessible() &&

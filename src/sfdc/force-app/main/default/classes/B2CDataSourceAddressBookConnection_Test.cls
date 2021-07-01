@@ -2,10 +2,12 @@
 public with sharing class B2CDataSourceAddressBookConnection_Test {
     @IsTest
     static void prepareData() {
+
         B2C_Instance__c instance = (B2C_Instance__c)TestDataFactory.createSObject('B2C_Instance__c', new Map<String,Object>{
             'Name' => 'RefArch',
             'API_Url__c' => 'https://test.com'
         });
+
         B2C_Client_ID__c clientId = (B2C_Client_ID__c)TestDataFactory.createSObject('B2C_Client_ID__c', new Map<String,Object>{
             'Name' => 'my-test-clientId',
             'B2C_Client_ID_Label__c' => 'My Test ClientID',
@@ -13,6 +15,7 @@ public with sharing class B2CDataSourceAddressBookConnection_Test {
             'Is_Active__c' => true,
             'Audit_Authentication_API_Interactions__c' => true
         });
+
         B2C_AuthToken__c authToken = (B2C_AuthToken__c)TestDataFactory.createSObject('B2C_AuthToken__c', new Map<String,Object>{
             'Name' => 'my-test-authtoken',
             'B2C_Client_ID__c' => clientId.Id
@@ -25,11 +28,20 @@ public with sharing class B2CDataSourceAddressBookConnection_Test {
             'API_Url__c' => 'https://test.com',
             'OCAPI_Version_No__c' => 'v20_10'
         });
+
         Contact contact = (Contact)TestDataFactory.createSObject('Contact', new Map<String,Object>{
             'LastName' => 'lastname',
             'B2C_CustomerList__c' => customerList.Id,
             'B2C_Customer_ID__c' => '001'
         });
+
+        // Validate that all of the test-data is created
+        System.assert(contact != null, 'Expected a contact to be created');
+        System.assert(customerList != null, 'Expected a customerList to be created');
+        System.assert(authToken != null, 'Expected an authToken to be created');
+        System.assert(clientId != null, 'Expected an clientId to be created');
+        System.assert(instance != null, 'Expected an instance to be created');
+
     }
 
     @IsTest

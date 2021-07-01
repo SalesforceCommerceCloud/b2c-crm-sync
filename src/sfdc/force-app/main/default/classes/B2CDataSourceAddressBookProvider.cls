@@ -36,6 +36,8 @@ global with sharing class B2CDataSourceAddressBookProvider extends DataSource.Pr
     /**
      * @description Returns the connection for this provider
      *
+     * @param connectionParams {DataSource.ConnectionParams} Represents the connectionParams used to retrieve
+     * external data from B2C Commerce via Salesforce Connect
      * @return {DataSource.Connection} The connection to use to work with customer addresses
      **/
     override global DataSource.Connection getConnection(DataSource.ConnectionParams connectionParams) {

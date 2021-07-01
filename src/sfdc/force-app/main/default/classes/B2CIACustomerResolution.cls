@@ -103,12 +103,20 @@ public inherited sharing class B2CIACustomerResolution {
         // Were any matchedResults found?
         if (!matchedAccountRecords.isEmpty()) {
 
-            // If so, then retrieve Contacts from the Account
-            duplicateContactRecords = [
-                SELECT  Id
-                FROM    Contact
-                WHERE   AccountId IN :matchedAccountRecords
-            ];
+            if (
+                // Validate that we have access to the Contact object
+                Contact.SObjectType.getDescribe().isAccessible() &&
+                Schema.SObjectType.Contact.fields.Id.isAccessible()
+            ) {
+
+                // If so, then retrieve Contacts from the Account
+                duplicateContactRecords = [
+                    SELECT  Id
+                    FROM    Contact
+                    WHERE   AccountId IN :matchedAccountRecords
+                ];
+
+            }
 
         } else {
 
@@ -147,7 +155,7 @@ public inherited sharing class B2CIACustomerResolution {
      *
      * @param contactList {List<Contact>} A list of contacts but is expected to have only 1 item.
      * This is to support use within Flow.
-     * @returns {List<List<Contact>>} Returns a list of list of contacts. This is expected to have only 1 item in
+     * @return {List<List<Contact>>} Returns a list of list of contacts. This is expected to have only 1 item in
      * the main list to support use with Flow.
      */
     @InvocableMethod(Label='B2C: Customer Resolution' Description='Finds matching contacts based on B2C matching rules')

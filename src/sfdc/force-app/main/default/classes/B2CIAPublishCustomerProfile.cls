@@ -139,11 +139,17 @@ public with sharing class B2CIAPublishCustomerProfile extends B2CBaseAttributeAs
 
             }
 
-            // Update the contacts
-            update(contactsToUpdate);
-
             // Add the result to the output
             output.add(customerPublishResult);
+
+        }
+
+        // Validate that we can see the contactObject and can update it
+        if (Contact.SObjectType.getDescribe().isAccessible() &&
+            Contact.SObjectType.getDescribe().isUpdateable()) {
+
+            // Update the contacts
+            update(contactsToUpdate);
 
         }
 

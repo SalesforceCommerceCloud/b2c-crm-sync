@@ -73,7 +73,7 @@ public with sharing class B2CMetaFieldMappings extends B2CBaseMeta {
         // Default the error message
         errorMsg = B2CConstant.buildErrorMessage(B2CConstant.ERRORS_META_FIELDMAPPINGOBJECTNOTFOUND, objectType);
 
-        if(
+        if (
             // Verify that we can access these fields
             B2C_Integration_Field_Mappings__mdt.SObjectType.getDescribe().isAccessible() &&
             Schema.SObjectType.B2C_Integration_Field_Mappings__mdt.fields.Service_Cloud_Object__c.isAccessible() &&

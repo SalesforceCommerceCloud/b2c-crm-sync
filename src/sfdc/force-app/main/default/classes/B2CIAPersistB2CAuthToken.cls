@@ -89,7 +89,9 @@ public with sharing class B2CIAPersistB2CAuthToken {
         }
 
         // Was at least one (1) authToken processed?
-        if (authTokens.size() > 0) {
+        if (authTokens.size() > 0 &&
+            B2C_AuthToken__c.SObjectType.getDescribe().isAccessible() &&
+            B2C_AuthToken__c.SObjectType.getDescribe().isCreateable()) {
 
             // Insert the authTokens and collect the results
             insert(authTokens);
@@ -102,7 +104,9 @@ public with sharing class B2CIAPersistB2CAuthToken {
         }
 
         // Was at least (1) authToken integration event audited?
-        if (integrationHistory.size() > 0) {
+        if (integrationHistory.size() > 0 &&
+            B2C_Client_ID_Integration_History__c.SObjectType.getDescribe().isAccessible() &&
+            B2C_Client_ID_Integration_History__c.SObjectType.getDescribe().isCreateable()) {
 
             // Loop over the collection of integrationHistory entries
             for (B2C_Client_ID_Integration_History__c thisIntegrationHistoryEntry : integrationHistory) {
@@ -120,7 +124,6 @@ public with sharing class B2CIAPersistB2CAuthToken {
 
             // Insert the collection of history entries
             insert(integrationHistory);
-
 
         }
 

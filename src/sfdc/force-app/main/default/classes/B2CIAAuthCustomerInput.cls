@@ -6,7 +6,10 @@
  */
 public with sharing class B2CIAAuthCustomerInput {
 
-    /** @constructor **/
+    /**
+     * @constructor
+     * @description Constructor to produce an instance of this class.
+     **/
     public B2CIAAuthCustomerInput() {}
 
     @AuraEnabled @InvocableVariable(Required=true)

@@ -7,6 +7,13 @@
 */
 public with sharing class B2CIAProcessCustomerProfile extends B2CBaseAttributeAssignment {
 
+    /**
+     * @description This method is used to process the customerProfile results retrieved from B2C Commerce
+     * and update the Salesforce Account / Contact pair representing the customer.
+     *
+     * @param customerProfileResults {List<B2CIAGetCustomerProfileResult>} Represents the profileResults retrieved
+     * from B2C Commerce that will drive the customerProfile updates
+     */
     @InvocableMethod(Label='B2C: Update Customer Profile Definitions' Description='Attempts to update a Contact with the latest REST API results from B2C Commerce')
     public static void updateCustomerProfiles(List<B2CIAGetCustomerProfileResult> customerProfileResults) {
 
@@ -93,7 +100,10 @@ public with sharing class B2CIAProcessCustomerProfile extends B2CBaseAttributeAs
         }
 
         // Was at least one customerProfile record processed?
-        if (customerProfiles.size() > 0) {
+        if (customerProfiles.size() > 0 &&
+            Contact.SObjectType.getDescribe().isAccessible() &&
+            Contact.SObjectType.getDescribe().isUpdateable() &&
+            Contact.SObjectType.getDescribe().isCreateable()) {
 
             // If so, then process the customerProfiles
             upsert customerProfiles;

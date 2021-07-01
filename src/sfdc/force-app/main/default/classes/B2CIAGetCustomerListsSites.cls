@@ -110,7 +110,7 @@ public with sharing class B2CIAGetCustomerListsSites {
                     }
 
                     // Was the current customerList found?
-                    if( !existingCustomerListFound ){
+                    if (!existingCustomerListFound) {
 
                         // If not, then add the customerList to the output collection
                         B2C_CustomerList__c customerList = new B2C_CustomerList__c();

@@ -12,7 +12,7 @@ public with sharing class B2CIAGetCustomerProfile {
      * @description Invokable action to retrieve a Customer Profile from B2C Commerce
      *
      * @param requestArguments {List<B2CIAGetCustomerProfileInput>} Represents the request arguments to process
-     * @returns {List<B2CIAGetCustomerProfileResult>} Returns the response object containing the customer details
+     * @return {List<B2CIAGetCustomerProfileResult>} Returns the response object containing the customer details
      */
     @InvocableMethod(Label='B2C: Get Customer Profile' Description='Attempts to retrieve details for a B2C Commerce Customer Profile')
     public static List<B2CIAGetCustomerProfileResult> getCustomerProfile(List<B2CIAGetCustomerProfileInput> requestArguments) {

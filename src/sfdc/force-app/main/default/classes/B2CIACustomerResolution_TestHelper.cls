@@ -9,6 +9,7 @@ public with sharing class B2CIACustomerResolution_TestHelper {
     /**
      * @description This method is used to assert that a validation error was caught
      * when conducting filter-matching logic via the B2CCommerce_Process_ContactFilterMatches flow.
+     *
      * @param flowResults {Map<String, Object>} Represents the results processed by the
      * customerResolution class and filterMatches flow results
      */
@@ -27,10 +28,10 @@ public with sharing class B2CIACustomerResolution_TestHelper {
         flowErrors = (List<String>) flowResults.get('flowErrors');
 
         // Debugging: Output the test results
-        System.debug('--> contactResolvedList: ' + contactResolvedList);
-        System.debug('--> contactFilteredList: ' + contactFilteredList);
-        System.debug('--> flowIsSuccess: ' + flowIsSuccess);
-        System.debug('--> flowErrors: ' + flowErrors);
+        System.debug(System.LoggingLevel.INFO, '--> contactResolvedList: ' + contactResolvedList);
+        System.debug(System.LoggingLevel.INFO, '--> contactFilteredList: ' + contactFilteredList);
+        System.debug(System.LoggingLevel.INFO, '--> flowIsSuccess: ' + flowIsSuccess);
+        System.debug(System.LoggingLevel.INFO, '--> flowErrors: ' + flowErrors);
 
         // Assert that the resolution class and filterFlow return predictable results
         System.assertEquals(1, contactResolvedList.size(), 'Expected the customerResolution class to return one (1) record');
@@ -43,6 +44,7 @@ public with sharing class B2CIACustomerResolution_TestHelper {
     /**
      * @description This method is used to assert that multiple results were resolved
      * via the B2CCommerce_Process_ContactFilterMatches flow for a given customerResolution result
+     *
      * @param flowResults {Map<String, Object>} Represents the results processed by the
      * customerResolution class and filterMatches flow results
      */
@@ -61,10 +63,10 @@ public with sharing class B2CIACustomerResolution_TestHelper {
         flowErrors = (List<String>) flowResults.get('flowErrors');
 
         // Debugging: Output the test results
-        System.debug('--> contactResolvedList: ' + contactResolvedList);
-        System.debug('--> contactFilteredList: ' + contactFilteredList);
-        System.debug('--> flowIsSuccess: ' + flowIsSuccess);
-        System.debug('--> flowErrors: ' + flowErrors);
+        System.debug(System.LoggingLevel.INFO, '--> contactResolvedList: ' + contactResolvedList);
+        System.debug(System.LoggingLevel.INFO, '--> contactFilteredList: ' + contactFilteredList);
+        System.debug(System.LoggingLevel.INFO, '--> flowIsSuccess: ' + flowIsSuccess);
+        System.debug(System.LoggingLevel.INFO, '--> flowErrors: ' + flowErrors);
 
         // Assert that the resolution class and filterFlow return predictable results
         System.assert(contactResolvedList.size() > 0, 'Expected the customerResolution class to return at least one (1) record');
@@ -77,6 +79,7 @@ public with sharing class B2CIACustomerResolution_TestHelper {
     /**
      * @description This method is used to assert that zero filter results are returned
      * via the B2CCommerce_Process_ContactFilterMatches flow from multiple resolution results
+     *
      * @param flowResults {Map<String, Object>} Represents the results processed by the
      * customerResolution class and filterMatches flow results
      */
@@ -95,10 +98,10 @@ public with sharing class B2CIACustomerResolution_TestHelper {
         flowErrors = (List<String>) flowResults.get('flowErrors');
 
         // Debugging: Output the test results
-        System.debug('--> contactResolvedList: ' + contactResolvedList);
-        System.debug('--> contactFilteredList: ' + contactFilteredList);
-        System.debug('--> flowIsSuccess: ' + flowIsSuccess);
-        System.debug('--> flowErrors: ' + flowErrors);
+        System.debug(System.LoggingLevel.INFO, '--> contactResolvedList: ' + contactResolvedList);
+        System.debug(System.LoggingLevel.INFO, '--> contactFilteredList: ' + contactFilteredList);
+        System.debug(System.LoggingLevel.INFO, '--> flowIsSuccess: ' + flowIsSuccess);
+        System.debug(System.LoggingLevel.INFO, '--> flowErrors: ' + flowErrors);
 
         // Assert that the resolution class and filterFlow return predictable results
         System.assert(contactResolvedList.size() > 0, 'Expected the customerResolution class to return at least one (1) record');
@@ -108,6 +111,13 @@ public with sharing class B2CIACustomerResolution_TestHelper {
 
     }
 
+    /**
+     * @description This method is used to assert that zero filter results are returned
+     * via the B2CCommerce_Process_ContactFilterMatches flow from multiple resolution results
+     *
+     * @param flowResults {Map<String, Object>} Represents the results processed by the
+     * customerResolution class and filterMatches flow results
+     */
     public static void validateZeroResultsFromMultiple(Map<String, Object> flowResults) {
 
         // Initialize local variables
@@ -123,10 +133,10 @@ public with sharing class B2CIACustomerResolution_TestHelper {
         flowErrors = (List<String>) flowResults.get('flowErrors');
 
         // Debugging: Output the test results
-        System.debug('--> contactResolvedList: ' + contactResolvedList);
-        System.debug('--> contactFilteredList: ' + contactFilteredList);
-        System.debug('--> flowIsSuccess: ' + flowIsSuccess);
-        System.debug('--> flowErrors: ' + flowErrors);
+        System.debug(System.LoggingLevel.INFO, '--> contactResolvedList: ' + contactResolvedList);
+        System.debug(System.LoggingLevel.INFO, '--> contactFilteredList: ' + contactFilteredList);
+        System.debug(System.LoggingLevel.INFO, '--> flowIsSuccess: ' + flowIsSuccess);
+        System.debug(System.LoggingLevel.INFO, '--> flowErrors: ' + flowErrors);
 
         // Assert that the resolution class and filterFlow return predictable results
         System.assertEquals(0, contactResolvedList.size(), 'Expected the customerResolution class to return zero records');
@@ -136,6 +146,14 @@ public with sharing class B2CIACustomerResolution_TestHelper {
 
     }
 
+    /**
+     * @description This method is used to assert that a valid result is returned
+     * via the B2CCommerce_Process_ContactFilterMatches flow
+     *
+     * @param flowResults {Map<String, Object>} Represents the results processed by the
+     * customerResolution class and filterMatches flow results
+     * @param contactToResolve {Contact} Represents the contactRecord to be resolved
+     */
     public static void validateSingleResult(Map<String, Object> flowResults, Contact contactToResolve) {
 
         // Initialize local variables
@@ -151,10 +169,10 @@ public with sharing class B2CIACustomerResolution_TestHelper {
         flowErrors = (List<String>) flowResults.get('flowErrors');
 
         // Debugging: Output the test results
-        System.debug('--> contactResolvedList: ' + contactResolvedList);
-        System.debug('--> contactFilteredList: ' + contactFilteredList);
-        System.debug('--> flowIsSuccess: ' + flowIsSuccess);
-        System.debug('--> flowErrors: ' + flowErrors);
+        System.debug(System.LoggingLevel.INFO,'--> contactResolvedList: ' + contactResolvedList);
+        System.debug(System.LoggingLevel.INFO,'--> contactFilteredList: ' + contactFilteredList);
+        System.debug(System.LoggingLevel.INFO,'--> flowIsSuccess: ' + flowIsSuccess);
+        System.debug(System.LoggingLevel.INFO,'--> flowErrors: ' + flowErrors);
 
         // Assert that the resolution class and filterFlow return predictable results
         System.assert(contactResolvedList.size() > 0, 'Expected the customerResolution class to return at least one (1) record');
@@ -165,6 +183,12 @@ public with sharing class B2CIACustomerResolution_TestHelper {
 
     }
 
+    /**
+     * @description Helper method to execute the resolution-process flow.
+     *
+     * @param testContact {Contact} Represents the contact used to perform resolution
+     * @return {Map<String, Object>} Returns the flow-processing results
+     */
     public static Map<String, Object> executeResolutionProcess(Contact testContact) {
 
         // Initialize local variables
@@ -191,7 +215,7 @@ public with sharing class B2CIACustomerResolution_TestHelper {
         if (resolutionResults.isError == true) {
 
             // Audit the error to the debug log
-            System.debug('---> Error | ' + resolutionResults.errorMessage);
+            System.debug(System.LoggingLevel.INFO,'---> Error | ' + resolutionResults.errorMessage);
 
             // Throw a custom exception paying the errorMessage forward
             throw new B2CCustomerResolutionException(resolutionResults.errorMessage);
@@ -230,6 +254,12 @@ public with sharing class B2CIACustomerResolution_TestHelper {
 
     }
 
+    /**
+     * @description Helper method to create a contact that can be leveraged in tests.
+     *
+     * @param contactMap {Map<String, Object>} Represents the map used to create a Contact
+     * @return {Contact} Returns a well-formed contact record
+     */
     public static Contact createContact(Map<String, Object> contactMap) {
 
         // Initialize local variables

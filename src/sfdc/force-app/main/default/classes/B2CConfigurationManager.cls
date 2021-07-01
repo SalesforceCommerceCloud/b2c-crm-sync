@@ -62,7 +62,7 @@ public with sharing class B2CConfigurationManager {
         B2C_CRM_Sync_Default_Configuration__mdt configurationProfile;
         String output;
 
-        if(
+        if (
             // Validate that we have CRUD permissions to access this data
             B2C_CRM_Sync_Default_Configuration__mdt.SObjectType.getDescribe().isAccessible() &&
             Schema.SObjectType.B2C_CRM_Sync_Default_Configuration__mdt.fields.DeveloperName.isAccessible() &&
@@ -99,7 +99,7 @@ public with sharing class B2CConfigurationManager {
         B2C_CRM_Sync_Default_Configuration__mdt configurationProfile;
         String output;
 
-        if(
+        if (
             // Validate that we have CRUD permissions to access this data
             B2C_CRM_Sync_Default_Configuration__mdt.SObjectType.getDescribe().isAccessible() &&
             Schema.SObjectType.B2C_CRM_Sync_Default_Configuration__mdt.fields.DeveloperName.isAccessible() &&
@@ -139,7 +139,7 @@ public with sharing class B2CConfigurationManager {
         // Initialize the output map
         output = new Map<String, String>();
 
-        if(
+        if (
             // Validate that we have CRUD permissions to access this data
             B2C_CRM_Sync_Default_Configuration__mdt.SObjectType.getDescribe().isAccessible() &&
             Schema.SObjectType.B2C_CRM_Sync_Default_Configuration__mdt.fields.DeveloperName.isAccessible() &&
@@ -178,7 +178,7 @@ public with sharing class B2CConfigurationManager {
         B2C_CRM_Sync_Default_Configuration__mdt configurationProfile;
         Boolean output;
 
-        if(
+        if (
             // Validate that we have CRUD permissions to access this data
             B2C_CRM_Sync_Default_Configuration__mdt.SObjectType.getDescribe().isAccessible() &&
             Schema.SObjectType.B2C_CRMSync_Setting__mdt.fields.DeveloperName.isAccessible() &&
@@ -216,7 +216,7 @@ public with sharing class B2CConfigurationManager {
         B2C_CRM_Sync_Default_Configuration__mdt configurationProfile;
         Boolean output;
 
-        if(
+        if (
             // Validate that we have CRUD permissions to access this data
             B2C_CRM_Sync_Default_Configuration__mdt.SObjectType.getDescribe().isAccessible() &&
             Schema.SObjectType.B2C_CRMSync_Setting__mdt.fields.DeveloperName.isAccessible() &&
@@ -226,12 +226,12 @@ public with sharing class B2CConfigurationManager {
 
             // Get the default configuration profile
             configurationProfile = [
-                SELECT Active_Configuration__r.DeveloperName,
-                    Active_Configuration__r.MasterLabel,
-                    Active_Configuration__r.Enable_Client_ID_CertValidation_Trigger__c
-                FROM B2C_CRM_Sync_Default_Configuration__mdt
-                WHERE DeveloperName = 'Production_Configuration'
-                LIMIT 1
+                SELECT  Active_Configuration__r.DeveloperName,
+                        Active_Configuration__r.MasterLabel,
+                        Active_Configuration__r.Enable_Client_ID_CertValidation_Trigger__c
+                FROM    B2C_CRM_Sync_Default_Configuration__mdt
+                WHERE   DeveloperName = 'Production_Configuration'
+                LIMIT   1
             ];
 
             // Return the enabled status of the B2C Client ID certValidation trigger

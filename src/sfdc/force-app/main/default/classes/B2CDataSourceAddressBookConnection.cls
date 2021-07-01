@@ -24,8 +24,9 @@ global with sharing class B2CDataSourceAddressBookConnection extends DataSource.
     /**
      * @constructor
      * @description constructor designed to initialize the class instance
-     * @param connectionParams {Datasource.ConnectionParams} Represents the connection parameters used to drive
      * the retrieval or publishing of B2C Commerce customer addresses.
+     * @param connectionParams {DataSource.ConnectionParams} Represents the connectionParameters used to
+     * create the datasourceConnection for B2C Commerce addressBooks
      */
     global B2CDataSourceAddressBookConnection(DataSource.ConnectionParams connectionParams) {
         this.retrievalFieldMappings = B2CMetaFieldMappings.getFieldMappingsForRetrieval(this.tableName + '__x');
