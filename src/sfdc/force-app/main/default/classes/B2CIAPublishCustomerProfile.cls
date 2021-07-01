@@ -146,7 +146,8 @@ public with sharing class B2CIAPublishCustomerProfile extends B2CBaseAttributeAs
 
         // Validate that we can see the contactObject and can update it
         if (Contact.SObjectType.getDescribe().isUpdateable() &&
-            Contact.SObjectType.getDescribe().isAccessible()) {
+            Contact.SObjectType.getDescribe().isAccessible() &&
+            Schema.SObjectType.Contact.fields.LastName.isUpdateable()) {
 
             // Update the contacts
             update(contactsToUpdate);

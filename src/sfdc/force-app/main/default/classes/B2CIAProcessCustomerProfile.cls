@@ -103,6 +103,8 @@ public with sharing class B2CIAProcessCustomerProfile extends B2CBaseAttributeAs
         if (Contact.SObjectType.getDescribe().isUpdateable() &&
             Contact.SObjectType.getDescribe().isCreateable() &&
             Contact.SObjectType.getDescribe().isAccessible() &&
+            Schema.SObjectType.Contact.fields.LastName.isUpdateable() &&
+            Schema.SObjectType.Contact.fields.LastName.isCreateable() &&
             customerProfiles.size() > 0) {
 
             // If so, then process the customerProfiles
