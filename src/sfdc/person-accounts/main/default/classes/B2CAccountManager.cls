@@ -12,10 +12,12 @@ public with sharing class B2CAccountManager extends B2CBaseMeta {
      * Account (scoped by fieldMappings), and creates a Contact reflecting these field-values.
      *
      * @param personAccountToProcess {Account} Represents the PersonAccount being processed
-     * @param updatedFieldMappings {List<B2C_Integration_Field_Mappings__mdt>} Represents the fieldMappings identifying updated fields
+     * @param updatedFieldMappings {List<B2C_Integration_Field_Mappings__mdt>} Represents the fieldMappings
+     * identifying updated fields
      * @return {Contact} Returns a Contact containing only the updated fields that were identified
      */
-    public static Contact getPublishContact(Account personAccountToProcess, List<B2C_Integration_Field_Mappings__mdt> updatedFieldMappings) {
+    public static Contact getPublishContact(
+        Account personAccountToProcess, List<B2C_Integration_Field_Mappings__mdt> updatedFieldMappings) {
 
         // Initialize local variables
         Contact output;
