@@ -1,9 +1,16 @@
+/**
+ * @author Eric Schultz
+ * @date July 1st, 2021
+ * @description This class is used to exercise the processPeronAccount trigger used
+ * to identify customerProfile changes -- and hand them off to B2C Commerce.
+ */
 @IsTest
 public class B2CProcessPersonAccount_Test {
 
     /**
      * @see B2CProcessPersonAccount.Trigger
-     * @description
+     * @description This test exercises the processAccount trigger and verifies that personAccount
+     * updates can be processed and those changes applied to B2C Commerce.
      */
     @IsTest
     static void testProcess() {
@@ -18,17 +25,15 @@ public class B2CProcessPersonAccount_Test {
             'Enable_Profile_Publishing__c' => true
         });
 
+        // Create the testAccount record
         Account a = new Account(
             RecordTypeId = [
-                SELECT
-                    Id
-                FROM
-                    RecordType
-                WHERE
-                        SobjectType='Account'
-                    AND IsPersonType=TRUE
-                LIMIT
-            1].Id,
+                SELECT  Id
+                FROM    RecordType
+                WHERE   SobjectType='Account'
+                AND     IsPersonType=TRUE
+                LIMIT   1
+            ].Id,
             LastName = 'lastname',
             B2C_Customer_No__pc = '123',
             B2C_CustomerList__pc = customerList.Id,
@@ -36,13 +41,17 @@ public class B2CProcessPersonAccount_Test {
             B2C_Disable_Integration__pc = false
         );
 
-        Database.insert( a );
+        // Insert the test account record
+        Database.insert(a);
 
         Test.startTest();
 
+            // Update a property on the personAccount
             a.PersonEmail = 'b@b.com';
-            Database.update( a );
+            Database.update(a);
 
         Test.stopTest();
+
     }
+
 }
