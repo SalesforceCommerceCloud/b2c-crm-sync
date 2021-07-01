@@ -21,7 +21,9 @@ public with sharing class B2CJWTHelper {
      *
      * @return {String} Returns the encoded JWT token that will be used to authenticate against B2C Commerce
      */
-    public static String getJWT(String sfccHeaderAlgorithm, String sfdcHeaderAlgorithm, String B2CClientID, String certDeveloperName, String audienceUrl, Integer expiresInMinutes) {
+    public static String getJWT(
+        String sfccHeaderAlgorithm, String sfdcHeaderAlgorithm, String B2CClientID, String certDeveloperName,
+        String audienceUrl, Integer expiresInMinutes) {
 
         // Initialize local variables
         String header;

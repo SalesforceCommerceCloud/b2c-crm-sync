@@ -62,7 +62,7 @@ public with sharing class B2CDataSourceAddressBookConnection_Test {
         tableSelection.tableSelected = 'B2C_CustomerAddress__x';
         tableSelection.columnsSelected = new List<DataSource.ColumnSelection>{ columnSelection };
         tableSelection.filter = filter;
-        context.TableSelection = tableSelection;
+        context.tableSelection = tableSelection;
 
         prepareData();
         Test.setMock(HttpCalloutMock.class, new B2CHttpTestCalloutMockGenerator('CustomerAddressSuccess'));
@@ -90,7 +90,7 @@ public with sharing class B2CDataSourceAddressBookConnection_Test {
         DataSource.TableSelection tableSelection = new DataSource.TableSelection();
         tableSelection.tableSelected = 'B2C_CustomerAddress__x';
         tableSelection.columnsSelected = new List<DataSource.ColumnSelection>{ columnSelection };
-        context.TableSelection = tableSelection;
+        context.tableSelection = tableSelection;
 
         prepareData();
         Test.setMock(HttpCalloutMock.class, new B2CHttpTestCalloutMockGenerator('CustomerAddressSuccess'));
@@ -124,7 +124,7 @@ public with sharing class B2CDataSourceAddressBookConnection_Test {
         tableSelection.tableSelected = 'B2C_CustomerAddress__x';
         tableSelection.columnsSelected = new List<DataSource.ColumnSelection>{ columnSelection };
         tableSelection.filter = filter;
-        context.TableSelection = tableSelection;
+        context.tableSelection = tableSelection;
 
         prepareData();
         Test.setMock(HttpCalloutMock.class, new B2CHttpTestCalloutMockGenerator('CustomerAddressFailure'));
@@ -163,7 +163,7 @@ public with sharing class B2CDataSourceAddressBookConnection_Test {
         tableSelection.tableSelected = 'B2C_CustomerAddress__x';
         tableSelection.columnsSelected = new List<DataSource.ColumnSelection>{ columnSelection };
         tableSelection.filter = filter;
-        context.TableSelection = tableSelection;
+        context.tableSelection = tableSelection;
 
         prepareData();
         Test.setMock(HttpCalloutMock.class, new B2CHttpTestCalloutMockGenerator('CustomerAddressesSuccess'));
@@ -202,7 +202,7 @@ public with sharing class B2CDataSourceAddressBookConnection_Test {
         tableSelection.tableSelected = 'B2C_CustomerAddress__x';
         tableSelection.columnsSelected = new List<DataSource.ColumnSelection>{ columnSelection };
         tableSelection.filter = filter;
-        context.TableSelection = tableSelection;
+        context.tableSelection = tableSelection;
 
         prepareData();
         Test.setMock(HttpCalloutMock.class, new B2CHttpTestCalloutMockGenerator('CustomerAddressesSuccess'));
@@ -243,7 +243,7 @@ public with sharing class B2CDataSourceAddressBookConnection_Test {
         tableSelection.tableSelected = 'B2C_CustomerAddress__x';
         tableSelection.columnsSelected = new List<DataSource.ColumnSelection>{ columnSelection };
         tableSelection.filter = filter;
-        context.TableSelection = tableSelection;
+        context.tableSelection = tableSelection;
 
         prepareData();
         Test.setMock(HttpCalloutMock.class, new B2CHttpTestCalloutMockGenerator('CustomerAddressesSuccess'));
@@ -282,7 +282,7 @@ public with sharing class B2CDataSourceAddressBookConnection_Test {
         tableSelection.tableSelected = 'B2C_CustomerAddress__x';
         tableSelection.columnsSelected = new List<DataSource.ColumnSelection>{ columnSelection };
         tableSelection.filter = filter;
-        context.TableSelection = tableSelection;
+        context.tableSelection = tableSelection;
 
         prepareData();
         Test.setMock(HttpCalloutMock.class, new B2CHttpTestCalloutMockGenerator('CustomerAddressesFailure'));

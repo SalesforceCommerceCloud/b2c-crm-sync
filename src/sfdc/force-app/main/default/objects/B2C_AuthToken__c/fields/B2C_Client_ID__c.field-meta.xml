@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--suppress ALL -->
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <fullName>B2C_Client_ID__c</fullName>
     <description>... represents the B2C Client ID used to request an authToken from the B2C Commerce Account Manager.</description>

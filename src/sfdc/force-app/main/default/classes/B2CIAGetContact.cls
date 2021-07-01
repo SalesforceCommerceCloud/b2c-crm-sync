@@ -12,9 +12,11 @@ public with sharing class B2CIAGetContact extends B2CBaseAttributeAssignment {
      * @description Invokable action to retrieve a B2C Contact
      *
      * @param requestArguments {List<B2CIAGetContactInput>} Represents the request arguments to process
-     * @returns {List<B2CIAGetContactResult>} Returns the B2C Contact resolved using request arguments
+     * @return {List<B2CIAGetContactResult>} Returns the B2C Contact resolved using request arguments
      */
-    @InvocableMethod(Label='B2C: Get Contact' Description='Attempts to retrieve details for a B2C Contact containing minimum identifiers and fieldMappings')
+    @InvocableMethod(
+        Label='B2C: Get Contact'
+        Description='Attempts to retrieve details for a B2C Contact containing minimum identifiers and fieldMappings')
     public static List<B2CIAGetContactResult> getContact(List<B2CIAGetContactInput> requestArguments) {
 
         // Initialize local variables

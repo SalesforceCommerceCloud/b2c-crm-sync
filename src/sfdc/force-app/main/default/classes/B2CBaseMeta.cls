@@ -77,7 +77,9 @@ public abstract with sharing class B2CBaseMeta {
      *
      * @return {sObject} Returns an sObject typed based on the sObjectName specified
      */
-    public static SObject processReturnResult(String sObjectName, Boolean returnEmptyObject, List<SObject> recordSet, String errorMsg) {
+    public static SObject processReturnResult(
+        String sObjectName, Boolean returnEmptyObject, List<SObject> recordSet, String errorMsg
+    ) {
 
         // Evaluate if an empty object should be returned
         if (returnEmptyObject == false) {

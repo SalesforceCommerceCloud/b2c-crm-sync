@@ -12,9 +12,8 @@
  *      Matches email, last name, customer list id
  *      Does not match different customer ids
 */
-
 @IsTest
-private class B2CIACustomerResolutionPA_Test {
+public class B2CIACustomerResolutionPA_Test {
 
     @TestSetup static void setup() {
         B2C_CustomerList__c customerList = (B2C_CustomerList__c)TestDataFactory.createSObject('B2C_CustomerList__c', new Map<String,Object>{
