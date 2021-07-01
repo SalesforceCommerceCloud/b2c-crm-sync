@@ -100,9 +100,9 @@ public with sharing class B2CIAProcessCustomerProfile extends B2CBaseAttributeAs
         }
 
         // Was at least one customerProfile record processed?
-        if (Contact.SObjectType.getDescribe().isAccessible() &&
-            Contact.SObjectType.getDescribe().isUpdateable() &&
+        if (Contact.SObjectType.getDescribe().isUpdateable() &&
             Contact.SObjectType.getDescribe().isCreateable() &&
+            Contact.SObjectType.getDescribe().isAccessible() &&
             customerProfiles.size() > 0) {
 
             // If so, then process the customerProfiles
