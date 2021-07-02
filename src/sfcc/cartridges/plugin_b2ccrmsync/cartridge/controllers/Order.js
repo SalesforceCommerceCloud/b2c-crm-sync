@@ -1,4 +1,3 @@
-/* global customer:false */
 'use strict';
 
 // Initialize local variables

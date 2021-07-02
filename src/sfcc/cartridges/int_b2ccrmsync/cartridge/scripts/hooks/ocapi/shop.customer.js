@@ -1,19 +1,23 @@
+// noinspection FunctionWithMultipleReturnPointsJS
+
 'use strict';
 
-var Logger = require('dw/system/Logger')
+var Logger = require('dw/system/Logger');
 var Status = require('dw/system/Status');
 var Site = require('dw/system/Site');
 
 /**
  * @function afterPOST
- * @description This hook is used to synchronize customer registrations with the Salesforce Platform
- * triggered by OCAPI / headless interactions
+ * @description This hook is used to synchronize customer registrations with the Salesforce
+ * Platform triggered by OCAPI / headless interactions
+ *
  * @param {Object} customer Represents the customer being registered
  * @param {Object} customerRegistration Describes the post used to register a customer
  */
+// eslint-disable-next-line no-unused-vars
 function afterPOST(customer, customerRegistration) {
     if (!Site.getCurrent().getCustomPreferenceValue('b2ccrm_syncCustomersViaOCAPI') || !customer.isAuthenticated()) {
-        return;
+        return new Status(Status.OK);
     }
 
     var LOGGER = Logger.getLogger('int_b2ccrmsync', 'hooks.ocapi.shop.auth.afterPOST');
@@ -31,12 +35,14 @@ function afterPOST(customer, customerRegistration) {
  * @function afterPATCH
  * @description This hook is used to synchronize customer profile updates with the
  * Salesforce Platform triggered by OCAPI / headless interactions
+ *
  * @param {Object} customer Represents the customer being updated
  * @param {Object} customerRegistration Describes the post used to update the customer profile
  */
+// eslint-disable-next-line no-unused-vars
 function afterPATCH(customer, customerRegistration) {
     if (!Site.getCurrent().getCustomPreferenceValue('b2ccrm_syncCustomersViaOCAPI') || !customer.isAuthenticated()) {
-        return;
+        return new Status(Status.OK);
     }
 
     var LOGGER = Logger.getLogger('int_b2ccrmsync', 'hooks.ocapi.shop.auth.afterPATCH');

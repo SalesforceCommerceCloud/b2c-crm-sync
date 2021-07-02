@@ -1,3 +1,5 @@
+// noinspection FunctionWithMultipleReturnPointsJS,FunctionTooLongJS,AssignmentToFunctionParameterJS
+
 'use strict';
 
 /**
@@ -5,25 +7,27 @@
  */
 
 /**
- * @type {dw/system/Logger}
+ * @type {dw/system/Log}
  */
 var LOGGER = require('dw/system/Logger').getLogger('int_b2ccrmsync', 'hooks.customer.retrieve');
 
 /**
  * @type {Array}
  */
-var PROFILE_REQUIRED_KEYS = ['Id', 'B2C_Customer_ID__c', 'B2C_CustomerList_ID__c', 'B2C_Customer_No__c', 'Email', 'Lastname'];
+var PROFILE_REQUIRED_KEYS = [
+    'Id', 'B2C_Customer_ID__c', 'B2C_CustomerList_ID__c', 'B2C_Customer_No__c', 'Email', 'Lastname'
+];
 
 /**
- * This returns true if the integration with the Salesforce Platform is enabled or false otherwise
- *
- * @return {Boolean}
+ * @description This returns true if the integration with the Salesforce Platform is enabled
+ * or false otherwise no access is provided.
+ * @return {Boolean} Returns a true / false value describing if integration is enabled
  */
 function isIntegrationEnabled() {
     var Site = require('dw/system/Site').getCurrent();
     var isSyncEnabled = Site.getCustomPreferenceValue('b2ccrm_syncIsEnabled');
     var isSyncCustomersEnabled = Site.getCustomPreferenceValue('b2ccrm_syncCustomersEnabled');
-    return isSyncEnabled && isSyncCustomersEnabled;
+    return !!(isSyncEnabled && isSyncCustomersEnabled);
 }
 
 /**
@@ -33,19 +37,31 @@ function isIntegrationEnabled() {
  * Either an SFCC profile, or an object with a key/value pair of required parameters to search in the Salesforce Core platform
  * @param {Boolean} saveContactIdOnProfile If this is {true} and the customer is successfully retrieved from the Salesforce Core platform, the contact Id is saved on the currently authenticated profile
  *
- * @return {Object} The response object from the Salesforce Core platform in case the customer has been successfully retrieved, or undefined otherwise
+ * @returns {Object|*} The response object from the Salesforce Core platform in case the customer has been successfully retrieved, or undefined otherwise
  */
 function customerRetrieve(profileDetails, saveContactIdOnProfile) {
-    if (!isIntegrationEnabled() || !profileDetails) {
-        return;
-    }
+    if (!isIntegrationEnabled() || !profileDetails) { return; }
 
-    saveContactIdOnProfile = saveContactIdOnProfile || false;
+    /**
+     * @typedef resultObject Represents the resultObject returned by the B2CContactProcess service
+     * @type {Object}
+     * @property {Boolean} isSuccess Describes if resolution was successful or not
+     * @property {Array} errors Includes any errors returned by the service
+     * @property {Object} outputValues Represents the collection of returnValues provided by the service
+     * @property {Array.<{Id: String, AccountId: String}>} outputValues.ContactListResolved Describes the collection of resolved contacts
+     * @property {Object} outputValues.Contact Describes the Salesforce Contact resolved for the B2C Customer Profile
+     * @property {String} outputValues.Contact.Id Represents the primary key of the resolved Salesforce Contact
+     * @property {String} outputValues.Contact.AccountId Represents the primary key of the parent Salesforce Account
+     */
+
+    saveContactIdOnProfile = !!(saveContactIdOnProfile || false);
     var areDetailsAnInstanceOfProfile = profileDetails instanceof dw.customer.Profile;
 
     try {
-        var requestBody = undefined;
+
         var profileModel = new (require('../models/customer'))(areDetailsAnInstanceOfProfile ? profileDetails : undefined, 'retrieve');
+        var requestBody;
+
         if (areDetailsAnInstanceOfProfile) {
             requestBody = profileModel.getRetrieveRequestBody();
         } else {
@@ -54,12 +70,11 @@ function customerRetrieve(profileDetails, saveContactIdOnProfile) {
             })) {
                 return;
             }
-
             requestBody = profileModel.getRetrieveRequestBody(profileDetails);
         }
 
         var ServiceMgr = require('../services/ServiceMgr');
-        LOGGER.info('Retriving the customer profile to Salesforce core. Here is the request body: {0}', requestBody);
+        LOGGER.info('Retrieving the customer profile to Salesforce core. Here is the request body: {0}', requestBody);
         var result = ServiceMgr.callRestService('customer', 'retrieve', requestBody);
 
         // Error while calling the service

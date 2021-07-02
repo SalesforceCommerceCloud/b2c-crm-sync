@@ -1,4 +1,3 @@
-/* global request: false, session:false */
 'use strict';
 
 /**

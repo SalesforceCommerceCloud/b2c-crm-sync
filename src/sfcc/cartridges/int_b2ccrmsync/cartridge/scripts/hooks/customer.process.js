@@ -1,3 +1,5 @@
+// noinspection FunctionWithMultipleReturnPointsJS
+
 'use strict';
 
 /**
@@ -5,28 +7,29 @@
  */
 
 /**
- * @type {dw/system/Logger}
+ * @type {dw/system/Log}
  */
 var LOGGER = require('dw/system/Logger').getLogger('int_b2ccrmsync', 'hooks.customer.process');
 
 /**
- * This returns true if the integration with the Salesforce Platform is enabled or false otherwise
+ * @description This returns true if the integration with the Salesforce Platform is enabled or
+ * false otherwise; we use it to determine if we can leverage the integration with Salesforce
  *
- * @return {Boolean}
+ * @return {Boolean} Returns true if the integration is enabled; false if not
  */
 function isIntegrationEnabled() {
     var Site = require('dw/system/Site').getCurrent();
     var isSyncEnabled = Site.getCustomPreferenceValue('b2ccrm_syncIsEnabled');
     var isSyncCustomersEnabled = Site.getCustomPreferenceValue('b2ccrm_syncCustomersEnabled');
-    return isSyncEnabled && isSyncCustomersEnabled;
+    return !!(isSyncEnabled && isSyncCustomersEnabled);
 }
 
 /**
- * Helper method to identify if the SFDC identifiers are present in a given customerProfile.  Evaluates
- * if the ContactID attribute exists, was set, and has an actual value.
+ * @description Helper method to identify if the SFDC identifiers are present in a given
+ * customerProfile.  Evaluates if the ContactID attribute exists, was set, and has an actual value.
  *
- * @param {dw/customer/Profile} profile
- * @return {Boolean}
+ * @param {dw/customer/Profile} profile Represents the customer profile being evaluated
+ * @return {Boolean} Returns true if a ContactID is present and valid; false otherwise
  */
 function sfdcContactIDIdentifierPresent(profile) {
 
@@ -48,11 +51,12 @@ function sfdcContactIDIdentifierPresent(profile) {
 }
 
 /**
- * Customer logged-in
- * Ensure the customer sync and logged-in sync are enabled, and the customer has never been synchronized to the Salesforce Core platform
- * And if so, process the customer sync with the Salesforce Core platform
+ * @description Ensure the customer sync and logged-in sync are enabled, and the customer has never
+ * been synchronized to the Salesforce Core platform and if so, process the customer sync with the
+ * Salesforce Core platform (for customers that are logged-in)
  *
- * @param {dw/customer/Profile} profile
+ * @param {dw/customer/Profile} profile Represents the customer profile being evaluated
+ * @returns {undefined} Returns early if permissions / synchronization configuration isn't aligned
  */
 function customerLoggedIn(profile) {
     if (!isIntegrationEnabled() || !profile) {
@@ -68,14 +72,16 @@ function customerLoggedIn(profile) {
         return;
     }
 
+    // Otherwise, go ahead and handle the login-process
     handleProcess(profile, 'login');
 }
 
 /**
- * Customer created
- * Ensure the customer sync is enabled, and if so, process the customer sync with the Salesforce platform
+ * @description Ensure the customer sync is enabled, and if so, process the customer sync
+ * with the Salesforce platform (for customers that have been created)
  *
- * @param {dw/customer/Profile} profile
+ * @param {dw/customer/Profile} profile Represents the customer profile being evaluated
+ * @returns {undefined} Returns early if permissions / synchronization configuration isn't aligned
  */
 function customerCreated(profile) {
     if (!isIntegrationEnabled() || !profile) {
@@ -86,10 +92,11 @@ function customerCreated(profile) {
 }
 
 /**
- * Customer updated
- * Ensure the customer sync is enabled, and if so, process the customer sync with the Salesforce platform
+ * @description Ensure the customer sync is enabled, and if so, process the customer sync
+ * with the Salesforce platform (updating customers that already exist in B2C Commerce)
  *
- * @param {dw/customer/Profile} profile
+ * @param {dw/customer/Profile} profile Represents the customer profile being evaluated
+ * @returns {undefined} Returns early if permissions / synchronization configuration isn't aligned
  */
 function customerUpdated(profile) {
     if (!isIntegrationEnabled() || !profile) {
@@ -102,10 +109,23 @@ function customerUpdated(profile) {
 /**
  * This method will send the given {profile} details to Salesforce Core through REST API
  *
- * @param {dw/customer/Profile} profile
+ * @param {dw/customer/Profile} profile Represents the customer profile being evaluated
  * @param {String} action The action that triggered the process (create/update/login)
+ * @returns {undefined} Returns early if permissions / synchronization configuration isn't aligned
  */
 function handleProcess(profile, action) {
+
+    /**
+     * @typedef resultObject Represents the resultObject returned by the B2CContactProcess service
+     * @type {Object}
+     * @property {Boolean} isSuccess Describes if resolution was successful or not
+     * @property {Array} errors Includes any errors returned by the service
+     * @property {Object} outputValues Represents the collection of returnValues provided by the service
+     * @property {Object} outputValues.Contact Describes the Salesforce Contact resolved for the B2C Customer Profile
+     * @property {String} outputValues.Contact.Id Represents the primary key of the resolved Salesforce Contact
+     * @property {String} outputValues.Contact.AccountId Represents the primary key of the parent Salesforce Account
+     */
+
     var ServiceMgr = require('../services/ServiceMgr');
     var profileModel = new (require('../models/customer'))(profile, 'process');
 

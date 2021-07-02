@@ -1,4 +1,3 @@
-/* global session:false */
 'use strict';
 
 /**
