@@ -1,3 +1,4 @@
+/* global request:false */
 'use strict';
 
 /**
