@@ -11,7 +11,10 @@ server.extend(module.superModule);
  */
 
 /**
- * @description Extend the createAccount method to call the app.customer.created custom-hook
+ * @description Extend the createAccount method to call the app.customer.created custom-hook.  When
+ * an account is registered after placing an order, a corresponding contact will be created in the
+ * Salesforce Platform.
+ *
  * @param name {String} Name of the route to modify
  * @param arguments {Function} List of functions to be appended
  */

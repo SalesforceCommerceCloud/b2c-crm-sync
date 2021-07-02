@@ -1,11 +1,13 @@
+/* global request: false, session:false */
 'use strict';
 
 /**
- * @private
- * @function function renderAgentHeader
- * @description Overriding the session-initialization to handle the Order-On-Behalf from Service-Cloud for guest customers.
- * For guest customers, PlaceHolder customer is used to establish an Auth between SC & CC. This is to create an agent session.
- * Once the auth is created, this PlaceHolder session is explicitly invalidated, but the agent context remains active.
+ * @function renderAgentHeader
+ * @description Overriding the session-initialization to handle the Order-On-Behalf from Service-Cloud for
+ * guest customers.  For guest customers, a placeHolder customer is used to establish an Auth between SC & CC.
+ *
+ * This is to create an agent session. Once the auth is created, this PlaceHolder session is explicitly
+ * invalidated, but the agent context remains active.
  */
 function renderAgentHeader() {
 
@@ -35,15 +37,15 @@ function renderAgentHeader() {
     isAgentHeaderEnabled = Site.getCustomPreferenceValue('b2ccrm_syncAgentHeaderIsEnabled');
 
     // Evaluate if the agentHeader should be rendered (either force rendering via a URL parameter or evaluate the siteConfig and session to determine rendering)
-    if ((agentHeaderParam.value == 'customer' || agentHeaderParam.value == 'anonymous') ||
-        (isSyncEnabled == true && isAgentHeaderEnabled == true && session.userName != 'storefront' && session.userName != 'registered')) {
+    if ((agentHeaderParam.value === 'customer' || agentHeaderParam.value === 'anonymous')
+        || (isSyncEnabled === true && isAgentHeaderEnabled === true && session.userName !== 'storefront' && session.userName !== 'registered')) {
 
         // Default the customerName;
         customerName = '';
         customerNo = '';
 
         // Evaluate which type of agent-header is being rendered
-        if (session.userName != 'storefront' && session.customer.authenticated || agentHeaderParam.value == 'customer') {
+        if (session.userName !== 'storefront' && (session.customer.authenticated || agentHeaderParam.value === 'customer')) {
 
             // Default the view-mode
             displayAgentHeader = 'customer';
@@ -59,23 +61,23 @@ function renderAgentHeader() {
 
                 // Append the lastName to the customerName
                 if (session.customer.profile.lastName.length > 0) {
-                    if (customerName.length > 0) { customerName = customerName + ' '; }
-                    customerName = customerName & session.customer.profile.lastName;
+                    if (customerName.length > 0) { customerName += ' '; }
+                    customerName += session.customer.profile.lastName;
                 }
 
             }
 
         // Otherwise, handle rendering the anonymous customer agentHeader
-        } else if ((session.userName != 'storefront' && session.userName != 'registered') || agentHeaderParam.value == 'anonymous') {
+        } else if ((session.userName !== 'storefront' && session.userName !== 'registered') || agentHeaderParam.value === 'anonymous') {
             displayAgentHeader = 'anonymous';
         }
 
         // Default the customerName and customerNo using resourceLabels if the values were not automatically defaulted
-        if (customerName.length == 0) { customerName = Resource.msg('agentheader.customername','b2ccrmsync',null); }
-        if (customerNo.length == 0) { customerNo = Resource.msg('agentheader.customerno','b2ccrmsync',null); }
+        if (customerName.length === 0) { customerName = Resource.msg('agentheader.customername', 'b2ccrmsync', null); }
+        if (customerNo.length === 0) { customerNo = Resource.msg('agentheader.customerno', 'b2ccrmsync', null); }
 
         // Render the Service Agent OOBO Header
-        ISML.renderTemplate('components/header/agentOOBOHeader',{
+        ISML.renderTemplate('components/header/agentOOBOHeader', {
             customerName: customerName,
             customerNo: customerNo,
             agentHeader: displayAgentHeader,
@@ -87,4 +89,3 @@ function renderAgentHeader() {
 }
 
 exports.beforeHeader = renderAgentHeader;
-
