@@ -151,6 +151,7 @@ describe('int_b2ccrmsync/cartridge/scripts/hooks/customer.retrieve', function ()
                 status: 'OK',
                 object: customerRetrieveMock
             });
+
             const result = customerRetrieveHook.retrieve(profile, true);
 
             expect(result).to.not.be.undefined;

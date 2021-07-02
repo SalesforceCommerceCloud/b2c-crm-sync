@@ -19,6 +19,7 @@ var PROFILE_REQUIRED_KEYS = [
 ];
 
 /**
+ * @function isIntegrationEnabled
  * @description This returns true if the integration with the Salesforce Platform is enabled
  * or false otherwise no access is provided.
  * @return {Boolean} Returns a true / false value describing if integration is enabled
@@ -31,7 +32,8 @@ function isIntegrationEnabled() {
 }
 
 /**
- * Retrieve the profile within the Salesforce core platform based on the given {profileDetails}
+ * @function customerRetrieve
+ * @description Retrieve the profile within the Salesforce core platform based on the given {profileDetails}
  *
  * @param {dw/customer/Profile|Object} profileDetails The profile details to use while retrieving the customer from the Salesforce Core platform.
  * Either an SFCC profile, or an object with a key/value pair of required parameters to search in the Salesforce Core platform
@@ -59,6 +61,7 @@ function customerRetrieve(profileDetails, saveContactIdOnProfile) {
 
     try {
 
+        /** @typeof {Customer} */
         var profileModel = new (require('../models/customer'))(areDetailsAnInstanceOfProfile ? profileDetails : undefined, 'retrieve');
         var requestBody;
 

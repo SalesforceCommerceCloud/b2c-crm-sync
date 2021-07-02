@@ -8,18 +8,25 @@
  */
 var MAX_SET_ENTRIES = 200;
 
-/**
- * @constructor
- * @description Customer class
- * @alias module:models/customer~Customer
- * @param {dw/customer/Profile} [profile] Profile Represents the B2C Commerce customer profile
- */
-function Customer(profile) {
+ /**
+  * @object {Class}
+  * @typedef Customer This class is used to manage B2C Customer profile and REST API orchestration
+  * activities between B2C Commerce and the Salesforce Platform
+  * @property {Function} getRetrieveRequestBody Builds up the request body for the retrieve REST API operation
+  * @property {Function} getProcessRequestBody Builds up the request body for the retrieve REST API operation
+  * @property {Function} updateStatus Save / write the integration status on the profile being interacted with
+  * @property {Function} updateExternalId Update the AccountId and ContactId attributes from the Salesforce Platform
+  * @property {Function} updateSyncResponseText Audit a given synchronization event with a message and timestamp
+  *
+  * @constructor
+  * @param {dw/customer/Profile} [profile] Profile Represents the B2C Commerce customer profile
+  */
+function Customer (profile) {
 
     // Initialize local variables
     var profileDef;
 
-    /** @type {dw/customer/Profile} */
+    // Write the profile details
     this.profile = profile;
 
     /**
@@ -35,16 +42,16 @@ function Customer(profile) {
      */
 
     // Was a profile defined?
-    if (this.profile) {
+    if (this.profile !== undefined) {
 
         /** @type {profileDef} */
         profileDef = {
-            B2C_Customer_ID__c: this.profile.getCustomer().getID().toString(),
-            B2C_Customer_No__c: this.profile.getCustomerNo().toString(),
-            FirstName: this.profile.getFirstName().toString(),
-            LastName: this.profile.getLastName().toString(),
-            Email: this.profile.getEmail().toString(),
-            B2C_CustomerList_ID__c: require('dw/customer/CustomerMgr').getSiteCustomerList().getID().toString()
+            B2C_Customer_ID__c: this.profile.getCustomer().getID(),
+            B2C_Customer_No__c: this.profile.getCustomerNo(),
+            FirstName: this.profile.getFirstName(),
+            LastName: this.profile.getLastName(),
+            Email: this.profile.getEmail(),
+            B2C_CustomerList_ID__c: require('dw/customer/CustomerMgr').getSiteCustomerList().getID()
         };
 
         // Send the Salesforce Core Account Id in case of update, or null in case of creation
@@ -62,10 +69,12 @@ function Customer(profile) {
 
     }
 
-    // Initialize the API container
-    var api = {};
+}
+
+Customer.prototype = {
 
     /**
+     * @memberOf Customer
      * @function getRetrieveRequestBody
      * @description Builds up the request body for the retrieve REST API operation
      *
@@ -73,44 +82,47 @@ function Customer(profile) {
      * model in the generated request body if provided
      * @returns {String} Returns the body used to invoke the B2CContactResolve service
      */
-    api.getRetrieveRequestBody = function (profileDetails) {
+    getRetrieveRequestBody : function (profileDetails) {
         if (!profileDetails && !this.profile) { return undefined; }
         return JSON.stringify({
             inputs: [{
                 ContactList: [profileDetails || this.profileRequestObjectRepresentation]
             }]
         });
-    };
+    },
 
     /**
+     * @memberOf Customer
      * @function getProcessRequestBody
      * @description Builds up the request body for the process REST API operation
      *
      * @returns {String} Returns the body to be used by the B2CContactProcess serviceRequest
      */
-    api.getProcessRequestBody = function () {
+    getProcessRequestBody : function () {
         if (!this.profile) { return undefined; }
         return JSON.stringify({
             inputs: [{
                 sourceContact: this.profileRequestObjectRepresentation
             }]
         });
-    };
+    },
 
     /**
      * @function updateStatus
+     * @memberOf Customer
      * @description Update the {custom.b2ccrm_syncStatus} attribute with the given {status}
      *
      * @param {String} status The status to save on the profile
      */
-    api.updateStatus = function (status) {
+    updateStatus : function (status) {
         if (!this.profile) { return; }
         require('dw/system/Transaction').wrap(function () {
             this.profile.custom.b2ccrm_syncStatus = status;
         }.bind(this));
-    };
+    },
 
     /**
+     * @memberOf Customer
      * @function updateExternalId
      * @description Update the {custom.b2ccrm_accountId} and {custom.b2ccrm_contactId} attribute
      * with the given {accountID} and {contactID} from the Salesforce Platform
@@ -118,21 +130,22 @@ function Customer(profile) {
      * @param {String} accountID The Salesforce Core account ID to save on the customer profile
      * @param {String} contactID The Salesforce Core contact ID to save on the customer profile
      */
-    api.updateExternalId = function (accountID, contactID) {
+    updateExternalId: function (accountID, contactID) {
         if (!this.profile) { return; }
         require('dw/system/Transaction').wrap(function () {
             if (accountID) { this.profile.custom.b2ccrm_accountId = accountID; }
             if (contactID) { this.profile.custom.b2ccrm_contactId = contactID; }
         }.bind(this));
-    };
+    },
 
     /**
+     * @memberOf Customer
      * @function updateSyncResponseText
      * @description Update the {custom.b2ccrm_syncResponseText} attribute with the given {text}
      *
      * @param {String} text The text to save within the sync-response-text set-of-string on the profile
      */
-    api.updateSyncResponseText = function (text) {
+    updateSyncResponseText: function (text) {
         if (!this.profile) { return; }
         require('dw/system/Transaction').wrap(function () {
             var syncResponseText = (this.profile.custom.b2ccrm_syncResponseText || []).slice(0);
@@ -144,9 +157,6 @@ function Customer(profile) {
         }.bind(this));
 
     }
-
-    // Return the exposed functions
-    return api;
 
 }
 
