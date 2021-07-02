@@ -1,5 +1,7 @@
 {
-	"caches": [{
-		"id": "b2ccrmsync"
-	}]
+  "caches": [
+    {
+      "id": "b2ccrmsync"
+    }
+  ]
 }

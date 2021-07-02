@@ -1,3 +1,4 @@
+/* global session:false */
 'use strict';
 
 /**
@@ -39,4 +40,3 @@ function sessionHandler() {
 }
 
 exports.onSession = sessionHandler;
-
