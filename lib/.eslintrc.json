@@ -229,7 +229,7 @@
         // disallow use of undeclared variables unless mentioned in a /*global */ block
         "no-undef-init": 2,
         // disallow use of undefined when initializing variables
-        "no-undefined": 2,
+        "no-undefined": 0,
         // disallow use of undefined variable (off by default)
         "no-unused-vars": 2,
         // disallow declaration of variables that are not used in the code
@@ -248,7 +248,7 @@
         // this option sets a specific tab width for your code (off by default)
         "brace-style": 0,
         // enforce one true brace style (off by default)
-        "camelcase": 1,
+        "camelcase": 0,
         // require camel case names
         "comma-spacing": [
             1,
