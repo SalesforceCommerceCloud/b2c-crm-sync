@@ -91,7 +91,12 @@
         // disallow reserved words being used as object literal keys (off by default)
         "use-isnan": 2,
         // disallow comparisons with the value NaN
-        "valid-jsdoc": 2,
+        "valid-jsdoc": [
+            2,
+            {
+                "requireReturn": false
+            }
+        ],
         // Ensure JSDoc comments are valid (off by default)
         "valid-typeof": 2,
         // Ensure that the results of typeof are compared against a valid string
@@ -166,6 +171,8 @@
         // disallow reassignment of function parameters (off by default)
         "no-process-env": 2,
         // disallow use of process.env (off by default)
+        "no-async-promise-executor": 2,
+        // disallow using an async function as a Promise executor
         "no-proto": 2,
         // disallow usage of __proto__ property
         "no-redeclare": 2,
