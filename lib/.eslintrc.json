@@ -211,6 +211,8 @@
         //
         "strict": 0,
         // controls location of Use Strict Directives. 0: required by `babel-eslint`
+        "no-prototype-builtins": 1,
+        // Disallow use of Object.prototypes builtins directly
 
         // Variables
         // These rules have to do with variable declarations.
@@ -453,7 +455,7 @@
         // specify the maximum number of statement allowed in a function (off by default)
         "no-bitwise": 0,
         // disallow use of bitwise operators (off by default)
-        "no-plusplus": 2
+        "no-plusplus": 0
         // disallow use of unary operators, ++ and -- (off by default)
     }
 }
