@@ -410,7 +410,7 @@ module.exports = {
             "ocapi": {
 
                 // Default the OCAPI test version number
-                "version": "v20_9",
+                "version": "v21_03",
 
                 // Default the site(s) to test with
                 "siteId": "RefArch",

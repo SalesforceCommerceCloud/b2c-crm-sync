@@ -2,7 +2,7 @@
 <GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
     <customValue>
         <fullName>v21_03</fullName>
-        <default>false</default>
+        <default>true</default>
         <label>v21_03</label>
     </customValue>
     <customValue>
@@ -12,7 +12,7 @@
     </customValue>
     <customValue>
         <fullName>v20_10</fullName>
-        <default>true</default>
+        <default>false</default>
         <label>v20_10</label>
     </customValue>
     <customValue>
