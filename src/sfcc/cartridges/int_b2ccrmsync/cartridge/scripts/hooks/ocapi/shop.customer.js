@@ -11,6 +11,7 @@ var Site = require('dw/system/Site');
  *
  * @param {Object} customer Represents the customer being registered
  * @param {Object} customerRegistration Describes the post used to register a customer
+ * @returns {Status} Returns the status for the OCAPI request
  */
 // eslint-disable-next-line no-unused-vars
 function afterPOST(customer, customerRegistration) {
@@ -36,6 +37,7 @@ function afterPOST(customer, customerRegistration) {
  *
  * @param {Object} customer Represents the customer being updated
  * @param {Object} customerRegistration Describes the post used to update the customer profile
+ * @returns {Status} Returns the status for the OCAPI request
  */
 // eslint-disable-next-line no-unused-vars
 function afterPATCH(customer, customerRegistration) {

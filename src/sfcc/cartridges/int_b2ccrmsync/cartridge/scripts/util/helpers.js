@@ -26,15 +26,16 @@ function expandJSON(jsonString, defaultValue) {
 }
 
 /**
- * This returns true if the integration with the Salesforce Platform is enabled or false otherwise
+ * @description This returns true if the integration with the Salesforce Platform
+ * is enabled or false otherwise
  *
- * @return {Boolean}
+ * @return {Boolean} Returns true if integration is enabled; false if not
  */
- function isIntegrationEnabled() {
+function isIntegrationEnabled() {
     var Site = require('dw/system/Site').getCurrent();
     var isSyncEnabled = Site.getCustomPreferenceValue('b2ccrm_syncIsEnabled');
     var isSyncCustomersEnabled = Site.getCustomPreferenceValue('b2ccrm_syncCustomersEnabled');
-    return isSyncEnabled && isSyncCustomersEnabled;
+    return !!(isSyncEnabled && isSyncCustomersEnabled);
 }
 
 /**
@@ -44,7 +45,7 @@ function expandJSON(jsonString, defaultValue) {
  * @param {dw/customer/Profile} profile
  * @return {Boolean}
  */
- function sfdcContactIDIdentifierPresent(profile) {
+function sfdcContactIDIdentifierPresent(profile) {
     // Is the profile empty?
     if (profile === null || profile === undefined) { return false; }
 

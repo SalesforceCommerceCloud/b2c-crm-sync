@@ -14,7 +14,11 @@ server.extend(module.superModule);
 server.append('Login', function (req, res, next) {
     this.on('route:Complete', function () {
         if (customer.isAuthenticated() && require('dw/system/HookMgr').hasHook('app.customer.loggedIn')) {
-            require('dw/system/HookMgr').callHook('app.customer.loggedIn', 'loggedIn', customer.getProfile());
+            require('dw/system/HookMgr').callHook(
+                'app.customer.loggedIn',
+                'loggedIn',
+                customer.getProfile()
+            );
         }
     });
     next();
@@ -30,7 +34,11 @@ server.append('Login', function (req, res, next) {
 server.append('SubmitRegistration', function (req, res, next) {
     this.on('route:Complete', function () {
         if (customer.isAuthenticated() && require('dw/system/HookMgr').hasHook('app.customer.created')) {
-            require('dw/system/HookMgr').callHook('app.customer.created', 'created', customer.getProfile());
+            require('dw/system/HookMgr').callHook(
+                'app.customer.created',
+                'created',
+                customer.getProfile()
+            );
         }
     });
     next();
@@ -46,7 +54,11 @@ server.append('SubmitRegistration', function (req, res, next) {
 server.append('SaveProfile', function (req, res, next) {
     this.on('route:Complete', function () {
         if (customer.isAuthenticated() && require('dw/system/HookMgr').hasHook('app.customer.updated')) {
-            require('dw/system/HookMgr').callHook('app.customer.updated', 'updated', customer.getProfile());
+            require('dw/system/HookMgr').callHook(
+                'app.customer.updated',
+                'updated',
+                customer.getProfile()
+            );
         }
     });
     next();
