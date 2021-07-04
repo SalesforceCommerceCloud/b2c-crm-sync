@@ -8,6 +8,7 @@ src/sfdc/force-app/main/default/classes/TestDataFactory.cls
 src/sfdc/force-app/main/default/classes/TestDataFactory_Test.cls
 
 # Ignore our non-customer-facing test libraries
+test
 test/cli
 test/apis
 test/_common/poc-validation
