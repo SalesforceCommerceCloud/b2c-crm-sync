@@ -29,6 +29,64 @@
         </group-definitions>
     </type-extension>
 
+    <type-extension type-id="Order">
+        <custom-attribute-definitions>
+            <attribute-definition attribute-id="b2ccrm_accountId">
+                <display-name xml:lang="x-default">Salesforce Platform Account ID</display-name>
+                <description xml:lang="x-default">Represents the Salesforce Platform Account Id found on a given Customer Record tied to this order.</description>
+                <type>string</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <min-length>0</min-length>
+            </attribute-definition>
+            <attribute-definition attribute-id="b2ccrm_contactId">
+                <display-name xml:lang="x-default">Salesforce Platform Contact ID</display-name>
+                <description xml:lang="x-default">Represents the Salesforce Platform Contact Id found on a given Customer Record tied to this order.</description>
+                <type>string</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <min-length>0</min-length>
+            </attribute-definition>
+            <attribute-definition attribute-id="b2ccrm_syncStatus">
+                <display-name xml:lang="x-default">Profile Synchronization Status</display-name>
+                <description xml:lang="x-default">Describes the Salesforce B2C CRM Sync Customer Record synchronization status.</description>
+                <type>enum-of-string</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <value-definitions>
+                    <value-definition>
+                        <display xml:lang="x-default">Not exported</display>
+                        <value>not_exported</value>
+                    </value-definition>
+                    <value-definition>
+                        <display xml:lang="x-default">Exported</display>
+                        <value>exported</value>
+                    </value-definition>
+                    <value-definition>
+                        <display xml:lang="x-default">Failed to export</display>
+                        <value>failed</value>
+                    </value-definition>
+                </value-definitions>
+            </attribute-definition>
+            <attribute-definition attribute-id="b2ccrm_syncResponseText">
+                <display-name xml:lang="x-default">Salesforce Platform Response Text</display-name>
+                <description xml:lang="x-default">Stores the response from B2C-CRM-Sync Customer Record synchronization attempts.</description>
+                <type>set-of-string</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+            </attribute-definition>
+        </custom-attribute-definitions>
+        <group-definitions>
+            <attribute-group group-id="B2CCRMSync">
+                <display-name xml:lang="x-default">B2C-CRM-Sync Properties</display-name>
+                <attribute attribute-id="b2ccrm_accountId"/>
+                <attribute attribute-id="b2ccrm_contactId"/>
+                <attribute attribute-id="b2ccrm_syncStatus"/>
+                <attribute attribute-id="b2ccrm_syncResponseText"/>
+            </attribute-group>
+        </group-definitions>
+    </type-extension>
+
     <type-extension type-id="Profile">
         <custom-attribute-definitions>
             <attribute-definition attribute-id="b2ccrm_accountId">
@@ -145,6 +203,30 @@
                 <externally-managed-flag>false</externally-managed-flag>
                 <default-value>not-defined</default-value>
             </attribute-definition>
+            <attribute-definition attribute-id="b2ccrm_syncCustomersFromOrdersEnabled">
+                <display-name xml:lang="x-default">Synchronize Customers from order placement?</display-name>
+                <description xml:lang="x-default">When enabled, customer profiles are synchronized with the Salesforce Platform when an order is placed. The Salesforce Platform IDs are then stored on the order.</description>
+                <type>boolean</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <default-value>false</default-value>
+            </attribute-definition>
+            <attribute-definition attribute-id="b2ccrm_syncCustomersFromGuestOrdersOnlyEnabled">
+                <display-name xml:lang="x-default">Synchronize Customers from guest order placement only?</display-name>
+                <description xml:lang="x-default">When enabled, customer profiles are synchronized with the Salesforce Platform when an order is placed and the order is an anonymous order. The Salesforce Platform IDs are then stored on the order.</description>
+                <type>boolean</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <default-value>false</default-value>
+            </attribute-definition>
+            <attribute-definition attribute-id="b2ccrm_syncCustomersFromOrdersViaOCAPI">
+                <display-name xml:lang="x-default">Synchronize Customers from order placement via OCAPI?</display-name>
+                <description xml:lang="x-default">When enabled, customer profiles are synchronized with the Salesforce Platform when an order is placed for supported use-cases via OCAPI Hooks (to support Headless Scenarios).</description>
+                <type>boolean</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <default-value>false</default-value>
+            </attribute-definition>
         </custom-attribute-definitions>
          <group-definitions>
             <attribute-group group-id="B2CCRMSyncAssistedShopping">
@@ -159,6 +241,9 @@
                 <attribute attribute-id="b2ccrm_syncCustomersOnLoginEnabled"/>
                 <attribute attribute-id="b2ccrm_syncCustomersOnLoginOnceEnabled"/>
                 <attribute attribute-id="b2ccrm_syncCustomersViaOCAPI"/>
+                <attribute attribute-id="b2ccrm_syncCustomersFromOrdersEnabled"/>
+                <attribute attribute-id="b2ccrm_syncCustomersFromGuestOrdersOnlyEnabled"/>
+                <attribute attribute-id="b2ccrm_syncCustomersFromOrdersViaOCAPI"/>
             </attribute-group>
         </group-definitions>
     </type-extension>

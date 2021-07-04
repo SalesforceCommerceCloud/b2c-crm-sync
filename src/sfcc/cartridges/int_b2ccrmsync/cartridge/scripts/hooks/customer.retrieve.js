@@ -12,37 +12,18 @@
 var LOGGER = require('dw/system/Logger').getLogger('int_b2ccrmsync', 'hooks.customer.retrieve');
 
 /**
- * @type {Array}
- */
-var PROFILE_REQUIRED_KEYS = [
-    'Id', 'B2C_Customer_ID__c', 'B2C_CustomerList_ID__c', 'B2C_Customer_No__c', 'Email', 'Lastname'
-];
-
-/**
- * @function isIntegrationEnabled
- * @description This returns true if the integration with the Salesforce Platform is enabled
- * or false otherwise no access is provided.
- * @return {Boolean} Returns a true / false value describing if integration is enabled
- */
-function isIntegrationEnabled() {
-    var Site = require('dw/system/Site').getCurrent();
-    var isSyncEnabled = Site.getCustomPreferenceValue('b2ccrm_syncIsEnabled');
-    var isSyncCustomersEnabled = Site.getCustomPreferenceValue('b2ccrm_syncCustomersEnabled');
-    return !!(isSyncEnabled && isSyncCustomersEnabled);
-}
-
-/**
  * @function customerRetrieve
  * @description Retrieve the profile within the Salesforce core platform based on the given {profileDetails}
  *
  * @param {dw/customer/Profile|Object} profileDetails The profile details to use while retrieving the customer from the Salesforce Core platform.
  * Either an SFCC profile, or an object with a key/value pair of required parameters to search in the Salesforce Core platform
  * @param {Boolean} saveContactIdOnProfile If this is {true} and the customer is successfully retrieved from the Salesforce Core platform, the contact Id is saved on the currently authenticated profile
- *
  * @returns {Object|*} The response object from the Salesforce Core platform in case the customer has been successfully retrieved, or undefined otherwise
  */
 function customerRetrieve(profileDetails, saveContactIdOnProfile) {
-    if (!isIntegrationEnabled() || !profileDetails) { return; }
+    if (!require('../util/helpers').isIntegrationEnabled() || !profileDetails) {
+        return;
+    }
 
     /**
      * @typedef resultObject Represents the resultObject returned by the B2CContactProcess service
@@ -58,11 +39,14 @@ function customerRetrieve(profileDetails, saveContactIdOnProfile) {
 
     saveContactIdOnProfile = !!(saveContactIdOnProfile || false);
     var areDetailsAnInstanceOfProfile = profileDetails instanceof dw.customer.Profile;
+    var PROFILE_REQUIRED_KEYS = require('dw/web/Resource').msg('customer.retrieve.required.fields', 'b2ccrmsync', '').split(',').map(function (key) {
+        return key.trim();
+    });
 
     try {
 
         /** @typeof {Customer} */
-        var profileModel = new (require('../models/customer'))(areDetailsAnInstanceOfProfile ? profileDetails : undefined, 'retrieve');
+        var profileModel = new (require('../models/customer'))(areDetailsAnInstanceOfProfile ? profileDetails : undefined);
         var requestBody;
 
         if (areDetailsAnInstanceOfProfile) {

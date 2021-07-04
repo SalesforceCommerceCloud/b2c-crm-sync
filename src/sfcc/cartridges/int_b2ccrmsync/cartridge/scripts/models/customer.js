@@ -1,12 +1,4 @@
-// noinspection FunctionWithMultipleReturnPointsJS
-
 'use strict';
-
-/**
- * @description The SFCC Quota on number of entries within a set-of-string is 200, so ensure we never exceed it
- * @type {Number}
- */
-var MAX_SET_ENTRIES = 200;
 
  /**
   * @object {Class}
@@ -26,8 +18,11 @@ function Customer (profile) {
     // Initialize local variables
     var profileDef;
 
-    // Write the profile details
+    /** @type {dw/customer/Profile} */
     this.profile = profile;
+
+    // Exit early if no provide is provided
+    if (!this.profile) { return; }
 
     /**
      * @typedef {Object} profileDef Represents the profile-definition to be shared with the Salesforce Platform
@@ -41,32 +36,24 @@ function Customer (profile) {
      * @property {String} [Id] Describes the Salesforce ContactID that is a child to the parent Account
      */
 
-    // Was a profile defined?
-    if (this.profile !== undefined) {
+    /** @type {profileDef} */
+    this.profileRequestObjectRepresentation = {
+        B2C_Customer_ID__c: this.profile.getCustomer().getID(),
+        B2C_Customer_No__c: this.profile.getCustomerNo(),
+        FirstName: this.profile.getFirstName(),
+        LastName: this.profile.getLastName(),
+        Email: this.profile.getEmail(),
+        B2C_CustomerList_ID__c: require('dw/customer/CustomerMgr').getSiteCustomerList().getID()
+    };
 
-        /** @type {profileDef} */
-        profileDef = {
-            B2C_Customer_ID__c: this.profile.getCustomer().getID(),
-            B2C_Customer_No__c: this.profile.getCustomerNo(),
-            FirstName: this.profile.getFirstName(),
-            LastName: this.profile.getLastName(),
-            Email: this.profile.getEmail(),
-            B2C_CustomerList_ID__c: require('dw/customer/CustomerMgr').getSiteCustomerList().getID()
-        };
+    // Send the Salesforce Core Account Id in case of update, or null in case of creation
+    if (this.profile.custom.b2ccrm_accountId !== null) {
+        this.profileRequestObjectRepresentation.AccountId = this.profile.custom.b2ccrm_accountId;
+    }
 
-        // Send the Salesforce Core Account Id in case of update, or null in case of creation
-        if (this.profile.custom.b2ccrm_accountId !== null) {
-            profileDef.AccountId = this.profile.custom.b2ccrm_accountId;
-        }
-
-        // Send the Salesforce Core Contact Id in case of update, or null in case of creation
-        if (this.profile.custom.b2ccrm_contactId !== null) {
-            profileDef.Id = this.profile.custom.b2ccrm_contactId;
-        }
-
-        // Persist the profile definition
-        this.profileRequestObjectRepresentation = profileDef;
-
+    // Send the Salesforce Core Contact Id in case of update, or null in case of creation
+    if (this.profile.custom.b2ccrm_contactId !== null) {
+        this.profileRequestObjectRepresentation.Id = this.profile.custom.b2ccrm_contactId;
     }
 
 }
@@ -99,7 +86,7 @@ Customer.prototype = {
      * @returns {String} Returns the body to be used by the B2CContactProcess serviceRequest
      */
     getProcessRequestBody : function () {
-        if (!this.profile) { return undefined; }
+        if (!this.profileRequestObjectRepresentation) { return undefined; }
         return JSON.stringify({
             inputs: [{
                 sourceContact: this.profileRequestObjectRepresentation
@@ -152,7 +139,7 @@ Customer.prototype = {
             var thisDate = new Date();
             syncResponseText.push(require('dw/util/StringUtils').format('{0}: {1}', thisDate.toUTCString(), text));
             // In case the number of values is exceeding the quota, remove the oldest entry
-            if (syncResponseText.length >= MAX_SET_ENTRIES) { syncResponseText.shift();}
+            if (syncResponseText.length >= require('../util/helpers').MAX_SET_ENTRIES) { syncResponseText.shift(); }
             this.profile.custom.b2ccrm_syncResponseText = syncResponseText;
         }.bind(this));
 
