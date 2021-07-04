@@ -1,5 +1,3 @@
-// noinspection FunctionWithMultipleReturnPointsJS
-
 'use strict';
 
 /**
@@ -17,11 +15,11 @@ var LOGGER = require('dw/system/Logger').getLogger('int_b2ccrmsync', 'hooks.cust
  * Salesforce Core platform (for customers that are logged-in)
  *
  * @param {dw/customer/Profile} profile Represents the customer profile being evaluated
- * @returns {undefined} Returns early if permissions / synchronization configuration isn't aligned
+ * @return {Boolean} If the process has been a success or not
  */
 function customerLoggedIn(profile) {
     if (!require('../util/helpers').isIntegrationEnabled() || !profile) {
-        return;
+        return false;
     }
 
     // Ensure the login sync is also enabled
@@ -30,7 +28,7 @@ function customerLoggedIn(profile) {
     var isSyncEnabled = Site.getCustomPreferenceValue('b2ccrm_syncCustomersOnLoginEnabled');
     var isSyncOnceEnabled = Site.getCustomPreferenceValue('b2ccrm_syncCustomersOnLoginOnceEnabled');
     if (!isSyncEnabled || (isSyncEnabled && isSyncOnceEnabled && require('../util/helpers').sfdcContactIDIdentifierPresent(profile))) {
-        return;
+        return false;
     }
 
     // Otherwise, go ahead and handle the login-process
@@ -42,14 +40,14 @@ function customerLoggedIn(profile) {
  * with the Salesforce platform (for customers that have been created)
  *
  * @param {dw/customer/Profile} profile Represents the customer profile being evaluated
- * @returns {undefined} Returns early if permissions / synchronization configuration isn't aligned
+ * @return {Boolean} If the process has been a success or not
  */
 function customerCreated(profile) {
     if (!require('../util/helpers').isIntegrationEnabled() || !profile) {
-        return;
+        return false;
     }
 
-    handleProcess(profile, 'create');
+    return handleProcess(profile, 'synchronize');
 }
 
 /**
@@ -57,14 +55,14 @@ function customerCreated(profile) {
  * with the Salesforce platform (updating customers that already exist in B2C Commerce)
  *
  * @param {dw/customer/Profile} profile Represents the customer profile being evaluated
- * @returns {undefined} Returns early if permissions / synchronization configuration isn't aligned
+ * @return {Boolean} If the process has been a success or not
  */
 function customerUpdated(profile) {
     if (!require('../util/helpers').isIntegrationEnabled() || !profile) {
-        return;
+        return false;
     }
 
-    handleProcess(profile, 'update');
+    return handleProcess(profile, 'update');
 }
 
 /**
@@ -72,7 +70,7 @@ function customerUpdated(profile) {
  *
  * @param {dw/customer/Profile} profile Represents the customer profile being evaluated
  * @param {String} action The action that triggered the process (create/update/login)
- * @returns {undefined} Returns early if permissions / synchronization configuration isn't aligned
+ * @returns {Boolean} If the process has been a success or not
  */
 function handleProcess(profile, action) {
 
@@ -103,7 +101,7 @@ function handleProcess(profile, action) {
             profileModel.updateStatus('failed');
             profileModel.updateSyncResponseText(require('dw/util/StringUtils').format('Status {0} ({1}): {2}', result.error, result.msg, result.errorMessage));
             LOGGER.error('Error occurred while exporting customer profile: {0}({1}): {2}', result.status, result.msg, result.errorMessage);
-            return;
+            return false;
         }
 
         // The flow always return multiple values, but we only get the first one
@@ -115,7 +113,7 @@ function handleProcess(profile, action) {
             profileModel.updateStatus('failed');
             profileModel.updateSyncResponseText(errorsAsString);
             LOGGER.error('Error occurred while exporting customer profile: {0}', errorsAsString);
-            return;
+            return false;
         }
 
         // The export succeed
@@ -123,13 +121,17 @@ function handleProcess(profile, action) {
         profileModel.updateExternalId(resultObject.outputValues.Contact.AccountId, resultObject.outputValues.Contact.Id);
         profileModel.updateStatus('exported');
         profileModel.updateSyncResponseText(require('dw/util/StringUtils').format('Successfully exported to Salesforce Core platform during the "{0}" logic.', action));
+        return true;
     } catch (e) {
         profileModel.updateStatus('failed');
         profileModel.updateSyncResponseText(e.message);
         LOGGER.error('Error occurred while exporting customer profile: {0}', e.message);
     }
+
+    return false;
 }
 
 module.exports.loggedIn = customerLoggedIn;
 module.exports.created = customerCreated;
+module.exports.synchronized = customerSynchronized;
 module.exports.updated = customerUpdated;

@@ -10,5 +10,10 @@
             "retrieve": "services/data/v51.0/actions/custom/flow/B2CContactResolve",
             "process": "services/data/v51.0/actions/custom/flow/B2CContactProcess"
         }
+    },
+    "jobs": {
+        "customers": {
+            "defaultQuery": "custom.b2ccrm_contactId = NULL"
+        }
     }
 }
