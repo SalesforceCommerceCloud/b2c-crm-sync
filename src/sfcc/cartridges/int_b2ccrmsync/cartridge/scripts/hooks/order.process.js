@@ -5,7 +5,7 @@
  */
 
 /**
- * @type {dw/system/Logger}
+ * @type {dw/system/Log}
  */
 var LOGGER = require('dw/system/Logger').getLogger('int_b2ccrmsync', 'hooks.order.process');
 
@@ -22,7 +22,8 @@ function orderCreated(order) {
 
     // Ensure the order sync is also enabled
     // We sync profiles from order ONLY IF
-    // - Either we enabled sync from all orders, the current order is a registered one, and the profile tied to the order has not been synched yet
+    // - Either we enabled sync from all orders, the current order is a registered one, and the profile tied
+    //   to the order has not been synchronized yet
     // - Either we enabled sync for guest orders, and the order is a guest one
     var Site = require('dw/system/Site').getCurrent();
     var isSyncEnabled = Site.getCustomPreferenceValue('b2ccrm_syncCustomersFromOrdersEnabled');
@@ -38,11 +39,22 @@ function orderCreated(order) {
  * This method will send the given profile based on the given {order} details to Salesforce Core through REST API
  *
  * @param {dw/order/Order} order
- * @param {String} action The action that triggered the process (createn)
+ * @param {String} action The action that triggered the process (created)
  */
 function handleProcess(order, action) {
     var ServiceMgr = require('../services/ServiceMgr');
     var model = order.getCustomer().getProfile() ? new (require('../models/customer'))(order.getCustomer().getProfile()) : new (require('../models/order'))(order);
+
+    /**
+     * @typedef resultObject Represents the resultObject returned by the B2CContactProcess service
+     * @type {Object}
+     * @property {Boolean} isSuccess Describes if resolution was successful or not
+     * @property {Array} errors Includes any errors returned by the service
+     * @property {Object} outputValues Represents the collection of returnValues provided by the service
+     * @property {Object} outputValues.Contact Describes the Salesforce Contact resolved for the B2C Customer Profile
+     * @property {String} outputValues.Contact.Id Represents the primary key of the resolved Salesforce Contact
+     * @property {String} outputValues.Contact.AccountId Represents the primary key of the parent Salesforce Account
+     */
 
     try {
         // Set the profile status, meaning that we start the export process

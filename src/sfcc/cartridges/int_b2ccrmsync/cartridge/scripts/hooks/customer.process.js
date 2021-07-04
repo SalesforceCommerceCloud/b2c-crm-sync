@@ -32,7 +32,7 @@ function customerLoggedIn(profile) {
     }
 
     // Otherwise, go ahead and handle the login-process
-    handleProcess(profile, 'login');
+    return handleProcess(profile, 'login');
 }
 
 /**
@@ -43,6 +43,22 @@ function customerLoggedIn(profile) {
  * @return {Boolean} If the process has been a success or not
  */
 function customerCreated(profile) {
+    if (!require('../util/helpers').isIntegrationEnabled() || !profile) {
+        return false;
+    }
+
+    return handleProcess(profile, 'synchronize');
+}
+
+/**
+ * Customer synchronized (by the job)
+ * Ensure the customer sync is enabled, and if so, process the customer sync with the Salesforce platform
+ *
+ * @param {dw/customer/Profile} profile
+ *
+ * @return {Boolean} If the process has been a success or not
+ */
+function customerSynchronized(profile) {
     if (!require('../util/helpers').isIntegrationEnabled() || !profile) {
         return false;
     }

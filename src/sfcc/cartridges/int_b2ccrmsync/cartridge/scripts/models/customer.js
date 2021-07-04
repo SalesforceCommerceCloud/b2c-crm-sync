@@ -1,22 +1,19 @@
 'use strict';
 
- /**
-  * @object {Class}
-  * @typedef Customer This class is used to manage B2C Customer profile and REST API orchestration
-  * activities between B2C Commerce and the Salesforce Platform
-  * @property {Function} getRetrieveRequestBody Builds up the request body for the retrieve REST API operation
-  * @property {Function} getProcessRequestBody Builds up the request body for the retrieve REST API operation
-  * @property {Function} updateStatus Save / write the integration status on the profile being interacted with
-  * @property {Function} updateExternalId Update the AccountId and ContactId attributes from the Salesforce Platform
-  * @property {Function} updateSyncResponseText Audit a given synchronization event with a message and timestamp
-  *
-  * @constructor
-  * @param {dw/customer/Profile} [profile] Profile Represents the B2C Commerce customer profile
-  */
-function Customer (profile) {
-
-    // Initialize local variables
-    var profileDef;
+/**
+ * @object {Class}
+ * @typedef Customer This class is used to manage B2C Customer profile and REST API orchestration
+ * activities between B2C Commerce and the Salesforce Platform
+ * @property {Function} getRetrieveRequestBody Builds up the request body for the retrieve REST API operation
+ * @property {Function} getProcessRequestBody Builds up the request body for the retrieve REST API operation
+ * @property {Function} updateStatus Save / write the integration status on the profile being interacted with
+ * @property {Function} updateExternalId Update the AccountId and ContactId attributes from the Salesforce Platform
+ * @property {Function} updateSyncResponseText Audit a given synchronization event with a message and timestamp
+ *
+ * @constructor
+ * @param {dw/customer/Profile} [profile] Profile Represents the B2C Commerce customer profile
+ */
+function Customer(profile) {
 
     /** @type {dw/customer/Profile} */
     this.profile = profile;
@@ -69,7 +66,7 @@ Customer.prototype = {
      * model in the generated request body if provided
      * @returns {String} Returns the body used to invoke the B2CContactResolve service
      */
-    getRetrieveRequestBody : function (profileDetails) {
+    getRetrieveRequestBody: function (profileDetails) {
         if (!profileDetails && !this.profile) { return undefined; }
         return JSON.stringify({
             inputs: [{
@@ -85,7 +82,7 @@ Customer.prototype = {
      *
      * @returns {String} Returns the body to be used by the B2CContactProcess serviceRequest
      */
-    getProcessRequestBody : function () {
+    getProcessRequestBody: function () {
         if (!this.profileRequestObjectRepresentation) { return undefined; }
         return JSON.stringify({
             inputs: [{
@@ -101,7 +98,7 @@ Customer.prototype = {
      *
      * @param {String} status The status to save on the profile
      */
-    updateStatus : function (status) {
+    updateStatus: function (status) {
         if (!this.profile) { return; }
         require('dw/system/Transaction').wrap(function () {
             this.profile.custom.b2ccrm_syncStatus = status;
@@ -145,6 +142,6 @@ Customer.prototype = {
 
     }
 
-}
+};
 
 module.exports = Customer;

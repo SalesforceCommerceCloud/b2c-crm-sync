@@ -8,11 +8,10 @@ var server = require('server');
  * For guest customers, PlaceHolder customer is used to establish an Auth between SC & CC. This is to create an agent session.
  * Once the auth is created, this PlaceHolder session is explicitly invalidated, but the agent context remains active.
  */
-server.get('agentHeader', server.middleware.include, function(req, res, next){
+server.get('agentHeader', server.middleware.include, function (req, res, next) {
 
     // Initialize local variables
-    var ISML,
-        URLUtils,
+    var URLUtils,
         Resource,
         agentHeaderParam,
         Site,
@@ -23,7 +22,6 @@ server.get('agentHeader', server.middleware.include, function(req, res, next){
         customerNo;
 
     // Initialize classes
-    ISML = require('dw/template/ISML');
     URLUtils = require('dw/web/URLUtils');
     Resource = require('dw/web/Resource');
 
@@ -76,12 +74,15 @@ server.get('agentHeader', server.middleware.include, function(req, res, next){
         if (customerNo.length === 0) { customerNo = Resource.msg('agentheader.customerno', 'b2ccrmsync', null); }
 
         // Render the Service Agent OOBO Header
-        res.render('components/header/agentOOBOHeader',{
-            customerName: customerName,
-            customerNo: customerNo,
-            agentHeader: displayAgentHeader,
-            logoutUrl: URLUtils.url('Login-Logout').toString()
-        });
+        res.render(
+            'components/header/agentOOBOHeader',
+            {
+                customerName: customerName,
+                customerNo: customerNo,
+                agentHeader: displayAgentHeader,
+                logoutUrl: URLUtils.url('Login-Logout').toString()
+            }
+        );
     }
 
     return next();
