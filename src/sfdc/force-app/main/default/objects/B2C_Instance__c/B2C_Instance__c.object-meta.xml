@@ -187,7 +187,7 @@
         <searchFilterFields>Instance_Type__c</searchFilterFields>
         <searchFilterFields>Is_Active__c</searchFilterFields>
         <searchFilterFields>B2C_Client_ID__c</searchFilterFields>
-        <searchResultsAdditionalFields>Instance_Type__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Instance_Type_formula__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Is_Active__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Total_Sites__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Total_CustomerLists__c</searchResultsAdditionalFields>
