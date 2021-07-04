@@ -3,10 +3,6 @@
     {
       "name": "dw.system.request.onSession",
       "script": "~/cartridge/scripts/hooks/session"
-    },
-    {
-      "name": "app.template.beforeHeader",
-      "script": "~/cartridge/scripts/hooks/renderAgentHeader"
     }
   ]
 }

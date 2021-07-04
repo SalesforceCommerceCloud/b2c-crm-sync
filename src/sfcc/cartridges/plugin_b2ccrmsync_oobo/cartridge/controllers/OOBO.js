@@ -1,17 +1,17 @@
 'use strict';
 
+var server = require('server');
+
 /**
- * @function renderAgentHeader
- * @description Overriding the session-initialization to handle the Order-On-Behalf from Service-Cloud for
- * guest customers.  For guest customers, a placeHolder customer is used to establish an Auth between SC & CC.
- *
- * This is to create an agent session. Once the auth is created, this PlaceHolder session is explicitly
- * invalidated, but the agent context remains active.
+ * @function function renderAgentHeader
+ * @description Overriding the session-initialization to handle the Order-On-Behalf from Service-Cloud for guest customers.
+ * For guest customers, PlaceHolder customer is used to establish an Auth between SC & CC. This is to create an agent session.
+ * Once the auth is created, this PlaceHolder session is explicitly invalidated, but the agent context remains active.
  */
-function renderAgentHeader() {
+server.get('agentHeader', server.middleware.include, function(req, res, next){
 
     // Initialize local variables
-    let ISML,
+    var ISML,
         URLUtils,
         Resource,
         agentHeaderParam,
@@ -76,15 +76,15 @@ function renderAgentHeader() {
         if (customerNo.length === 0) { customerNo = Resource.msg('agentheader.customerno', 'b2ccrmsync', null); }
 
         // Render the Service Agent OOBO Header
-        ISML.renderTemplate('components/header/agentOOBOHeader', {
+        res.render('components/header/agentOOBOHeader',{
             customerName: customerName,
             customerNo: customerNo,
             agentHeader: displayAgentHeader,
             logoutUrl: URLUtils.url('Login-Logout').toString()
         });
-
     }
 
-}
+    return next();
+});
 
-exports.beforeHeader = renderAgentHeader;
+module.exports = server.exports();
