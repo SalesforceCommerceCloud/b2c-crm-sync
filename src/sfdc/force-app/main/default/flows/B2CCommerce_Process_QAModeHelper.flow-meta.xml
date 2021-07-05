@@ -3,10 +3,24 @@
     <apiVersion>52.0</apiVersion>
     <assignments>
         <description>... set the QA Contact Properties to facilitate testing.</description>
+        <name>asn_qaContactAssignContactID</name>
+        <label>Assign the Contact ID</label>
+        <locationX>203</locationX>
+        <locationY>1713</locationY>
+        <assignmentItems>
+            <assignToReference>var_qaContact.Id</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>var_qaContactID</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <description>... set the QA Contact Properties to facilitate testing.</description>
         <name>asn_qaContactAssignCustomerID</name>
         <label>Assign the CustomerID</label>
-        <locationX>232</locationX>
-        <locationY>1334</locationY>
+        <locationX>205</locationX>
+        <locationY>1477</locationY>
         <assignmentItems>
             <assignToReference>var_qaContact.B2C_Customer_ID__c</assignToReference>
             <operator>Assign</operator>
@@ -22,8 +36,8 @@
         <description>... set the QA Contact Properties to facilitate testing.</description>
         <name>asn_qaContactAssignCustomerList</name>
         <label>Assign the CustomerList</label>
-        <locationX>228</locationX>
-        <locationY>1120</locationY>
+        <locationX>681</locationX>
+        <locationY>1198</locationY>
         <assignmentItems>
             <assignToReference>var_qaContact.B2C_CustomerList_ID__c</assignToReference>
             <operator>Assign</operator>
@@ -39,8 +53,8 @@
         <description>... set the QA Contact Properties to facilitate testing.</description>
         <name>asn_qaContactAssignCustomerNo</name>
         <label>Assign the CustomerNo</label>
-        <locationX>235</locationX>
-        <locationY>1585</locationY>
+        <locationX>695</locationX>
+        <locationY>1712</locationY>
         <assignmentItems>
             <assignToReference>var_qaContact.B2C_Customer_No__c</assignToReference>
             <operator>Assign</operator>
@@ -48,13 +62,16 @@
                 <elementReference>var_qaB2CCustomerNo</elementReference>
             </value>
         </assignmentItems>
+        <connector>
+            <targetReference>dec_wasQAContactIDSpecified</targetReference>
+        </connector>
     </assignments>
     <assignments>
         <description>... set the QA Contact Properties to facilitate testing.</description>
         <name>asn_qaContactAssignEmail</name>
         <label>Assign the Email</label>
-        <locationX>228</locationX>
-        <locationY>844</locationY>
+        <locationX>192</locationX>
+        <locationY>967</locationY>
         <assignmentItems>
             <assignToReference>var_qaContact.Email</assignToReference>
             <operator>Assign</operator>
@@ -70,8 +87,8 @@
         <description>... set the QA Contact Properties to facilitate testing.</description>
         <name>asn_qaContactAssignFirstName</name>
         <label>Assign the FirstName</label>
-        <locationX>232</locationX>
-        <locationY>605</locationY>
+        <locationX>694</locationX>
+        <locationY>740</locationY>
         <assignmentItems>
             <assignToReference>var_qaContact.FirstName</assignToReference>
             <operator>Assign</operator>
@@ -100,6 +117,35 @@
             <targetReference>dec_wasQAFirstNameSpecified</targetReference>
         </connector>
     </assignments>
+    <decisions>
+        <name>dec_wasQAContactIDSpecified</name>
+        <label>Was ContactID Specified?</label>
+        <locationX>442</locationX>
+        <locationY>1713</locationY>
+        <defaultConnectorLabel>Not Specified</defaultConnectorLabel>
+        <rules>
+            <name>decOut_wasQAContactIDSpecifiedTrue</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>var_qaContactID</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>var_qaContactID</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue/>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>asn_qaContactAssignContactID</targetReference>
+            </connector>
+            <label>Was Specified</label>
+        </rules>
+    </decisions>
     <decisions>
         <name>dec_wasQACustomerIDSpecified</name>
         <label>Was CustomerID Specified?</label>
@@ -167,8 +213,11 @@
     <decisions>
         <name>dec_wasQACustomerNoSpecified</name>
         <label>Was CustomerNo Specified?</label>
-        <locationX>442</locationX>
-        <locationY>1454</locationY>
+        <locationX>441</locationX>
+        <locationY>1478</locationY>
+        <defaultConnector>
+            <targetReference>dec_wasQAContactIDSpecified</targetReference>
+        </defaultConnector>
         <defaultConnectorLabel>Not Specified</defaultConnectorLabel>
         <rules>
             <name>decOut_QACustomerNoWasSpecified</name>
@@ -313,7 +362,7 @@
     <processType>AutoLaunchedFlow</processType>
     <start>
         <locationX>323</locationX>
-        <locationY>50</locationY>
+        <locationY>123</locationY>
         <connector>
             <targetReference>dec_wasQALastNameSpecified</targetReference>
         </connector>
@@ -351,6 +400,14 @@
         <isInput>false</isInput>
         <isOutput>true</isOutput>
         <objectType>Contact</objectType>
+    </variables>
+    <variables>
+        <description>... describes if a ContactID was included in the QA attributes.</description>
+        <name>var_qaContactID</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
     </variables>
     <variables>
         <description>... represents the emailAddress used to test the Customer Resolution sub-flow.</description>

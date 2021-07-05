@@ -5,8 +5,8 @@
         <description>... assign working variables that will be used by a calling flow.</description>
         <name>asn_assignOutputValuesNoResults</name>
         <label>Assign the Output Values</label>
-        <locationX>820</locationX>
-        <locationY>2282</locationY>
+        <locationX>548</locationX>
+        <locationY>2059</locationY>
         <assignmentItems>
             <assignToReference>parentB2CCustomerList</assignToReference>
             <operator>Assign</operator>
@@ -42,13 +42,72 @@
                 <booleanValue>true</booleanValue>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ErrorMessage</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <stringValue>No Contact was resolved with the sourceContact provided.  Please verify the contact properties -- and try again.</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Contact</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sourceContact</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <description>... default the contactToResolve to the sourceContact</description>
+        <name>asn_defaultContactToResolve</name>
+        <label>Default the Contact to Resolve</label>
+        <locationX>649</locationX>
+        <locationY>1062</locationY>
+        <assignmentItems>
+            <assignToReference>contactToResolve</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sourceContact</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>asn_localWorkingVariables</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>... alert the user that integration is disabled for the specified Contact.</description>
+        <name>asn_errorIntegrationDisabled</name>
+        <label>Error: Integration Is Disabled</label>
+        <locationX>18</locationX>
+        <locationY>1279</locationY>
+        <assignmentItems>
+            <assignToReference>isSuccess</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ErrorMessage</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>sub_allowIntegrationHelper.var_errorMessage</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ErrorMessage</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <stringValue>Integration for this combination of Contact, B2C CustomerList, and B2C Instance configuration settings is disabled.  Please check the environment configuration and try again.</stringValue>
+            </value>
+        </assignmentItems>
     </assignments>
     <assignments>
         <description>... call-out that an error occurred / was caught during the resolution process.</description>
         <name>asn_errorOccuredDuringResoluion</name>
         <label>Error Occurred During Resolution</label>
-        <locationX>548</locationX>
-        <locationY>1817</locationY>
+        <locationX>1223</locationX>
+        <locationY>2065</locationY>
         <assignmentItems>
             <assignToReference>ErrorMessage</assignToReference>
             <operator>Add</operator>
@@ -79,39 +138,11 @@
         </assignmentItems>
     </assignments>
     <assignments>
-        <description>... alert the user that resolution is disabled for the specified Contact.</description>
-        <name>asn_errorResolutionDisabled</name>
-        <label>Error: Resolution Is Disabled</label>
-        <locationX>1084</locationX>
-        <locationY>1098</locationY>
-        <assignmentItems>
-            <assignToReference>isSuccess</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <booleanValue>false</booleanValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>ErrorMessage</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <elementReference>sub_allowIntegrationHelper.var_errorMessage</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>ErrorMessage</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <stringValue>Integration for this combination of parameters is disabled.  Please check the environment configuration and try again.</stringValue>
-            </value>
-        </assignmentItems>
-    </assignments>
-    <assignments>
         <description>... expose the multipleResults to the output.</description>
         <name>asn_exposeMultipleResults</name>
         <label>Expose the Multiple Results</label>
-        <locationX>1076</locationX>
-        <locationY>1550</locationY>
+        <locationX>1044</locationX>
+        <locationY>1735</locationY>
         <assignmentItems>
             <assignToReference>ResolvedContacts</assignToReference>
             <operator>Assign</operator>
@@ -135,7 +166,7 @@
         <name>asn_localWorkingVariables</name>
         <label>Assign Local Working Variables</label>
         <locationX>818</locationX>
-        <locationY>684</locationY>
+        <locationY>1062</locationY>
         <assignmentItems>
             <assignToReference>b2cCustomerList</assignToReference>
             <operator>Assign</operator>
@@ -143,23 +174,16 @@
                 <elementReference>sub_evaluateContactArgument.parentB2CCustomerList</elementReference>
             </value>
         </assignmentItems>
-        <assignmentItems>
-            <assignToReference>contactToResolve</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>sub_evaluateContactArgument.contactToResolve</elementReference>
-            </value>
-        </assignmentItems>
         <connector>
-            <targetReference>sub_allowIntegrationHelper</targetReference>
+            <targetReference>dec_wasCompleteContactVerified</targetReference>
         </connector>
     </assignments>
     <assignments>
         <description>... pass the argument error forward and return it to the caller.</description>
         <name>asn_outputArgumentError</name>
         <label>Output the Error Message</label>
-        <locationX>1079</locationX>
-        <locationY>438</locationY>
+        <locationX>1189</locationX>
+        <locationY>422</locationY>
         <assignmentItems>
             <assignToReference>ErrorMessage</assignToReference>
             <operator>Add</operator>
@@ -179,8 +203,8 @@
         <description>... assign the contactResolution output variables</description>
         <name>asn_outputVariablesSingle</name>
         <label>Assign the Output Variables</label>
-        <locationX>1074</locationX>
-        <locationY>2528</locationY>
+        <locationX>822</locationX>
+        <locationY>2756</locationY>
         <assignmentItems>
             <assignToReference>Account</assignToReference>
             <operator>Assign</operator>
@@ -232,11 +256,101 @@
         </assignmentItems>
     </assignments>
     <assignments>
+        <description>... assign the contactResolution output variables</description>
+        <name>asn_outputVariablesSingle_0</name>
+        <label>Assign the Output Variables</label>
+        <locationX>283</locationX>
+        <locationY>2049</locationY>
+        <assignmentItems>
+            <assignToReference>Account</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sub_evaluateContactArgument.parentAccount</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Contact</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>shortenedContact</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ResolutionCount</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <numberValue>1.0</numberValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>isSuccess</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>parentAccount</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sub_evaluateContactArgument.parentAccount</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>parentB2CCustomerList</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sub_evaluateContactArgument.parentB2CCustomerList</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>verifiedContact</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sub_evaluateContactArgument.verifiedContact</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <description>... over-write the contactToResolve as the verifiedContact.</description>
+        <name>asn_overWriteContactToResolve</name>
+        <label>Overwrite the Contact to Resolve</label>
+        <locationX>1002</locationX>
+        <locationY>1062</locationY>
+        <assignmentItems>
+            <assignToReference>contactToResolve</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sub_evaluateContactArgument.verifiedContact</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>asn_localWorkingVariables</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>... refresh the sourceContact to leverage the generated composite.</description>
+        <name>asn_refreshSourceContact</name>
+        <label>Refresh the Source Contact</label>
+        <locationX>817</locationX>
+        <locationY>658</locationY>
+        <assignmentItems>
+            <assignToReference>sourceContact</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sub_evaluateContactArgument.sourceContact</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>dec_wasContactVerified</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <description>... shorten the contact to include a subset of the overall resolved attributes.</description>
         <name>asn_shortenContact</name>
         <label>Shorten the Contact</label>
-        <locationX>1074</locationX>
-        <locationY>2281</locationY>
+        <locationX>822</locationX>
+        <locationY>2523</locationY>
         <assignmentItems>
             <assignToReference>shortenedContact.Id</assignToReference>
             <operator>Assign</operator>
@@ -328,22 +442,154 @@
                 <elementReference>sub_contactResolution.var_resolvedContact.LastModifiedDate</elementReference>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>shortenedContact.Audit_OCAPI_API_Response__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sub_contactResolution.var_resolvedContact.Audit_OCAPI_API_Response__c</elementReference>
+            </value>
+        </assignmentItems>
         <connector>
             <targetReference>asn_outputVariablesSingle</targetReference>
         </connector>
     </assignments>
+    <assignments>
+        <description>... shorten the contact to include a subset of the overall resolved attributes.</description>
+        <name>asn_shortenValidatedContact</name>
+        <label>Shorten the Contact</label>
+        <locationX>281</locationX>
+        <locationY>1526</locationY>
+        <assignmentItems>
+            <assignToReference>shortenedContact.Id</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sub_evaluateContactArgument.verifiedContact.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>shortenedContact.AccountId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sub_evaluateContactArgument.verifiedContact.AccountId</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>shortenedContact.B2C_CustomerList__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sub_evaluateContactArgument.verifiedContact.B2C_CustomerList__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>shortenedContact.B2C_CustomerList_ID__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sub_evaluateContactArgument.verifiedContact.B2C_CustomerList_ID__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>shortenedContact.B2C_Customer_ID__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sub_evaluateContactArgument.verifiedContact.B2C_Customer_ID__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>shortenedContact.B2C_Customer_No__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sub_evaluateContactArgument.verifiedContact.B2C_Customer_No__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>shortenedContact.FirstName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sub_evaluateContactArgument.verifiedContact.FirstName</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>shortenedContact.LastName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sub_evaluateContactArgument.verifiedContact.LastName</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>shortenedContact.Email</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sub_evaluateContactArgument.verifiedContact.Email</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>shortenedContact.B2C_Disable_Integration__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sub_evaluateContactArgument.verifiedContact.B2C_Disable_Integration__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>shortenedContact.B2C_Date_Last_Modified__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sub_evaluateContactArgument.verifiedContact.B2C_Date_Last_Modified__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>shortenedContact.CreatedDate</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sub_evaluateContactArgument.verifiedContact.CreatedDate</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>shortenedContact.LastModifiedDate</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sub_evaluateContactArgument.verifiedContact.LastModifiedDate</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>shortenedContact.Audit_OCAPI_API_Response__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sub_evaluateContactArgument.verifiedContact.Audit_OCAPI_API_Response__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>dec_isReturnMultipleEnabled_0</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>... append the verifiedContact to the resolvedCollection.</description>
+        <name>asn_verifiedContactToResolvedCollection</name>
+        <label>Add the verifiedContact to the Resolved Collection</label>
+        <locationX>52</locationX>
+        <locationY>2051</locationY>
+        <assignmentItems>
+            <assignToReference>ResolvedContacts</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>shortenedContact</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>asn_outputVariablesSingle_0</targetReference>
+        </connector>
+    </assignments>
     <decisions>
-        <description>... evaluate if we can allow resolution for the specified Contact.</description>
-        <name>dec_allowResolutionForContact</name>
-        <label>Allow Resolution for this Contact?</label>
-        <locationX>810</locationX>
-        <locationY>1100</locationY>
+        <description>... evaluate if we can allow integration for the specified Contact.</description>
+        <name>dec_allowIntegrationForContact</name>
+        <label>Allow Integration for this Contact?</label>
+        <locationX>272</locationX>
+        <locationY>1281</locationY>
         <defaultConnector>
-            <targetReference>asn_errorResolutionDisabled</targetReference>
+            <targetReference>asn_errorIntegrationDisabled</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Do Not Allow</defaultConnectorLabel>
         <rules>
-            <name>dec_allowResolutionForContactTrue</name>
+            <name>decOut_allowIntegrationForContactTrue</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
                 <leftValueReference>sub_allowIntegrationHelper.out_allowIntegrationProcess</leftValueReference>
@@ -353,7 +599,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>sub_contactResolution</targetReference>
+                <targetReference>asn_shortenValidatedContact</targetReference>
             </connector>
             <label>Allow</label>
         </rules>
@@ -362,8 +608,8 @@
         <description>... evaluate if we can resolve the Contact record using the identifiers provided.</description>
         <name>dec_CanWeResolveThisContact</name>
         <label>Was a Contact Resolved?</label>
-        <locationX>813</locationX>
-        <locationY>1818</locationY>
+        <locationX>810</locationX>
+        <locationY>2059</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>dec_CanWeResolveThisContactError</name>
@@ -434,10 +680,10 @@
         <description>... evaluate if an argumentError was caught.</description>
         <name>dec_hasArgumentError</name>
         <label>Was an Error Caught?</label>
-        <locationX>809</locationX>
-        <locationY>440</locationY>
+        <locationX>808</locationX>
+        <locationY>425</locationY>
         <defaultConnector>
-            <targetReference>asn_localWorkingVariables</targetReference>
+            <targetReference>asn_refreshSourceContact</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>No Errors</defaultConnectorLabel>
         <rules>
@@ -460,8 +706,8 @@
         <description>... evaluate if all resolutionResults should be included in the output.</description>
         <name>dec_isReturnMultipleEnabled</name>
         <label>Is returnMultiple Enabled?</label>
-        <locationX>812</locationX>
-        <locationY>1553</locationY>
+        <locationX>813</locationX>
+        <locationY>1741</locationY>
         <defaultConnector>
             <targetReference>dec_CanWeResolveThisContact</targetReference>
         </defaultConnector>
@@ -480,6 +726,112 @@
                 <targetReference>asn_exposeMultipleResults</targetReference>
             </connector>
             <label>Is Enabled</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>... evaluate if all resolutionResults should be included in the output.</description>
+        <name>dec_isReturnMultipleEnabled_0</name>
+        <label>Is returnMultiple Enabled?</label>
+        <locationX>273</locationX>
+        <locationY>1728</locationY>
+        <defaultConnector>
+            <targetReference>asn_outputVariablesSingle_0</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Is Not Enabled</defaultConnectorLabel>
+        <rules>
+            <name>dec_isShowAllEnabledTrue_0</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>returnMultiple</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>asn_verifiedContactToResolvedCollection</targetReference>
+            </connector>
+            <label>Is Enabled</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>... evaluate if a sourceContact was verified during the validation process.</description>
+        <name>dec_wasCompleteContactVerified</name>
+        <label>Was a Complete Contact Verified?</label>
+        <locationX>810</locationX>
+        <locationY>1284</locationY>
+        <defaultConnector>
+            <targetReference>sub_contactResolution</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Was Not Verified</defaultConnectorLabel>
+        <rules>
+            <name>decOut_wasCompleteContactVerifiedTrue</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>sub_evaluateContactArgument.isVerified</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sub_evaluateContactArgument.verifiedContact</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sub_evaluateContactArgument.parentAccount</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sub_evaluateContactArgument.parentB2CCustomerList</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>sub_allowIntegrationHelper</targetReference>
+            </connector>
+            <label>Was Verified</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>... evaluate if a sourceContact was verified during the validation process.</description>
+        <name>dec_wasContactVerified</name>
+        <label>Was a Contact Verified?</label>
+        <locationX>809</locationX>
+        <locationY>846</locationY>
+        <defaultConnector>
+            <targetReference>asn_defaultContactToResolve</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Was Not Verified</defaultConnectorLabel>
+        <rules>
+            <name>dec_wasContactVerifiedTrue</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>sub_evaluateContactArgument.isVerified</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sub_evaluateContactArgument.verifiedContact</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>asn_overWriteContactToResolve</targetReference>
+            </connector>
+            <label>Was Verified</label>
         </rules>
     </decisions>
     <description>... this flow acts as a serviceEntry for the Process and Resolve services -- consuming the same argument structure to provide data exposed by the processServices.</description>
@@ -508,8 +860,8 @@
         <description>... retrieve the Parent Account to the resolvedContact.</description>
         <name>recGet_Account</name>
         <label>Retrieve the Parent Account</label>
-        <locationX>1074</locationX>
-        <locationY>2039</locationY>
+        <locationX>822</locationX>
+        <locationY>2299</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>asn_shortenContact</targetReference>
@@ -532,8 +884,8 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <start>
-        <locationX>691</locationX>
-        <locationY>51</locationY>
+        <locationX>690</locationX>
+        <locationY>50</locationY>
         <connector>
             <targetReference>sub_evaluateContactArgument</targetReference>
         </connector>
@@ -543,10 +895,10 @@
         <description>... evaluate the configuration of the specified CustomerList and sourceContact to determine if integration should be enabled.</description>
         <name>sub_allowIntegrationHelper</name>
         <label>Evaluate Integration Configuration</label>
-        <locationX>818</locationX>
-        <locationY>905</locationY>
+        <locationX>523</locationX>
+        <locationY>1279</locationY>
         <connector>
-            <targetReference>dec_allowResolutionForContact</targetReference>
+            <targetReference>dec_allowIntegrationForContact</targetReference>
         </connector>
         <flowName>B2CCommerce_Process_AllowIntegrationHelper</flowName>
         <inputAssignments>
@@ -573,8 +925,8 @@
         <description>... attempt to resolve the Contact against the collection of Contacts in this Salesforce Org.</description>
         <name>sub_contactResolution</name>
         <label>Attempt Contact Resolution</label>
-        <locationX>820</locationX>
-        <locationY>1372</locationY>
+        <locationX>821</locationX>
+        <locationY>1520</locationY>
         <connector>
             <targetReference>dec_isReturnMultipleEnabled</targetReference>
         </connector>
@@ -591,8 +943,8 @@
         <description>... attempt to evaluate and verify the Contact argument.</description>
         <name>sub_evaluateContactArgument</name>
         <label>Evaluate the Contact Argument</label>
-        <locationX>817</locationX>
-        <locationY>238</locationY>
+        <locationX>816</locationX>
+        <locationY>213</locationY>
         <connector>
             <targetReference>dec_hasArgumentError</targetReference>
         </connector>
@@ -703,15 +1055,6 @@
         </value>
     </variables>
     <variables>
-        <description>... represents a copy fo the sourceContact -- as the sourceContact is modified when going through the resolution process.</description>
-        <name>originalContact</name>
-        <dataType>SObject</dataType>
-        <isCollection>false</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-        <objectType>Contact</objectType>
-    </variables>
-    <variables>
         <description>... represents the parentAccount record for the specified Contact.</description>
         <name>parentAccount</name>
         <dataType>SObject</dataType>
@@ -734,7 +1077,7 @@
         <name>processMode</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
-        <isInput>false</isInput>
+        <isInput>true</isInput>
         <isOutput>false</isOutput>
         <value>
             <stringValue>resolve</stringValue>
@@ -809,6 +1152,14 @@
     <variables>
         <description>... represents the customerNo the be used to resolve the Contact within the flow.</description>
         <name>var_qaB2CCustomerNo</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>... represents the ContactID of the profile to resolve.</description>
+        <name>var_qaContactID</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>

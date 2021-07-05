@@ -69,6 +69,12 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <name>var_qaContactID</name>
+            <value>
+                <elementReference>var_qaContactID</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <name>var_qaEmailAddress</name>
             <value>
                 <elementReference>var_qaEmailAddress</elementReference>
@@ -295,6 +301,14 @@
     <variables>
         <description>... represents the customerNo the be used to resolve the Contact within the flow.</description>
         <name>var_qaB2CCustomerNo</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>.... represents the ContactID of the profile to resolve.</description>
+        <name>var_qaContactID</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>

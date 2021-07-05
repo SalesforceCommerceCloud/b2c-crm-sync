@@ -15,7 +15,7 @@
         <inputParameters>
             <name>contactList</name>
             <value>
-                <elementReference>var_contactToResolve</elementReference>
+                <elementReference>var_recColContactsToResolve</elementReference>
             </value>
         </inputParameters>
         <outputParameters>
@@ -118,6 +118,13 @@
                 <elementReference>recGet_resolvedContact</elementReference>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>var_resolvedContactCount</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <numberValue>1.0</numberValue>
+            </value>
+        </assignmentItems>
     </assignments>
     <assignments>
         <description>... capture the count of resolved Contacts driven by the Resolution action.</description>
@@ -167,7 +174,7 @@
         <locationY>1402</locationY>
         <assignmentItems>
             <assignToReference>var_errorMessage</assignToReference>
-            <operator>Assign</operator>
+            <operator>Add</operator>
             <value>
                 <stringValue>An error occurred during Contact Filtering.  Please provide more precise resolution properties for the sourceContact -- and try again.</stringValue>
             </value>
@@ -438,8 +445,8 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <start>
-        <locationX>724</locationX>
-        <locationY>31</locationY>
+        <locationX>725</locationX>
+        <locationY>30</locationY>
         <connector>
             <targetReference>dec_isQAModeEnabled</targetReference>
         </connector>

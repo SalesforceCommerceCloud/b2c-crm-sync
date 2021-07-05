@@ -15,12 +15,41 @@
         <inputParameters>
             <name>contact</name>
             <value>
-                <elementReference>sourceContact</elementReference>
+                <elementReference>resolvedContactToUpdate</elementReference>
             </value>
         </inputParameters>
         <outputParameters>
-            <assignToReference>sourceContact</assignToReference>
+            <assignToReference>resolvedContactToUpdate</assignToReference>
             <name>processedContact</name>
+        </outputParameters>
+    </actionCalls>
+    <actionCalls>
+        <description>... attempt to take the sourceContact attributes and apply them to the resolvedContact.</description>
+        <name>ia_synchronizeContactValues</name>
+        <label>Synchronize Contact Values</label>
+        <locationX>1302</locationX>
+        <locationY>1510</locationY>
+        <actionName>B2CIASynchronizeContact</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>dec_EvaluateContactRecord</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>sourceContact</name>
+            <value>
+                <elementReference>sourceContact</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>targetContact</name>
+            <value>
+                <elementReference>Contact</elementReference>
+            </value>
+        </inputParameters>
+        <outputParameters>
+            <assignToReference>resolvedContactToUpdate</assignToReference>
+            <name>synchronizedTargetContact</name>
         </outputParameters>
     </actionCalls>
     <apiVersion>52.0</apiVersion>
@@ -30,7 +59,7 @@
         <locationX>1630</locationX>
         <locationY>3997</locationY>
         <assignmentItems>
-            <assignToReference>sourceContact.AccountId</assignToReference>
+            <assignToReference>resolvedContactToUpdate.AccountId</assignToReference>
             <operator>Assign</operator>
             <value>
                 <elementReference>Account.Id</elementReference>
@@ -44,7 +73,7 @@
         <description>... assign the Account Name to the Business Account after the recordType is created.</description>
         <name>asn_AccountNameToBusinessAccount</name>
         <label>Assign the Account Name to the Business Account</label>
-        <locationX>2720</locationX>
+        <locationX>2721</locationX>
         <locationY>2730</locationY>
         <assignmentItems>
             <assignToReference>Account.Name</assignToReference>
@@ -95,14 +124,14 @@
         <locationX>1621</locationX>
         <locationY>2520</locationY>
         <assignmentItems>
-            <assignToReference>sourceContact.B2C_CustomerList_ID__c</assignToReference>
+            <assignToReference>resolvedContactToUpdate.B2C_CustomerList_ID__c</assignToReference>
             <operator>Assign</operator>
             <value>
                 <elementReference>var_b2cCustomerList.Name</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
-            <assignToReference>sourceContact.B2C_CustomerList__c</assignToReference>
+            <assignToReference>resolvedContactToUpdate.B2C_CustomerList__c</assignToReference>
             <operator>Assign</operator>
             <value>
                 <elementReference>var_b2cCustomerList.Id</elementReference>
@@ -136,7 +165,7 @@
             <assignToReference>Contact</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>sourceContact</elementReference>
+                <elementReference>resolvedContactToUpdate</elementReference>
             </value>
         </assignmentItems>
     </assignments>
@@ -150,7 +179,7 @@
             <assignToReference>Contact</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>sourceContact</elementReference>
+                <elementReference>resolvedContactToUpdate</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -192,7 +221,7 @@
             <assignToReference>Contact</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>sourceContact</elementReference>
+                <elementReference>resolvedContactToUpdate</elementReference>
             </value>
         </assignmentItems>
     </assignments>
@@ -220,7 +249,7 @@
             <assignToReference>Contact</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>sourceContact</elementReference>
+                <elementReference>synchronizedContact</elementReference>
             </value>
         </assignmentItems>
     </assignments>
@@ -234,7 +263,7 @@
             <assignToReference>errors</assignToReference>
             <operator>Add</operator>
             <value>
-                <elementReference>var_contactResolutionError</elementReference>
+                <elementReference>ContactResolutionError</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -256,10 +285,10 @@
         <description>... assign the parent B2C Commerce Account to the Contact</description>
         <name>asn_parentB2CAccount</name>
         <label>Assign the Parent Account to the Contact</label>
-        <locationX>2720</locationX>
+        <locationX>2721</locationX>
         <locationY>3176</locationY>
         <assignmentItems>
-            <assignToReference>sourceContact.AccountId</assignToReference>
+            <assignToReference>synchronizedContact.AccountId</assignToReference>
             <operator>Assign</operator>
             <value>
                 <elementReference>Account.Id</elementReference>
@@ -267,6 +296,30 @@
         </assignmentItems>
         <connector>
             <targetReference>recCreate_BusinessRecord_Create</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>... assign the parent B2C CustomerList to the sourceContact.</description>
+        <name>asn_parentB2CCustomerListID</name>
+        <label>Assign the B2C CustomerList</label>
+        <locationX>2530</locationX>
+        <locationY>1508</locationY>
+        <assignmentItems>
+            <assignToReference>sourceContact.B2C_CustomerList__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>var_b2cCustomerList.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>sourceContact.B2C_CustomerList_ID__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>var_b2cCustomerList.Name</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>sub_B2CCommerceContactAssignmentHelper</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -286,7 +339,7 @@
             <assignToReference>errors</assignToReference>
             <operator>Add</operator>
             <value>
-                <elementReference>var_contactResolutionError</elementReference>
+                <elementReference>ContactResolutionError</elementReference>
             </value>
         </assignmentItems>
     </assignments>
@@ -307,7 +360,7 @@
             <assignToReference>Contact</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>sourceContact</elementReference>
+                <elementReference>synchronizedContact</elementReference>
             </value>
         </assignmentItems>
     </assignments>
@@ -317,22 +370,19 @@
         <label>Was a Contact Resolved?</label>
         <locationX>1890</locationX>
         <locationY>1509</locationY>
-        <defaultConnector>
-            <targetReference>asn_sourceContactIntegrationPropertiesResolvedContact</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>Resolved</defaultConnectorLabel>
+        <defaultConnectorLabel>Unknown Outcome</defaultConnectorLabel>
         <rules>
             <name>decOut_resolutionError</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>var_contactResolutionSuccess</leftValueReference>
+                <leftValueReference>ContactWasResolved</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
                 </rightValue>
             </conditions>
             <conditions>
-                <leftValueReference>errors</leftValueReference>
+                <leftValueReference>ContactResolutionErrors</leftValueReference>
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
@@ -344,17 +394,39 @@
             <label>Resolution Error</label>
         </rules>
         <rules>
+            <name>decOut_ContactWasResolved</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>ContactResolutionCount</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <numberValue>1.0</numberValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>ContactWasResolved</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>ia_synchronizeContactValues</targetReference>
+            </connector>
+            <label>Resolved</label>
+        </rules>
+        <rules>
             <name>decOut_ContactWasNotResolved</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>var_resolvedContactCount</leftValueReference>
+                <leftValueReference>ContactResolutionCount</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <numberValue>0.0</numberValue>
                 </rightValue>
             </conditions>
             <conditions>
-                <leftValueReference>var_contactResolutionSuccess</leftValueReference>
+                <leftValueReference>ContactWasResolved</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
@@ -369,14 +441,14 @@
             <name>decOut_multipleContactsResolved</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>var_resolvedContactCount</leftValueReference>
+                <leftValueReference>ContactResolutionCount</leftValueReference>
                 <operator>GreaterThan</operator>
                 <rightValue>
                     <numberValue>1.0</numberValue>
                 </rightValue>
             </conditions>
             <conditions>
-                <leftValueReference>var_contactResolutionSuccess</leftValueReference>
+                <leftValueReference>ContactWasResolved</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
@@ -402,17 +474,10 @@
             <name>Exists</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>sourceContact.B2C_CustomerList__c</leftValueReference>
+                <leftValueReference>resolvedContactToUpdate.B2C_CustomerList__c</leftValueReference>
                 <operator>WasSet</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>sourceContact.B2C_CustomerList__c</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -435,7 +500,7 @@
             <name>decOut_ContactLastNameIsNotAssigned</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>sourceContact.LastName</leftValueReference>
+                <leftValueReference>synchronizedContact.LastName</leftValueReference>
                 <operator>WasSet</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
@@ -461,7 +526,7 @@
             <name>decOut_ContactCannotBeUpdated</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>sourceContact.B2C_Disable_Integration__c</leftValueReference>
+                <leftValueReference>resolvedContactToUpdate.B2C_Disable_Integration__c</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
@@ -487,17 +552,10 @@
             <name>decOut_AccountIDIsMissing</name>
             <conditionLogic>or</conditionLogic>
             <conditions>
-                <leftValueReference>sourceContact.AccountId</leftValueReference>
+                <leftValueReference>resolvedContactToUpdate.AccountId</leftValueReference>
                 <operator>WasSet</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>sourceContact.AccountId</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -518,37 +576,9 @@
         <defaultConnectorLabel>IDs Not Present</defaultConnectorLabel>
         <rules>
             <name>decOut_IdsArePresent</name>
-            <conditionLogic>(1 AND 2) or (3 AND 4) or (5)</conditionLogic>
+            <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>sourceContact.Id</leftValueReference>
-                <operator>WasSet</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>sourceContact.Id</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>sourceContact.B2C_CustomerList_ID__c</leftValueReference>
-                <operator>WasSet</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>sourceContact.B2C_Customer_No__c</leftValueReference>
-                <operator>WasSet</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>sourceContact.B2C_Customer_ID__c</leftValueReference>
+                <leftValueReference>resolvedContactToUpdate.Id</leftValueReference>
                 <operator>WasSet</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
@@ -564,8 +594,8 @@
         <description>... retrieve the configured customerModel to leverage when synchronizing B2C Commerce Customer Profiles.</description>
         <name>dec_RetrieveCustomerModel</name>
         <label>Retrieve the Customer Model</label>
-        <locationX>2712</locationX>
-        <locationY>3695</locationY>
+        <locationX>2713</locationX>
+        <locationY>3676</locationY>
         <defaultConnector>
             <targetReference>B2CCommerce_Process_PlatformEventHelper</targetReference>
         </defaultConnector>
@@ -638,18 +668,18 @@
         <description>... create the Contact Record for the B2C Business Account</description>
         <name>recCreate_BusinessRecord_Create</name>
         <label>Create B2C Business Contact Record</label>
-        <locationX>2720</locationX>
-        <locationY>3442</locationY>
+        <locationX>2721</locationX>
+        <locationY>3415</locationY>
         <connector>
             <targetReference>dec_RetrieveCustomerModel</targetReference>
         </connector>
-        <inputReference>sourceContact</inputReference>
+        <inputReference>synchronizedContact</inputReference>
     </recordCreates>
     <recordCreates>
         <description>... create the Parent B2C Account so that we can attach the Contact record to it.</description>
         <name>recCreate_ParentB2CAccount</name>
         <label>Create the Parent Account</label>
-        <locationX>2720</locationX>
+        <locationX>2721</locationX>
         <locationY>2952</locationY>
         <connector>
             <targetReference>asn_parentB2CAccount</targetReference>
@@ -682,11 +712,11 @@
         <description>... retrieve the defaultConfiguration for the current b2c-crm-sync instance.</description>
         <name>recGet_defaultConfiguration</name>
         <label>Get the Default Configuration</label>
-        <locationX>2485</locationX>
+        <locationX>2340</locationX>
         <locationY>1508</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>sub_B2CCommerceContactAssignmentHelper</targetReference>
+            <targetReference>asn_parentB2CCustomerListID</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -726,8 +756,8 @@
         <description>... identify which b2c-crm-sync configuration profile is being used as the default.</description>
         <name>recGet_IdentifyDefaultConfiguration</name>
         <label>Identify the Default Configuration</label>
-        <locationX>2213</locationX>
-        <locationY>1508</locationY>
+        <locationX>2111</locationX>
+        <locationY>1507</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>recGet_defaultConfiguration</targetReference>
@@ -755,7 +785,7 @@
         <name>recGet_PersonAccount_RecordType</name>
         <label>Get the Person Account RecordType</label>
         <locationX>2410</locationX>
-        <locationY>3691</locationY>
+        <locationY>3676</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>recUpd_PersonAccountRecordType</targetReference>
@@ -806,7 +836,7 @@
         <connector>
             <targetReference>B2CCommerce_PlatformEvent_ProcessContactUpdate</targetReference>
         </connector>
-        <inputReference>sourceContact</inputReference>
+        <inputReference>resolvedContactToUpdate</inputReference>
     </recordUpdates>
     <start>
         <locationX>1772</locationX>
@@ -817,38 +847,11 @@
     </start>
     <status>Active</status>
     <subflows>
-        <description>... assign the sourceContact integration properties from the resolvedContact where they have not already been set.</description>
-        <name>asn_sourceContactIntegrationPropertiesResolvedContact</name>
-        <label>Assign sourceContact Integration Properties from Resolved Contact</label>
-        <locationX>1302</locationX>
-        <locationY>1507</locationY>
-        <connector>
-            <targetReference>dec_EvaluateContactRecord</targetReference>
-        </connector>
-        <flowName>B2CCommerce_Process_ContactPropertiesHelper</flowName>
-        <inputAssignments>
-            <name>var_resolvedContact</name>
-            <value>
-                <elementReference>var_resolvedContact</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <name>var_sourceContact</name>
-            <value>
-                <elementReference>sourceContact</elementReference>
-            </value>
-        </inputAssignments>
-        <outputAssignments>
-            <assignToReference>sourceContact</assignToReference>
-            <name>var_sourceContact</name>
-        </outputAssignments>
-    </subflows>
-    <subflows>
         <description>... generate the Contact Process Platform Event.</description>
         <name>B2CCommerce_PlatformEvent_ProcessContactUpdate</name>
         <label>Create the Contact Process Platform Event</label>
         <locationX>1307</locationX>
-        <locationY>3472</locationY>
+        <locationY>3470</locationY>
         <connector>
             <targetReference>dec_isContactMissingAccountID</targetReference>
         </connector>
@@ -856,7 +859,7 @@
         <inputAssignments>
             <name>var_contactToProcess</name>
             <value>
-                <elementReference>sourceContact</elementReference>
+                <elementReference>resolvedContactToUpdate</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -886,7 +889,7 @@
         <inputAssignments>
             <name>var_contactToProcess</name>
             <value>
-                <elementReference>sourceContact</elementReference>
+                <elementReference>synchronizedContact</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -932,7 +935,7 @@
             </value>
         </inputAssignments>
         <outputAssignments>
-            <assignToReference>var_resolvedContact</assignToReference>
+            <assignToReference>synchronizedContact</assignToReference>
             <name>assignedContact</name>
         </outputAssignments>
     </subflows>
@@ -940,7 +943,7 @@
         <description>... attempt to calculate the Account Name based on the Contact properties provided.</description>
         <name>sub_calculateAccountName</name>
         <label>Calculate the Account Name</label>
-        <locationX>2720</locationX>
+        <locationX>2721</locationX>
         <locationY>2487</locationY>
         <connector>
             <targetReference>asn_AccountNameToBusinessAccount</targetReference>
@@ -949,7 +952,7 @@
         <inputAssignments>
             <name>sourceContact</name>
             <value>
-                <elementReference>sourceContact</elementReference>
+                <elementReference>synchronizedContact</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -1010,6 +1013,12 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <name>var_qaFirstName</name>
+            <value>
+                <elementReference>var_qaFirstName</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <name>var_qaLastName</name>
             <value>
                 <elementReference>var_qaLastName</elementReference>
@@ -1030,11 +1039,15 @@
             <name>Contact</name>
         </outputAssignments>
         <outputAssignments>
-            <assignToReference>var_contactResolutionErrors</assignToReference>
+            <assignToReference>sourceContact</assignToReference>
+            <name>contactToResolve</name>
+        </outputAssignments>
+        <outputAssignments>
+            <assignToReference>ContactResolutionErrors</assignToReference>
             <name>ErrorMessage</name>
         </outputAssignments>
         <outputAssignments>
-            <assignToReference>var_contactResolutionSuccess</assignToReference>
+            <assignToReference>ContactWasResolved</assignToReference>
             <name>isSuccess</name>
         </outputAssignments>
         <outputAssignments>
@@ -1046,7 +1059,7 @@
             <name>parentB2CCustomerList</name>
         </outputAssignments>
         <outputAssignments>
-            <assignToReference>var_resolvedContactCount</assignToReference>
+            <assignToReference>ContactResolutionCount</assignToReference>
             <name>ResolutionCount</name>
         </outputAssignments>
         <outputAssignments>
@@ -1072,13 +1085,40 @@
         <objectType>Contact</objectType>
     </variables>
     <variables>
-        <description>... represents the collection containing the Contact to resolve</description>
-        <name>contactToResolve</name>
-        <dataType>SObject</dataType>
+        <description>... used to capture the number of contacts resolved by the B2C CustomerResolution IA.</description>
+        <name>ContactResolutionCount</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+        <value>
+            <numberValue>0.0</numberValue>
+        </value>
+    </variables>
+    <variables>
+        <description>... represents the error message provided by the contactResolutionHelper.</description>
+        <name>ContactResolutionError</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>... represents the collection of errors captured during the contactResolution process.</description>
+        <name>ContactResolutionErrors</name>
+        <dataType>String</dataType>
         <isCollection>true</isCollection>
         <isInput>false</isInput>
         <isOutput>false</isOutput>
-        <objectType>Contact</objectType>
+    </variables>
+    <variables>
+        <description>... represents the successFlag value from the contactResolution class.</description>
+        <name>ContactWasResolved</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
     </variables>
     <variables>
         <name>errors</name>
@@ -1107,11 +1147,29 @@
         <objectType>Account</objectType>
     </variables>
     <variables>
+        <description>... represents the resolvedContact that will be updated as part of the resolutionFlow.</description>
+        <name>resolvedContactToUpdate</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Contact</objectType>
+    </variables>
+    <variables>
         <description>... represents the input parameters used to process a Contact record.</description>
         <name>sourceContact</name>
         <dataType>SObject</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Contact</objectType>
+    </variables>
+    <variables>
+        <description>... represents the combination of the source and resolvedContact.</description>
+        <name>synchronizedContact</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
         <isOutput>false</isOutput>
         <objectType>Contact</objectType>
     </variables>
@@ -1133,30 +1191,6 @@
         <objectType>B2C_CustomerList__c</objectType>
     </variables>
     <variables>
-        <description>... represents the error message provided by the contactResolutionHelper.</description>
-        <name>var_contactResolutionError</name>
-        <dataType>String</dataType>
-        <isCollection>false</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-    </variables>
-    <variables>
-        <description>... represents the collection of errors captured during the contactResolution process.</description>
-        <name>var_contactResolutionErrors</name>
-        <dataType>String</dataType>
-        <isCollection>true</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-    </variables>
-    <variables>
-        <description>... represents the successFlag value from the contactResolution class.</description>
-        <name>var_contactResolutionSuccess</name>
-        <dataType>Boolean</dataType>
-        <isCollection>false</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-    </variables>
-    <variables>
         <description>... represents the iterative count of resolvedContact items</description>
         <name>var_loopResolvedContactIterationCount</name>
         <dataType>Number</dataType>
@@ -1167,15 +1201,6 @@
         <value>
             <numberValue>0.0</numberValue>
         </value>
-    </variables>
-    <variables>
-        <description>... represents the original version of the sourceContact.</description>
-        <name>var_originalContact</name>
-        <dataType>SObject</dataType>
-        <isCollection>false</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-        <objectType>Contact</objectType>
     </variables>
     <variables>
         <description>... represents the customerID used to process the Contact within the flow.</description>
@@ -1210,6 +1235,14 @@
         <isOutput>false</isOutput>
     </variables>
     <variables>
+        <description>... represents the firstName of the QA Contact to assemble for testing.</description>
+        <name>var_qaFirstName</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
         <description>... placeholder variable for the contact&apos;s lastName.</description>
         <name>var_qaLastName</name>
         <dataType>String</dataType>
@@ -1229,15 +1262,6 @@
         </value>
     </variables>
     <variables>
-        <description>... represents the contactRecord used to overwrite the sourceContact for QA testing.</description>
-        <name>var_qaSourceContact</name>
-        <dataType>SObject</dataType>
-        <isCollection>false</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-        <objectType>Contact</objectType>
-    </variables>
-    <variables>
         <description>... represents the resolvedContact provided by the contactResolutionHelper.</description>
         <name>var_resolvedContact</name>
         <dataType>SObject</dataType>
@@ -1245,17 +1269,5 @@
         <isInput>false</isInput>
         <isOutput>false</isOutput>
         <objectType>Contact</objectType>
-    </variables>
-    <variables>
-        <description>... used to capture the number of contacts resolved by the B2C CustomerResolution IA.</description>
-        <name>var_resolvedContactCount</name>
-        <dataType>Number</dataType>
-        <isCollection>false</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-        <scale>0</scale>
-        <value>
-            <numberValue>0.0</numberValue>
-        </value>
     </variables>
 </Flow>

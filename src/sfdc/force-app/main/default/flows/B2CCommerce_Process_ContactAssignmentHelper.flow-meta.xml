@@ -5,12 +5,9 @@
         <name>ia_synchronizeContactProperties</name>
         <label>Synchronize Remaining Contact Properties</label>
         <locationX>651</locationX>
-        <locationY>3048</locationY>
+        <locationY>3303</locationY>
         <actionName>B2CIASynchronizeContact</actionName>
         <actionType>apex</actionType>
-        <connector>
-            <targetReference>dec_auditB2COCAPIResponses</targetReference>
-        </connector>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>sourceContact</name>
@@ -35,7 +32,7 @@
         <name>asn_b2cCustomerIDToAssignedContact</name>
         <label>Assign the B2C CustomerID</label>
         <locationX>402</locationX>
-        <locationY>749</locationY>
+        <locationY>1004</locationY>
         <assignmentItems>
             <assignToReference>assignedContact.B2C_Customer_ID__c</assignToReference>
             <operator>Assign</operator>
@@ -52,7 +49,7 @@
         <name>asn_B2CCustomerListIDToAssignedContact</name>
         <label>Assign the B2C CustomerList ID</label>
         <locationX>404</locationX>
-        <locationY>1318</locationY>
+        <locationY>1573</locationY>
         <assignmentItems>
             <assignToReference>assignedContact.B2C_CustomerList_ID__c</assignToReference>
             <operator>Assign</operator>
@@ -69,7 +66,7 @@
         <name>asn_B2CCustomerListToAssignedContact</name>
         <label>Assign the B2C CustomerList</label>
         <locationX>872</locationX>
-        <locationY>1055</locationY>
+        <locationY>1310</locationY>
         <assignmentItems>
             <assignToReference>assignedContact.B2C_CustomerList__c</assignToReference>
             <operator>Assign</operator>
@@ -86,7 +83,7 @@
         <name>asn_B2CCustomerNoToAssignedContact</name>
         <label>Assign the B2C Customer No</label>
         <locationX>873</locationX>
-        <locationY>1584</locationY>
+        <locationY>1839</locationY>
         <assignmentItems>
             <assignToReference>assignedContact.B2C_Customer_No__c</assignToReference>
             <operator>Assign</operator>
@@ -99,25 +96,11 @@
         </connector>
     </assignments>
     <assignments>
-        <description>... default the audit OCAPI flag value (set to false).</description>
-        <name>asn_defaultAuditOCAPIFlag</name>
-        <label>Default the Audit OCAPI flag</label>
-        <locationX>406</locationX>
-        <locationY>3247</locationY>
-        <assignmentItems>
-            <assignToReference>assignedContact.Audit_OCAPI_API_Response__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <booleanValue>false</booleanValue>
-            </value>
-        </assignmentItems>
-    </assignments>
-    <assignments>
         <description>... assign the default Contact name value to the lastName of the assignedContact.</description>
         <name>asn_defaultContactName_0_0</name>
         <label>Assign the Default Contact Name</label>
         <locationX>942</locationX>
-        <locationY>3048</locationY>
+        <locationY>3303</locationY>
         <assignmentItems>
             <assignToReference>assignedContact.LastName</assignToReference>
             <operator>Assign</operator>
@@ -134,7 +117,7 @@
         <name>asn_defaultContactName_AssignmentCListCNo</name>
         <label>Set the Default Contact Name Assignment Flag</label>
         <locationX>356</locationX>
-        <locationY>2767</locationY>
+        <locationY>3022</locationY>
         <assignmentItems>
             <assignToReference>var_setDefaultContactName</assignToReference>
             <operator>Assign</operator>
@@ -151,7 +134,7 @@
         <name>asn_defaultContactName_AssignmentEmail</name>
         <label>Set the Default Contact Name Assignment Flag</label>
         <locationX>976</locationX>
-        <locationY>2440</locationY>
+        <locationY>2695</locationY>
         <assignmentItems>
             <assignToReference>var_setDefaultContactName</assignToReference>
             <operator>Assign</operator>
@@ -164,11 +147,28 @@
         </connector>
     </assignments>
     <assignments>
+        <description>... default the OCAPI Auditing Property on the sourceContact.</description>
+        <name>asn_defaultOCAPIPropertyValue</name>
+        <label>Default the OCAPI Auditing Property</label>
+        <locationX>873</locationX>
+        <locationY>244</locationY>
+        <assignmentItems>
+            <assignToReference>sourceContact.Audit_OCAPI_API_Response__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>dec_lastNameExists</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <description>...assign the sourceContact&apos;s emailAddress to the assigned contact.</description>
         <name>asn_EmailAddressToAssignedContact</name>
         <label>Assign the Email Address</label>
         <locationX>404</locationX>
-        <locationY>1821</locationY>
+        <locationY>2076</locationY>
         <assignmentItems>
             <assignToReference>assignedContact.Email</assignToReference>
             <operator>Assign</operator>
@@ -185,7 +185,7 @@
         <name>asn_FistnameToAssignedContact</name>
         <label>Assign the FirstName</label>
         <locationX>867</locationX>
-        <locationY>747</locationY>
+        <locationY>1002</locationY>
         <assignmentItems>
             <assignToReference>assignedContact.FirstName</assignToReference>
             <operator>Assign</operator>
@@ -202,7 +202,7 @@
         <name>asn_LastNameToAssignedContact</name>
         <label>Assign the LastName</label>
         <locationX>375</locationX>
-        <locationY>254</locationY>
+        <locationY>509</locationY>
         <assignmentItems>
             <assignToReference>assignedContact.LastName</assignToReference>
             <operator>Assign</operator>
@@ -217,9 +217,9 @@
     <decisions>
         <description>... evaluates if the B2C Commerce CustomerList / CustomerNo were assigned -- in order to evaluate if a LastName exists on the Contact.</description>
         <name>dec_areB2CCustomerListCustomerNoAssigned</name>
-        <label>ere the B2C CustomerList / CustomerNo Assigned?</label>
+        <label>Were the B2C CustomerList / CustomerNo Assigned?</label>
         <locationX>640</locationX>
-        <locationY>2435</locationY>
+        <locationY>2689</locationY>
         <defaultConnector>
             <targetReference>dec_setDefaultContactName</targetReference>
         </defaultConnector>
@@ -255,34 +255,11 @@
         </rules>
     </decisions>
     <decisions>
-        <description>... evaluate if the audit-responses flag has been set</description>
-        <name>dec_auditB2COCAPIResponses</name>
-        <label>Has Audit OCAPI Responses Been Set?</label>
-        <locationX>643</locationX>
-        <locationY>3248</locationY>
-        <defaultConnectorLabel>Set</defaultConnectorLabel>
-        <rules>
-            <name>Not_Set</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>assignedContact.Audit_OCAPI_API_Response__c</leftValueReference>
-                <operator>WasSet</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>asn_defaultAuditOCAPIFlag</targetReference>
-            </connector>
-            <label>Not Set</label>
-        </rules>
-    </decisions>
-    <decisions>
         <description>... does the B2C CustomerID exist on the sourceContact</description>
         <name>dec_b2cCustomerIDExist</name>
         <label>Does the B2C CustomerID Exist?</label>
         <locationX>641</locationX>
-        <locationY>749</locationY>
+        <locationY>1004</locationY>
         <defaultConnector>
             <targetReference>dec_b2cCustomerListExist</targetReference>
         </defaultConnector>
@@ -308,7 +285,7 @@
         <name>dec_b2cCustomerListExist</name>
         <label>Does the B2C CustomerList Association Exist?</label>
         <locationX>642</locationX>
-        <locationY>1058</locationY>
+        <locationY>1313</locationY>
         <defaultConnector>
             <targetReference>dec_b2cCustomerListIDExist</targetReference>
         </defaultConnector>
@@ -334,7 +311,7 @@
         <name>dec_b2cCustomerListIDExist</name>
         <label>Does the B2C CustomerListID Exist?</label>
         <locationX>642</locationX>
-        <locationY>1320</locationY>
+        <locationY>1575</locationY>
         <defaultConnector>
             <targetReference>dec_b2cCustomerNoExist</targetReference>
         </defaultConnector>
@@ -360,7 +337,7 @@
         <name>dec_b2cCustomerNoExist</name>
         <label>Does the B2C CustomerNo Exist?</label>
         <locationX>643</locationX>
-        <locationY>1588</locationY>
+        <locationY>1843</locationY>
         <defaultConnector>
             <targetReference>dec_EmailAddressExist</targetReference>
         </defaultConnector>
@@ -386,7 +363,7 @@
         <name>dec_EmailAddressExist</name>
         <label>Does the Email Address Exist?</label>
         <locationX>643</locationX>
-        <locationY>1827</locationY>
+        <locationY>2082</locationY>
         <defaultConnector>
             <targetReference>dec_wasB2CCustomerListEmailAssigned</targetReference>
         </defaultConnector>
@@ -412,7 +389,7 @@
         <name>dec_firstNameExists</name>
         <label>Does FirstName Exist?</label>
         <locationX>640</locationX>
-        <locationY>499</locationY>
+        <locationY>754</locationY>
         <defaultConnector>
             <targetReference>dec_b2cCustomerIDExist</targetReference>
         </defaultConnector>
@@ -434,11 +411,37 @@
         </rules>
     </decisions>
     <decisions>
+        <description>... evaluate if OCAPI auditing is enabled on the sourceContact.</description>
+        <name>dec_isAuditingEnabled</name>
+        <label>Is Auditing Enabled?</label>
+        <locationX>638</locationX>
+        <locationY>245</locationY>
+        <defaultConnector>
+            <targetReference>dec_lastNameExists</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Is Enabled</defaultConnectorLabel>
+        <rules>
+            <name>decOut_isAuditingEnabledFalse</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>sourceContact.Audit_OCAPI_API_Response__c</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>asn_defaultOCAPIPropertyValue</targetReference>
+            </connector>
+            <label>Is Not Enabled</label>
+        </rules>
+    </decisions>
+    <decisions>
         <description>... does the lastName exist on the sourceContact</description>
         <name>dec_lastNameExists</name>
         <label>Does LastName Exist?</label>
         <locationX>640</locationX>
-        <locationY>255</locationY>
+        <locationY>510</locationY>
         <defaultConnector>
             <targetReference>dec_firstNameExists</targetReference>
         </defaultConnector>
@@ -464,7 +467,7 @@
         <name>dec_setDefaultContactName</name>
         <label>Set the Default Contact Name?</label>
         <locationX>642</locationX>
-        <locationY>2762</locationY>
+        <locationY>3017</locationY>
         <defaultConnector>
             <targetReference>ia_synchronizeContactProperties</targetReference>
         </defaultConnector>
@@ -490,7 +493,7 @@
         <name>dec_wasB2CCustomerListEmailAssigned</name>
         <label>Were a CustomerList / Email Assigned</label>
         <locationX>644</locationX>
-        <locationY>2139</locationY>
+        <locationY>2394</locationY>
         <defaultConnector>
             <targetReference>dec_areB2CCustomerListCustomerNoAssigned</targetReference>
         </defaultConnector>
@@ -530,7 +533,7 @@
         <name>dec_wasContactLastNameAssigned</name>
         <label>Was a LastName Assigned?</label>
         <locationX>347</locationX>
-        <locationY>2444</locationY>
+        <locationY>2699</locationY>
         <defaultConnector>
             <targetReference>dec_setDefaultContactName</targetReference>
         </defaultConnector>
@@ -556,7 +559,7 @@
         <name>dec_wasContactLastNameAssigned_Email</name>
         <label>Was a LastName Assigned?</label>
         <locationX>968</locationX>
-        <locationY>2146</locationY>
+        <locationY>2401</locationY>
         <defaultConnector>
             <targetReference>dec_areB2CCustomerListCustomerNoAssigned</targetReference>
         </defaultConnector>
@@ -600,10 +603,10 @@
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
     <start>
-        <locationX>522</locationX>
-        <locationY>47</locationY>
+        <locationX>520</locationX>
+        <locationY>50</locationY>
         <connector>
-            <targetReference>dec_lastNameExists</targetReference>
+            <targetReference>dec_isAuditingEnabled</targetReference>
         </connector>
     </start>
     <status>Active</status>

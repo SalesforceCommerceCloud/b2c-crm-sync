@@ -2,28 +2,11 @@
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>52.0</apiVersion>
     <assignments>
-        <description>... assign the contactToResolve from the sourceContact.</description>
-        <name>asn_contactToResolve</name>
-        <label>Set the Contact to Resolve</label>
-        <locationX>819</locationX>
-        <locationY>423</locationY>
-        <assignmentItems>
-            <assignToReference>contactToResolve</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>sourceContact</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>sub_verifyContact</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
         <description>... assign the output variables exposing the results of this flow.</description>
         <name>asn_outputVariables</name>
         <label>Set the Success Attributes</label>
-        <locationX>820</locationX>
-        <locationY>1053</locationY>
+        <locationX>817</locationX>
+        <locationY>1073</locationY>
         <assignmentItems>
             <assignToReference>isSuccess</assignToReference>
             <operator>Assign</operator>
@@ -38,7 +21,7 @@
         <locationX>810</locationX>
         <locationY>196</locationY>
         <defaultConnector>
-            <targetReference>asn_contactToResolve</targetReference>
+            <targetReference>sub_verifyContact</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Is Not Enabled</defaultConnectorLabel>
         <rules>
@@ -61,8 +44,8 @@
         <description>... evaluate if an error was caught during validation.</description>
         <name>dec_wasErrorCaught</name>
         <label>Was an Error Caught?</label>
-        <locationX>811</locationX>
-        <locationY>809</locationY>
+        <locationX>809</locationX>
+        <locationY>816</locationY>
         <defaultConnector>
             <targetReference>asn_outputVariables</targetReference>
         </defaultConnector>
@@ -114,8 +97,8 @@
         <description>... process the QA input variables and produce a Contact object that can be used to resolution.</description>
         <name>sub_overrideContactToResolve</name>
         <label>Override the Contact</label>
-        <locationX>1105</locationX>
-        <locationY>612</locationY>
+        <locationX>1124</locationX>
+        <locationY>555</locationY>
         <connector>
             <targetReference>sub_verifyContact</targetReference>
         </connector>
@@ -139,6 +122,12 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <name>var_qaContactID</name>
+            <value>
+                <elementReference>var_qaContactID</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <name>var_qaEmailAddress</name>
             <value>
                 <elementReference>var_qaEmailAddress</elementReference>
@@ -157,7 +146,7 @@
             </value>
         </inputAssignments>
         <outputAssignments>
-            <assignToReference>contactToResolve</assignToReference>
+            <assignToReference>sourceContact</assignToReference>
             <name>var_qaContact</name>
         </outputAssignments>
     </subflows>
@@ -165,16 +154,16 @@
         <description>... this flow attempts to verify that an identifiable Contact record exists using the B2C CustomerID / ContactID attributes that can be provided.</description>
         <name>sub_verifyContact</name>
         <label>Verify the Contact Record</label>
-        <locationX>819</locationX>
-        <locationY>612</locationY>
+        <locationX>817</locationX>
+        <locationY>555</locationY>
         <connector>
             <targetReference>dec_wasErrorCaught</targetReference>
         </connector>
         <flowName>B2CCommerce_Process_Contact_VerifyRecord</flowName>
         <inputAssignments>
-            <name>contactToResolve</name>
+            <name>sourceContact</name>
             <value>
-                <elementReference>contactToResolve</elementReference>
+                <elementReference>sourceContact</elementReference>
             </value>
         </inputAssignments>
         <outputAssignments>
@@ -212,7 +201,7 @@
         <dataType>SObject</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>
-        <isOutput>true</isOutput>
+        <isOutput>false</isOutput>
         <objectType>Contact</objectType>
     </variables>
     <variables>
@@ -300,7 +289,7 @@
         <dataType>SObject</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
-        <isOutput>false</isOutput>
+        <isOutput>true</isOutput>
         <objectType>Contact</objectType>
     </variables>
     <variables>
@@ -322,6 +311,14 @@
     <variables>
         <description>... represents the customerNo the be used to resolve the Contact within the flow.</description>
         <name>var_qaB2CCustomerNo</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>... represents the ContactID of the profile being resolved.</description>
+        <name>var_qaContactID</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
