@@ -7,9 +7,8 @@
     <fieldManageability>SubscriberControlled</fieldManageability>
     <inlineHelpText>... represents the http-port that will be used when rendering the Account Manager audienceUrl.</inlineHelpText>
     <label>Account Manager Port</label>
-    <precision>18</precision>
+    <length>10</length>
     <required>true</required>
-    <scale>0</scale>
-    <type>Number</type>
+    <type>Text</type>
     <unique>false</unique>
 </CustomField>

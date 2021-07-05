@@ -34,9 +34,6 @@
                             <value>Global.LogACall</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Global.NewNote</value>
-                        </valueListItems>
-                        <valueListItems>
                             <value>Global.NewOpportunity</value>
                         </valueListItems>
                         <valueListItems>
@@ -133,11 +130,6 @@
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentName>cooper:companyInsightTeaserCard</componentName>
-            </componentInstance>
-        </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>

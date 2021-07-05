@@ -41,7 +41,7 @@ public with sharing class B2CIARequestB2CAuthToken {
 
         // Build out the audience and authentication urls
         audienceUrl = accountManagerConfigSettings.get('AccountManagerUrl') + ':' +
-            String.valueOf(accountManagerConfigSettings.get('AccountManagerPort')) +
+            accountManagerConfigSettings.get('AccountManagerPort') +
             accountManagerConfigSettings.get('AccountManagerSuffix');
 
         // Build out the authenticationUrl
