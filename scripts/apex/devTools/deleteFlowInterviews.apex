@@ -12,6 +12,7 @@ openFlowInterviews = [
     SELECT  Id
     FROM    FlowInterview
     WHERE   InterviewLabel LIKE '%B2C Commerce:%'
+    OR      InterviewLabel LIKE '%B2CContact%'
 ];
 
 // Was at least one (1) flowInterview identified?
