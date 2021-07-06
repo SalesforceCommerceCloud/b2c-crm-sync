@@ -506,7 +506,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>recCreate_B2CRetrieveContactIntegrationHistory</targetReference>
+                <targetReference>recGet_contactValidateRetrieve</targetReference>
             </connector>
             <label>Audit API Response</label>
         </rules>
@@ -539,7 +539,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>recCreate_B2CRetrieveContactIntegrationHistoryFromPublish</targetReference>
+                <targetReference>recGet_contactValidatePublish</targetReference>
             </connector>
             <label>Audit the Contact Update</label>
         </rules>
@@ -827,6 +827,52 @@
         </rules>
     </decisions>
     <decisions>
+        <description>... evaluate if the Contact was verified prior to auditing.</description>
+        <name>dec_wasContactVerified</name>
+        <label>Was the Contact Verified?</label>
+        <locationX>78</locationX>
+        <locationY>4182</locationY>
+        <defaultConnectorLabel>False</defaultConnectorLabel>
+        <rules>
+            <name>decOut_wasContactVerifiedTrue</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>recGet_contactValidateRetrieve</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>recCreate_B2CRetrieveContactIntegrationHistory</targetReference>
+            </connector>
+            <label>Was Verified</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>... evaluate if the Contact was verified prior to auditing.</description>
+        <name>dec_wasContactVerifiedPublish</name>
+        <label>Was the Contact Verified?</label>
+        <locationX>1236</locationX>
+        <locationY>4168</locationY>
+        <defaultConnectorLabel>False</defaultConnectorLabel>
+        <rules>
+            <name>decOut_wasContactVerifiedPublishTrue</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>recGet_contactValidatePublish</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>recCreate_B2CRetrieveContactIntegrationHistoryFromPublish</targetReference>
+            </connector>
+            <label>Was Verified</label>
+        </rules>
+    </decisions>
+    <decisions>
         <description>... evaluate if a valid B2C AuthToken was retrieved for the specified B2C Client ID.</description>
         <name>dec_wasValidB2CAuthTokenFound</name>
         <label>Was a Valid B2C AuthToken Found?</label>
@@ -885,8 +931,8 @@
         <description>... audit the B2C Commerce Customer Profile integration results for the specific Contact record.</description>
         <name>recCreate_B2CRetrieveContactIntegrationHistory</name>
         <label>Audit the B2C Commerce Customer Profile</label>
-        <locationX>336</locationX>
-        <locationY>4187</locationY>
+        <locationX>337</locationX>
+        <locationY>4338</locationY>
         <connector>
             <targetReference>dec_isAuthTokenPersistenceEnabled</targetReference>
         </connector>
@@ -963,8 +1009,8 @@
         <description>... audit the B2C Commerce Customer Profile integration results for the specific Contact record.</description>
         <name>recCreate_B2CRetrieveContactIntegrationHistoryFromPublish</name>
         <label>Audit the B2C Commerce Customer Profile</label>
-        <locationX>985</locationX>
-        <locationY>4187</locationY>
+        <locationX>987</locationX>
+        <locationY>4329</locationY>
         <connector>
             <targetReference>dec_isAuthTokenPersistenceEnabled</targetReference>
         </connector>
@@ -1190,6 +1236,52 @@
         </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
         <object>Contact</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>... validate that the Contact record exists prior to auditing.</description>
+        <name>recGet_contactValidatePublish</name>
+        <label>Validate the Contact Exists</label>
+        <locationX>986</locationX>
+        <locationY>4159</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>dec_wasContactVerifiedPublish</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.CRM_Contact_ID__c</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Contact</object>
+        <queriedFields>Id</queriedFields>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>... validate that the Contact record exists prior to auditing.</description>
+        <name>recGet_contactValidateRetrieve</name>
+        <label>Validate the Contact Exists</label>
+        <locationX>337</locationX>
+        <locationY>4172</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>dec_wasContactVerified</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.CRM_Contact_ID__c</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Contact</object>
+        <queriedFields>Id</queriedFields>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
