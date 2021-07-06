@@ -15,8 +15,6 @@
     "crm-sync:sf:connectedapps": "node cli.js crm-sync:sf:connectedapps",
     "crm-sync:sf:trustedsites": "node cli.js crm-sync:sf:trustedsites",
     "crm-sync:sf:remotesitesettings": "node cli.js crm-sync:sf:remotesitesettings",
-    "crm-sync:sf:authprovider:create": "node cli.js crm-sync:sf:authprovider:create",
-    "crm-sync:sf:authprovider:build": "node cli.js crm-sync:sf:authprovider:build",
     "crm-sync:sf:namedcredentials:am": "node cli.js crm-sync:sf:namedcredentials:am",
     "crm-sync:sf:namedcredentials:oobo": "node cli.js crm-sync:sf:namedcredentials:oobo",
     "crm-sync:sf:b2cinstance:setup": "node cli.js crm-sync:sf:b2cinstance:setup",
