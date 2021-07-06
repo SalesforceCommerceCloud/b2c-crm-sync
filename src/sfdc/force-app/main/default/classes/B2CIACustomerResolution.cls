@@ -13,8 +13,8 @@ public inherited sharing class B2CIACustomerResolution {
      *
      * @param contactList{List<List<Contact>>} A list of contacts but is expected to have only 1 item.
      * This is to support use within Flow.
-     * @returns {List<List<Contact>>} Returns a list of list of contacts. This is expected to have only 1 item in
-     * the main list to support use with Flow.
+     * @return {List<B2CIACustomerResolutionResult>} Returns a list of list of contacts. This is expected to have
+     * only 1 item in the main list to support use with Flow.
      */
     @InvocableMethod(Label='B2C: Customer Resolution' Description='Finds matching contacts based on B2C matching rules')
     public static List<B2CIACustomerResolutionResult> resolve(List<List<Contact>> contactList) {
