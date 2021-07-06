@@ -23,12 +23,6 @@ public with sharing class B2CIAGetCustomerListsSites {
         List<B2CIAGetCustomerListsSitesResult> outputObj;
         B2CIAGetCustomerListsSitesResult requestResult;
 
-        // Initialize the authToken properties
-        Map<String, Object> authTokenResults;
-        Boolean authTokenSuccess;
-        String authTokenErrorMessage;
-        String b2cAuthToken;
-
         // Initialize the request properties
         HttpRequest req;
         Http https;

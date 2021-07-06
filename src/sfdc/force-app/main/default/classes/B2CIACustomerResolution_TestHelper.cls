@@ -83,41 +83,6 @@ public with sharing class B2CIACustomerResolution_TestHelper {
      * @param flowResults {Map<String, Object>} Represents the results processed by the
      * customerResolution class and filterMatches flow results
      */
-    public static void validateZeroFilterResultsWithResolutionResultsFromMultiple(Map<String, Object> flowResults) {
-
-        // Initialize local variables
-        List<Contact> contactResolvedList;
-        List<Contact> contactFilteredList;
-        Boolean flowIsSuccess;
-        List<String> flowErrors;
-
-        // Collect the flow results
-        contactResolvedList = (List<Contact>) flowResults.get('contactResolvedList');
-        contactFilteredList = (List<Contact>) flowResults.get('contactFilteredList');
-        flowIsSuccess = (Boolean) flowResults.get('flowIsSuccess');
-        flowErrors = (List<String>) flowResults.get('flowErrors');
-
-        // Debugging: Output the test results
-        System.debug(System.LoggingLevel.INFO, '--> contactResolvedList: ' + contactResolvedList);
-        System.debug(System.LoggingLevel.INFO, '--> contactFilteredList: ' + contactFilteredList);
-        System.debug(System.LoggingLevel.INFO, '--> flowIsSuccess: ' + flowIsSuccess);
-        System.debug(System.LoggingLevel.INFO, '--> flowErrors: ' + flowErrors);
-
-        // Assert that the resolution class and filterFlow return predictable results
-        System.assert(contactResolvedList.size() > 0, 'Expected the customerResolution class to return at least one (1) record');
-        System.assertEquals(null, contactFilteredList, 'Expected the filterMatches flow to return zero records; a match should not be found');
-        System.assertEquals(true, flowIsSuccess, 'Expected the isSuccess flag to be set to true');
-        System.assertEquals(null, flowErrors, 'Expected the errors collection to be empty');
-
-    }
-
-    /**
-     * @description This method is used to assert that zero filter results are returned
-     * via the B2CCommerce_Process_ContactFilterMatches flow from multiple resolution results
-     *
-     * @param flowResults {Map<String, Object>} Represents the results processed by the
-     * customerResolution class and filterMatches flow results
-     */
     public static void validateZeroResultsFromMultiple(Map<String, Object> flowResults) {
 
         // Initialize local variables
@@ -200,6 +165,7 @@ public with sharing class B2CIACustomerResolution_TestHelper {
         Map<String, Object> contactFilterMap;
         Boolean flowIsSuccess;
         List<String> flowErrors;
+        List<List<Contact>> contactsToResolve;
 
         // Initialize the output variable
         Map<String, Object> output;
@@ -207,8 +173,11 @@ public with sharing class B2CIACustomerResolution_TestHelper {
         // Initialize the output property
         output = new Map<String, Object>();
 
+        contactsToResolve = new List<List<Contact>>();
+        contactsToResolve.add(new List<Contact>{testContact});
+
         // Retrieve the collection of resolved contacts and processing results
-        contactResolvedListContainer = B2CIACustomerResolution.resolve(new List<Contact>{testContact});
+        contactResolvedListContainer = B2CIACustomerResolution.resolve(contactsToResolve);
         resolutionResults = contactResolvedListContainer.get(0);
 
         // Audit an error -- if one was caught

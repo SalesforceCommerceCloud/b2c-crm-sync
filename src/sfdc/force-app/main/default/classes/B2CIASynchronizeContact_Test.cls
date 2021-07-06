@@ -8,6 +8,10 @@
 @IsTest
 private class B2CIASynchronizeContact_Test {
 
+    /**
+     * @description This test is used to validate that a sourceContact and targetContact can be synchronized.  It
+     * confirms that fields present in the sourceContact are copied or updated in the targetContact.
+     */
     @IsTest
     static void testContactSynchronization() {
 
@@ -23,11 +27,11 @@ private class B2CIASynchronizeContact_Test {
 
         // Default the sourceContact used for testing
         input.sourceContact = (Contact)TestDataFactory.createSObject('Contact', new Map<String,Object>{
-                'FirstName' => 'Test',
-                'LastName' => 'Contact',
-                'Email' => 'test@example.com',
-                'Description' => 'Test Description',
-                'Title' => 'Test Title'
+            'FirstName' => 'Test',
+            'LastName' => 'Contact',
+            'Email' => 'test@example.com',
+            'Description' => 'Test Description',
+            'Title' => 'Test Title'
         });
 
         // Default the target used for testing
@@ -43,8 +47,8 @@ private class B2CIASynchronizeContact_Test {
 
         Test.startTest();
 
-        // Attempt to synchronize the mismatched contactProperties between the source and target Contacts
-        synchronizeContactResults = B2CIASynchronizeContact.synchronizeContactProperties(inputList);
+            // Attempt to synchronize the mismatched contactProperties between the source and target Contacts
+            synchronizeContactResults = B2CIASynchronizeContact.synchronizeContactProperties(inputList);
 
         Test.stopTest();
 
@@ -55,7 +59,7 @@ private class B2CIASynchronizeContact_Test {
         System.assertEquals(synchronizeContactResult.missingContactFields.size(), 2, ' -- expected two fields to be missing in the targetContact; check the test-data to confirm');
         System.assertEquals(synchronizeContactResult.sourceContact.get('Description'), synchronizeContactResult.synchronizedTargetContact.get('Description'), ' -- expected the [Description] fields to be synchronized across the source / targetContacts');
         System.assertEquals(synchronizeContactResult.sourceContact.get('Title'), synchronizeContactResult.synchronizedTargetContact.get('Title'), ' -- expected the [Title] fields to be synchronized across the source / targetContacts');
-        System.assertNotEquals(synchronizeContactResult.sourceContact.get('FirstName'), synchronizeContactResult.synchronizedTargetContact.get('FirstName'), ' -- expected the FirstName fields to be different across the source / targetContacts');
+        System.assertEquals(synchronizeContactResult.sourceContact.get('FirstName'), synchronizeContactResult.synchronizedTargetContact.get('FirstName'), ' -- expected the FirstName fields to be different across the source / targetContacts');
 
     }
 

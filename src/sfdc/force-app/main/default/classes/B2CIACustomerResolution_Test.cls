@@ -34,7 +34,7 @@ private class B2CIACustomerResolution_Test {
     @TestSetup static void setup() {
 
         // Setup a single customerList we can use for testing / validation
-        B2C_CustomerList__c customerList = (B2C_CustomerList__c)TestDataFactory.createSObject('B2C_CustomerList__c', new Map<String,Object>{
+        TestDataFactory.createSObject('B2C_CustomerList__c', new Map<String,Object>{
             'Name' => 'customerList',
             'Is_Active__c' => true,
             'API_Url__c' => 'https://www.salesforce.com',
@@ -45,7 +45,7 @@ private class B2CIACustomerResolution_Test {
         });
 
         // Setup a second customerList for testing / validation
-        B2C_CustomerList__c customerList1 = (B2C_CustomerList__c)TestDataFactory.createSObject('B2C_CustomerList__c', new Map<String,Object>{
+        TestDataFactory.createSObject('B2C_CustomerList__c', new Map<String,Object>{
             'Name' => 'customerList1',
             'Is_Active__c' => true,
             'API_Url__c' => 'https://www.salesforce.com',
@@ -56,7 +56,7 @@ private class B2CIACustomerResolution_Test {
         });
 
         // Setup a third customerList for testing / validation
-        B2C_CustomerList__c customerList2 = (B2C_CustomerList__c)TestDataFactory.createSObject('B2C_CustomerList__c', new Map<String,Object>{
+        TestDataFactory.createSObject('B2C_CustomerList__c', new Map<String,Object>{
             'Name' => 'customerList2',
             'Is_Active__c' => true,
             'API_Url__c' => 'https://www.salesforce.com',
@@ -77,12 +77,12 @@ private class B2CIACustomerResolution_Test {
 
         // Initialize local variables
         List<B2CIACustomerResolutionResult> resolutionResults;
-        List<Contact> testContacts;
+        List<List<Contact>> testContacts;
 
         Test.startTest();
 
             // Initialize the testContacts collection
-            testContacts = new List<Contact>();
+            testContacts = new List<List<Contact>>();
 
             // Attempt to resolve the empty resultSet
             resolutionResults = B2CIACustomerResolution.resolve(testContacts);
@@ -106,6 +106,58 @@ private class B2CIACustomerResolution_Test {
     //----------------------------------------------------------------
     // START: B2C CustomerID
     //----------------------------------------------------------------
+
+
+    /**
+     * @see B2CIACustomerResolution.findDupes
+     * @description This test-case exercises the CustomerResolution IA and attempts to resolve
+     * a Contact record via a customerId.  It resolves a single record from
+     * a single record.
+     */
+    @IsTest
+    private static void testResolveByB2CCustomerIDNoCListSingleResult() {
+
+        // Initialize local variables
+        Map<String, Object> flowResults;
+        Contact contactToResolve;
+        Contact testContact;
+        Map<String, Object> contactToResolveMap;
+
+        // Initialize the map describing the contact to create
+        contactToResolveMap = new Map<String, Object>();
+
+        // Define the map representing the Account / Contact record
+        contactToResolveMap.put('B2C_CustomerList_ID__c', testCustomerListID);
+        contactToResolveMap.put('B2C_Customer_ID__c', testCustomerID);
+        contactToResolveMap.put('Email', testEmail);
+        contactToResolveMap.put('LastName', testLastName);
+
+        // Create the Contact record to resolve
+        contactToResolve = B2CIACustomerResolution_TestHelper.createContact(contactToResolveMap);
+
+        // Define the Contact record to resolve
+        testContact = new Contact(
+            B2C_Customer_ID__c = testCustomerID
+        );
+
+        Test.startTest();
+        //-------------------------------------------
+        // Test: Start exercising the resolutionFlow
+        //-------------------------------------------
+
+            // Execute the flow results
+            flowResults = B2CIACustomerResolution_TestHelper.executeResolutionProcess(testContact);
+
+        //-------------------------------------------
+        // Test: Finish exercising the resolutionFlow
+        //-------------------------------------------
+        Test.stopTest();
+
+        // Validate the single result details
+        System.assert(flowResults != null, 'Expected the flowResults to represent an instantiated map');
+        B2CIACustomerResolution_TestHelper.validateSingleResult(flowResults, contactToResolve);
+
+    }
 
     /**
      * @see B2CIACustomerResolution.findDupes

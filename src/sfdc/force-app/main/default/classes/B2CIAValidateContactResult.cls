@@ -255,6 +255,8 @@ public class B2CIAValidateContactResult {
         // configuration is being enabled -- and then disable via validation
         allowIntegrationProcess = true;
 
+        System.debug(LoggingLevel.DEBUG, '--> B2C Instance: ' + b2cInstance);
+
         // Default the global configuration properties
         isInstanceActive = b2cInstance.Is_Active__c;
         isCustomerListActive = customerList.Is_Active__c;

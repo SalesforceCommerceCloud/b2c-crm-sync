@@ -44,7 +44,6 @@ private class B2CIAGetContact_Test {
         List<B2CIAGetContactInput> requestArguments = new List<B2CIAGetContactInput>();
         B2CIAGetContactInput input = new B2CIAGetContactInput();
         String accountId;
-        Boolean threwError = false;
 
         // Create a contact that we're exercising
         Contact c = (Contact)TestDataFactory.createSObject('Contact', new Map<String,Object>{

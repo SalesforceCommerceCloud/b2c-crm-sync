@@ -8,6 +8,78 @@
 public abstract with sharing class B2CBaseAttributeAssignment {
 
     /**
+      * @description Helper function to update changed fields found between the
+      * sourceObject and its updated / synchronized targetObject.
+      *
+      * @param sourceObject {SObject} Represents the source sObject to evaluate (has all fields with sourceValues)
+      * @param targetObject {SObject} Represents the target sObject to update (has all fields with originalValues)
+      * @return {Map<String, Object>} Returns the target sObject with the updated fieldNames
+      */
+    public static Map<String, Object> updateChangedFieldValues(SObject sourceObject, SObject targetObject) {
+
+        // Initialize local Variables
+        String sourceObjectJSON;
+        Map<String, Object> sourceObjectMap;
+        String targetObjectJSON;
+        Map<String, Object> targetObjectMap;
+        Set<String> targetObjectFields;
+        Map<String, Object> output;
+        List<String> updatedFields;
+
+        // Initialize the outputs
+        output = new Map<String, Object>();
+        updatedFields = new List<String>();
+
+        // Serialize the sourceObject -- skipping null fields
+        sourceObjectJSON = JSON.serialize(sourceObject, true);
+        targetObjectJSON = JSON.serialize(targetObject, true);
+
+        // Convert the JSON to a map representing fieldNames
+        sourceObjectMap = (Map<String, Object>) JSON.deserializeUntyped(sourceObjectJSON);
+        targetObjectMap = (Map<String, Object>) JSON.deserializeUntyped(targetObjectJSON);
+
+        // Create a collection of the targetObject keys
+        targetObjectFields = targetObjectMap.keySet();
+
+        // Loop over the collection of fields in the sourceObject
+        for( String objectFieldName : sourceObjectMap.keySet()) {
+
+            // Move along if the field currently being evaluated is flagged for skipping
+            if (B2CConstant.SYNCHRONIZEPROPERTIESTOSKIP.contains(objectFieldName)) { continue; }
+
+            // Evaluate if the current field is set with a non-null value in the sourceObject
+            if ((sourceObject.isSet(objectFieldName) && targetObject.isSet(objectFieldName))
+                && (sourceObject.get(objectFieldName) != targetObject.get(objectFieldName))) {
+
+                // Audit the field that was updated
+                updatedFields.add(objectFieldName);
+
+                try {
+
+                    // If not, then set the value in the target object
+                    targetObject.put(objectFieldName, sourceObject.get(objectFieldName));
+
+                } catch (Exception e) {
+
+                    // Audit the exception details -- but allow contact synchronization to occur
+                    System.debug(LoggingLevel.ERROR, '--> B2C Commerce Exception: ' + e.getMessage());
+
+                }
+
+            }
+
+        }
+
+        // Add the updatedObject
+        output.put('updatedFields', (Object) updatedFields);
+        output.put('updatedObject', (Object) targetObject);
+
+        // Return the output
+        return output;
+
+    }
+
+    /**
      * @description Helper function to assign missing fieldValues present on one
      * sObject to a target sObject of the same type.
      *
@@ -59,8 +131,17 @@ public abstract with sharing class B2CBaseAttributeAssignment {
                         // Add the objectField to the collection of missingFields
                         missingFields.add(objectFieldName);
 
-                        // If not, then set the value in the target object
-                        targetObject.put(objectFieldName, sourceObject.get(objectFieldName));
+                        try {
+
+                            // If not, then set the value in the target object
+                            targetObject.put(objectFieldName, sourceObject.get(objectFieldName));
+
+                        } catch (Exception e) {
+
+                            // Audit the exception details -- but allow contact synchronization to occur
+                            System.debug(LoggingLevel.ERROR, '--> B2C Commerce Exception: ' + e.getMessage());
+
+                        }
 
                     }
 

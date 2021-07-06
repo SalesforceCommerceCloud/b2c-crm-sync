@@ -10,7 +10,6 @@
 public class B2CHttpTestCalloutMockGenerator implements HttpCalloutMock {
 
     // Initialize local variables
-    private Map<String, String> responseObj;
     private String requestType;
 
     /**

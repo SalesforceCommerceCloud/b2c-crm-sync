@@ -197,20 +197,6 @@ private class B2CProcessContactHelper_Test {
 
         Test.startTest();
 
-            // Update the customerList map to seed the retrieved customerList
-            Map<String, B2C_CustomerList__c> m = B2CProcessContactHelper.updateCustomerListMap(
-                c.B2C_CustomerList_ID__c,
-                new Map<String,B2C_CustomerList__c>{
-                }
-            );
-
-            // Update the b2cInstance map to seed the retrieved instance
-            Map<String, B2C_Instance__c> n = B2CProcessContactHelper.updateInstanceMap(
-                c.B2C_Instance__c,
-                new Map<String,B2C_Instance__c>{
-                }
-            );
-
             // Process the contact record and retrieve the validatedInput class
             B2CIAValidateContactInput validatedInput = B2CProcessContactHelper.getValidateContactInput(
                 c,
