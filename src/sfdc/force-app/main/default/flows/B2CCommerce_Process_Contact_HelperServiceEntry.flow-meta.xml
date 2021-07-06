@@ -2,62 +2,6 @@
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>52.0</apiVersion>
     <assignments>
-        <description>... assign working variables that will be used by a calling flow.</description>
-        <name>asn_assignOutputValuesNoResults</name>
-        <label>Assign the Output Values</label>
-        <locationX>548</locationX>
-        <locationY>2059</locationY>
-        <assignmentItems>
-            <assignToReference>parentB2CCustomerList</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>sub_evaluateContactArgument.parentB2CCustomerList</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>parentAccount</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>sub_evaluateContactArgument.parentAccount</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>verifiedContact</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>sub_evaluateContactArgument.verifiedContact</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>ResolutionCount</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>sub_contactResolution.var_resolvedContactCount</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>isSuccess</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <booleanValue>true</booleanValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>ErrorMessage</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <stringValue>No Contact was resolved with the sourceContact provided.  Please verify the contact properties -- and try again.</stringValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>Contact</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>sourceContact</elementReference>
-            </value>
-        </assignmentItems>
-    </assignments>
-    <assignments>
         <description>... default the contactToResolve to the sourceContact</description>
         <name>asn_defaultContactToResolve</name>
         <label>Default the Contact to Resolve</label>
@@ -79,7 +23,7 @@
         <name>asn_errorIntegrationDisabled</name>
         <label>Error: Integration Is Disabled</label>
         <locationX>18</locationX>
-        <locationY>1279</locationY>
+        <locationY>1280</locationY>
         <assignmentItems>
             <assignToReference>isSuccess</assignToReference>
             <operator>Assign</operator>
@@ -98,23 +42,16 @@
             <assignToReference>ErrorMessage</assignToReference>
             <operator>Add</operator>
             <value>
-                <stringValue>Integration for this combination of Contact, B2C CustomerList, and B2C Instance configuration settings is disabled.  Please check the environment configuration and try again.</stringValue>
+                <stringValue>B2C Commerce Integration is disabled for this B2C Instance, B2C CustomerList, or Contact.  Please check the Salesforce configuration -- and try again.</stringValue>
             </value>
         </assignmentItems>
     </assignments>
     <assignments>
-        <description>... call-out that an error occurred / was caught during the resolution process.</description>
-        <name>asn_errorOccuredDuringResoluion</name>
-        <label>Error Occurred During Resolution</label>
-        <locationX>1223</locationX>
-        <locationY>2065</locationY>
-        <assignmentItems>
-            <assignToReference>ErrorMessage</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <elementReference>sub_contactResolution.var_errorMessage</elementReference>
-            </value>
-        </assignmentItems>
+        <description>... alert the user that integration is disabled for the specified Contact.</description>
+        <name>asn_errorIntegrationDisabledResolvedContact</name>
+        <label>Error: Integration Is Disabled</label>
+        <locationX>2486</locationX>
+        <locationY>1276</locationY>
         <assignmentItems>
             <assignToReference>isSuccess</assignToReference>
             <operator>Assign</operator>
@@ -123,26 +60,50 @@
             </value>
         </assignmentItems>
         <assignmentItems>
-            <assignToReference>sourceContact</assignToReference>
-            <operator>Assign</operator>
+            <assignToReference>ErrorMessage</assignToReference>
+            <operator>Add</operator>
             <value>
-                <elementReference>contactToResolve</elementReference>
+                <elementReference>sub_allowResolvedIntegrationHelper.var_errorMessage</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
-            <assignToReference>ResolutionCount</assignToReference>
-            <operator>Assign</operator>
+            <assignToReference>ErrorMessage</assignToReference>
+            <operator>Add</operator>
             <value>
-                <elementReference>sub_contactResolution.var_resolvedContactCount</elementReference>
+                <stringValue>B2C Commerce Integration is disabled for this B2C Instance, B2C CustomerList, or Contact.  Please check the Salesforce configuration -- and try again.</stringValue>
             </value>
         </assignmentItems>
+    </assignments>
+    <assignments>
+        <description>... assign the B2C CustomerList attached to the sourceContact to the IC version.</description>
+        <name>asn_evalB2CCustomerListIC</name>
+        <label>Assign the Evaluated B2C CustomerList</label>
+        <locationX>1806</locationX>
+        <locationY>1278</locationY>
+        <assignmentItems>
+            <assignToReference>icB2CCustomerList</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sub_evaluateContactArgument.parentB2CCustomerList</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>icSourceContact</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sub_contactResolution.var_resolvedContact</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>sub_allowResolvedIntegrationHelper</targetReference>
+        </connector>
     </assignments>
     <assignments>
         <description>... expose the multipleResults to the output.</description>
         <name>asn_exposeMultipleResults</name>
         <label>Expose the Multiple Results</label>
-        <locationX>1044</locationX>
-        <locationY>1735</locationY>
+        <locationX>2443</locationX>
+        <locationY>2226</locationY>
         <assignmentItems>
             <assignToReference>ResolvedContacts</assignToReference>
             <operator>Assign</operator>
@@ -158,7 +119,7 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>dec_CanWeResolveThisContact</targetReference>
+            <targetReference>asn_outputVariablesSingle</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -186,7 +147,7 @@
         <locationY>422</locationY>
         <assignmentItems>
             <assignToReference>ErrorMessage</assignToReference>
-            <operator>Add</operator>
+            <operator>Assign</operator>
             <value>
                 <elementReference>sub_evaluateContactArgument.ErrorMessage</elementReference>
             </value>
@@ -198,18 +159,25 @@
                 <booleanValue>false</booleanValue>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Contact</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sub_evaluateContactArgument.sourceContact</elementReference>
+            </value>
+        </assignmentItems>
     </assignments>
     <assignments>
         <description>... assign the contactResolution output variables</description>
-        <name>asn_outputVariablesSingle</name>
+        <name>asn_outputVariablesNoResolvedContact</name>
         <label>Assign the Output Variables</label>
-        <locationX>822</locationX>
-        <locationY>2756</locationY>
+        <locationX>968</locationX>
+        <locationY>1565</locationY>
         <assignmentItems>
             <assignToReference>Account</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>recGet_Account</elementReference>
+                <elementReference>sub_evaluateContactArgument.parentAccount</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -254,13 +222,146 @@
                 <elementReference>sub_evaluateContactArgument.verifiedContact</elementReference>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ErrorMessage</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <stringValue>No Contact was resolved for this combination of identifiers.  Please review the sourceContact properties -- and try again.</stringValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <description>... assign the contactResolution output variables</description>
+        <name>asn_outputVariablesResolutionErrorOccurred</name>
+        <label>Assign the Output Variables</label>
+        <locationX>1583</locationX>
+        <locationY>1563</locationY>
+        <assignmentItems>
+            <assignToReference>Account</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sub_evaluateContactArgument.parentAccount</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Contact</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>shortenedContact</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ResolutionCount</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sub_contactResolution.var_resolvedContactCount</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>isSuccess</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>parentAccount</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sub_evaluateContactArgument.parentAccount</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>parentB2CCustomerList</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sub_evaluateContactArgument.parentB2CCustomerList</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>verifiedContact</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sub_evaluateContactArgument.verifiedContact</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ErrorMessage</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>sub_contactResolution.var_errorMessage</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ResolvedContacts</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sub_contactResolution.var_resolvedContacts</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <description>... assign the contactResolution output variables</description>
+        <name>asn_outputVariablesSingle</name>
+        <label>Assign the Output Variables</label>
+        <locationX>2226</locationX>
+        <locationY>2226</locationY>
+        <assignmentItems>
+            <assignToReference>Account</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>recGet_ResolvedAccount</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Contact</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>shortenedContact</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ResolutionCount</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sub_contactResolution.var_resolvedContactCount</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>isSuccess</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>parentAccount</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>recGet_ResolvedAccount</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>parentB2CCustomerList</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>icB2CCustomerList</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>verifiedContact</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sub_evaluateContactArgument.verifiedContact</elementReference>
+            </value>
+        </assignmentItems>
     </assignments>
     <assignments>
         <description>... assign the contactResolution output variables</description>
         <name>asn_outputVariablesSingle_0</name>
         <label>Assign the Output Variables</label>
-        <locationX>283</locationX>
-        <locationY>2049</locationY>
+        <locationX>282</locationX>
+        <locationY>2249</locationY>
         <assignmentItems>
             <assignToReference>Account</assignToReference>
             <operator>Assign</operator>
@@ -333,7 +434,7 @@
         <name>asn_refreshSourceContact</name>
         <label>Refresh the Source Contact</label>
         <locationX>817</locationX>
-        <locationY>658</locationY>
+        <locationY>659</locationY>
         <assignmentItems>
             <assignToReference>sourceContact</assignToReference>
             <operator>Assign</operator>
@@ -349,8 +450,8 @@
         <description>... shorten the contact to include a subset of the overall resolved attributes.</description>
         <name>asn_shortenContact</name>
         <label>Shorten the Contact</label>
-        <locationX>822</locationX>
-        <locationY>2523</locationY>
+        <locationX>2225</locationX>
+        <locationY>1705</locationY>
         <assignmentItems>
             <assignToReference>shortenedContact.Id</assignToReference>
             <operator>Assign</operator>
@@ -450,7 +551,7 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>asn_outputVariablesSingle</targetReference>
+            <targetReference>dec_isReturnMultipleEnabled</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -458,7 +559,7 @@
         <name>asn_shortenValidatedContact</name>
         <label>Shorten the Contact</label>
         <locationX>281</locationX>
-        <locationY>1526</locationY>
+        <locationY>1609</locationY>
         <assignmentItems>
             <assignToReference>shortenedContact.Id</assignToReference>
             <operator>Assign</operator>
@@ -565,8 +666,8 @@
         <description>... append the verifiedContact to the resolvedCollection.</description>
         <name>asn_verifiedContactToResolvedCollection</name>
         <label>Add the verifiedContact to the Resolved Collection</label>
-        <locationX>52</locationX>
-        <locationY>2051</locationY>
+        <locationX>27</locationX>
+        <locationY>2249</locationY>
         <assignmentItems>
             <assignToReference>ResolvedContacts</assignToReference>
             <operator>Add</operator>
@@ -578,12 +679,36 @@
             <targetReference>asn_outputVariablesSingle_0</targetReference>
         </connector>
     </assignments>
+    <assignments>
+        <description>... assign the B2C CustomerList to a local variable</description>
+        <name>dec_assignB2CCustomerListIC</name>
+        <label>Assign the B2C CustomerList</label>
+        <locationX>1801</locationX>
+        <locationY>1046</locationY>
+        <assignmentItems>
+            <assignToReference>icB2CCustomerList</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>recGet_ResolvedB2CCustomerList</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>icSourceContact</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sub_contactResolution.var_resolvedContact</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>sub_allowResolvedIntegrationHelper</targetReference>
+        </connector>
+    </assignments>
     <decisions>
         <description>... evaluate if we can allow integration for the specified Contact.</description>
         <name>dec_allowIntegrationForContact</name>
         <label>Allow Integration for this Contact?</label>
         <locationX>272</locationX>
-        <locationY>1281</locationY>
+        <locationY>1283</locationY>
         <defaultConnector>
             <targetReference>asn_errorIntegrationDisabled</targetReference>
         </defaultConnector>
@@ -605,14 +730,43 @@
         </rules>
     </decisions>
     <decisions>
-        <description>... evaluate if we can resolve the Contact record using the identifiers provided.</description>
-        <name>dec_CanWeResolveThisContact</name>
-        <label>Was a Contact Resolved?</label>
-        <locationX>810</locationX>
-        <locationY>2059</locationY>
-        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <description>... evaluate if we can allow integration for the specified Contact.</description>
+        <name>dec_allowIntegrationForResolvedContact</name>
+        <label>Allow Integration for this Contact?</label>
+        <locationX>2216</locationX>
+        <locationY>1280</locationY>
+        <defaultConnector>
+            <targetReference>asn_errorIntegrationDisabledResolvedContact</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Do Not Allow</defaultConnectorLabel>
         <rules>
-            <name>dec_CanWeResolveThisContactError</name>
+            <name>dec_allowIntegrationForResolvedContactTrue</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>sub_allowResolvedIntegrationHelper.out_allowIntegrationProcess</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>recGet_ResolvedAccount</targetReference>
+            </connector>
+            <label>Allow</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>... evaluate if an error occurred during the customerResolution process.</description>
+        <name>dec_didResolutionErrorOccur</name>
+        <label>Did a Resolution Error Occur?</label>
+        <locationX>1274</locationX>
+        <locationY>1567</locationY>
+        <defaultConnector>
+            <targetReference>asn_outputVariablesNoResolvedContact</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>No Error Occurred</defaultConnectorLabel>
+        <rules>
+            <name>decOut_didResolutionErrorOccurTrue</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
                 <leftValueReference>sub_contactResolution.var_isSuccess</leftValueReference>
@@ -629,51 +783,35 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>asn_errorOccuredDuringResoluion</targetReference>
+                <targetReference>asn_outputVariablesResolutionErrorOccurred</targetReference>
             </connector>
-            <label>Resolution Error</label>
+            <label>Error Occurred</label>
         </rules>
+    </decisions>
+    <decisions>
+        <description>... evaluate if the resolvedContact has a parent B2C CustomerList; if not -- provide one.</description>
+        <name>dec_doesResolvedContactHaveB2CCustomerList</name>
+        <label>Does the Contact Have a Parent B2C CustomerList?</label>
+        <locationX>1531</locationX>
+        <locationY>1283</locationY>
+        <defaultConnector>
+            <targetReference>recGet_ResolvedB2CCustomerList</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>No B2C CustomerList</defaultConnectorLabel>
         <rules>
-            <name>dec_CanWeResolveThisContactNo</name>
+            <name>decOut_doesResolvedContactHaveB2CCustomerListTrue</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>sub_contactResolution.var_resolvedContactCount</leftValueReference>
-                <operator>EqualTo</operator>
+                <leftValueReference>sub_contactResolution.var_resolvedContact.B2C_CustomerList__c</leftValueReference>
+                <operator>IsNull</operator>
                 <rightValue>
-                    <numberValue>0.0</numberValue>
+                    <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>asn_assignOutputValuesNoResults</targetReference>
+                <targetReference>asn_evalB2CCustomerListIC</targetReference>
             </connector>
-            <label>Not Resolved</label>
-        </rules>
-        <rules>
-            <name>dec_CanWeResolveThisContactSingle</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>sub_contactResolution.var_resolvedContactCount</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <numberValue>1.0</numberValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>recGet_Account</targetReference>
-            </connector>
-            <label>Resolved Single</label>
-        </rules>
-        <rules>
-            <name>dec_CanWeResolveThisContactMultiple</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>sub_contactResolution.var_resolvedContactCount</leftValueReference>
-                <operator>GreaterThan</operator>
-                <rightValue>
-                    <numberValue>1.0</numberValue>
-                </rightValue>
-            </conditions>
-            <label>Resolved Multiple</label>
+            <label>Has B2C CustomerList</label>
         </rules>
     </decisions>
     <decisions>
@@ -706,10 +844,10 @@
         <description>... evaluate if all resolutionResults should be included in the output.</description>
         <name>dec_isReturnMultipleEnabled</name>
         <label>Is returnMultiple Enabled?</label>
-        <locationX>813</locationX>
-        <locationY>1741</locationY>
+        <locationX>2217</locationX>
+        <locationY>1901</locationY>
         <defaultConnector>
-            <targetReference>dec_CanWeResolveThisContact</targetReference>
+            <targetReference>asn_outputVariablesSingle</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Is Not Enabled</defaultConnectorLabel>
         <rules>
@@ -733,7 +871,7 @@
         <name>dec_isReturnMultipleEnabled_0</name>
         <label>Is returnMultiple Enabled?</label>
         <locationX>273</locationX>
-        <locationY>1728</locationY>
+        <locationY>1892</locationY>
         <defaultConnector>
             <targetReference>asn_outputVariablesSingle_0</targetReference>
         </defaultConnector>
@@ -802,6 +940,39 @@
         </rules>
     </decisions>
     <decisions>
+        <description>... evaluate if a Contact was resolved via the resolution process.</description>
+        <name>dec_wasContactResolved</name>
+        <label>Was a Contact Resolved?</label>
+        <locationX>1274</locationX>
+        <locationY>1283</locationY>
+        <defaultConnector>
+            <targetReference>dec_didResolutionErrorOccur</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Was Not Resolved</defaultConnectorLabel>
+        <rules>
+            <name>dec_wasContactResolvedTrue</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>sub_contactResolution.var_resolvedContact</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sub_contactResolution.var_resolvedContactCount</leftValueReference>
+                <operator>GreaterThanOrEqualTo</operator>
+                <rightValue>
+                    <numberValue>1.0</numberValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>dec_doesResolvedContactHaveB2CCustomerList</targetReference>
+            </connector>
+            <label>Was Resolved</label>
+        </rules>
+    </decisions>
+    <decisions>
         <description>... evaluate if a sourceContact was verified during the validation process.</description>
         <name>dec_wasContactVerified</name>
         <label>Was a Contact Verified?</label>
@@ -858,10 +1029,10 @@
     <processType>AutoLaunchedFlow</processType>
     <recordLookups>
         <description>... retrieve the Parent Account to the resolvedContact.</description>
-        <name>recGet_Account</name>
+        <name>recGet_ResolvedAccount</name>
         <label>Retrieve the Parent Account</label>
-        <locationX>822</locationX>
-        <locationY>2299</locationY>
+        <locationX>2225</locationX>
+        <locationY>1517</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>asn_shortenContact</targetReference>
@@ -883,6 +1054,28 @@
         <queriedFields>Type</queriedFields>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
+    <recordLookups>
+        <description>... retrieve the B2C CustomerList that is the parent to the resolvedContact.</description>
+        <name>recGet_ResolvedB2CCustomerList</name>
+        <label>Retrieve the Parent B2C CustomerList</label>
+        <locationX>1539</locationX>
+        <locationY>1046</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>dec_assignB2CCustomerListIC</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>sub_contactResolution.var_resolvedContact.B2C_CustomerList__c</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>B2C_CustomerList__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
     <start>
         <locationX>690</locationX>
         <locationY>50</locationY>
@@ -895,8 +1088,8 @@
         <description>... evaluate the configuration of the specified CustomerList and sourceContact to determine if integration should be enabled.</description>
         <name>sub_allowIntegrationHelper</name>
         <label>Evaluate Integration Configuration</label>
-        <locationX>523</locationX>
-        <locationY>1279</locationY>
+        <locationX>524</locationX>
+        <locationY>1281</locationY>
         <connector>
             <targetReference>dec_allowIntegrationForContact</targetReference>
         </connector>
@@ -922,13 +1115,43 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </subflows>
     <subflows>
+        <description>... evaluate the configuration of the specified CustomerList and sourceContact to determine if integration should be enabled.</description>
+        <name>sub_allowResolvedIntegrationHelper</name>
+        <label>Evaluate Integration Configuration</label>
+        <locationX>2016</locationX>
+        <locationY>1278</locationY>
+        <connector>
+            <targetReference>dec_allowIntegrationForResolvedContact</targetReference>
+        </connector>
+        <flowName>B2CCommerce_Process_AllowIntegrationHelper</flowName>
+        <inputAssignments>
+            <name>rec_b2cCustomerList</name>
+            <value>
+                <elementReference>icB2CCustomerList</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>var_processMode</name>
+            <value>
+                <elementReference>processMode</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>var_sourceContact</name>
+            <value>
+                <elementReference>icSourceContact</elementReference>
+            </value>
+        </inputAssignments>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </subflows>
+    <subflows>
         <description>... attempt to resolve the Contact against the collection of Contacts in this Salesforce Org.</description>
         <name>sub_contactResolution</name>
         <label>Attempt Contact Resolution</label>
-        <locationX>821</locationX>
-        <locationY>1520</locationY>
+        <locationX>1072</locationX>
+        <locationY>1281</locationY>
         <connector>
-            <targetReference>dec_isReturnMultipleEnabled</targetReference>
+            <targetReference>dec_wasContactResolved</targetReference>
         </connector>
         <flowName>B2CCommerce_Process_ContactResolutionHelper</flowName>
         <inputAssignments>
@@ -971,6 +1194,12 @@
             <name>var_qaB2CCustomerNo</name>
             <value>
                 <elementReference>var_qaB2CCustomerNo</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>var_qaContactID</name>
+            <value>
+                <elementReference>var_qaContactID</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -1042,6 +1271,24 @@
         <isCollection>true</isCollection>
         <isInput>false</isInput>
         <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <description>... represents the B2C CustomerList used for integration / security checks.</description>
+        <name>icB2CCustomerList</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>B2C_CustomerList__c</objectType>
+    </variables>
+    <variables>
+        <description>... represents the sourceContact to use for integration permission-checks.</description>
+        <name>icSourceContact</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Contact</objectType>
     </variables>
     <variables>
         <description>... describes if resolution was successful (true = resolution was successful, false = resolution failed).</description>
@@ -1130,7 +1377,7 @@
         <dataType>SObject</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
-        <isOutput>false</isOutput>
+        <isOutput>true</isOutput>
         <objectType>Contact</objectType>
     </variables>
     <variables>

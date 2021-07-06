@@ -4,8 +4,8 @@
         <description>... validates the integration configuration for the selected Contact and returns configuration properties that indicate if integration can continue for the configured processMode.</description>
         <name>ia_validateIntegrationConfiguration</name>
         <label>Validate Integration Configuration</label>
-        <locationX>204</locationX>
-        <locationY>610</locationY>
+        <locationX>539</locationX>
+        <locationY>902</locationY>
         <actionName>B2CIAValidateContact</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -43,8 +43,8 @@
         <description>... assigns the IA output results to an output value for external consumption.</description>
         <name>asn_allowIntegrationProcessOutput</name>
         <label>Assign Integration Process Permission</label>
-        <locationX>206</locationX>
-        <locationY>764</locationY>
+        <locationX>539</locationX>
+        <locationY>1111</locationY>
         <assignmentItems>
             <assignToReference>out_allowIntegrationProcess</assignToReference>
             <operator>Assign</operator>
@@ -173,8 +173,8 @@
         <description>... retrieve the B2C Instance that is a parent to the CustomerList.</description>
         <name>recGet_B2CInstance</name>
         <label>Retrieve the B2C Instance</label>
-        <locationX>206</locationX>
-        <locationY>446</locationY>
+        <locationX>539</locationX>
+        <locationY>698</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>ia_validateIntegrationConfiguration</targetReference>

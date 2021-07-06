@@ -2,16 +2,128 @@
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>52.0</apiVersion>
     <assignments>
-        <description>... assign the output variables exposing the results of this flow.</description>
-        <name>asn_outputVariables</name>
+        <description>... audit the error and bubble it upwards.</description>
+        <name>asn_auditErrors</name>
+        <label>Audit the Error</label>
+        <locationX>541</locationX>
+        <locationY>813</locationY>
+        <assignmentItems>
+            <assignToReference>isSuccess</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ErrorMessage</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sub_verifyContact.ErrorMessage</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>verifiedContact</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sub_verifyContact.verifiedContact</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>parentB2CCustomerList</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sub_verifyContact.parentB2CCustomerList</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>parentAccount</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sub_verifyContact.parentAccount</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>hasError</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>hasIdentifiers</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sub_verifyContact.hasIdentifiers</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>isVerified</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sub_verifyContact.isVerfied</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <description>... audit the success scenario and bubble it upwards.</description>
+        <name>asn_auditSuccessAttributes</name>
         <label>Set the Success Attributes</label>
-        <locationX>817</locationX>
-        <locationY>1073</locationY>
+        <locationX>818</locationX>
+        <locationY>1103</locationY>
         <assignmentItems>
             <assignToReference>isSuccess</assignToReference>
             <operator>Assign</operator>
             <value>
                 <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ErrorMessage</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sub_verifyContact.ErrorMessage</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>verifiedContact</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sub_verifyContact.verifiedContact</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>parentB2CCustomerList</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sub_verifyContact.parentB2CCustomerList</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>parentAccount</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sub_verifyContact.parentAccount</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>hasError</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sub_verifyContact.hasError</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>hasIdentifiers</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sub_verifyContact.hasIdentifiers</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>isVerified</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sub_verifyContact.isVerfied</elementReference>
             </value>
         </assignmentItems>
     </assignments>
@@ -47,19 +159,22 @@
         <locationX>809</locationX>
         <locationY>816</locationY>
         <defaultConnector>
-            <targetReference>asn_outputVariables</targetReference>
+            <targetReference>asn_auditSuccessAttributes</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>No Errors</defaultConnectorLabel>
         <rules>
             <name>dec_wasErrorCaughtTrue</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>hasError</leftValueReference>
+                <leftValueReference>sub_verifyContact.hasError</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
+            <connector>
+                <targetReference>asn_auditErrors</targetReference>
+            </connector>
             <label>Error Was Caught</label>
         </rules>
     </decisions>
@@ -166,34 +281,7 @@
                 <elementReference>sourceContact</elementReference>
             </value>
         </inputAssignments>
-        <outputAssignments>
-            <assignToReference>ErrorMessage</assignToReference>
-            <name>ErrorMessage</name>
-        </outputAssignments>
-        <outputAssignments>
-            <assignToReference>hasError</assignToReference>
-            <name>hasError</name>
-        </outputAssignments>
-        <outputAssignments>
-            <assignToReference>hasIdentifiers</assignToReference>
-            <name>hasIdentifiers</name>
-        </outputAssignments>
-        <outputAssignments>
-            <assignToReference>isVerified</assignToReference>
-            <name>isVerfied</name>
-        </outputAssignments>
-        <outputAssignments>
-            <assignToReference>parentAccount</assignToReference>
-            <name>parentAccount</name>
-        </outputAssignments>
-        <outputAssignments>
-            <assignToReference>parentB2CCustomerList</assignToReference>
-            <name>parentB2CCustomerList</name>
-        </outputAssignments>
-        <outputAssignments>
-            <assignToReference>verifiedContact</assignToReference>
-            <name>verifiedContact</name>
-        </outputAssignments>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
     </subflows>
     <variables>
         <description>... represents the Contact record to be resolved and processed.</description>

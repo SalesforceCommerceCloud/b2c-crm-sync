@@ -453,8 +453,9 @@
     </start>
     <status>Active</status>
     <subflows>
+        <description>... iterate over the collection of returnedResults and pick a winner driven by our resolutionRules.</description>
         <name>ContactFilterMatches_Subflow</name>
-        <label>ContactFilterMatches Subflow</label>
+        <label>Filter Matches and Pick a Winner</label>
         <locationX>853</locationX>
         <locationY>1190</locationY>
         <connector>

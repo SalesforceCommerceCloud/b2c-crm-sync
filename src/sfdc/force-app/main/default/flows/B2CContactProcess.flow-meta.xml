@@ -91,7 +91,7 @@
         <name>asn_B2CAccountRecordType</name>
         <label>Assign the B2C Account Properties</label>
         <locationX>2721</locationX>
-        <locationY>2254</locationY>
+        <locationY>2279</locationY>
         <assignmentItems>
             <assignToReference>Account.RecordTypeId</assignToReference>
             <operator>Assign</operator>
@@ -229,43 +229,25 @@
         <description>... throw an error explaining the Contact&apos;s attributes must include a LastName if a CustomerList / CustomerNo are not provided.</description>
         <name>asn_ErrorContactLastNameMissing_Assignment</name>
         <label>Error: Contact LastName is Missing</label>
-        <locationX>3077</locationX>
-        <locationY>1746</locationY>
+        <locationX>2882</locationX>
+        <locationY>2081</locationY>
         <assignmentItems>
-            <assignToReference>isSuccess</assignToReference>
+            <assignToReference>synchronizedContact.LastName</assignToReference>
             <operator>Assign</operator>
             <value>
-                <booleanValue>false</booleanValue>
+                <elementReference>recGet_defaultConfiguration.Default_Contact_Name__c</elementReference>
             </value>
         </assignmentItems>
-        <assignmentItems>
-            <assignToReference>errors</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <stringValue>Please specify a LastName for the Contact being processed.  LastName can only be omitted if an Email Address or B2C CustomerList / CustomerNo combination is included with the Contact.</stringValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>Contact</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>synchronizedContact</elementReference>
-            </value>
-        </assignmentItems>
+        <connector>
+            <targetReference>recGet_B2CRecordType</targetReference>
+        </connector>
     </assignments>
     <assignments>
         <description>... throw an error explaining that multiple Contacts were resolved.</description>
         <name>asn_ErrorMultipleContactsResolved_Assignment</name>
         <label>Error: Multiple Contacts Resolved</label>
         <locationX>1719</locationX>
-        <locationY>1805</locationY>
-        <assignmentItems>
-            <assignToReference>errors</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <elementReference>ContactResolutionError</elementReference>
-            </value>
-        </assignmentItems>
+        <locationY>1813</locationY>
         <assignmentItems>
             <assignToReference>isSuccess</assignToReference>
             <operator>Assign</operator>
@@ -274,10 +256,10 @@
             </value>
         </assignmentItems>
         <assignmentItems>
-            <assignToReference>Contact</assignToReference>
+            <assignToReference>errors</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>sourceContact</elementReference>
+                <elementReference>ContactResolutionErrors</elementReference>
             </value>
         </assignmentItems>
     </assignments>
@@ -302,24 +284,24 @@
         <description>... assign the parent B2C CustomerList to the sourceContact.</description>
         <name>asn_parentB2CCustomerListID</name>
         <label>Assign the B2C CustomerList</label>
-        <locationX>2530</locationX>
-        <locationY>1508</locationY>
+        <locationX>2719</locationX>
+        <locationY>1683</locationY>
         <assignmentItems>
-            <assignToReference>sourceContact.B2C_CustomerList__c</assignToReference>
+            <assignToReference>synchronizedContact.B2C_CustomerList__c</assignToReference>
             <operator>Assign</operator>
             <value>
                 <elementReference>var_b2cCustomerList.Id</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
-            <assignToReference>sourceContact.B2C_CustomerList_ID__c</assignToReference>
+            <assignToReference>synchronizedContact.B2C_CustomerList_ID__c</assignToReference>
             <operator>Assign</operator>
             <value>
                 <elementReference>var_b2cCustomerList.Name</elementReference>
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>sub_B2CCommerceContactAssignmentHelper</targetReference>
+            <targetReference>dec_doesContactHaveLastName</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -327,7 +309,7 @@
         <name>asn_resolutionError</name>
         <label>Resolution Error</label>
         <locationX>2070</locationX>
-        <locationY>1816</locationY>
+        <locationY>1821</locationY>
         <assignmentItems>
             <assignToReference>isSuccess</assignToReference>
             <operator>Assign</operator>
@@ -337,9 +319,9 @@
         </assignmentItems>
         <assignmentItems>
             <assignToReference>errors</assignToReference>
-            <operator>Add</operator>
+            <operator>Assign</operator>
             <value>
-                <elementReference>ContactResolutionError</elementReference>
+                <elementReference>ContactResolutionErrors</elementReference>
             </value>
         </assignmentItems>
     </assignments>
@@ -490,8 +472,8 @@
         <description>... evaluate if a Contact has a lastName assigned -- and prevent saving of the Account / Contact records if one is not provided.</description>
         <name>dec_doesContactHaveLastName</name>
         <label>Does the Contact Have a LastName Assigned?</label>
-        <locationX>2712</locationX>
-        <locationY>1745</locationY>
+        <locationX>2713</locationX>
+        <locationY>1852</locationY>
         <defaultConnector>
             <targetReference>recGet_B2CRecordType</targetReference>
         </defaultConnector>
@@ -691,7 +673,7 @@
         <name>recGet_B2CRecordType</name>
         <label>Get the B2C Business Account RecordType</label>
         <locationX>2721</locationX>
-        <locationY>2015</locationY>
+        <locationY>2081</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>asn_B2CAccountRecordType</targetReference>
@@ -712,11 +694,11 @@
         <description>... retrieve the defaultConfiguration for the current b2c-crm-sync instance.</description>
         <name>recGet_defaultConfiguration</name>
         <label>Get the Default Configuration</label>
-        <locationX>2340</locationX>
-        <locationY>1508</locationY>
+        <locationX>2480</locationX>
+        <locationY>1506</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>asn_parentB2CCustomerListID</targetReference>
+            <targetReference>sub_B2CCommerceContactAssignmentHelper</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -756,8 +738,8 @@
         <description>... identify which b2c-crm-sync configuration profile is being used as the default.</description>
         <name>recGet_IdentifyDefaultConfiguration</name>
         <label>Identify the Default Configuration</label>
-        <locationX>2111</locationX>
-        <locationY>1507</locationY>
+        <locationX>2198</locationX>
+        <locationY>1506</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>recGet_defaultConfiguration</targetReference>
@@ -840,7 +822,7 @@
     </recordUpdates>
     <start>
         <locationX>1772</locationX>
-        <locationY>1112</locationY>
+        <locationY>1101</locationY>
         <connector>
             <targetReference>sub_resolveCustomerProfile</targetReference>
         </connector>
@@ -910,10 +892,10 @@
         <description>... this flow is used to take Contact properties from the sourceContact presented to this flow -- and assign them to the output Contact that will be returned in the flow results.</description>
         <name>sub_B2CCommerceContactAssignmentHelper</name>
         <label>Assign Source Contact Properties</label>
-        <locationX>2720</locationX>
-        <locationY>1508</locationY>
+        <locationX>2719</locationX>
+        <locationY>1506</locationY>
         <connector>
-            <targetReference>dec_doesContactHaveLastName</targetReference>
+            <targetReference>asn_parentB2CCustomerListID</targetReference>
         </connector>
         <flowName>B2CCommerce_Process_ContactAssignmentHelper</flowName>
         <inputAssignments>
@@ -1007,6 +989,12 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <name>var_qaContactID</name>
+            <value>
+                <elementReference>var_qaContactID</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <name>var_qaEmailAddress</name>
             <value>
                 <elementReference>var_qaEmailAddress</elementReference>
@@ -1039,7 +1027,7 @@
             <name>Contact</name>
         </outputAssignments>
         <outputAssignments>
-            <assignToReference>sourceContact</assignToReference>
+            <assignToReference>seContactToResolve</assignToReference>
             <name>contactToResolve</name>
         </outputAssignments>
         <outputAssignments>
@@ -1061,6 +1049,10 @@
         <outputAssignments>
             <assignToReference>ContactResolutionCount</assignToReference>
             <name>ResolutionCount</name>
+        </outputAssignments>
+        <outputAssignments>
+            <assignToReference>sourceContact</assignToReference>
+            <name>sourceContact</name>
         </outputAssignments>
         <outputAssignments>
             <assignToReference>var_resolvedContact</assignToReference>
@@ -1095,14 +1087,6 @@
         <value>
             <numberValue>0.0</numberValue>
         </value>
-    </variables>
-    <variables>
-        <description>... represents the error message provided by the contactResolutionHelper.</description>
-        <name>ContactResolutionError</name>
-        <dataType>String</dataType>
-        <isCollection>false</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
     </variables>
     <variables>
         <description>... represents the collection of errors captured during the contactResolution process.</description>
@@ -1149,6 +1133,15 @@
     <variables>
         <description>... represents the resolvedContact that will be updated as part of the resolutionFlow.</description>
         <name>resolvedContactToUpdate</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Contact</objectType>
+    </variables>
+    <variables>
+        <description>... represents the contactToResolve produced by the Service Entry flow.</description>
+        <name>seContactToResolve</name>
         <dataType>SObject</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>
@@ -1221,6 +1214,14 @@
     <variables>
         <description>... represents the customerNo the be used to process the Contact within the flow.</description>
         <name>var_qaB2CCustomerNo</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>... represents the ContactID the be used to process the Contact within the flow.</description>
+        <name>var_qaContactID</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
