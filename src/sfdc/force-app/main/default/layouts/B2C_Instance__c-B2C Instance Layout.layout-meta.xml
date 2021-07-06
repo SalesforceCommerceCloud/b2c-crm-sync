@@ -87,6 +87,10 @@
                 <behavior>Readonly</behavior>
                 <field>Is_JWT_Certificate_Verified__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Instance_Type_formula__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
