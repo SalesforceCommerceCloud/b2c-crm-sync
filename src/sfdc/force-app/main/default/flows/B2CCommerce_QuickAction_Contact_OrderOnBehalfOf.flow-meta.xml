@@ -259,7 +259,7 @@
             <assignToReference>selectedSiteApi</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>loop_iterateB2CSites.API_Url__c</elementReference>
+                <elementReference>loop_iterateB2CSites.Base_API_Url__c</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
