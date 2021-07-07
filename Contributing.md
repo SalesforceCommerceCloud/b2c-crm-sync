@@ -12,7 +12,7 @@ Yes, that's right.  If you submit and address an issue tagged with #hoody-worthy
 
 ## Testing
 
-All our mocha-tests live in the [test](test) folder off the folder root.  Here, you'll find unit tests for our [CLI tools](test/cli), our [B2C cartridges](test/b2c), and [multi-cloud unit tests](test/_use-cases) that exercise both integration environments via REST APIs.  We also have [Apex unit-tests](src/sfdc/force-app/main/default/classes) you can use to exercise our Apex code.
+All our mocha-tests live in the [test](test) folder off the folder root.  Here, you'll find unit tests for our [CLI tools](test/cli), our [B2C cartridges](test/b2c), and [multi-cloud unit tests](test/_use-cases) that exercise both integration environments via REST APIs.  We also have [Apex unit-tests](src/sfdc/base/main/default/classes) you can use to exercise our Apex code.
 
 > Tests create trustworthiness, and trustworthiness is important to us.  If you're looking for a way to contribute, growing our test-coverage is a really great way to give back.  We are ALWAYS looking to trade test-coverage for cool hoodies. :)
 

@@ -41,18 +41,23 @@ module.exports = {
                 // Define the file extension for meta-data templates
                 "meta-ext": "-meta.xml",
 
-                // Define the parent path for Salesforce meta-data templates
-                "templates": "./src/sfdc/_templates/",
-
-                // Define the location of deployable meta-data
-                "force-app": "./src/sfdc/force-app/main/default/",
-
                 // Define the location of .dx configuration files
                 "config": "./config-dx/",
 
-                // Define the path representing the location of deployable meta-data
-                "personaccounts": "./src/sfdc/person-accounts",
-                "base": "./src/sfdc/force-app",
+                // Define the parent path for Salesforce meta-data templates
+                "templates": "./src/sfdc/_templates/",
+
+                // Define the location of deployable meta-data for extra / plugin packages
+                "extras": "./src/sfdc/_extras",
+
+                // Define the location of the base / default deployable meta-data
+                "base": "./src/sfdc/base",
+
+                // Define the path representing the location of person-account specific deployable meta-data
+                "personaccounts": "./src/sfdc/personaccounts",
+
+                // Define the default deployment path leveraged by all projects
+                "deployPath": "/main/default/",
 
                 // Define the path representing the location of downloaded certs
                 "certs-root": "./_jwt",

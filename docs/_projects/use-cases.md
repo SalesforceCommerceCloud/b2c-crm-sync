@@ -90,7 +90,7 @@ Collectively, these capabilities create a trustworthy foundation for customers a
 
 - [B2C Commerce integration logic](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/tree/master/test/b2c/int_b2ccrmsync/scripts) is accompanied by unit-tests to exercise its foundational capabilities.
 - [b2c-crm-sync deployment commands](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/tree/master/test/cli) come with unit-tests that validate command behavior for B2C Commerce deployments.
-- [Apex classes](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/tree/master/src/sfdc/force-app/main/default/classes) include enough test-coverage to support production deployment (at this time, we have 83% test coverage in place).
+- [Apex classes](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/tree/master/src/sfdc/base/main/default/classes) include enough test-coverage to support production deployment (at this time, we have 83% test coverage in place).
 - [Over forty multi-cloud unit tests](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/tree/master/test/_use-cases) are included to physically exercise the integration between B2C Commerce and the Salesforce Platform aligned with a customer's registration, authentication, profile updates, and progressive resolution use-cases.
 - Tests can be incorporated into any existing CI / CD process to automate execution and assess the trustworthiness of any custom build.
 

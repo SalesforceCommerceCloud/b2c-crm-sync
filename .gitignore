@@ -77,11 +77,11 @@ ehthumbs.db
 $RECYCLE.BIN/
 
 # Ignore rendered sfdx meta-data folders (vs. the template)
-/src/sfdc/force-app/main/default/certs/
-/src/sfdc/force-app/main/default/cspTrustedSites/
-/src/sfdc/force-app/main/default/remoteSiteSettings/
-/src/sfdc/force-app/main/default/namedCredentials/
-/src/sfdc/force-app/main/default/connectedApps/
+/src/sfdc/base/main/default/certs/
+/src/sfdc/base/main/default/cspTrustedSites/
+/src/sfdc/base/main/default/remoteSiteSettings/
+/src/sfdc/base/main/default/namedCredentials/
+/src/sfdc/base/main/default/connectedApps/
 
 # Ignore the rendered connectedAppCredentails file
 /config-dx/connectedAppCredentials.json
