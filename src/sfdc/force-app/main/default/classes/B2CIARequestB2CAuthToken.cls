@@ -12,7 +12,7 @@ public with sharing class B2CIARequestB2CAuthToken {
      * @see B2CIAGetAccessTokenResult
      * @description Invokable action to retrieve a Customer Profile from B2C Commerce
      *
-     * @param requestArguments {List<B2CIAGetB2CAuthTokenInput>} Represents the request arguments to process
+     * @param requestArguments {List<B2CIARequestB2CAuthTokenInput>} Represents the request arguments to process
      * @return {List<B2CIARequestB2CAuthTokenResult>} Returns the response object with the authToken response details
      */
     @InvocableMethod(

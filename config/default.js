@@ -1,7 +1,7 @@
 module.exports = {
 
     // Describes the current versionNo of the service-cloud-connector
-    "versionNo": "0.8.0",
+    "versionNo": "0.9.0",
 
     // Manages debug mode for the CLI application
     "debugMode": true,
@@ -50,8 +50,9 @@ module.exports = {
                 // Define the location of .dx configuration files
                 "config": "./config-dx/",
 
-                // Define the path representing the location of personAccounts meta-data
+                // Define the path representing the location of deployable meta-data
                 "personaccounts": "./src/sfdc/person-accounts",
+                "base": "./src/sfdc/force-app",
 
                 // Define the path representing the location of downloaded certs
                 "certs-root": "./_jwt",

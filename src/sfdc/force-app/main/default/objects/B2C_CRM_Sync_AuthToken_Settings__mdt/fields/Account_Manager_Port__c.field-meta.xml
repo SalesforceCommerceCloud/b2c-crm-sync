@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Account_Manager_Port__c</fullName>
-    <defaultValue>443</defaultValue>
+    <defaultValue>"443"</defaultValue>
     <description>... represents the http-port that will be used when rendering the Account Manager audienceUrl.</description>
     <externalId>false</externalId>
     <fieldManageability>SubscriberControlled</fieldManageability>

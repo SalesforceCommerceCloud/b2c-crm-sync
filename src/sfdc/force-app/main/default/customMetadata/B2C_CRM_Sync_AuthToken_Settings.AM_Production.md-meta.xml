@@ -4,7 +4,7 @@
     <protected>false</protected>
     <values>
         <field>Account_Manager_Port__c</field>
-        <value xsi:type="xsd:double">443.0</value>
+        <value xsi:type="xsd:string">443</value>
     </values>
     <values>
         <field>Account_Manager_Token_Url__c</field>
