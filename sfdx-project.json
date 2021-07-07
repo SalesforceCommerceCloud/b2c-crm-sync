@@ -3,10 +3,6 @@
     {
       "path": "src/sfdc/force-app",
       "default": true
-    },
-    {
-      "path": "src/sfdc/person-accounts",
-      "default": false
     }
   ],
   "namespace": "",

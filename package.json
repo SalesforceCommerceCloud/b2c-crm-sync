@@ -1,7 +1,7 @@
 {
   "name": "b2c-crm-sync",
-  "version": "0.8.0",
-  "description": "Enablement solution teaching the Salesforce Architect Success B2C Customer Data Strategy -- facilitating the progressive resolution of B2C Customer Profiles between B2C Commerce and the Salesforce Platform.",
+  "version": "0.9.0",
+  "description": "Enablement solution teaching the Salesforce Architect Success B2C Customer Data Strategy.  Unlock frictionless customer experiences by leveraging b2c-crm-sync's progressive resolution of B2C Customer Profiles between B2C Commerce and the Salesforce Platform.",
   "main": "cli.js",
   "engines": {
     "node": ">=12.16.0",
@@ -15,7 +15,6 @@
     "crm-sync:sf:connectedapps": "node cli.js crm-sync:sf:connectedapps",
     "crm-sync:sf:trustedsites": "node cli.js crm-sync:sf:trustedsites",
     "crm-sync:sf:remotesitesettings": "node cli.js crm-sync:sf:remotesitesettings",
-    "crm-sync:sf:namedcredentials:am": "node cli.js crm-sync:sf:namedcredentials:am",
     "crm-sync:sf:namedcredentials:oobo": "node cli.js crm-sync:sf:namedcredentials:oobo",
     "crm-sync:sf:b2cinstance:setup": "node cli.js crm-sync:sf:b2cinstance:setup",
     "crm-sync:sf:cert:publickey:get": "node cli.js crm-sync:sf:cert:publickey:get",

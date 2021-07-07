@@ -141,9 +141,6 @@ program = cliInterface.sfTrustedSitesCreate(program);
 // Attach the command used to generate the SFDX remote sites template
 program = cliInterface.sfRemoteSitesCreate(program);
 
-// Attach the command used to generate the SFDX B2C Account Manager Named Credentials template
-program = cliInterface.sfNamedCredentialsAMCreate(program);
-
 // Attach the command used to generate the SFDX B2C OOBO Named Credentials template
 program = cliInterface.sfNamedCredentialsOOBOCreate(program);
 
