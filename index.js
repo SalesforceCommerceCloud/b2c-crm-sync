@@ -88,23 +88,23 @@ exports.sfB2CInstanceSetup = require('./lib/cli-api/_sfB2CInstanceSetup');
 // Expose the ability to create scratchOrgs driven by the crm-sync repositories
 exports.sfScratchOrgCreate = require('./lib/cli-api/_sfScratchOrgCreate');
 
+// Expose the ability to delete a given scratchOrg
+exports.sfScratchOrgDelete = require('./lib/cli-api/_sfScratchOrgDelete');
+
 // Expose the ability to push the b2c-crm-sync code to a scratchOrg
 exports.sfScratchOrgPush = require('./lib/cli-api/_sfScratchOrgPush');
 
 // Expose the ability to deploy specific code elements to a scratchOrg
-exports.sfScratchOrgDeploy = require('./lib/cli-api/_sfScratchOrgDeploy');
-
-// Expose the ability to delete a given scratchOrg
-exports.sfScratchOrgDelete = require('./lib/cli-api/_sfScratchOrgDelete');
+exports.sfOrgDeploy = require('./lib/cli-api/_sfOrgDeploy');
 
 // Expose the ability to retrieve the details for a given scratchOrg
-exports.sfScratchOrgDetails = require('./lib/cli-api/_sfScratchOrgDetails');
+exports.sfOrgDetails = require('./lib/cli-api/_sfOrgDetails');
 
 // Expose the ability to open a specified b2c-rm-sync scratchOrg
-exports.sfScratchOrgOpen = require('./lib/cli-api/_sfScratchOrgOpen');
+exports.sfOrgOpen = require('./lib/cli-api/_sfOrgOpen');
 
 // Expose the ability to view the remote status for a specified b2c-rm-sync scratchOrg
-exports.sfScratchOrgStatus = require('./lib/cli-api/_sfScratchOrgStatus');
+exports.sfOrgStatus = require('./lib/cli-api/_sfOrgStatus');
 
 // Expose the ability to retrieve the details for a given user
 exports.sfUserDetails = require('./lib/cli-api/_sfUserDetails');

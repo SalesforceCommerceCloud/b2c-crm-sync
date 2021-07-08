@@ -153,20 +153,18 @@ program = cliInterface.sfAuthenticateUserCredentials(program);
 // Attach the command used to create a scratch-org
 program = cliInterface.sfScratchOrgCreate(program);
 
-// Attach the command used to create a scratch-org and deploy to it
-program = cliInterface.sfScratchOrgDeploy(program);
-
-// Attach the command used to retrieve the details for a scratch org
-program = cliInterface.sfScratchOrgDetails(program);
-
-// Attach the command used to open a scratch-org
-program = cliInterface.sfScratchOrgOpen(program);
-
-// Attach the command used to view the remote status a scratch-org
-// program = cliInterface.sfScratchOrgStatus(program);
 
 // Attach the command used to create, build, and deploy to a scratch-org
 program = cliInterface.sfScratchOrgBuild(program);
+
+// Attach the command used to create a scratch-org and deploy to it
+program = cliInterface.sfOrgDeploy(program);
+
+// Attach the command used to retrieve the details for a scratch org
+program = cliInterface.sfOrgDetails(program);
+
+// Attach the command used to open a scratch-org
+program = cliInterface.sfOrgOpen(program);
 
 // Attach the command used to display a user's details
 program = cliInterface.sfUserDetails(program);
