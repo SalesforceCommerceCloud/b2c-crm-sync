@@ -84,7 +84,7 @@ $RECYCLE.BIN/
 /src/sfdc/base/main/default/connectedApps/
 
 # Ignore the rendered connectedAppCredentails file
-/config-dx/connectedAppCredentials.json
+/config-dx/*.connectedAppCredentials.json
 /config-dx/*.ocapi.json
 /config-dx/*.jks.json
 
