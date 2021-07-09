@@ -951,6 +951,7 @@ npm run crm-sync:sf:b2cinstance:setup
 ```
 > This activity will seed the B2C Instance (B2C_Instance__c) custom object in the Salesforce Platform using the .env file's `B2C_HOSTNAME` and associate the previously created `B2C_CLIENTID` value.  The CLI Command will verify the record has been created, or reset the record with its default definition if the record exists.
 
+Executing this CLI command will trigger a flow that will 
 
 #### Configure Duplicate Rules Leveraged by b2c-crm-sync
 
