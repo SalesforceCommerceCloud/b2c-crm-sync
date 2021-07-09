@@ -16,7 +16,7 @@ var LOGGER = require('dw/system/Logger').getLogger('int_b2ccrmsync', 'rest');
  * @param {dw.svc.HTTPService} svc Represents the service definition to invoke.
  * @param {String} endpoint Represents the endpoint to call
  * @param {Boolean} bypassCache If true, then the authentication token will be retrieved from the
- * Salesforce Core Platform, not from the cache
+ * Salesforce Platform, not from the cache
  *
  * @throws {Error} Throws error when no valid auth token is available (i.e.- service error, service down)
  */
@@ -42,7 +42,7 @@ function setAuthHeader(svc, endpoint, bypassCache) {
  * @param {String} model The model to apply to the REST API call
  * @param {String} operation The operation to perform against the REST API
  * @param {Boolean} bypassCache If true, then the authentication token will be retrieved from the
- * Salesforce Core Platform, not from the cache.
+ * Salesforce Platform, not from the cache.
  * @returns {Object} Returns the service callback function(s) used to interact
  * with the defined REST API
  */
@@ -73,7 +73,7 @@ function serviceCallback(model, operation, bypassCache) {
  *
  * @param {String} model The model to apply to the REST API call
  * @param {String} operation The operation to perform against the REST API
- * @param {Boolean} bypassCache If true, then the authentication token will be retrieved from the Salesforce Core Platform, not from the cache
+ * @param {Boolean} bypassCache If true, then the authentication token will be retrieved from the Salesforce Platform, not from the cache
  *
  * @return {dw/svc/ServiceCallback} The service callback to use while initializing the service
  */

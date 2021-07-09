@@ -5,12 +5,12 @@ const config = require('config');
 
 // Initialize access to local libraries
 const cliInterface = require('./lib/cli-interface');
+const cliUi = require('./lib/cli-interface/ui');
 
-// Define the current version
-let projectVersionNo = config.get('versionNo').toString();
-
-// Initialize the CLI program
-let program = require('commander');
+// Define local variables
+let projectVersionNo = config.get('versionNo').toString(),
+    program = require('commander'),
+    foo;
 
 // Initialize the .env confirmation
 require('dotenv').config();
@@ -169,7 +169,7 @@ program = cliInterface.sfOrgOpen(program);
 program = cliInterface.sfUserDetails(program);
 
 // Attach the command used to seed customerLists and sites (instance setup)
-program = cliInterface.sfInstanceSetup(program);
+program = cliInterface.sfB2CInstanceSetup(program);
 
 // Attach the command used to seed the default B2C Client ID
 program = cliInterface.sfB2CClientIDSetup(program);

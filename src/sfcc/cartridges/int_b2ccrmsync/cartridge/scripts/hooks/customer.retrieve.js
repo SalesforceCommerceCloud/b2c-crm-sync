@@ -13,12 +13,12 @@ var LOGGER = require('dw/system/Logger').getLogger('int_b2ccrmsync', 'hooks.cust
 
 /**
  * @function customerRetrieve
- * @description Retrieve the profile within the Salesforce core platform based on the given {profileDetails}
+ * @description Retrieve the profile within the Salesforce Platform based on the given {profileDetails}
  *
- * @param {dw/customer/Profile|Object} profileDetails The profile details to use while retrieving the customer from the Salesforce Core platform.
- * Either an SFCC profile, or an object with a key/value pair of required parameters to search in the Salesforce Core platform
- * @param {Boolean} saveContactIdOnProfile If this is {true} and the customer is successfully retrieved from the Salesforce Core platform, the contact Id is saved on the currently authenticated profile
- * @returns {Object|*} The response object from the Salesforce Core platform in case the customer has been successfully retrieved, or undefined otherwise
+ * @param {dw/customer/Profile|Object} profileDetails The profile details to use while retrieving the customer from the Salesforce Platform.
+ * Either an SFCC profile, or an object with a key/value pair of required parameters to search in the Salesforce Platform
+ * @param {Boolean} saveContactIdOnProfile If this is {true} and the customer is successfully retrieved from the Salesforce Platform, the contact Id is saved on the currently authenticated profile
+ * @returns {Object|*} The response object from the Salesforce Platform in case the customer has been successfully retrieved, or undefined otherwise
  */
 function customerRetrieve(profileDetails, saveContactIdOnProfile) {
     if (!require('../util/helpers').isIntegrationEnabled() || !profileDetails) {
@@ -94,11 +94,11 @@ function customerRetrieve(profileDetails, saveContactIdOnProfile) {
         if (saveContactIdOnProfile && areDetailsAnInstanceOfProfile) {
             var accountId = resultObject.outputValues.ContactListResolved[0].AccountId;
             var contactId = resultObject.outputValues.ContactListResolved[0].Id;
-            profileModel.updateSyncResponseText(require('dw/util/StringUtils').format('Successfully retrieved from Salesforce Core platform. Contact ID updated from "{0}" to "{1}"', profileDetails.custom.b2ccrm_contactId, contactId));
+            profileModel.updateSyncResponseText(require('dw/util/StringUtils').format('Successfully retrieved from Salesforce Platform. Contact ID updated from "{0}" to "{1}"', profileDetails.custom.b2ccrm_contactId, contactId));
             profileModel.updateExternalId(accountId, contactId);
         }
 
-        // Return the retrieve customer profile record from the Salesforce Core platform
+        // Return the retrieve customer profile record from the Salesforce Platform
         return resultObject.outputValues.ContactListResolved[0];
     } catch (e) {
         LOGGER.error('Error occurred while retrieving customer profile: {0}', e.message);

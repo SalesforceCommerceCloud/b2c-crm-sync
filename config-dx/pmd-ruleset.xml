@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleset xmlns="http://pmd.sourceforge.net/ruleset/2.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         name="Default ruleset used by the CodeClimate Engine for Salesforce.com Apex"
+         xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0">
+    <description>Default ruleset used by the Code Climate Engine for Salesforce.com Apex</description>
+
+    <rule ref="rulesets/apex/quickstart.xml/AvoidSoqlInLoops" deprecated="false"/>
+    <rule ref="rulesets/apex/quickstart.xml/AvoidSoslInLoops"/>
+    <rule ref="rulesets/apex/quickstart.xml/AvoidDmlStatementsInLoops"/>
+    <rule ref="rulesets/apex/quickstart.xml/AvoidNonExistentAnnotations"/>
+    <rule ref="rulesets/apex/quickstart.xml/AvoidHardcodingId"/>
+    <rule ref="rulesets/apex/quickstart.xml/ClassNamingConventions"/>
+    <rule ref="rulesets/apex/quickstart.xml/MethodNamingConventions"/>
+    <rule ref="rulesets/apex/quickstart.xml/MethodWithSameNameAsEnclosingClass"/>
+
+    <rule ref="category/apex/codestyle.xml/LocalVariableNamingConventions"/>
+    <rule ref="category/apex/codestyle.xml/PropertyNamingConventions"/>
+    <rule ref="category/apex/codestyle.xml/FormalParameterNamingConventions"/>
+    <rule ref="category/apex/codestyle.xml/FieldNamingConventions"/>
+
+    <rule ref="rulesets/apex/quickstart.xml/ApexSharingViolations"/>
+    <rule ref="rulesets/apex/quickstart.xml/ApexInsecureEndpoint"/>
+    <rule ref="rulesets/apex/quickstart.xml/ApexCSRF"/>
+    <rule ref="rulesets/apex/quickstart.xml/ApexOpenRedirect"/>
+    <rule ref="rulesets/apex/quickstart.xml/ApexSOQLInjection"/>
+    <rule ref="rulesets/apex/quickstart.xml/ApexXSSFromURLParam"/>
+    <rule ref="rulesets/apex/quickstart.xml/ApexXSSFromEscapeFalse"/>
+    <rule ref="rulesets/apex/quickstart.xml/ApexBadCrypto"/>
+    <rule ref="rulesets/apex/quickstart.xml/ApexCRUDViolation"/>
+    <rule ref="rulesets/apex/quickstart.xml/ApexDangerousMethods"/>
+    <rule ref="rulesets/apex/quickstart.xml/ApexSuggestUsingNamedCred"/>
+    <rule ref="rulesets/apex/quickstart.xml/IfStmtsMustUseBraces"/>
+    <rule ref="rulesets/apex/quickstart.xml/WhileLoopsMustUseBraces"/>
+    <rule ref="rulesets/apex/quickstart.xml/IfElseStmtsMustUseBraces"/>
+    <rule ref="rulesets/apex/quickstart.xml/ForLoopsMustUseBraces"/>
+    <rule ref="rulesets/apex/quickstart.xml/EmptyCatchBlock"/>
+    <rule ref="rulesets/apex/quickstart.xml/EmptyIfStmt"/>
+    <rule ref="rulesets/apex/quickstart.xml/EmptyWhileStmt"/>
+    <rule ref="rulesets/apex/quickstart.xml/EmptyTryOrFinallyBlock"/>
+    <rule ref="rulesets/apex/quickstart.xml/EmptyStatementBlock"/>
+    <rule ref="rulesets/apex/quickstart.xml/OneDeclarationPerLine"/>
+    <rule ref="rulesets/apex/quickstart.xml/ApexDoc"/>
+
+    <rule ref="rulesets/apex/quickstart.xml/ApexUnitTestClassShouldHaveAsserts"/>
+    <rule ref="rulesets/apex/quickstart.xml/ApexUnitTestShouldNotUseSeeAllDataTrue"/>
+    <rule ref="rulesets/apex/quickstart.xml/AvoidGlobalModifier"/>
+    <rule ref="rulesets/apex/quickstart.xml/AvoidLogicInTrigger"/>
+    <rule ref="rulesets/apex/quickstart.xml/DebugsShouldUseLoggingLevel"/>
+
+    <rule ref="rulesets/apex/quickstart.xml/AvoidDeeplyNestedIfStmts"/>
+    <rule ref="rulesets/apex/quickstart.xml/CyclomaticComplexity"/>
+    <rule ref="rulesets/apex/quickstart.xml/ExcessiveClassLength"/>
+    <rule ref="rulesets/apex/quickstart.xml/ExcessiveParameterList"/>
+    <rule ref="rulesets/apex/quickstart.xml/ExcessivePublicCount"/>
+    <rule ref="rulesets/apex/quickstart.xml/NcssConstructorCount"/>
+    <rule ref="rulesets/apex/quickstart.xml/NcssMethodCount"/>
+    <rule ref="rulesets/apex/quickstart.xml/NcssTypeCount"/>
+    <rule ref="rulesets/apex/quickstart.xml/StdCyclomaticComplexity"/>
+    <rule ref="rulesets/apex/quickstart.xml/TooManyFields"/>
+</ruleset>

@@ -12,7 +12,7 @@
 var LOGGER = require('dw/system/Logger').getLogger('int_b2ccrmsync', 'jobs.customers');
 
 /**
- * @description Synchronize the customer profiles with the Salesforce Core Platform by
+ * @description Synchronize the customer profiles with the Salesforce Platform by
  * leveraging the existing synchronization logic.
  *
  * @param {Object} parameters The parameters from the job configuration.
@@ -43,7 +43,7 @@ function synchronize(parameters) {
     var errorCounter = 0;
 
     /**
-     * @description Synchronize the given {profile} with the Salesforce Core Platform
+     * @description Synchronize the given {profile} with the Salesforce Platform
      * Creating this function as an inner function of the "synchronize" function to
      * have the {counter} variable available in the scope
      *

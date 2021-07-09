@@ -43,7 +43,7 @@ function isValidAuth(tokenObj) {
  * @description Gets a valid token from storage or from a new auth request
  *
  * @param {Boolean} bypassCache If true, then the authentication token will be retrieved from
- * the Salesforce Core Platform, not from the cache
+ * the Salesforce Platform, not from the cache
  * @returns {Object} Plain JS object containing the token response. If the token is not
  * valid or not found, throw an error
  */

@@ -189,7 +189,7 @@ module.exports = {
      * @param {String} state The state of the service (ex. authing, process, or retrieving a customer)
      * @param {Object} requestBody The request body to send to the service
      * @param {Boolean} bypassCache If true, then the authentication token will be retrieved from the
-     * Salesforce Core Platform, not from the cache
+     * Salesforce Platform, not from the cache
      * @param {Number} callCounter The variable that counts the calls we do, and so ensure we don't reach
      * the {maxServiceRetry} limit
      * @returns {Object} The serviceCall result that can be parsed and processed
@@ -206,7 +206,7 @@ module.exports = {
         thisCallCount++;
 
         if (result.status !== 'OK' && result.error === ERROR_401 && thisCallCount <= maxServiceRetry) {
-            // Always bypass the custom cache in case of a retry, to ensure getting the auth token from the Salesforce Core Platform
+            // Always bypass the custom cache in case of a retry, to ensure getting the auth token from the Salesforce Platform
             return module.exports.callRestService(
                 model,
                 state,

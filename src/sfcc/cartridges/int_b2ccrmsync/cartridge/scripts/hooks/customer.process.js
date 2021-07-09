@@ -11,8 +11,8 @@ var LOGGER = require('dw/system/Logger').getLogger('int_b2ccrmsync', 'hooks.cust
 
 /**
  * @description Ensure the customer sync and logged-in sync are enabled, and the customer has never
- * been synchronized to the Salesforce Core platform and if so, process the customer sync with the
- * Salesforce Core platform (for customers that are logged-in)
+ * been synchronized to the Salesforce Platform and if so, process the customer sync with the
+ * Salesforce Platform (for customers that are logged-in)
  *
  * @param {dw/customer/Profile} profile Represents the customer profile being evaluated
  * @return {Boolean} If the process has been a success or not
@@ -136,7 +136,7 @@ function handleProcess(profile, action) {
         LOGGER.info('Successfully exported the customer profile. Here is the response body: {0}', JSON.stringify(resultObject));
         profileModel.updateExternalId(resultObject.outputValues.Contact.AccountId, resultObject.outputValues.Contact.Id);
         profileModel.updateStatus('exported');
-        profileModel.updateSyncResponseText(require('dw/util/StringUtils').format('Successfully exported to Salesforce Core platform during the "{0}" logic.', action));
+        profileModel.updateSyncResponseText(require('dw/util/StringUtils').format('Successfully exported to Salesforce Org during the "{0}" logic.', action));
         return true;
     } catch (e) {
         profileModel.updateStatus('failed');

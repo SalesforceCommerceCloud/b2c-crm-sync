@@ -927,16 +927,36 @@ If successful, the CLI output should render the authToken provided by the B2C Co
 ```bash
 npm run crm-sync:b2c:auth:clientcreds
 ```
-
-If successful, the CLI output should also render the authToken provided by the B2C Commerce Account Manager -- in response to successful authentication leveraging the ClientID / ClientSecret configured in your .env file.
+The CLI output for this command should also render the authToken provided by the B2C Commerce Account Manager -- in response to successful authentication leveraging the ClientID / ClientSecret configured in your .env file.
 
 > b2c-crm-sync's CLI tools primarily leverage the ClientID / ClientSecret authentication method to perform deployments to the B2C Commerce sandbox.  The JWT method will be leveraged by b2c-crm-sync in the deployed Salesforce Org to authenticate against B2C Commerce's Account Manager.  Once deployed, b2c-crm-sync never leverages your .env's ClientID / ClientSecret to authenticate against B2C Commerce's Account Manager.
+
+### Setup the Default b2c-crm-sync Configuration Records
+
+#### Configure Your B2C Client ID
+
+17. With the JWT certificate in place, you can begin to set up the b2c-crm-sync application on the Salesforce Platform.  The first activity to perform is to create a B2C Client ID.  This ID will be used by the Salesforce Platform to authenticate against the B2C Commerce Account Manager.  You can create a default B2C Client ID via the following CLI command:
+
+```bash
+npm run crm-sync:sf:b2cclientid:setup
+```
+> This activity will seed the B2C Client ID (B2C_Client_ID__c) custom object in the Salesforce Platform using the .env file's `B2C_CLIENTID` value.  The CLI Command will verify the record has been created or reset the record with its default definition if the record exists.
+
+#### Configure Your B2C Instance
+
+18. b2c-crm-sync requires that a B2C Instance representing the B2C Commerce environment that will be integrated.  The B2C Instance record will enable the seeding of B2C CustomerLists and Sites from your B2C Commerce environment.  This default B2C Instance record can be created via the CLI via the following CLI command:
+
+```bash
+npm run crm-sync:sf:b2cinstance:setup
+```
+> This activity will seed the B2C Instance (B2C_Instance__c) custom object in the Salesforce Platform using the .env file's `B2C_HOSTNAME` and associate the previously created `B2C_CLIENTID` value.  The CLI Command will verify the record has been created, or reset the record with its default definition if the record exists.
+
 
 #### Configure Duplicate Rules Leveraged by b2c-crm-sync
 
 b2c-crm-sync leverages match and duplicate rules to enforce the B2C Customer Data Strategy it employs.  b2c-crm-sync leverages these rules to alert administrators of potential duplicate B2C Commerce Customer Profiles -- and assist in resolving customer profiles using a sub-set of customer profile (Contact) attributes.
 
-#### Configure Your B2C Instance
+#### Configure Your B2C Client ID
 
 17. With the JWT certificate in place, you can now conduct your first test of the integration between B2C Commerce and the Salesforce Platform.  Please execute the following CLI command to configure your B2C Instance:
 
@@ -945,12 +965,12 @@ b2c-crm-sync leverages match and duplicate rules to enforce the B2C Customer Dat
 ```bash
 npm run crm-sync:sf:b2cinstance:setup
 ```
-> This command leverages a Salesforce REST API (B2CInstanceSetup) that interacts with B2C Commerce via its OCAPI REST APIs.  This command validates the configured OCAPI permissions as well as authentication via Account Manager by the Salesforce Platform.
+
+This command leverages a Salesforce REST API (B2CInstanceSetup) that interacts with B2C Commerce via its OCAPI REST APIs.  It validates the configured OCAPI permissions as well as authentication via Account Manager by the Salesforce Platform.
 
 ### Setup Match and Duplicate Rules
 
 18. In the setup quick-find, search for Duplicate Rules (searching for 'dup' should bring up Duplicate and Match Rules).  Once located, select the Match Rules setup option from the filtered setup menu.
-
 
 
 > If you are setting up PersonAccounts, please skip this section and proceed to the section titled [PersonAccount Match Rules Setup Guidance](#personaccount-match-rules-setup-guidance).

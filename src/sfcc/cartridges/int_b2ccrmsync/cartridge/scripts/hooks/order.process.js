@@ -88,7 +88,7 @@ function handleProcess(order, action) {
         LOGGER.info('Successfully exported the customer profile from the order "{0}". Here is the response body: {1}', order.getOrderNo(), JSON.stringify(resultObject));
         model.updateExternalId(resultObject.outputValues.Contact.AccountId, resultObject.outputValues.Contact.Id);
         model.updateStatus('exported');
-        model.updateSyncResponseText(require('dw/util/StringUtils').format('Successfully exported to Salesforce Core platform during the "{0}" logic.', action));
+        model.updateSyncResponseText(require('dw/util/StringUtils').format('Successfully exported to Salesforce Platform during the "{0}" logic.', action));
     } catch (e) {
         model.updateStatus('failed');
         model.updateSyncResponseText(e.message);

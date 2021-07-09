@@ -95,6 +95,7 @@
     "save": "^2.4.0",
     "sfcc-ci": "^2.6.0",
     "sfdx-node": "^3.1.0",
+    "terminal-link": "^2.1.1",
     "validate.js": "^0.13.1",
     "validator": "^13.6.0",
     "zip-a-folder": "^0.0.12"
