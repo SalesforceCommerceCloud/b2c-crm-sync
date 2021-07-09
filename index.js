@@ -77,6 +77,11 @@ exports.sfNamedCredentialsOOBOCreate = require('./lib/cli-api/_sfNamedCredential
 // Expose the ability to authenticate against a Salesforce Instance using user-credentials
 exports.sfAuthUserCredentials = require('./lib/cli-api/_sfAuthUserCredentials');
 
+// Expose the ability to create a B2C ClientID seed-record using environment file definitions
+exports.sfB2CClientIDGet = require('./lib/cli-api/_sfB2CClientIDGet');
+exports.sfB2CClientIDCreate = require('./lib/cli-api/_sfB2CClientIDCreate');
+exports.sfB2CClientIDUpdate = require('./lib/cli-api/_sfB2CClientIDUpdate');
+
 // Expose the ability to create a B2C Instance seed-record using environment file definitions
 exports.sfB2CInstanceGet = require('./lib/cli-api/_sfB2CInstanceGet');
 exports.sfB2CInstanceCreate = require('./lib/cli-api/_sfB2CInstanceCreate');

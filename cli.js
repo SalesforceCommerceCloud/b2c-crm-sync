@@ -153,7 +153,6 @@ program = cliInterface.sfAuthenticateUserCredentials(program);
 // Attach the command used to create a scratch-org
 program = cliInterface.sfScratchOrgCreate(program);
 
-
 // Attach the command used to create, build, and deploy to a scratch-org
 program = cliInterface.sfScratchOrgBuild(program);
 
@@ -171,6 +170,9 @@ program = cliInterface.sfUserDetails(program);
 
 // Attach the command used to seed customerLists and sites (instance setup)
 program = cliInterface.sfInstanceSetup(program);
+
+// Attach the command used to seed the default B2C Client ID
+program = cliInterface.sfB2CClientIDSetup(program);
 
 // Parse the command-line arguments
 program.parse(process.argv);

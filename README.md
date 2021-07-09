@@ -73,6 +73,8 @@ b2c-crm-sync leverages [node.js enabled CLI](https://github.com/tj/commander.js/
 
 - You can also [install nvm on windows](https://dev.to/skaytech/how-to-install-node-version-manager-nvm-for-windows-10-4nbi).
 
+#### Verify Your Node.js Version
+
 Once you have node installed, you can verify your local node version with the following command:
 
 ```bash
@@ -81,12 +83,16 @@ node --version
 
 > This should return the version number of your active node.js version.  This command will return **v15.2.1** if node.js has been set up correctly.
 
+#### Install the b2c-crm-sync CLI Project
+
 With node.js setup, you can now install the project dependencies with the standard npm install command:
 
 ```bash
 npm install
 ```
 > Installing the project dependencies will take a moment or two.  Please [log an issue](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/issues/new) if you run into installation issues setting up the project.
+
+#### Apply non-breaking Audit / Fixes
 
 Once the installation has been completed, you can apply non-breaking updates to node packages that are leveraged by b2c-crm-sync:
 
@@ -96,7 +102,7 @@ npm audit fix
 
 > Please remember that forcing breaking changes with the `--force` option can also break the b2c-crm-sync install process.  This isn't recommended.
 
-### Install SFDX for SFDC Deployments
+#### Install SFDX for SFDC Deployments
 b2c-crm-sync also requires [SFDX](https://developer.salesforce.com/tools/sfdxcli) -- as it is used to create scratchOrgs and deploy the meta-data that powers it.  You can [verify your SFDX installation](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_install_cli.htm) with the following command:
 
 ```bash
@@ -105,9 +111,9 @@ sfdx --version
 
 > As of v0.9.0 -- this build has been tested against **node.js v15.2.1** and **sfdx v7.108.0 darwin-x64**.
 
-## B2C Commerce Setup Instructions
+### B2C Commerce Setup Instructions
 
-### Setup the Demo B2C Commerce Storefronts
+#### Setup the Demo B2C Commerce Storefronts
 
 b2c-crm-sync is designed to work with existing B2C Commerce storefronts.  In the event that you do not have a storefront, you can use the existing leverage [Salesforce's Storefront Reference Architecture](https://trailhead.salesforce.com/content/learn/modules/cc-digital-for-developers) storefronts provided by Salesforce.  The RefArch and RefArchGlobal storefronts can be installed in any B2C Commerce sandbox using these instructions.
 
@@ -120,7 +126,7 @@ b2c-crm-sync is designed to work with existing B2C Commerce storefronts.  In the
 
 > If you are new to B2C Commerce, please use the default SFRA build to deploy in your sandbox.  The deployment and setup process takes about 10 minutes, and your sandbox environment will notify you via email when the deployment is complete.
 
-### Setup the RefArchGlobal Site to Use Its Own CustomerList
+#### Setup the RefArchGlobal Site to Use Its Own CustomerList
 
 b2c-crm-sync supports [multiple sites and customerLists](https://documentation.b2c.commercecloud.salesforce.com/DOC2/index.jsp?topic=%2Fcom.demandware.dochelp%2Fcontent%2Fb2c_commerce%2Ftopics%2Fcustomers%2Fb2c_customer_lists.html).  To see this in action, please ensure that the RefArchGlobal site leverages its own CustomerList.  SFRA ships with multiple customerLists -- but with its default setup, the RefArch customerList is associated to both the RefArch and RefArchGlobal sites.
 
@@ -136,7 +142,7 @@ Please note that this isn't a requirement -- but if you want a 100% pass-rate on
 
 >  A subset of the Multi-cloud unit tests will fail if your RefArch and RefArchGlobal sites leverage the same customerLists vs. having their own.  If you experience test failures, please review the test description for references to multiple customerLists.
 
-### Enable the Agent Permissions on the Administrator Role
+#### Enable the Agent Permissions on the Administrator Role
 
 The Order on Behalf Of (Assisted Shopping) use-case requires that Business Manager users representing Customer Service Agents have B2C Commerce permissions to login and place orders on behalf of registered storefront shoppers.  The Administrator role can be extended to include these permissions.
 
@@ -162,7 +168,7 @@ The Order on Behalf Of (Assisted Shopping) use-case requires that Business Manag
 
 8. Click `Update` to apply these functional permissions to the Administrator role.
 
-### Enable Debug and Custom Log Generation
+#### Enable Debug and Custom Log Generation
 
 b2c-crm-sync will audit all authentication and REST API call-outs made to the Salesforce Platform via customLogs.  The generated logFiles are instrumental when troubleshooting unexpected behaviors.  Please enable the debug logging-level in your B2C Commerce sandbox prior to deploying b2c-crm-sync.
 
@@ -177,7 +183,7 @@ b2c-crm-sync will audit all authentication and REST API call-outs made to the Sa
 
 > Log entries can be viewed via [Log Center](https://documentation.b2c.commercecloud.salesforce.com/DOC2/topic/com.demandware.dochelp/content/b2c_commerce/topics/site_development/b2c_log_center.html?cp=0_11) or directly from the [Site Development](https://documentation.b2c.commercecloud.salesforce.com/DOC2/topic/com.demandware.dochelp/content/b2c_commerce/topics/web_services/b2c_web_service_logging_and_troubleshooting.html) landing page within Business Manager.  Use the generated log files to inspect REST API calls made from B2C Commerce to the Salesforce Platform. 
 
-### Create Your Access Keys
+#### Create Your Access Keys
 
 B2C Commerce offers [Access Keys](https://documentation.b2c.commercecloud.salesforce.com/DOC2/topic/com.demandware.dochelp/content/b2c_commerce/topics/admin/b2c_access_keys_for_business_manager.html?) as an alternative form of authentication when logging into to Business Manager via external applications: WebDAV File Access, UX Studio Agent, User Login, OCAPI, and Protected Storefront Access.  You can use these keys to access log files as well as to authenticate Agents for the Order on Behalf Of use-case.
 
@@ -197,7 +203,7 @@ B2C Commerce offers [Access Keys](https://documentation.b2c.commercecloud.salesf
 
 > Please copy and download the generated access key -- and keep it in a safe place.  You'll need to authenticate against your sandbox if you want to view logFiles directly.
 
-### Create Your B2C Commerce Client ID
+#### Create Your B2C Commerce Client ID
 
 A B2C Commerce Client ID is necessary to facilitate REST API authentication between B2C Commerce and the Salesforce Platform.  You can create a B2C Client ID via [Account Manager](https://documentation.b2c.commercecloud.salesforce.com/DOC2/topic/com.demandware.dochelp/content/b2c_commerce/topics/account_manager/b2c_account_manager_overview.html?) Portal. 
 
@@ -222,7 +228,7 @@ Re-open the ClientID page -- and keep it open until the last section of the setu
 
 > Remember to capture the **B2C Client ID value** and **password** applied during this process.  You will need to add both properties to the .env file via the `B2C_CLIENTID` and `B2C_CLIENTSECRET` properties.
 
-### Setup Your .env File
+#### Setup Your .env File
 We use the [dotenv](https://medium.com/@thejasonfile/using-dotenv-package-to-create-environment-variables-33da4ac4ea8f) node.js library to store environment-specific configuration settings used to authenticate against a given B2C Commerce environment.  Before installing any of the project package dependencies, please follow these instructions to build-out a .env file that contains your environment's configuration settings.
 
 - Rename the example file 'sample.env' to '.env' in the root of the repository.
@@ -267,12 +273,12 @@ The CLI build tools present within this solution will use this information to re
 
 > Prior to saving your file, please verify that the url is correct, that the instanceName has no spaces, hyphens, or underscores -- and that the clientId / clientSecret are accurate.  This information must be accurate in order for these activities to successfully process the site-import.
 
-### Configure Your B2C Commerce OCAPI Permissions
+#### Configure Your B2C Commerce OCAPI Permissions
 The build scripts in this repository leverage B2C Commerce's [sfcc-ci](https://github.com/SalesforceCommerceCloud/sfcc-ci) automation library.  This library performs a number of continuous-integration related tasks that enable the site-data uploading and import.  Before we can leverage the automation tasks, the Salesforce B2C Commerce environment's OCAPI Data API permissions must be enabled to support remote interactions.
 
 > Yes, we will be porting this to leverage the new B2C Commerce APIs in a future release.  For now, all use-cases can be satisfied via OCAPI.
 
-#### Configure Your Shop API Permissions
+##### Configure Your Shop API Permissions
 
 > We leverage the Shop API to facilitate enable Headless use-cases, multi-cloud unit tests that can be executed via the CLI, and to support Assisted Shopping (OOBO) via the B2C Commerce storefront.
 
@@ -623,7 +629,7 @@ The build tools will use this information to create scratchOrgs, set default pre
 
 You will leverage the .env file's configuration properties to dramatically simplify the build and deployment of b2c-crm-sync.  Check the package.json for the complete set of CLI commands that can be used to automate meta-data generation, service definition creation, and validate environment configurations prior to deployment.
 
-## Deployment Instructions
+### Deployment Instructions
 The b2c-crm-sync repository includes a collection of CLI commands that can be used to prepare and deploy the b2c-crm-sync assets to B2C Commerce and a Salesforce Customer 360 Platform scratchOrg.  
 
 The CLI commands leverage the [.env file](sample.env) configuration to retrieve runtime execution values.  They also include support for command-line argument equivalents of the .env configuration values.  Each command has an associated [api method](lib/cli-api) that can be leveraged from within custom deployment scripts.
@@ -820,7 +826,9 @@ The Order on Behalf Of shopping experience requires that Service Agents in the S
 
 #### Generate and Download a Self-Signed Certificate 
 
-13. Now that your scratchOrg user credentials have been validated, you can generate a self-signed certificate via the Salesforce Org and download it as a KeyStore.  You'll use the cert to mint JWT AuthToken requests presented to the B2C Commerce Account Manager.
+13. Now that your scratchOrg user credentials have been validated, you can generate a self-signed certificate via the Salesforce Org and download it as a KeyStore.  b2c-crm-sync will use the generated certificate to mint JWT AuthToken requests presented to the B2C Commerce Account Manager.
+
+> Allowing Salesforce to generate a self-signed certificate is the simplest way to work through this configuration step.  You can also [generate your own certificate](https://lekkimworld.com/2019/12/09/generate-a-java-keystore-jks-which-is-importable-in-salesforce/) and import it from your Salesforce org.
 
 - Enter Setup within your scratchOrg and in the quick-find, search for `cert`.
 - Select the `Certificate and Key Management` option found under the Security menu.
@@ -847,11 +855,13 @@ The Order on Behalf Of shopping experience requires that Service Agents in the S
 - Click the `Export` button to download the keystore.
 - Copy the keystore to the _jwt/sfdc directory.
 
-We will use the keystore to extract the public and private keys -- and leverage these keys to exercise JWT validation between B2C Commerce's Account Manager and the Salesforce Org.
+We will use the keystore to extract the public and private keys -- and leverage these keys to exercise JWT validation between B2C Commerce's Account Manager and the Salesforce Org via the CLI.
 
 #### Extract the Public Key from the KeyStore
 
 14. Execute the following CLI command to extract the publicKey from the KeyStore and output it via the console.  We'll use the public key to update your Account Manager ClientID configuration so that you can securely get AuthTokens from Account Manager without requiring a ClientSecret for authentication.
+
+> The command will ask you to select your keyStore from the contents of the _jwt/sfdc directory -- and enter the password you applied to the keyStore before exporting it.
 
 ```bash
 npm run crm-sync:sf:cert:publickey:get
@@ -860,13 +870,21 @@ When prompted, please enter the password you used to create the keyStore that wa
 
 > This command will parse the public key from your certificate and output its contents to the console.  It expects that your cert is in the `_jwt/sfdc` directory and will throw an error if no cert exists in this directory.
 
-Completing this command successfully should output to the console two key pieces of information about the certificate 
+Completing this command successfully should output to the console two key pieces of information describing your certificate:
 
 - The Salesforce certificate's developerName; this is the internal / unique name applied to the certificate when created
 - The Salesforce certificate's base64 content; this is the component of the keyStore that will be used by Account Manager to verify the authenticity of b2c-crm-sync authToken requests
 
 We need the certificate developerName to default certificate associations across your B2C Instance's CustomerLists and Sites.  Please copy the developerName value 
-to your .env file via the `SF_CERTDEVELOPERNAME` value.  For your convenience, the CLI command will output an updated representation of your **Salesforce Platform Configuration Properties**.
+to your .env file via the `SF_CERTDEVELOPERNAME` value.  The CLI command will output an updated representation of your **Salesforce Platform Configuration Properties** 
+that includes the seeded `SF_CERTDEVELOPERNAME` value.
+
+| Property Name | Required | Description                       |
+|--------------:|:----:|:-----------------------------------|
+|  SF_CERTDEVELOPERNAME |x| Represents the developerName of the self-signed certificate used by the Salesforce Platform to mint JWT tokens and by the B2C Commerce Account Manager to validate JWT tokens.|
+
+> The certDeveloperName will be used to broker REST API authorization between the Salesforce Platform and B2C Commerce -- enabling the Salesforce Platform to leverage B2C Commerce REST APIs.  The certificate will be written to the `_jwt/sfdc` directory using the certificate developerName as the filename.  You can access this file if you need to reference the certificate in the future.
+
 
 ```bash
 ######################################################################
@@ -879,13 +897,7 @@ SF_PASSWORD=P@ssw0rd!
 SF_SECURITYTOKEN=5aqzr1tpENbIpiWt1E9X2ruOV
 SF_CERTDEVELOPERNAME=powerdream1234
 ```
-The Salesforce Platform Configuration Properties now include the `SF_CERTDEVELOPERNAME` property.  This key / value pair must be copied to your .env file.
-
-| Property Name | Required | Description                       |
-|--------------:|:----:|:-----------------------------------|
-|  SF_CERTDEVELOPERNAME |x| Represents the developerName of the self-signed certificate used by the Salesforce Platform to mint JWT tokens and by the B2C Commerce Account Manager to validate JWT tokens.|
-
-> The certDeveloperName will be used to broker REST API authorization between the Salesforce Platform and B2C Commerce -- enabling the Salesforce Platform to leverage B2C Commerce REST APIs.  The certificate will be written to the `_jwt/sfdc` directory using the certificate developerName as the filename.  You can access this file if you need to reference the certificate in the future.
+> Please copy the `SF_CERTDEVELOPERNAME` property to your .env file.  The JWT validation CLI command depends on a seeded `SF_CERTDEVELOPERNAME` property value -- and will not function property without it.
 
 #### Setup the JWT Certificate and AuthToken Format in Account Manager
 
@@ -897,28 +909,49 @@ The Salesforce Platform Configuration Properties now include the `SF_CERTDEVELOP
 - Locate the `Client JWT Bearer Public Key` form field under the **JWT** heading.
 - Paste the copied certificate contents into the `Client JWT Bearer Public Key` field.  Remove any trailing spaces or line-feeds that are copied following the `-----END CERTIFICATE-----` marker.  The pasted certificate contents should not have any leading or trailing whitespace. 
 - Locate the `Token Endpoint Auth Method` form field near the bottom of the form.  Change this value to `private_key_jwt`.
-- Click `Save` to apply the callbackUrl to the ClientID definition.
+- Click `Save` to apply the public key details to the ClientID definition.
 
-> These updates to your ClientID will change the authentication method from being ClientID / ClientSecret driven to ClientID and Certificate driven, as the JWT approach to authentication eliminates the need for passwords.  The non-password authentication approach makes it a preferred, trustworthy, and lower risk authentication method.
+> These updates to your ClientID will enable both ClientID / ClientSecret driven AND JWT Certificate driven authentication.  That said, we recommend the password-less / JWT Certificate driven approach.  The non-password authentication approach makes it a preferred, trustworthy, and lower risk authentication method.
 
 #### Validate that You Can Retrieve an Account Manager AuthToken
 
-16. Now that the .env file has been configured to include the Salesforce self-signed certificate developerName -- we test retrieving a B2C Commerce REST API AuthToken from Account Manager leveraging the JWT authentication approach.  Please execute the following CLI command:
+16. Now that the .env file has been configured to include the Salesforce self-signed certificate developerName -- let's test retrieving a B2C Commerce REST API AuthToken from Account Manager leveraging the JWT authentication approach.  Please execute the following CLI command:
 
 ```bash
 npm run crm-sync:b2c:auth:jwt
 ```
-> This command is dependent on the correct JWT-specific configuration of the B2C ClientID via Account Manager, access to the public / private keys belonging to the Salesforce self-signed certificate keyStore, and the configuration of the certificate developerName.  Please ensure that these three configuration elements have been successfully completed before continuing.
+> This command is dependent on the correct JWT-specific configuration of the B2C ClientID via Account Manager and access to the public / private keys belonging to the Salesforce self-signed certificate keyStore.  It is also dependent on the correct configuration of the certificate developerName within your .env file.  Please ensure that these three configuration elements have been successfully completed before continuing.
 
-If successful, the CLI output should render the authToken provided by the B2C Commerce Account Manager -- in response to successful authentication leveraging JWT.  Any errors will be output to the console -- along with the request properties that were used to mint the JWT.
+If successful, the CLI output should render the authToken provided by the B2C Commerce Account Manager -- in response to successful authentication leveraging JWT.  Any errors will be output to the console -- along with the request properties that were used to mint the JWT.  Now, let's test that the ClientID / ClientSecret authentication method still works by executing the following CLI command:
+
+```bash
+npm run crm-sync:b2c:auth:clientcreds
+```
+
+If successful, the CLI output should also render the authToken provided by the B2C Commerce Account Manager -- in response to successful authentication leveraging the ClientID / ClientSecret configured in your .env file.
+
+> b2c-crm-sync's CLI tools primarily leverage the ClientID / ClientSecret authentication method to perform deployments to the B2C Commerce sandbox.  The JWT method will be leveraged by b2c-crm-sync in the deployed Salesforce Org to authenticate against B2C Commerce's Account Manager.  Once deployed, b2c-crm-sync never leverages your .env's ClientID / ClientSecret to authenticate against B2C Commerce's Account Manager.
 
 #### Configure Duplicate Rules Leveraged by b2c-crm-sync
 
-b2c-crm-sync leverages match and duplicate rules to enforce the B2C Customer Data Strategy it employs.  These rules are leveraged to alert administrators of potential duplicate B2C Commerce Customer Profiles -- and assist in resolving customer profiles using a sub-set of customer attributes.
+b2c-crm-sync leverages match and duplicate rules to enforce the B2C Customer Data Strategy it employs.  b2c-crm-sync leverages these rules to alert administrators of potential duplicate B2C Commerce Customer Profiles -- and assist in resolving customer profiles using a sub-set of customer profile (Contact) attributes.
 
-17. In the setup quick-find, search for Duplicate Rules (searching for 'dup' should bring up Duplicate and Match Rules).  Once located, select the Match Rules setup option from the filtered setup menu.
+#### Configure Your B2C Instance
 
-##### Account / Contact Match Rules Setup Guidance
+17. With the JWT certificate in place, you can now conduct your first test of the integration between B2C Commerce and the Salesforce Platform.  Please execute the following CLI command to configure your B2C Instance:
+
+> This activity will seed the B2C Client ID, B2C Instance record, retrieve the B2C Commerce CustomerLists and Sites, and set up the base configuration for all of these records.
+
+```bash
+npm run crm-sync:sf:b2cinstance:setup
+```
+> This command leverages a Salesforce REST API (B2CInstanceSetup) that interacts with B2C Commerce via its OCAPI REST APIs.  This command validates the configured OCAPI permissions as well as authentication via Account Manager by the Salesforce Platform.
+
+### Setup Match and Duplicate Rules
+
+18. In the setup quick-find, search for Duplicate Rules (searching for 'dup' should bring up Duplicate and Match Rules).  Once located, select the Match Rules setup option from the filtered setup menu.
+
+
 
 > If you are setting up PersonAccounts, please skip this section and proceed to the section titled [PersonAccount Match Rules Setup Guidance](#personaccount-match-rules-setup-guidance).
 
@@ -960,16 +993,6 @@ From the duplicate rules listing, select the rule titled **B2C Commerce: Standar
 ```bash
 1 OR (2 AND 3) OR (2 AND 4 AND 5) OR (2 AND 4) OR (4 AND 5 AND 6)
 ```
-#### Configure Your B2C Instance
-
-18. With the AuthProvider verified and match rules in place, you are now in a position to conduct your first test of the integration between B2C Commerce and the Salesforce Platform.  Please execute the following CLI command to configure your B2C Instance:
-
-```bash
-npm run crm-sync:sf:b2cinstance:setup
-```
-
-> This command will seed the B2C Instance record, retrieve the B2C Commerce CustomerLists and Sites, and set up the base configuration for all of these records.  It leverages a Salesforce REST API that interacts with B2C Commerce via OCAPI.
-
 #### Build and Deploy b2c-crm-sync to Your Commerce Cloud Sandbox
 
 19. Generate the B2C Commerce metadata required by b2c-crm-sync and deploy both the code metadata to the Salesforce B2C Commerce instance by executing the following CLI command:
@@ -1025,12 +1048,12 @@ npm run crm-sync:oobo:customers:create
 
 The Agent will log in to the storefront using these customerProfiles when creating anonymous shopping sessions.  The storefront will recognize the anonymous OOBO customer profiles, and automatically log the customerProfile out of their registered session.  This leaves the Agent with the anonymous shopping session.
 
-### Databse initialization considerations
+### Database initialization considerations
 
-In case, when installing the b2c-crm-sync tool on your instances, you need to initialize the Salesforce Core Platform database with all the already-existing profiles from the Salesforce B2C Commerce platform, you can leverage multiple options here:
+In case, when installing the b2c-crm-sync tool on your instances, you need to initialize the Salesforce Platform database with all the already-existing profiles from the Salesforce B2C Commerce platform, you can leverage multiple options here:
 1. Relying on the existing create / update hooks, which will synchronize the customer profiles at profile creation and update. This means the existing database won't be synchronized until the customer login again on the storefront and updates its profile
-2. On top of the first option, you can enable from the Custom Site Preferences the "first-login" synchronization, which will synchronize the customer profile at their first login after the deployment of the b2c-crm-sync tool. This allows you to transfer the profiles database to the Salesforce Core Platform with only the customers which are involved in your website.
-3. The third option that can also be used is the `custom.B2CCRMSync.SynchronizeCustomers` job step. This job step can be configured to export the whole database of profiles from B2C Commerce to the Salesforce Core platform. This allows you to initialize the Core platform database in one or multiple loads. This job step contains a Query parameter which allow you to specify which profiles to synchronise by providing an valid and executable query (see [documentation](https://documentation.b2c.commercecloud.salesforce.com/DOC2/topic/com.demandware.dochelp/DWAPI/scriptapi/html/api/class_dw_customer_CustomerMgr.html#dw_customer_CustomerMgr_searchProfiles_Map_String_DetailAnchor) for more details on what is a valid and executable query).
+2. On top of the first option, you can enable from the Custom Site Preferences the "first-login" synchronization, which will synchronize the customer profile at their first login after the deployment of the b2c-crm-sync tool. This allows you to transfer the profiles database to the Salesforce Org with only the customers which are involved in your website.
+3. The third option that can also be used is the `custom.B2CCRMSync.SynchronizeCustomers` job step. This job step can be configured to export the whole database of profiles from B2C Commerce to the Salesforce Org. This allows you to initialize the Salesforce Org database in one or multiple loads. This job step contains a Query parameter which allow you to specify which profiles to synchronise by providing an valid and executable query (see [documentation](https://documentation.b2c.commercecloud.salesforce.com/DOC2/topic/com.demandware.dochelp/DWAPI/scriptapi/html/api/class_dw_customer_CustomerMgr.html#dw_customer_CustomerMgr_searchProfiles_Map_String_DetailAnchor) for more details on what is a valid and executable query).
 The query can contain two dynamic placeholders which allow dynamic timeframes: `_today` and `_now_`. This can be used to dynamically put the date and datetime from the job-step execution time. You can also provide dynamic values in the past, for example:
 - `_today_ -2` will dynamically use the date when the job run minus 2 days (starting at midnight)
 - `_now_ - 180` will dynamically use the date time when the job run minus 180 minutes

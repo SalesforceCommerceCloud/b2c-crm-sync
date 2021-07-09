@@ -16,6 +16,7 @@
     "crm-sync:sf:trustedsites": "node cli.js crm-sync:sf:trustedsites",
     "crm-sync:sf:remotesitesettings": "node cli.js crm-sync:sf:remotesitesettings",
     "crm-sync:sf:namedcredentials:oobo": "node cli.js crm-sync:sf:namedcredentials:oobo",
+    "crm-sync:sf:b2cclientid:setup": "node cli.js crm-sync:sf:b2cclientid:setup",
     "crm-sync:sf:b2cinstance:setup": "node cli.js crm-sync:sf:b2cinstance:setup",
     "crm-sync:sf:cert:publickey:get": "node cli.js crm-sync:sf:cert:publickey:get",
     "crm-sync:sf:org:create": "node cli.js crm-sync:sf:org:create",
