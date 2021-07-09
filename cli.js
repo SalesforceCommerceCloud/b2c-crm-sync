@@ -5,12 +5,10 @@ const config = require('config');
 
 // Initialize access to local libraries
 const cliInterface = require('./lib/cli-interface');
-const cliUi = require('./lib/cli-interface/ui');
 
 // Define local variables
 let projectVersionNo = config.get('versionNo').toString(),
-    program = require('commander'),
-    foo;
+    program = require('commander');
 
 // Initialize the .env confirmation
 require('dotenv').config();
