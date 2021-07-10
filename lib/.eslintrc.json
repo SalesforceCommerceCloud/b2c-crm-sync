@@ -169,7 +169,7 @@
         // disallow use of octal escape sequences in string literals, such as var foo = "Copyright \251";
         "no-param-reassign": 2,
         // disallow reassignment of function parameters (off by default)
-        "no-process-env": 2,
+        "no-process-env": 0,
         // disallow use of process.env (off by default)
         "no-async-promise-executor": 2,
         // disallow using an async function as a Promise executor

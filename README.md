@@ -951,28 +951,28 @@ npm run crm-sync:sf:b2cinstance:setup
 ```
 > This activity will seed the B2C Instance (B2C_Instance__c) custom object in the Salesforce Platform using the .env file's `B2C_HOSTNAME` and associate the previously created `B2C_CLIENTID` value.  The CLI Command will verify the record has been created, or reset the record with its default definition if the record exists.
 
-Executing this CLI command will trigger a flow that will 
+Executing this CLI command will trigger a flow retrieves the B2C CustomerLists and Sites from your B2C Commerce Instance -- and seeds their configuration records in your Salesforce Org.  These records will also be assigned the default B2C Client ID for REST API authentication.
 
 #### Configure Duplicate Rules Leveraged by b2c-crm-sync
 
 b2c-crm-sync leverages match and duplicate rules to enforce the B2C Customer Data Strategy it employs.  b2c-crm-sync leverages these rules to alert administrators of potential duplicate B2C Commerce Customer Profiles -- and assist in resolving customer profiles using a sub-set of customer profile (Contact) attributes.
 
-#### Configure Your B2C Client ID
+> b2c-crm-sync automatically deploys required matchRules with its base deployment.  Duplicate rules, however, must be deployed independently, as org configurations can vary -- and rules require a sortOrder that is org specific.
 
-17. With the JWT certificate in place, you can now conduct your first test of the integration between B2C Commerce and the Salesforce Platform.  Please execute the following CLI command to configure your B2C Instance:
+#### Create and Deploy Your Duplicate Rules
 
-> This activity will seed the B2C Client ID, B2C Instance record, retrieve the B2C Commerce CustomerLists and Sites, and set up the base configuration for all of these records.
+19. Duplicate rules can be configured and deployed via a CLI command that retrieves the duplicateRules configuration in the Salesforce Org, identifies which b2c-crm-sync rules already exist, and creates the rule templates to deploy.  Please execute this CLI command to create and deploy duplicateRules:
 
 ```bash
-npm run crm-sync:sf:b2cinstance:setup
+npm run crm-sync:sf:duplicaterules
 ```
+> Please note that it's impossible for us to account for every Salesforce Org configuration.  There is a possibility that the duplicate rules may not deploy without manual changes due to conflicts in the Salesforce Org.  If that occurs, please [create an issue](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/issues) and share your experience with us.
 
-This command leverages a Salesforce REST API (B2CInstanceSetup) that interacts with B2C Commerce via its OCAPI REST APIs.  It validates the configured OCAPI permissions as well as authentication via Account Manager by the Salesforce Platform.
+Once completed, the duplicate rules should be deployed to your Salesforce Org.  They must be configured via Setup from within your Salesforce Org.
 
-### Setup Match and Duplicate Rules
+##### Manually Configure Duplicate Rules
 
 18. In the setup quick-find, search for Duplicate Rules (searching for 'dup' should bring up Duplicate and Match Rules).  Once located, select the Match Rules setup option from the filtered setup menu.
-
 
 > If you are setting up PersonAccounts, please skip this section and proceed to the section titled [PersonAccount Match Rules Setup Guidance](#personaccount-match-rules-setup-guidance).
 
@@ -991,19 +991,10 @@ From the duplicate rules listing, select the rule titled **B2C Commerce: Standar
 ```bash
 1 OR (2 AND 3) OR (2 AND 4 AND 5) OR (2 AND 4) OR (4 AND 5 AND 6)
 ```
+
 ##### PersonAccount Match Rules Setup Guidance
 
-- Ensure that the **B2C Commerce Standard Person Account** match rule is activated.  This rule must be active in the scratchOrg as part of the PersonAccounts implementation.  The corresponding Duplicate Rule is dependent on this Match Rule being activated.
-
-- Ensure that the **B2C Commerce: Standard Contacts** match rule is deactivated.  This rule must be not activated as part of the PersonAccounts implementation.
-
-> The B2C Commerce: Standard Contacts should automatically be deactivated as part of the PersonAccounts meta-data deployment.
-
-##### PersonAccount Duplicate Rules Setup Guidance
-
 Leveraging the PersonAccount implementation requires a handful of additional configuration steps to disable the Contact match and duplicate rules -- and enable the related PersonAccount rules.
-
-> The PersonAccount match and duplicate rules are disabled by default -- and must be activated manually through the Setup options of your Salesforce Org.
 
 From the duplicate rules listing, select the rule titled **B2C Commerce: Standard Person Accounts**.  Edit the rule from the detail display.
 
@@ -1014,6 +1005,10 @@ From the duplicate rules listing, select the rule titled **B2C Commerce: Standar
 ```bash
 1 OR (2 AND 3) OR (2 AND 4 AND 5) OR (2 AND 4) OR (4 AND 5 AND 6)
 ```
+#### A Final Word About Duplicate Rules 
+
+> Please note that the filter logic outlined in the previous step(s) is a critical configuration step for b2c-crm-sync. Failure to configure this duplicate rule property will prevent b2c-crm-sync from being able to resolve B2C Commerce customer profiles.
+
 #### Build and Deploy b2c-crm-sync to Your Commerce Cloud Sandbox
 
 19. Generate the B2C Commerce metadata required by b2c-crm-sync and deploy both the code metadata to the Salesforce B2C Commerce instance by executing the following CLI command:

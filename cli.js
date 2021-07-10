@@ -133,6 +133,9 @@ program = cliInterface.sfGetScratchOrgEnvironment(program);
 // Attach the command used to generate the SFDX connected apps template
 program = cliInterface.sfConnectedAppsCreate(program);
 
+// Attach the command used to generate the duplicate rules template(s)
+program = cliInterface.sfDuplicateRulesCreate(program);
+
 // Attach the command used to generate the SFDX trusted sites template
 program = cliInterface.sfTrustedSitesCreate(program);
 

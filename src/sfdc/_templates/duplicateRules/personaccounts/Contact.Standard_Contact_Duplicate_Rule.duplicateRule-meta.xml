@@ -39,5 +39,5 @@
     <operationsOnInsert>Report</operationsOnInsert>
     <operationsOnUpdate>Report</operationsOnUpdate>
     <securityOption>EnforceSharingRules</securityOption>
-    <sortOrder>1</sortOrder>
+    <sortOrder>{{SEQUENCE}}</sortOrder>
 </DuplicateRule>

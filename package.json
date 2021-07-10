@@ -13,6 +13,7 @@
     "crm-sync:sf:env:list": "node cli.js crm-sync:sf:env:list",
     "crm-sync:sf:setup": "node cli.js crm-sync:sf:setup",
     "crm-sync:sf:connectedapps": "node cli.js crm-sync:sf:connectedapps",
+    "crm-sync:sf:duplicaterules": "node cli.js crm-sync:sf:duplicaterules",
     "crm-sync:sf:trustedsites": "node cli.js crm-sync:sf:trustedsites",
     "crm-sync:sf:remotesitesettings": "node cli.js crm-sync:sf:remotesitesettings",
     "crm-sync:sf:namedcredentials:oobo": "node cli.js crm-sync:sf:namedcredentials:oobo",
@@ -98,6 +99,7 @@
     "terminal-link": "^2.1.1",
     "validate.js": "^0.13.1",
     "validator": "^13.6.0",
+    "xml-parser": "^1.2.1",
     "zip-a-folder": "^0.0.12"
   },
   "devDependencies": {

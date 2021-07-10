@@ -84,6 +84,7 @@ $RECYCLE.BIN/
 /src/sfdc/base/main/default/connectedApps/
 /src/sfdc/base/main/default/duplicateRules/
 /src/sfdc/personaccounts/main/default/duplicateRules/
+/src/sfdc/_templates/duplicateRules/_tmp/
 
 # Ignore the rendered connectedAppCredentails file
 /config-dx/*.connectedAppCredentials.json

@@ -81,5 +81,5 @@
     <operationsOnInsert>Report</operationsOnInsert>
     <operationsOnUpdate>Report</operationsOnUpdate>
     <securityOption>BypassSharingRules</securityOption>
-    <sortOrder>4</sortOrder>
+    <sortOrder>{{SEQUENCE}}</sortOrder>
 </DuplicateRule>
