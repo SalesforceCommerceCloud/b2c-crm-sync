@@ -1,11 +1,23 @@
 {
-  "packageDirectories": [
-    {
-      "path": "src/sfdc/base",
-      "default": true
-    }
-  ],
-  "namespace": "",
-  "sfdcLoginUrl": "https://login.salesforce.com",
-  "sourceApiVersion": "52.0"
+    "packageDirectories": [
+        {
+            "path": "src/sfdc/base",
+            "default": true
+        },
+        {
+            "path": "src/sfdc/personaccounts",
+            "default": false
+        },
+        {
+            "path": "src/sfdc/extras/sf-connect/base",
+            "default": false
+        },
+        {
+            "path": "src/sfdc/extras/sf-connect/personaccounts",
+            "default": false
+        }
+    ],
+    "namespace": "",
+    "sfdcLoginUrl": "https://login.salesforce.com",
+    "sourceApiVersion": "52.0"
 }

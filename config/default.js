@@ -669,7 +669,7 @@ module.exports = {
         "timeout":20000,
 
         // Define the OCAPI version number to use
-        "ocapiVersion": "v21_03",
+        "ocapiVersion": "v21_3",
 
         // Define the namedCredential suffix for OOBO
         "ooboNamedCredentialSuffix": "_B2C_OOBO",
