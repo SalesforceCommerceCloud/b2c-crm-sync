@@ -5,6 +5,7 @@
     <alertText>Use one of these records?</alertText>
     <description>Identify person accounts that duplicate other person accounts.</description>
     <duplicateRuleFilter>
+        <booleanFilter xsi:nil="true"/>
         <duplicateRuleFilterItems>
             <field>B2C_Customer_ID__pc</field>
             <operation>equals</operation>

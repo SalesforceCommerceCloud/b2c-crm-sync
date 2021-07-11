@@ -5,7 +5,6 @@
     <alertText>Duplicate Alert</alertText>
     <description>Duplicate rule for contact records.</description>
     <duplicateRuleFilter>
-        <booleanFilter xsi:nil="true"/>
         <duplicateRuleFilterItems>
             <field>B2C_Customer_ID__c</field>
             <operation>equals</operation>
