@@ -8,7 +8,7 @@
 public class B2CProcessPersonAccount_Test {
 
     /**
-     * @see B2CProcessPersonAccount.Trigger
+     * @see B2CProcessPersonAccountHelper.processTrigger
      * @description This test exercises the processAccount trigger and verifies that personAccount
      * updates can be processed and those changes applied to B2C Commerce.
      */
