@@ -396,16 +396,9 @@
         <defaultConnectorLabel>Is Not Valid</defaultConnectorLabel>
         <rules>
             <name>decOut_validateOOBOConfigRequirementsIsValid</name>
-            <conditionLogic>(1 AND 2 AND 3 AND 4 AND 5 AND 6) AND ((7 AND 8) OR (9 AND 10))</conditionLogic>
+            <conditionLogic>(1 AND 2 AND 3 AND 4 AND 5) AND ((6 AND 7) OR (8 AND 9))</conditionLogic>
             <conditions>
                 <leftValueReference>selectedClientId</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>selectedNamedCredential</leftValueReference>
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>

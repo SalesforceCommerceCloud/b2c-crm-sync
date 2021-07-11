@@ -96,6 +96,9 @@ program = cliInterface.b2cCodeZip(program);
 // Attach the command used to create and place the data archive prior to deployment
 program = cliInterface.b2cDataZip(program);
 
+// Attach the command used to update the sitePreferences for verified sites
+program = cliInterface.b2cSitePrefsActivate(program);
+
 // Attach the command used to remove the app-cartridges from the site cartridge-paths
 program = cliInterface.b2cSitesCartridgesRemove(program);
 

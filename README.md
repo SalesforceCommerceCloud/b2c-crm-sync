@@ -1073,11 +1073,25 @@ If your scratchOrg url is `enterprise-ability-12345-dev-ed.lightning.force.com`,
 
 - Always remember to save your changes and confirm that they've been written to your Business Manager environment.
 
+#### Activate B2C Commerce Site Preferences
+
+b2c-crm-sync is manage by several storefront SitePreferences.  These sitePreferences controls which customerProfile synchronization features are enabled in the B2C Commerce instance.  You can use this CLI command to enable all settings:
+
+> The customPreferences administration display in B2C Commerce's Business Manager has detailed descriptions on each sitePreference available.
+
+```bash
+npm run crm-sync:b2c:siteprefs:activate
+```
+
+By default, b2c-crm-sync only enables minimal settings.  Executing this command enables customer synchronization, synchronization via OCAPI, profile creation via order scenarios, and Order on Behalf Of.
+
+> When deploying to production, please remember to only enable the sitePreferences for the desired b2c-crm-sync features.
+
 #### Create the Order of Behalf Of Anonymous Customers
 
 The B2C Commerce Order on Behalf Of feature only supports the creation of shopping sessions for registered storefront customers.  b2c-crm-sync extends this capability to anonymous storefront shoppers.  
 
-24.  Execute the following CLI command to create B2C Commerce customer profiles that will be used by Service Agents to authenticate against B2C Commerce to create anonymous agent-driven shopping sessions.
+25.  Execute the following CLI command to create B2C Commerce customer profiles that will be used by Service Agents to authenticate against B2C Commerce to create anonymous agent-driven shopping sessions.
 
 ```bash
 npm run crm-sync:oobo:customers:create

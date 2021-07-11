@@ -30,13 +30,13 @@ public with sharing class B2CHttpRequestHelper {
      * @description Generates the httpRequest to authenticate an against against a B2C Commerce
      * instance as a Business Manager user.
      *
-     * @param apiUrl {String} Represents the base apiUrl used to invoke the REST API call
+     * @param namedCredential {String} Represents namedCredential to use for the callout
      * @param clientId {String} Represents the client Id to use to authenticate the request
      * @return HttpRequest Returns an http-object pre-configured data-api site retrieval request
      * */
-    public static HttpRequest getBusinessManagerAuthRequest(String apiUrl, String clientId) {
+    public static HttpRequest getBusinessManagerAuthRequest(String namedCredential, String clientId) {
         HttpRequest req = new HttpRequest();
-        req.setEndpoint(apiUrl + '/dw/oauth2/access_token?client_id=' + clientId);
+        req.setEndpoint('callout:' + namedCredential + '/dw/oauth2/access_token?client_id=' + clientId);
         req.setHeader('Content-Type', 'application/x-www-form-urlencoded');
         req.setBody('grant_type=urn:demandware:params:oauth:grant-type:client-id:dwsid:dwsecuretoken');
         req.setMethod('POST');

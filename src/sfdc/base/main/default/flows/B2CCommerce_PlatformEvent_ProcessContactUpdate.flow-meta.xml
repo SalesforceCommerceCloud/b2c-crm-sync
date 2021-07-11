@@ -497,9 +497,16 @@
         <defaultConnectorLabel>Do Not Audit API Response</defaultConnectorLabel>
         <rules>
             <name>decOutcome_AuditRetrieveAPIResponse</name>
-            <conditionLogic>and</conditionLogic>
+            <conditionLogic>or</conditionLogic>
             <conditions>
                 <leftValueReference>$Record.Audit_API_Response__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>recGet_B2CCustomerList.Audit_OCAPI_API_Response__c</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
@@ -523,7 +530,7 @@
         <defaultConnectorLabel>Do Not Audit the Contact Update</defaultConnectorLabel>
         <rules>
             <name>decOut_AuditContactUpdateFromPublish</name>
-            <conditionLogic>and</conditionLogic>
+            <conditionLogic>or</conditionLogic>
             <conditions>
                 <leftValueReference>$Record.Audit_API_Response__c</leftValueReference>
                 <operator>EqualTo</operator>
@@ -532,10 +539,10 @@
                 </rightValue>
             </conditions>
             <conditions>
-                <leftValueReference>ia_publishB2CCommerceProfileUpdates.isError</leftValueReference>
+                <leftValueReference>recGet_B2CCustomerList.Audit_OCAPI_API_Response__c</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <booleanValue>false</booleanValue>
+                    <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
             <connector>

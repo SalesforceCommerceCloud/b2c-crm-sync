@@ -454,6 +454,37 @@ module.exports = {
 
     },
 
+    // Define the sitePreference groups
+    "sitePreferenceGroups": [
+
+        // Describe the preference group to leverage
+        "B2CCRMSync",
+        "B2CCRMSyncAssistedShopping"
+
+    ],
+
+    // Represents the individual collection of preferenceSettings for activation
+    "sitePreferences": {
+
+        // Represents the configuration settings for b2c-crm-sync
+        "B2CCRMSync": {
+            "c_b2ccrm_syncIsEnabled": true,
+            "c_b2ccrm_syncCustomersEnabled": true,
+            "c_b2ccrm_syncCustomersOnLoginEnabled": true,
+            "c_b2ccrm_syncCustomersOnLoginOnceEnabled": false,
+            "c_b2ccrm_syncCustomersViaOCAPI": true,
+            "c_b2ccrm_syncCustomersFromOrdersEnabled": true,
+            "c_b2ccrm_syncCustomersFromGuestOrdersOnlyEnabled": true,
+            "c_b2ccrm_syncCustomersFromOrdersViaOCAPI": true
+        },
+
+        // Represents the configuration settings for OOBO
+        "B2CCRMSyncAssistedShopping": {
+            "c_b2ccrm_syncAgentHeaderIsEnabled": true
+        }
+
+    },
+
     // Centralize the CLI table schemas used to generate consistent output
     "cliTableConfig": {
 

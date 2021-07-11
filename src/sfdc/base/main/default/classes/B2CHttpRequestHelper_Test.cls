@@ -50,21 +50,20 @@ private class B2CHttpRequestHelper_Test {
     static void testGetBusinessManagerAuthRequest() {
 
         // Initialize local variables
-        String apiUrl = 'https://example.com';
+        String namedCredential = 'MyTestNamedCredential';
         String clientId = 'my-example-clientId';
 
         Test.startTest();
 
             // Generate the base request and capture the details
             HttpRequest requestResults = B2CHttpRequestHelper.getBusinessManagerAuthRequest(
-                apiUrl, clientId
+                namedCredential, clientId
             );
 
         Test.stopTest();
 
         // Validate that the request was successfully generated
         System.assert(requestResults.getEndpoint().contains(clientId), 'Expected the clientId to be present in the request endpoint');
-        System.assert(requestResults.getEndpoint().contains(apiUrl), 'Expected the apiUrl to be present in the request endpoint');
 
     }
 
