@@ -20,7 +20,7 @@ public class B2CIACustomerResolutionPA_Test {
      * of the resolution process (each Contact / PersonAccount must be associated to a customerList).
      */
     @TestSetup static void setup() {
-        B2C_CustomerList__c customerList = (B2C_CustomerList__c)TestDataFactory.createSObject(
+        TestDataFactory.createSObject(
             'B2C_CustomerList__c',
             new Map<String,Object>{
                 'Name' => 'customerList',
@@ -63,13 +63,17 @@ public class B2CIACustomerResolutionPA_Test {
         // Create the local working variables
         List<B2CIACustomerResolutionResult> contactResolvedList = new List<B2CIACustomerResolutionResult>();
         List<Contact> contactFilteredList = new List<Contact>();
+        List<Contact> resolutionContactList = new List<Contact>();
+        List<List<Contact>> resolutionArguments = new List<List<Contact>>();
 
         Test.startTest();
 
+            // Initialize the resolution arguments
+            resolutionContactList.add(c1);
+            resolutionArguments.add(resolutionContactList);
+
             // Create the list of resolved contacts
-            contactResolvedList = B2CIACustomerResolution.resolve(
-                new List<Contact>{ c1 }
-            );
+            contactResolvedList = B2CIACustomerResolution.resolve(resolutionArguments);
 
             // Default the working collections leveraged by the resolution / filter process
             B2CIACustomerResolutionResult resolutionResults = contactResolvedList.get(0);
@@ -137,13 +141,17 @@ public class B2CIACustomerResolutionPA_Test {
         // Create the local working variables
         List<B2CIACustomerResolutionResult> contactResolvedList = new List<B2CIACustomerResolutionResult>();
         List<Contact> contactFilteredList = new List<Contact>();
+        List<Contact> resolutionContactList = new List<Contact>();
+        List<List<Contact>> resolutionArguments = new List<List<Contact>>();
 
         Test.startTest();
 
+            // Initialize the resolution arguments
+            resolutionContactList.add(c1);
+            resolutionArguments.add(resolutionContactList);
+
             // Create the list of resolved contacts
-            contactResolvedList = B2CIACustomerResolution.resolve(
-                new List<Contact>{ c1 }
-            );
+            contactResolvedList = B2CIACustomerResolution.resolve(resolutionArguments);
 
             // Default the working collections leveraged by the resolution / filter process
             B2CIACustomerResolutionResult resolutionResults = contactResolvedList.get(0);
@@ -208,13 +216,17 @@ public class B2CIACustomerResolutionPA_Test {
         // Create the local working variables
         List<B2CIACustomerResolutionResult> contactResolvedList = new List<B2CIACustomerResolutionResult>();
         List<Contact> contactFilteredList = new List<Contact>();
+        List<Contact> resolutionContactList = new List<Contact>();
+        List<List<Contact>> resolutionArguments = new List<List<Contact>>();
 
         Test.startTest();
 
+            // Initialize the resolution arguments
+            resolutionContactList.add(c1);
+            resolutionArguments.add(resolutionContactList);
+
             // Create the list of resolved contacts
-            contactResolvedList = B2CIACustomerResolution.resolve(
-                new List<Contact>{ c1 }
-            );
+            contactResolvedList = B2CIACustomerResolution.resolve(resolutionArguments);
 
             // Default the working collections leveraged by the resolution / filter process
             B2CIACustomerResolutionResult resolutionResults = contactResolvedList.get(0);
@@ -262,7 +274,7 @@ public class B2CIACustomerResolutionPA_Test {
     static void doesNotResolveDifferentCustomerIds() {
 
         // Create the test / parent Account
-        Account account = (Account)TestDataFactory.createSObject('Account', new Map<String,Object>{
+        TestDataFactory.createSObject('Account', new Map<String,Object>{
             'PersonEmail' => 'email@email.com',
             'LastName' => 'LastName',
             'B2C_Customer_ID__pc' => 'CustomerId',
@@ -281,13 +293,17 @@ public class B2CIACustomerResolutionPA_Test {
         // Create the local working variables
         List<B2CIACustomerResolutionResult> contactResolvedList = new List<B2CIACustomerResolutionResult>();
         List<Contact> contactFilteredList = new List<Contact>();
+        List<Contact> resolutionContactList = new List<Contact>();
+        List<List<Contact>> resolutionArguments = new List<List<Contact>>();
 
         Test.startTest();
 
+            // Initialize the resolution arguments
+            resolutionContactList.add(c1);
+            resolutionArguments.add(resolutionContactList);
+
             // Create the list of resolved contacts
-            contactResolvedList = B2CIACustomerResolution.resolve(
-                new List<Contact>{ c1 }
-            );
+            contactResolvedList = B2CIACustomerResolution.resolve(resolutionArguments);
 
             // Default the working collections leveraged by the resolution / filter process
             B2CIACustomerResolutionResult resolutionResults = contactResolvedList.get(0);
@@ -335,7 +351,7 @@ public class B2CIACustomerResolutionPA_Test {
     static void createTwoContactsSpanningDifferentCustomerListIds() {
 
         // Create the test / parent Account
-        Account account = (Account)TestDataFactory.createSObject('Account', new Map<String,Object>{
+        TestDataFactory.createSObject('Account', new Map<String,Object>{
             'PersonEmail' => 'email@email.com',
             'LastName' => 'LastName',
             'B2C_CustomerList_ID__pc' => 'customerList',
@@ -352,13 +368,17 @@ public class B2CIACustomerResolutionPA_Test {
         // Create the local working variables
         List<B2CIACustomerResolutionResult> contactResolvedList = new List<B2CIACustomerResolutionResult>();
         List<Contact> contactFilteredList = new List<Contact>();
+        List<Contact> resolutionContactList = new List<Contact>();
+        List<List<Contact>> resolutionArguments = new List<List<Contact>>();
 
         Test.startTest();
 
+            // Initialize the resolution arguments
+            resolutionContactList.add(c1);
+            resolutionArguments.add(resolutionContactList);
+
             // Create the list of resolved contacts
-            contactResolvedList = B2CIACustomerResolution.resolve(
-                new List<Contact>{ c1 }
-            );
+            contactResolvedList = B2CIACustomerResolution.resolve(resolutionArguments);
 
             // Default the working collections leveraged by the resolution / filter process
             B2CIACustomerResolutionResult resolutionResults = contactResolvedList.get(0);
@@ -422,13 +442,17 @@ public class B2CIACustomerResolutionPA_Test {
         // Create the local working variables
         List<B2CIACustomerResolutionResult> contactResolvedList = new List<B2CIACustomerResolutionResult>();
         List<Contact> contactFilteredList = new List<Contact>();
+        List<Contact> resolutionContactList = new List<Contact>();
+        List<List<Contact>> resolutionArguments = new List<List<Contact>>();
 
         Test.startTest();
 
+            // Initialize the resolution arguments
+            resolutionContactList.add(c1);
+            resolutionArguments.add(resolutionContactList);
+
             // Create the list of resolved contacts
-            contactResolvedList = B2CIACustomerResolution.resolve(
-                new List<Contact>{ c1 }
-            );
+            contactResolvedList = B2CIACustomerResolution.resolve(resolutionArguments);
 
             // Default the working collections leveraged by the resolution / filter process
             B2CIACustomerResolutionResult resolutionResults = contactResolvedList.get(0);
