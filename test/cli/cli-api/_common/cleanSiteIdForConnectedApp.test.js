@@ -101,7 +101,6 @@ describe('Cleaning the SiteId for a ConnectedApp', function () {
         // Initialize local variables
         let siteId,
             output,
-            firstCharacter,
             validationResult;
 
         // Default the siteId used to validate this test
@@ -110,14 +109,11 @@ describe('Cleaning the SiteId for a ConnectedApp', function () {
         // Create the code-version summary
         output = cleanSiteIdForConnectedApp(siteId);
 
-        // Lastly, ensure the siteId begins with a letter
-        firstCharacter = output.substr(0, 1);
-
         // Search the cleaned siteId for two underscores
-        validationResult = (/[a-zA-Z]/).test(firstCharacter);
+        validationResult = new RegExp(/^[a-zA-Z]/).test(output);
 
         // Validate that the generated environment is returned as an object
-        assert.isTrue(validationResult, '-- expected the first character to be a string');
+        assert.isTrue(validationResult, '-- expected the first character to be a letter');
 
     });
 

@@ -11,10 +11,6 @@
         {
             "path": "src/sfdc/extras/sf-connect/base",
             "default": false
-        },
-        {
-            "path": "src/sfdc/extras/sf-connect/personaccounts",
-            "default": false
         }
     ],
     "namespace": "",

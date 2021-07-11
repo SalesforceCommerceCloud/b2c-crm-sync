@@ -105,6 +105,9 @@ program = cliInterface.b2cSitesCartridgesAdd(program);
 // Attach the command used to generate the services metadata file based on the template
 program = cliInterface.b2cServicesCreate(program);
 
+// Attach the command used to display the per-user namedCredential password for OOBO
+program = cliInterface.b2cOOBOPasswordDisplay(program);
+
 // Attach the command used to retrieve or create the OOBO Customer used for anonymous authentication
 program = cliInterface.b2cOOBOCustomersCreate(program);
 

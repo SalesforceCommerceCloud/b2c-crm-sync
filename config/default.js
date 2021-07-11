@@ -121,7 +121,7 @@ module.exports = {
         "dashes": /-/g,
         "doubleUnderscore": /_+/g,
         "nonAlphaNumeric": /[^\w_]+/g,
-        "alphaOnly": /[a-zA-Z]/g
+        "alphaOnly": /^[a-zA-Z]/g
 
     },
 
