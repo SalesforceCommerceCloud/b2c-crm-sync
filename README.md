@@ -680,6 +680,8 @@ Please note that the code-version specified in the .env file must be valid in or
 
 > The 'base' scratchOrg profile supports Accounts and Contacts.  The 'personaccounts' scratchOrg profile supports PersonAccounts.  The 'base' profile will be defaulted if an unrecognized value exists.
 
+:warning: We use the orgProfile to identify if you're deploying to a Salesforce Org supporting Accounts and Contacts or PersonAccounts.  scratchOrg and non-scratchOrg deployments both leverage this information.  Please make sure that you specify the appropriate contactModel before proceeding. &nbsp; :warning:
+
 #### List the Available Salesforce Orgs
 5. List your supported Salesforce DevHubs, scratchOrgs, and their connected status.  You can use this command to verify that your DevHub is available.
 
@@ -687,6 +689,69 @@ Please note that the code-version specified in the .env file must be valid in or
 sfdx force:org:list --all
 ```
 > Please refer to [Salesforce DX Usernames and Orgs](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_cli_usernames_orgs.htm), the [SFDX Org command-set](https://developer.salesforce.com/docs/atlas.en-us.sfdx_cli_reference.meta/sfdx_cli_reference/cli_reference_force_org.htm), and the [Salesforce Platform DevHub Trail](https://trailhead.salesforce.com/content/learn/modules/sfdx_app_dev) for resources on how to manage scratchOrgs.
+
+### Non-Scratch Org DevHub Setup (Sandbox Deployment)
+
+You can deploy b2c-crm-sync to non-scratchOrg environments by registering your Salesforce Org with your SFDX environment.  The following command-set can be used to register an existing Salesforce Org so that it can be deployed to via SFDX.
+
+> If you're deploying to a scratchOrg, feel free to skip this section and proceed to [Setup Your ScratchOrg](#scratch-org-devhub-setup).
+
+#### Register Your Salesforce Org with SFDX
+6. Authenticate against your Salesforce Org by executing the following CLI command:
+
+> Your loginUrl should be in the form of https://login.salesforce.com or https://test.salesforce.com.  SFDX will use this url to ask for your deployment and integration authorization.
+
+```bash
+sfdx auth:web:login -r [insert your loginUrl here]
+```
+List your SFDX configured Orgs by executing the following CLI command:
+
+> Confirm that the Salesforce Org to which b2c-crm-sync will be deployed is now registered with your SFDX environment.
+
+```bash
+sfdx force:org:list --all
+```
+
+Set your Salesforce Org's username as the SFDX default via the following CLI command:
+
+> Please set up your Salesforce Org's username as the default for SFDX.  This will ensure command SFDX execution consistency as we deploy b2c-crm-sync.
+
+```bash
+sfdx config:set defaultusername=[insert your Salesforce Org Username Here]
+```
+> Confirm that your username is the default user for your SFDX environment.
+
+```bash
+sfdx force:org:list --all
+```
+Seed Your .env file with the configuration details of your Salesforce Org. This should include the following details:
+
+| Property Name | Required | Description                       |
+|--------------:|:----:|:-----------------------------------|
+|  SF_HOSTNAME |x| Describes the url for the scratchOrg being integrated with a B2C Commerce instance.|
+|  SF_LOGINURL |x| Describes the login url used to authenticate against the scratchOrg specified (generally test.salesforce.com)|
+|  SF_USERNAME |x| Represents the username of the Salesforce Org integration / administrative user|
+|  SF_PASSWORD |x| Represents the password of the Salesforce Org integration / administrative user|
+|  SF_SECURITYTOKEN |x| Represents the securityToken of the scratchOrg user. You can create or reset the security token from your scratchOrg User Settings under 'Reset My Security Token.'|
+
+The build tools will use this information to create the B2C Commerce service definitions facilitating the integration with the Salesforce Org.
+
+```
+######################################################################
+## Salesforce Platform Configuration Properties
+######################################################################
+SF_HOSTNAME=power-dream-1234-dev-ed.lightning.force.com
+SF_LOGINURL=test.salesforce.com
+SF_USERNAME=test-2enmvjmefudl@example.com
+SF_PASSWORD=P@ssw0rd!
+SF_SECURITYTOKEN=293729347jlasfdkahjsdfkhj
+```
+
+Once you've completed this -- you can skip the Scratch Org setup and proceed to the [deployment instructions](#validate-your-env-salesforce-scratchorg-credentials).
+
+> Do not move forward until you've updated your .env file with the `Hostname`, `LoginUrl`, `userName`, `password`, and `securityToken` properties.  The build commands will fail if these details are not present in the .env file.
+
+### Scratch Org DevHub Setup
 
 #### Specify Your Default DevHub UserName
 6. Specify your default DevHub username by executing the following CLI command.  The devHubOrg-username represents the DevHub that will host your scratchOrg.  Please see [Enable Dev Hub Features in Your Org](https://help.salesforce.com/articleView?id=sf.sfdx_setup_enable_devhub.htm&type=5) for details on how to set up a DevHub environment.
@@ -769,7 +834,6 @@ The build tools will use this information to create the B2C Commerce service def
 ```bash
 sfdx force:user:password:generate
 ```
-
 > The reset password should be displayed via the CLI.  Please refresh your user details and verify that your password has been reset via the following CLI command:
 
 ```bash
