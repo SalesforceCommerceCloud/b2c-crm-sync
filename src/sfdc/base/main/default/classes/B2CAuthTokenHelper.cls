@@ -88,7 +88,8 @@ public with sharing class B2CAuthTokenHelper {
                         Is_Active__c,
                         Is_Certificate_Verified__c,
                         Audit_Authentication_API_Interactions__c,
-                        JWT_Certificate_Name__c
+                        JWT_Certificate_Name__c,
+                        IsDeleted
                 FROM    B2C_Client_ID__c
                 WHERE   Id = :b2cClientIdValue
                 LIMIT   1

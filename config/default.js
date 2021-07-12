@@ -149,7 +149,7 @@ module.exports = {
 
         // Define the properties used to seed a default b2cInstance
         "b2cInstance": {
-            "description": "... development B2C Commerce instance being integrated with this scratchOrg",
+            "description": "... development B2C Commerce instance being integrated with this Salesforce Org",
             "instanceType": "Sandbox"
         },
 
@@ -356,6 +356,17 @@ module.exports = {
             "cli": "-sfh, --sf-host-name <sfhostname>",
             "description": "describes the hostname / Salesforce Platform environment to deploy to.",
             "envProperty": "SF_HOSTNAME",
+            "validator": "validateHostName",
+            "configProperty": null,
+            "defaultType": "env"
+        },
+        "sfHostNameAlt": {
+            "type": "sf",
+            "required": true,
+            "minLength": 3,
+            "cli": "-sfha, --sf-host-name-alt <sfhostnamealt>",
+            "description": "describes the alternate hostname / Salesforce Platform environment to deploy to.",
+            "envProperty": "SF_HOSTNAMEALT",
             "validator": "validateHostName",
             "configProperty": null,
             "defaultType": "env"
