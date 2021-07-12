@@ -11,7 +11,9 @@ chai.use(sinonChai);
 const proxyquire = require('proxyquire').noCallThru();
 require('dw-api-mock/demandware-globals');
 
-const requireStub = {};
+const requireStub = {
+    'dw/system/Site': require('dw-api-mock/dw/system/Site')
+};
 const helpers = proxyquire(path.join(process.cwd(), 'src/sfcc/cartridges/int_b2ccrmsync/cartridge/scripts/util/helpers'), requireStub);
 
 describe('int_b2ccrmsync/cartridge/scripts/util/helpers', function () {
@@ -84,6 +86,106 @@ describe('int_b2ccrmsync/cartridge/scripts/util/helpers', function () {
 
             expect(newObj).to.not.be.null;
             expect(newObj).to.deep.equal(obj);
+        });
+    });
+
+    describe('isIntegrationEnabled', function () {
+        it('should be enabled if both preferences are enabled', function () {
+            const site = require('dw-api-mock/dw/system/Site').getCurrent();
+            site.customPreferences.b2ccrm_syncIsEnabled = true;
+            site.customPreferences.b2ccrm_syncCustomersEnabled = true;
+            const isEnabled = helpers.isIntegrationEnabled();
+
+            expect(isEnabled).to.be.true;
+        });
+
+        it('should be disabled if the b2ccrm_syncIsEnabled preference is disabled', function () {
+            const site = require('dw-api-mock/dw/system/Site').getCurrent();
+            site.customPreferences.b2ccrm_syncIsEnabled = false;
+            site.customPreferences.b2ccrm_syncCustomersEnabled = true;
+            const isEnabled = helpers.isIntegrationEnabled();
+
+            expect(isEnabled).to.not.be.true;
+        });
+
+        it('should be disabled if the b2ccrm_syncCustomersEnabled preference is disabled', function () {
+            const site = require('dw-api-mock/dw/system/Site').getCurrent();
+            site.customPreferences.b2ccrm_syncIsEnabled = true;
+            site.customPreferences.b2ccrm_syncCustomersEnabled = false;
+            const isEnabled = helpers.isIntegrationEnabled();
+
+            expect(isEnabled).to.not.be.true;
+        });
+
+        it('should be disabled if both preferences are disabled', function () {
+            const site = require('dw-api-mock/dw/system/Site').getCurrent();
+            site.customPreferences.b2ccrm_syncIsEnabled = false;
+            site.customPreferences.b2ccrm_syncCustomersEnabled = false;
+            const isEnabled = helpers.isIntegrationEnabled();
+
+            expect(isEnabled).to.not.be.true;
+        });
+    });
+
+    describe('sfdcContactIDIdentifierPresent', function () {
+        it('should return false if the profile is undefined', function () {
+            const hasContactId = helpers.sfdcContactIDIdentifierPresent(undefined);
+
+            expect(hasContactId).to.be.false;
+        });
+
+        it('should return false if the profile is null', function () {
+            const hasContactId = helpers.sfdcContactIDIdentifierPresent(null);
+
+            expect(hasContactId).to.be.false;
+        });
+
+        it('should return false if the profile has no b2ccrm_contactId custom property', function () {
+            const hasContactId = helpers.sfdcContactIDIdentifierPresent({
+                custom: {}
+            });
+
+            expect(hasContactId).to.be.false;
+        });
+
+        it('should return false if the profile\'s b2ccrm_contactId custom property is undefined', function () {
+            const hasContactId = helpers.sfdcContactIDIdentifierPresent({
+                custom: {
+                    b2ccrm_contactId: undefined
+                }
+            });
+
+            expect(hasContactId).to.be.false;
+        });
+
+        it('should return false if the profile\'s b2ccrm_contactId custom property is null', function () {
+            const hasContactId = helpers.sfdcContactIDIdentifierPresent({
+                custom: {
+                    b2ccrm_contactId: null
+                }
+            });
+
+            expect(hasContactId).to.be.false;
+        });
+
+        it('should return false if the profile\'s b2ccrm_contactId custom property is an empty string', function () {
+            const hasContactId = helpers.sfdcContactIDIdentifierPresent({
+                custom: {
+                    b2ccrm_contactId: ''
+                }
+            });
+
+            expect(hasContactId).to.be.false;
+        });
+
+        it('should return true if the profile\'s b2ccrm_contactId custom property exists', function () {
+            const hasContactId = helpers.sfdcContactIDIdentifierPresent({
+                custom: {
+                    b2ccrm_contactId: 'id'
+                }
+            });
+
+            expect(hasContactId).to.be.true;
         });
     });
 });

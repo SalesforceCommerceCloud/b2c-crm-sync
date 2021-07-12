@@ -10,11 +10,11 @@
 function sessionHandler() {
 
     // Initialize constants
-    const Site = require('dw/system/Site').getCurrent();
-    const CustomerMgr = require('dw/customer/CustomerMgr');
+    var Site = require('dw/system/Site').getCurrent();
+    var CustomerMgr = require('dw/customer/CustomerMgr');
 
     // Initialize local Variables
-    let isSyncEnabled,
+    var isSyncEnabled,
         OOBOGuestCustomerId;
 
     // First, evaluate if b2c-crm-sync is enabled
@@ -39,4 +39,3 @@ function sessionHandler() {
 }
 
 exports.onSession = sessionHandler;
-

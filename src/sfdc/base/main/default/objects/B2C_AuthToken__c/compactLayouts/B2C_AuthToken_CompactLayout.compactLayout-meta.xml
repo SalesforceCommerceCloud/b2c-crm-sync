@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--suppress XmlUnusedNamespaceDeclaration -->
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <fullName>B2C_AuthToken_CompactLayout</fullName>
+    <fields>Name</fields>
+    <fields>B2C_Client_ID__c</fields>
+    <fields>Expiration_Date__c</fields>
+    <fields>Is_Valid__c</fields>
+    <fields>Is_Expired__c</fields>
+    <fields>Is_Invalidated__c</fields>
+    <label>B2C AuthToken Compact Layout</label>
+</CompactLayout>

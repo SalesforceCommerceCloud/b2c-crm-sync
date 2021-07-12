@@ -6,11 +6,9 @@ const config = require('config');
 // Initialize access to local libraries
 const cliInterface = require('./lib/cli-interface');
 
-// Define the current version
-let projectVersionNo = config.get('versionNo').toString();
-
-// Initialize the CLI program
-let program = require('commander');
+// Define local variables
+let projectVersionNo = config.get('versionNo').toString(),
+    program = require('commander');
 
 // Initialize the .env confirmation
 require('dotenv').config();
@@ -71,6 +69,9 @@ program = cliInterface.b2cAuthClientCredentials(program);
 // Attach the command used to verify Business Manager user credentials can authenticate
 program = cliInterface.b2cAuthBMUser(program);
 
+// Attach the command used to verify Account Manager authentication via JWT
+program = cliInterface.b2cAuthJWT(program);
+
 // Attach the commands used to retrieve and push OCAPI user credentials
 program = cliInterface.b2cOCAPIGet(program);
 
@@ -95,6 +96,9 @@ program = cliInterface.b2cCodeZip(program);
 // Attach the command used to create and place the data archive prior to deployment
 program = cliInterface.b2cDataZip(program);
 
+// Attach the command used to update the sitePreferences for verified sites
+program = cliInterface.b2cSitePrefsActivate(program);
+
 // Attach the command used to remove the app-cartridges from the site cartridge-paths
 program = cliInterface.b2cSitesCartridgesRemove(program);
 
@@ -103,6 +107,9 @@ program = cliInterface.b2cSitesCartridgesAdd(program);
 
 // Attach the command used to generate the services metadata file based on the template
 program = cliInterface.b2cServicesCreate(program);
+
+// Attach the command used to display the per-user namedCredential password for OOBO
+program = cliInterface.b2cOOBOPasswordDisplay(program);
 
 // Attach the command used to retrieve or create the OOBO Customer used for anonymous authentication
 program = cliInterface.b2cOOBOCustomersCreate(program);
@@ -120,6 +127,9 @@ program = cliInterface.b2cBuild(program);
 // SFDX related CI-CLI commands
 ////////////////////////////////////////////////////////////////////////////////
 
+// Attach the command used to retrieve public / private keys from the self-signed JKS
+program = cliInterface.sfCertPublicKeyGet(program);
+
 // Attach the command used to retrieve the environment details
 program = cliInterface.sfGetEnvironment(program);
 
@@ -129,20 +139,14 @@ program = cliInterface.sfGetScratchOrgEnvironment(program);
 // Attach the command used to generate the SFDX connected apps template
 program = cliInterface.sfConnectedAppsCreate(program);
 
+// Attach the command used to generate the duplicate rules template(s)
+program = cliInterface.sfDuplicateRulesCreate(program);
+
 // Attach the command used to generate the SFDX trusted sites template
 program = cliInterface.sfTrustedSitesCreate(program);
 
 // Attach the command used to generate the SFDX remote sites template
 program = cliInterface.sfRemoteSitesCreate(program);
-
-// Attach the command used to generate the SFDX B2C Account Manager Auth Provider template
-program = cliInterface.sfAuthProviderBuild(program);
-
-// Attach the command used to generate the SFDX B2C Account Manager Auth Provider template
-program = cliInterface.sfAuthProviderCreate(program);
-
-// Attach the command used to generate the SFDX B2C Account Manager Named Credentials template
-program = cliInterface.sfNamedCredentialsAMCreate(program);
 
 // Attach the command used to generate the SFDX B2C OOBO Named Credentials template
 program = cliInterface.sfNamedCredentialsOOBOCreate(program);
@@ -156,26 +160,26 @@ program = cliInterface.sfAuthenticateUserCredentials(program);
 // Attach the command used to create a scratch-org
 program = cliInterface.sfScratchOrgCreate(program);
 
-// Attach the command used to create a scratch-org and deploy to it
-program = cliInterface.sfScratchOrgDeploy(program);
-
-// Attach the command used to retrieve the details for a scratch org
-program = cliInterface.sfScratchOrgDetails(program);
-
-// Attach the command used to open a scratch-org
-program = cliInterface.sfScratchOrgOpen(program);
-
-// Attach the command used to view the remote status a scratch-org
-// program = cliInterface.sfScratchOrgStatus(program);
-
 // Attach the command used to create, build, and deploy to a scratch-org
 program = cliInterface.sfScratchOrgBuild(program);
+
+// Attach the command used to create a scratch-org and deploy to it
+program = cliInterface.sfOrgDeploy(program);
+
+// Attach the command used to retrieve the details for a scratch org
+program = cliInterface.sfOrgDetails(program);
+
+// Attach the command used to open a scratch-org
+program = cliInterface.sfOrgOpen(program);
 
 // Attach the command used to display a user's details
 program = cliInterface.sfUserDetails(program);
 
 // Attach the command used to seed customerLists and sites (instance setup)
-program = cliInterface.sfInstanceSetup(program);
+program = cliInterface.sfB2CInstanceSetup(program);
+
+// Attach the command used to seed the default B2C Client ID
+program = cliInterface.sfB2CClientIDSetup(program);
 
 // Parse the command-line arguments
 program.parse(process.argv);

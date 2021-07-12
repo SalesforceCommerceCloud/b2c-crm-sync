@@ -40,11 +40,14 @@ describe('int_b2ccrmsync/cartridge/scripts/hooks/customer.retrieve', function ()
         global.request.locale = 'en_US';
         requireStub = {
             'dw/system/Site': require('dw-api-mock/dw/system/Site'),
+            'dw/system/HookMgr': require('dw-api-mock/dw/system/HookMgr'),
+            'dw/web/Resource': require('dw-api-mock/dw/web/Resource'),
             '../models/authToken': sandbox.stub().returns(require(path.join(process.cwd(), 'src/sfcc/cartridges/int_b2ccrmsync/cartridge/scripts/models/authToken'))),
             '../services/ServiceMgr': require(path.join(process.cwd(), 'src/sfcc/cartridges/int_b2ccrmsync/cartridge/scripts/services/ServiceMgr')),
             '../b2ccrmsync.config': config
         };
         customerRetrieveHook = proxyquire(path.join(process.cwd(), 'src/sfcc/cartridges/int_b2ccrmsync/cartridge/scripts/hooks/customer.retrieve'), requireStub);
+        requireStub['dw/web/Resource'].msg = sandbox.stub().returns('Id,Lastname,CustomerNo');
         profile = new Profile();
         profile.customerNo = '0000001';
         profile.setEmail('jdoe@salesforce.com');
@@ -85,6 +88,7 @@ describe('int_b2ccrmsync/cartridge/scripts/hooks/customer.retrieve', function ()
         it('should fail to retrieve the profile if no auth token is found, or an error occur', function () {
             const site = getEnabledSite();
             requireStub['dw/system/Site'].getCurrent = sandbox.stub().returns(site);
+            requireStub['dw/system/HookMgr'].hasHook = sandbox.stub().returns(true);
             const result = customerRetrieveHook.retrieve();
 
             expect(spy).to.have.not.been.called;
@@ -94,6 +98,7 @@ describe('int_b2ccrmsync/cartridge/scripts/hooks/customer.retrieve', function ()
         it('should fail to retrieve the profile if the object given in paremeters does not contain at least one required parameter', function () {
             const site = getEnabledSite();
             requireStub['dw/system/Site'].getCurrent = sandbox.stub().returns(site);
+            requireStub['dw/system/HookMgr'].hasHook = sandbox.stub().returns(true);
             const result = customerRetrieveHook.retrieve({
                 test: 'value'
             });
@@ -105,6 +110,7 @@ describe('int_b2ccrmsync/cartridge/scripts/hooks/customer.retrieve', function ()
         it('should call the rest service to retrieve the profile and fail silently if the service replies an error', function () {
             const site = getEnabledSite();
             requireStub['dw/system/Site'].getCurrent = sandbox.stub().returns(site);
+            requireStub['dw/system/HookMgr'].hasHook = sandbox.stub().returns(true);
             requireStub['../services/ServiceMgr'].callRestService = sandbox.stub().returns({
                 status: 'ERROR',
                 error: 'error',
@@ -118,6 +124,7 @@ describe('int_b2ccrmsync/cartridge/scripts/hooks/customer.retrieve', function ()
         it('should call the rest service to retrieve the profile and fail silently if the service OK but contains errors', function () {
             const site = getEnabledSite();
             requireStub['dw/system/Site'].getCurrent = sandbox.stub().returns(site);
+            requireStub['dw/system/HookMgr'].hasHook = sandbox.stub().returns(true);
             let mockResponse = JSON.parse(JSON.stringify(customerRetrieveMock));
             mockResponse[0].isSuccess = false;
             mockResponse[0].errors = ['error1', 'error2'];
@@ -133,6 +140,7 @@ describe('int_b2ccrmsync/cartridge/scripts/hooks/customer.retrieve', function ()
         it('should call the rest service to retrieve the profile and abort because no profile have been found', function () {
             const site = getEnabledSite();
             requireStub['dw/system/Site'].getCurrent = sandbox.stub().returns(site);
+            requireStub['dw/system/HookMgr'].hasHook = sandbox.stub().returns(true);
             let mockResponse = JSON.parse(JSON.stringify(customerRetrieveMock));
             mockResponse[0].outputValues = undefined;
             requireStub['../services/ServiceMgr'].callRestService = sandbox.stub().returns({
@@ -147,10 +155,12 @@ describe('int_b2ccrmsync/cartridge/scripts/hooks/customer.retrieve', function ()
         it('should call the rest service to retrieve the profile and update the profile custom attributes accordingly', function () {
             const site = getEnabledSite();
             requireStub['dw/system/Site'].getCurrent = sandbox.stub().returns(site);
+            requireStub['dw/system/HookMgr'].hasHook = sandbox.stub().returns(true);
             requireStub['../services/ServiceMgr'].callRestService = sandbox.stub().returns({
                 status: 'OK',
                 object: customerRetrieveMock
             });
+
             const result = customerRetrieveHook.retrieve(profile, true);
 
             expect(result).to.not.be.undefined;
@@ -160,6 +170,7 @@ describe('int_b2ccrmsync/cartridge/scripts/hooks/customer.retrieve', function ()
         it('should call the rest service to retrieve the profile and update the profile custom attributes accordingly when sending an object as parameter', function () {
             const site = getEnabledSite();
             requireStub['dw/system/Site'].getCurrent = sandbox.stub().returns(site);
+            requireStub['dw/system/HookMgr'].hasHook = sandbox.stub().returns(true);
             requireStub['../services/ServiceMgr'].callRestService = sandbox.stub().returns({
                 status: 'OK',
                 object: customerRetrieveMock

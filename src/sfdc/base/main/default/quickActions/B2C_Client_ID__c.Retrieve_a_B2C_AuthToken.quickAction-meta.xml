@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QuickAction xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>... attempts to request / retrieve a B2C AuthToken from the configured Account Manager endpoint for a given B2C Client ID.</description>
+    <flowDefinition>B2CCommerce_QuickAction_B2CClientID_GetB2CAuthToken</flowDefinition>
+    <label>Retrieve a B2C AuthToken</label>
+    <optionsCreateFeedItem>false</optionsCreateFeedItem>
+    <type>Flow</type>
+</QuickAction>

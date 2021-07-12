@@ -1,7 +1,7 @@
 module.exports = {
 
     // Describes the current versionNo of the service-cloud-connector
-    "versionNo": "0.7.9",
+    "versionNo": "0.9.0",
 
     // Manages debug mode for the CLI application
     "debugMode": true,
@@ -41,17 +41,27 @@ module.exports = {
                 // Define the file extension for meta-data templates
                 "meta-ext": "-meta.xml",
 
-                // Define the parent path for Salesforce meta-data templates
-                "templates": "./src/sfdc/_templates/",
-
-                // Define the location of deployable meta-data
-                "force-app": "./src/sfdc/force-app/main/default/",
-
                 // Define the location of .dx configuration files
                 "config": "./config-dx/",
 
-                // Define the path representing the location of personAccounts meta-data
-                "personaccounts": "./src/sfdc/person-accounts",
+                // Define the parent path for Salesforce meta-data templates
+                "templates": "./src/sfdc/_templates/",
+
+                // Define the location of deployable meta-data for extra / plugin packages
+                "extras": "./src/sfdc/_extras",
+
+                // Define the location of the base / default deployable meta-data
+                "base": "./src/sfdc/base",
+
+                // Define the path representing the location of person-account specific deployable meta-data
+                "personaccounts": "./src/sfdc/personaccounts",
+
+                // Define the default deployment path leveraged by all projects
+                "deployPath": "/main/default/",
+
+                // Define the path representing the location of downloaded certs
+                "certs-root": "./_jwt",
+                "certs-sfdc": "./_jwt/sfdc"
 
             },
 
@@ -111,7 +121,7 @@ module.exports = {
         "dashes": /-/g,
         "doubleUnderscore": /_+/g,
         "nonAlphaNumeric": /[^\w_]+/g,
-        "alphaOnly": /[a-zA-Z]/g
+        "alphaOnly": /^[a-zA-Z]/g
 
     },
 
@@ -139,12 +149,13 @@ module.exports = {
 
         // Define the properties used to seed a default b2cInstance
         "b2cInstance": {
-            "description": "... development B2C Commerce instance being integrated with this scratchOrg",
+            "description": "... development B2C Commerce instance being integrated with this Salesforce Org",
             "instanceType": "Sandbox"
         },
 
-        // Define the permission-set to assign to a given user
-        "permsetName": "B2C_Integration_Tools",
+        // Define the permission-set(s) to assign to a given user
+        "syncPermSetName": "B2C_CRM_SYNC",
+        "jwtPermSetName": "B2C_CRM_JWT",
 
         // Automatically delete scratchOrg deployment failures
         "autoDeleteFailures": true
@@ -170,7 +181,7 @@ module.exports = {
             "type": "b2c",
             "required": false,
             "minLength": 3,
-            "maxLength": 10,
+            "maxLength": 30,
             "cli": "-bcn, --b2c-instance-name <b2cinstancename>",
             "description": "describes a shorthand name for a given B2C instance.",
             "envProperty": "B2C_INSTANCENAME",
@@ -349,6 +360,17 @@ module.exports = {
             "configProperty": null,
             "defaultType": "env"
         },
+        "sfHostNameAlt": {
+            "type": "sf",
+            "required": true,
+            "minLength": 3,
+            "cli": "-sfha, --sf-host-name-alt <sfhostnamealt>",
+            "description": "describes the alternate hostname / Salesforce Platform environment to deploy to.",
+            "envProperty": "SF_HOSTNAMEALT",
+            "validator": "validateHostName",
+            "configProperty": null,
+            "defaultType": "env"
+        },
         "sfLoginUrl": {
             "type": "sf",
             "required": true,
@@ -393,6 +415,18 @@ module.exports = {
             "configProperty": null,
             "defaultType": "env"
         },
+        "sfCertDeveloperName": {
+            "type": "sf",
+            "required": false,
+            "minLength": 3,
+            "maxLength": 25,
+            "cli": "-sft, --sf-cert-developer-name <sfcertdevelopername>",
+            "description": "describes the developer name of the self-signed Salesforce certificate used for JWT-based authentication with Account Manager.",
+            "envProperty": "SF_CERTDEVELOPERNAME",
+            "validator": "validateB2CInstanceName",
+            "configProperty": "sfCertDeveloperName",
+            "defaultType": "env"
+        },
         "sfConsumerKey": {
             "type": "sf",
             "required": false,
@@ -427,6 +461,37 @@ module.exports = {
         // Simple placeholder used to remove validate.js's attribute name inclusion
         "attributePlaceholder": {
             attr: "--"
+        }
+
+    },
+
+    // Define the sitePreference groups
+    "sitePreferenceGroups": [
+
+        // Describe the preference group to leverage
+        "B2CCRMSync",
+        "B2CCRMSyncAssistedShopping"
+
+    ],
+
+    // Represents the individual collection of preferenceSettings for activation
+    "sitePreferences": {
+
+        // Represents the configuration settings for b2c-crm-sync
+        "B2CCRMSync": {
+            "c_b2ccrm_syncIsEnabled": true,
+            "c_b2ccrm_syncCustomersEnabled": true,
+            "c_b2ccrm_syncCustomersOnLoginEnabled": true,
+            "c_b2ccrm_syncCustomersOnLoginOnceEnabled": false,
+            "c_b2ccrm_syncCustomersViaOCAPI": true,
+            "c_b2ccrm_syncCustomersFromOrdersEnabled": true,
+            "c_b2ccrm_syncCustomersFromGuestOrdersOnlyEnabled": true,
+            "c_b2ccrm_syncCustomersFromOrdersViaOCAPI": true
+        },
+
+        // Represents the configuration settings for OOBO
+        "B2CCRMSyncAssistedShopping": {
+            "c_b2ccrm_syncAgentHeaderIsEnabled": true
         }
 
     },
@@ -614,7 +679,22 @@ module.exports = {
             head: ["Attribute", "Error Property"],
             colWidths: [30, 88],
             colAligns: ["right", "left"]
-        }
+        },
+
+        // Define the structure for the jwt output
+        "b2cJWTOutput": {
+            head: ["JWT Authentication Property", "Property Value"],
+            colWidths: [30, 88],
+            colAligns: ["right", "left"]
+        },
+
+
+        // Define the structure for the jks property details
+        "jksSummary": {
+            head: ["jks Property", "Property Value"],
+            colWidths: [30, 88],
+            colAligns: ["right", "left"]
+        },
 
     },
 
@@ -631,7 +711,7 @@ module.exports = {
         "timeout":20000,
 
         // Define the OCAPI version number to use
-        "ocapiVersion": "v20_10",
+        "ocapiVersion": "v21_3",
 
         // Define the namedCredential suffix for OOBO
         "ooboNamedCredentialSuffix": "_B2C_OOBO",
@@ -663,7 +743,8 @@ module.exports = {
         "accountManager": {
             "baseUrl": "https://account.demandware.com",
             "authUrl": "/dwsso/oauth2/access_token",
-            "authorizeUrl": "/dwsso/oauth2/authorize"
+            "authorizeUrl": "/dwsso/oauth2/authorize",
+            "port": 443
         },
 
         // Define the cartridge deploy properties
@@ -744,7 +825,7 @@ module.exports = {
         "b2c": {
 
             // Define common errors related to B2C Commerce CI activities
-            "badEnvironment": "Error while validating the environment, abort",
+            "badEnvironment": "Error while validating the environment; unable to proceed due to incomplete configuration.",
             "cannotFindMetadataArchive": "Cannot find the meta-data archive. Please run the \"crm-sync:b2c:data:zip\" command first",
             "unableToUploadMetadataArchive": "Unable to upload the meta-data archive",
             "unableToImportMetadataArchive": "Unable to import the meta-data archive",
@@ -771,7 +852,7 @@ module.exports = {
         "sf": {
 
             // Define common errors related to Salesforce CI activities
-            "badEnvironment": "Error while validating the environment, abort.",
+            "badEnvironment": "Error while validating the environment; unable to proceed due to incomplete configuration.",
             "unableToAuthenticate": "Unable to authenticate against the Salesforce instance; please verify your configuration properties",
             "connectedAppCredentialsParsingError": "Unable to parse the connectedApp credentials .json file; please execute 'npm run crm-sync:sf:connectedapps' to render this file"
 

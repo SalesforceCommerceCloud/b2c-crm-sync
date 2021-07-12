@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Assisted_Shopping_Configuration</fullName>
+    <columns>B2C_Instance_Name__c</columns>
+    <columns>Customer_List__c</columns>
+    <columns>NAME</columns>
+    <columns>B2C_Client_ID__c</columns>
+    <columns>Is_Active__c</columns>
+    <columns>Enable_Order_on_Behalf_Of__c</columns>
+    <columns>OOBO_Active_Url__c</columns>
+    <columns>OOBO_Named_Credential_Developer_Name__c</columns>
+    <columns>OCAPI_Version_No__c</columns>
+    <columns>OOBO_Customer_ID__c</columns>
+    <columns>OOBO_Customer_Number__c</columns>
+    <filterScope>Everything</filterScope>
+    <label>Order on Behalf Of Configuration</label>
+</ListView>

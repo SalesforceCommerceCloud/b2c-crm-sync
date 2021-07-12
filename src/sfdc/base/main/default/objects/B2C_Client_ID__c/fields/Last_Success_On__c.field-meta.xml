@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Last_Success_On__c</fullName>
+    <description>... represents the date a B2C AuthToken was successfully retrieve from the B2C Commerce Account Manager.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>... represents the date a B2C AuthToken was successfully retrieve from the B2C Commerce Account Manager.</inlineHelpText>
+    <label>Last Success On</label>
+    <summarizedField>B2C_AuthToken__c.CreatedDate</summarizedField>
+    <summaryForeignKey>B2C_AuthToken__c.B2C_Client_ID__c</summaryForeignKey>
+    <summaryOperation>max</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

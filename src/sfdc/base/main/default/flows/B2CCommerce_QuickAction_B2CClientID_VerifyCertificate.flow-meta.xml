@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>52.0</apiVersion>
+    <decisions>
+        <description>... evaluate if a B2C Client ID was found using the corresponding recordId.</description>
+        <name>dec_wasB2CClientIDFound</name>
+        <label>Was a B2C Client ID Found?</label>
+        <locationX>296</locationX>
+        <locationY>415</locationY>
+        <defaultConnector>
+            <targetReference>scrn_couldNotVerifyB2CClientID</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Was Not Found</defaultConnectorLabel>
+        <rules>
+            <name>dec_wasB2CClientIDFound_True</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>sub_validateJWTCertificate.recordWasFound</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>dec_wasJWTCertificateVerified</targetReference>
+            </connector>
+            <label>Was Found</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>... evaluate the JWT Certificate validation results.</description>
+        <name>dec_wasJWTCertificateVerified</name>
+        <label>Was the JWT Certificate Verified?</label>
+        <locationX>296</locationX>
+        <locationY>664</locationY>
+        <defaultConnector>
+            <targetReference>scrn_couldNotVerifyCertificate</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Was Not Verified</defaultConnectorLabel>
+        <rules>
+            <name>decOut_wasJWTCertificateVerified_True</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>sub_validateJWTCertificate.IsSuccess</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>scrn_verifiedJWTCertificate</targetReference>
+            </connector>
+            <label>Was Verified</label>
+        </rules>
+    </decisions>
+    <description>... this quickAction can be used to validate that the JWT certificate associated to a B2C Client ID is valid and usable to mint JWTs.</description>
+    <interviewLabel>B2C Commerce: Quick Action: B2C Client ID: Verify Certificate {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>B2C Commerce: Quick Action: B2C Client ID: Verify JWT Certificate</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Flow</processType>
+    <screens>
+        <description>... display explains that we could not find the B2C Client ID using the recordId specified.</description>
+        <name>scrn_couldNotVerifyB2CClientID</name>
+        <label>Could Not Verify the B2C Client ID</label>
+        <locationX>50</locationX>
+        <locationY>414</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <fields>
+            <name>lbl_unableToVerifyHeadline</name>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 16px;&quot;&gt;Sorry, We Could Not Locate the Specified B2C Client ID&lt;/b&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>unableToVerifyBody</name>
+            <fieldText>&lt;p&gt;&lt;b&gt;The RecordId Specific Could Not Be Found&lt;/b&gt;&lt;/p&gt;&lt;p&gt;We could not verify the existence of a B2C Client ID  mapped to the recordId provided:&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>lbl_unableToVerifyRecordId</name>
+            <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>recordId</elementReference>
+            </defaultValue>
+            <fieldText>RecordId / B2C Client ID</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>unableToVerifyFooter</name>
+            <fieldText>&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Please refresh your browser and confirm that the selected B2C Client ID record exists.  No changes were made to your Salesforce org through the processing of this Quick Action.&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
+        <description>... display explains that we could not find the JWT Certificate using the recordId specified.</description>
+        <name>scrn_couldNotVerifyCertificate</name>
+        <label>Could Not Verify the JWT Certificate</label>
+        <locationX>103</locationX>
+        <locationY>894</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <fields>
+            <name>lbl_unableToVerifyHeadline_Certificate</name>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 16px;&quot;&gt;We Could Not Verify Your JWT Certificate&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;font-size: 14px;&quot;&gt;The JWT Certificate Name Mapped to this B2C Client ID Was Not Found&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;We were unable to verify that the JWT Certificate name associated to this B2C Client ID definition exists within this Salesforce org.  The JWT Certificate name represents the unique name of the certificate that will be used to mint JWT tokens that broken authentication with B2C Commerce.&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>lbl_unableToVerifyRecordId_Certificate</name>
+            <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>recordId</elementReference>
+            </defaultValue>
+            <fieldText>RecordId / B2C Client ID</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>lbl_unableToVerifyRecordId_ClientID</name>
+            <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>sub_validateJWTCertificate.B2CClientID.Name</elementReference>
+            </defaultValue>
+            <fieldText>B2C Client ID Value</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>lbl_unableToVerifyJWTCertificateName</name>
+            <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>sub_validateJWTCertificate.B2CClientID.JWT_Certificate_Name__c</elementReference>
+            </defaultValue>
+            <fieldText>JWT Certificate Name</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>unableToVerifyFooter_0</name>
+            <fieldText>&lt;p&gt;This B2C Client ID requires a valid JWT Certificate Name so that it can be used in b2c-crm-sync REST API interactions.  Assigning this B2C Client ID to an Instance, CustomerList, or Site will generate application exceptions.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;If you are unsure of what value to provide, please visit the &lt;a href=&quot;/one/one.app#/setup/CertificatesAndKeysManagement/home&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;Certificate and Key Management&lt;/a&gt; page and locate the unique name of the certificate that should be used to mint JWT tokens for this B2C Client ID.&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
+        <description>... display explains that we could verify the JWT Certificate using the recordId specified.</description>
+        <name>scrn_verifiedJWTCertificate</name>
+        <label>Verified JWT Certificate</label>
+        <locationX>304</locationX>
+        <locationY>901</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <fields>
+            <name>lbl_unableToVerifyHeadline_Certificate_0</name>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 16px;&quot;&gt;Your JWT Certificate Was Successfully Verified&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;font-size: 14px;&quot;&gt;The JWT Certificate Name Mapped to this B2C Client ID Was Found&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;We were able to verify that the JWT Certificate name associated to this B2C Client ID definition exists within this Salesforce org.  The JWT Certificate name represents the unique name of the certificate that will be used to mint JWT tokens that broken authentication with B2C Commerce.&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>lbl_unableToVerifyRecordId_Certificate_0</name>
+            <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>recordId</elementReference>
+            </defaultValue>
+            <fieldText>RecordId / B2C Client ID</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>lbl_unableToVerifyRecordId_ClientID_0</name>
+            <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>sub_validateJWTCertificate.B2CClientID.Name</elementReference>
+            </defaultValue>
+            <fieldText>B2C Client ID Value</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>lbl_unableToVerifyJWTCertificateName_0</name>
+            <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>sub_validateJWTCertificate.B2CClientID.JWT_Certificate_Name__c</elementReference>
+            </defaultValue>
+            <fieldText>JWT Certificate Name</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>unableToVerifyFooter_0_0</name>
+            <fieldText>&lt;p&gt;This B2C Client ID requires a valid JWT Certificate Name so that it can be used in b2c-crm-sync REST API interactions.  This B2C Client ID can be assigned to Instances, CustomerLists, and Sites.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;If you would like to change the JWT Certificate for this B2C Client ID, please visit the &lt;a href=&quot;/one/one.app#/setup/CertificatesAndKeysManagement/home&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;Certificate and Key Management&lt;/a&gt; page and locate the unique name of the certificate that should be used instead of the one assigned.&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <start>
+        <locationX>178</locationX>
+        <locationY>50</locationY>
+        <connector>
+            <targetReference>sub_validateJWTCertificate</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <subflows>
+        <description>... attempt to validate the JWT Certificate associated to the current B2C Client ID.</description>
+        <name>sub_validateJWTCertificate</name>
+        <label>Validate the JWT Certificate</label>
+        <locationX>304</locationX>
+        <locationY>243</locationY>
+        <connector>
+            <targetReference>dec_wasB2CClientIDFound</targetReference>
+        </connector>
+        <flowName>B2CCommerce_B2CClientID_JWTCertificateValidate</flowName>
+        <inputAssignments>
+            <name>recordId</name>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </inputAssignments>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </subflows>
+    <variables>
+        <description>... represents the B2C Client ID identifier for the record being processed.</description>
+        <name>recordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>

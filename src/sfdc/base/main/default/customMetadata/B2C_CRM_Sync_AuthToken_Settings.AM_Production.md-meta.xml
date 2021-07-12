@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>AM: Production</label>
+    <protected>false</protected>
+    <values>
+        <field>Account_Manager_Port__c</field>
+        <value xsi:type="xsd:string">443</value>
+    </values>
+    <values>
+        <field>Account_Manager_Token_Url__c</field>
+        <value xsi:type="xsd:string">/dwsso/oauth2/access_token</value>
+    </values>
+    <values>
+        <field>Account_Manager_Url__c</field>
+        <value xsi:type="xsd:string">https://account.demandware.com</value>
+    </values>
+    <values>
+        <field>Expiration_in_Minutes__c</field>
+        <value xsi:type="xsd:double">25.0</value>
+    </values>
+    <values>
+        <field>JWT_Algorithm__c</field>
+        <value xsi:type="xsd:string">RSA-SHA256</value>
+    </values>
+    <values>
+        <field>JWT_SFCC_Algorithm__c</field>
+        <value xsi:type="xsd:string">RS256</value>
+    </values>
+    <values>
+        <field>Persist_B2C_AuthTokens__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>Retry_Count__c</field>
+        <value xsi:type="xsd:string">3</value>
+    </values>
+</CustomMetadata>

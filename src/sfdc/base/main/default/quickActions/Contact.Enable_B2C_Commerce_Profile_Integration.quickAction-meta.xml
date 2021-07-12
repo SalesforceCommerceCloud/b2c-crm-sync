@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QuickAction xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>... enables B2C Commerce Profile Integration for the selected Contact record</description>
+    <flowDefinition>B2CCommerce_QuickAction_Contact_IntegrationStatusReset</flowDefinition>
+    <label>Enable B2C Commerce Profile Integration</label>
+    <optionsCreateFeedItem>false</optionsCreateFeedItem>
+    <type>Flow</type>
+</QuickAction>

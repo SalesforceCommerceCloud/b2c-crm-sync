@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>B2C_Client_ID_Compact_Layout</fullName>
+    <fields>B2C_Client_ID_Label__c</fields>
+    <fields>Name</fields>
+    <fields>JWT_Certificate_Name__c</fields>
+    <fields>Is_Active__c</fields>
+    <fields>Is_Certificate_Verified__c</fields>
+    <label>B2C Client ID Compact Layout</label>
+</CompactLayout>

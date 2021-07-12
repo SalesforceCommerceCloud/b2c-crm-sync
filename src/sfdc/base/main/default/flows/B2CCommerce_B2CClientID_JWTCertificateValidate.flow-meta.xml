@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <description>... attempts to validate that the certificate associated with a given B2C Client ID is valid.</description>
+        <name>ia_validateB2CClientIDCertificate</name>
+        <label>Validate B2C Client ID Certificate</label>
+        <locationX>524</locationX>
+        <locationY>934</locationY>
+        <actionName>B2CIAB2CClientIDCertValidator</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>recUpd_isCertificateValid</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>B2CClientID</name>
+            <value>
+                <elementReference>recGet_B2CClientID</elementReference>
+            </value>
+        </inputParameters>
+        <outputParameters>
+            <assignToReference>recGet_B2CClientID</assignToReference>
+            <name>B2CClientID</name>
+        </outputParameters>
+        <outputParameters>
+            <assignToReference>errorMessage</assignToReference>
+            <name>errorMessage</name>
+        </outputParameters>
+        <outputParameters>
+            <assignToReference>errorType</assignToReference>
+            <name>errorType</name>
+        </outputParameters>
+        <outputParameters>
+            <assignToReference>IsSuccess</assignToReference>
+            <name>isCertificateValid</name>
+        </outputParameters>
+    </actionCalls>
+    <apiVersion>52.0</apiVersion>
+    <assignments>
+        <description>... set the output variables explaining that no B2C Client ID was found.</description>
+        <name>asn_B2CClientIDNotFound</name>
+        <label>No B2C Client ID Was Found</label>
+        <locationX>244</locationX>
+        <locationY>463</locationY>
+        <assignmentItems>
+            <assignToReference>IsSuccess</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <description>... set a flag describing that the B2C Client ID record was found.</description>
+        <name>asn_recordWasFound</name>
+        <label>Flag that a Record Was Found</label>
+        <locationX>524</locationX>
+        <locationY>720</locationY>
+        <assignmentItems>
+            <assignToReference>recordWasFound</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>B2CClientID</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>recGet_B2CClientID</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>ia_validateB2CClientIDCertificate</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <description>... evaluates if a B2C Client ID was retrieved via the recordId.</description>
+        <name>dec_wasB2CClientIDFound</name>
+        <label>Was a B2C Client ID Found?</label>
+        <locationX>514</locationX>
+        <locationY>465</locationY>
+        <defaultConnector>
+            <targetReference>asn_B2CClientIDNotFound</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Was Not Found</defaultConnectorLabel>
+        <rules>
+            <name>decOut_wasB2CClientFound_True</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>recGet_B2CClientID</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>asn_recordWasFound</targetReference>
+            </connector>
+            <label>Was Found</label>
+        </rules>
+    </decisions>
+    <description>... this flow can be used to validate if a given B2C Client ID certificate exists.</description>
+    <interviewLabel>B2C Commerce: B2C Client ID: JWT Certificate: Validate {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>B2C Commerce: B2C Client ID: JWT Certificate: Validate</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <description>... retrieve the B2C ClientID specified via the recordId property.</description>
+        <name>recGet_B2CClientID</name>
+        <label>Retrieve the B2C Client ID</label>
+        <locationX>522</locationX>
+        <locationY>284</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>dec_wasB2CClientIDFound</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>B2C_Client_ID__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordUpdates>
+        <description>... update the isCertificateValid flag on the B2C Client ID.</description>
+        <name>recUpd_isCertificateValid</name>
+        <label>Update the Is Certificate Valid Flag</label>
+        <locationX>524</locationX>
+        <locationY>1110</locationY>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Is_Certificate_Verified__c</field>
+            <value>
+                <elementReference>IsSuccess</elementReference>
+            </value>
+        </inputAssignments>
+        <object>B2C_Client_ID__c</object>
+    </recordUpdates>
+    <start>
+        <locationX>396</locationX>
+        <locationY>106</locationY>
+        <connector>
+            <targetReference>recGet_B2CClientID</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <variables>
+        <description>... represents the B2C Client ID that was validated and retrieved.  This is the B2C Client ID whose JWT Certificate will be verified.</description>
+        <name>B2CClientID</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+        <objectType>B2C_Client_ID__c</objectType>
+    </variables>
+    <variables>
+        <description>... represents the error message returned by the certificate validation exercise.</description>
+        <name>errorMessage</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <description>... represents the type of error captured during the validation of the associated certificate type.</description>
+        <name>errorType</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <description>... summarizes if the validation process was successful.</description>
+        <name>IsSuccess</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
+    </variables>
+    <variables>
+        <description>... represents the Id of the B2C Client ID whose JWT Certificate Name is being verified.</description>
+        <name>recordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>... describes if the B2C Client ID was found</description>
+        <name>recordWasFound</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
+    </variables>
+</Flow>

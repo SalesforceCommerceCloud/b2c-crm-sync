@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>52.0</apiVersion>
+    <assignments>
+        <description>... assign the current recordCount to a local variable to simplify processing.</description>
+        <name>asn_B2CCustomerListRecordCount</name>
+        <label>Assign the B2C CustomerList Recordcount</label>
+        <locationX>226</locationX>
+        <locationY>278</locationY>
+        <assignmentItems>
+            <assignToReference>var_B2CCustomerListCount</assignToReference>
+            <operator>AssignCount</operator>
+            <value>
+                <elementReference>recCol_B2CCustomerLists</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>dec_B2CCustomerListsExist</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <description>... evaluates if any B2C CustomerLists were found -- and if not, exit early</description>
+        <name>dec_B2CCustomerListsExist</name>
+        <label>Were B2C CustomerLists Found?</label>
+        <locationX>226</locationX>
+        <locationY>398</locationY>
+        <defaultConnector>
+            <targetReference>recUpd_activateB2CCustomerLists</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>B2C CustomerLists Were Found</defaultConnectorLabel>
+        <rules>
+            <name>decOutcome_B2CCustomerListsNotFound</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>var_B2CCustomerListCount</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <numberValue>0.0</numberValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>screen_B2CCustomerListsNotFound</targetReference>
+            </connector>
+            <label>B2C CustomerLists Were Not Found</label>
+        </rules>
+    </decisions>
+    <description>... this flow is used to activate the CustomerLists associated to a given B2C Instance.</description>
+    <interviewLabel>B2C Commerce: Quick Action: Activate CustomerLists {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>B2C Commerce: Quick Action: B2C Instance: CustomerLists: Activate</label>
+    <loops>
+        <description>... iterate over the collection of updated customerLists and explain which have been activated.</description>
+        <name>loop_provideB2CCustomerListStatus</name>
+        <label>Provide B2C CustomerList Status</label>
+        <locationX>402</locationX>
+        <locationY>638</locationY>
+        <collectionReference>recCol_B2CCustomerLists</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>screen_activateB2CCustomerListMessage_0</targetReference>
+        </nextValueConnector>
+    </loops>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Flow</processType>
+    <recordLookups>
+        <description>... retrieve the B2C CustomerLists associated to the parent B2C Instance.</description>
+        <name>recGet_B2CCustomerLists</name>
+        <label>Get the Related B2C CustomerLists</label>
+        <locationX>226</locationX>
+        <locationY>158</locationY>
+        <assignNullValuesIfNoRecordsFound>true</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>asn_B2CCustomerListRecordCount</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>B2C_Instance__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <object>B2C_CustomerList__c</object>
+        <outputReference>recCol_B2CCustomerLists</outputReference>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>B2C_Instance__c</queriedFields>
+        <queriedFields>Is_Active__c</queriedFields>
+        <queriedFields>Enable_Profile_Creation__c</queriedFields>
+        <queriedFields>Enable_Profile_Publishing__c</queriedFields>
+        <queriedFields>Enable_Profile_Retrieval__c</queriedFields>
+        <queriedFields>Enable_Profile_Updates__c</queriedFields>
+        <queriedFields>Name</queriedFields>
+    </recordLookups>
+    <recordUpdates>
+        <description>... turn on all the activation flags for the selected B2C CustomerLists.</description>
+        <name>recUpd_activateB2CCustomerLists</name>
+        <label>Update the B2C CustomerLists</label>
+        <locationX>402</locationX>
+        <locationY>518</locationY>
+        <connector>
+            <targetReference>loop_provideB2CCustomerListStatus</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>B2C_Instance__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Enable_Profile_Creation__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Enable_Profile_Publishing__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Enable_Profile_Retrieval__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Enable_Profile_Updates__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Is_Active__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <object>B2C_CustomerList__c</object>
+    </recordUpdates>
+    <screens>
+        <description>... display to the user that the B2C CustomerList has been activated successfully.</description>
+        <name>screen_activateB2CCustomerListMessage_0</name>
+        <label>Display Activation Status for the B2C CustomerList</label>
+        <locationX>490</locationX>
+        <locationY>758</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>loop_provideB2CCustomerListStatus</targetReference>
+        </connector>
+        <fields>
+            <name>lbl_activateB2CCustomerListHeader_0</name>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 14px;&quot;&gt;This B2C CustomerList Has Been Activated for Integration&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;The active and profile integration flags for the following B2C CustomerList have been activated.  This B2C CustomerList can now be used to integrate with B2C Commerce.&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>lbl_activateB2CCustomerListId</name>
+            <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>loop_provideB2CCustomerListStatus.Id</elementReference>
+            </defaultValue>
+            <fieldText>B2C CustomerList ID</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>lbl_activateB2CCustomerListName</name>
+            <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>loop_provideB2CCustomerListStatus.Name</elementReference>
+            </defaultValue>
+            <fieldText>B2C CustomerList</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>lbl_activateB2CCustomerListIsActive</name>
+            <dataType>Boolean</dataType>
+            <defaultValue>
+                <booleanValue>true</booleanValue>
+            </defaultValue>
+            <fieldText>B2C CustomerList Is Active</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>lbl_activateB2CCustomerListProfileRetrieve</name>
+            <dataType>Boolean</dataType>
+            <defaultValue>
+                <booleanValue>true</booleanValue>
+            </defaultValue>
+            <fieldText>Retrieve B2C Customer Profiles</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>lbl_activateB2CCustomerListProfilePublish</name>
+            <dataType>Boolean</dataType>
+            <defaultValue>
+                <booleanValue>true</booleanValue>
+            </defaultValue>
+            <fieldText>Publish Updates to B2C Customer Profiles</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>lbl_activateB2CCustomerListProfileCreate</name>
+            <dataType>Boolean</dataType>
+            <defaultValue>
+                <booleanValue>true</booleanValue>
+            </defaultValue>
+            <fieldText>Allow Contact Creation</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>lbl_activateB2CCustomerListProfileUpdate</name>
+            <dataType>Boolean</dataType>
+            <defaultValue>
+                <booleanValue>true</booleanValue>
+            </defaultValue>
+            <fieldText>Allow Contact Updates</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>lbl_screenB2CCustomerListActivateFooter_0</name>
+            <fieldText>&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Contacts associated to this B2C CustomerList that are mapped to B2C Commerce Customer Profiles can now consume updates from B2C Commerce and publish updates to B2C Commerce.&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <description>... display this screen to alert the user that no B2C CustomerLists were found associated to the B2C Instance.</description>
+        <name>screen_B2CCustomerListsNotFound</name>
+        <label>No B2C CustomerLists Were Found</label>
+        <locationX>50</locationX>
+        <locationY>518</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <fields>
+            <name>lbl_noB2CCustomerListsFound</name>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 14px;&quot;&gt;No B2C CustomerLists Found for this B2C Instance&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;No B2C CustomerLists were found related to the current B2C Instance.  Please attempt to &lt;/span&gt;&lt;b style=&quot;font-size: 12px;&quot;&gt;Seed B2C CustomerLists and Sites&lt;/b&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt; using the Quick Actions available in the layout menu.&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <start>
+        <locationX>100</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>recGet_B2CCustomerLists</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <variables>
+        <description>... represents the collection of B2C CustomerLists associated to the current B2C Instance.</description>
+        <name>recCol_B2CCustomerLists</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>B2C_CustomerList__c</objectType>
+    </variables>
+    <variables>
+        <description>... represents the recordId of the B2C Commerce CustomerList being activated.</description>
+        <name>recordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>... represents the total count of B2C CustomerLists retrieved from the current B2C Instance.</description>
+        <name>var_B2CCustomerListCount</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+        <value>
+            <numberValue>0.0</numberValue>
+        </value>
+    </variables>
+</Flow>

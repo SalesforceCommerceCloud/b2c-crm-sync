@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QuickAction xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>... triggers the retrieval of B2C Commerce Profile updates for the selected Contact.</description>
+    <flowDefinition>B2CCommerce_QuickAction_Contact_ContactRetrieve</flowDefinition>
+    <label>Sync with B2C Commerce Profile</label>
+    <optionsCreateFeedItem>false</optionsCreateFeedItem>
+    <type>Flow</type>
+</QuickAction>

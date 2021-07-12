@@ -1,22 +1,25 @@
 'use strict';
 
-var Logger = require('dw/system/Logger')
+var Logger = require('dw/system/Logger');
 var Status = require('dw/system/Status');
 var Site = require('dw/system/Site');
 
 /**
  * @function afterPOST
- * @description This hook is used to synchronize customer registrations with the Salesforce Platform
- * triggered by OCAPI / headless interactions
+ * @description This hook is used to synchronize customer registrations with the Salesforce
+ * Platform triggered by OCAPI / headless interactions
+ *
  * @param {Object} customer Represents the customer being registered
  * @param {Object} customerRegistration Describes the post used to register a customer
+ * @returns {Status} Returns the status for the OCAPI request
  */
+// eslint-disable-next-line no-unused-vars
 function afterPOST(customer, customerRegistration) {
-    if (!Site.getCurrent().getCustomPreferenceValue('b2ccrm_syncCustomersViaOCAPI') || !customer.isAuthenticated()) {
-        return;
+    if (!Site.getCurrent().getCustomPreferenceValue('b2ccrm_syncCustomersViaOCAPI') || !customer.isAuthenticated() || !require('dw/system/HookMgr').hasHook('app.customer.created')) {
+        return new Status(Status.OK);
     }
 
-    var LOGGER = Logger.getLogger('int_b2ccrmsync', 'hooks.ocapi.shop.auth.afterPOST');
+    var LOGGER = Logger.getLogger('int_b2ccrmsync', 'hooks.ocapi.shop.customer.afterPOST');
     // Call out that we're executing the customer-profile sync
     LOGGER.info('-- B2C-CRM-Sync: Customer Registration: Start: Sync via OCAPI');
     // Invoke the customer-process hook -- and pass-in the created customer-record
@@ -31,15 +34,18 @@ function afterPOST(customer, customerRegistration) {
  * @function afterPATCH
  * @description This hook is used to synchronize customer profile updates with the
  * Salesforce Platform triggered by OCAPI / headless interactions
+ *
  * @param {Object} customer Represents the customer being updated
  * @param {Object} customerRegistration Describes the post used to update the customer profile
+ * @returns {Status} Returns the status for the OCAPI request
  */
+// eslint-disable-next-line no-unused-vars
 function afterPATCH(customer, customerRegistration) {
-    if (!Site.getCurrent().getCustomPreferenceValue('b2ccrm_syncCustomersViaOCAPI') || !customer.isAuthenticated()) {
-        return;
+    if (!Site.getCurrent().getCustomPreferenceValue('b2ccrm_syncCustomersViaOCAPI') || !customer.isAuthenticated() || !require('dw/system/HookMgr').hasHook('app.customer.updated')) {
+        return new Status(Status.OK);
     }
 
-    var LOGGER = Logger.getLogger('int_b2ccrmsync', 'hooks.ocapi.shop.auth.afterPATCH');
+    var LOGGER = Logger.getLogger('int_b2ccrmsync', 'hooks.ocapi.shop.customer.afterPATCH');
     // Call out that we're executing the customer-profile sync
     LOGGER.info('-- B2C-CRM-Sync: Customer Profile Update: Syncing Customer Profile via OCAPI');
     // Invoke the customer-process hook -- and pass-in the created customer-record

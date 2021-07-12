@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>52.0</apiVersion>
+    <assignments>
+        <description>... assigns the B2C Site count for the current B2C CustomerList to a local variable</description>
+        <name>asn_B2CSiteCountCustomerList</name>
+        <label>Assign B2C Site Count</label>
+        <locationX>176</locationX>
+        <locationY>278</locationY>
+        <assignmentItems>
+            <assignToReference>varB2CSiteCount</assignToReference>
+            <operator>AssignCount</operator>
+            <value>
+                <elementReference>recGet_B2CSitesCount</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>recUpd_B2CCustomerListTotalSites</targetReference>
+        </connector>
+    </assignments>
+    <description>... this flow will update the instance counts (B2C Sites) for the selected B2C CustomerList.</description>
+    <interviewLabel>B2C Commerce: Quick Action: Update B2C CustomerList Counts {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>B2C Commerce: Quick Action: Counts: B2C CustomerList Counts</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Flow</processType>
+    <recordLookups>
+        <description>... retrieve the current B2C CustomerList</description>
+        <name>recGet_B2CCustomerList</name>
+        <label>Get the B2C CustomerList</label>
+        <locationX>176</locationX>
+        <locationY>518</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>screen_UpdateB2CCustomerListCounts</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>B2C_CustomerList__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>... retrieves the count of B2C Sites for the specified B2C Instance.</description>
+        <name>recGet_B2CSitesCount</name>
+        <label>Get B2C Site Count</label>
+        <locationX>176</locationX>
+        <locationY>158</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>asn_B2CSiteCountCustomerList</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Customer_List__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>B2C_Site__c</object>
+        <queriedFields>Id</queriedFields>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordUpdates>
+        <description>... updates the total site count for a given B2C CustomerList.</description>
+        <name>recUpd_B2CCustomerListTotalSites</name>
+        <label>Update the Total Site Count for the B2C CustomerList</label>
+        <locationX>176</locationX>
+        <locationY>398</locationY>
+        <connector>
+            <targetReference>recGet_B2CCustomerList</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Total_Sites__c</field>
+            <value>
+                <elementReference>varB2CSiteCount</elementReference>
+            </value>
+        </inputAssignments>
+        <object>B2C_CustomerList__c</object>
+    </recordUpdates>
+    <screens>
+        <description>... this screen displays at the end of this flow, and alerts the user that the flow has completed.</description>
+        <name>screen_UpdateB2CCustomerListCounts</name>
+        <label>Update B2C CustomerList Counts</label>
+        <locationX>176</locationX>
+        <locationY>638</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>sub_B2CInstanceUpdateCounts</targetReference>
+        </connector>
+        <fields>
+            <name>lbl_B2CCustomerListRecordCount_FlowComplete</name>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;color: rgb(0, 0, 0); font-size: 14px;&quot;&gt;The B2C Site Counts Have Been Successfully Updated&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-size: 12px;&quot;&gt;The Site count for the selected B2C CustomerList has been calculated and updated successfully.  Please check the &lt;/span&gt;&lt;b style=&quot;color: rgb(0, 0, 0); font-size: 12px;&quot;&gt;Total Sites&lt;/b&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-size: 12px;&quot;&gt; property on the B2C CustomerList record to review these updated totals.&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>lbl_B2CCustomerListName</name>
+            <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>recGet_B2CCustomerList.Name</elementReference>
+            </defaultValue>
+            <fieldText>B2C CustomerList Name</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>lbl_B2CCustomerListTotalSites</name>
+            <dataType>Number</dataType>
+            <defaultValue>
+                <elementReference>recGet_B2CCustomerList.Total_Sites__c</elementReference>
+            </defaultValue>
+            <fieldText>Total B2C Sites</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+            <scale>0</scale>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>recGet_B2CSitesCount</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <subflows>
+        <description>... this sub-flow updates the B2C Instance customerList and site counts for the parent B2C Instance.</description>
+        <name>sub_B2CInstanceUpdateCounts</name>
+        <label>Update the B2C Instance Counts</label>
+        <locationX>176</locationX>
+        <locationY>758</locationY>
+        <flowName>B2CCommerce_QuickAction_B2CInstance_SitesUpdateCounts</flowName>
+        <inputAssignments>
+            <name>recordId</name>
+            <value>
+                <elementReference>recGet_B2CCustomerList.B2C_Instance__c</elementReference>
+            </value>
+        </inputAssignments>
+    </subflows>
+    <variables>
+        <description>... represents the Id of the B2C CustomerList being processed.</description>
+        <name>recordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>... represents the count of sites for the B2C Instance.</description>
+        <name>varB2CSiteCount</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+        <value>
+            <numberValue>0.0</numberValue>
+        </value>
+    </variables>
+</Flow>

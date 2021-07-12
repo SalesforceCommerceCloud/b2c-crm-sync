@@ -1,8 +1,5 @@
 'use strict';
 
-// Initialize constants
-const config = require('config');
-
 // Initialize local libraries
 const sObjectAPIs = require('../../../lib/apis/sfdc/sObject');
 const b2cCustomerListAPIs = require('../../../lib/qa/processes/_common/sfdc/b2cCustomerList');
