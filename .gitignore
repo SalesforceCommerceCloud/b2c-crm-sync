@@ -65,6 +65,7 @@ pids
 *.alt
 
 # Ignore dwupload config
+connections-source.json
 dw.json
 
 # MacOS system files
@@ -97,4 +98,3 @@ $RECYCLE.BIN/
 # Ignore my test-deployment file
 **DeployTest.*
 .nyc_output
-
