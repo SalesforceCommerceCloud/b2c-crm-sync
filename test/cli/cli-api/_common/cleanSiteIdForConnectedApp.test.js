@@ -13,7 +13,7 @@ describe('Cleaning the SiteId for a ConnectedApp', function () {
     // Default the root siteValue that will be used in tests
     // noinspection SpellCheckingInspection
     const siteRootValue = '_01234abcd_';
-    const cleanedSiteRootValue = 'a01234abcd';
+    const cleanedSiteRootValue = 'x01234abcd';
 
     it('removes non alpha-numeric / underscore characters from the siteId', function () {
 
@@ -26,6 +26,8 @@ describe('Cleaning the SiteId for a ConnectedApp', function () {
 
         // Create the code-version summary
         output = cleanSiteIdForConnectedApp(siteId);
+
+        console.log(output, cleanedSiteRootValue);
 
         // Validate that the non-alpha numeric characters are removed from the siteId
         assert.equal(output, cleanedSiteRootValue, '-- expected all non alpha-numeric characters to be removed');
