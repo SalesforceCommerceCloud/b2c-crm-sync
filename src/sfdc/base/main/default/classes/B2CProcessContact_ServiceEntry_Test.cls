@@ -66,7 +66,7 @@ private class B2CProcessContact_ServiceEntry_Test {
         prepareTestData();
 
         // Initialize local variables
-        String AccountRecordType;
+        String accountRecordType;
 
         // Retrieve the test customerList
         B2C_CustomerList__c testCustomerList = [
@@ -78,16 +78,16 @@ private class B2CProcessContact_ServiceEntry_Test {
 
         // Evaluate what recordType to get and apply to a given Account / Contact pair
         if (B2CConfigurationManager.getDefaultAccountContactModel() == B2CConstant.ACCOUNTCONTACTMODEL_PERSON) {
-            AccountRecordType = 'PersonAccount';
+            accountRecordType = 'PersonAccount';
         } else {
-            AccountRecordType = B2CConfigurationManager.getAccountRecordTypeDeveloperName();
+            accountRecordType = B2CConfigurationManager.getAccountRecordTypeDeveloperName();
         }
 
         // Retrieve the recordType to apply
         RecordType thisRecordType = [
             SELECT  Id
             FROM    RecordType
-            WHERE   DeveloperName = :AccountRecordType
+            WHERE   DeveloperName = :accountRecordType
             LIMIT   1
         ];
 
