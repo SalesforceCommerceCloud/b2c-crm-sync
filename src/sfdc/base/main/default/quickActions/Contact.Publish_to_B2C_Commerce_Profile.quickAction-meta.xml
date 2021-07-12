@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QuickAction xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>... triggers the publishing of Salesforce Platform Contact details to the mapped B2C Commerce Profile via the B2C Commerce OCAPI REST API.</description>
+    <flowDefinition>B2CCommerce_QuickAction_Contact_ContactPublish</flowDefinition>
+    <label>Publish to B2C Commerce Profile</label>
+    <optionsCreateFeedItem>false</optionsCreateFeedItem>
+    <type>Flow</type>
+</QuickAction>

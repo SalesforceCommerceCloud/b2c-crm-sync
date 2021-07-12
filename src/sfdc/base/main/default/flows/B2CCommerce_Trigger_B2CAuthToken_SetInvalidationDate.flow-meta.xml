@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>52.0</apiVersion>
+    <assignments>
+        <description>... set the invalidationDate for all B2C AuthTokens that have been manually invalidated.</description>
+        <name>asn_setInvalidationDate</name>
+        <label>Set the Invalidation Date</label>
+        <locationX>464</locationX>
+        <locationY>377</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.Invalidation_Date__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Flow.CurrentDateTime</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <description>... set the invalidation date for every B2C AuthToken that has been manually invalidated.</description>
+    <interviewLabel>B2C Commerce: Trigger: B2C Client ID: Set Invalidation Date {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>B2C Commerce: Trigger: B2C AuthToken: Set Invalidation Date</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>338</locationX>
+        <locationY>46</locationY>
+        <connector>
+            <targetReference>asn_setInvalidationDate</targetReference>
+        </connector>
+        <doesRequireRecordChangedToMeetCriteria>true</doesRequireRecordChangedToMeetCriteria>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Is_Invalidated__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <object>B2C_AuthToken__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordBeforeSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

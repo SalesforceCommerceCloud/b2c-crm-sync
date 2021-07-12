@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Active_B2C_Client_IDs</fullName>
+    <columns>B2C_Client_ID_Label__c</columns>
+    <columns>NAME</columns>
+    <columns>Is_Active__c</columns>
+    <columns>Is_Certificate_Verified__c</columns>
+    <columns>Audit_Authentication_API_Interactions__c</columns>
+    <columns>Total_Success_Count__c</columns>
+    <columns>Total_Failure_Count__c</columns>
+    <columns>Last_Success_On__c</columns>
+    <columns>Last_Failure_On__c</columns>
+    <columns>LAST_UPDATE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Is_Active__c</field>
+        <operation>equals</operation>
+        <value>1</value>
+    </filters>
+    <label>Active B2C Client IDs</label>
+</ListView>

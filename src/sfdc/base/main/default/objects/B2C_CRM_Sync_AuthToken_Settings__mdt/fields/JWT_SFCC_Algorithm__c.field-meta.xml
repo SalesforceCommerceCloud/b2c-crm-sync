@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>JWT_SFCC_Algorithm__c</fullName>
+    <description>... represents the algorithm identifier leveraged by the B2C Commerce Account Manager to process a JWT token minted by the Salesforce Platform.  This identifier is embedded in the JWT.</description>
+    <externalId>false</externalId>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <inlineHelpText>... represents the algorithm identifier leveraged by the B2C Commerce Account Manager to process a JWT token minted by the Salesforce Platform.  This identifier is embedded in the JWT.</inlineHelpText>
+    <label>JWT SFCC Algorithm</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>RS256</fullName>
+                <default>true</default>
+                <label>RS256</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

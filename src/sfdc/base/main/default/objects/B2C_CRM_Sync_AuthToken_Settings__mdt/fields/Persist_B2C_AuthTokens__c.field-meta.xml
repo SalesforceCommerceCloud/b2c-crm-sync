@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Persist_B2C_AuthTokens__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>... when checked, retrieved B2C AuthTokens will be persisted and audited for future re-use.</description>
+    <externalId>false</externalId>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <inlineHelpText>... when checked, retrieved B2C AuthTokens will be persisted and audited for future re-use.</inlineHelpText>
+    <label>Persist B2C AuthTokens</label>
+    <type>Checkbox</type>
+</CustomField>

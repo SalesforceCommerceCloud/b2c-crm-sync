@@ -1,0 +1,650 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <description>... attempt to synchronize the remaining sourceContact properties that do not exist on the target Contact record.</description>
+        <name>ia_synchronizeContactProperties</name>
+        <label>Synchronize Remaining Contact Properties</label>
+        <locationX>651</locationX>
+        <locationY>3303</locationY>
+        <actionName>B2CIASynchronizeContact</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>sourceContact</name>
+            <value>
+                <elementReference>sourceContact</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>targetContact</name>
+            <value>
+                <elementReference>assignedContact</elementReference>
+            </value>
+        </inputParameters>
+        <outputParameters>
+            <assignToReference>assignedContact</assignToReference>
+            <name>synchronizedTargetContact</name>
+        </outputParameters>
+    </actionCalls>
+    <apiVersion>52.0</apiVersion>
+    <assignments>
+        <description>...assign the sourceContact&apos;s B2C CustomerID to the resolved contact.</description>
+        <name>asn_b2cCustomerIDToAssignedContact</name>
+        <label>Assign the B2C CustomerID</label>
+        <locationX>402</locationX>
+        <locationY>1004</locationY>
+        <assignmentItems>
+            <assignToReference>assignedContact.B2C_Customer_ID__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sourceContact.B2C_Customer_ID__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>dec_b2cCustomerListExist</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>...assign the sourceContact&apos;s B2C CustomerList ID to the resolved contact.</description>
+        <name>asn_B2CCustomerListIDToAssignedContact</name>
+        <label>Assign the B2C CustomerList ID</label>
+        <locationX>404</locationX>
+        <locationY>1573</locationY>
+        <assignmentItems>
+            <assignToReference>assignedContact.B2C_CustomerList_ID__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sourceContact.B2C_CustomerList_ID__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>dec_b2cCustomerNoExist</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>...assign the sourceContact&apos;s B2C CustomerList Object association to the resolved contact.</description>
+        <name>asn_B2CCustomerListToAssignedContact</name>
+        <label>Assign the B2C CustomerList</label>
+        <locationX>872</locationX>
+        <locationY>1310</locationY>
+        <assignmentItems>
+            <assignToReference>assignedContact.B2C_CustomerList__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sourceContact.B2C_CustomerList__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>dec_b2cCustomerListIDExist</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>...assign the sourceContact&apos;s B2C Customer No to the resolved contact.</description>
+        <name>asn_B2CCustomerNoToAssignedContact</name>
+        <label>Assign the B2C Customer No</label>
+        <locationX>873</locationX>
+        <locationY>1839</locationY>
+        <assignmentItems>
+            <assignToReference>assignedContact.B2C_Customer_No__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sourceContact.B2C_Customer_No__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>dec_EmailAddressExist</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>... assign the default Contact name value to the lastName of the assignedContact.</description>
+        <name>asn_defaultContactName_0_0</name>
+        <label>Assign the Default Contact Name</label>
+        <locationX>942</locationX>
+        <locationY>3303</locationY>
+        <assignmentItems>
+            <assignToReference>assignedContact.LastName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>var_defaultContactName</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>ia_synchronizeContactProperties</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>... flip the flag managing the assignment of the default Contact name value to the lastName of the assignedContact.</description>
+        <name>asn_defaultContactName_AssignmentCListCNo</name>
+        <label>Set the Default Contact Name Assignment Flag</label>
+        <locationX>356</locationX>
+        <locationY>3022</locationY>
+        <assignmentItems>
+            <assignToReference>var_setDefaultContactName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>dec_setDefaultContactName</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>... flip the flag managing the assignment of the default Contact name value to the lastName of the assignedContact.</description>
+        <name>asn_defaultContactName_AssignmentEmail</name>
+        <label>Set the Default Contact Name Assignment Flag</label>
+        <locationX>976</locationX>
+        <locationY>2695</locationY>
+        <assignmentItems>
+            <assignToReference>var_setDefaultContactName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>dec_areB2CCustomerListCustomerNoAssigned</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>... default the OCAPI Auditing Property on the sourceContact.</description>
+        <name>asn_defaultOCAPIPropertyValue</name>
+        <label>Default the OCAPI Auditing Property</label>
+        <locationX>873</locationX>
+        <locationY>244</locationY>
+        <assignmentItems>
+            <assignToReference>sourceContact.Audit_OCAPI_API_Response__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>dec_lastNameExists</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>...assign the sourceContact&apos;s emailAddress to the assigned contact.</description>
+        <name>asn_EmailAddressToAssignedContact</name>
+        <label>Assign the Email Address</label>
+        <locationX>404</locationX>
+        <locationY>2076</locationY>
+        <assignmentItems>
+            <assignToReference>assignedContact.Email</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sourceContact.Email</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>dec_wasB2CCustomerListEmailAssigned</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>...assign the sourceContact&apos;s firstName to the resolved contact.</description>
+        <name>asn_FistnameToAssignedContact</name>
+        <label>Assign the FirstName</label>
+        <locationX>867</locationX>
+        <locationY>1002</locationY>
+        <assignmentItems>
+            <assignToReference>assignedContact.FirstName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sourceContact.FirstName</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>dec_b2cCustomerIDExist</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>...assign the sourceContact&apos;s lastName to the resolved contact.</description>
+        <name>asn_LastNameToAssignedContact</name>
+        <label>Assign the LastName</label>
+        <locationX>375</locationX>
+        <locationY>509</locationY>
+        <assignmentItems>
+            <assignToReference>assignedContact.LastName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sourceContact.LastName</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>dec_firstNameExists</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <description>... evaluates if the B2C Commerce CustomerList / CustomerNo were assigned -- in order to evaluate if a LastName exists on the Contact.</description>
+        <name>dec_areB2CCustomerListCustomerNoAssigned</name>
+        <label>Were the B2C CustomerList / CustomerNo Assigned?</label>
+        <locationX>640</locationX>
+        <locationY>2689</locationY>
+        <defaultConnector>
+            <targetReference>dec_setDefaultContactName</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Were Not Assigned</defaultConnectorLabel>
+        <rules>
+            <name>decOut_customerListCustomerNoAssigned</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>assignedContact.B2C_CustomerList__c</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>assignedContact.B2C_CustomerList_ID__c</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>assignedContact.B2C_Customer_No__c</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>dec_wasContactLastNameAssigned</targetReference>
+            </connector>
+            <label>Were Assigned</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>... does the B2C CustomerID exist on the sourceContact</description>
+        <name>dec_b2cCustomerIDExist</name>
+        <label>Does the B2C CustomerID Exist?</label>
+        <locationX>641</locationX>
+        <locationY>1004</locationY>
+        <defaultConnector>
+            <targetReference>dec_b2cCustomerListExist</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Does Not Exist</defaultConnectorLabel>
+        <rules>
+            <name>decOut_b2cCustomerIDExist</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>sourceContact.B2C_Customer_ID__c</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>asn_b2cCustomerIDToAssignedContact</targetReference>
+            </connector>
+            <label>Exists</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>... does the B2C CustomerList Object association exist on the sourceContact?</description>
+        <name>dec_b2cCustomerListExist</name>
+        <label>Does the B2C CustomerList Association Exist?</label>
+        <locationX>642</locationX>
+        <locationY>1313</locationY>
+        <defaultConnector>
+            <targetReference>dec_b2cCustomerListIDExist</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Does Not Exist</defaultConnectorLabel>
+        <rules>
+            <name>decOut_b2cCustomerListExist</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>sourceContact.B2C_CustomerList__c</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>asn_B2CCustomerListToAssignedContact</targetReference>
+            </connector>
+            <label>Exists</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>... does the B2C CustomerListID exist on the sourceContact</description>
+        <name>dec_b2cCustomerListIDExist</name>
+        <label>Does the B2C CustomerListID Exist?</label>
+        <locationX>642</locationX>
+        <locationY>1575</locationY>
+        <defaultConnector>
+            <targetReference>dec_b2cCustomerNoExist</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Does Not Exist</defaultConnectorLabel>
+        <rules>
+            <name>decOut_b2cCustomerListIDExist</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>sourceContact.B2C_CustomerList_ID__c</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>asn_B2CCustomerListIDToAssignedContact</targetReference>
+            </connector>
+            <label>Exists</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>... does the B2C CustomerNo exist on the sourceContact</description>
+        <name>dec_b2cCustomerNoExist</name>
+        <label>Does the B2C CustomerNo Exist?</label>
+        <locationX>643</locationX>
+        <locationY>1843</locationY>
+        <defaultConnector>
+            <targetReference>dec_EmailAddressExist</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Does Not Exist</defaultConnectorLabel>
+        <rules>
+            <name>decOut_b2cCustomerNoExist</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>sourceContact.B2C_Customer_No__c</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>asn_B2CCustomerNoToAssignedContact</targetReference>
+            </connector>
+            <label>Exists</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>... does the Email Address exist on the sourceContact</description>
+        <name>dec_EmailAddressExist</name>
+        <label>Does the Email Address Exist?</label>
+        <locationX>643</locationX>
+        <locationY>2082</locationY>
+        <defaultConnector>
+            <targetReference>dec_wasB2CCustomerListEmailAssigned</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Does Not Exist</defaultConnectorLabel>
+        <rules>
+            <name>decOut_EmailAddressExist</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>sourceContact.Email</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>asn_EmailAddressToAssignedContact</targetReference>
+            </connector>
+            <label>Exists</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>... does the firstName exist on the sourceContact</description>
+        <name>dec_firstNameExists</name>
+        <label>Does FirstName Exist?</label>
+        <locationX>640</locationX>
+        <locationY>754</locationY>
+        <defaultConnector>
+            <targetReference>dec_b2cCustomerIDExist</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Does Not Exist</defaultConnectorLabel>
+        <rules>
+            <name>decOut_firstNameExists</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>sourceContact.FirstName</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>asn_FistnameToAssignedContact</targetReference>
+            </connector>
+            <label>Exists</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>... evaluate if OCAPI auditing is enabled on the sourceContact.</description>
+        <name>dec_isAuditingEnabled</name>
+        <label>Is Auditing Enabled?</label>
+        <locationX>638</locationX>
+        <locationY>245</locationY>
+        <defaultConnector>
+            <targetReference>dec_lastNameExists</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Is Enabled</defaultConnectorLabel>
+        <rules>
+            <name>decOut_isAuditingEnabledFalse</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>sourceContact.Audit_OCAPI_API_Response__c</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>asn_defaultOCAPIPropertyValue</targetReference>
+            </connector>
+            <label>Is Not Enabled</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>... does the lastName exist on the sourceContact</description>
+        <name>dec_lastNameExists</name>
+        <label>Does LastName Exist?</label>
+        <locationX>640</locationX>
+        <locationY>510</locationY>
+        <defaultConnector>
+            <targetReference>dec_firstNameExists</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Does Not Exist</defaultConnectorLabel>
+        <rules>
+            <name>decOut_lastNameExists</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>sourceContact.LastName</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>asn_LastNameToAssignedContact</targetReference>
+            </connector>
+            <label>Exists</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>... evaluates if the default Contact name should be set -- based on the combination of attributes present on the assigned Contact.</description>
+        <name>dec_setDefaultContactName</name>
+        <label>Set the Default Contact Name?</label>
+        <locationX>642</locationX>
+        <locationY>3017</locationY>
+        <defaultConnector>
+            <targetReference>ia_synchronizeContactProperties</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Do Not Set</defaultConnectorLabel>
+        <rules>
+            <name>decOut_setDefaultContactName</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>var_setDefaultContactName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>asn_defaultContactName_0_0</targetReference>
+            </connector>
+            <label>Set the Default</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>... evaluate if a customerList and email address were assigned -- to determine if a default Contact name should be leveraged.</description>
+        <name>dec_wasB2CCustomerListEmailAssigned</name>
+        <label>Were a CustomerList / Email Assigned</label>
+        <locationX>644</locationX>
+        <locationY>2394</locationY>
+        <defaultConnector>
+            <targetReference>dec_areB2CCustomerListCustomerNoAssigned</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Were Not Assigned</defaultConnectorLabel>
+        <rules>
+            <name>decOut_b2cCustomerListEmailAssigned</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>assignedContact.B2C_CustomerList__c</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>assignedContact.B2C_CustomerList_ID__c</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>assignedContact.Email</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>dec_wasContactLastNameAssigned_Email</targetReference>
+            </connector>
+            <label>Were Assigned</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>... evaluates if a Contact LastName was assigned -- to determine if the default Contact Name should be used.</description>
+        <name>dec_wasContactLastNameAssigned</name>
+        <label>Was a LastName Assigned?</label>
+        <locationX>347</locationX>
+        <locationY>2699</locationY>
+        <defaultConnector>
+            <targetReference>dec_setDefaultContactName</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Was Assigned</defaultConnectorLabel>
+        <rules>
+            <name>decOut_contactLastNameWasNotAssigned</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>assignedContact.LastName</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>asn_defaultContactName_AssignmentCListCNo</targetReference>
+            </connector>
+            <label>Was Not Assigned</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>... evaluates if a Contact LastName was assigned -- to determine if the default Contact Name should be used.</description>
+        <name>dec_wasContactLastNameAssigned_Email</name>
+        <label>Was a LastName Assigned?</label>
+        <locationX>968</locationX>
+        <locationY>2401</locationY>
+        <defaultConnector>
+            <targetReference>dec_areB2CCustomerListCustomerNoAssigned</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Was Assigned</defaultConnectorLabel>
+        <rules>
+            <name>decOut_contactLastNameWasNotAssigned_Email</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>assignedContact.LastName</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>asn_defaultContactName_AssignmentEmail</targetReference>
+            </connector>
+            <label>Was Not Assigned</label>
+        </rules>
+    </decisions>
+    <description>... this flow is used to abstract the incremental assignment of sourceContact attributes to a resolved Contact for future processing.</description>
+    <interviewLabel>B2C Commerce: Contact Assignment Helper {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>B2C Commerce: Process: Assignment Helper: Contacts</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>520</locationX>
+        <locationY>50</locationY>
+        <connector>
+            <targetReference>dec_isAuditingEnabled</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <variables>
+        <description>... represents the Contact with assigned variables.</description>
+        <name>assignedContact</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <objectType>Contact</objectType>
+    </variables>
+    <variables>
+        <description>... represents the source Contact to process.</description>
+        <name>sourceContact</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Contact</objectType>
+    </variables>
+    <variables>
+        <description>... represents the default Name to use for a Contact is one is not assigned or provided.</description>
+        <name>var_defaultContactName</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>... internal flag used to control whether the defaultContact name should be set for a given Contact.</description>
+        <name>var_setDefaultContactName</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
+    </variables>
+</Flow>

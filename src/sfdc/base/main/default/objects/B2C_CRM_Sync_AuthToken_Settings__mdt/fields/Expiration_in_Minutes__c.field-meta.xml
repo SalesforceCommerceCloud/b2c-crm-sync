@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Expiration_in_Minutes__c</fullName>
+    <defaultValue>25</defaultValue>
+    <description>... represents the number of minutes to use when calculating an expiration date for a minted JWT / authToken.</description>
+    <externalId>false</externalId>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <inlineHelpText>... represents the number of minutes to use when calculating an expiration date for a minted JWT / authToken.</inlineHelpText>
+    <label>Expiration in Minutes</label>
+    <precision>18</precision>
+    <required>true</required>
+    <scale>0</scale>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

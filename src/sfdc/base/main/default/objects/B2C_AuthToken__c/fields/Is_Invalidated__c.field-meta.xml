@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--suppress XmlUnusedNamespaceDeclaration -->
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <fullName>Is_Invalidated__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>... when checked, this AuthToken is manually invalidated and cannot be used to power B2C Commerce REST API interactions.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>... when checked, this AuthToken is manually invalidated and cannot be used to power B2C Commerce REST API interactions.</inlineHelpText>
+    <label>Is Manually Invalidated</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

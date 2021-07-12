@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Account_Manager_Configurations</fullName>
+    <columns>MasterLabel</columns>
+    <columns>Account_Manager_Url__c</columns>
+    <columns>Account_Manager_Port__c</columns>
+    <columns>Account_Manager_Token_Url__c</columns>
+    <columns>Expiration_in_Minutes__c</columns>
+    <columns>JWT_Algorithm__c</columns>
+    <filterScope>Everything</filterScope>
+    <label>Account Manager Configurations</label>
+</ListView>

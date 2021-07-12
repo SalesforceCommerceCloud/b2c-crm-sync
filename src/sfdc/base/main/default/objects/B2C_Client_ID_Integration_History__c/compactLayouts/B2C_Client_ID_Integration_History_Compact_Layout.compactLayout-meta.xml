@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>B2C_Client_ID_Integration_History_Compact_Layout</fullName>
+    <fields>Name</fields>
+    <fields>B2C_Client_ID__c</fields>
+    <fields>Has_Error__c</fields>
+    <fields>Has_Token__c</fields>
+    <fields>Status_Code__c</fields>
+    <label>B2C Client ID Integration History Compact Layout</label>
+</CompactLayout>

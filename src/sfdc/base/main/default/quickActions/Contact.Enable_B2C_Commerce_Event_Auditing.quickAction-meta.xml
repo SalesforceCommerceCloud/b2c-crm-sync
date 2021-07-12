@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QuickAction xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>... enables auditing of all B2C Commerce REST API interactions with the selected Contact.</description>
+    <flowDefinition>B2CCommerce_QuickAction_Contact_AuditingEnable</flowDefinition>
+    <label>Enable B2C Commerce Event Auditing</label>
+    <optionsCreateFeedItem>false</optionsCreateFeedItem>
+    <type>Flow</type>
+</QuickAction>

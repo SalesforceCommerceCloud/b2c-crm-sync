@@ -1,0 +1,1003 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>52.0</apiVersion>
+    <assignments>
+        <description>... audit and generate an exception back to the calling flow.</description>
+        <name>asn_auditContactFaultByContactID</name>
+        <label>Audit the Fault</label>
+        <locationX>308</locationX>
+        <locationY>1547</locationY>
+        <assignmentItems>
+            <assignToReference>ErrorMessage</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <stringValue>No Contact was found with the ContactID specified in this request; please verify the Id value and try again.</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>isVerfied</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>hasError</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>hasIdentifiers</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <description>... audit and generate an exception back to the calling flow.</description>
+        <name>asn_auditFaultByB2CCustomerList</name>
+        <label>Audit the Fault</label>
+        <locationX>1136</locationX>
+        <locationY>768</locationY>
+        <assignmentItems>
+            <assignToReference>ErrorMessage</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <stringValue>Unable to resolve the B2C CustomerList.  Please check the arguments provided -- and try again.</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>isVerfied</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>hasError</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>hasIdentifiers</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <description>... assign the B2C CustomerList to the parentB2CCustomerList output variable.</description>
+        <name>asn_b2cCustomerListInitial</name>
+        <label>Assign the B2C CustomerList</label>
+        <locationX>859</locationX>
+        <locationY>1277</locationY>
+        <assignmentItems>
+            <assignToReference>parentB2CCustomerList</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>recGet_B2CCustomerListInitial</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>dec_wasContactIDProvided</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>... throw an error explaining that the B2C CustomerList was missing and is required.</description>
+        <name>asn_noB2CCustomerListProvidedError</name>
+        <label>A B2C CustomerList is Required</label>
+        <locationX>50</locationX>
+        <locationY>1034</locationY>
+        <assignmentItems>
+            <assignToReference>hasError</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>isVerfied</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>hasIdentifiers</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ErrorMessage</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <stringValue>A B2C Commerce CustomerList ID is required for Contact Resolution with non Salesforce Platform identifiers.  Please include a B2C CustomerList ID and try again.</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>verifiedContact</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sourceContact</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <description>... assign the Account to an output variable.</description>
+        <name>asn_parentAccount</name>
+        <label>Assign the Account</label>
+        <locationX>594</locationX>
+        <locationY>2930</locationY>
+        <assignmentItems>
+            <assignToReference>parentAccount</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>recGet_Account</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>dec_doesContactHaveParentB2CCustomerList</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>... update the successFlags to denote that we&apos;ve been able to verify the Contact.</description>
+        <name>asn_setSuccessFlags</name>
+        <label>The Contact is Verified</label>
+        <locationX>595</locationX>
+        <locationY>3888</locationY>
+        <assignmentItems>
+            <assignToReference>hasError</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>isVerfied</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>parentB2CCustomerList</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>recGet_B2CCustomerList</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>hasIdentifiers</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <description>... throw an error explaining that the B2C CustomerList was unable to be verified.</description>
+        <name>asn_unableToVerifyB2CCustomerListErrorRecordGet</name>
+        <label>An Invalid B2C CustomerList was Provided.</label>
+        <locationX>1136</locationX>
+        <locationY>984</locationY>
+        <assignmentItems>
+            <assignToReference>hasError</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>isVerfied</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>hasIdentifiers</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ErrorMessage</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <stringValue>Unable to verify the B2C CustomerList.  Please check the properties of the sourceContact -- and try again.</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>verifiedContact</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sourceContact</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <description>... throw an error explaining that the Contact was unable to be verified.</description>
+        <name>asn_unableToVerifyContactErrorB2CCustomerList</name>
+        <label>Error: No B2C CustomerList Exists</label>
+        <locationX>879</locationX>
+        <locationY>3122</locationY>
+        <assignmentItems>
+            <assignToReference>ErrorMessage</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <stringValue>Only Contacts with a B2C CustomerList can be processed.  Please provide a B2C CustomerList value -- and try again.</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>hasError</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>isVerfied</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>hasIdentifiers</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <description>... throw an error explaining that the Contact was unable to be verified.</description>
+        <name>asn_unableToVerifyContactErrorB2CCustomerList_0</name>
+        <label>Error: No B2C CustomerList Exists</label>
+        <locationX>1181</locationX>
+        <locationY>3741</locationY>
+        <assignmentItems>
+            <assignToReference>ErrorMessage</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <stringValue>Unable to validate the Contact; no B2C CustomerList is associated to this Contact.</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>hasError</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>isVerfied</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>hasIdentifiers</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <description>... throw an error explaining that the Contact was unable to be verified.</description>
+        <name>asn_unableToVerifyContactErrorNoContactID</name>
+        <label>Unable to Verify the Contact</label>
+        <locationX>52</locationX>
+        <locationY>1277</locationY>
+        <assignmentItems>
+            <assignToReference>hasError</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>isVerfied</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>hasIdentifiers</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ErrorMessage</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <stringValue>No ContactID was provided for the sourceContact; it could not be verified.</stringValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <description>... throw an error explaining that the Contact was unable to be verified.</description>
+        <name>asn_unableToVerifyContactErrorParentAccount</name>
+        <label>Error: No Parent Account Exists</label>
+        <locationX>316</locationX>
+        <locationY>2193</locationY>
+        <assignmentItems>
+            <assignToReference>ErrorMessage</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <stringValue>Unable to validate the Contact; no parentAccount is associated to this Contact.</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>hasError</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>isVerfied</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>hasIdentifiers</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <description>... throw an error explaining that the Contact was unable to be verified.</description>
+        <name>asn_unableToVerifyContactErrorParentAccount_0</name>
+        <label>Error: No Parent Account Exists</label>
+        <locationX>1148</locationX>
+        <locationY>2803</locationY>
+        <assignmentItems>
+            <assignToReference>ErrorMessage</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <stringValue>The AccountID provided is not associated to the specific Contact.  Please verify this relationship -- and try again.</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>hasError</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>isVerfied</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>hasIdentifiers</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <description>... throw an error explaining that the Contact was unable to be verified.</description>
+        <name>asn_unableToVerifyContactErrorRecordGet</name>
+        <label>Unable to Verify the Contact</label>
+        <locationX>314</locationX>
+        <locationY>1941</locationY>
+        <assignmentItems>
+            <assignToReference>hasError</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>isVerfied</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>hasIdentifiers</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ErrorMessage</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <stringValue>No Contact was found with the ContactID specified in this request; please verify the Id value and try again.</stringValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <description>... assign the verifiedContact to a local variable.</description>
+        <name>asn_verifiedContactContactID</name>
+        <label>Assign the Verified Contact</label>
+        <locationX>592</locationX>
+        <locationY>1750</locationY>
+        <assignmentItems>
+            <assignToReference>verifiedContact</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>recGet_ContactByContactID</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>dec_wasContactVerified</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <description>... evaluate if the resolved and source Contact&apos;s parent Accounts are the same.</description>
+        <name>dec_areContactAccountsAligned</name>
+        <label>Are the Contact&apos;s Accounts Aligned?</label>
+        <locationX>866</locationX>
+        <locationY>2802</locationY>
+        <defaultConnector>
+            <targetReference>asn_unableToVerifyContactErrorParentAccount_0</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Accounts Are Not Aligned</defaultConnectorLabel>
+        <rules>
+            <name>dec_areContactAccountsAlignedTrue</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>verifiedContact.AccountId</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>sourceContact.AccountId</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>asn_parentAccount</targetReference>
+            </connector>
+            <label>Accounts Are Aligned</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>... evaluate if the resolved and source Contact&apos;s parent B2C CustomerLists are the same.</description>
+        <name>dec_areContactB2CCustomerListsAligned</name>
+        <label>Are the Contact&apos;s B2C CustomerLists Aligned?</label>
+        <locationX>881</locationX>
+        <locationY>3745</locationY>
+        <defaultConnector>
+            <targetReference>asn_unableToVerifyContactErrorB2CCustomerList_0</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>B2C CustomerLists Are Not Aligned</defaultConnectorLabel>
+        <rules>
+            <name>dec_areContactB2CCustomerListsAlignedTrue</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>verifiedContact.B2C_CustomerList_ID__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>sourceContact.B2C_CustomerList_ID__c</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>asn_setSuccessFlags</targetReference>
+            </connector>
+            <label>B2C CustomerLists Are Aligned</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>... evaluate if the Contact record has a valid parentAccount.</description>
+        <name>dec_doesContactHaveParentAccount</name>
+        <label>Does the Contact Have a Parent Account</label>
+        <locationX>584</locationX>
+        <locationY>2196</locationY>
+        <defaultConnector>
+            <targetReference>asn_unableToVerifyContactErrorParentAccount</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Does Not Have Parent Account</defaultConnectorLabel>
+        <rules>
+            <name>dec_doesContactHaveParentAccountTrue</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>verifiedContact.AccountId</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>verifiedContact.AccountId</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>recGet_Account</targetReference>
+            </connector>
+            <label>Has Parent Account</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>... evaluate if the Contact record has a valid parent B2C CustomerList.</description>
+        <name>dec_doesContactHaveParentB2CCustomerList</name>
+        <label>Does the Contact Have a Parent B2C CustomerList?</label>
+        <locationX>586</locationX>
+        <locationY>3125</locationY>
+        <defaultConnector>
+            <targetReference>asn_unableToVerifyContactErrorB2CCustomerList</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Does Not Have B2C CustomerList</defaultConnectorLabel>
+        <rules>
+            <name>dec_doesContactHaveParentB2CCustomerListTrue</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>verifiedContact.B2C_CustomerList__c</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>verifiedContact.B2C_CustomerList__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>recGet_B2CCustomerList</targetReference>
+            </connector>
+            <label>Has B2C CustomerList</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>... evaluate if an AccountID was specified in the Contact to Resolve; if so -- validate that accountId&apos;s are aligned.</description>
+        <name>dec_wasAccountSpecifiedInContactToResolve</name>
+        <label>Was an Account Specified in the ContactToResolve?</label>
+        <locationX>585</locationX>
+        <locationY>2682</locationY>
+        <defaultConnector>
+            <targetReference>asn_parentAccount</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Was Not Specified</defaultConnectorLabel>
+        <rules>
+            <name>decOut_wasAccountSpecifiedInContactToResolveTrue</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>sourceContact.AccountId</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>dec_areContactAccountsAligned</targetReference>
+            </connector>
+            <label>Was Specified</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>... evaluate if a B2C CustomerID was included with the sourceContact.</description>
+        <name>dec_wasB2CCustomerIDProvided</name>
+        <label>Was a B2C CustomerID Provided?</label>
+        <locationX>295</locationX>
+        <locationY>1278</locationY>
+        <defaultConnector>
+            <targetReference>dec_wasB2CCustomerListVerified</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Was Not Provided</defaultConnectorLabel>
+        <rules>
+            <name>decOut_wasB2CCustomerIDProvidedTrue</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>sourceContact.B2C_Customer_ID__c</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>asn_unableToVerifyContactErrorNoContactID</targetReference>
+            </connector>
+            <label>Was Provided</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>... evaluate if a B2C CustomerList was provided with the sourceContact.</description>
+        <name>dec_wasB2CCustomerListProvided</name>
+        <label>Was a B2C CustomerList Provided?</label>
+        <locationX>584</locationX>
+        <locationY>770</locationY>
+        <defaultConnector>
+            <targetReference>dec_wasContactIDProvided</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Was Not Provided</defaultConnectorLabel>
+        <rules>
+            <name>decOut_wasB2CCustomerListProvidedTrue</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>sourceContact.B2C_CustomerList_ID__c</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>recGet_B2CCustomerListInitial</targetReference>
+            </connector>
+            <label>Was Provided</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>... evaluate if a B2C CustomerList was resolved via the sourceContact.</description>
+        <name>dec_wasB2CCustomerListResolved</name>
+        <label>Was a B2C CustomerList Resolved?</label>
+        <locationX>851</locationX>
+        <locationY>986</locationY>
+        <defaultConnector>
+            <targetReference>asn_unableToVerifyB2CCustomerListErrorRecordGet</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Was Not Resolved</defaultConnectorLabel>
+        <rules>
+            <name>decOut_wasB2CCustomerListResolvedTrue</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>recGet_B2CCustomerListInitial</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>asn_b2cCustomerListInitial</targetReference>
+            </connector>
+            <label>Was Resolved</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>... evaluate if an B2C CustomerList was specified in the Contact to Resolve; if so -- validate that B2C CustomerListID&apos;s are aligned.</description>
+        <name>dec_wasB2CCustomerListSpecifiedInContactToResolve</name>
+        <label>Was an B2C CustomerList Specified in the ContactToResolve?</label>
+        <locationX>587</locationX>
+        <locationY>3603</locationY>
+        <defaultConnector>
+            <targetReference>asn_setSuccessFlags</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Was Not Specified</defaultConnectorLabel>
+        <rules>
+            <name>decOut_wasB2CCustomerListSpecifiedInContactToResolveTrue</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>sourceContact.B2C_CustomerList_ID__c</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>dec_areContactB2CCustomerListsAligned</targetReference>
+            </connector>
+            <label>Was Specified</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>... evaluate if a B2C CustomerList was verified</description>
+        <name>dec_wasB2CCustomerListVerified</name>
+        <label>Was a B2C CustomerList Verified?</label>
+        <locationX>294</locationX>
+        <locationY>1037</locationY>
+        <defaultConnectorLabel>Was Verified</defaultConnectorLabel>
+        <rules>
+            <name>decOut_wasB2CCustomerListVerifiedFalse</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>parentB2CCustomerList</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>asn_noB2CCustomerListProvidedError</targetReference>
+            </connector>
+            <label>Was Not Verified</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>... evaluate if a ContactID was provided and can be used to validate the specified Contact record.</description>
+        <name>dec_wasContactIDProvided</name>
+        <label>Was a ContactID Provided?</label>
+        <locationX>583</locationX>
+        <locationY>1278</locationY>
+        <defaultConnector>
+            <targetReference>dec_wasB2CCustomerIDProvided</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Was Not Provided</defaultConnectorLabel>
+        <rules>
+            <name>dec_wasContactIDProvidedTrue</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>sourceContact.Id</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>BypassContactID</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>recGet_ContactByContactID</targetReference>
+            </connector>
+            <label>Was Provided</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>... evaluate if a valid Contact record was verified.</description>
+        <name>dec_wasContactVerified</name>
+        <label>Was the Contact Verified?</label>
+        <locationX>584</locationX>
+        <locationY>1942</locationY>
+        <defaultConnector>
+            <targetReference>asn_unableToVerifyContactErrorRecordGet</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Was Not Verified</defaultConnectorLabel>
+        <rules>
+            <name>dec_wasContactVerifiedTrue</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>verifiedContact</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>dec_doesContactHaveParentAccount</targetReference>
+            </connector>
+            <label>Was Verified</label>
+        </rules>
+    </decisions>
+    <description>... this subFlow attempts to verify a Contact record using the key identifiers that drive record-based resolution.</description>
+    <interviewLabel>B2C Commerce: Process: Contact: Verify Record {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>B2C Commerce: Process: Contact: Helper: Verify Contact Record</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <description>... retrieve the parentAccount for the specified Contact.</description>
+        <name>recGet_Account</name>
+        <label>Retrieve the Parent Account</label>
+        <locationX>593</locationX>
+        <locationY>2467</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>dec_wasAccountSpecifiedInContactToResolve</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>verifiedContact.AccountId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Account</object>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>Name</queriedFields>
+        <queriedFields>RecordTypeId</queriedFields>
+        <queriedFields>AccountSource</queriedFields>
+        <queriedFields>Type</queriedFields>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>... retrieve the B2C CustomerList for the specified Contact.</description>
+        <name>recGet_B2CCustomerList</name>
+        <label>Retrieve the Associated B2C CustomerList</label>
+        <locationX>595</locationX>
+        <locationY>3375</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>dec_wasB2CCustomerListSpecifiedInContactToResolve</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>verifiedContact.B2C_CustomerList__c</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>B2C_CustomerList__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>... retrieve the B2C CustomerList for the specified Contact.</description>
+        <name>recGet_B2CCustomerListInitial</name>
+        <label>Retrieve the B2C CustomerList</label>
+        <locationX>859</locationX>
+        <locationY>766</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>dec_wasB2CCustomerListResolved</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>asn_auditFaultByB2CCustomerList</targetReference>
+        </faultConnector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Name</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>sourceContact.B2C_CustomerList_ID__c</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>B2C_CustomerList__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>... retrieve the Contact record using one of the identifiers provided.</description>
+        <name>recGet_ContactByContactID</name>
+        <label>Retrieve the Contact by ContactID</label>
+        <locationX>592</locationX>
+        <locationY>1548</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>asn_verifiedContactContactID</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>asn_auditContactFaultByContactID</targetReference>
+        </faultConnector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>sourceContact.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Contact</object>
+        <sortField>LastModifiedDate</sortField>
+        <sortOrder>Desc</sortOrder>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <start>
+        <locationX>466</locationX>
+        <locationY>560</locationY>
+        <connector>
+            <targetReference>dec_wasB2CCustomerListProvided</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <variables>
+        <description>... internal flag used to bypass the ContactID validation.</description>
+        <name>BypassContactID</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
+    </variables>
+    <variables>
+        <description>... represents the collection of errors caught during flow processing.</description>
+        <name>ErrorMessage</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <description>... describes if an error was caught during flow processing.</description>
+        <name>hasError</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
+    </variables>
+    <variables>
+        <description>... describes if a ContactID or a B2C CustomerID was provided.</description>
+        <name>hasIdentifiers</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
+    </variables>
+    <variables>
+        <description>... describes if the Contact specified was verified.</description>
+        <name>isVerfied</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
+    </variables>
+    <variables>
+        <description>... represents the parentAccount for a given Contact record.</description>
+        <name>parentAccount</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+        <objectType>Account</objectType>
+    </variables>
+    <variables>
+        <description>... represents the B2C CustomerList associated to a given Contact record.</description>
+        <name>parentB2CCustomerList</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+        <objectType>B2C_CustomerList__c</objectType>
+    </variables>
+    <variables>
+        <description>... represents the Contact record to verify / validate.</description>
+        <name>sourceContact</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Contact</objectType>
+    </variables>
+    <variables>
+        <description>... represents the retrieved Contact record via the identifier(s) provided.</description>
+        <name>verifiedContact</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+        <objectType>Contact</objectType>
+    </variables>
+</Flow>

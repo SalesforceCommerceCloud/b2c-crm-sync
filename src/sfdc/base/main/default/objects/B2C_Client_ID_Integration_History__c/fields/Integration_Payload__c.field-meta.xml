@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Integration_Payload__c</fullName>
+    <description>... describes the last authorization request payload delivered to the B2C Commerce Account Manager.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>... describes the last authorization request payload delivered to the B2C Commerce Account Manager.</inlineHelpText>
+    <label>Integration Payload</label>
+    <length>64000</length>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackTrending>false</trackTrending>
+    <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
+</CustomField>

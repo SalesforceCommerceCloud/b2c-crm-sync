@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QuickAction xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>... enables the Order of Behalf Of customer-flow with the selected PersonAccount.</description>
+    <flowDefinition>B2CCommerce_QuickAction_PersonAccount_OrderOnBehalfOf</flowDefinition>
+    <label>Order on Behalf Of</label>
+    <optionsCreateFeedItem>false</optionsCreateFeedItem>
+    <type>Flow</type>
+</QuickAction>

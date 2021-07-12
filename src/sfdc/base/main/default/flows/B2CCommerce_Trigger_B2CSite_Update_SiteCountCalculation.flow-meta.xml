@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>52.0</apiVersion>
+    <assignments>
+        <description>... assign the count of sites for the old / previous customerList.</description>
+        <name>asn_oldCListSiteCount</name>
+        <label>Assign the Legacy CustomerList ID Count</label>
+        <locationX>47</locationX>
+        <locationY>1656</locationY>
+        <assignmentItems>
+            <assignToReference>oldB2CCustomerList.Total_Sites__c</assignToReference>
+            <operator>AssignCount</operator>
+            <value>
+                <elementReference>recGet_OldB2CListSiteCount</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>recUpd_B2CCustomerList</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>... assign the count values to local variables.</description>
+        <name>asn_siteAndListCounts</name>
+        <label>Assign the Count Values</label>
+        <locationX>512</locationX>
+        <locationY>744</locationY>
+        <assignmentItems>
+            <assignToReference>siteCountCustomerList</assignToReference>
+            <operator>AssignCount</operator>
+            <value>
+                <elementReference>recGet_B2CListSiteCount</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>siteCountInstance</assignToReference>
+            <operator>AssignCount</operator>
+            <value>
+                <elementReference>recGet_B2CInstanceSiteCount</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>recGet_B2CCustomerList</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>... update the siteCount for the parent B2C CustomerList.</description>
+        <name>asn_updateSiteCount</name>
+        <label>Update the siteCount</label>
+        <locationX>744</locationX>
+        <locationY>1151</locationY>
+        <assignmentItems>
+            <assignToReference>b2cCustomerList.Total_Sites__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>siteCountCustomerList</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>upd_b2cCustomerList</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <description>... evaluate if the source / target B2C CustomerList IDs are different.</description>
+        <name>dec_areB2CCustomerListIDsDifferent</name>
+        <label>Are the CustomerList IDs Different?</label>
+        <locationX>504</locationX>
+        <locationY>1420</locationY>
+        <defaultConnector>
+            <targetReference>recGet_B2CInstance</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Are Same</defaultConnectorLabel>
+        <rules>
+            <name>dec_areB2CCustomerListIDsDifferentTrue</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Customer_List__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>$Record__Prior.Customer_List__c</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record__Prior.Customer_List__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>recGet_OldB2CCustomerList</targetReference>
+            </connector>
+            <label>Are Different</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>... evaluate the siteCount for the retrieved parent customerList.</description>
+        <name>dec_isB2CCustomerListSiteCountDifferent</name>
+        <label>Is the B2C CustomerList siteCount Different?</label>
+        <locationX>504</locationX>
+        <locationY>1155</locationY>
+        <defaultConnector>
+            <targetReference>dec_areB2CCustomerListIDsDifferent</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Is Not Different</defaultConnectorLabel>
+        <rules>
+            <name>dec_isB2CCustomerListSiteCountDifferentTrue</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>b2cCustomerList.Total_Sites__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>siteCountCustomerList</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>asn_updateSiteCount</targetReference>
+            </connector>
+            <label>Is Different</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>... evaluate the siteCount for the retrieved parent instance.</description>
+        <name>dec_isB2CInstanceSiteCountDifferent</name>
+        <label>Is the B2C Instance siteCount Different?</label>
+        <locationX>504</locationX>
+        <locationY>1869</locationY>
+        <defaultConnectorLabel>Is Not Different</defaultConnectorLabel>
+        <rules>
+            <name>dec_isB2CInstanceSiteCountDifferentTrue</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>recGet_B2CInstance.Total_Sites__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>siteCountInstance</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>recUpd_parentInstance</targetReference>
+            </connector>
+            <label>Is Different</label>
+        </rules>
+    </decisions>
+    <description>... trigger the site count calculation with a Site is created or updated.</description>
+    <interviewLabel>B2C Commerce: Trigger: B2C Site: Update: Site Count Calculation {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>B2C Commerce: Trigger: B2C Site: Update: Site Count Calculation</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <description>... retrieve the parent customerList</description>
+        <name>recGet_B2CCustomerList</name>
+        <label>Retrieve the parent CustomerList</label>
+        <locationX>512</locationX>
+        <locationY>945</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>dec_isB2CCustomerListSiteCountDifferent</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Customer_List__c</elementReference>
+            </value>
+        </filters>
+        <object>B2C_CustomerList__c</object>
+        <outputReference>b2cCustomerList</outputReference>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>Total_Sites__c</queriedFields>
+    </recordLookups>
+    <recordLookups>
+        <description>... retrieve the parent B2C Instance for a given Site.</description>
+        <name>recGet_B2CInstance</name>
+        <label>Retrieve the Parent B2C Instance</label>
+        <locationX>512</locationX>
+        <locationY>1656</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>dec_isB2CInstanceSiteCountDifferent</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.B2C_Instance_Id__c</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>B2C_Instance__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>... get the count of sites for the parent B2C Instance</description>
+        <name>recGet_B2CInstanceSiteCount</name>
+        <label>Get the B2C Instance Site Count</label>
+        <locationX>512</locationX>
+        <locationY>547</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>asn_siteAndListCounts</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>B2C_Instance_Id__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.B2C_Instance_Id__c</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>B2C_Site__c</object>
+        <queriedFields>Id</queriedFields>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>... get the count of sites for the parent customerList</description>
+        <name>recGet_B2CListSiteCount</name>
+        <label>Get the B2C CustomerList Site Count</label>
+        <locationX>512</locationX>
+        <locationY>356</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>recGet_B2CInstanceSiteCount</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Customer_List__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Customer_List__c</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>B2C_Site__c</object>
+        <queriedFields>Id</queriedFields>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>... retrieve the legacy-parent customerList</description>
+        <name>recGet_OldB2CCustomerList</name>
+        <label>Retrieve the legacy parent B2C CustomerList</label>
+        <locationX>273</locationX>
+        <locationY>1420</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>recGet_OldB2CListSiteCount</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record__Prior.Customer_List__c</elementReference>
+            </value>
+        </filters>
+        <object>B2C_CustomerList__c</object>
+        <outputReference>oldB2CCustomerList</outputReference>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>Total_Sites__c</queriedFields>
+    </recordLookups>
+    <recordLookups>
+        <description>... get the count of sites for the legacy B2C CustomerList</description>
+        <name>recGet_OldB2CListSiteCount</name>
+        <label>Get the Legacy B2C CustomerList Site Count</label>
+        <locationX>47</locationX>
+        <locationY>1420</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>asn_oldCListSiteCount</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Customer_List__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>oldB2CCustomerList.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>B2C_Site__c</object>
+        <queriedFields>Id</queriedFields>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordUpdates>
+        <description>... write the B2C Legacy CustomerList changes / siteCounts.</description>
+        <name>recUpd_B2CCustomerList</name>
+        <label>Update the Legacy B2C CustomerList</label>
+        <locationX>273</locationX>
+        <locationY>1656</locationY>
+        <connector>
+            <targetReference>recGet_B2CInstance</targetReference>
+        </connector>
+        <inputReference>oldB2CCustomerList</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <description>... assign the total siteCount for the parent instance.</description>
+        <name>recUpd_parentInstance</name>
+        <label>Update the parent Instance</label>
+        <locationX>513</locationX>
+        <locationY>2129</locationY>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.B2C_Instance_Id__c</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Total_Sites__c</field>
+            <value>
+                <elementReference>siteCountInstance</elementReference>
+            </value>
+        </inputAssignments>
+        <object>B2C_Instance__c</object>
+    </recordUpdates>
+    <recordUpdates>
+        <description>... apply the updated siteCount to the parent B2C CustomerList.</description>
+        <name>upd_b2cCustomerList</name>
+        <label>Update the Parent B2C CustomerList</label>
+        <locationX>744</locationX>
+        <locationY>1418</locationY>
+        <connector>
+            <targetReference>dec_areB2CCustomerListIDsDifferent</targetReference>
+        </connector>
+        <inputReference>b2cCustomerList</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>386</locationX>
+        <locationY>18</locationY>
+        <connector>
+            <targetReference>recGet_B2CListSiteCount</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Customer_List__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <object>B2C_Site__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+    <variables>
+        <description>... represents the parent B2C CustomerList</description>
+        <name>b2cCustomerList</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>B2C_CustomerList__c</objectType>
+    </variables>
+    <variables>
+        <description>... represents the legacy parent B2C CustomerList.</description>
+        <name>oldB2CCustomerList</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>B2C_CustomerList__c</objectType>
+    </variables>
+    <variables>
+        <description>... represents the count of sites for the parent customerList.</description>
+        <name>siteCountCustomerList</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+    </variables>
+    <variables>
+        <description>... represents the total number of sites for a parent instance.</description>
+        <name>siteCountInstance</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+    </variables>
+    <variables>
+        <description>... represents a count of sites for the legacy B2C CustomerList.</description>
+        <name>varOldB2CCustomerListSitesCount</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+        <value>
+            <numberValue>0.0</numberValue>
+        </value>
+    </variables>
+</Flow>

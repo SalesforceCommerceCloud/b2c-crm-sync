@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>B2C_CustomerList_Compact_Layout</fullName>
+    <fields>Name</fields>
+    <fields>B2C_Instance__c</fields>
+    <fields>B2C_Client_ID__c</fields>
+    <fields>Is_Active__c</fields>
+    <fields>Total_Sites__c</fields>
+    <label>B2C CustomerList Compact Layout</label>
+</CompactLayout>

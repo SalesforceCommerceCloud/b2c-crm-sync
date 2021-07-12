@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>52.0</apiVersion>
+    <description>... reset the ClientIDs for the selected CustomerList and Child Sites.</description>
+    <interviewLabel>B2C Commerce: Quick Action: CustomerList: Reset ClientIDs {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>B2C Commerce: Quick Action: B2C CustomerList: Sites: B2C ClientIDs: Reset</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Flow</processType>
+    <screens>
+        <description>... display to the user that the B2C CustomerList has been activated successfully.</description>
+        <name>screen_activateB2CCustomerListMessage</name>
+        <label>Display Activation Status for the B2C CustomerList</label>
+        <locationX>536</locationX>
+        <locationY>464</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <fields>
+            <name>lbl_resetB2CClientIDsHeader</name>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 14px;&quot;&gt;The B2C ClientIDs Have Been Reset for this CustomerList&apos;s Sites&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;The B2C ClientID values on this customerList&apos;s child Sites have been reset.  Please note that any integration features dependent on ClientIDs will no longer function.  Consider updating the customerList&apos;s Sites with a new ClientID value to re-enable dependent features.&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>lbl_activateB2CCustomerListId</name>
+            <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>sub_resetClientIDsForListAndSites.thisCustomerList.Id</elementReference>
+            </defaultValue>
+            <fieldText>B2C CustomerList ID</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>lbl_activateB2CCustomerListName</name>
+            <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>sub_resetClientIDsForListAndSites.thisCustomerList.Name</elementReference>
+            </defaultValue>
+            <fieldText>B2C CustomerList</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>lbl_numberOfSitesUpdatedClientID</name>
+            <dataType>Number</dataType>
+            <defaultValue>
+                <elementReference>sub_resetClientIDsForListAndSites.recOut_sitesRecordCount</elementReference>
+            </defaultValue>
+            <fieldText>Number of Sites Updated</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+            <scale>0</scale>
+        </fields>
+        <fields>
+            <name>lbl_footer</name>
+            <fieldText>&lt;p&gt;Please remember that any external service-calls to B2C Commerce dependent on the ClientID values attached to the CustomerList&apos;s Sites will require new ClientID values to function.  &lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <start>
+        <locationX>410</locationX>
+        <locationY>48</locationY>
+        <connector>
+            <targetReference>sub_resetClientIDsForListAndSites</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <subflows>
+        <description>... invoke a subflow to reset the ClientIDs for a given B2C CustomerList and its child Sites.</description>
+        <name>sub_resetClientIDsForListAndSites</name>
+        <label>Reset the ClientIDs for the B2C CustomerList and Sites</label>
+        <locationX>536</locationX>
+        <locationY>250</locationY>
+        <connector>
+            <targetReference>screen_activateB2CCustomerListMessage</targetReference>
+        </connector>
+        <flowName>B2CCommerce_B2CCustomerList_ListSitesClientIDReset</flowName>
+        <inputAssignments>
+            <name>recordId</name>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </inputAssignments>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </subflows>
+    <variables>
+        <description>... represents the recordId of the B2C Commerce CustomerList being activated.</description>
+        <name>recordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>... represents the updated B2C CustomerList.</description>
+        <name>varB2CCustomerList</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>B2C_CustomerList__c</objectType>
+    </variables>
+</Flow>

@@ -1,0 +1,55 @@
+{
+    "step-types": {
+        "script-module-step": [{
+            "@type-id": "custom.B2CCRMSync.SynchronizeCustomers",
+            "@supports-parallel-execution":"false",
+            "@supports-site-context":"true",
+            "@supports-organization-context":"false",
+            "description":"Synchronize customers through the B2C CRM Sync connector to the Salesforce Platform",
+            "module": "int_b2ccrmsync/cartridge/scripts/jobs/customers.js",
+            "function": "synchronize",
+            "transactional": "false",
+            "parameters": {
+                "parameters": [{
+                    "@name": "IsDisabled",
+                    "description": "Mark the step as disabled. This will skip the step and returns a OK status",
+                    "@type": "boolean",
+                    "@required": "false",
+                    "@trim": "true"
+                }, {
+                    "@name": "Query",
+                    "@type": "string",
+                    "@trim": "true",
+                    "@required": "false",
+                    "description": "The query to use to find profiles into the database. If none is provided, any profiles which have not already been synchronized will be queried (custom.b2ccrm_contactId = NULL)"
+                }, {
+                    "@name": "Limit",
+                    "@type": "long",
+                    "@required": "false",
+                    "@trim": "true",
+                    "min-value": "0",
+                    "default-value": "0",
+                    "description": "The number maximum of customer profiles to export. This allows to ensure the Salesforce Platform API limits are not exceed during the export."
+                }]
+            },
+            "status-codes": {
+                "status":  [{
+                    "@code": "SKIP",
+                    "description": "Used when the step is disabled."
+                }, {
+                    "@code": "NO_DATA",
+                    "description": "Used when there is no profiles to synchronize."
+                }, {
+                    "@code": "ERROR",
+                    "description": "Used when the step failed with an error."
+                }, {
+                    "@code": "PARTIAL",
+                    "description": "Used when some profiles failed to synchronize but not all of them."
+                }, {
+                    "@code": "OK",
+                    "description": "Used when the step finished successfully."
+                }]
+            }
+        }]
+    }
+}

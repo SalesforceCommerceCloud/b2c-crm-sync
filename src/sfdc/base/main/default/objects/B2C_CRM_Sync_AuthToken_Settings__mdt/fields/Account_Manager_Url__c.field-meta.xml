@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Account_Manager_Url__c</fullName>
+    <defaultValue>&quot;https://account.demandware.com&quot;</defaultValue>
+    <description>... represents the base url for B2C Commerce&apos;s Account Manager.</description>
+    <externalId>false</externalId>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <inlineHelpText>... represents the base url for B2C Commerce&apos;s Account Manager.</inlineHelpText>
+    <label>Account Manager Url</label>
+    <length>255</length>
+    <required>true</required>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

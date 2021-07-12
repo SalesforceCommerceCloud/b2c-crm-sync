@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QuickAction xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>... attempts to validate and verify that the JWT Certificate associated to the B2C Client ID exists and can be accessed.</description>
+    <flowDefinition>B2CCommerce_QuickAction_B2CClientID_VerifyCertificate</flowDefinition>
+    <label>Verify JWT Certificate</label>
+    <optionsCreateFeedItem>false</optionsCreateFeedItem>
+    <type>Flow</type>
+</QuickAction>

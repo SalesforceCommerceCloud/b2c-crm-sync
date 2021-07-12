@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Account_Manager_Token_Url__c</fullName>
+    <defaultValue>&quot;/dwsso/oauth2/access_token&quot;</defaultValue>
+    <description>... represents the urlSuffix used to request B2C Commerce REST API AuthTokens from Account Manager.</description>
+    <externalId>false</externalId>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <inlineHelpText>... represents the urlSuffix used to request B2C Commerce REST API AuthTokens from Account Manager.</inlineHelpText>
+    <label>Account Manager Token UrlSuffix</label>
+    <length>255</length>
+    <required>true</required>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

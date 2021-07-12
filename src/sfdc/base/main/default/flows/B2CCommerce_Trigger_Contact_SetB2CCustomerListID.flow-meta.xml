@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>52.0</apiVersion>
+    <assignments>
+        <description>... set the B2C CustomerList ID to align with the B2C CustomerList record relationship.</description>
+        <name>asn_setB2CCustomerListID</name>
+        <label>Set the B2C CustomerList ID</label>
+        <locationX>769</locationX>
+        <locationY>376</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.B2C_CustomerList_ID__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.B2C_CustomerList__r.Name</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>recUpd_setB2CCustomerListID</targetReference>
+        </connector>
+    </assignments>
+    <description>... set the B2C CustomerList ID value based on the parent B2C CustomerList relationship.</description>
+    <interviewLabel>B2C Commerce: Trigger: Contact: Set B2C CustomerList ID {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>B2C Commerce: Trigger: Contact: Set B2C CustomerList ID</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <description>... update the Contact and manually align the B2C CustomerList ID with its corresponding customerList value.</description>
+        <name>recUpd_setB2CCustomerListID</name>
+        <label>Update the Contact and Set the B2C CustomerList ID</label>
+        <locationX>769</locationX>
+        <locationY>544</locationY>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>643</locationX>
+        <locationY>80</locationY>
+        <connector>
+            <targetReference>asn_setB2CCustomerListID</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>B2C_CustomerList__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>B2C_CustomerList_ID__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <object>Contact</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

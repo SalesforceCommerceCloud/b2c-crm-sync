@@ -159,7 +159,7 @@ describe('Progressive resolution of a B2C Commerce Customer error scenarios via 
             resolveBody;
 
         // Default the expected customerList error message
-        customerListErrorMessage = 'The B2C CustomerList could not be verified.  Please verify the B2C CustomerList provided -- and try again.';
+        customerListErrorMessage = 'Unable to verify the B2C CustomerList.  Please check the properties of the sourceContact -- and try again.';
 
         // Create the initial Contact footprint
         sourceContact = {
@@ -230,7 +230,7 @@ describe('Progressive resolution of a B2C Commerce Customer error scenarios via 
             sfdcAuthCredentials, environmentDef, testContact);
 
         // Default the expected customerList error message
-        customerListErrorMessage = 'The AccountID provided is not associated to the specific Contact.  Please verify this relationship.';
+        customerListErrorMessage = 'The AccountID provided is not associated to the specific Contact.  Please verify this relationship -- and try again.';
 
         // Create the initial Contact footprint
         sourceContact = {
@@ -270,7 +270,7 @@ describe('Progressive resolution of a B2C Commerce Customer error scenarios via 
             sfdcAuthCredentials, environmentDef, testContact);
 
         // Default the expected customerList error message
-        customerListErrorMessage = 'Only Contacts with a B2C CustomerList can be processed.  Please provide a B2C CustomerList value and try again.';
+        customerListErrorMessage = 'Only Contacts with a B2C CustomerList can be processed.  Please provide a B2C CustomerList value -- and try again.';
 
         // Create the initial Contact footprint
         sourceContact = {
@@ -305,6 +305,9 @@ describe('Progressive resolution of a B2C Commerce Customer error scenarios via 
         // Default the output
         output = {};
 
+        // Update the testContact with a valid customerList
+        testContact.B2C_CustomerList_ID__c = customerListId;
+
         // First, attempt to create the account / contact relationship
         output.createResult = await _createAccountContactRelationship(
             sfdcAuthCredentials, environmentDef, testContact);
@@ -323,7 +326,7 @@ describe('Progressive resolution of a B2C Commerce Customer error scenarios via 
         };
 
         // Default the expected customerList error message
-        customerListErrorMessage = 'B2C Commerce Integration is Disabled for this B2C Instance, CustomerList, or Contact.  Please check the Salesforce Org configuration.';
+        customerListErrorMessage = 'B2C Commerce Integration is disabled for this B2C Instance, B2C CustomerList, or Contact.  Please check the Salesforce configuration -- and try again.';
 
         // Create the object to be included in the services body
         resolveBody = _getB2CContactProcessBody(sourceContact);
@@ -350,6 +353,9 @@ describe('Progressive resolution of a B2C Commerce Customer error scenarios via 
         // Default the output
         output = {};
 
+        // Update the testContact with a valid customerList
+        testContact.B2C_CustomerList_ID__c = customerListId;
+
         // First, attempt to create the account / contact relationship
         output.createResult = await _createAccountContactRelationship(
             sfdcAuthCredentials, environmentDef, testContact);
@@ -372,7 +378,7 @@ describe('Progressive resolution of a B2C Commerce Customer error scenarios via 
         };
 
         // Default the expected customerList error message
-        customerListErrorMessage = 'B2C Commerce Integration is Disabled for this B2C Instance, CustomerList, or Contact.  Please check the Salesforce Org configuration.';
+        customerListErrorMessage = 'B2C Commerce Integration is disabled for this B2C Instance, B2C CustomerList, or Contact.  Please check the Salesforce configuration -- and try again.';
 
         // Create the object to be included in the services body
         resolveBody = _getB2CContactProcessBody(sourceContact);
@@ -403,6 +409,9 @@ describe('Progressive resolution of a B2C Commerce Customer error scenarios via 
         // Default the output
         output = {};
 
+        // Update the testContact with a valid customerList
+        testContact.B2C_CustomerList_ID__c = customerListId;
+
         // First, attempt to create the account / contact relationship
         output.createResult = await _createAccountContactRelationship(
             sfdcAuthCredentials, environmentDef, testContact);
@@ -424,7 +433,7 @@ describe('Progressive resolution of a B2C Commerce Customer error scenarios via 
         };
 
         // Default the expected customerList error message
-        customerListErrorMessage = 'B2C Commerce Integration is Disabled for this B2C Instance, CustomerList, or Contact.  Please check the Salesforce Org configuration.';
+        customerListErrorMessage = 'B2C Commerce Integration is disabled for this B2C Instance, B2C CustomerList, or Contact.  Please check the Salesforce configuration -- and try again.';
 
         // Create the object to be included in the services body
         resolveBody = _getB2CContactProcessBody(sourceContact);

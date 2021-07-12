@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Integration_JSON__c</fullName>
+    <description>... describes the last OCAPI JSON response used to drive updates to a given B2C Commerce Customer definition.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>... describes the last OCAPI JSON response used to drive updates to a given B2C Commerce Customer definition.</inlineHelpText>
+    <label>Integration Response</label>
+    <length>64000</length>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackTrending>false</trackTrending>
+    <type>LongTextArea</type>
+    <visibleLines>5</visibleLines>
+</CustomField>

@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>52.0</apiVersion>
+    <assignments>
+        <description>... calculate the Account Name using the sourceContact First / Last Name.</description>
+        <name>asn_calculateAccountName_0</name>
+        <label>Calculate the Initial Account Name</label>
+        <locationX>196</locationX>
+        <locationY>618</locationY>
+        <assignmentItems>
+            <assignToReference>var_accountName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>fla_calculateAccountName</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>dec_areAccountNamesDifferent</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>... assign the default accountName to a local variable.</description>
+        <name>asn_defaultAccountName</name>
+        <label>Assign the Default Account Name</label>
+        <locationX>535</locationX>
+        <locationY>875</locationY>
+        <assignmentItems>
+            <assignToReference>var_accountName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>recGet_ConfigurationProfile.Default_Account_Name__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>dec_areAccountNamesDifferent</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>... assign the first / last names to local variables.</description>
+        <name>asn_FirstLastNameToVariables</name>
+        <label>Assign Names to Local Variables</label>
+        <locationX>196</locationX>
+        <locationY>392</locationY>
+        <assignmentItems>
+            <assignToReference>var_firstName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.FirstName</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>var_lastName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.LastName</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>asn_calculateAccountName_0</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <description>... evaluate if the calculated accountName and the assigned accountNames are dfferent.</description>
+        <name>dec_areAccountNamesDifferent</name>
+        <label>Are the Account Names Different?</label>
+        <locationX>188</locationX>
+        <locationY>877</locationY>
+        <defaultConnectorLabel>Are Same</defaultConnectorLabel>
+        <rules>
+            <name>decOut_accountNamesAreDifferent</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Account.Name</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>var_accountName</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>recUpd_parentAccountName</targetReference>
+            </connector>
+            <label>Are Different</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>... does the firstName and lastName exist on the sourceContact?</description>
+        <name>dec_firstNameLastNameExists</name>
+        <label>Does FirstName and LastName Exist?</label>
+        <locationX>527</locationX>
+        <locationY>393</locationY>
+        <defaultConnector>
+            <targetReference>DefaultConfiguration_GetRecord</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Do Not Exist</defaultConnectorLabel>
+        <rules>
+            <name>decOut_sourceContactFirstNameExists</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.FirstName</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.LastName</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>asn_FirstLastNameToVariables</targetReference>
+            </connector>
+            <label>Exists</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>... evaluate if the lastName is the default lastName as defined in the configuration settings.</description>
+        <name>dec_isLastNameTheDefaultLastName</name>
+        <label>Is the LastName the Default?</label>
+        <locationX>845</locationX>
+        <locationY>877</locationY>
+        <defaultConnectorLabel>LastName Is Not Default</defaultConnectorLabel>
+        <rules>
+            <name>decOut_lastNameIsDefaultLastName</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.LastName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>recGet_ConfigurationProfile.Default_Contact_Name__c</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>asn_defaultAccountName</targetReference>
+            </connector>
+            <label>LastName is Default</label>
+        </rules>
+    </decisions>
+    <description>... automates the assignment of the AccountName whenever a B2C Contact record is created or updated.</description>
+    <formulas>
+        <description>... simple formula used to calculate the Account Name for a child sourceContact.</description>
+        <name>fla_calculateAccountName</name>
+        <dataType>String</dataType>
+        <expression>TRIM(
+IF(ISBLANK({!var_firstName}), &quot;&quot;, {!var_firstName}) &amp;
+IF(ISBLANK({!var_lastName}), &quot;&quot;, &quot; &quot; &amp; {!var_lastName})
+)</expression>
+    </formulas>
+    <interviewLabel>B2C Commerce: Trigger: Set Account Name {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>B2C Commerce: Trigger: Contact: Set Account Name</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <description>... retrieve the defaultConfiguration for the current b2c-crm-sync instance.</description>
+        <name>DefaultConfiguration_GetRecord</name>
+        <label>Retrieve the Default Configuration</label>
+        <locationX>853</locationX>
+        <locationY>391</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>recGet_ConfigurationProfile</targetReference>
+        </connector>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>B2C_CRM_Sync_Default_Configuration__mdt</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>... retrieve the configuration profile currently being employed by b2c-crm-sync.</description>
+        <name>recGet_ConfigurationProfile</name>
+        <label>Retrieve the Configuration Profile</label>
+        <locationX>853</locationX>
+        <locationY>609</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>dec_isLastNameTheDefaultLastName</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>DefaultConfiguration_GetRecord.Active_Configuration__c</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>B2C_CRMSync_Setting__mdt</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordUpdates>
+        <description>... update the name of the Parent Account</description>
+        <name>recUpd_parentAccountName</name>
+        <label>Update the Parent Account</label>
+        <locationX>196</locationX>
+        <locationY>1115</locationY>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.AccountId</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Name</field>
+            <value>
+                <elementReference>var_accountName</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Account</object>
+    </recordUpdates>
+    <start>
+        <locationX>409</locationX>
+        <locationY>42</locationY>
+        <connector>
+            <targetReference>dec_firstNameLastNameExists</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>B2C_CustomerList__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>AccountId</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <object>Contact</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+    <variables>
+        <description>... represents the calculated Account Name.</description>
+        <name>var_accountName</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>... represents the Account record to update.</description>
+        <name>var_accountToUpdate</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Account</objectType>
+    </variables>
+    <variables>
+        <description>... represents the captured firstName from the sourceContact record.</description>
+        <name>var_firstName</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>... represents the lastName captured from the sourceContact.</description>
+        <name>var_lastName</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>... represents the target Account record that is a parent to the current Contact.</description>
+        <name>var_targetAccount</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Account</objectType>
+    </variables>
+</Flow>
