@@ -7,8 +7,6 @@
 @IsTest
 private class B2CProcessContactHelper_Test {
 
-
-
     /**
      * @see B2CProcessContactHelper.createPublishPlatformEvent
      * @description Helper method to exercise the creation of the publishPlatformEvent.  This validates that the
@@ -294,5 +292,183 @@ private class B2CProcessContactHelper_Test {
 
     }
 
+    /**
+     * @see B2CProcessContactHelper.processTrigger
+     * @description This test exercises the processContact trigger-logic and verifies that contact
+     * updates can be processed without throwing an error (these updates are exercised via our
+     * multi-cloud unit-tests).
+     */
+    @IsTest
+    static void testProcessTrigger() {
+
+        // Initialize local Variables
+        List<Contact> triggerNew;
+        List<Contact> triggerOld;
+        Contact newContact;
+        Contact oldContact;
+
+        // Initialize local variables
+        triggerNew = new List<Contact>();
+        triggerOld = new List<Contact>();
+        Boolean isSuccess = true;
+
+        // Create test-data to seed an active instance
+        B2C_Instance__c instance = new B2C_Instance__c(
+            Name = 'instance',
+            Is_Active__c = true,
+            API_Url__c = 'https://www.salesforce.com'
+        );
+
+        // Create the instance
+        Database.insert(instance);
+
+        // Create test-data to seed an active B2C Commerce CustomerList
+        B2C_CustomerList__c customerList = new B2C_CustomerList__c(
+            Name = 'customerList',
+            B2C_Instance__c = instance.Id,
+            Is_Active__c = true,
+            Enable_Profile_Publishing__c =true,
+            API_Url__c = 'https://www.salesforce.com'
+        );
+
+        // Create the customerList
+        Database.insert(customerList);
+
+        // Create the testAccount record
+        Account a = new Account(
+            Name = 'Anonymous Customer',
+            RecordTypeId = [
+                SELECT  Id
+                FROM    RecordType
+                WHERE   DeveloperName = :B2CConfigurationManager.getAccountRecordTypeDeveloperName()
+            ].Id
+        );
+
+        // Insert the test account record
+        Database.insert(a);
+
+        // Create the testContact record
+        Contact c = new Contact(
+            AccountId = a.Id,
+            FirstName = 'firstname',
+            LastName = 'lastname',
+            B2C_Customer_ID__c = 'abcd',
+            B2C_Customer_No__c = '123',
+            B2C_CustomerList__c = customerList.Id,
+            Email = 'a@a.com',
+            B2C_Is_Enabled__c = true,
+            B2C_Disable_Integration__c = false,
+            Updated_by_B2C_Platform_Event__c = false
+        );
+
+        // Insert the test contact record
+        Database.insert(c);
+
+        // Retrieve the full contact-details we need for processing
+        List<Contact> sourceContacts = new Query('Contact').selectAllFields().byId(c.Id).setLimit(1).run();
+        Contact sourceContact = sourceContacts.get(0);
+
+        // Clone the test contact and make updates
+        newContact = sourceContact.clone(true, true);
+        oldContact = sourceContact.clone(true, true);
+
+        Test.startTest();
+
+            // Update the contactRecord
+            newContact.Email = 'b@b.com';
+
+            // Add the new and old contacts to the working collections
+            triggerNew.add(newContact);
+            triggerOld.add(oldContact);
+
+            try {
+
+                // Process the trigger collections and reconcile the platformEvent updates
+                B2CProcessContactHelper.processTrigger(triggerNew, triggerOld);
+
+            } catch (Exception e) {
+
+                // Flag that an error was caught
+                isSuccess = false;
+
+            }
+
+        Test.stopTest();
+
+        // Validate that no error was thrown
+        System.assert(isSuccess, 'Expected no error to be caught; please review test results for more details');
+
+    }
+
+    /**
+     * @see B2CProcessContactHelper.processTrigger
+     * @description This test exercises the processContact trigger and verifies that contact
+     * updates can be processed without throwing an error (these updates are exercised via our
+     * multi-cloud unit-tests).
+     */
+    @IsTest
+    static void testProcess() {
+
+        // Initialize local variables
+        Boolean isSuccess = true;
+
+        // Create test-data to seed an active B2C Commerce CustomerList
+        B2C_CustomerList__c customerList = (B2C_CustomerList__c)TestDataFactory.createSObject(
+                'B2C_CustomerList__c', new Map<String,Object>{
+            'Name' => 'customerList',
+            'Is_Active__c' => true,
+            'API_Url__c' => 'https://www.salesforce.com',
+            'B2C_Instance__r.Is_Active__c' => true,
+            'B2C_Instance__r.API_Url__c' => 'https://www.salesforce.com',
+            'Enable_Profile_Publishing__c' => true
+        });
+
+        // Create the testAccount record
+        Account a = new Account(
+            Name = 'Anonymous Customer',
+            RecordTypeId = [
+                SELECT  Id
+                FROM    RecordType
+                WHERE   DeveloperName = :B2CConfigurationManager.getAccountRecordTypeDeveloperName()
+            ].Id
+        );
+
+        // Insert the test account record
+        Database.insert(a);
+
+        // Create the testContact record
+        Contact c = new Contact(
+            AccountId = a.Id,
+            LastName = 'lastname',
+            B2C_Customer_No__c = '123',
+            B2C_CustomerList__c = customerList.Id,
+            Email = 'a@a.com',
+            B2C_Disable_Integration__c = false
+        );
+
+        // Insert the test contact record
+        Database.insert(c);
+
+        Test.startTest();
+
+            try {
+
+                // Update a property on the Contact
+                c.Email = 'b@b.com';
+                Database.update(c);
+
+            } catch (Exception e) {
+
+                // Flag that an error was thrown
+                isSuccess = false;
+
+            }
+
+        Test.stopTest();
+
+        // Validate that no error was thrown
+        System.assert(isSuccess, 'Expected no error to be caught; please review test results for more details');
+
+    }
 
 }
