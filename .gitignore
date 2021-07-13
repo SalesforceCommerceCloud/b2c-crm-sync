@@ -98,3 +98,4 @@ $RECYCLE.BIN/
 # Ignore my test-deployment file
 **DeployTest.*
 .nyc_output
+connectedAppCredentials.json

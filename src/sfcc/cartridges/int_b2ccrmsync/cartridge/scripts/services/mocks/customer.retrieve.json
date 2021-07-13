@@ -1,23 +1,43 @@
-[
-    {
-        "actionName": "B2CContactResolve",
-        "errors": null,
-        "isSuccess": true,
-        "outputValues": {
-            "ContactListResolved": [
-                {
-                    "attributes": {
-                        "type": "Contact",
-                        "url": "/services/data/v50.0/sobjects/Contact/0031j00000sOaTQAA0"
-                    },
-                    "Id": "0031j00000sOaTQAA0",
-                    "LastName": "Doe",
-                    "Email": "jdoe@email.com"
-                }
-            ],
-            "errors": null,
-            "Flow__InterviewStatus": "Finished",
-            "isSuccess": true
-        }
-    }
-]
+[{
+	"actionName": "B2CContactResolve",
+	"errors": null,
+	"isSuccess": true,
+	"outputValues": {
+		"ResolutionCount": 1.0,
+		"Account": {
+			"attributes": {
+				"type": "Account",
+				"url": "/services/data/v52.0/sobjects/Account/0019E00001W1kNpQAJ"
+			},
+			"Id": "0019E00001W1kNpQAJ",
+			"Name": "Account Name Example",
+			"RecordTypeId": "0129E000000pNMFQA2",
+			"AccountSource": "Web",
+			"Type": "Customer - Direct"
+		},
+		"ErrorMessage": null,
+		"Flow__InterviewStatus": "Finished",
+		"Contact": {
+			"attributes": {
+				"type": "Contact",
+				"url": "/services/data/v52.0/sobjects/Contact/0039E00001HarCMQAZ"
+			},
+			"Id": "0039E00001HarCMQAZ",
+			"AccountId": "0019E00001W1kNpQAJ",
+			"B2C_CustomerList__c": "a049E000008enShQAI",
+			"B2C_CustomerList_ID__c": "RefArch",
+			"B2C_Customer_ID__c": "abAtnApePB13xFkkdvOhcR84uW",
+			"B2C_Customer_No__c": "00004001",
+			"FirstName": "John",
+			"LastName": "Doe",
+			"Email": "jdoe@example.com",
+			"B2C_Disable_Integration__c": false,
+			"B2C_Date_Last_Modified__c": "2021-07-13T13:02:49.000+0000",
+			"CreatedDate": "2021-07-13T13:02:48.000+0000",
+			"LastModifiedDate": "2021-07-13T13:02:52.000+0000",
+			"Audit_OCAPI_API_Response__c": false
+		},
+		"ResolvedContacts": null,
+		"isSuccess": true
+	}
+}]

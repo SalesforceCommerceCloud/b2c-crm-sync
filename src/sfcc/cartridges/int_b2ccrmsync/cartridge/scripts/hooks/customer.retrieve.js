@@ -50,14 +50,14 @@ function customerRetrieve(profileDetails, saveContactIdOnProfile) {
         var requestBody;
 
         if (areDetailsAnInstanceOfProfile) {
-            requestBody = profileModel.getRetrieveRequestBody();
+            requestBody = profileModel.getRequestBody();
         } else {
             if (!PROFILE_REQUIRED_KEYS.some(function (key) {
                 return profileDetails[key];
             })) {
                 return;
             }
-            requestBody = profileModel.getRetrieveRequestBody(profileDetails);
+            requestBody = profileModel.getRequestBody(profileDetails);
         }
 
         var ServiceMgr = require('../services/ServiceMgr');
@@ -81,7 +81,7 @@ function customerRetrieve(profileDetails, saveContactIdOnProfile) {
         }
 
         // The service returned a 20x response, but with no match on the given request body
-        if (!resultObject.outputValues || !resultObject.outputValues.ContactListResolved) {
+        if (!resultObject.outputValues || !resultObject.outputValues.ResolutionCount || resultObject.outputValues.ResolutionCount === 0) {
             LOGGER.error('No Salesforce Core record is matching the given request.');
             return;
         }
@@ -92,14 +92,14 @@ function customerRetrieve(profileDetails, saveContactIdOnProfile) {
         // In case the {saveContactIdOnProfile} flag is true and there is a customer authenticated
         // Then save the retrieved contact Id on the currently authenticated customer profile
         if (saveContactIdOnProfile && areDetailsAnInstanceOfProfile) {
-            var accountId = resultObject.outputValues.ContactListResolved[0].AccountId;
-            var contactId = resultObject.outputValues.ContactListResolved[0].Id;
+            var accountId = resultObject.outputValues.Account.Id;
+            var contactId = resultObject.outputValues.Contact.Id;
             profileModel.updateSyncResponseText(require('dw/util/StringUtils').format('Successfully retrieved from Salesforce Platform. Contact ID updated from "{0}" to "{1}"', profileDetails.custom.b2ccrm_contactId, contactId));
             profileModel.updateExternalId(accountId, contactId);
         }
 
         // Return the retrieve customer profile record from the Salesforce Platform
-        return resultObject.outputValues.ContactListResolved[0];
+        return resultObject.outputValues;
     } catch (e) {
         LOGGER.error('Error occurred while retrieving customer profile: {0}', e.message);
     }

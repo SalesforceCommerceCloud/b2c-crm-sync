@@ -8,7 +8,7 @@
  * @object {Class}
  * @typedef Order This class is used to manage B2C Customer profile and REST API orchestration
  * activities between B2C Commerce and the Salesforce Platform when an order is placed
- * @property {Function} getRetrieveRequestBody Builds up the request body for the retrieve REST API operation
+ * @property {Function} getRequestBody Builds up the request body for the REST API operation
  * @property {Function} getProcessRequestBody Builds up the request body for the retrieve REST API operation
  * @property {Function} updateStatus Save / write the integration status on the profile being interacted with
  * @property {Function} updateExternalId Update the AccountId and ContactId attributes from the Salesforce Platform
@@ -46,13 +46,12 @@ function Order(order) {
 }
 
 Order.prototype = {
-
     /**
-     * @description Builds up the request body for the process REST API operation
+     * @description Builds up the request body for the REST API operation
      *
-     * @returns {String} Returns the body used to invoke the B2CContactResolve service
+     * @returns {String} Returns the body used to invoke the service
      */
-    getProcessRequestBody: function () {
+    getRequestBody: function () {
         if (!this.profileRequestObjectRepresentation) { return undefined; }
         return JSON.stringify({
             inputs: [{

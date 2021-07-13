@@ -13,7 +13,6 @@ require('dw-api-mock/demandware-globals');
 const config = require(path.join(process.cwd(), 'src/sfcc/cartridges/int_b2ccrmsync/cartridge/scripts/b2ccrmsync.config'));
 config.services.auth = `http.${config.services.auth}`; // Prepend the 'http' prefix so that the dw-api-mock understands that this is a HTTP Service instance
 config.services.rest = `http.${config.services.rest}`; // Prepend the 'http' prefix so that the dw-api-mock understands that this is a HTTP Service instance
-const authMock = require(path.join(process.cwd(), 'src/sfcc/cartridges/int_b2ccrmsync/cartridge/scripts/services/mocks/auth'));
 const customerRetrieveMock = require(path.join(process.cwd(), 'src/sfcc/cartridges/int_b2ccrmsync/cartridge/scripts/services/mocks/customer.retrieve'));
 const Profile = require('dw-api-mock/dw/customer/Profile');
 
@@ -164,7 +163,7 @@ describe('int_b2ccrmsync/cartridge/scripts/hooks/customer.retrieve', function ()
             const result = customerRetrieveHook.retrieve(profile, true);
 
             expect(result).to.not.be.undefined;
-            expect(result).to.deep.equal(customerRetrieveMock[0].outputValues.ContactListResolved[0]);
+            expect(result).to.deep.equal(customerRetrieveMock[0].outputValues);
         });
 
         it('should call the rest service to retrieve the profile and update the profile custom attributes accordingly when sending an object as parameter', function () {
@@ -180,7 +179,7 @@ describe('int_b2ccrmsync/cartridge/scripts/hooks/customer.retrieve', function ()
             });
 
             expect(result).to.not.be.undefined;
-            expect(result).to.deep.equal(customerRetrieveMock[0].outputValues.ContactListResolved[0]);
+            expect(result).to.deep.equal(customerRetrieveMock[0].outputValues);
         });
     });
 });
