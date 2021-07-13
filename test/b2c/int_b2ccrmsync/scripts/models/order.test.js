@@ -109,10 +109,10 @@ describe('int_b2ccrmsync/cartridge/scripts/models/order', function () {
         spy && spy.restore();
     });
 
-    describe('getProcessRequestBody', function () {
+    describe('getRequestBody', function () {
         it('should return a stringified body of the order data sent within the model', function () {
             const order = new OrderModel(orderObj);
-            const result = order.getProcessRequestBody();
+            const result = order.getRequestBody();
             const parsedResult = JSON.parse(result);
 
             expect(result).to.not.be.null;
@@ -129,7 +129,7 @@ describe('int_b2ccrmsync/cartridge/scripts/models/order', function () {
             orderObj.custom.b2ccrm_accountId = undefined;
             orderObj.custom.b2ccrm_contactId = undefined;
             const order = new OrderModel(orderObj);
-            const result = order.getProcessRequestBody();
+            const result = order.getRequestBody();
             const parsedResult = JSON.parse(result);
 
             expect(result).to.not.be.null;
@@ -144,7 +144,7 @@ describe('int_b2ccrmsync/cartridge/scripts/models/order', function () {
 
         it('should return undefined when no order is given to the model', function () {
             const order = new OrderModel();
-            const result = order.getProcessRequestBody();
+            const result = order.getRequestBody();
 
             expect(result).to.be.undefined;
         });

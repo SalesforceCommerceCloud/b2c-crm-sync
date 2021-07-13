@@ -211,7 +211,7 @@ describe('int_b2ccrmsync/cartridge/scripts/hooks/order.process', function () {
             expect(order.custom.b2ccrm_syncResponseText.length).to.not.be.equal(0);
         });
 
-        it('should call the rest service to process the profile and update the profile custom attributes accordingly', function () {
+        it('should call the rest service to process the profile and update the order\'s custom attributes accordingly', function () {
             const site = getEnabledSite();
             requireStub['dw/system/Site'].getCurrent = sandbox.stub().returns(site);
             requireStub['../services/ServiceMgr'].callRestService = sandbox.stub().returns({
@@ -224,6 +224,23 @@ describe('int_b2ccrmsync/cartridge/scripts/hooks/order.process', function () {
             expect(order.custom.b2ccrm_syncResponseText.length).to.not.be.equal(0);
             expect(order.custom.b2ccrm_accountId).to.be.equal(customerProcessMock[0].outputValues.Contact.AccountId);
             expect(order.custom.b2ccrm_contactId).to.be.equal(customerProcessMock[0].outputValues.Contact.Id);
+        });
+
+        it('should call the rest service to process the profile and update the profile custom attributes accordingly in case the order is not a guest one', function () {
+            order = new Order(profile, 'jdoe@salesforce.com', 'Jane', 'Doe', 'bbbbbb', 'cccccc');
+            const site = getEnabledSite();
+            site.customPreferences.b2ccrm_syncCustomersFromGuestOrdersOnlyEnabled = false;
+            requireStub['dw/system/Site'].getCurrent = sandbox.stub().returns(site);
+            requireStub['../services/ServiceMgr'].callRestService = sandbox.stub().returns({
+                status: 'OK',
+                object: customerProcessMock
+            });
+            orderProcessHook.created(order);
+
+            expect(profile.custom.b2ccrm_syncStatus).to.be.equal('exported');
+            expect(profile.custom.b2ccrm_syncResponseText.length).to.not.be.equal(0);
+            expect(profile.custom.b2ccrm_accountId).to.be.equal(customerProcessMock[0].outputValues.Contact.AccountId);
+            expect(profile.custom.b2ccrm_contactId).to.be.equal(customerProcessMock[0].outputValues.Contact.Id);
         });
     });
 });

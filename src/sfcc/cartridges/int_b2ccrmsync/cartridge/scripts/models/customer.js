@@ -4,8 +4,7 @@
  * @object {Class}
  * @typedef Customer This class is used to manage B2C Customer profile and REST API orchestration
  * activities between B2C Commerce and the Salesforce Platform
- * @property {Function} getRetrieveRequestBody Builds up the request body for the retrieve REST API operation
- * @property {Function} getProcessRequestBody Builds up the request body for the retrieve REST API operation
+ * @property {Function} getRequestBody Builds up the request body for the REST API operation
  * @property {Function} updateStatus Save / write the integration status on the profile being interacted with
  * @property {Function} updateExternalId Update the AccountId and ContactId attributes from the Salesforce Platform
  * @property {Function} updateSyncResponseText Audit a given synchronization event with a message and timestamp
@@ -56,37 +55,20 @@ function Customer(profile) {
 }
 
 Customer.prototype = {
-
     /**
      * @memberOf Customer
-     * @function getRetrieveRequestBody
-     * @description Builds up the request body for the retrieve REST API operation
+     * @function getRequestBody
+     * @description Builds up the request body for the REST API operation
      *
      * @param {Object} profileDetails The profile details as raw object, overrides the {profile} from the
      * model in the generated request body if provided
-     * @returns {String} Returns the body used to invoke the B2CContactResolve service
-     */
-    getRetrieveRequestBody: function (profileDetails) {
-        if (!profileDetails && !this.profile) { return undefined; }
-        return JSON.stringify({
-            inputs: [{
-                ContactList: [profileDetails || this.profileRequestObjectRepresentation]
-            }]
-        });
-    },
-
-    /**
-     * @memberOf Customer
-     * @function getProcessRequestBody
-     * @description Builds up the request body for the process REST API operation
      *
-     * @returns {String} Returns the body to be used by the B2CContactProcess serviceRequest
+     * @returns {String} Returns the body to be used by the serviceRequest
      */
-    getProcessRequestBody: function () {
-        if (!this.profileRequestObjectRepresentation) { return undefined; }
+    getRequestBody: function (profileDetails) {
         return JSON.stringify({
             inputs: [{
-                sourceContact: this.profileRequestObjectRepresentation
+                sourceContact: profileDetails || this.profileRequestObjectRepresentation
             }]
         });
     },

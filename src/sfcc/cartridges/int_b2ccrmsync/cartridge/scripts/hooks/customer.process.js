@@ -107,7 +107,7 @@ function handleProcess(profile, action) {
     try {
         // Set the profile status, meaning that we start the export process
         profileModel.updateStatus('not_exported');
-        var requestBody = profileModel.getProcessRequestBody();
+        var requestBody = profileModel.getRequestBody();
         LOGGER.info('Exporting the customer profile to Salesforce core. Here is the request body: {0}', requestBody);
         var result = ServiceMgr.callRestService('customer', 'process', requestBody);
 
