@@ -91,7 +91,7 @@ private class B2CProcessContactHelper_Test {
         Test.startTest();
 
             // Attempt to create the publish platformEvent
-            output = B2CProcessContactHelper.createPublishPlatformEvent(contactInput, jsonString);
+            output = EventBus.publish(B2CProcessContactHelper.createPublishPlatformEvent(contactInput, jsonString));
 
         Test.stopTest();
 

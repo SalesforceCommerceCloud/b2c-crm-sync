@@ -29,12 +29,16 @@ public with sharing class B2CProcessContactHelper extends B2CBaseAttributeAssign
         List<B2C_Integration_Field_Mappings__mdt> updatedFieldMappings;
         Map<String, Object> thisB2CProfile;
         String thisB2CProfileJSON;
+        List<B2C_Commerce_ProcessCustomerDetails__e> peCollection;
 
         // Get the fieldMappings for the customerProfile object
         fieldMappings = B2CMetaFieldMappings.getFieldMappingsForPublishing('Contact');
 
         // Only process the trigger if publish-friendly fieldMappings are found
         if (fieldMappings.size() > 0) {
+
+            // Initialize the platformEvent collection
+            peCollection = new List<B2C_Commerce_ProcessCustomerDetails__e>();
 
             // Initialize the instance maps
             instanceMap = new Map<String, B2C_Instance__c>();
@@ -95,11 +99,14 @@ public with sharing class B2CProcessContactHelper extends B2CBaseAttributeAssign
                     thisB2CProfileJSON = JSON.serializePretty(thisB2CProfile, true);
 
                     // Then create the Contact Publish Platform Event and override the publish JSON
-                    B2CProcessContactHelper.createPublishPlatformEvent(validateContactInput, thisB2CProfileJSON);
+                    peCollection.add(B2CProcessContactHelper.createPublishPlatformEvent(validateContactInput, thisB2CProfileJSON));
 
                 }
 
             }
+
+            // Publish the PE Collection if it contains at least one (1) record
+            if (peCollection.size() > 0) { EventBus.publish(peCollection); }
 
         }
 
@@ -248,13 +255,12 @@ public with sharing class B2CProcessContactHelper extends B2CBaseAttributeAssign
      * @param b2cProfileJSON {String} Represents the B2C Profile JSON to use for the publish event
      * @return {Database.SaveResult} Returns the processing / saveResults for the Platform Event created
      */
-    public static Database.SaveResult createPublishPlatformEvent(
+    public static B2C_Commerce_ProcessCustomerDetails__e createPublishPlatformEvent(
         B2CIAValidateContactInput validateContactInput, String b2cProfileJSON
     ) {
 
         // Initialize local variables
         B2C_Commerce_ProcessCustomerDetails__e thisPE;
-        Database.SaveResult peSaveResult;
 
         // Default the platform event
         thisPE = new B2C_Commerce_ProcessCustomerDetails__e();
@@ -271,12 +277,8 @@ public with sharing class B2CProcessContactHelper extends B2CBaseAttributeAssign
         thisPE.Process_Mode__c = validateContactInput.processMode;
         thisPE.B2C_Profile_Publish_JSON__c = b2cProfileJSON;
 
-        // Publish the Platform Event
-        peSaveResult = EventBus.publish(thisPE);
-
-        // Return the saveResult
-        return peSaveResult;
-
+        // Return the created platformEvent
+        return thisPE;
 
     }
 

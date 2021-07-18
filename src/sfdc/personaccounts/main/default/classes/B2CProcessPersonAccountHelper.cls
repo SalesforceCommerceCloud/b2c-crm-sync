@@ -33,6 +33,7 @@ public with sharing class B2CProcessPersonAccountHelper {
         List<B2C_Integration_Field_Mappings__mdt> publishFieldMappings;
         Map<String, Object> thisB2CProfile;
         String thisB2CProfileJSON;
+        List<B2C_Commerce_ProcessCustomerDetails__e> peCollection;
 
         // Get the fieldMappings for the customerProfile object
         contactFieldMappings = B2CMetaFieldMappings.getFieldMappingsForPublishing('Contact');
@@ -44,6 +45,9 @@ public with sharing class B2CProcessPersonAccountHelper {
             // Initialize the instance maps
             instanceMap = new Map<String, B2C_Instance__c>();
             customerListMap = new Map<String, B2C_CustomerList__c>();
+
+            // Initialize the platformEvent collection
+            peCollection = new List<B2C_Commerce_ProcessCustomerDetails__e>();
 
             // Create collections representing new / old personAccount records
             newPersonAccounts = triggerNew;
@@ -115,14 +119,16 @@ public with sharing class B2CProcessPersonAccountHelper {
                     thisB2CProfileJSON = JSON.serializePretty(thisB2CProfile, true);
 
                     // Then create the Contact Publish Platform Event and override the publish JSON
-                    B2CProcessContactHelper.createPublishPlatformEvent(validateContactInput, thisB2CProfileJSON);
+                    peCollection.add(B2CProcessContactHelper.createPublishPlatformEvent(validateContactInput, thisB2CProfileJSON));
 
                 }
 
             }
 
-        }
+            // Publish the PE Collection if it contains at least one (1) record
+            if (peCollection.size() > 0) { EventBus.publish(peCollection); }
 
+        }
 
     }
 
