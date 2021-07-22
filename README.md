@@ -905,15 +905,16 @@ npm run crm-sync:sf:auth:usercreds
 
 > The deployment of meta-data can take anywhere from 2-10 minutes.  Please be patient look to the console for updates on deployment status.
 
-
 ```bash
 npm run crm-sync:sf:org:deploy
 ```
 > You'll use this command to deploy b2c-crm-sync to both a scratchOrg or a Salesforce environment.  Deployments use [sfdx source deploy commands](https://developer.salesforce.com/docs/atlas.en-us.sfdx_cli_reference.meta/sfdx_cli_reference/cli_reference_force_source.htm) to deploy meta-data based on the orgModel employed (either `base` for Accounts / Contacts or `personaccounts` for PersonAccounts).
 
-The deploy process customizes specific pieces of meta-data (trustedSites, remoteSiteSettings, and duplicateRules) specifically for your B2C Commerce environment and org configuration -- and then deploys this meta-data with the rest of the application assets via sfdx commands.
+The deployment process customizes specific pieces of meta-data (trustedSites, remoteSiteSettings, and duplicateRules) specifically for your B2C Commerce environment and org configuration.  It then deploys this meta-data with the rest of the application assets via sfdx.
 
-> You can re-deploy meta-data using the `npm run crm-sync:sf:org:deploy` CLI command.  Before attempting a re-deploy, please remove the b2c-crm-sync **ConnectedApp** definitions from your target Salesforce Org.  This has to be done manually via Salesforce Setup.  
+:warning: Please note that running `crm-sync:sf:org:deploy` will purge the contents of the connectedApps, cspTrustedSites, duplicateRules, namedCredentials, and remoteSiteSettings meta-data folders.  We generate meta-data that leverages your B2C Commerce configuration details in this folder.
+
+> You can re-deploy meta-data using the `npm run crm-sync:sf:org:deploy` CLI command.  Before attempting a re-deploy, please remember that any customized meta-data will be removed from your environment.  This has to be done manually via Salesforce Setup.
 
 One the deployment process completes -- you should see a success message via the CLI.  
 
