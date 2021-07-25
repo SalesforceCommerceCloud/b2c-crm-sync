@@ -1,5 +1,5 @@
 <header>
-    <isinclude url="${URLUtils.url('OOBO-agentHeader')}" />
+    <isinclude url="${URLUtils.url('OOBO-AgentHeader', 'show-agentheader', request.httpParameterMap.get('show-agentheader').getStringValue())}" />
     <isinclude template="/components/header/skipNav" />
     <div class="header-banner slide-up d-none">
         <div class="container">

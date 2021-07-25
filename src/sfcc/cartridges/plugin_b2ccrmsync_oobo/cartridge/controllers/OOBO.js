@@ -8,7 +8,7 @@ var server = require('server');
  * For guest customers, PlaceHolder customer is used to establish an Auth between SC & CC. This is to create an agent session.
  * Once the auth is created, this PlaceHolder session is explicitly invalidated, but the agent context remains active.
  */
-server.get('agentHeader', server.middleware.include, function (req, res, next) {
+server.get('AgentHeader', server.middleware.include, function (req, res, next) {
 
     // Initialize local variables
     var URLUtils,
@@ -83,9 +83,11 @@ server.get('agentHeader', server.middleware.include, function (req, res, next) {
                 logoutUrl: URLUtils.url('Login-Logout').toString()
             }
         );
+
+        return next();
+
     }
 
-    return next();
 });
 
 module.exports = server.exports();

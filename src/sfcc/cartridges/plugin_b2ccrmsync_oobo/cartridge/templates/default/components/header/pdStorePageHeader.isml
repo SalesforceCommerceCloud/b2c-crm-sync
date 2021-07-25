@@ -1,5 +1,5 @@
 <header>
-    <isinclude url="${URLUtils.url('OOBO-agentHeader')}" />
+    <isinclude url="${URLUtils.url('OOBO-AgentHeader', 'show-agentheader', request.httpParameterMap.get('show-agentheader').getStringValue())}" />
     <isinclude template="/components/header/skipNav" />
     <isif condition="${pdict.regions.headerbanner}">
         <!-- Campaign Banner Component renders here -->
