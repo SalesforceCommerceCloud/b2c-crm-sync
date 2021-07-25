@@ -188,9 +188,9 @@ module.exports = {
      * @param {String} model The model of the service (ex. an authToken or customer)
      * @param {String} state The state of the service (ex. authing, process, or retrieving a customer)
      * @param {Object} requestBody The request body to send to the service
-     * @param {Boolean} bypassCache If true, then the authentication token will be retrieved from the
+     * @param {Boolean} [bypassCache] If true, then the authentication token will be retrieved from the
      * Salesforce Platform, not from the cache
-     * @param {Number} callCounter The variable that counts the calls we do, and so ensure we don't reach
+     * @param {Number} [callCounter] The variable that counts the calls we do, and so ensure we don't reach
      * the {maxServiceRetry} limit
      * @returns {Object} The serviceCall result that can be parsed and processed
      */

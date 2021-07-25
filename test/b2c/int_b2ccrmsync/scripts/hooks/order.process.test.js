@@ -100,7 +100,8 @@ const getEnabledSite = () => {
     site.customPreferences.b2ccrm_syncCustomersOnLoginEnabled = true;
     site.customPreferences.b2ccrm_syncCustomersOnLoginOnceEnabled = true;
     site.customPreferences.b2ccrm_syncCustomersFromOrdersEnabled = true;
-    site.customPreferences.b2ccrm_syncCustomersFromGuestOrdersOnlyEnabled = true;
+    site.customPreferences.b2ccrm_syncCustomersFromGuestOrdersEnabled = true;
+    site.customPreferences.b2ccrm_syncApplyProfileIDsToRegisteredOrdersEnabled = true;
     return site;
 };
 
@@ -142,7 +143,7 @@ describe('int_b2ccrmsync/cartridge/scripts/hooks/order.process', function () {
             expect(spy).to.have.not.been.called;
         });
 
-        it('should not do anything in case the B2C CRM Sync site preference is disabled', function () {
+        it('should not do anything in case the b2c-crm-sync site preference is disabled', function () {
             const site = require('dw-api-mock/dw/system/Site').getCurrent();
             site.customPreferences.b2ccrm_syncIsEnabled = false;
             site.customPreferences.b2ccrm_syncCustomersEnabled = false;
@@ -151,26 +152,25 @@ describe('int_b2ccrmsync/cartridge/scripts/hooks/order.process', function () {
 
             expect(spy).to.have.not.been.called;
         });
-
-        it('should not do anything in case the B2C CRM Sync orders site preference is disabled', function () {
+        it('should not do anything in case the b2c-crm-sync guest-orders site preference is disabled and the order is a guest-order', function () {
             const site = require('dw-api-mock/dw/system/Site').getCurrent();
-            site.customPreferences.b2ccrm_syncCustomersFromOrdersEnabled = false;
-            site.customPreferences.b2ccrm_syncCustomersFromGuestOrdersOnlyEnabled = false;
+            site.customPreferences.b2ccrm_syncCustomersFromOrdersEnabled = true;
+            site.customPreferences.b2ccrm_syncCustomersFromGuestOrdersEnabled = false;
             requireStub['dw/system/Site'].getCurrent = sandbox.stub().returns(site);
             orderProcessHook.created(order);
 
             expect(spy).to.have.not.been.called;
         });
-
-        it('should not do anything in case the order is tied to a profile that has already been synched', function () {
-            const site = getEnabledSite();
+        it('should not do anything in case the b2c-crm-sync PlatformID site preference is disabled and the order is a registered-order', function () {
+            order = new Order(profile, 'jdoe@salesforce.com', 'Jane', 'Doe');
+            const site = require('dw-api-mock/dw/system/Site').getCurrent();
+            site.customPreferences.b2ccrm_syncCustomersFromOrdersEnabled = true;
+            site.customPreferences.b2ccrm_syncApplyProfileIDsToRegisteredOrdersEnabled = false;
             requireStub['dw/system/Site'].getCurrent = sandbox.stub().returns(site);
-            order.profile = profile;
             orderProcessHook.created(order);
 
             expect(spy).to.have.not.been.called;
         });
-
         it('should fail to update the order if no auth token is found, or an error occur', function () {
             const site = getEnabledSite();
             requireStub['dw/system/Site'].getCurrent = sandbox.stub().returns(site);
@@ -180,8 +180,7 @@ describe('int_b2ccrmsync/cartridge/scripts/hooks/order.process', function () {
             expect(order.custom.b2ccrm_syncStatus).to.be.equal('failed');
             expect(order.custom.b2ccrm_syncResponseText.length).to.not.be.equal(0);
         });
-
-        it('should call the rest service to process the profile and fail silently if the service replies an error', function () {
+        it('should call the rest service to process the guest-order and fail silently if the service replies an error', function () {
             const site = getEnabledSite();
             requireStub['dw/system/Site'].getCurrent = sandbox.stub().returns(site);
             requireStub['../services/ServiceMgr'].callRestService = sandbox.stub().returns({
@@ -194,8 +193,7 @@ describe('int_b2ccrmsync/cartridge/scripts/hooks/order.process', function () {
             expect(order.custom.b2ccrm_syncStatus).to.be.equal('failed');
             expect(order.custom.b2ccrm_syncResponseText.length).to.not.be.equal(0);
         });
-
-        it('should call the rest service to process the profile and fail silently if the service OK but contains errors', function () {
+        it('should call the rest service to process the guest-order and fail silently if the service OK but contains errors', function () {
             const site = getEnabledSite();
             requireStub['dw/system/Site'].getCurrent = sandbox.stub().returns(site);
             let mockResponse = JSON.parse(JSON.stringify(customerProcessMock));
@@ -210,8 +208,7 @@ describe('int_b2ccrmsync/cartridge/scripts/hooks/order.process', function () {
             expect(order.custom.b2ccrm_syncStatus).to.be.equal('failed');
             expect(order.custom.b2ccrm_syncResponseText.length).to.not.be.equal(0);
         });
-
-        it('should call the rest service to process the profile and update the order\'s custom attributes accordingly', function () {
+        it('should call the rest service to process the guest-order and update the order\'s custom attributes accordingly', function () {
             const site = getEnabledSite();
             requireStub['dw/system/Site'].getCurrent = sandbox.stub().returns(site);
             requireStub['../services/ServiceMgr'].callRestService = sandbox.stub().returns({
@@ -225,11 +222,9 @@ describe('int_b2ccrmsync/cartridge/scripts/hooks/order.process', function () {
             expect(order.custom.b2ccrm_accountId).to.be.equal(customerProcessMock[0].outputValues.Contact.AccountId);
             expect(order.custom.b2ccrm_contactId).to.be.equal(customerProcessMock[0].outputValues.Contact.Id);
         });
-
-        it('should call the rest service to process the profile and update the profile custom attributes accordingly in case the order is not a guest one', function () {
+        it('should call the rest service to process the registered-order and update the order\'s custom attributes accordingly', function () {
             order = new Order(profile, 'jdoe@salesforce.com', 'Jane', 'Doe', 'bbbbbb', 'cccccc');
             const site = getEnabledSite();
-            site.customPreferences.b2ccrm_syncCustomersFromGuestOrdersOnlyEnabled = false;
             requireStub['dw/system/Site'].getCurrent = sandbox.stub().returns(site);
             requireStub['../services/ServiceMgr'].callRestService = sandbox.stub().returns({
                 status: 'OK',
@@ -237,10 +232,10 @@ describe('int_b2ccrmsync/cartridge/scripts/hooks/order.process', function () {
             });
             orderProcessHook.created(order);
 
-            expect(profile.custom.b2ccrm_syncStatus).to.be.equal('exported');
-            expect(profile.custom.b2ccrm_syncResponseText.length).to.not.be.equal(0);
-            expect(profile.custom.b2ccrm_accountId).to.be.equal(customerProcessMock[0].outputValues.Contact.AccountId);
-            expect(profile.custom.b2ccrm_contactId).to.be.equal(customerProcessMock[0].outputValues.Contact.Id);
+            expect(order.custom.b2ccrm_syncStatus).to.be.equal('applied_identifiers');
+            expect(order.custom.b2ccrm_syncResponseText.length).to.not.be.equal(0);
+            expect(order.custom.b2ccrm_accountId).to.be.equal(profile.custom.b2ccrm_accountId);
+            expect(order.custom.b2ccrm_contactId).to.be.equal(profile.custom.b2ccrm_contactId);
         });
     });
 });

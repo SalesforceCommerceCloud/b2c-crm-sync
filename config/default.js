@@ -470,7 +470,7 @@ module.exports = {
 
         // Describe the preference group to leverage
         "B2CCRMSync",
-        "B2CCRMSyncAssistedShopping"
+        "B2CCRMSyncOOBO"
 
     ],
 
@@ -485,12 +485,13 @@ module.exports = {
             "c_b2ccrm_syncCustomersOnLoginOnceEnabled": false,
             "c_b2ccrm_syncCustomersViaOCAPI": true,
             "c_b2ccrm_syncCustomersFromOrdersEnabled": true,
-            "c_b2ccrm_syncCustomersFromGuestOrdersOnlyEnabled": true,
+            "c_b2ccrm_syncCustomersFromGuestOrdersEnabled": true,
+            "c_b2ccrm_syncApplyProfileIDsToRegisteredOrdersEnabled": false,
             "c_b2ccrm_syncCustomersFromOrdersViaOCAPI": true
         },
 
         // Represents the configuration settings for OOBO
-        "B2CCRMSyncAssistedShopping": {
+        "B2CCRMSyncOOBO": {
             "c_b2ccrm_syncAgentHeaderIsEnabled": true
         }
 
@@ -735,7 +736,7 @@ module.exports = {
             },
 
             // Default the preferenceGroup for the OOBO configuration settings
-            "preferenceGroup": "B2CCRMSyncAssistedShopping"
+            "preferenceGroup": "B2CCRMSyncOOBO"
 
         },
 

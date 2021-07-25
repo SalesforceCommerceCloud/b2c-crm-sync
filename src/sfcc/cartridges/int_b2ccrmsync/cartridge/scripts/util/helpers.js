@@ -65,6 +65,7 @@ function sfdcContactIDIdentifierPresent(profile) {
 module.exports.expandJSON = expandJSON;
 module.exports.isIntegrationEnabled = isIntegrationEnabled;
 module.exports.sfdcContactIDIdentifierPresent = sfdcContactIDIdentifierPresent;
+
 /**
  * The SFCC Quota on number of entries within a set-of-string is 200, so ensure we never exceed it
  * @type {Number}
