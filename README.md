@@ -1286,15 +1286,67 @@ npm run crm-sync:test:use-cases
 
 > This CLI command will execute the multi-cloud unit tests designed to validate the Salesforce environment's duplicate management configuration, bi-directional customer profile synchronization between B2C Commerce and the Salesforce Platform, and progressive customer resolution scenarios.
 
-#### Database initialization considerations
+### Setup the Salesforce Connect Extras
+b2c-crm-sync includes extras that expose federated access to B2C Commerce Customer Addressbook contents via [Salesforce Connect](https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/platform_connect_about.htm).  This extra provides read and edit access to B2C Commerce Customer Addresses from within the Salesforce Platform.
 
-In case, when installing the b2c-crm-sync tool on your instances, you need to initialize the Salesforce Platform database with all the already-existing profiles from the Salesforce B2C Commerce platform, you can leverage multiple options here:
-1. Relying on the existing create / update hooks, which will synchronize the customer profiles at profile creation and update. This means the existing database won't be synchronized until the customer login again on the storefront and updates its profile
-2. On top of the first option, you can enable from the Custom Site Preferences the "first-login" synchronization, which will synchronize the customer profile at their first login after the deployment of the b2c-crm-sync tool. This allows you to transfer the profiles database to the Salesforce Org with only the customers which are involved in your website.
-3. The third option that can also be used is the `custom.B2CCRMSync.SynchronizeCustomers` job step. This job step can be configured to export the whole database of profiles from B2C Commerce to the Salesforce Org. This allows you to initialize the Salesforce Org database in one or multiple loads. This job step contains a Query parameter which allow you to specify which profiles to synchronise by providing an valid and executable query (see [documentation](https://documentation.b2c.commercecloud.salesforce.com/DOC2/topic/com.demandware.dochelp/DWAPI/scriptapi/html/api/class_dw_customer_CustomerMgr.html#dw_customer_CustomerMgr_searchProfiles_Map_String_DetailAnchor) for more details on what is a valid and executable query).
-   The query can contain two dynamic placeholders which allow dynamic timeframes: `_today` and `_now_`. This can be used to dynamically put the date and datetime from the job-step execution time. You can also provide dynamic values in the past, for example:
-- `_today_ -2` will dynamically use the date when the job run minus 2 days (starting at midnight)
-- `_now_ - 180` will dynamically use the date time when the job run minus 180 minutes
+:warning: &nbsp; [Salesforce Connect](https://help.salesforce.com/articleView?id=sf.platform_connect_about.htm&type=5) is a licensed capability that is available in scratch and developerOrgs.  Please check your production environment to ensure that Salesforce Connect has been licensed before deploying these extras.  We separate these components from the base deployment meta-data for this reason. &nbsp; :warning:
+
+> b2c-crm-sync exposes customer addressbook contents using [Custom Apex Adapters](https://help.salesforce.com/articleView?id=sf.apex_adapter_about.htm&type=5) that request address data from B2C Commerce and expose that data as [External Objects](https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_external_objects.htm) within the Salesforce Platform.  Developers can use this pattern to access B2C Commerce data via REST APIs exposed as External Objects.
+
+#### Deploy the Salesforce Connect Extras
+You can deploy the Salesforce Connect extras for both Accounts / Contacts and PersonAccounts via the following SFDX Commands:
+
+> Both Accounts & Contacts and PersonAccounts have their own distinct Salesforce Connect Addressbook implementations.  Please choose the implementation appropriate for your Salesforce Org. 
+
+__Deploy Salesforce Connect Extras for Accounts / Contacts__
+
+```bash 
+ sfdx force:source:deploy -p "src/sfdc/extras/sf-connect/base"
+```
+
+__Deploy Salesforce Connect Extras for PersonAccounts__
+
+```bash 
+ sfdx force:source:deploy -p "src/sfdc/extras/sf-connect/personaccounts"
+```
+
+#### Validate and Synchronize Salesforce Connect External Objects
+Salesforce External Objects must be initialized before they can be used within the Salesforce Org.  Please complete these instructions to initialize the external dataSource and enable the customer addressbook features of b2c-crm-sync.
+
+- Enter Setup. 
+- Search for `External Data Sources` via the quick-find search.
+- Select the `External Data Sources` menu option.
+- Verify that a dataSource named `B2C_Customer_Address_Book` is present in the list of external dataSources.
+- Click on the name `B2C_Customer_Address_Book` to view the dataSource details. 
+- From the details display, click on the `Validate and Sync` button.
+- From the `Validate External Data Source` display, confirm that the table name `B2C_CustomerAddress` is visible in the list of tableNames.
+- Check the `Select` checkbox to the left of the `B2C_CustomerAddress` tableName.
+- Click on the `Sync` button to trigger the External Data Source validation and synchronization process.
+
+> This action will attempt to verify the dataSource connection brokered by the addressBook data adapter included with b2c-crm-sync.  
+ 
+B2C Commerce Customer Addressbook data should become visible as a related list on Contact / PersonAccount records once the synchronization has been successfully completed.  Service Agents can view and edit address details.  Edits made from within the Salesforce Platform will synchronize back to B2C Commerce.
+
+> Partners and customers can leverage the extras code and meta-data assets as a template to access B2C Commerce data via Salesforce Connect / External Objects.
+
+### Synchronizing Existing B2C Commerce Customer Profile 
+
+Often, a Salesforce B2C Commerce customer will need to synchronize their B2C Commerce customer-base with their Salesforce Org.  Existing B2C Customer Profiles can be synchronized with the Salesforce Platform.  This can be accomplished by combining a number of different strategies:
+
+1. Customer profiles can be synchronized upon login, registration, and profile edit.  This means, however, that customers must authenticate against B2C Commerce in order to trigger synchronization. 
+   
+> b2c-crm-sync employs multiple custom site preferences to govern the enforcement of customer synchronization via the storefront and REST APIs.  
+
+2. The `custom.B2CCRMSync.SynchronizeCustomers` job step can be configured to incrementally export the entire database of customer profiles from B2C Commerce to the Salesforce Org. The job-step can be used to migrate B2C Commerce Customer Profiles to the Salesforce Org database in one or multiple loads.
+   
+- The jobStep supports a Query parameter representing which profiles to synchronize via a [valid and executable profile query](https://documentation.b2c.commercecloud.salesforce.com/DOC2/topic/com.demandware.dochelp/DWAPI/scriptapi/html/api/class_dw_customer_CustomerMgr.html#dw_customer_CustomerMgr_searchProfiles_Map_String_DetailAnchor).
+- The query can contain two dynamic placeholders which allow dynamic timeframes: `_today` and `_now_`. This can be used to dynamically generate the filter datetime from the job-step execution time.
+
+**Calculate the Filter Date for the Profile Query**
+> `_today_ -2` will calculate a filter-date by subtracting 2 days from the job's execution start date.  
+
+**Calculate the Filter Time for the Profile Query**
+> `_now_ -180` will calculate a filter-time by subtracting 180 minutes from the job's execution start time.
 
 #### What's Next?
 At this point, you should be in a position to 1) start exercising the integration or 2) [ask a question](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/discussions/new) or [log an issue](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/issues/new) if the installation and configuration didn't complete as expected.  Please share your experience with us. :grin:
