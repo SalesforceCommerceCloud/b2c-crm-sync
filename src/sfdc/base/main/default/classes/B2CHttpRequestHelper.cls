@@ -245,6 +245,10 @@ public with sharing class B2CHttpRequestHelper {
         // Initialize local variables
         HttpRequest req = new HttpRequest();
 
+        System.debug('--> apiUrl: ' + apiUrl);
+        System.debug('--> apiVersion: ' + apiVersion);
+        System.debug('--> ocapiSuffix: ' + ocapiSuffix);
+
         // Define the request properties
         req.setMethod(httpMethod.toUpperCase());
         req.setHeader('Content-Type', 'application/json; charset=UTF-8');

@@ -144,6 +144,7 @@ public with sharing class B2CDataSourceHelper {
         contactQuery.selectField('AccountId');
         contactQuery.selectField('B2C_Customer_No__c');
         contactQuery.selectField('B2C_CustomerList__r.Name');
+        contactQuery.selectField('B2C_CustomerList__r.Base_API_Url__c');
         contactQuery.selectField('B2C_CustomerList__r.API_Url__c');
         contactQuery.selectField('B2C_CustomerList__r.B2C_Client_ID__c');
         contactQuery.selectField('B2C_CustomerList__r.OCAPI_Version_No__c');

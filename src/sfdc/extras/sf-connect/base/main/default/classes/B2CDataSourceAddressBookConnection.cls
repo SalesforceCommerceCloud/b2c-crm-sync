@@ -175,7 +175,7 @@ global with sharing class B2CDataSourceAddressBookConnection extends DataSource.
 
         // Performs the patch request
         HttpRequest req = B2CHttpRequestHelper.getCustomerProfileAddressPatchRequest(
-            contact.B2C_CustomerList__r.API_Url__c,
+            contact.B2C_CustomerList__r.Base_API_Url__c,
             B2CAuthTokenHelper.getB2CAuthTokenByClientIDValue(contact.B2C_CustomerList__r.B2C_Client_ID__c, true),
             contact.B2C_CustomerList__r.OCAPI_Version_No__c,
             contact.B2C_CustomerList__r.Name,
@@ -216,7 +216,7 @@ global with sharing class B2CDataSourceAddressBookConnection extends DataSource.
         // Else, get all addresses for this customer
         if (!String.isEmpty(addressId)) {
             req = B2CHttpRequestHelper.getCustomerProfileAddressRequest(
-                contact.B2C_CustomerList__r.API_Url__c,
+                contact.B2C_CustomerList__r.Base_API_Url__c,
                 B2CAuthTokenHelper.getB2CAuthTokenByClientIDValue(contact.B2C_CustomerList__r.B2C_Client_ID__c, true),
                 contact.B2C_CustomerList__r.OCAPI_Version_No__c,
                 contact.B2C_CustomerList__r.Name,
@@ -225,7 +225,7 @@ global with sharing class B2CDataSourceAddressBookConnection extends DataSource.
             );
         } else {
             req = B2CHttpRequestHelper.getCustomerProfileAddressesRequest(
-                contact.B2C_CustomerList__r.API_Url__c,
+                contact.B2C_CustomerList__r.Base_API_Url__c,
                 B2CAuthTokenHelper.getB2CAuthTokenByClientIDValue(contact.B2C_CustomerList__r.B2C_Client_ID__c, true),
                 contact.B2C_CustomerList__r.OCAPI_Version_No__c,
                 contact.B2C_CustomerList__r.Name,
