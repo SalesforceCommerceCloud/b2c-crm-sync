@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Description__c</fullName>
+    <description>... represents a description or summary of how the specified B2C Client ID is used by B2C Commerce or the Salesforce Platform.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>... represents a description or summary of how the specified B2C Client ID is used by B2C Commerce or the Salesforce Platform.</inlineHelpText>
+    <label>Description</label>
+    <length>8000</length>
+    <trackFeedHistory>true</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
+</CustomField>

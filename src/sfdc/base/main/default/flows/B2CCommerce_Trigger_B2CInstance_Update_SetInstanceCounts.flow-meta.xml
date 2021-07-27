@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>52.0</apiVersion>
+    <assignments>
+        <description>... assign the total count of B2C CustomerLists for the parent Instance to a local variable.</description>
+        <name>asn_B2CCustomerListRecordCountInstance</name>
+        <label>Assign the B2C CustomerList Recordcount for the Instance</label>
+        <locationX>536</locationX>
+        <locationY>928</locationY>
+        <assignmentItems>
+            <assignToReference>varB2CInstanceCustomerListCount</assignToReference>
+            <operator>AssignCount</operator>
+            <value>
+                <elementReference>recGet_B2CInstanceCustomerLists</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>dec_haveSiteCountsChanged</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>... assign the total count of B2C Sites for the parent Instance to a local variable.</description>
+        <name>asn_B2CSitesRecordCountInstance</name>
+        <label>Assign the B2C Sites Recordcount for the Instance</label>
+        <locationX>536</locationX>
+        <locationY>712</locationY>
+        <assignmentItems>
+            <assignToReference>varB2CInstanceSiteCount</assignToReference>
+            <operator>AssignCount</operator>
+            <value>
+                <elementReference>recGet_B2CInstanceSites</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>asn_B2CCustomerListRecordCountInstance</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>... assign the updates site / customerList counts.</description>
+        <name>asn_updatedSiteCounts</name>
+        <label>Assign the Updated Counts</label>
+        <locationX>537</locationX>
+        <locationY>1397</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.Total_Sites__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>varB2CInstanceSiteCount</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>$Record.Total_CustomerLists__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>varB2CInstanceCustomerListCount</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <decisions>
+        <description>... evaluate if the siteCounts have changed for the current B2C Instance being evaluated.</description>
+        <name>dec_haveSiteCountsChanged</name>
+        <label>Have the Counts Changed?</label>
+        <locationX>528</locationX>
+        <locationY>1127</locationY>
+        <defaultConnectorLabel>Have Not Changed</defaultConnectorLabel>
+        <rules>
+            <name>dec_haveSiteCountsChangedTrue</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Total_CustomerLists__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>varB2CInstanceSiteCount</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Total_CustomerLists__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>varB2CInstanceCustomerListCount</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>asn_updatedSiteCounts</targetReference>
+            </connector>
+            <label>Have Changed</label>
+        </rules>
+    </decisions>
+    <description>... calculate the instanceCounts (including sites and customerLists) for a given customerList when it is created or updated.</description>
+    <interviewLabel>B2C Commerce: Trigger: B2C Instance: Update: Set Instance Counts {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>B2C Commerce: Trigger: B2C Instance: Update: Set Instance Counts</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <description>... retrieve the collection of B2C CustomerLists associated to the parent B2C Instance (establishing the total recordCount).</description>
+        <name>recGet_B2CInstanceCustomerLists</name>
+        <label>Get the Count of B2C CustomerLists for the Instance</label>
+        <locationX>536</locationX>
+        <locationY>509</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>asn_B2CSitesRecordCountInstance</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>B2C_Instance__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>IsDeleted</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>B2C_CustomerList__c</object>
+        <queriedFields>Id</queriedFields>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>... retrieves the collection of B2C Sites associated to the parent Instance.</description>
+        <name>recGet_B2CInstanceSites</name>
+        <label>Get the Count of B2C Sites for the B2C Instance</label>
+        <locationX>536</locationX>
+        <locationY>316</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>recGet_B2CInstanceCustomerLists</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>B2C_Instance_Id__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>IsDeleted</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>B2C_Site__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <start>
+        <locationX>410</locationX>
+        <locationY>47</locationY>
+        <connector>
+            <targetReference>recGet_B2CInstanceSites</targetReference>
+        </connector>
+        <object>B2C_Instance__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordBeforeSave</triggerType>
+    </start>
+    <status>Active</status>
+    <variables>
+        <description>... represents the count of B2C Sites for a given B2C CustomerList.</description>
+        <name>varB2CCustomerListSiteCount</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+    </variables>
+    <variables>
+        <description>... represents the count of B2C CustomerLists for the parent B2C Instance.</description>
+        <name>varB2CInstanceCustomerListCount</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+    </variables>
+    <variables>
+        <description>... represents the count of Sites for the entire B2C Instance.</description>
+        <name>varB2CInstanceSiteCount</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+    </variables>
+</Flow>

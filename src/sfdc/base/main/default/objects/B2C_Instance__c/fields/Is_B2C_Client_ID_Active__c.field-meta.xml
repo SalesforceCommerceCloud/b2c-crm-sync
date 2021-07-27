@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Is_B2C_Client_ID_Active__c</fullName>
+    <description>... describes if the B2C Client ID associated to a B2C Instance is active.</description>
+    <externalId>false</externalId>
+    <formula>B2C_Client_ID__r.Is_Active__c</formula>
+    <inlineHelpText>... describes if the B2C Client ID associated to a B2C Instance is active.</inlineHelpText>
+    <label>Is B2C Client ID Active</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

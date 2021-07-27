@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>B2C_Client_ID__c</fullName>
+    <deleteConstraint>Restrict</deleteConstraint>
+    <description>... represents the B2C ClientID that serves as the default for a given B2C Instance, its CustomerLists, and Sites.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>... represents the B2C ClientID that serves as the default for a given B2C Instance, its CustomerLists, and Sites.</inlineHelpText>
+    <label>B2C Client ID</label>
+    <referenceTo>B2C_Client_ID__c</referenceTo>
+    <relationshipLabel>B2C Sites</relationshipLabel>
+    <relationshipName>B2C_Sites</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

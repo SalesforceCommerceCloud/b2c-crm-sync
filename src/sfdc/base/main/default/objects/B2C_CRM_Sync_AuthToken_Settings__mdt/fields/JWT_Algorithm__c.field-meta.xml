@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>JWT_Algorithm__c</fullName>
+    <description>... represents the collection of algorithms to select from and specify in a JWT header when minting a JWT.</description>
+    <externalId>false</externalId>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <inlineHelpText>... represents the collection of algorithms to select from and specify in a JWT header when minting a JWT.</inlineHelpText>
+    <label>JWT SFDC Algorithm</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>RSA-SHA256</fullName>
+                <default>true</default>
+                <label>RSA-SHA256</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

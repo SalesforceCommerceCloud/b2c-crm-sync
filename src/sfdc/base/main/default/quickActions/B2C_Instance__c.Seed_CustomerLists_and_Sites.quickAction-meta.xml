@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QuickAction xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>... seeds the B2C Commerce CustomerLists and Sites associated to the selected B2C Instance.</description>
+    <flowDefinition>B2CCommerce_QuickAction_B2CInstance_CustomerListsSitesSeed</flowDefinition>
+    <label>Seed CustomerLists and Sites</label>
+    <optionsCreateFeedItem>false</optionsCreateFeedItem>
+    <type>Flow</type>
+</QuickAction>

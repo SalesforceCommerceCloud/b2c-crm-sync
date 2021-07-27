@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>B2C_Commerce_Attribute_Type__c</fullName>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>The type of the attribute within B2C Commerce. This list only contains the available types within the Salesforce Platform.</inlineHelpText>
+    <label>B2C Commerce Attribute Type</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>boolean</fullName>
+                <default>true</default>
+                <label>boolean</label>
+            </value>
+            <value>
+                <fullName>string</fullName>
+                <default>false</default>
+                <label>string</label>
+            </value>
+            <value>
+                <fullName>integer</fullName>
+                <default>false</default>
+                <label>integer</label>
+            </value>
+            <value>
+                <fullName>number</fullName>
+                <default>false</default>
+                <label>number</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

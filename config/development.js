@@ -219,7 +219,7 @@ module.exports = {
             },
 
             // Describe the preference group to leverage
-            "crmSyncOOBOSitePreferenceGroup": "B2CCRMSyncAssistedShopping",
+            "crmSyncOOBOSitePreferenceGroup": "B2CCRMSyncOOBO",
             "crmSyncSitePreferenceGroup": "B2CCRMSync",
 
             // Define the template used to reset SFDX properties in B2C Commerce
@@ -410,7 +410,7 @@ module.exports = {
             "ocapi": {
 
                 // Default the OCAPI test version number
-                "version": "v20_9",
+                "version": "v21_03",
 
                 // Default the site(s) to test with
                 "siteId": "RefArch",

@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <description>... validates the integration configuration for the selected Contact and returns configuration properties that indicate if integration can continue for the configured processMode.</description>
+        <name>ia_validateIntegrationConfiguration</name>
+        <label>Validate Integration Configuration</label>
+        <locationX>539</locationX>
+        <locationY>902</locationY>
+        <actionName>B2CIAValidateContact</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>asn_allowIntegrationProcessOutput</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>b2cInstance</name>
+            <value>
+                <elementReference>recGet_B2CInstance</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>contact</name>
+            <value>
+                <elementReference>var_sourceContact</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>customerList</name>
+            <value>
+                <elementReference>rec_b2cCustomerList</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>processMode</name>
+            <value>
+                <elementReference>var_processMode</elementReference>
+            </value>
+        </inputParameters>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </actionCalls>
+    <apiVersion>52.0</apiVersion>
+    <assignments>
+        <description>... assigns the IA output results to an output value for external consumption.</description>
+        <name>asn_allowIntegrationProcessOutput</name>
+        <label>Assign Integration Process Permission</label>
+        <locationX>539</locationX>
+        <locationY>1111</locationY>
+        <assignmentItems>
+            <assignToReference>out_allowIntegrationProcess</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>ia_validateIntegrationConfiguration.allowIntegrationProcess</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <description>... assign the errorMessage and success details describing that a B2C CustomerList was not found.</description>
+        <name>asn_b2cCustomerListNotFoundError</name>
+        <label>Define Error Message: B2C CustomerList Not Found</label>
+        <locationX>791</locationX>
+        <locationY>449</locationY>
+        <assignmentItems>
+            <assignToReference>var_isSuccess</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>var_errorMessage</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>The B2C CustomerList could not be verified.  Please verify the B2C CustomerList provided -- and try again.</stringValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <description>... assign the errorMessage and success details describing that a sourceContact was not provided.</description>
+        <name>asn_sourceContactNotProvidedError</name>
+        <label>Define Error Message: Source Contact Not Provided</label>
+        <locationX>792</locationX>
+        <locationY>204</locationY>
+        <assignmentItems>
+            <assignToReference>var_isSuccess</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>var_errorMessage</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>No sourceContact was provided to the integrationValidation flow; please provide a sourceContact and try again.</stringValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <decisions>
+        <description>... evaluate if a B2C CustomerList was retrieved using the ID specified</description>
+        <name>dec_wasB2CCustomerListProvided</name>
+        <label>Was a Valid B2C CustomerList Provided?</label>
+        <locationX>529</locationX>
+        <locationY>452</locationY>
+        <defaultConnector>
+            <targetReference>asn_b2cCustomerListNotFoundError</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Was Not Provided</defaultConnectorLabel>
+        <rules>
+            <name>decOut_wasProvided</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>rec_b2cCustomerList.Id</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>recGet_B2CInstance</targetReference>
+            </connector>
+            <label>Was Provided</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>... evaluate if the sourceContact was provided to this flow; throw an error if the sourceContact is null</description>
+        <name>dec_wasValidSourceContactProvided</name>
+        <label>Was a Valid sourceContact Provided?</label>
+        <locationX>528</locationX>
+        <locationY>207</locationY>
+        <defaultConnector>
+            <targetReference>asn_sourceContactNotProvidedError</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Was Not Provided</defaultConnectorLabel>
+        <rules>
+            <name>decOut_sourceContactWasProvided</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>var_sourceContact</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>dec_wasB2CCustomerListProvided</targetReference>
+            </connector>
+            <label>Was Provided</label>
+        </rules>
+    </decisions>
+    <description>... helper flow that evaluates the security configuration of the CustomerList, Instance, and specified Contact to determine is integration should be allowed for the sourceContact.</description>
+    <interviewLabel>B2C Commerce: Process: Allow Integration Helper {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>B2C Commerce: Process: Allow Integration Helper</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <description>... retrieve the B2C Instance that is a parent to the CustomerList.</description>
+        <name>recGet_B2CInstance</name>
+        <label>Retrieve the B2C Instance</label>
+        <locationX>539</locationX>
+        <locationY>698</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>ia_validateIntegrationConfiguration</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>rec_b2cCustomerList.B2C_Instance__c</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>B2C_Instance__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <start>
+        <locationX>410</locationX>
+        <locationY>48</locationY>
+        <connector>
+            <targetReference>dec_wasValidSourceContactProvided</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <variables>
+        <description>... describes if the current integrationProcess should be supported for the sourceContact provided.</description>
+        <name>out_allowIntegrationProcess</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
+    </variables>
+    <variables>
+        <description>... represents the B2C CustomerList being inspected for its integration configuration.</description>
+        <name>rec_b2cCustomerList</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+        <objectType>B2C_CustomerList__c</objectType>
+    </variables>
+    <variables>
+        <description>... represents any error message generated during processing</description>
+        <name>var_errorMessage</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <description>.. describes if the validation process was successful (true = completed successfully; false = an error was caught)</description>
+        <name>var_isSuccess</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
+    </variables>
+    <variables>
+        <description>... describes the process / operations mode informing how the contact will be processed.</description>
+        <name>var_processMode</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>... describes the sourceContact record being evaluated as part of the overall integration configuration.</description>
+        <name>var_sourceContact</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Contact</objectType>
+    </variables>
+</Flow>

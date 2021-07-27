@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomTab xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customObject>true</customObject>
+    <description>... represents the collection of B2C Client IDs that can be used to request authTokens from the B2C Commerce Account Manager.</description>
+    <motif>Custom9: Lightning</motif>
+</CustomTab>

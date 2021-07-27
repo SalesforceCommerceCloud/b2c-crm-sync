@@ -1,0 +1,693 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <description>... attempt to resolve the B2C Customer profile leveraging the Customer Resolution Invocable Action.</description>
+        <name>ia_resolveB2CCustomerProfile</name>
+        <label>Attempt to Resolve the B2C Customer Profile</label>
+        <locationX>852</locationX>
+        <locationY>710</locationY>
+        <actionName>B2CIACustomerResolution</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>dec_wasResolutionErrorCaught</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>contactList</name>
+            <value>
+                <elementReference>var_recColContactsToResolve</elementReference>
+            </value>
+        </inputParameters>
+        <outputParameters>
+            <assignToReference>var_recColResolvedContacts</assignToReference>
+            <name>contactList</name>
+        </outputParameters>
+        <outputParameters>
+            <assignToReference>var_resolutionErrorMessage</assignToReference>
+            <name>errorMessage</name>
+        </outputParameters>
+        <outputParameters>
+            <assignToReference>var_resolutionError</assignToReference>
+            <name>isError</name>
+        </outputParameters>
+    </actionCalls>
+    <apiVersion>52.0</apiVersion>
+    <assignments>
+        <description>... add the Contact to resolve to the collection being processed.</description>
+        <name>asn_contactToContactCollection</name>
+        <label>Create the Resolution Collection</label>
+        <locationX>852</locationX>
+        <locationY>504</locationY>
+        <assignmentItems>
+            <assignToReference>var_recColContactsToResolve</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>var_contactToResolve</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>ia_resolveB2CCustomerProfile</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>... capture an error message indicating that multiple Contact records were resolved.</description>
+        <name>asn_errorMultipleContacts</name>
+        <label>Error: Multiple Contacts Resolved</label>
+        <locationX>1320</locationX>
+        <locationY>1869</locationY>
+        <assignmentItems>
+            <assignToReference>var_errorMessage</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Multiple Contacts were resolved.  Please provide more precise resolution properties for the sourceContact -- and try again.</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>var_isSuccess</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <description>... no Contact was successfully resolved.</description>
+        <name>asn_errorNoContactResolved</name>
+        <label>Error: No Contact Was Resolved</label>
+        <locationX>858</locationX>
+        <locationY>2535</locationY>
+        <assignmentItems>
+            <assignToReference>var_isSuccess</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>var_errorMessage</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <stringValue>Resolution has completed successfully, but no Contacts were resolved.  Please try again.</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>var_resolvedContactCount</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <numberValue>0.0</numberValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <description>... update the success flag to denote that resolution was successful; a single contact was resolved.</description>
+        <name>asn_resolutionSuccessful</name>
+        <label>Resolution Was Successful</label>
+        <locationX>1324</locationX>
+        <locationY>2296</locationY>
+        <assignmentItems>
+            <assignToReference>var_isSuccess</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>var_resolvedContact</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>recGet_resolvedContact</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>var_resolvedContactCount</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <numberValue>1.0</numberValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <description>... capture the count of resolved Contacts driven by the Resolution action.</description>
+        <name>asn_ResolvedContactsCount</name>
+        <label>Capture the Count of Resolution Contacts</label>
+        <locationX>854</locationX>
+        <locationY>1655</locationY>
+        <assignmentItems>
+            <assignToReference>var_resolvedContactCount</assignToReference>
+            <operator>AssignCount</operator>
+            <value>
+                <elementReference>ContactFilterMatches_Subflow.ContactMatchesResult</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>var_resolvedContacts</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>var_recColResolvedContacts</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>dec_wasOneContactResolved</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>... assign the resolved Contact to the output variable for processing.</description>
+        <name>asn_resolvedContactToOutputVariable</name>
+        <label>Assign First Resolved Contact</label>
+        <locationX>1114</locationX>
+        <locationY>2036</locationY>
+        <assignmentItems>
+            <assignToReference>var_resolvedContact</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>loop_retrieveResolvedContact</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>loop_retrieveResolvedContact</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Error_Contact_Filter</name>
+        <label>Error: Contact Filter</label>
+        <locationX>1305</locationX>
+        <locationY>1402</locationY>
+        <assignmentItems>
+            <assignToReference>var_errorMessage</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <stringValue>An error occurred during Contact Filtering.  Please provide more precise resolution properties for the sourceContact -- and try again.</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>var_isSuccess</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>var_resolvedContacts</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>var_recColResolvedContacts</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <name>Error_No_Contact_Resolved</name>
+        <label>Error: No Contact Resolved</label>
+        <locationX>500</locationX>
+        <locationY>1870</locationY>
+        <assignmentItems>
+            <assignToReference>var_isSuccess</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>var_errorMessage</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>No Contacts were resolved.  Please provide more precise resolution properties for the sourceContact -- and try again.</stringValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <name>Error_Resolution_Exception</name>
+        <label>Error: Resolution Exception</label>
+        <locationX>1295</locationX>
+        <locationY>906</locationY>
+        <assignmentItems>
+            <assignToReference>var_errorMessage</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>var_resolutionErrorMessage</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>var_isSuccess</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>var_resolvedContacts</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>var_recColResolvedContacts</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <decisions>
+        <description>... evaluate if the resolvedContact has an ID value.</description>
+        <name>dec_doesResolvedContactHaveID</name>
+        <label>Does the Contact Have an ID?</label>
+        <locationX>849</locationX>
+        <locationY>2297</locationY>
+        <defaultConnector>
+            <targetReference>asn_errorNoContactResolved</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>No ContactID</defaultConnectorLabel>
+        <rules>
+            <name>decOut_hasContactID</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>var_resolvedContact.Id</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>recGet_resolvedContact</targetReference>
+            </connector>
+            <label>Has ContactID</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>... evaluate if QA Mode is enabled</description>
+        <name>dec_isQAModeEnabled</name>
+        <label>Is QA Mode Enabled?</label>
+        <locationX>843</locationX>
+        <locationY>255</locationY>
+        <defaultConnector>
+            <targetReference>asn_contactToContactCollection</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Enabled</defaultConnectorLabel>
+        <rules>
+            <name>decOut_qaModeIsEnabled</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>var_qaMode</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>sub_overwriteContactToResolve</targetReference>
+            </connector>
+            <label>Enabled</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>... evaluate if a single Contact was resolved</description>
+        <name>dec_wasOneContactResolved</name>
+        <label>Was Only One Contact Resolved?</label>
+        <locationX>846</locationX>
+        <locationY>1872</locationY>
+        <defaultConnector>
+            <targetReference>Error_No_Contact_Resolved</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>No Contacts</defaultConnectorLabel>
+        <rules>
+            <name>decOut_singleContactWasResolved</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>var_resolvedContactCount</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <numberValue>1.0</numberValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>loop_retrieveResolvedContact</targetReference>
+            </connector>
+            <label>Single Contact</label>
+        </rules>
+        <rules>
+            <name>decOut_multipleContactsResolved</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>var_resolvedContactCount</leftValueReference>
+                <operator>GreaterThan</operator>
+                <rightValue>
+                    <numberValue>1.0</numberValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>asn_errorMultipleContacts</targetReference>
+            </connector>
+            <label>Multiple Contacts</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>... check if a resolution error was caught (ex. duplicate rules are inactive or unavailable)</description>
+        <name>dec_wasResolutionErrorCaught</name>
+        <label>Was An Error Caught During Resolution?</label>
+        <locationX>844</locationX>
+        <locationY>910</locationY>
+        <defaultConnector>
+            <targetReference>ContactFilterMatches_Subflow</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>decOut_resolutionErrorWasCaught</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>var_resolutionError</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Error_Resolution_Exception</targetReference>
+            </connector>
+            <label>Error Was Caught</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Was_There_An_Error_In_Filtering</name>
+        <label>Was There An Error In Filtering?</label>
+        <locationX>845</locationX>
+        <locationY>1405</locationY>
+        <defaultConnector>
+            <targetReference>asn_ResolvedContactsCount</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>No Errors</defaultConnectorLabel>
+        <rules>
+            <name>There_Was_An_Error</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>ContactFilterMatches_Subflow.isSuccess</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Error_Contact_Filter</targetReference>
+            </connector>
+            <label>There Was An Error</label>
+        </rules>
+    </decisions>
+    <description>... encapsulates the Contact Resolution logic for re-use and implementation simplification.</description>
+    <interviewLabel>B2C Commerce: Process: Contact Resolution Helper {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>B2C Commerce: Process: Contact Resolution Helper</label>
+    <loops>
+        <description>... iterate over the collection of resolved Contacts to retrieve the specific / resolved Contact Record.</description>
+        <name>loop_retrieveResolvedContact</name>
+        <label>Iterate and Retrieve the Resolved Contact</label>
+        <locationX>856</locationX>
+        <locationY>2036</locationY>
+        <collectionReference>ContactFilterMatches_Subflow.ContactMatchesResult</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>asn_resolvedContactToOutputVariable</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>dec_doesResolvedContactHaveID</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <description>... retrieve the Contact and all of its properties for downstream use.</description>
+        <name>recGet_resolvedContact</name>
+        <label>Retrieve the Full Contact Details</label>
+        <locationX>1120</locationX>
+        <locationY>2296</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>asn_resolutionSuccessful</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>var_resolvedContact.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Contact</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <start>
+        <locationX>725</locationX>
+        <locationY>30</locationY>
+        <connector>
+            <targetReference>dec_isQAModeEnabled</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <subflows>
+        <description>... iterate over the collection of returnedResults and pick a winner driven by our resolutionRules.</description>
+        <name>ContactFilterMatches_Subflow</name>
+        <label>Filter Matches and Pick a Winner</label>
+        <locationX>853</locationX>
+        <locationY>1190</locationY>
+        <connector>
+            <targetReference>Was_There_An_Error_In_Filtering</targetReference>
+        </connector>
+        <flowName>B2CCommerce_Process_ContactFilterMatches</flowName>
+        <inputAssignments>
+            <name>Contact</name>
+            <value>
+                <elementReference>var_contactToResolve</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>ContactMatches</name>
+            <value>
+                <elementReference>var_recColResolvedContacts</elementReference>
+            </value>
+        </inputAssignments>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </subflows>
+    <subflows>
+        <description>... overwrite the contactToResolve value with the QA override.</description>
+        <name>sub_overwriteContactToResolve</name>
+        <label>Overwrite the Contact to Resolve</label>
+        <locationX>598</locationX>
+        <locationY>504</locationY>
+        <connector>
+            <targetReference>asn_contactToContactCollection</targetReference>
+        </connector>
+        <flowName>B2CCommerce_Process_QAModeHelper</flowName>
+        <inputAssignments>
+            <name>var_qaB2CCustomerID</name>
+            <value>
+                <elementReference>var_qaB2CCustomerID</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>var_qaB2CCustomerListID</name>
+            <value>
+                <elementReference>var_qaB2CCustomerListID</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>var_qaB2CCustomerNo</name>
+            <value>
+                <elementReference>var_qaB2CCustomerNo</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>var_qaEmailAddress</name>
+            <value>
+                <elementReference>var_qaEmailAddress</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>var_qaFirstName</name>
+            <value>
+                <elementReference>var_qaFirstName</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>var_qaLastName</name>
+            <value>
+                <elementReference>var_qaLastName</elementReference>
+            </value>
+        </inputAssignments>
+        <outputAssignments>
+            <assignToReference>var_contactToResolve</assignToReference>
+            <name>var_qaContact</name>
+        </outputAssignments>
+    </subflows>
+    <variables>
+        <description>... represents the B2C Commerce Contact to resolve.</description>
+        <name>var_contactToResolve</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Contact</objectType>
+    </variables>
+    <variables>
+        <description>... represents the errorMessage provided by the evaluation of Contact Resolution results.</description>
+        <name>var_errorMessage</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <description>... describes if the resolution activity was successful</description>
+        <name>var_isSuccess</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
+    </variables>
+    <variables>
+        <description>... represents the B2C Customer ID used to test the Customer Resolution sub-flow.</description>
+        <name>var_qaB2CCustomerID</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>... represents the B2C CustomerList ID used to test the Customer Resolution sub-flow.</description>
+        <name>var_qaB2CCustomerListID</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>... represents the B2C Customer No used to test the Customer Resolution sub-flow.</description>
+        <name>var_qaB2CCustomerNo</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>... represents a test / QA Contact to use when debugging this flow.</description>
+        <name>var_qaContact</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Contact</objectType>
+    </variables>
+    <variables>
+        <description>... represents the emailAddress used to test the Customer Resolution sub-flow.</description>
+        <name>var_qaEmailAddress</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>... represents the firstName used to test the Customer Resolution sub-flow.</description>
+        <name>var_qaFirstName</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>... represents the lastName used to test the Customer Resolution sub-flow.</description>
+        <name>var_qaLastName</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>... describes if the flow is in QA mode for testing / processing.</description>
+        <name>var_qaMode</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
+    </variables>
+    <variables>
+        <description>... represents the collection of B2C Commerce records to resolve.</description>
+        <name>var_recColContactsToResolve</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Contact</objectType>
+    </variables>
+    <variables>
+        <description>... represents the collection of resolvedContacts.</description>
+        <name>var_recColResolvedContacts</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Contact</objectType>
+    </variables>
+    <variables>
+        <description>... captures if a resolutionError occured.</description>
+        <name>var_resolutionError</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
+    </variables>
+    <variables>
+        <description>... represents the errorMessage caught during resolution.</description>
+        <name>var_resolutionErrorMessage</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>... represents the single Contact to resolve.</description>
+        <name>var_resolvedContact</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+        <objectType>Contact</objectType>
+    </variables>
+    <variables>
+        <description>... represents the total number of Contacts that were resolved.</description>
+        <name>var_resolvedContactCount</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+        <scale>0</scale>
+        <value>
+            <numberValue>0.0</numberValue>
+        </value>
+    </variables>
+    <variables>
+        <description>... represents the collection of resolvedContacts exposed by this flow.</description>
+        <name>var_resolvedContacts</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+        <objectType>Contact</objectType>
+    </variables>
+</Flow>

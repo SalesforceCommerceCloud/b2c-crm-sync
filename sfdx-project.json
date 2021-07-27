@@ -1,11 +1,19 @@
 {
-  "packageDirectories": [
-    {
-      "path": "src/sfdc/force-app",
-      "default": true
-    }
-  ],
-  "namespace": "",
-  "sfdcLoginUrl": "https://login.salesforce.com",
-  "sourceApiVersion": "50.0"
+    "packageDirectories": [
+        {
+            "path": "src/sfdc/base",
+            "default": true
+        },
+        {
+            "path": "src/sfdc/personaccounts",
+            "default": false
+        },
+        {
+            "path": "src/sfdc/extras/sf-connect/base",
+            "default": false
+        }
+    ],
+    "namespace": "",
+    "sfdcLoginUrl": "https://login.salesforce.com",
+    "sourceApiVersion": "52.0"
 }

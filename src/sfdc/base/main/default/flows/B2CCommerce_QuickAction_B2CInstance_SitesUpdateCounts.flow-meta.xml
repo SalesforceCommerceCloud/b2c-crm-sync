@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>52.0</apiVersion>
+    <assignments>
+        <description>... assign the recordCounts to the specific variables used to track B2C Site and B2C CustomerList recordCounts.</description>
+        <name>asn_B2CInstanceRecordCounts</name>
+        <label>Assign Record Counts</label>
+        <locationX>176</locationX>
+        <locationY>398</locationY>
+        <assignmentItems>
+            <assignToReference>varB2CCustomerListCount</assignToReference>
+            <operator>AssignCount</operator>
+            <value>
+                <elementReference>recGet_B2CCustomerListCount</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>varB2CSiteCount</assignToReference>
+            <operator>AssignCount</operator>
+            <value>
+                <elementReference>recGet_B2CSitesCount</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>recUpd_B2CInstanceCounts</targetReference>
+        </connector>
+    </assignments>
+    <description>... this flow will update the instance counts (B2C Sites and B2C CustomerLists) for the selected B2C Instance.</description>
+    <interviewLabel>B2C Commerce: Quick Action: Update B2C Instance Counts {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>B2C Commerce: Quick Action: Counts: B2C Instance Counts</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Flow</processType>
+    <recordLookups>
+        <description>... retrieves the count of B2C CustomerList for the specified B2C Instance.</description>
+        <name>recGet_B2CCustomerListCount</name>
+        <label>Get B2C CustomerList Count</label>
+        <locationX>176</locationX>
+        <locationY>278</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>asn_B2CInstanceRecordCounts</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>B2C_Instance__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>B2C_CustomerList__c</object>
+        <queriedFields>Id</queriedFields>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>... get the B2C Instance that&apos;s being reviewed / processed.</description>
+        <name>recGet_B2CInstance</name>
+        <label>Get B2C Instance</label>
+        <locationX>176</locationX>
+        <locationY>638</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>screen_UpdateB2CInstanceCounts</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>B2C_Instance__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>... retrieves the count of B2C Sites for the specified B2C Instance.</description>
+        <name>recGet_B2CSitesCount</name>
+        <label>Get B2C Site Count</label>
+        <locationX>176</locationX>
+        <locationY>158</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>recGet_B2CCustomerListCount</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>B2C_Instance_Id__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>B2C_Site__c</object>
+        <queriedFields>Id</queriedFields>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordUpdates>
+        <description>... update the B2C Instance counts for the selected B2C Instance.</description>
+        <name>recUpd_B2CInstanceCounts</name>
+        <label>Update B2C Instance Counts</label>
+        <locationX>176</locationX>
+        <locationY>518</locationY>
+        <connector>
+            <targetReference>recGet_B2CInstance</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Total_CustomerLists__c</field>
+            <value>
+                <elementReference>varB2CCustomerListCount</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Total_Sites__c</field>
+            <value>
+                <elementReference>varB2CSiteCount</elementReference>
+            </value>
+        </inputAssignments>
+        <object>B2C_Instance__c</object>
+    </recordUpdates>
+    <screens>
+        <description>... this screen displays at the end of this flow, and alerts the user that the flow has completed.</description>
+        <name>screen_UpdateB2CInstanceCounts</name>
+        <label>Update B2C Instance Counts</label>
+        <locationX>176</locationX>
+        <locationY>758</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <fields>
+            <name>lbl_B2CInstanceRecordCount_FlowComplete</name>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;color: rgb(0, 0, 0); font-size: 14px;&quot;&gt;The CustomerList and Site Counts Have Been Successfully Updated&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-size: 12px;&quot;&gt;The CustomerList and Site counts for the selected B2C Instance have been calculated and updated successfully.  Please check the Total Sites and Total CustomerList properties on the B2C Instance record to review these updates.&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>lbl_B2CInstanceName</name>
+            <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>recGet_B2CInstance.Name</elementReference>
+            </defaultValue>
+            <fieldText>B2C Instance Name</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>lbl_B2CInstanceTotalCustomerLists</name>
+            <dataType>Number</dataType>
+            <defaultValue>
+                <elementReference>recGet_B2CInstance.Total_CustomerLists__c</elementReference>
+            </defaultValue>
+            <fieldText>Total B2C CustomerLists</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+            <scale>0</scale>
+        </fields>
+        <fields>
+            <name>lbl_B2CInstanceTotalSites</name>
+            <dataType>Number</dataType>
+            <defaultValue>
+                <elementReference>recGet_B2CInstance.Total_Sites__c</elementReference>
+            </defaultValue>
+            <fieldText>Total B2C Sites</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+            <scale>0</scale>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>recGet_B2CSitesCount</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <variables>
+        <description>... represents the Id of the B2C CustomerList being processed.</description>
+        <name>recordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>... represents the count of B2C CustomerLists for the specific instance.</description>
+        <name>varB2CCustomerListCount</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+        <value>
+            <numberValue>0.0</numberValue>
+        </value>
+    </variables>
+    <variables>
+        <description>... represents the count of sites for the B2C Instance.</description>
+        <name>varB2CSiteCount</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+        <value>
+            <numberValue>0.0</numberValue>
+        </value>
+    </variables>
+</Flow>

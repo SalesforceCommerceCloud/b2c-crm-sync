@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>52.0</apiVersion>
+    <assignments>
+        <description>... attempt to create the name for the Account based on the existence of first / lastName on the source Contact.</description>
+        <name>asn_accountNameViaFormula</name>
+        <label>Assign the Account Name</label>
+        <locationX>182</locationX>
+        <locationY>830</locationY>
+        <assignmentItems>
+            <assignToReference>var_accountName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>fla_createAccountName</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>dec_wasAccountNameCalculated</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>... default the accountName using the configured default value.</description>
+        <name>asn_defaultAccountName</name>
+        <label>Default the Account Name</label>
+        <locationX>314</locationX>
+        <locationY>1070</locationY>
+        <assignmentItems>
+            <assignToReference>var_accountName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>var_defaultAccountName</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <description>... assign the firstName to a local variable so that it can be leveraged by a formula to calculate the accountName.</description>
+        <name>asn_firstNameToLocal</name>
+        <label>Assign FirstName to Local Variable</label>
+        <locationX>50</locationX>
+        <locationY>278</locationY>
+        <assignmentItems>
+            <assignToReference>var_firstName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sourceContact.FirstName</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>dec_lastNameExists</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>... assign the firstName to a local variable so that it can be leveraged by a formula to calculate the accountName.</description>
+        <name>asn_lastNameToLocal</name>
+        <label>Assign LastName to Local Variable</label>
+        <locationX>50</locationX>
+        <locationY>614</locationY>
+        <assignmentItems>
+            <assignToReference>var_lastName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sourceContact.LastName</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>asn_accountNameViaFormula</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <description>... does the firstName exist on the sourceContact</description>
+        <name>dec_firstNameExists</name>
+        <label>Does FirstName Exist?</label>
+        <locationX>182</locationX>
+        <locationY>158</locationY>
+        <defaultConnector>
+            <targetReference>dec_lastNameExists</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Does Not Exist</defaultConnectorLabel>
+        <rules>
+            <name>decOut_firstNameExists</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>sourceContact.FirstName</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>asn_firstNameToLocal</targetReference>
+            </connector>
+            <label>Exists</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>... does the lastName exist on the sourceContact</description>
+        <name>dec_lastNameExists</name>
+        <label>Does LastName Exist?</label>
+        <locationX>182</locationX>
+        <locationY>494</locationY>
+        <defaultConnector>
+            <targetReference>asn_accountNameViaFormula</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Does Not Exist</defaultConnectorLabel>
+        <rules>
+            <name>decOut_lastNameExists</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>sourceContact.LastName</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>asn_lastNameToLocal</targetReference>
+            </connector>
+            <label>Exists</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>... evaluate if an Account Name was successfully calculated -- or if a fallback is required.</description>
+        <name>dec_wasAccountNameCalculated</name>
+        <label>Was an Account Name Calculated?</label>
+        <locationX>182</locationX>
+        <locationY>950</locationY>
+        <defaultConnector>
+            <targetReference>asn_defaultAccountName</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Was not Calculated</defaultConnectorLabel>
+        <rules>
+            <name>decOut_accountNameWasCalculated</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>var_accountName</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <label>Was Calculated</label>
+        </rules>
+    </decisions>
+    <description>... this flow is used to abstract the incremental assignment of sourceContact attributes to a new Account object for future processing.</description>
+    <formulas>
+        <description>... this formula concatenates a first-pass as an accountName for the specified contact based on first / last name properties.</description>
+        <name>fla_createAccountName</name>
+        <dataType>String</dataType>
+        <expression>TRIM(
+IF(ISBLANK({!var_firstName}), &quot;&quot;, {!var_firstName}) &amp;
+IF(ISBLANK({!var_lastName}), &quot;&quot;, &quot; &quot; &amp; {!var_lastName})
+)</expression>
+    </formulas>
+    <interviewLabel>B2C Commerce: Account Assignment Helper {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>B2C Commerce: Process: Assignment Helper: Accounts</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>56</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>dec_firstNameExists</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <variables>
+        <description>... represents the source Contact to process.</description>
+        <name>sourceContact</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Contact</objectType>
+    </variables>
+    <variables>
+        <description>... represents the calculated variable used to describe the name of a given B2C Commerce Account.</description>
+        <name>var_accountName</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <description>... represents the default accountName to leverage when creating an Account.</description>
+        <name>var_defaultAccountName</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>... represents the Contact firstName used to describe the Account.</description>
+        <name>var_firstName</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>... represents the Contact lastName used to describe the parent Account.</description>
+        <name>var_lastName</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>

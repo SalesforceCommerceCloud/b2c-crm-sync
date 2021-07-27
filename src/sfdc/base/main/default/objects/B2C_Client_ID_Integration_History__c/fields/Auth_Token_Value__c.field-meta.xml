@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Auth_Token_Value__c</fullName>
+    <description>... represents the recorded B2C Commerce Account Manager AuthToken for a given authentication request.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>... represents the recorded B2C Commerce Account Manager AuthToken for a given authentication request.</inlineHelpText>
+    <label>Auth Token Value</label>
+    <length>255</length>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

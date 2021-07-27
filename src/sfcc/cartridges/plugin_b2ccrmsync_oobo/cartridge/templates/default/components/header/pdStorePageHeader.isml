@@ -1,0 +1,51 @@
+<header>
+    <isinclude url="${URLUtils.url('OOBO-AgentHeader', 'show-agentheader', request.httpParameterMap.get('show-agentheader').getStringValue())}" />
+    <isinclude template="/components/header/skipNav" />
+    <isif condition="${pdict.regions.headerbanner}">
+        <!-- Campaign Banner Component renders here -->
+        <isprint value="${pdict.regions.headerbanner.render()}" encoding="off"/>
+    </isif>
+    <nav role="navigation">
+        <div class="header container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="navbar-header brand">
+                        <a class="logo-home" href="${URLUtils.url('Home-Show')}" title="${ Resource.msgf('global.homepage.tooltip', 'common', null, Resource.msg('global.storename', 'common', null), Resource.msg('global.home', 'common', null)) }">
+                            <img class="hidden-md-down" src="${URLUtils.staticURL('/images/logo.svg')}" alt="${Resource.msg('global.storename', 'common', null)}" />
+                            <img class="d-lg-none" src="${URLUtils.staticURL('/images/logo-small.svg')}" alt="${Resource.msg('global.storename', 'common', null)}" />
+                        </a>
+                    </div>
+                    <div class="navbar-header">
+                        <div class="pull-left">
+                            <div class="hidden-md-down">
+                                <isinclude url="${URLUtils.url('Account-Header')}" />
+                                <isinclude url="${URLUtils.url('Page-Locale')}" />
+                            </div>
+                            <button class="navbar-toggler d-md-none" type="button" aria-controls="sg-navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                                &#9776; <span class="hidden-xs-down">Menu</span>
+                            </button>
+                        </div>
+                        <div class="pull-right">
+                            <div class="search hidden-xs-down">
+                                <isinclude template="components/header/search" />
+                            </div>
+                            <div class="minicart" data-action-url="${URLUtils.url('Cart-MiniCartShow')}">
+                                <isinclude url="${URLUtils.url('Cart-MiniCart')}" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="main-menu navbar-toggleable-sm menu-toggleable-left multilevel-dropdown d-none d-md-block" id="sg-navbar-collapse">
+            <div class="container">
+                <div class="row">
+                    <isinclude url="${URLUtils.url('Page-IncludeHeaderMenu')}"/>
+                </div>
+            </div>
+        </div>
+        <div class="search-mobile d-sm-none">
+            <isinclude template="components/header/search" />
+        </div>
+    </nav>
+</header>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Is_Certificate_Verified__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>... describes if the referenced certificate could be validated / verified.  Only B2C Client IDs with valid certificates can be used to request AuthTokens from the B2C Commerce Account Manager.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>... describes if the referenced certificate could be validated / verified.  Only B2C Client IDs with valid certificates can be used to request AuthTokens from the B2C Commerce Account Manager.</inlineHelpText>
+    <label>Is Certificate Verified</label>
+    <trackFeedHistory>true</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

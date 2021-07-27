@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Integration_JSON__c</fullName>
+    <description>... describes the last JSON response provided by the B2C Commerce Account Manager for a given authentication request.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>... describes the last JSON response provided by the B2C Commerce Account Manager for a given authentication request.</inlineHelpText>
+    <label>Integration JSON</label>
+    <length>64000</length>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackTrending>false</trackTrending>
+    <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
+</CustomField>

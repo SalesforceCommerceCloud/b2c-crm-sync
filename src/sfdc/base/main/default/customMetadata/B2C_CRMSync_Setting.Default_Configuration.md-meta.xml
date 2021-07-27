@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Default Configuration</label>
+    <protected>false</protected>
+    <values>
+        <field>Account_Contact_Model__c</field>
+        <value xsi:type="xsd:string">Standard</value>
+    </values>
+    <values>
+        <field>Account_Record_Type_Developername__c</field>
+        <value xsi:type="xsd:string">B2CBusinessAccount</value>
+    </values>
+    <values>
+        <field>Apply_B2CCustomerList_ClientIDToSites__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>B2C_CRM_Sync_AuthToken_Settings__c</field>
+        <value xsi:type="xsd:string">AM_Production</value>
+    </values>
+    <values>
+        <field>Default_Account_Name__c</field>
+        <value xsi:type="xsd:string">Unknown Customer</value>
+    </values>
+    <values>
+        <field>Default_Contact_Name__c</field>
+        <value xsi:type="xsd:string">Unknown</value>
+    </values>
+    <values>
+        <field>Duplicate_Alert_Email__c</field>
+        <value xsi:type="xsd:string">administrator@b2csa.salesforce.com</value>
+    </values>
+    <values>
+        <field>Enable_B2C_Process_Contact_Trigger__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>Enable_Client_ID_CertValidation_Trigger__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>OOBO_Customer_Number__c</field>
+        <value xsi:type="xsd:string">9999999</value>
+    </values>
+</CustomMetadata>

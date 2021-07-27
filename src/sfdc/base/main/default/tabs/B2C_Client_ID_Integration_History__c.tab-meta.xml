@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomTab xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customObject>true</customObject>
+    <description>.. represents the integration / authentication history for a given B2C Client ID vs. the B2C Commerce Account Manager -- and audits all authentication REST API requests.</description>
+    <motif>Custom9: Lightning</motif>
+</CustomTab>

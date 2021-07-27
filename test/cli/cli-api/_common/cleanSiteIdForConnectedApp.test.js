@@ -13,7 +13,7 @@ describe('Cleaning the SiteId for a ConnectedApp', function () {
     // Default the root siteValue that will be used in tests
     // noinspection SpellCheckingInspection
     const siteRootValue = '_01234abcd_';
-    const cleanedSiteRootValue = 'a01234abcd';
+    const cleanedSiteRootValue = 'x01234abcd';
 
     it('removes non alpha-numeric / underscore characters from the siteId', function () {
 
@@ -26,6 +26,8 @@ describe('Cleaning the SiteId for a ConnectedApp', function () {
 
         // Create the code-version summary
         output = cleanSiteIdForConnectedApp(siteId);
+
+        console.log(output, cleanedSiteRootValue);
 
         // Validate that the non-alpha numeric characters are removed from the siteId
         assert.equal(output, cleanedSiteRootValue, '-- expected all non alpha-numeric characters to be removed');
@@ -101,7 +103,6 @@ describe('Cleaning the SiteId for a ConnectedApp', function () {
         // Initialize local variables
         let siteId,
             output,
-            firstCharacter,
             validationResult;
 
         // Default the siteId used to validate this test
@@ -110,14 +111,11 @@ describe('Cleaning the SiteId for a ConnectedApp', function () {
         // Create the code-version summary
         output = cleanSiteIdForConnectedApp(siteId);
 
-        // Lastly, ensure the siteId begins with a letter
-        firstCharacter = output.substr(0, 1);
-
         // Search the cleaned siteId for two underscores
-        validationResult = (/[a-zA-Z]/).test(firstCharacter);
+        validationResult = new RegExp(/^[a-zA-Z]/).test(output);
 
         // Validate that the generated environment is returned as an object
-        assert.isTrue(validationResult, '-- expected the first character to be a string');
+        assert.isTrue(validationResult, '-- expected the first character to be a letter');
 
     });
 

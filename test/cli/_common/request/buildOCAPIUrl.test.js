@@ -18,7 +18,7 @@ describe('Building OCAPI Urls', function () {
 
         // Default the site / api-version to use
         siteId = 'RefArch';
-        apiVersion = 'v20_10';
+        apiVersion = 'v21_03';
 
         // Default the expected url
         expectedUrl = `/s/${siteId}/dw/shop/${apiVersion}/site`;
@@ -41,7 +41,7 @@ describe('Building OCAPI Urls', function () {
 
         // Default the site / api-version to use
         siteId = 'RefArch';
-        apiVersion = 'v20_10';
+        apiVersion = 'v21_03';
 
         // Default the expected url
         expectedUrl = `/s/-/dw/data/${apiVersion}/sites`;

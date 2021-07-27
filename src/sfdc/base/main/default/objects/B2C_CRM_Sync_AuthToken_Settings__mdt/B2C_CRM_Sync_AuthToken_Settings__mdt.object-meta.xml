@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>... represents the collection of configuration settings used to create digitally signed JWT tokens that can be redeemed for REST API AuthTokens via B2C Commerce&apos;s Account Manager.</description>
+    <label>B2C CRM Sync AuthToken Settings</label>
+    <pluralLabel>B2C CRM Sync AuthToken Settings</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>

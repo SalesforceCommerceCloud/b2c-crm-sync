@@ -68,7 +68,7 @@ describe('int_b2ccrmsync/cartridge/scripts/models/customer', function () {
         spy && spy.restore();
     });
 
-    describe('getRetrieveRequestBody', function () {
+    describe('getRequestBody', function () {
         it('should return a stringified body of the given profil details passed in parameters, when the model does no hold a profile', function () {
             const customer = new CustomerModel();
             const profileData = {
@@ -76,12 +76,12 @@ describe('int_b2ccrmsync/cartridge/scripts/models/customer', function () {
                 LastName: 'Doe',
                 FirstName: 'John'
             };
-            const result = customer.getRetrieveRequestBody(profileData);
+            const result = customer.getRequestBody(profileData);
             const parsedResult = JSON.parse(result);
 
             expect(result).to.not.be.null;
             expect(result).to.not.be.empty;
-            expect(parsedResult.inputs[0].ContactList[0]).to.deep.equal(profileData);
+            expect(parsedResult.inputs[0].sourceContact).to.deep.equal(profileData);
         });
 
         it('should return a stringified body of the given profil details passed in parameters, even if the model holds a profile', function () {
@@ -91,64 +91,17 @@ describe('int_b2ccrmsync/cartridge/scripts/models/customer', function () {
                 LastName: 'Doe',
                 FirstName: 'John'
             };
-            const result = customer.getRetrieveRequestBody(profileData);
+            const result = customer.getRequestBody(profileData);
             const parsedResult = JSON.parse(result);
 
             expect(result).to.not.be.null;
             expect(result).to.not.be.empty;
-            expect(parsedResult.inputs[0].ContactList[0]).to.deep.equal(profileData);
+            expect(parsedResult.inputs[0].sourceContact).to.deep.equal(profileData);
         });
 
         it('should return a stringified body of the profile data sent within the model', function () {
             const customer = new CustomerModel(profile);
-            const result = customer.getRetrieveRequestBody();
-            const parsedResult = JSON.parse(result);
-
-            expect(result).to.not.be.null;
-            expect(result).to.not.be.empty;
-            expect(parsedResult.inputs[0].ContactList[0]).to.deep.equal({
-                AccountId: profile.custom.b2ccrm_accountId,
-                Id: profile.custom.b2ccrm_contactId,
-                B2C_Customer_ID__c: profile.getCustomer().getID(),
-                B2C_Customer_No__c: profile.getCustomerNo(),
-                FirstName: profile.getFirstName(),
-                LastName: profile.getLastName(),
-                Email: profile.getEmail(),
-                B2C_CustomerList_ID__c: 'ID' // Default ID from the dw-api-mock
-            });
-        });
-
-        it('should return a stringified body of the profile data sent within the model, but without a contactId in case of first attempt', function () {
-            profile.custom.b2ccrm_contactId = undefined;
-            const customer = new CustomerModel(profile);
-            const result = customer.getRetrieveRequestBody();
-            const parsedResult = JSON.parse(result);
-
-            expect(result).to.not.be.null;
-            expect(result).to.not.be.empty;
-            expect(parsedResult.inputs[0].ContactList[0]).to.deep.equal({
-                AccountId: profile.custom.b2ccrm_accountId,
-                B2C_Customer_ID__c: profile.getCustomer().getID(),
-                B2C_Customer_No__c: profile.getCustomerNo(),
-                FirstName: profile.getFirstName(),
-                LastName: profile.getLastName(),
-                Email: profile.getEmail(),
-                B2C_CustomerList_ID__c: 'ID' // Default ID from the dw-api-mock
-            });
-        });
-
-        it('should return undefined when no profile is given to the model and no profile details within the method', function () {
-            const customer = new CustomerModel();
-            const result = customer.getRetrieveRequestBody();
-
-            expect(result).to.be.undefined;
-        });
-    });
-
-    describe('getProcessRequestBody', function () {
-        it('should return a stringified body of the profile data sent within the model', function () {
-            const customer = new CustomerModel(profile);
-            const result = customer.getProcessRequestBody();
+            const result = customer.getRequestBody();
             const parsedResult = JSON.parse(result);
 
             expect(result).to.not.be.null;
@@ -169,7 +122,7 @@ describe('int_b2ccrmsync/cartridge/scripts/models/customer', function () {
             profile.custom.b2ccrm_accountId = undefined;
             profile.custom.b2ccrm_contactId = undefined;
             const customer = new CustomerModel(profile);
-            const result = customer.getProcessRequestBody();
+            const result = customer.getRequestBody();
             const parsedResult = JSON.parse(result);
 
             expect(result).to.not.be.null;
@@ -184,11 +137,11 @@ describe('int_b2ccrmsync/cartridge/scripts/models/customer', function () {
             });
         });
 
-        it('should return undefined when no profile is given to the model', function () {
+        it('should return an empty input body when no profile is given to the model', function () {
             const customer = new CustomerModel();
-            const result = customer.getProcessRequestBody();
+            const result = customer.getRequestBody();
 
-            expect(result).to.be.undefined;
+            expect(result).to.equal('{"inputs":[{}]}');
         });
     });
 

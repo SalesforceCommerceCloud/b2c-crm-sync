@@ -1,0 +1,31 @@
+<header>
+    <isinclude url="${URLUtils.url('OOBO-AgentHeader', 'show-agentheader', request.httpParameterMap.get('show-agentheader').getStringValue())}" />
+    <isinclude template="/components/header/skipNav" />
+    <div class="header-banner slide-up d-none">
+        <div class="container">
+            <div class="d-flex justify-content-between">
+                <div></div>
+                <div class="content">
+                    <isslot id="header-banner-m" description="Slot above the site header" context="global" />
+                </div>
+                <div class="close-button">
+                    <button type="button" class="close" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <nav role="navigation">
+        <div class="header container">
+            <div class="col-12">
+                <div class="navbar-header brand row">
+                    <a class="logo-home" href="${URLUtils.url('Home-Show')}" title="${ Resource.msgf('global.homepage.tooltip', 'common', null, Resource.msg('global.storename', 'common', null), Resource.msg('global.home', 'common', null)) }">
+                        <img class="hidden-md-down" src="${URLUtils.staticURL('/images/logo.svg')}" alt="${Resource.msg('global.storename', 'common', null)}" />
+                        <img class="d-lg-none" src="${URLUtils.staticURL('/images/logo-small.svg')}" alt="${Resource.msg('global.storename', 'common', null)}" />
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>

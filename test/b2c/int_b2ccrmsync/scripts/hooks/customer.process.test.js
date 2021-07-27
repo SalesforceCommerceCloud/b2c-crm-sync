@@ -342,4 +342,77 @@ describe('int_b2ccrmsync/cartridge/scripts/hooks/customer.process', function () 
             expect(profile.custom.b2ccrm_contactId).to.be.equal(customerProcessMock[0].outputValues.Contact.Id);
         });
     });
+
+    describe('synchronized', function () {
+        it('should not do anything in case no profile is sent as parameter', function () {
+            customerProcessHook.synchronized();
+
+            expect(spy).to.have.not.been.called;
+        });
+
+        it('should not do anything in case the B2C CRM Sync site preference is disabled', function () {
+            const site = require('dw-api-mock/dw/system/Site').getCurrent();
+            site.customPreferences.b2ccrm_syncIsEnabled = false;
+            site.customPreferences.b2ccrm_syncCustomersEnabled = false;
+            requireStub['dw/system/Site'].getCurrent = sandbox.stub().returns(site);
+            customerProcessHook.synchronized(profile);
+
+            expect(spy).to.have.not.been.called;
+        });
+
+        it('should fail to update the profile if no auth token is found, or an error occur', function () {
+            const site = getEnabledSite();
+            requireStub['dw/system/Site'].getCurrent = sandbox.stub().returns(site);
+            customerProcessHook.synchronized(profile);
+
+            expect(spy).to.have.been.called;
+            expect(profile.custom.b2ccrm_syncStatus).to.be.equal('failed');
+            expect(profile.custom.b2ccrm_syncResponseText.length).to.not.be.equal(0);
+        });
+
+        it('should call the rest service to process the profile and fail silently if the service replies an error', function () {
+            const site = getEnabledSite();
+            requireStub['dw/system/Site'].getCurrent = sandbox.stub().returns(site);
+            requireStub['../services/ServiceMgr'].callRestService = sandbox.stub().returns({
+                status: 'ERROR',
+                error: 'error',
+                errorMessage: 'message'
+            });
+            customerProcessHook.synchronized(profile);
+
+            expect(profile.custom.b2ccrm_syncStatus).to.be.equal('failed');
+            expect(profile.custom.b2ccrm_syncResponseText.length).to.not.be.equal(0);
+        });
+
+        it('should call the rest service to process the profile and fail silently if the service OK but contains errors', function () {
+            const site = getEnabledSite();
+            requireStub['dw/system/Site'].getCurrent = sandbox.stub().returns(site);
+            let mockResponse = JSON.parse(JSON.stringify(customerProcessMock));
+            mockResponse[0].isSuccess = false;
+            mockResponse[0].errors = ['error1', 'error2'];
+            requireStub['../services/ServiceMgr'].callRestService = sandbox.stub().returns({
+                status: 'OK',
+                object: mockResponse
+            });
+            customerProcessHook.synchronized(profile);
+
+            expect(profile.custom.b2ccrm_syncStatus).to.be.equal('failed');
+            expect(profile.custom.b2ccrm_syncResponseText.length).to.not.be.equal(0);
+        });
+
+        it('should call the rest service to process the profile and update the profile custom attributes accordingly', function () {
+            const site = getEnabledSite();
+            requireStub['dw/system/Site'].getCurrent = sandbox.stub().returns(site);
+            requireStub['../services/ServiceMgr'].callRestService = sandbox.stub().returns({
+                status: 'OK',
+                object: customerProcessMock
+            });
+            customerProcessHook.synchronized(profile);
+
+            expect(profile.custom.b2ccrm_syncStatus).to.be.equal('exported');
+            expect(profile.custom.b2ccrm_syncResponseText.length).to.not.be.equal(0);
+            expect(profile.custom.b2ccrm_accountId).to.be.equal(customerProcessMock[0].outputValues.Contact.AccountId);
+            expect(profile.custom.b2ccrm_contactId).to.be.equal(customerProcessMock[0].outputValues.Contact.Id);
+        });
+    });
 });

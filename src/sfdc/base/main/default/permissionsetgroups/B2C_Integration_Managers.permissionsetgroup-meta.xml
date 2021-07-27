@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSetGroup xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>... represents the collection of permission sets required to manage the integration between B2C Commerce and Service Cloud.</description>
+    <label>B2C Integration Managers</label>
+    <permissionSets>B2C_CRM_JWT</permissionSets>
+    <permissionSets>B2C_CRM_SYNC</permissionSets>
+    <status>Updated</status>
+</PermissionSetGroup>

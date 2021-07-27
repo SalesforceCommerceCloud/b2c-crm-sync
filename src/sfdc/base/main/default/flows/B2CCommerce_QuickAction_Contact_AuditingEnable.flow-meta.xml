@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>52.0</apiVersion>
+    <assignments>
+        <description>... updates the key properties on the record selected which enable REST API auditing.</description>
+        <name>asn_enableB2CCommerceRESTAPIAuditing</name>
+        <label>Enable Auditing Assignment</label>
+        <locationX>176</locationX>
+        <locationY>278</locationY>
+        <assignmentItems>
+            <assignToReference>var_resolvedContact.Audit_OCAPI_API_Response__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>var_resolvedContact.Updated_by_B2C_Platform_Event__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>recUpd_B2CCommerceAuditing</targetReference>
+        </connector>
+    </assignments>
+    <description>... enables B2C Commerce OCAPI REST API auditing for the specified Contact.</description>
+    <interviewLabel>B2C Commerce: Quick Action: Contact Auditing Enable {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>B2C Commerce: Quick Action: Contact: Auditing Enable</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Flow</processType>
+    <recordUpdates>
+        <description>... enable auditing of B2C Commerce REST API interactions for this Contact</description>
+        <name>recUpd_B2CCommerceAuditing</name>
+        <label>Activate B2C Commerce Auditing</label>
+        <locationX>176</locationX>
+        <locationY>398</locationY>
+        <connector>
+            <targetReference>screen_B2CCommerceRESTAPIAuditingEnabled</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>var_resolvedContact.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Audit_OCAPI_API_Response__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Updated_by_B2C_Platform_Event__c</field>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </inputAssignments>
+        <object>Contact</object>
+    </recordUpdates>
+    <screens>
+        <description>... this screen is used to alert the user that REST API auditing for this Contact has been enabled.</description>
+        <name>screen_B2CCommerceRESTAPIAuditingEnabled</name>
+        <label>B2C Commerce REST API Auditing Enabled</label>
+        <locationX>176</locationX>
+        <locationY>518</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <fields>
+            <name>lbl_B2CRestAPIAuditingEnabled</name>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 14px;&quot;&gt;B2C Commerce REST API Auditing is Enabled for this Contact&lt;/b&gt;&lt;/p&gt;&lt;p&gt;The OCAPI REST API interactions used to retrieve and consume B2C Commerce Customer Profile updates and publish Contact changes to B2C Commerce Customer Profiles will now be audited for this contact.  The following Contact properties were updated to enable this feature:&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>lbl_contactName</name>
+            <extensionName>flowruntime:name</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>firstName</name>
+                <value>
+                    <elementReference>var_resolvedContact.FirstName</elementReference>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>lastName</name>
+                <value>
+                    <elementReference>var_resolvedContact.LastName</elementReference>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>readonly</name>
+                <value>
+                    <booleanValue>true</booleanValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>informalName</name>
+                <value>
+                    <elementReference>var_resolvedContact.Email</elementReference>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>salutation</name>
+                <value>
+                    <elementReference>var_resolvedContact.Salutation</elementReference>
+                </value>
+            </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+            <storeOutputAutomatically>true</storeOutputAutomatically>
+        </fields>
+        <fields>
+            <name>lbl_contactId</name>
+            <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>var_resolvedContact.Id</elementReference>
+            </defaultValue>
+            <fieldText>Contact ID</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>lbl_auditB2CCommerceOCAPIResponse</name>
+            <dataType>Boolean</dataType>
+            <defaultValue>
+                <elementReference>var_resolvedContact.Audit_OCAPI_API_Response__c</elementReference>
+            </defaultValue>
+            <fieldText>Audit B2C Commerce OCAPI Response</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>lbl_bypassB2CCommercePlatformEvent</name>
+            <dataType>Boolean</dataType>
+            <defaultValue>
+                <elementReference>var_resolvedContact.Updated_by_B2C_Platform_Event__c</elementReference>
+            </defaultValue>
+            <fieldText>Bypass B2C Commerce Platform Event</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>lbl_auditInstructions</name>
+            <fieldText>&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Please note that all audit entries can be viewed via the &lt;b&gt;Contact Integration History&lt;/b&gt; related list.   Unchecking the &lt;b&gt;Audit B2C Commerce OCAPI Response&lt;/b&gt; property will disable REST API auditing for this Contact.  &lt;b&gt;Bypass B2C Commerce Platform Event &lt;/b&gt;is an internal property used to prevent circular updates between B2C Commerce and the Salesforce Platform.  It must be unchecked to enable the publishing of Contact updates to B2C Commerce. &lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>sub_retrieveContactToProcess</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <subflows>
+        <description>... retrieve the Contact to Process.</description>
+        <name>sub_retrieveContactToProcess</name>
+        <label>Retrieve the Contact</label>
+        <locationX>176</locationX>
+        <locationY>158</locationY>
+        <connector>
+            <targetReference>asn_enableB2CCommerceRESTAPIAuditing</targetReference>
+        </connector>
+        <flowName>B2CCommerce_QuickAction_Contact_GetterHelper</flowName>
+        <inputAssignments>
+            <name>var_recordId</name>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </inputAssignments>
+        <outputAssignments>
+            <assignToReference>var_resolvedContact</assignToReference>
+            <name>var_resolvedContact</name>
+        </outputAssignments>
+    </subflows>
+    <variables>
+        <description>... represents the recordId of the Contact Record being processed.</description>
+        <name>recordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>... represents the Contact record that was retrieved / resolved.</description>
+        <name>var_resolvedContact</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Contact</objectType>
+    </variables>
+</Flow>

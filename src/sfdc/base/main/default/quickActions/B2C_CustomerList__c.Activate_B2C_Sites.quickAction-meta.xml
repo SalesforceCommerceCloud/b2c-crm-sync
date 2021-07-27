@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QuickAction xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>... activates the B2C Sites associated to a given B2C CustomerList.</description>
+    <flowDefinition>B2CCommerce_QuickAction_B2CCustomerList_SitesActivate</flowDefinition>
+    <label>Activate B2C Sites</label>
+    <optionsCreateFeedItem>false</optionsCreateFeedItem>
+    <type>Flow</type>
+</QuickAction>

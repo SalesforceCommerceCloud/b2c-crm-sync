@@ -50,6 +50,16 @@ describe('int_b2ccrmsync/cartridge/scripts/hooks/ocapi/shop.auth', function () {
             expect(spy).to.have.not.been.called;
         });
 
+        it('should not do anything in case the B2C CRM Sync site hook is not present in the codebase', function () {
+            const site = require('dw-api-mock/dw/system/Site').getCurrent();
+            site.customPreferences.b2ccrm_syncCustomersViaOCAPI = false;
+            requireStub['dw/system/Site'].getCurrent = sandbox.stub().returns(site);
+            requireStub['dw/system/HookMgr'].hasHook = sandbox.stub().returns(false);
+            shopAuthHook.afterPOST(customer);
+
+            expect(spy).to.have.not.been.called;
+        });
+
         it('should not do anything in case the customer is not authenticated', function () {
             const site = require('dw-api-mock/dw/system/Site').getCurrent();
             site.customPreferences.b2ccrm_syncCustomersViaOCAPI = false;
@@ -64,6 +74,7 @@ describe('int_b2ccrmsync/cartridge/scripts/hooks/ocapi/shop.auth', function () {
             const site = require('dw-api-mock/dw/system/Site').getCurrent();
             site.customPreferences.b2ccrm_syncCustomersViaOCAPI = true;
             requireStub['dw/system/Site'].getCurrent = sandbox.stub().returns(site);
+            requireStub['dw/system/HookMgr'].hasHook = sandbox.stub().returns(true);
             customer.authenticated = true;
             shopAuthHook.afterPOST(customer);
 

@@ -57,6 +57,7 @@ pids
 /.scratch
 /.jekyll-cache
 /_deploy
+/_jwt
 /node_modules
 
 # dotenv environment variables file
@@ -64,6 +65,7 @@ pids
 *.alt
 
 # Ignore dwupload config
+connections-source.json
 dw.json
 
 # MacOS system files
@@ -75,15 +77,20 @@ ehthumbs.db
 [Dd]esktop.ini
 $RECYCLE.BIN/
 
-# Ignore rendered sfdx meta-data templates (vs. the template)
-/src/sfdc/force-app/main/default/cspTrustedSites/
-/src/sfdc/force-app/main/default/remoteSiteSettings/
-/src/sfdc/force-app/main/default/namedCredentials/
-/src/sfdc/force-app/main/default/connectedApps/
+# Ignore rendered sfdx meta-data folders (vs. the template)
+/src/sfdc/base/main/default/certs/
+/src/sfdc/base/main/default/cspTrustedSites/
+/src/sfdc/base/main/default/remoteSiteSettings/
+/src/sfdc/base/main/default/namedCredentials/
+/src/sfdc/base/main/default/connectedApps/
+/src/sfdc/base/main/default/duplicateRules/
+/src/sfdc/personaccounts/main/default/duplicateRules/
+/src/sfdc/_templates/duplicateRules/_tmp/
 
 # Ignore the rendered connectedAppCredentails file
-/config-dx/connectedAppCredentials.json
+/config-dx/*.connectedAppCredentials.json
 /config-dx/*.ocapi.json
+/config-dx/*.jks.json
 
 # Ignore sfcc services.xml meta-data generated-files
 /src/sfcc/site-template/services.xml
@@ -91,3 +98,4 @@ $RECYCLE.BIN/
 # Ignore my test-deployment file
 **DeployTest.*
 .nyc_output
+connectedAppCredentials.json

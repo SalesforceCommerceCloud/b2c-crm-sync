@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QuickAction xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>... this action can be used to update the B2C CustomerList Site counts for the selected CustomerList.</description>
+    <flowDefinition>B2CCommerce_QuickAction_B2CCustomerList_SitesUpdateCount</flowDefinition>
+    <label>Update B2C Site Counts</label>
+    <optionsCreateFeedItem>false</optionsCreateFeedItem>
+    <type>Flow</type>
+</QuickAction>
