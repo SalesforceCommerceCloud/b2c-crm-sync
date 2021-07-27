@@ -1,13 +1,17 @@
 # Salesforce B2C Commerce / Customer 360 Platform Integration #
 
 ## Introduction ##
-Salesforce B2C Commerce / CRM Sync is an enablement solution designed by the Salesforce Architect Success Team to teach Salesforce's B2C Customer Data Strategy for multi-cloud use-cases.  The solution demonstrates a contemporary approach to the integration between Salesforce B2C Commerce and the Cloud products running on the Salesforce Customer 360 Platform.  This project provides a framework for integrating these clouds (ex. B2C Commerce and Service Cloud) -- leveraging REST APIs, and the declarative capabilities of the Salesforce Platform.  This approach powers frictionless customer experiences across B2C Commerce, Service, and Marketing Clouds by resolving and synchronizing customer profiles across these Salesforce products.
+Salesforce B2C Commerce / CRM Sync is an enablement solution designed by the Salesforce Architect Success Team to teach Salesforce's B2C Customer Data Strategy for multi-cloud use-cases.  The solution demonstrates a contemporary approach to the integration between Salesforce B2C Commerce and the Cloud products running on the Salesforce Customer 360 Platform.  
 
-> :warning: &nbsp;This repository is currently in it's **v0.9.0** release.  The MVP feature-set is complete, and you can now deploy b2c-crm-sync to scratchOrgs and sandboxes via its CLI tooling.  Solution trustworthiness is critical for our success.  Please visit our [issues-list](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/issues) to see outstanding issues and features, and visit our [discussions](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/discussions) to ask questions. &nbsp;:warning:
+b2c-crm-sync includes a framework for integrating these clouds (ex. B2C Commerce and Service Cloud) -- leveraging REST APIs and the declarative capabilities of the Salesforce Platform.  This approach powers frictionless customer experiences across B2C Commerce, Service, and Marketing Clouds by resolving and synchronizing customer profiles across these Salesforce products.
 
-![Introducing b2c-crm-sync](/docs/images/crm-sync.gif)
+> :100: &nbsp;This repository is currently in it's **v0.9.0** release.  The MVP feature-set is complete, and you can now deploy b2c-crm-sync to scratchOrgs and sandboxes via its CLI tooling.  Solution trustworthiness is critical for our success.  We'll tag this release in the upcoming days.  In the meantime, please feel free to deploy from master. &nbsp;:100:
 
-> That's correct.  If you have a B2C Commerce Sandbox and a [Salesforce Platform DevHub](https://trailhead.salesforce.com/content/learn/modules/sfdx_app_dev) -- you can get this integration setup in an hour your very first time implementing b2c-crm-sync.  Average deployment times for experienced developers and architects to a scratchOrg is 15 to 30 minutes.
+Please visit our [issues-list](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/issues) to see outstanding issues and features, and visit our [discussions](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/discussions) to ask questions.  
+
+![Introducing b2c-crm-sync](/docs/images/crm-sync.png)
+
+> That's correct.  If you have a B2C Commerce Sandbox and a [Salesforce Platform DevHub](https://trailhead.salesforce.com/content/learn/modules/sfdx_app_dev) -- you can get this integration setup in an hour your very first time implementing b2c-crm-sync.  Average deployment times for experienced developers and architects to a scratchOrg in under 60 minutes.
 
 ## Application Overview ##
 b2c-crm-sync enables the resolution, synchronization, viewing, and management of Salesforce B2C Commerce Customer Profiles within the Salesforce Platform as either Accounts / Contacts or Person Accounts.  The project serves as foundation for customized integration between B2C Commerce and the Salesforce Platform.  It is designed to teach the data strategy used to synchronize B2C Customer Profiles -- and extended to support multi-cloud use-cases between B2C Commerce, Marketing Cloud, and the Salesforce Platform (ex. Service, Sales, Loyalty Cloud, etc).
@@ -45,6 +49,8 @@ b2c-crm-sync supports the following extensible features (yes, you can customize 
 - Synchronization of registered Salesforce B2C Commerce customer profiles between the Salesforce Customer 360 Platform and Salesforce B2C Commerce in near real-time and via a scheduledJob managed by B2C Commerce
 - Order on Behalf of style Assisted Shopping for Customer Service Representatives configured and launched from within the Salesforce Platform
 - Federated Access to the B2C Commerce Customer Address Books of Registered B2C Commerce Customers via Salesforce Connect (requires Enterprise Edition)
+- Attribution of Salesforce Platform Account and Contact identifiers on Registered and Anonymous Orders placed via the Storefront
+- Headless Support for synchronization and order attributeion use-cases
 
 > We leverage [Salesforce SFDX for Deployment](https://trailhead.salesforce.com/content/learn/modules/sfdx_app_dev), [Flow for Automation](https://trailhead.salesforce.com/en/content/learn/modules/flow-builder), [Platform Events for Messaging](https://trailhead.salesforce.com/en/content/learn/modules/platform_events_basics), [Salesforce Connect for Data Federation](https://trailhead.salesforce.com/en/content/learn/projects/quickstart-lightning-connect), and [Apex Invocable Actions](https://trailhead.salesforce.com/en/content/learn/projects/quick-start-explore-the-automation-comps-sample-app) to support these features.  If you're a B2C Commerce Architect interested in learning how to integrate with the Salesforce Platform -- this is the project for you :)
 
@@ -205,10 +211,19 @@ A B2C Commerce Client ID is necessary to facilitate REST API authentication betw
 4. Enter a display name and a password. The password corresponds to the `B2C_CLIENTSECRET` environment variable that you'll set up in the next section.
 5. Specify your company's organization as the organization for this B2C Client ID.   
 6. Within the OpenID Connect section, please ensure to configure at least the following:
-    - Default Scopes: `mail`
-    - Allowed Scopes: `mail`, `roles`, `tenantFilter`, and `profile` (on separate lines)
-    - Token Endpoint Auth Method: `private_key_jwt`
-    - Access Token Format: `UUID`
+- Default Scopes: `mail`
+- Allowed Scopes:
+
+```log
+mail
+roles
+tennantFilter
+profile
+```
+
+- Token Endpoint Auth Method: `private_key_jwt`
+- Access Token Format: `UUID`
+
 7. Click the `Save` button to apply these changes to your ClientID's configuration.
 
 Re-open the ClientID page -- and keep it open until the last section of the setup.  You'll have to update the B2C Client ID configuration to include the JWT certificate you'll create later during setup.
@@ -1142,25 +1157,25 @@ sfdx force:apex:test:run -r json
 > The Apex unit-tests results will be displayed in JSON format at the beginning of the output results.  The result.summary object will contain the summary details of the test-run (example below).
 
 ```json
-"result": {
 "summary": {
-  "outcome": "Passed",
-  "testsRan": 299,
-  "passing": 299,
-  "failing": 0,
-  "skipped": 0,
-  "passRate": "100%",
-  "failRate": "0%",
-  "testStartTime": "Sat Jul 10 2021 9:30:24 PM",
-  "testExecutionTime": "80535 ms",
-  "testTotalTime": "80535 ms",
-  "commandTime": "516 ms",
-  "hostname": "https://momentum-flow-4224-dev-ed.cs97.my.salesforce.com/",
-  "orgId": "00D0U000000JsKgUAK",
-  "username": "test-jqfwpdvilnxj@example.com",
-  "testRunId": "7070U00001f4T2K",
-  "userId": "0050U0000069KwrQAE"
+    "outcome": "Passed",
+    "testsRan": 302,
+    "passing": 302,
+    "failing": 0,
+    "skipped": 0,
+    "passRate": "100%",
+    "failRate": "0%",
+    "testStartTime": "Mon Jul 26 2021 9:04:15 PM",
+    "testExecutionTime": "71999 ms",
+    "testTotalTime": "71999 ms",
+    "commandTime": "810 ms",
+    "hostname": "https://connect-efficiency-75932-dev-ed.cs90.my.salesforce.com/",
+    "orgId": "00D1F000000ZMr5UAG",
+    "username": "test-j9besgqaveqa@example.com",
+    "testRunId": "7071F000023Gsie",
+    "userId": "0051F00000oGkE3QAK"
 }
+
 ```
 
 > For additional SFDX commands related to executing Apex tests, please visit the [Salesforce Platform CLI Reference: Apex Commands](https://developer.salesforce.com/docs/atlas.en-us.sfdx_cli_reference.meta/sfdx_cli_reference/cli_reference_force_apex.htm) page.
@@ -1307,8 +1322,11 @@ __Deploy Salesforce Connect Extras for Accounts / Contacts__
 __Deploy Salesforce Connect Extras for PersonAccounts__
 
 ```bash 
+ sfdx force:source:deploy -p "src/sfdc/extras/sf-connect/base"
  sfdx force:source:deploy -p "src/sfdc/extras/sf-connect/personaccounts"
 ```
+
+> Please note the PersonAccount implementation requires the deployment of both the `base` and `personaccount` extras.  You must execute both of these deployment commands.
 
 #### Validate and Synchronize Salesforce Connect External Objects
 Salesforce External Objects must be initialized before they can be used within the Salesforce Org.  Please complete these instructions to initialize the external dataSource and enable the customer addressbook features of b2c-crm-sync.
@@ -1339,6 +1357,8 @@ Often, a Salesforce B2C Commerce customer will need to synchronize their B2C Com
 
 2. The `custom.B2CCRMSync.SynchronizeCustomers` job step can be configured to incrementally export the entire database of customer profiles from B2C Commerce to the Salesforce Org. The job-step can be used to migrate B2C Commerce Customer Profiles to the Salesforce Org database in one or multiple loads.
    
+> The job can be configured to process an entire CustomerList -- or a subset of customer profiles that exist in the CustomerList.  The customQuery can be configured to process the entire customerList, or a subset of customer profiles.  If the job-step does not appear in the list of available steps, please toggle the active code-version -- and try again.
+
 - The jobStep supports a Query parameter representing which profiles to synchronize via a [valid and executable profile query](https://documentation.b2c.commercecloud.salesforce.com/DOC2/topic/com.demandware.dochelp/DWAPI/scriptapi/html/api/class_dw_customer_CustomerMgr.html#dw_customer_CustomerMgr_searchProfiles_Map_String_DetailAnchor).
 - The query can contain two dynamic placeholders which allow dynamic timeframes: `_today` and `_now_`. This can be used to dynamically generate the filter datetime from the job-step execution time.
 

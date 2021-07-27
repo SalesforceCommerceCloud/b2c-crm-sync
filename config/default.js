@@ -482,11 +482,11 @@ module.exports = {
             "c_b2ccrm_syncIsEnabled": true,
             "c_b2ccrm_syncCustomersEnabled": true,
             "c_b2ccrm_syncCustomersOnLoginEnabled": true,
-            "c_b2ccrm_syncCustomersOnLoginOnceEnabled": false,
+            "c_b2ccrm_syncCustomersOnLoginOnceEnabled": true,
             "c_b2ccrm_syncCustomersViaOCAPI": true,
             "c_b2ccrm_syncCustomersFromOrdersEnabled": true,
             "c_b2ccrm_syncCustomersFromGuestOrdersEnabled": true,
-            "c_b2ccrm_syncApplyProfileIDsToRegisteredOrdersEnabled": false,
+            "c_b2ccrm_syncApplyProfileIDsToRegisteredOrdersEnabled": true,
             "c_b2ccrm_syncCustomersFromOrdersViaOCAPI": true
         },
 
