@@ -7,34 +7,22 @@
                     <name>actionNames</name>
                     <valueList>
                         <valueListItems>
-                            <value>CallHighlightAction</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Global.NewTask</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Global.NewEvent</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>FeedItem.TextPost</value>
-                        </valueListItems>
-                        <valueListItems>
                             <value>Edit</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>FeedItem.ContentPost</value>
+                            <value>ChangeRecordType</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Global.NewContact</value>
+                            <value>Delete</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Global.NewCase</value>
+                            <value>Share</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Global.LogACall</value>
+                            <value>PrintableView</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Global.NewOpportunity</value>
+                            <value>FeedItem.TextPost</value>
                         </valueListItems>
                         <valueListItems>
                             <value>FeedItem.LinkPost</value>
@@ -44,51 +32,6 @@
                         </valueListItems>
                         <valueListItems>
                             <value>FeedItem.QuestionPost</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>ChangeOwnerOne</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>ChangeRecordType</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Delete</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>AccountHierarchy</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Share</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>IncludeOffline</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>CreateSurveyInvitation</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>XClean</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>PartnerScorecard</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>CreateCallList</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>PrintableView</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>IsotopeSubscription</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>SmsHighlightAction</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>EmailHighlightAction</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>WebsiteHighlightAction</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>

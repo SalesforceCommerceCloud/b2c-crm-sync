@@ -13,15 +13,6 @@
                             <value>FeedItem.ContentPost</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Global.NewEvent</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Global.NewTask</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Global.NewCase</value>
-                        </valueListItems>
-                        <valueListItems>
                             <value>FeedItem.LinkPost</value>
                         </valueListItems>
                         <valueListItems>
@@ -35,9 +26,6 @@
                         </valueListItems>
                         <valueListItems>
                             <value>PrintableView</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>IsotopeSubscription</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
