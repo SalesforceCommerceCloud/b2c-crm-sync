@@ -59,6 +59,7 @@ public with sharing class B2CConstant {
         PERSONACCOUNTPROPERTIES_TOREMOVE_CLEANSTATUS = 'CleanStatus',
         PERSONACCOUNTPROPERTIES_TOREMOVE_JIGSAW = 'Jigsaw',
         PERSONACCOUNTPROPERTIES_TOREMOVE_REPORTSTOID = 'ReportsToId',
+        PERSONACCOUNTPROPERTIES_TOREMOVE_CANALLOWPORTALSELFREG = 'CanAllowPortalSelfReg',
 
         // Define the list of synchronization properties we skip when synchronizing the
         // delta between a sourceObject's properties and a targetObject's properties
@@ -100,7 +101,8 @@ public with sharing class B2CConstant {
         PERSONACCOUNTPROPERTIES_TOREMOVE_ACCOUNTID,
         PERSONACCOUNTPROPERTIES_TOREMOVE_CLEANSTATUS,
         PERSONACCOUNTPROPERTIES_TOREMOVE_JIGSAW,
-        PERSONACCOUNTPROPERTIES_TOREMOVE_REPORTSTOID
+        PERSONACCOUNTPROPERTIES_TOREMOVE_REPORTSTOID,
+        PERSONACCOUNTPROPERTIES_TOREMOVE_CANALLOWPORTALSELFREG
     };
 
     // Define the collection of Contact properties to skip when comparing objects for
