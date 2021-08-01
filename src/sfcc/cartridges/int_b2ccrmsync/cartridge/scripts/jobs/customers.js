@@ -89,8 +89,6 @@ function synchronize(parameters) {
         errorCounter++;
     }
 
-    // Leverage the [processProfiles](https://sfb2csa.link/b2c-crm-sync/process-profiles)
-    // method as it is not limited to 1000 records as the [searchProfiles](https://sfb2csa.link/b2c-crm-sync/search-profiles) method.
     CustomerMgr.processProfiles(
         synchronizeProfile,
         query || require('../b2ccrmsync.config').jobs.customers.defaultQuery

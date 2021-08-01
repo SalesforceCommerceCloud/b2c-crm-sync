@@ -1,15 +1,13 @@
 # Salesforce B2C Commerce / Customer 360 Platform Integration #
 
 ## Introduction ##
-Salesforce B2C Commerce / CRM Sync is an enablement solution designed by the Salesforce Architect Success Team to teach Salesforce's B2C Customer Data Strategy for multi-cloud use-cases.  The solution demonstrates a contemporary approach to the integration between Salesforce B2C Commerce and the Cloud products running on the Salesforce Customer 360 Platform.  
+Salesforce B2C Commerce / CRM Sync is an enablement solution designed by Salesforce Architects to teach Salesforce's B2C Customer Data Strategy for multi-cloud use-cases.  The solution demonstrates a contemporary approach to the integration between Salesforce B2C Commerce and the Cloud products running on the Salesforce Customer 360 Platform.  
 
 b2c-crm-sync includes a framework for integrating these clouds (ex. B2C Commerce and Service Cloud) -- leveraging REST APIs and the declarative capabilities of the Salesforce Platform.  This approach powers frictionless customer experiences across B2C Commerce, Service, and Marketing Clouds by resolving and synchronizing customer profiles across these Salesforce products.
 
 > :100: &nbsp;This repository is currently in it's **v0.9.0** release.  The MVP feature-set is complete, and you can now deploy b2c-crm-sync to scratchOrgs and sandboxes via its CLI tooling.  Solution trustworthiness is critical for our success.  We'll tag this release in the upcoming days.  In the meantime, please feel free to deploy from master. &nbsp;:100:
 
-Please visit our [issues-list](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/issues) to see outstanding issues and features, and visit our [discussions](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/discussions) to ask questions.  
-
-![Introducing b2c-crm-sync](/docs/images/crm-sync.png)
+Please visit our [issues-list](https://github.com/SalesforceCommerceCloud/b2c-crm-sync/issues) to see outstanding issues and features, and visit our [discussions](https://github.com/SalesforceCommerceCloud/b2c-crm-sync/discussions) to ask questions.
 
 > That's correct.  If you have a B2C Commerce Sandbox and a [Salesforce Platform DevHub](https://trailhead.salesforce.com/content/learn/modules/sfdx_app_dev) -- you can get this integration setup in an hour your very first time implementing b2c-crm-sync.  Average deployment times for experienced developers and architects to a scratchOrg in under 60 minutes.
 
@@ -25,18 +23,14 @@ This project, its source code, and sample assets are all licensed under the [BSD
 
 Please remember that this project **should not be treated as Salesforce Product**.  It is an enablement solution designed to teach Salesforce's B2C Customer Data Strategy for B2C multi-cloud use-cases. Customers and partners implement this at-will with no expectation of roadmap, technical support, defect resolution, production-style SLAs.
 
-> Roadmap, enhancements, and defect resolution will be driven by the Salesforce Architect Community.  You are invited to [log an issue](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/issues/new/choose) or [submit a pull-request](Contributing.md) to receive an Architect Success hoodie.
+> Roadmap, enhancements, and defect resolution will be driven by the Salesforce Community.  You are invited to [log an issue](https://github.com/SalesforceCommerceCloud/b2c-crm-sync/issues/new/choose) or [submit a pull-request](Contributing.md) to advance this project.
 
 ### Support
-The Salesforce Architect Success Team maintains this repository, and it is contributed to by the Salesforce SCPPE and Service Delivery teams within the Customer Success Group (CSG) -- as well as the broader Salesforce Community. Salesforce Commerce Cloud or Salesforce Platform Technical Support do not support this project or its setup.
+This project is maintained by the **Salesforce Community**, and it is contributed to by the Salesforce SCPPE and Service Delivery teams within the Customer Success Group (CSG) and Alliances and Channels. Salesforce Commerce Cloud or Salesforce Platform Technical Support do not support this project or its setup.
 
-> :confetti_ball: &nbsp; We are always seeking contributions from our community of Architects and developers.  If you're curious to learn more about how you can [get an Architect Success Hoody](Contributing.md) -- please review our [contribution guidelines](Contributing.md).
+> :confetti_ball: &nbsp; We are always seeking contributions from our community of Architects and developers.  If you are looking to learn how to integrate these products, consider extending this project to support your use-case.
 
-For feature requests or bugs, please [open a GitHub issue](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/issues/new/choose). Contributions are ALWAYS WELCOME -- and are often rewarded with Architect Success swag.
-
-![Come Get Your Architect Success Hoody](/docs/images/hoody-worthy.gif)
-
-> Please keep in mind that [hoody-worthy](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/issues?q=is%3Aopen+is%3Aissue+label%3Ahoody-worthy) issues need to solve real business or project problems.  That said -- contribute, let us support you, and collect your swag. It's really that simple.  Visit our [contribution guidelines](Contributing.md) for details.
+For feature requests or bugs, please [open a GitHub issue](https://github.com/SalesforceCommerceCloud/b2c-crm-sync/issues/new/choose). Contributions are ALWAYS WELCOME -- and they benefit the broader community.
 
 ## Feature Summary
 b2c-crm-sync supports the following extensible features (yes, you can customize everything):
@@ -50,7 +44,7 @@ b2c-crm-sync supports the following extensible features (yes, you can customize 
 - Order on Behalf of style Assisted Shopping for Customer Service Representatives configured and launched from within the Salesforce Platform
 - Federated Access to the B2C Commerce Customer Address Books of Registered B2C Commerce Customers via Salesforce Connect (requires Enterprise Edition)
 - Attribution of Salesforce Platform Account and Contact identifiers on Registered and Anonymous Orders placed via the Storefront
-- Headless Support for synchronization and order attributeion use-cases
+- Headless Support for synchronization and order attribution use-cases
 
 > We leverage [Salesforce SFDX for Deployment](https://trailhead.salesforce.com/content/learn/modules/sfdx_app_dev), [Flow for Automation](https://trailhead.salesforce.com/en/content/learn/modules/flow-builder), [Platform Events for Messaging](https://trailhead.salesforce.com/en/content/learn/modules/platform_events_basics), [Salesforce Connect for Data Federation](https://trailhead.salesforce.com/en/content/learn/projects/quickstart-lightning-connect), and [Apex Invocable Actions](https://trailhead.salesforce.com/en/content/learn/projects/quick-start-explore-the-automation-comps-sample-app) to support these features.  If you're a B2C Commerce Architect interested in learning how to integrate with the Salesforce Platform -- this is the project for you :)
 
@@ -59,7 +53,7 @@ b2c-crm-sync supports the following extensible features (yes, you can customize 
 ### Deployment Considerations
 This repository should be treated as an enablement solution that can be extended by customers and partners to support their specific implementation needs.  Implementing this solution will require configuration, customization, runtime-performance evaluation, and testing.  That said, it should also accelerate your implementation by providing you with a foundation you can build -- and innovate on.
 
-> Do NOT deploy this enablement solution directly to a staging or production environment without first going through your development, QA, or CI process.  Remember that this solution is not supported by Salesforce Technical Support -- but you can always [open a GitHub issue](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/issues/new/choose) if you run into trouble.
+> Do NOT deploy this enablement solution directly to a staging or production environment without first going through your development, QA, or CI process.  Remember that this solution is not supported by Salesforce Technical Support -- but you can always [open a GitHub issue](https://github.com/SalesforceCommerceCloud/b2c-crm-sync/issues/new/choose) if you run into trouble.
 
 ### Environment Requirements
 b2c-crm-sync requires a [B2C Commerce Sandbox](https://trailhead.salesforce.com/content/learn/modules/b2c-on-demand-sandbox) and a [Salesforce DevHub](https://help.salesforce.com/articleView?id=sf.sfdx_setup_enable_devhub.htm&type=5) capable of creating [scratchOrgs](https://trailhead.salesforce.com/content/learn/projects/quick-start-salesforce-dx).  It can also be deployed to [Salesforce Sandboxes](https://help.salesforce.com/articleView?id=sf.data_sandbox_create.htm&type=5)  leveraging [SFDX and Salesforce's metadata API](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_develop_any_org.htm).  [Salesforce Enterprise Edition](https://help.salesforce.com/articleView?id=sf.overview_edition.htm&type=5) configured with [Salesforce Connect](https://trailhead.salesforce.com/en/content/learn/projects/quickstart-lightning-connect) is required to take advantage of the federated B2C Customer Address-book feature included with b2c-crm-sync.
@@ -90,7 +84,7 @@ With node.js setup, you can now install the project dependencies with the standa
 ```bash
 npm install
 ```
-> Installing the project dependencies will take a moment or two.  Please [log an issue](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/issues/new) if you run into installation issues setting up the project.
+> Installing the project dependencies will take a moment or two.  Please [log an issue](https://github.com/SalesforceCommerceCloud/b2c-crm-sync/issues/new) if you run into installation issues setting up the project.
 
 #### Apply non-breaking Audit / Fixes
 Once the installation has been completed, you can apply non-breaking updates to node packages that are leveraged by b2c-crm-sync:
@@ -669,7 +663,7 @@ If these items have been completed, you should now be ready to move forward with
 npm run crm-sync:test:cli
 ```
 
-> Please note that not all CLI commands have test-coverage (most of the B2C commands do, only some SFDC commands do).  That said, you shouldn't expect to see any test failures.  We're always looking for more tests -- if you're interested in an Architect Success Hoody.
+> Please note that not all CLI commands have test-coverage (most of the B2C commands do, only some SFDC commands do).  That said, you shouldn't expect to see any test failures.  We're always looking for more tests -- if you're interested in contributing back to this project :).
 
 #### Exercise the B2C Commerce Unit Tests
 2. Execute the B2C Commerce unit-tests to verify that the B2C Commerce cartridge and OCAPI Hook code is trustworthy.
@@ -949,7 +943,7 @@ This command creates a connectedApp for each of the B2C Commerce storefronts con
 ```bash
 npm run crm-sync:sf:duplicaterules
 ```
-> Please note that it's impossible for us to account for every Salesforce Org configuration.  There is a possibility that the duplicate rules may not deploy without manual changes due to conflicts in the Salesforce Org.  If that occurs, please [create an issue](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/issues) and share your experience with us.
+> Please note that it's impossible for us to account for every Salesforce Org configuration.  There is a possibility that the duplicate rules may not deploy without manual changes due to conflicts in the Salesforce Org.  If that occurs, please [create an issue](https://github.com/SalesforceCommerceCloud/b2c-crm-sync/issues) and share your experience with us.
 
 Once completed, the duplicate rules should be deployed to your Salesforce Org.  They must be configured via Setup from within your Salesforce Org.
 
@@ -987,7 +981,7 @@ From the duplicate rules listing, select the rule titled **B2C Commerce: Standar
 1 OR (2 AND 3) OR (2 AND 4 AND 5) OR (2 AND 4) OR (4 AND 5 AND 6)
 ```
 
-:bug: &nbsp; We've documented an [issue with duplicate rules](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/issues/74) for PersonAccounts where the rule fieldMappings are sometimes mapped in the incorrect order.  The issue captures how to resolve this.  Please verify that your duplicate rule field mappings are mapped in the correct order.  In the event that they are not, you can correct this manually from within setup. &nbsp; :bug:
+:bug: &nbsp; We've documented an [issue with duplicate rules](https://github.com/SalesforceCommerceCloud/b2c-crm-sync/issues/74) for PersonAccounts where the rule fieldMappings are sometimes mapped in the incorrect order.  The issue captures how to resolve this.  Please verify that your duplicate rule field mappings are mapped in the correct order.  In the event that they are not, you can correct this manually from within setup. &nbsp; :bug:
 
 
 #### A Final Word About Duplicate Rules
@@ -1394,9 +1388,9 @@ You can use these placeholders to create custom queries to filter and migrate a 
 > When creating custom queries via this job, please remember to confirm that B2C Customer Profiles exist that satisfy your constructed query.  Any query that returns zero results will generate a NO DATA message in the job log-files.
 
 #### What's Next?
-At this point, you should be in a position to 1) start exercising the integration or 2) [ask a question](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/discussions/new) or [log an issue](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/issues/new) if the installation and configuration didn't complete as expected.  Please share your experience with us. :grin:
+At this point, you should be in a position to 1) start exercising the integration or 2) [ask a question](https://github.com/SalesforceCommerceCloud/b2c-crm-sync/discussions/new) or [log an issue](https://github.com/SalesforceCommerceCloud/b2c-crm-sync/issues/new) if the installation and configuration didn't complete as expected.  Please share your experience with us. :grin:
 
-b2c-crm-sync contains multiple developer-friendly features that can be used to extend it for other use-cases.  We invite everyone to [review our documentation](https://sfb2csa.link/sync/docs) -- and learn about the configuration points and sub-systems that you can manage in b2c-crm-sync.
+b2c-crm-sync contains multiple developer-friendly features that can be used to extend it for other use-cases.  We invite everyone to set it up in a development environment -- and learn about the configuration points and sub-systems that you can manage in b2c-crm-sync.
 
 ### Let's End with Gratitude
 I'd like to extend a heartfelt and personal thank you to everyone for their support, contributions, and guidance.  This has been a multi-year effort spanning multiple teams at Salesforce.  We've developed this data strategy and integration approach leveraging learnings from customers, partners, and our internal teams.  I am grateful for these relationships, and this project would not have come to life without the support of this group.
