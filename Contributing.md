@@ -2,23 +2,17 @@
 
 First, I want to say thank you for reading this -- as this project is a bit of an experiment.  We really need community contributors and volunteer developers for b2c-crm-sync to live up to its promise as a trustworthy integration foundation for B2C Commerce and the Salesforce Platform.
 
-This repository is maintained and contributed to by the Salesforce Community, Architect Success Team, and the SCPPE and Service Delivery teams within the Customer Success Group (CSG). This repository isn’t supported by Salesforce Commerce Cloud or Salesforce Platform Technical Support. For feature requests or bugs, please [open a GitHub issue](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/issues/new/choose). Contributions are ALWAYS WELCOME -- and are often rewarded with Architect Success swag.
-
-![Come Get Your Architect Success Hoody](/docs/images/hoody-worthy.gif)
-
-Yes, that's right.  If you submit and address an issue tagged with #hoody-worthy, provide clean, readable code, include adequate test coverage, and help raise the floor for everyone else -- we'll send you an Architect Success Hoody.  All you need to do is 1) fix or enhance b2c-crm-sync and 2) provide us with your address.
-
-> Please keep in mind that [hoody-worthy](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/issues?q=is%3Aopen+is%3Aissue+label%3Ahoody-worthy) issues need to solve real business or project problems.  That said -- contribute, let us support you, and collect your swag. It's really that simple. :)
+The Salesforce Community, Salesforce Architects, Salesforce Partners, and the SCPPE and Service Delivery teams within the Customer Success Group (CSG) all contribute to this repository. This repository isn’t supported by Salesforce Commerce Cloud or Salesforce Platform Technical Support. For feature requests or bugs, please [open a GitHub issue](https://github.com/SalesforceCommerceCloud/b2c-crm-sync/issues/new/choose). Contributions are ALWAYS WELCOME -- and you can feel great about contributing back.
 
 ## Testing
 
 All our mocha-tests live in the [test](test) folder off the folder root.  Here, you'll find unit tests for our [CLI tools](test/cli), our [B2C cartridges](test/b2c), and [multi-cloud unit tests](test/_use-cases) that exercise both integration environments via REST APIs.  We also have [Apex unit-tests](src/sfdc/base/main/default/classes) you can use to exercise our Apex code.
 
-> Tests create trustworthiness, and trustworthiness is important to us.  If you're looking for a way to contribute, growing our test-coverage is a really great way to give back.  We are ALWAYS looking to trade test-coverage for cool hoodies. :)
+> Tests create trustworthiness, and trustworthiness is important to us.  If you're looking for a way to contribute, growing our test-coverage is a really great way to give back.  We are ALWAYS looking to improve our test coverage.
 
 ## Submitting Changes
 
-Please send a [GitHub Pull Request to b2c-crm-sync](https://github.com/sfb2csolutionarchitects/b2c-crm-sync/pull/new/master) with a clear list of what you've done (read more about [pull requests](http://help.github.com/pull-requests/)). When you send a pull request, we will extol your praises if you include comments and pull-requests. We can always use more test coverage. Please make sure all of your commits are atomic (one feature per commit).
+Please send a [GitHub Pull Request to b2c-crm-sync](https://github.com/SalesforceCommerceCloud/b2c-crm-sync/pull/new/master) with a clear list of what you've done (read more about [pull requests](http://help.github.com/pull-requests/)). When you send a pull request, we will extol your praises if you include comments and pull-requests. We can always use more test coverage. Please make sure all of your commits are atomic (one feature per commit).
 
 Always write a clear log message for your commits. One-line messages starting with the issue number are fine for small changes.  Bigger changes should look like this:
 

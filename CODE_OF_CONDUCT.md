@@ -59,11 +59,8 @@ representative at an online or offline event.
 ## Enforcement
 
 Instances of abusive, harassing, or otherwise unacceptable behavior may be
-reported to the community leaders responsible for enforcement at
-abraham.lloyd@salesforce.com.
-All complaints will be reviewed and investigated promptly and fairly.
-
-All community leaders are obligated to respect the privacy and security of the
+reported to the community leaders responsible for enforcement within the Salesforce Commerce Cloud Github Community.
+All complaints will be reviewed and investigated promptly and fairly.All community leaders are obligated to respect the privacy and security of the
 reporter of any incident.
 
 ## Enforcement Guidelines
