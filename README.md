@@ -211,7 +211,7 @@ A B2C Commerce Client ID is necessary to facilitate REST API authentication betw
 ```log
 mail
 roles
-tennantFilter
+tenantFilter
 profile
 ```
 
