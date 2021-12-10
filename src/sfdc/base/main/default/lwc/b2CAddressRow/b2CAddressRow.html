@@ -1,0 +1,15 @@
+<template>
+    <template for:each={addressFields} for:item="addressField">
+        <td key={addressField} data-label={addressField}>
+            <div class="slds-truncate" title={addressField}>{addressField}</div>
+        </td>
+    </template>
+    <template if:true={showMenuButtons}>
+        <td role="gridcell">
+            <lightning-button-menu alternative-text="More actions" onselect={handleMenuSelect}>
+                <lightning-menu-item if:true={allowView} value="view" label="View"></lightning-menu-item>
+                <lightning-menu-item if:true={allowEdit} value="edit" label="Edit"></lightning-menu-item>
+            </lightning-button-menu>
+        </td>
+    </template>
+</template>

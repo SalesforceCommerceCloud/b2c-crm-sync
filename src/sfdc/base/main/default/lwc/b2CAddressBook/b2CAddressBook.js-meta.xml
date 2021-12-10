@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>52.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>B2C Customer Address Book</masterLabel>
+    <targets>
+        <target>lightning__FlowScreen</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__FlowScreen">
+            <property name="recordId" label="Record Id" type="String" required="true" role="inputOnly" />
+            <property name="allowViewAddressDetails" label="Allow view address details" type="Boolean" role="inputOnly" />
+            <property name="allowEditAddressDetails" label="Allow edit address details" type="Boolean" role="inputOnly" />
+            <property name="viewAddressId" label="Address Id to view" type="String" role="outputOnly" />
+            <property name="editAddressId" label="Address Id to edit" type="String" role="outputOnly" />
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

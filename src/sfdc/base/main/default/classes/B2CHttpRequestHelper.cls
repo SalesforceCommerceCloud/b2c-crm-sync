@@ -153,6 +153,7 @@ public with sharing class B2CHttpRequestHelper {
 
         // Replace the space-identifier in the address id to functionally support spaces
         String updatedAddressId = addressId.replaceAll('\\+', '%20');
+        updatedAddressId = addressId.replaceAll(' ', '%20');
         String ocapiSuffix = '/customer_lists/' + b2cCustomerListId + '/customers/' +
             b2cCustomerNo + '/addresses/' + updatedAddressId;
 
@@ -185,7 +186,8 @@ public with sharing class B2CHttpRequestHelper {
     ) {
 
         // Replace the space-identifier in the address id to functionally support spaces
-        String updatedAddressId = addressId.replaceAll(' ', '%20');
+        String updatedAddressId = addressId.replaceAll('\\+', '%20');
+        updatedAddressId = addressId.replaceAll(' ', '%20');
         String ocapiSuffix = '/customer_lists/' + b2cCustomerListId + '/customers/' +
             b2cCustomerNo + '/addresses/' + updatedAddressId;
 

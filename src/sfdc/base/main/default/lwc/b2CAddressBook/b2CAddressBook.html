@@ -1,0 +1,68 @@
+<template>
+    <article class="slds-card slds-card_boundary">
+        <div class="slds-grid slds-page-header slds-page-header_joined slds-page-header_bleed">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__figure">
+                    <lightning-icon icon-name="standard:address" alternative-text="B2C Customer Address Book" title="B2C Customer Address Book"></lightning-icon>
+                </div>
+                <div class="slds-media__body">
+                    <h2 class="slds-card__header-title">
+                        <a href="#" class="slds-card__header-link slds-truncate" title={headerTitle}>
+                            <span>{headerTitle}</span>
+                        </a>
+                    </h2>
+                </div>
+                <div class="slds-no-flex">
+                    <lightning-button-icon icon-name="utility:refresh"  variant="border-filled" alternative-text="Refresh" title="Refresh" onclick={handleRefresh}></lightning-button-icon>
+                </div>
+            </header>
+        </div>
+        <div class="slds-card__body_inner slds-p-around_none">
+            <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_striped">
+                <thead>
+                    <tr class="slds-line-height_reset">
+                        <template for:each={fields} for:item="field">
+                            <th key={field.id} scope="col">
+                                <div class="slds-truncate" title={field.label}>{field.label}</div>
+                            </th>
+                        </template>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template if:true={isLoading}>
+                        <tr>
+                            <td colspan={fieldsCount}>Loading addresses...</td>
+                        </tr>
+                    </template>
+                    <template if:false={isLoading}>
+                        <template if:false={hasAddresses}>
+                            <tr>
+                                <td colspan={fieldsCount}>No addresses found.</td>
+                            </tr>
+                        </template>
+                        <template if:true={hasAddresses} for:each={addresses} for:item="address">
+                            <c-b2-c-address-row
+                                key={address.key}
+                                fields={fields}
+                                record-id={recordId}
+                                address={address}
+                                allow-view={allowViewAddressDetails}
+                                allow-edit={allowEditAddressDetails}
+                                onviewaddress={viewAddressHandler}
+                                oneditaddress={editAddressHandler}>
+                            </c-b2-c-address-row>
+                        </template>
+                    </template>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="slds-spinner_container" data-spinner>
+            <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand">
+                <span class="slds-assistive-text">Loading</span>
+                <div class="slds-spinner__dot-a"></div>
+                <div class="slds-spinner__dot-b"></div>
+            </div>
+        </div>
+    </article>
+</template>

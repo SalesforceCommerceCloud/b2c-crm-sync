@@ -159,7 +159,7 @@ global with sharing class B2CDataSourceAddressBookConnection extends DataSource.
 
         // Get the contact that matches the given customer No
         // If no contact is found, abort and return an empty list
-        Contact contact = B2CDataSourceHelper.getContactByCustomerId(customerId);
+        Contact contact = B2CCustomerAddressBook.getContactByCustomerId(customerId);
         if (contact == null) {
             return false;
         }
@@ -206,7 +206,7 @@ global with sharing class B2CDataSourceAddressBookConnection extends DataSource.
 
         // Get the contact that matches the given customer Id
         // If no contact is found, abort and return an empty list
-        Contact contact = B2CDataSourceHelper.getContactByCustomerId(customerId);
+        Contact contact = B2CCustomerAddressBook.getContactByCustomerId(customerId);
         if (contact == null) {
             return addresses;
         }
@@ -273,8 +273,7 @@ global with sharing class B2CDataSourceAddressBookConnection extends DataSource.
      * @return {Map<String, Object>} The address map, ready to be consumed by Salesforce Connect
      */
     private Map<String, Object> mapAddress(String customerId, JSONParse addressData) {
-        Map<String, Object> address = B2CDataSourceHelper.mapFields(
-            customerId, addressData, this.retrievalFieldMappings);
+        Map<String, Object> address = B2CCustomerAddressBook.mapFields(customerId, addressData, this.retrievalFieldMappings);
         String addressId = addressData.get('address_id').getStringValue();
 
         // Fill out the customer Id as indirect lookup

@@ -475,7 +475,7 @@ public class B2CHttpTestCalloutMockGenerator implements HttpCalloutMock {
             '}],\n' +
             '"next" : "https://example.com/dw/data/v21_3/customer_lists/4711/customers/0815/addresses?count=10&start=10",\n' +
             '"start" : 0,\n' +
-            '"total" : 151\n' +
+            '"total" : 1\n' +
         '}';
 
         responseObj.put('status', 'OK');
