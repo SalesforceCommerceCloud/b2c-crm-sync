@@ -170,7 +170,7 @@ module.exports = {
                 return responseObj;
             },
             mockFull: function () {
-                return require('../mocks/auth');
+                return require('./mocks/auth');
             },
             getRequestLogMessage: function (request) {
                 LOGGER.debug(JSON.stringify(request));
@@ -200,7 +200,7 @@ module.exports = {
         var thisCallCount = callCounter || 0;
         var svc = getService(
             config.services.rest,
-            require('../services/rest').getServiceCallback(model, state, bypassCache)
+            require('./rest').getServiceCallback(model, state, bypassCache)
         );
         var result = svc.call(requestBody);
         thisCallCount++;
