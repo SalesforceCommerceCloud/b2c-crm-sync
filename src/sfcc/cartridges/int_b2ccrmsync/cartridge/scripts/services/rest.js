@@ -30,7 +30,7 @@ function setAuthHeader(svc, endpoint, bypassCache) {
      * @property {String} instance_url Describes the url of the source-system from which an authToken was generated
      */
 
-    var token = require('*/cartridge/scripts/models/authToken').getValidToken(bypassCache);
+    var token = require('../models/authToken').getValidToken(bypassCache);
     svc.setAuthentication('NONE');
     svc.addHeader('Authorization', require('dw/util/StringUtils').format('{0} {1}', token.token_type, token.access_token));
     svc.setURL(require('dw/util/StringUtils').format('{0}/{1}', token.instance_url, endpoint));
@@ -54,7 +54,7 @@ function serviceCallback(model, operation, bypassCache) {
             return body;
         },
         parseResponse: function parseResponse(svc, client) {
-            return require('*/cartridge/scripts/util/helpers').expandJSON(client.text, client.text);
+            return require('../util/helpers').expandJSON(client.text, client.text);
         },
         mockFull: function () {
             return require(require('dw/util/StringUtils').format('./mocks/{0}.{1}', model, operation));
