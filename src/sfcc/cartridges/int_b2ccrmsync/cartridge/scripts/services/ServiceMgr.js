@@ -120,7 +120,7 @@ module.exports = {
      * with the Salesforce Platform and facilitate profile orchestration
      */
     getAuthService: function () {
-        return getService(require('../b2ccrmsync.config').services.auth, {
+        return getService(require('*/cartridge/scripts/b2ccrmsync.config').services.auth, {
 
             /**
              * @description Create the request for service authentication
@@ -195,7 +195,7 @@ module.exports = {
      * @returns {Object} The serviceCall result that can be parsed and processed
      */
     callRestService: function callRestService(model, state, requestBody, bypassCache, callCounter) {
-        var config = require('../b2ccrmsync.config');
+        var config = require('*/cartridge/scripts/b2ccrmsync.config');
         var maxServiceRetry = config.maxServiceRetry || 1;
         var thisCallCount = callCounter || 0;
         var svc = getService(

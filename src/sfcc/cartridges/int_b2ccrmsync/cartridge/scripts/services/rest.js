@@ -49,7 +49,7 @@ function setAuthHeader(svc, endpoint, bypassCache) {
 function serviceCallback(model, operation, bypassCache) {
     return {
         createRequest: function (svc, body) {
-            setAuthHeader(svc, require('../b2ccrmsync.config').endpoints[model][operation], bypassCache);
+            setAuthHeader(svc, require('*/cartridge/scripts/b2ccrmsync.config').endpoints[model][operation], bypassCache);
             svc.addHeader('Content-Type', 'application/json');
             return body;
         },
@@ -78,7 +78,7 @@ function serviceCallback(model, operation, bypassCache) {
  * @return {dw/svc/ServiceCallback} The service callback to use while initializing the service
  */
 function getServiceCallback(model, operation, bypassCache) {
-    var endpoints = require('../b2ccrmsync.config').endpoints;
+    var endpoints = require('*/cartridge/scripts/b2ccrmsync.config').endpoints;
     if (!endpoints[model] || !endpoints[model][operation]) {
         throw new Error(require('dw/util/StringUtils').format('Unknown endpoint for the given model "{0}" and operation "{1}"', model, operation));
     }
