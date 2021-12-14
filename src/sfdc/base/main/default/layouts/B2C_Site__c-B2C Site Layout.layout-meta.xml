@@ -111,7 +111,15 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>Enable_Password_Reset__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>Enable_Order_on_Behalf_Of__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Enable_Password_Reset__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>

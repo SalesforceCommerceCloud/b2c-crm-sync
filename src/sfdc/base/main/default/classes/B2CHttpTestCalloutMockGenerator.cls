@@ -93,6 +93,18 @@ public class B2CHttpTestCalloutMockGenerator implements HttpCalloutMock {
             when 'CustomerAuthFailure' {
                 responseObj = getAccessTokenFailureResponse();
             }
+            when 'PasswordResetSuccess' {
+                HttpResponse resPasswordReset = new HttpResponse();
+                resPasswordReset.setHeader('Content-Type', 'application/json');
+                resPasswordReset.setHeader('authorization', B2CConstant.AUTHTEST_AUTHTOKEN);
+                resPasswordReset.setBody('');
+                resPasswordReset.setStatus('OK');
+                resPasswordReset.setStatusCode(204);
+                return resPasswordReset;
+            }
+            when 'PasswordResetFailure' {
+                responseObj = getAccessTokenFailureResponse();
+            }
         }
 
         return buildMockHttpResponse(responseObj);

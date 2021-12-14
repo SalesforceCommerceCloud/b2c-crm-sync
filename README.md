@@ -42,7 +42,8 @@ b2c-crm-sync supports the following extensible features (yes, you can customize 
 - Supports both PersonAccounts and Account / Contact customer models within the Salesforce Customer 360 Platform
 - Synchronization of registered Salesforce B2C Commerce customer profiles between the Salesforce Customer 360 Platform and Salesforce B2C Commerce in near real-time and via a scheduledJob managed by B2C Commerce
 - Order on Behalf of style Assisted Shopping for Customer Service Representatives configured and launched from within the Salesforce Platform
-- Federated Access to the B2C Commerce Customer Address Books of Registered B2C Commerce Customers via Salesforce Connect (requires Enterprise Edition)
+- Password Reset for Customer Service Representatives configured and launched from within the Salesforce Platform
+- Federated Access to the B2C Commerce Customer Address Books of Registered B2C Commerce Customers via Salesforce Connect (requires Enterprise Edition) or from a custom LWC displayed right from the Contact/PersonAccount record page if you cannot use the Salesforce Connect
 - Attribution of Salesforce Platform Account and Contact identifiers on Registered and Anonymous Orders placed via the Storefront
 - Headless Support for synchronization and order attribution use-cases
 

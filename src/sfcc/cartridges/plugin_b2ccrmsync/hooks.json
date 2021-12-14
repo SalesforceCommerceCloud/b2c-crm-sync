@@ -1,0 +1,8 @@
+{
+  "hooks": [
+    {
+      "name": "dw.ocapi.shop.customer.password_reset.afterPOST",
+      "script": "~/cartridge/scripts/b2ccrmsync/hooks/ocapi/shop.customer.passwordReset"
+    }
+  ]
+}

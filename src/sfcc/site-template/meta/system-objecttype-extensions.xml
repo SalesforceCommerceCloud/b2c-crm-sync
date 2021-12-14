@@ -191,6 +191,14 @@
                 <externally-managed-flag>false</externally-managed-flag>
                 <default-value>false</default-value>
             </attribute-definition>
+            <attribute-definition attribute-id="b2ccrm_syncPasswordResetEnabled">
+                <display-name xml:lang="x-default">Enable the reset of password from the Salesforce Core Platform through OCAPI?</display-name>
+                <description xml:lang="x-default">When enabled, customer profiles can see their password reset and receive an email to continue the reset password workflow based on an action from the Salesforce Core Platform.</description>
+                <type>boolean</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <default-value>false</default-value>
+            </attribute-definition>
             <attribute-definition attribute-id="b2ccrm_syncAgentHeaderIsEnabled">
                 <display-name xml:lang="x-default">Enable the Agent Header Display?</display-name>
                 <description xml:lang="x-default">When enabled, storefront sessions created by Service Agents through the Assisted Shopping (OOBO) use-case will be highlighted via a custom header.</description>
@@ -255,6 +263,7 @@
                 <attribute attribute-id="b2ccrm_syncCustomersViaOCAPI"/>
                 <attribute attribute-id="b2ccrm_syncCustomersFromOrdersEnabled"/>
                 <attribute attribute-id="b2ccrm_syncCustomersFromGuestOrdersEnabled"/>
+                <attribute attribute-id="b2ccrm_syncPasswordResetEnabled"/>
                 <attribute attribute-id="b2ccrm_syncApplyProfileIDsToRegisteredOrdersEnabled"/>
                 <attribute attribute-id="b2ccrm_syncCustomersFromOrdersViaOCAPI"/>
             </attribute-group>

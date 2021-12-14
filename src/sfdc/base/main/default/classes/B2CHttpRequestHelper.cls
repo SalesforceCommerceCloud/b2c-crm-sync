@@ -58,15 +58,16 @@ public with sharing class B2CHttpRequestHelper {
     public static HttpRequest getCustomerAuthRequest(
         String apiUrl, String siteId, String apiVersion, String customerId, String clientId, String accessToken
     ) {
-        HttpRequest req = new HttpRequest();
-        req.setEndpoint(apiUrl + '/s/' + siteId +'/dw/shop/' + apiVersion + '/customers/' + customerId + '/auth');
-        req.setMethod('POST');
-        req.setHeader('Content-Type','application/json');
-        req.setHeader('Content-Length', '0');
-        req.setHeader('x-dw-client-id', clientId);
-        req.setHeader('Authorization', 'Bearer '+ accessToken);
-        req.setBody('{"type" : "credentials"}');
-        return req;
+        return getOCAPIShopAPIHttpRequest(
+            apiUrl,
+            siteId,
+            accessToken,
+            clientId,
+            '/customers/' + customerId + '/auth',
+            apiVersion,
+            'post',
+            '{"type" : "credentials"}'
+        );
     }
 
     /**
@@ -229,7 +230,33 @@ public with sharing class B2CHttpRequestHelper {
     }
 
     /**
-     * @description Helper class to generate the core http-request structure for retrieving customer profiles.
+     * @description Generates the httpRequest to reset the password of the B2C Commerce Customer Profile
+     *
+     * @param apiUrl {String} Represents the apiUrl used to invoke this request
+     * @param siteId {String} Represents the siteId used to invoke the request
+     * @param apiVersion {String} Represents the apiVersion used to invoke the request
+     * @param customerId {String} Represents the B2C ClientID used to drive this request
+     * @param clientId {String} Represents the customerId of the customer being authenticated
+     * @param accessToken {String} Represents the B2C Commerce authToken used for this request
+     * @return HttpRequest Returns an http-object pre-configured shop-api site retrieval request
+     * */
+    public static HttpRequest resetPasswordRequest(
+        String apiUrl, String siteId, String apiVersion, String customerId, String clientId, String accessToken
+    ) {
+        return getOCAPIShopAPIHttpRequest(
+            apiUrl,
+            siteId,
+            accessToken,
+            clientId,
+            '/customers/' + customerId + '/password_reset',
+            apiVersion,
+            'post',
+            ''
+        );
+    }
+
+    /**
+     * @description Helper class to generate the core http-request structure for OCAPI Data Requests
      *
      * @param apiUrl {String} Represents the base apiUrl used to invoke the REST API call
      * @param accessToken {String} Represents the Account Manager accessToken used to authorize a REST API call
@@ -243,8 +270,6 @@ public with sharing class B2CHttpRequestHelper {
         String apiUrl, String accessToken, String ocapiSuffix, String apiVersion,
         String httpMethod, String bodyAsJSON
     ) {
-
-        // Initialize local variables
         HttpRequest req = new HttpRequest();
 
         System.debug('--> apiUrl: ' + apiUrl);
@@ -260,9 +285,46 @@ public with sharing class B2CHttpRequestHelper {
         // Append the request body if one is provided
         if (!String.isEmpty(bodyAsJSON)) { req.setBody(bodyAsJSON); }
 
-        // Return the request`
+        // Return the request
         return req;
-
     }
 
+    /**
+     * @description Helper class to generate the core http-request structure for OCAPI Shop Requests
+     *
+     * @param apiUrl {String} Represents the base apiUrl used to invoke the REST API call
+     * @param accessToken {String} Represents the Account Manager accessToken used to authorize a REST API call
+     * @param ocapiSuffix {String} Represents the suffix to apply to the url representing the Data API endpoint
+     * @param apiVersion {String} Represents the API version that should be used for the current REST API call
+     * @param httpMethod {String} Represents the httpMethod to apply to the current request
+     * @param bodyAsJSON {String} Represents the body as JSON to send within the request
+     * @return HttpRequest Returns an http-object pre-configured data-api customer-retrieval request
+     * */
+    private static HttpRequest getOCAPIShopAPIHttpRequest(
+        String apiUrl, String siteId, String accessToken,
+        String clientId, String ocapiSuffix, String apiVersion,
+        String httpMethod, String bodyAsJSON
+    ) {
+        HttpRequest req = new HttpRequest();
+
+        System.debug('--> apiUrl: ' + apiUrl);
+        System.debug('--> apiVersion: ' + apiVersion);
+        System.debug('--> ocapiSuffix: ' + ocapiSuffix);
+
+        // Define the request properties
+        req.setMethod(httpMethod.toUpperCase());
+        req.setHeader('Content-Type', 'application/json; charset=UTF-8');
+        req.setHeader('Content-Length', '0');
+        req.setHeader('x-dw-client-id', clientId);
+        req.setHeader('Authorization', 'Bearer ' + accessToken);
+        req.setEndpoint(apiUrl + '/s/' + siteId +'/dw/shop/' + apiVersion + ocapiSuffix);
+
+        // Append the request body if one is provided
+        if (!String.isEmpty(bodyAsJSON)) {
+            req.setBody(bodyAsJSON);
+        }
+
+        // Return the request
+        return req;
+    }
 }

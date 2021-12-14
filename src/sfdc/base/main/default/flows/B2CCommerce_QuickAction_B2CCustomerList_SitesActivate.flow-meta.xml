@@ -153,6 +153,12 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <field>Enable_Password_Reset__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>Enable_Profile_Creation__c</field>
             <value>
                 <booleanValue>true</booleanValue>

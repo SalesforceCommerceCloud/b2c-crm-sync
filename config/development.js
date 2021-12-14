@@ -18,6 +18,7 @@ module.exports = {
                 "c_b2ccrm_syncCustomersOnLoginOnceEnabled": true,
                 "c_b2ccrm_syncIsEnabled": true,
                 "c_b2ccrm_syncCustomersEnabled": true,
+                "c_b2ccrm_syncPasswordResetEnabled": true,
                 "c_b2ccrm_syncCustomersViaOCAPI": true
             },
 
@@ -27,6 +28,7 @@ module.exports = {
                 "c_b2ccrm_syncCustomersOnLoginOnceEnabled": true,
                 "c_b2ccrm_syncIsEnabled": true,
                 "c_b2ccrm_syncCustomersEnabled": true,
+                "c_b2ccrm_syncPasswordResetEnabled": false,
                 "c_b2ccrm_syncCustomersViaOCAPI": false
             },
 
@@ -36,6 +38,7 @@ module.exports = {
                 "c_b2ccrm_syncCustomersOnLoginOnceEnabled": true,
                 "c_b2ccrm_syncIsEnabled": true,
                 "c_b2ccrm_syncCustomersEnabled": true,
+                "c_b2ccrm_syncPasswordResetEnabled": true,
                 "c_b2ccrm_syncCustomersViaOCAPI": true
             },
 
@@ -45,6 +48,7 @@ module.exports = {
                 "c_b2ccrm_syncCustomersOnLoginOnceEnabled": false,
                 "c_b2ccrm_syncIsEnabled": true,
                 "c_b2ccrm_syncCustomersEnabled": true,
+                "c_b2ccrm_syncPasswordResetEnabled": true,
                 "c_b2ccrm_syncCustomersViaOCAPI": true
             },
 
@@ -54,6 +58,7 @@ module.exports = {
                 "c_b2ccrm_syncCustomersOnLoginOnceEnabled": false,
                 "c_b2ccrm_syncIsEnabled": true,
                 "c_b2ccrm_syncCustomersEnabled": false,
+                "c_b2ccrm_syncPasswordResetEnabled": true,
                 "c_b2ccrm_syncCustomersViaOCAPI": true
             }
 
@@ -228,6 +233,7 @@ module.exports = {
                 "c_b2ccrm_syncCustomersOnLoginEnabled",
                 "c_b2ccrm_syncCustomersOnLoginOnceEnabled",
                 "c_b2ccrm_syncCustomersViaOCAPI",
+                "c_b2ccrm_syncPasswordResetEnabled",
                 "c_b2ccrm_syncIsEnabled"
             ],
 

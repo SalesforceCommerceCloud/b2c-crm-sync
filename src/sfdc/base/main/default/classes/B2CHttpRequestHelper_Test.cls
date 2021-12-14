@@ -302,7 +302,34 @@ private class B2CHttpRequestHelper_Test {
         System.assert(requestResults.getEndpoint().contains(b2cCustomerNo), 'Expected the apiVersion to be present in the request endpoint');
         System.assert(requestResults.getBody().contains(b2cCustomerProfileJSON), 'Expected the profileJSON to be present in the request body');
         System.assert(requestResults.getHeader('Authorization').contains(accessToken), 'Expected the accessToken to be present in the authorization header');
-
     }
 
+    /**
+     * @see B2CHttpRequestHelper.resetPasswordRequest
+     * @description This test method is used to exercise the reset password request.
+     * It is used to start the reset password workflow.
+     */
+    @IsTest
+    static void testResetPasswordRequest() {
+        String apiUrl = 'https://www.example.com';
+        String siteId = 'RefArch';
+        String apiVersion = 'v20_10';
+        String customerId = 'a8623jade123';
+        String clientId = 'my-test-clientId';
+        String accessToken = B2CConstant.AUTHTEST_AUTHTOKEN;
+
+        Test.startTest();
+
+        HttpRequest requestResults = B2CHttpRequestHelper.resetPasswordRequest(
+                apiUrl, siteId, apiVersion, customerId, clientId, accessToken
+        );
+
+        Test.stopTest();
+
+        // Validate that the request was successfully generated
+        System.assert(requestResults.getEndpoint().contains(apiUrl), 'Expected the apiUrl to be present in the request endpoint');
+        System.assert(requestResults.getEndpoint().contains(apiVersion), 'Expected the apiVersion to be present in the request endpoint');
+        System.assert(requestResults.getEndpoint().contains(customerId), 'Expected the customerId to be present in the request endpoint');
+        System.assert(requestResults.getHeader('x-dw-client-id').contains(clientId), 'Expected the clientId to be present in the request client-id header');
+    }
 }
