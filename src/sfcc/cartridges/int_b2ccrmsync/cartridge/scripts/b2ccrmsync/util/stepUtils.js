@@ -19,7 +19,9 @@ var TODAY_MINUS_DAYS_REGEX = /_today_\s?-([0-9]+)/g; // Example: https://regex10
  * @returns {Boolean} Returns true if the jobStep is enabled; false if disabled
  */
 module.exports.isDisabled = function (parameters) {
-    if (!parameters) { return false; }
+    if (!parameters) {
+        return false;
+    }
     return ['true', true].indexOf(parameters.IsDisabled) > -1;
 };
 
@@ -51,7 +53,9 @@ module.exports.isDisabled = function (parameters) {
  * @returns {String} Returns the string with the replaced placeholders
  */
 module.exports.replacePlaceholders = function (str) {
-    if (empty(str)) { return str; }
+    if (empty(str)) {
+        return str;
+    }
 
     /** @type {dw.util.Calendar} */
     var calendar = new Calendar();
@@ -114,7 +118,9 @@ module.exports.replacePlaceholders = function (str) {
  * @returns {String} Returns the updated stringValue
  */
 function applyRegexOnString(str, regex, unit, format) {
-    if (empty(str)) { return str; }
+    if (empty(str)) {
+        return str;
+    }
 
     var match;
     // eslint-disable-next-line no-cond-assign

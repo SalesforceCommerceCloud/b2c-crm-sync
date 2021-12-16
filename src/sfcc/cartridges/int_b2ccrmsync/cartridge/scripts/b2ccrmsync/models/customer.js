@@ -118,7 +118,7 @@ Customer.prototype = {
             var thisDate = new Date();
             syncResponseText.push(require('dw/util/StringUtils').format('{0}: {1}', thisDate.toUTCString(), text));
             // In case the number of values is exceeding the quota, remove the oldest entry
-            if (syncResponseText.length >= require('../util/helpers').MAX_SET_ENTRIES) { syncResponseText.shift(); }
+            if (syncResponseText.length >= require('*/cartridge/scripts/b2ccrmsync/util/helpers').MAX_SET_ENTRIES) { syncResponseText.shift(); }
             this.profile.custom.b2ccrm_syncResponseText = syncResponseText;
         }.bind(this));
 

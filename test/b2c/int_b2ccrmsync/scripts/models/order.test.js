@@ -8,8 +8,8 @@ const sinonTest = require('sinon-test');
 sinon.test = sinonTest(sinon);
 const sinonChai = require('sinon-chai');
 chai.use(sinonChai);
+const proxyquire = require('proxyquire').noCallThru();
 require('dw-api-mock/demandware-globals');
-const OrderModel = require(path.join(process.cwd(), 'src/sfcc/cartridges/int_b2ccrmsync/cartridge/scripts/models/order'));
 
 class Profile {
     constructor(customerNo, email, firstName, lastName, b2cID, sfContactId, sfAccountId) {
@@ -89,11 +89,13 @@ class Order {
     }
 }
 
-describe('int_b2ccrmsync/cartridge/scripts/models/order', function () {
+describe('int_b2ccrmsync/cartridge/scripts/b2ccrmsync/models/order', function () {
     let sandbox;
     let spy;
     let profile;
     let orderObj;
+    let requireStub;
+    let OrderModel;
 
     before('setup sandbox', function () {
         sandbox = sinon.createSandbox();
@@ -102,6 +104,11 @@ describe('int_b2ccrmsync/cartridge/scripts/models/order', function () {
     beforeEach(function () {
         profile = new Profile('0000001', 'jdoe@salesforce.com', 'Jane', 'Doe', 'aaaaaa', 'bbbbbb', 'cccccc');
         orderObj = new Order(profile, 'jdoe@salesforce.com', 'Jane', 'Doe', 'bbbbbb', 'cccccc');
+
+        requireStub = {
+            '*/cartridge/scripts/b2ccrmsync/util/helpers': require(path.join(process.cwd(), 'src/sfcc/cartridges/int_b2ccrmsync/cartridge/scripts/b2ccrmsync/util/helpers'))
+        };
+        OrderModel = proxyquire(path.join(process.cwd(), 'src/sfcc/cartridges/int_b2ccrmsync/cartridge/scripts/b2ccrmsync/models/order'), requireStub);
     });
 
     afterEach(function () {

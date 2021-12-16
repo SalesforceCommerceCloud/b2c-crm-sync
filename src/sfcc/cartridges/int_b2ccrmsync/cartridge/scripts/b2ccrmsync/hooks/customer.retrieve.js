@@ -21,7 +21,7 @@ var LOGGER = require('dw/system/Logger').getLogger('int_b2ccrmsync', 'hooks.cust
  * @returns {Object|*} The response object from the Salesforce Platform in case the customer has been successfully retrieved, or undefined otherwise
  */
 function customerRetrieve(profileDetails, saveContactIdOnProfile) {
-    if (!require('../util/helpers').isIntegrationEnabled() || !profileDetails) {
+    if (!require('*/cartridge/scripts/b2ccrmsync/util/helpers').isIntegrationEnabled() || !profileDetails) {
         return;
     }
 
@@ -46,7 +46,7 @@ function customerRetrieve(profileDetails, saveContactIdOnProfile) {
     try {
 
         /** @typeof {Customer} */
-        var profileModel = new (require('../models/customer'))(areDetailsAnInstanceOfProfile ? profileDetails : undefined);
+        var profileModel = new (require('*/cartridge/scripts/b2ccrmsync/models/customer'))(areDetailsAnInstanceOfProfile ? profileDetails : undefined);
         var requestBody;
 
         if (areDetailsAnInstanceOfProfile) {
@@ -60,7 +60,7 @@ function customerRetrieve(profileDetails, saveContactIdOnProfile) {
             requestBody = profileModel.getRequestBody(profileDetails);
         }
 
-        var ServiceMgr = require('../services/ServiceMgr');
+        var ServiceMgr = require('*/cartridge/scripts/b2ccrmsync/services/ServiceMgr');
         LOGGER.info('Retrieving the customer profile to Salesforce core. Here is the request body: {0}', requestBody);
         var result = ServiceMgr.callRestService('customer', 'retrieve', requestBody);
 

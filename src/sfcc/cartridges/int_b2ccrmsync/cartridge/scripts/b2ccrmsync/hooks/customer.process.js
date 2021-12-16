@@ -18,7 +18,7 @@ var LOGGER = require('dw/system/Logger').getLogger('int_b2ccrmsync', 'hooks.cust
  * @return {Boolean} If the process has been a success or not
  */
 function customerLoggedIn(profile) {
-    if (!require('../util/helpers').isIntegrationEnabled() || !profile) {
+    if (!require('*/cartridge/scripts/b2ccrmsync/util/helpers').isIntegrationEnabled() || !profile) {
         return false;
     }
 
@@ -27,7 +27,7 @@ function customerLoggedIn(profile) {
     var Site = require('dw/system/Site').getCurrent();
     var isSyncEnabled = Site.getCustomPreferenceValue('b2ccrm_syncCustomersOnLoginEnabled');
     var isSyncOnceEnabled = Site.getCustomPreferenceValue('b2ccrm_syncCustomersOnLoginOnceEnabled');
-    if (!isSyncEnabled || (isSyncEnabled && isSyncOnceEnabled && require('../util/helpers').sfdcContactIDIdentifierPresent(profile))) {
+    if (!isSyncEnabled || (isSyncEnabled && isSyncOnceEnabled && require('*/cartridge/scripts/b2ccrmsync/util/helpers').sfdcContactIDIdentifierPresent(profile))) {
         return false;
     }
 
@@ -43,7 +43,7 @@ function customerLoggedIn(profile) {
  * @return {Boolean} If the process has been a success or not
  */
 function customerCreated(profile) {
-    if (!require('../util/helpers').isIntegrationEnabled() || !profile) {
+    if (!require('*/cartridge/scripts/b2ccrmsync/util/helpers').isIntegrationEnabled() || !profile) {
         return false;
     }
 
@@ -59,7 +59,7 @@ function customerCreated(profile) {
  * @return {Boolean} If the process has been a success or not
  */
 function customerSynchronized(profile) {
-    if (!require('../util/helpers').isIntegrationEnabled() || !profile) {
+    if (!require('*/cartridge/scripts/b2ccrmsync/util/helpers').isIntegrationEnabled() || !profile) {
         return false;
     }
 
@@ -74,7 +74,7 @@ function customerSynchronized(profile) {
  * @return {Boolean} If the process has been a success or not
  */
 function customerUpdated(profile) {
-    if (!require('../util/helpers').isIntegrationEnabled() || !profile) {
+    if (!require('*/cartridge/scripts/b2ccrmsync/util/helpers').isIntegrationEnabled() || !profile) {
         return false;
     }
 
@@ -101,8 +101,8 @@ function handleProcess(profile, action) {
      * @property {String} outputValues.Contact.AccountId Represents the primary key of the parent Salesforce Account
      */
 
-    var ServiceMgr = require('../services/ServiceMgr');
-    var profileModel = new (require('../models/customer'))(profile);
+    var ServiceMgr = require('*/cartridge/scripts/b2ccrmsync/services/ServiceMgr');
+    var profileModel = new (require('*/cartridge/scripts/b2ccrmsync/models/customer'))(profile);
 
     try {
         // Set the profile status, meaning that we start the export process

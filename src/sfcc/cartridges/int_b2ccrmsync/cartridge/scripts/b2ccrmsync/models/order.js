@@ -24,7 +24,9 @@ function Order(order) {
     this.order = order;
 
     // Exit early if no orders have been created
-    if (!this.order) { return; }
+    if (!this.order) {
+        return;
+    }
 
     /**
      * @typedef {Object} profileDef Represents the profile-definition to be shared with the Salesforce Platform
@@ -102,7 +104,7 @@ Order.prototype = {
             var syncResponseText = (this.order.custom.b2ccrm_syncResponseText || []).slice(0);
             syncResponseText.push(require('dw/util/StringUtils').format('{0}: {1}', (new Date()).toUTCString(), text));
             // In case the number of values is exceeding the quota, remove the oldest entry
-            if (syncResponseText.length >= require('../util/helpers').MAX_SET_ENTRIES) {
+            if (syncResponseText.length >= require('*/cartridge/scripts/b2ccrmsync/util/helpers').MAX_SET_ENTRIES) {
                 syncResponseText.shift();
             }
             this.order.custom.b2ccrm_syncResponseText = syncResponseText;

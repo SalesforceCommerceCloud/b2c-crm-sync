@@ -8,8 +8,8 @@ const sinonTest = require('sinon-test');
 sinon.test = sinonTest(sinon);
 const sinonChai = require('sinon-chai');
 chai.use(sinonChai);
+const proxyquire = require('proxyquire').noCallThru();
 require('dw-api-mock/demandware-globals');
-const CustomerModel = require(path.join(process.cwd(), 'src/sfcc/cartridges/int_b2ccrmsync/cartridge/scripts/models/customer'));
 
 class Profile {
     constructor(customerNo, email, firstName, lastName, b2cID, sfContactId, sfAccountId) {
@@ -50,10 +50,12 @@ class Profile {
     }
 }
 
-describe('int_b2ccrmsync/cartridge/scripts/models/customer', function () {
+describe('int_b2ccrmsync/cartridge/scripts/b2ccrmsync/models/customer', function () {
     let sandbox;
     let spy;
     let profile;
+    let requireStub;
+    let CustomerModel;
 
     before('setup sandbox', function () {
         sandbox = sinon.createSandbox();
@@ -61,6 +63,11 @@ describe('int_b2ccrmsync/cartridge/scripts/models/customer', function () {
 
     beforeEach(function () {
         profile = new Profile('0000001', 'jdoe@salesforce.com', 'Jane', 'Doe', 'aaaaaa', 'bbbbbb', 'cccccc');
+
+        requireStub = {
+            '*/cartridge/scripts/b2ccrmsync/util/helpers': require(path.join(process.cwd(), 'src/sfcc/cartridges/int_b2ccrmsync/cartridge/scripts/b2ccrmsync/util/helpers'))
+        };
+        CustomerModel = proxyquire(path.join(process.cwd(), 'src/sfcc/cartridges/int_b2ccrmsync/cartridge/scripts/b2ccrmsync/models/customer'), requireStub);
     });
 
     afterEach(function () {

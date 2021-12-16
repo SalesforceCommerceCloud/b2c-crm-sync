@@ -30,7 +30,7 @@ function setAuthHeader(svc, endpoint, bypassCache) {
      * @property {String} instance_url Describes the url of the source-system from which an authToken was generated
      */
 
-    var token = require('../models/authToken').getValidToken(bypassCache);
+    var token = require('*/cartridge/scripts/b2ccrmsync/models/authToken').getValidToken(bypassCache);
     svc.setAuthentication('NONE');
     svc.addHeader('Authorization', require('dw/util/StringUtils').format('{0} {1}', token.token_type, token.access_token));
     svc.setURL(require('dw/util/StringUtils').format('{0}/{1}', token.instance_url, endpoint));
@@ -54,10 +54,10 @@ function serviceCallback(model, operation, bypassCache) {
             return body;
         },
         parseResponse: function parseResponse(svc, client) {
-            return require('../util/helpers').expandJSON(client.text, client.text);
+            return require('*/cartridge/scripts/b2ccrmsync/util/helpers').expandJSON(client.text, client.text);
         },
         mockFull: function () {
-            return require(require('dw/util/StringUtils').format('./mocks/{0}.{1}', model, operation));
+            return require(require('dw/util/StringUtils').format('*/cartridge/scripts/b2ccrmsync/services/mocks/{0}.{1}', model, operation));
         },
         getRequestLogMessage: function (request) {
             LOGGER.debug(JSON.stringify(request));
