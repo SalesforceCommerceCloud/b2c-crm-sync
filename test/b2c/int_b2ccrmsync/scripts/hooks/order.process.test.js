@@ -11,9 +11,10 @@ chai.use(sinonChai);
 const proxyquire = require('proxyquire').noCallThru();
 require('dw-api-mock/demandware-globals');
 const config = require(path.join(process.cwd(), 'src/sfcc/cartridges/int_b2ccrmsync/cartridge/scripts/b2ccrmsync.config'));
+const helpers = require(path.join(process.cwd(), 'src/sfcc/cartridges/int_b2ccrmsync/cartridge/scripts/b2ccrmsync/util/helpers'));
 config.services.auth = `http.${config.services.auth}`; // Prepend the 'http' prefix so that the dw-api-mock understands that this is a HTTP Service instance
 config.services.rest = `http.${config.services.rest}`; // Prepend the 'http' prefix so that the dw-api-mock understands that this is a HTTP Service instance
-const customerProcessMock = require(path.join(process.cwd(), 'src/sfcc/cartridges/int_b2ccrmsync/cartridge/scripts/services/mocks/customer.process'));
+const customerProcessMock = require(path.join(process.cwd(), 'src/sfcc/cartridges/int_b2ccrmsync/cartridge/scripts/b2ccrmsync/services/mocks/customer.process'));
 
 class Profile {
     constructor(customerNo, email, firstName, lastName, b2cID, sfContactId, sfAccountId) {
@@ -105,7 +106,7 @@ const getEnabledSite = () => {
     return site;
 };
 
-describe('int_b2ccrmsync/cartridge/scripts/hooks/order.process', function () {
+describe('int_b2ccrmsync/cartridge/scripts/b2ccrmsync/hooks/order.process', function () {
     let sandbox;
     let spy;
     let requireStub;
@@ -121,14 +122,21 @@ describe('int_b2ccrmsync/cartridge/scripts/hooks/order.process', function () {
         global.request.locale = 'en_US';
         requireStub = {
             'dw/system/Site': require('dw-api-mock/dw/system/Site'),
-            '../models/authToken': sandbox.stub().returns(require(path.join(process.cwd(), 'src/sfcc/cartridges/int_b2ccrmsync/cartridge/scripts/models/authToken'))),
-            '../services/ServiceMgr': require(path.join(process.cwd(), 'src/sfcc/cartridges/int_b2ccrmsync/cartridge/scripts/services/ServiceMgr')),
-            '../b2ccrmsync.config': config
+            '*/cartridge/scripts/b2ccrmsync/models/authToken': sandbox.stub().returns(require(path.join(process.cwd(), 'src/sfcc/cartridges/int_b2ccrmsync/cartridge/scripts/b2ccrmsync/models/authToken'))),
+            '*/cartridge/scripts/b2ccrmsync/services/ServiceMgr': require(path.join(process.cwd(), 'src/sfcc/cartridges/int_b2ccrmsync/cartridge/scripts/b2ccrmsync/services/ServiceMgr')),
+            '*/cartridge/scripts/b2ccrmsync.config': config,
+            '*/cartridge/scripts/b2ccrmsync/util/helpers': helpers,
+            '*/cartridge/scripts/b2ccrmsync/models/order': proxyquire(path.join(process.cwd(), 'src/sfcc/cartridges/int_b2ccrmsync/cartridge/scripts/b2ccrmsync/models/order'), {
+                '*/cartridge/scripts/b2ccrmsync/util/helpers': helpers
+            }),
+            '*/cartridge/scripts/b2ccrmsync/models/customer': proxyquire(path.join(process.cwd(), 'src/sfcc/cartridges/int_b2ccrmsync/cartridge/scripts/b2ccrmsync/models/customer'), {
+                '*/cartridge/scripts/b2ccrmsync/util/helpers': helpers
+            })
         };
-        orderProcessHook = proxyquire(path.join(process.cwd(), 'src/sfcc/cartridges/int_b2ccrmsync/cartridge/scripts/hooks/order.process'), requireStub);
+        orderProcessHook = proxyquire(path.join(process.cwd(), 'src/sfcc/cartridges/int_b2ccrmsync/cartridge/scripts/b2ccrmsync/hooks/order.process'), requireStub);
         profile = new Profile('0000001', 'jdoe@salesforce.com', 'Jane', 'Doe', 'aaaaaa', 'bbbbbb', 'cccccc');
         order = new Order(undefined, 'jdoe@salesforce.com', 'Jane', 'Doe', 'bbbbbb', 'cccccc');
-        spy = sinon.spy(require(path.join(process.cwd(), 'src/sfcc/cartridges/int_b2ccrmsync/cartridge/scripts/services/ServiceMgr')), 'callRestService');
+        spy = sinon.spy(require(path.join(process.cwd(), 'src/sfcc/cartridges/int_b2ccrmsync/cartridge/scripts/b2ccrmsync/services/ServiceMgr')), 'callRestService');
     });
 
     afterEach(function () {
@@ -183,7 +191,7 @@ describe('int_b2ccrmsync/cartridge/scripts/hooks/order.process', function () {
         it('should call the rest service to process the guest-order and fail silently if the service replies an error', function () {
             const site = getEnabledSite();
             requireStub['dw/system/Site'].getCurrent = sandbox.stub().returns(site);
-            requireStub['../services/ServiceMgr'].callRestService = sandbox.stub().returns({
+            requireStub['*/cartridge/scripts/b2ccrmsync/services/ServiceMgr'].callRestService = sandbox.stub().returns({
                 status: 'ERROR',
                 error: 'error',
                 errorMessage: 'message'
@@ -199,7 +207,7 @@ describe('int_b2ccrmsync/cartridge/scripts/hooks/order.process', function () {
             let mockResponse = JSON.parse(JSON.stringify(customerProcessMock));
             mockResponse[0].isSuccess = false;
             mockResponse[0].errors = ['error1', 'error2'];
-            requireStub['../services/ServiceMgr'].callRestService = sandbox.stub().returns({
+            requireStub['*/cartridge/scripts/b2ccrmsync/services/ServiceMgr'].callRestService = sandbox.stub().returns({
                 status: 'OK',
                 object: mockResponse
             });
@@ -211,7 +219,7 @@ describe('int_b2ccrmsync/cartridge/scripts/hooks/order.process', function () {
         it('should call the rest service to process the guest-order and update the order\'s custom attributes accordingly', function () {
             const site = getEnabledSite();
             requireStub['dw/system/Site'].getCurrent = sandbox.stub().returns(site);
-            requireStub['../services/ServiceMgr'].callRestService = sandbox.stub().returns({
+            requireStub['*/cartridge/scripts/b2ccrmsync/services/ServiceMgr'].callRestService = sandbox.stub().returns({
                 status: 'OK',
                 object: customerProcessMock
             });
@@ -226,7 +234,7 @@ describe('int_b2ccrmsync/cartridge/scripts/hooks/order.process', function () {
             order = new Order(profile, 'jdoe@salesforce.com', 'Jane', 'Doe', 'bbbbbb', 'cccccc');
             const site = getEnabledSite();
             requireStub['dw/system/Site'].getCurrent = sandbox.stub().returns(site);
-            requireStub['../services/ServiceMgr'].callRestService = sandbox.stub().returns({
+            requireStub['*/cartridge/scripts/b2ccrmsync/services/ServiceMgr'].callRestService = sandbox.stub().returns({
                 status: 'OK',
                 object: customerProcessMock
             });

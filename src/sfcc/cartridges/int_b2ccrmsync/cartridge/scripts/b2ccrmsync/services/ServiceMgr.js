@@ -162,7 +162,7 @@ module.exports = {
              * @returns {Object} Returns a responseObject driven by the httpClient
              */
             parseResponse: function (svc, client) {
-                var responseObj = require('../util/helpers').expandJSON(client.text, client.text);
+                var responseObj = require('*/cartridge/scripts/b2ccrmsync/util/helpers').expandJSON(client.text, client.text);
                 if (responseObj && responseObj.access_token) {
                     LOGGER.debug('Auth service, access token successfully retrieved: {0}', responseObj.access_token);
                 }
@@ -170,7 +170,7 @@ module.exports = {
                 return responseObj;
             },
             mockFull: function () {
-                return require('./mocks/auth');
+                return require('*/cartridge/scripts/b2ccrmsync/services/mocks/auth');
             },
             getRequestLogMessage: function (request) {
                 LOGGER.debug(JSON.stringify(request));
@@ -200,7 +200,7 @@ module.exports = {
         var thisCallCount = callCounter || 0;
         var svc = getService(
             config.services.rest,
-            require('./rest').getServiceCallback(model, state, bypassCache)
+            require('*/cartridge/scripts/b2ccrmsync/services/rest').getServiceCallback(model, state, bypassCache)
         );
         var result = svc.call(requestBody);
         thisCallCount++;

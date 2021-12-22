@@ -11,15 +11,17 @@ chai.use(sinonChai);
 const proxyquire = require('proxyquire').noCallThru();
 require('dw-api-mock/demandware-globals');
 const config = require(path.join(process.cwd(), 'src/sfcc/cartridges/int_b2ccrmsync/cartridge/scripts/b2ccrmsync.config'));
+const helpers = require(path.join(process.cwd(), 'src/sfcc/cartridges/int_b2ccrmsync/cartridge/scripts/b2ccrmsync/util/helpers'));
 config.services.auth = `http.${config.services.auth}`; // Prepend the 'http' prefix so that the dw-api-mock understands that this is a HTTP Service instance
 config.services.rest = `http.${config.services.rest}`; // Prepend the 'http' prefix so that the dw-api-mock understands that this is a HTTP Service instance
-const authMock = require(path.join(process.cwd(), 'src/sfcc/cartridges/int_b2ccrmsync/cartridge/scripts/services/mocks/auth'));
-const customerRetrieveMock = require(path.join(process.cwd(), 'src/sfcc/cartridges/int_b2ccrmsync/cartridge/scripts/services/mocks/customer.retrieve'));
-const customerProcessMock = require(path.join(process.cwd(), 'src/sfcc/cartridges/int_b2ccrmsync/cartridge/scripts/services/mocks/customer.process'));
+const authMock = require(path.join(process.cwd(), 'src/sfcc/cartridges/int_b2ccrmsync/cartridge/scripts/b2ccrmsync/services/mocks/auth'));
+const customerRetrieveMock = require(path.join(process.cwd(), 'src/sfcc/cartridges/int_b2ccrmsync/cartridge/scripts/b2ccrmsync/services/mocks/customer.retrieve'));
+const customerProcessMock = require(path.join(process.cwd(), 'src/sfcc/cartridges/int_b2ccrmsync/cartridge/scripts/b2ccrmsync/services/mocks/customer.process'));
 
-describe('int_b2ccrmsync/cartridge/scripts/services/ServiceMgr', function () {
+describe('int_b2ccrmsync/cartridge/scripts/b2ccrmsync/services/ServiceMgr', function () {
     let sandbox;
     let requireStub;
+    let restRequireStub;
     let serviceMgr;
 
     before('setup sandbox', function () {
@@ -27,14 +29,33 @@ describe('int_b2ccrmsync/cartridge/scripts/services/ServiceMgr', function () {
     });
 
     beforeEach(function () {
-        sandbox.restore();
         global.request.locale = 'en_US';
+        restRequireStub = {
+            '*/cartridge/scripts/b2ccrmsync.config': config,
+            '*/cartridge/scripts/b2ccrmsync/util/helpers': helpers,
+            '*/cartridge/scripts/b2ccrmsync/models/authToken': proxyquire(path.join(process.cwd(), 'src/sfcc/cartridges/int_b2ccrmsync/cartridge/scripts/b2ccrmsync/models/authToken'), {
+                '*/cartridge/scripts/b2ccrmsync.config': config,
+                '*/cartridge/scripts/b2ccrmsync/services/ServiceMgr': proxyquire(path.join(process.cwd(), 'src/sfcc/cartridges/int_b2ccrmsync/cartridge/scripts/b2ccrmsync/services/ServiceMgr'), {
+                    '*/cartridge/scripts/b2ccrmsync.config': config,
+                    '*/cartridge/scripts/b2ccrmsync/util/helpers': helpers
+                })
+            })
+        };
         requireStub = {
             'dw/svc/LocalServiceRegistry': require('dw-api-mock/dw/svc/LocalServiceRegistry'),
-            '../models/authToken': require(path.join(process.cwd(), 'src/sfcc/cartridges/int_b2ccrmsync/cartridge/scripts/models/authToken')),
-            '../b2ccrmsync.config': config
+            '*/cartridge/scripts/b2ccrmsync/util/helpers': helpers,
+            '*/cartridge/scripts/b2ccrmsync/services/mocks/auth': authMock,
+            '*/cartridge/scripts/b2ccrmsync/models/authToken': proxyquire(path.join(process.cwd(), 'src/sfcc/cartridges/int_b2ccrmsync/cartridge/scripts/b2ccrmsync/models/authToken'), {
+                '*/cartridge/scripts/b2ccrmsync.config': config,
+                '*/cartridge/scripts/b2ccrmsync/services/ServiceMgr': proxyquire(path.join(process.cwd(), 'src/sfcc/cartridges/int_b2ccrmsync/cartridge/scripts/b2ccrmsync/services/ServiceMgr'), {
+                    '*/cartridge/scripts/b2ccrmsync.config': config,
+                    '*/cartridge/scripts/b2ccrmsync/util/helpers': helpers
+                })
+            }),
+            '*/cartridge/scripts/b2ccrmsync.config': config,
+            '*/cartridge/scripts/b2ccrmsync/services/rest': proxyquire(path.join(process.cwd(), 'src/sfcc/cartridges/int_b2ccrmsync/cartridge/scripts/b2ccrmsync/services/rest'), restRequireStub)
         };
-        serviceMgr = proxyquire(path.join(process.cwd(), 'src/sfcc/cartridges/int_b2ccrmsync/cartridge/scripts/services/ServiceMgr'), requireStub);
+        serviceMgr = proxyquire(path.join(process.cwd(), 'src/sfcc/cartridges/int_b2ccrmsync/cartridge/scripts/b2ccrmsync/services/ServiceMgr'), requireStub);
     });
 
     describe('getAuthService', function () {
@@ -81,21 +102,26 @@ describe('int_b2ccrmsync/cartridge/scripts/services/ServiceMgr', function () {
 
         it('should execute the service call to retrieve the customer by using a valid Auth token', function () {
             // Apply the mock as response of the access token API call
-            requireStub['../models/authToken'].getValidToken = () => authMock;
+            restRequireStub['*/cartridge/scripts/b2ccrmsync/models/authToken'].getValidToken = () => authMock;
             const result = serviceMgr.callRestService('customer', 'retrieve');
             expect(result).to.not.be.null;
         });
 
         it('should execute the service call to process the customer by using a valid Auth token', function () {
             // Apply the mock as response of the access token API call
-            requireStub['../models/authToken'].getValidToken = () => authMock;
+            restRequireStub['*/cartridge/scripts/b2ccrmsync/models/authToken'].getValidToken = () => authMock;
             const result = serviceMgr.callRestService('customer', 'process');
             expect(result).to.not.be.null;
         });
 
         it('should execute the mockFull method of the retrieve service, and so return the mock as result', function () {
             const serviceInstance = new (require('dw-api-mock/dw/svc/HTTPService'))(
-                require(path.join(process.cwd(), 'src/sfcc/cartridges/int_b2ccrmsync/cartridge/scripts/services/rest')).getServiceCallback('customer', 'retrieve'),
+                proxyquire(path.join(process.cwd(), 'src/sfcc/cartridges/int_b2ccrmsync/cartridge/scripts/b2ccrmsync/services/rest'), {
+                    '*/cartridge/scripts/b2ccrmsync.config': config,
+                    '*/cartridge/scripts/b2ccrmsync/services/mocks/customer.retrieve': customerRetrieveMock,
+                    '*/cartridge/scripts/b2ccrmsync/models/authToken': requireStub['*/cartridge/scripts/b2ccrmsync/models/authToken']
+                }
+                ).getServiceCallback('customer', 'retrieve'),
                 'POST'
             );
             serviceInstance.mock = true;
@@ -107,7 +133,12 @@ describe('int_b2ccrmsync/cartridge/scripts/services/ServiceMgr', function () {
 
         it('should execute the mockFull method of the process service, and so return the mock as result', function () {
             const serviceInstance = new (require('dw-api-mock/dw/svc/HTTPService'))(
-                require(path.join(process.cwd(), 'src/sfcc/cartridges/int_b2ccrmsync/cartridge/scripts/services/rest')).getServiceCallback('customer', 'process'),
+                proxyquire(path.join(process.cwd(), 'src/sfcc/cartridges/int_b2ccrmsync/cartridge/scripts/b2ccrmsync/services/rest'), {
+                    '*/cartridge/scripts/b2ccrmsync.config': config,
+                    '*/cartridge/scripts/b2ccrmsync/services/mocks/customer.process': customerProcessMock,
+                    '*/cartridge/scripts/b2ccrmsync/models/authToken': requireStub['*/cartridge/scripts/b2ccrmsync/models/authToken']
+                }
+                ).getServiceCallback('customer', 'process'),
                 'POST'
             );
             serviceInstance.mock = true;

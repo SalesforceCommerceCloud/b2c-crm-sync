@@ -12,10 +12,10 @@ const proxyquire = require('proxyquire').noCallThru();
 require('dw-api-mock/demandware-globals');
 const config = require(path.join(process.cwd(), 'src/sfcc/cartridges/int_b2ccrmsync/cartridge/scripts/b2ccrmsync.config'));
 config.services.auth = `http.${config.services.auth}`; // Prepend the 'http' prefix so that the dw-api-mock understands that this is a HTTP Service instance
-const serviceMock = require(path.join(process.cwd(), 'src/sfcc/cartridges/int_b2ccrmsync/cartridge/scripts/services/mocks/auth'));
+const serviceMock = require(path.join(process.cwd(), 'src/sfcc/cartridges/int_b2ccrmsync/cartridge/scripts/b2ccrmsync/services/mocks/auth'));
 const tokenObjectKeys = ['access_token', 'instance_url', 'id', 'token_type', 'issued_at', 'signature'];
 
-describe('int_b2ccrmsync/cartridge/scripts/models/authToken', function () {
+describe('int_b2ccrmsync/cartridge/scripts/b2ccrmsync/models/authToken', function () {
     let sandbox;
     let spy;
     let authTokenModel;
@@ -28,9 +28,13 @@ describe('int_b2ccrmsync/cartridge/scripts/models/authToken', function () {
     beforeEach('setup sandbox', function () {
         requireStub = {
             'dw/system/CacheMgr': require('dw-api-mock/dw/system/CacheMgr'),
-            '../b2ccrmsync.config': config
+            '*/cartridge/scripts/b2ccrmsync.config': config,
+            '*/cartridge/scripts/b2ccrmsync/services/ServiceMgr': proxyquire(path.join(process.cwd(), 'src/sfcc/cartridges/int_b2ccrmsync/cartridge/scripts/b2ccrmsync/services/ServiceMgr'), {
+                '*/cartridge/scripts/b2ccrmsync.config': config,
+                '*/cartridge/scripts/b2ccrmsync/util/helpers': require(path.join(process.cwd(), 'src/sfcc/cartridges/int_b2ccrmsync/cartridge/scripts/b2ccrmsync/util/helpers'))
+            })
         };
-        authTokenModel = proxyquire(path.join(process.cwd(), 'src/sfcc/cartridges/int_b2ccrmsync/cartridge/scripts/models/authToken'), requireStub);
+        authTokenModel = proxyquire(path.join(process.cwd(), 'src/sfcc/cartridges/int_b2ccrmsync/cartridge/scripts/b2ccrmsync/models/authToken'), requireStub);
     });
 
     afterEach(function () {

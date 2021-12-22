@@ -20,7 +20,6 @@ var EXPIRE_LIMIT = 10 * MINUTES * 1000;
  * @returns {Boolean} Whether the token is valid and not expired
  */
 function isValidAuth(tokenObj) {
-
     /**
      * @typedef  {Object} tokenObj
      * @description Represents the tokenObject provided by the Salesforce Platform
@@ -48,14 +47,12 @@ function isValidAuth(tokenObj) {
  * valid or not found, throw an error
  */
 function getValidToken(bypassCache) {
-
-    // Initialize local variables
     var cache,
         cacheKey,
         tokenObj;
 
     // Pull the cache using the customCacheKey
-    cache = require('dw/system/CacheMgr').getCache(require('../b2ccrmsync.config').customCacheID);
+    cache = require('dw/system/CacheMgr').getCache(require('*/cartridge/scripts/b2ccrmsync.config').customCacheID);
 
     // Cache the token per site, per locale
     // This is useful in case the integration is per country
@@ -70,7 +67,7 @@ function getValidToken(bypassCache) {
     // Retrieve the token from the in-memory cache
     tokenObj = cache.get(cacheKey, function requestAuthToken() {
         // In case the token does not exist in the cache, then retrieve it from the API, and store it
-        var svc = require('../services/ServiceMgr').getAuthService();
+        var svc = require('*/cartridge/scripts/b2ccrmsync/services/ServiceMgr').getAuthService();
         var result = svc.call();
         if (result.status === 'OK' && !empty(result.object)) {
             // In case the auth token has been retrieved, then return it, so that it will be cached in the CacheMgr

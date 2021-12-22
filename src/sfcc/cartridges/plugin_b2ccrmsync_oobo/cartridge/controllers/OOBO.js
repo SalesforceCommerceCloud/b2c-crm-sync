@@ -9,8 +9,6 @@ var server = require('server');
  * Once the auth is created, this PlaceHolder session is explicitly invalidated, but the agent context remains active.
  */
 server.get('AgentHeader', server.middleware.include, function (req, res, next) {
-
-    // Initialize local variables
     var URLUtils,
         Resource,
         agentHeaderParam,

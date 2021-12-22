@@ -14,9 +14,9 @@ require('dw-api-mock/demandware-globals');
 const requireStub = {
     'dw/system/Site': require('dw-api-mock/dw/system/Site')
 };
-const helpers = proxyquire(path.join(process.cwd(), 'src/sfcc/cartridges/int_b2ccrmsync/cartridge/scripts/util/helpers'), requireStub);
+const helpers = proxyquire(path.join(process.cwd(), 'src/sfcc/cartridges/int_b2ccrmsync/cartridge/scripts/b2ccrmsync/util/helpers'), requireStub);
 
-describe('int_b2ccrmsync/cartridge/scripts/util/helpers', function () {
+describe('int_b2ccrmsync/cartridge/scripts/b2ccrmsync/util/helpers', function () {
     describe('expandJSON', function () {
         it('should parse the given string into a valid object', function () {
             const obj = {

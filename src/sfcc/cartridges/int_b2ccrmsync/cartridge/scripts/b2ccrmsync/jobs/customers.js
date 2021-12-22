@@ -26,7 +26,7 @@ function synchronize(parameters) {
     // Initialize required libraries
     var CustomerMgr = require('dw/customer/CustomerMgr');
     var Status = require('dw/system/Status');
-    var StepUtil = require('int_b2ccrmsync/cartridge/scripts/util/stepUtils');
+    var StepUtil = require('*/cartridge/scripts/b2ccrmsync/util/stepUtils');
 
     //  Is the current jobStep being skipped?  If so, exit early
     if (StepUtil.isDisabled(parameters)) {
@@ -50,7 +50,9 @@ function synchronize(parameters) {
      * @param {dw/customer/Profile} profile The profile to synchronize
      */
     function synchronizeProfile(profile) {
-        if (!profile) { return; }
+        if (!profile) {
+            return;
+        }
 
         // Ensure we don't hit the limit
         if (limit > 0 && (successCounter + errorCounter) >= limit) {
@@ -91,7 +93,7 @@ function synchronize(parameters) {
 
     CustomerMgr.processProfiles(
         synchronizeProfile,
-        query || require('../b2ccrmsync.config').jobs.customers.defaultQuery
+        query || require('*/cartridge/scripts/b2ccrmsync.config').jobs.customers.defaultQuery
     );
 
     // No data have been found from the query, abort
