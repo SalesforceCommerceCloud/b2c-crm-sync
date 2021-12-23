@@ -31,6 +31,10 @@
         <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
+        <field>Position_in_UI__c</field>
+        <value xsi:type="xsd:double">4.0</value>
+    </values>
+    <values>
         <field>Push_Updates_to_B2C_Commerce__c</field>
         <value xsi:type="xsd:boolean">true</value>
     </values>
@@ -49,5 +53,9 @@
     <values>
         <field>Service_Cloud_Object__c</field>
         <value xsi:type="xsd:string">B2C_CustomerAddress__x</value>
+    </values>
+    <values>
+        <field>Show_in_UI__c</field>
+        <value xsi:type="xsd:boolean">false</value>
     </values>
 </CustomMetadata>

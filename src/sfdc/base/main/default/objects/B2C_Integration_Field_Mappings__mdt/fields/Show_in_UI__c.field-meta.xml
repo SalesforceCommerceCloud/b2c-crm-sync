@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Show_in_UI__c</fullName>
+    <defaultValue>true</defaultValue>
+    <description>... when checked, show the field in the Salesfore Core platform UI for view/edit purpose.</description>
+    <externalId>false</externalId>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <inlineHelpText>... when checked, show the field in the Salesfore Core platform UI for view/edit purpose.</inlineHelpText>
+    <label>Show in UI</label>
+    <type>Checkbox</type>
+</CustomField>
