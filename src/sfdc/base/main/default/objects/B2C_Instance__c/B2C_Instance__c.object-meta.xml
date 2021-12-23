@@ -174,7 +174,6 @@
         <customTabListAdditionalFields>B2C_Client_ID__c</customTabListAdditionalFields>
         <excludedStandardButtons>OpenListInQuip</excludedStandardButtons>
         <excludedStandardButtons>Accept</excludedStandardButtons>
-        <excludedStandardButtons>IsotopeSubscription</excludedStandardButtons>
         <excludedStandardButtons>MassChangeOwner</excludedStandardButtons>
         <excludedStandardButtons>ChangeOwner</excludedStandardButtons>
         <lookupDialogsAdditionalFields>Instance_Type__c</lookupDialogsAdditionalFields>

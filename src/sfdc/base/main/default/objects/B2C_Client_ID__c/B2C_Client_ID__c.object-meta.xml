@@ -175,7 +175,6 @@
         <customTabListAdditionalFields>Last_Success_On__c</customTabListAdditionalFields>
         <excludedStandardButtons>OpenListInQuip</excludedStandardButtons>
         <excludedStandardButtons>Accept</excludedStandardButtons>
-        <excludedStandardButtons>IsotopeSubscription</excludedStandardButtons>
         <excludedStandardButtons>Import</excludedStandardButtons>
         <excludedStandardButtons>MassChangeOwner</excludedStandardButtons>
         <excludedStandardButtons>ChangeOwner</excludedStandardButtons>

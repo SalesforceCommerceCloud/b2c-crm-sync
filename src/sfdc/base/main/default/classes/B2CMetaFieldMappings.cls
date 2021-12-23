@@ -163,6 +163,52 @@ public with sharing class B2CMetaFieldMappings extends B2CBaseMeta {
 
     /**
      * @description This method is used to retrieve the collection of multi-cloud
+     * active field mappings for a given Salesforce object that should be rendered in the custom UI.
+     *
+     * @param objectType {String} Represents the name / type of the Salesforce object whose
+     * field-mappings are being retrieved
+     * @return List<B2C_Integration_Field_Mappings__mdt> Returns a collection of field mappings
+     */
+    public static List<B2C_Integration_Field_Mappings__mdt> getFieldMappingsForUIRendering(String objectType) {
+
+        // Initialize local variables
+        List<B2C_Integration_Field_Mappings__mdt> outputFieldMappings;
+        String errorMsg;
+
+        // Default the error message
+        errorMsg = B2CConstant.buildErrorMessage(B2CConstant.ERRORS_META_FIELDMAPPINGOBJECTNOTFOUND, objectType);
+
+        // Retrieve the collection of field-mappings related to this object
+        outputFieldMappings = [
+                SELECT  Service_Cloud_Object__c,
+                        Service_Cloud_Attribute__c,
+                        Service_Cloud_Attribute_Alt__c,
+                        B2C_Commerce_OCAPI_Attribute__c,
+                        B2C_Commerce_Attribute_Type__c,
+                        Seed_Property_on_First_Time_Sync__c,
+                        Push_Updates_to_B2C_Commerce__c,
+                        Consume_Updates_from_B2C_Commerce__c,
+                        Enable_for_Integration__c,
+                        Field_Label__c,
+                        Field_Description__c,
+                        Position_in_UI__c
+                FROM    B2C_Integration_Field_Mappings__mdt
+                WHERE   Service_Cloud_Object__c = :objectType
+                        AND Enable_for_Integration__c = TRUE
+                        AND Show_in_UI__c = TRUE
+                ORDER BY Position_in_UI__c ASC
+        ];
+
+        // Were any records returned by this query?
+        testForEmptyRecordSet(outputFieldMappings.size(), errorMsg);
+
+        // Return the field-mapping values
+        return outputFieldMappings;
+
+    }
+
+    /**
+     * @description This method is used to retrieve the collection of multi-cloud
      * publishable field mappings for a given Salesforce object (ie -- these fields
      * can be published to B2C Commerce
      *
@@ -191,11 +237,13 @@ public with sharing class B2CMetaFieldMappings extends B2CBaseMeta {
                         Consume_Updates_from_B2C_Commerce__c,
                         Enable_for_Integration__c,
                         Field_Label__c,
-                        Field_Description__c
+                        Field_Description__c,
+                        Position_in_UI__c
                 FROM    B2C_Integration_Field_Mappings__mdt
                 WHERE   Service_Cloud_Object__c = :objectType
                         AND Enable_for_Integration__c = TRUE
                         AND Push_Updates_to_B2C_Commerce__c = TRUE
+                ORDER BY Position_in_UI__c ASC
         ];
 
         // Were any records returned by this query?

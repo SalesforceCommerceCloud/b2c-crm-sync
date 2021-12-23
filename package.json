@@ -1,10 +1,10 @@
 {
   "name": "b2c-crm-sync",
-  "version": "0.9.0",
+  "version": "1.0.0",
   "description": "Enablement solution teaching the Salesforce Architect Success B2C Customer Data Strategy.  Unlock frictionless customer experiences by leveraging b2c-crm-sync's progressive resolution of B2C Customer Profiles between B2C Commerce and the Salesforce Platform.",
   "main": "cli.js",
   "engines": {
-    "node": ">=12.16.0",
+    "node": ">=14.17.5",
     "recommended": "15.2.1"
   },
   "scripts": {

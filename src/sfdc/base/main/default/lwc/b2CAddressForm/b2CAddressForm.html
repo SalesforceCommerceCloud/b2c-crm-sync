@@ -1,0 +1,46 @@
+<template>
+    <article class="slds-card">
+        <div class="slds-card__body slds-card__body_inner">
+            <div class="slds-form">
+                <template if:true={error}>
+                    <div class="slds-notify_container slds-is-relative">
+                        <div class="slds-notify slds-notify_toast slds-theme_error" role="status">
+                            <span class="slds-assistive-text">error</span>
+                            <span class="slds-icon_container slds-icon-utility-error slds-m-right_small slds-no-flex slds-align-top">
+                                <lightning-icon icon-name="utility:error" alternative-text="Error" title="Error"></lightning-icon>
+                            </span>
+                            <div class="slds-notify__content">
+                                <h2 class="slds-text-heading_small ">{error}</h2>
+                                <div class="slds-notify__close">
+                                    <lightning-icon icon-name="utility:close" alternative-text="Close" title="Close"></lightning-icon>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+                <div class="slds-grid slds-gutters">
+                    <template for:each={columns} for:item="column">
+                        <div key={column.idx} class="slds-col">
+                            <template for:each={column.fields} for:item="field">
+                                <div key={field.id}>
+                                    <lightning-input type="text" label={field.label} name={field.id} value={field.value} disabled={field.disabled}></lightning-input>
+                                </div>
+                            </template>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </div>
+        <footer class="slds-card__footer">
+            <lightning-button variant="neutral" label="Close" title="Close" onclick={handleClose}></lightning-button>
+            <lightning-button if:false={isViewMode} variant="brand" label="Save" title="Save" onclick={handleSave} class="slds-m-left_x-small"></lightning-button>
+        </footer>
+        <div class="slds-spinner_container" data-spinner>
+            <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand">
+                <span class="slds-assistive-text">Loading</span>
+                <div class="slds-spinner__dot-a"></div>
+                <div class="slds-spinner__dot-b"></div>
+            </div>
+        </div>
+    </article>
+</template>

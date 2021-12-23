@@ -165,9 +165,6 @@
     </layoutSections>
     <quickActionList>
         <quickActionListItems>
-            <quickActionName>NewContact</quickActionName>
-        </quickActionListItems>
-        <quickActionListItems>
             <quickActionName>FeedItem.TextPost</quickActionName>
         </quickActionListItems>
         <quickActionListItems>
@@ -183,13 +180,6 @@
             <quickActionName>FeedItem.QuestionPost</quickActionName>
         </quickActionListItems>
     </quickActionList>
-    <relatedContent>
-        <relatedContentItems>
-            <layoutItem>
-                <component>runtime_sales_social:socialPanel</component>
-            </layoutItem>
-        </relatedContentItems>
-    </relatedContent>
     <relatedLists>
         <excludeButtons>MassAddToCampaign</excludeButtons>
         <fields>FULL_NAME</fields>

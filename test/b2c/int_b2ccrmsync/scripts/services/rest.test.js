@@ -7,16 +7,27 @@ const sinon = require('sinon');
 const sinonTest = require('sinon-test');
 sinon.test = sinonTest(sinon);
 const sinonChai = require('sinon-chai');
+const proxyquire = require('proxyquire').noCallThru();
 chai.use(sinonChai);
 require('dw-api-mock/demandware-globals');
-const restService = require(path.join(process.cwd(), 'src/sfcc/cartridges/int_b2ccrmsync/cartridge/scripts/services/rest'));
+const config = require(path.join(process.cwd(), 'src/sfcc/cartridges/int_b2ccrmsync/cartridge/scripts/b2ccrmsync.config'));
 const methodNames = ['createRequest', 'parseResponse', 'mockFull', 'getRequestLogMessage', 'getResponseLogMessage'];
 
-describe('int_b2ccrmsync/cartridge/scripts/services/rest', function () {
+describe('int_b2ccrmsync/cartridge/scripts/b2ccrmsync/services/rest', function () {
     let sandbox;
+    let requireStub;
+    let restService;
 
     before('setup sandbox', function () {
         sandbox = sinon.createSandbox();
+    });
+
+    beforeEach(function () {
+        requireStub = {
+            '*/cartridge/scripts/b2ccrmsync.config': config
+        };
+        restService = proxyquire(path.join(process.cwd(), 'src/sfcc/cartridges/int_b2ccrmsync/cartridge/scripts/b2ccrmsync/services/rest'), requireStub);
+
     });
 
     afterEach(function () {

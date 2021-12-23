@@ -85,7 +85,11 @@ public with sharing class B2CConstant {
         ERRORS_INTEGRATIONCONFIG_PROFILEPUBLISHINGDISABLED = '--> B2C Exception --> The Customer Profile publishing' +
             ' for the customerList [{0}] is disabled.',
         ERRORS_INTEGRATIONCONFIG_CONTACTUPDATEDISABLED = '--> B2C Exception --> The Contact Updates for the ' +
-            'customerList [{0}] are disabled.';
+            'customerList [{0}] are disabled.',
+
+        // Define the error messages related to B2C Commerce Address Book management
+        ERRORS_B2CCOMMERCE_ADDRESSBOOK_FAILED_TO_PATCH_ADDRESS = 'Exception --> Failed to update the address in B2C Commerce.' +
+            ' Please check your configuration. Error: {0}';
 
     // Define the contact process modes used to manage integration
     public static final List<String> CONTACTPROCESSMODES = new List<String>{

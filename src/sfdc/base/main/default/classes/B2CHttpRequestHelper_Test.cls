@@ -148,6 +148,7 @@ private class B2CHttpRequestHelper_Test {
         String b2cCustomerNo = '9999999';
         String addressId = 'My Address Id';
         String replacementAddressId = addressId.replaceAll('\\+', '%20');
+        replacementAddressId = replacementAddressId.replaceAll(' ', '%20');
 
         Test.startTest();
 
@@ -183,7 +184,8 @@ private class B2CHttpRequestHelper_Test {
         String b2cCustomerListId = 'RefArch';
         String b2cCustomerNo = '9999999';
         String addressId = 'My Address Id';
-        String replacementAddressId = addressId.replaceAll(' ', '%20');
+        String replacementAddressId = addressId.replaceAll('\\+', '%20');
+        replacementAddressId = replacementAddressId.replaceAll(' ', '%20');
         String patchAddressJSON = '{ "customerAddress": true }';
 
         Test.startTest();

@@ -20,7 +20,7 @@ var LOGGER = require('dw/system/Logger').getLogger('int_b2ccrmsync', 'hooks.orde
 function orderCreated(order) {
 
     // Exit early if integration is not enabled
-    if (!require('../util/helpers').isIntegrationEnabled() || !order) {
+    if (!require('*/cartridge/scripts/b2ccrmsync/util/helpers').isIntegrationEnabled() || !order) {
         return;
     }
 
@@ -57,8 +57,8 @@ function orderCreated(order) {
  * @param {String} action The action that triggered the process (created)
  */
 function handleProcess(order, action) {
-    var ServiceMgr = require('../services/ServiceMgr');
-    var model = order.getCustomer().getProfile() ? new (require('../models/customer'))(order.getCustomer().getProfile()) : new (require('../models/order'))(order);
+    var ServiceMgr = require('*/cartridge/scripts/b2ccrmsync/services/ServiceMgr');
+    var model = order.getCustomer().getProfile() ? new (require('*/cartridge/scripts/b2ccrmsync/models/customer'))(order.getCustomer().getProfile()) : new (require('*/cartridge/scripts/b2ccrmsync/models/order'))(order);
 
     /**
      * @typedef resultObject Represents the resultObject returned by the B2CContactProcess service
@@ -77,13 +77,13 @@ function handleProcess(order, action) {
         model.updateStatus('not_exported');
 
         // If we already have a contactId present -- then just update the order with the Account / Contact details
-        if (require('../util/helpers').sfdcContactIDIdentifierPresent(order.getCustomer().getProfile())) {
+        if (require('*/cartridge/scripts/b2ccrmsync/util/helpers').sfdcContactIDIdentifierPresent(order.getCustomer().getProfile())) {
 
             // Shorthand access to the customer profile
             var thisCustomer = order.getCustomer().getProfile();
 
             // Re-initialize the model using the specified order
-            model = new (require('../models/order'))(order);
+            model = new (require('*/cartridge/scripts/b2ccrmsync/models/order'))(order);
 
             // Attempt the write the Account and Contact identifiers to the specified order
             model.updateExternalId(thisCustomer.custom.b2ccrm_accountId, thisCustomer.custom.b2ccrm_contactId);
@@ -122,9 +122,7 @@ function handleProcess(order, action) {
             model.updateExternalId(resultObject.outputValues.Contact.AccountId, resultObject.outputValues.Contact.Id);
             model.updateStatus('exported');
             model.updateSyncResponseText(require('dw/util/StringUtils').format('Successfully exported to Salesforce Platform during the "{0}" logic.', action));
-
         }
-
     } catch (e) {
         model.updateStatus('failed');
         model.updateSyncResponseText(e.message);

@@ -11,7 +11,7 @@ chai.use(sinonChai);
 const proxyquire = require('proxyquire').noCallThru();
 require('dw-api-mock/demandware-globals');
 
-describe('int_b2ccrmsync/cartridge/scripts/hooks/ocapi/shop.customer', function () {
+describe('int_b2ccrmsync/cartridge/scripts/b2ccrmsync/hooks/ocapi/shop.customer', function () {
     let sandbox;
     let spy;
     let requireStub;
@@ -25,9 +25,10 @@ describe('int_b2ccrmsync/cartridge/scripts/hooks/ocapi/shop.customer', function 
     beforeEach(function () {
         requireStub = {
             'dw/system/Site': require('dw-api-mock/dw/system/Site'),
-            'dw/system/HookMgr': require('dw-api-mock/dw/system/HookMgr')
+            'dw/system/HookMgr': require('dw-api-mock/dw/system/HookMgr'),
+            '*/cartridge/scripts/b2ccrmsync.config': require(path.join(process.cwd(), 'src/sfcc/cartridges/int_b2ccrmsync/cartridge/scripts/b2ccrmsync.config'))
         };
-        shopCustomerHook = proxyquire(path.join(process.cwd(), 'src/sfcc/cartridges/int_b2ccrmsync/cartridge/scripts/hooks/ocapi/shop.customer'), requireStub);
+        shopCustomerHook = proxyquire(path.join(process.cwd(), 'src/sfcc/cartridges/int_b2ccrmsync/cartridge/scripts/b2ccrmsync/hooks/ocapi/shop.customer'), requireStub);
 
         let Profile = require('dw-api-mock/dw/customer/Profile');
         let Customer = require('dw-api-mock/dw/customer/Customer');

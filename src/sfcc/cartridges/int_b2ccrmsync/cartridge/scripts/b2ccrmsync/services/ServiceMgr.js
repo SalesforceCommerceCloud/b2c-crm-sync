@@ -120,7 +120,7 @@ module.exports = {
      * with the Salesforce Platform and facilitate profile orchestration
      */
     getAuthService: function () {
-        return getService(require('../b2ccrmsync.config').services.auth, {
+        return getService(require('*/cartridge/scripts/b2ccrmsync.config').services.auth, {
 
             /**
              * @description Create the request for service authentication
@@ -162,7 +162,7 @@ module.exports = {
              * @returns {Object} Returns a responseObject driven by the httpClient
              */
             parseResponse: function (svc, client) {
-                var responseObj = require('../util/helpers').expandJSON(client.text, client.text);
+                var responseObj = require('*/cartridge/scripts/b2ccrmsync/util/helpers').expandJSON(client.text, client.text);
                 if (responseObj && responseObj.access_token) {
                     LOGGER.debug('Auth service, access token successfully retrieved: {0}', responseObj.access_token);
                 }
@@ -170,7 +170,7 @@ module.exports = {
                 return responseObj;
             },
             mockFull: function () {
-                return require('./mocks/auth');
+                return require('*/cartridge/scripts/b2ccrmsync/services/mocks/auth');
             },
             getRequestLogMessage: function (request) {
                 LOGGER.debug(JSON.stringify(request));
@@ -195,12 +195,12 @@ module.exports = {
      * @returns {Object} The serviceCall result that can be parsed and processed
      */
     callRestService: function callRestService(model, state, requestBody, bypassCache, callCounter) {
-        var config = require('../b2ccrmsync.config');
+        var config = require('*/cartridge/scripts/b2ccrmsync.config');
         var maxServiceRetry = config.maxServiceRetry || 1;
         var thisCallCount = callCounter || 0;
         var svc = getService(
             config.services.rest,
-            require('./rest').getServiceCallback(model, state, bypassCache)
+            require('*/cartridge/scripts/b2ccrmsync/services/rest').getServiceCallback(model, state, bypassCache)
         );
         var result = svc.call(requestBody);
         thisCallCount++;

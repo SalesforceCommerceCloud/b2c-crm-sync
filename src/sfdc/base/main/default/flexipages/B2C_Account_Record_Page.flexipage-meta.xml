@@ -10,28 +10,117 @@
                             <value>Edit</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>ChangeRecordType</value>
-                        </valueListItems>
-                        <valueListItems>
                             <value>Delete</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Share</value>
                         </valueListItems>
                         <valueListItems>
                             <value>PrintableView</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>FeedItem.TextPost</value>
+                            <value>Account.Order_on_Behalf_Of</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>FeedItem.LinkPost</value>
+                            <value>Account.Enable_B2C_Commerce_Event_Auditing</value>
+                            <visibilityRule>
+                                <booleanFilter>1 AND 2</booleanFilter>
+                                <criteria>
+                                    <leftValue>{!Record.B2C_CustomerList__pr.Name}</leftValue>
+                                    <operator>NE</operator>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.B2C_Customer_No__pc}</leftValue>
+                                    <operator>NE</operator>
+                                </criteria>
+                            </visibilityRule>
                         </valueListItems>
                         <valueListItems>
-                            <value>FeedItem.PollPost</value>
+                            <value>Account.Disable_B2C_Commerce_Event_Auditing</value>
+                            <visibilityRule>
+                                <booleanFilter>1 AND 2</booleanFilter>
+                                <criteria>
+                                    <leftValue>{!Record.B2C_CustomerList__pr.Name}</leftValue>
+                                    <operator>NE</operator>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.B2C_Customer_No__pc}</leftValue>
+                                    <operator>NE</operator>
+                                </criteria>
+                            </visibilityRule>
                         </valueListItems>
                         <valueListItems>
-                            <value>FeedItem.QuestionPost</value>
+                            <value>Account.Sync_with_B2C_Commerce_Profile</value>
+                            <visibilityRule>
+                                <booleanFilter>1 AND 2 AND 3</booleanFilter>
+                                <criteria>
+                                    <leftValue>{!Record.B2C_CustomerList_ID__pc}</leftValue>
+                                    <operator>NE</operator>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.B2C_Customer_No__pc}</leftValue>
+                                    <operator>NE</operator>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.IsPersonAccount}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>true</rightValue>
+                                </criteria>
+                            </visibilityRule>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Account.Publish_to_B2C_Commerce_Profile</value>
+                            <visibilityRule>
+                                <booleanFilter>1 AND 2 AND 3</booleanFilter>
+                                <criteria>
+                                    <leftValue>{!Record.B2C_CustomerList_ID__pc}</leftValue>
+                                    <operator>NE</operator>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.B2C_Customer_No__pc}</leftValue>
+                                    <operator>NE</operator>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.IsPersonAccount}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>true</rightValue>
+                                </criteria>
+                            </visibilityRule>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Account.Disable_B2C_Commerce_Profile_Integration</value>
+                            <visibilityRule>
+                                <booleanFilter>1 AND 2 AND 3</booleanFilter>
+                                <criteria>
+                                    <leftValue>{!Record.B2C_CustomerList_ID__pc}</leftValue>
+                                    <operator>NE</operator>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.B2C_Customer_No__pc}</leftValue>
+                                    <operator>NE</operator>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.IsPersonAccount}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>true</rightValue>
+                                </criteria>
+                            </visibilityRule>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Account.Enable_B2C_Commerce_Profile_Integration</value>
+                            <visibilityRule>
+                                <booleanFilter>1 AND 2 AND 3</booleanFilter>
+                                <criteria>
+                                    <leftValue>{!Record.B2C_CustomerList_ID__pc}</leftValue>
+                                    <operator>NE</operator>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.B2C_Customer_No__pc}</leftValue>
+                                    <operator>NE</operator>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.IsPersonAccount}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>true</rightValue>
+                                </criteria>
+                            </visibilityRule>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
@@ -76,10 +165,18 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
-                    <name>displayOption</name>
-                    <value>BOTH</value>
+                    <name>flowArguments</name>
+                    <value>[{&quot;label&quot;:&quot;recordId&quot;,&quot;dataType&quot;:&quot;String&quot;,&quot;supportsRecordId&quot;:true,&quot;value&quot;:&quot;{!Record.Id}&quot;}]</value>
                 </componentInstanceProperties>
-                <componentName>runtime_sales_merge:mergeCandidatesPreviewCard</componentName>
+                <componentInstanceProperties>
+                    <name>flowLayout</name>
+                    <value>oneColumn</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>flowName</name>
+                    <value>B2C_Commerce_B2C_Customer_Address_View_Address_Book</value>
+                </componentInstanceProperties>
+                <componentName>flowruntime:interview</componentName>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -101,16 +198,6 @@
         </itemInstances>
         <mode>Replace</mode>
         <name>relatedTabContent</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentName>runtime_sales_social:socialPanel</componentName>
-            </componentInstance>
-        </itemInstances>
-        <mode>Replace</mode>
-        <name>newsTabContent</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -144,19 +231,6 @@
                 <componentInstanceProperties>
                     <name>title</name>
                     <value>Standard.Tab.relatedLists</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:tab</componentName>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>newsTabContent</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>Standard.Tab.news</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
             </componentInstance>
@@ -248,7 +322,7 @@
         <name>sidebar</name>
         <type>Region</type>
     </flexiPageRegions>
-    <masterLabel>B2C Account Record Page</masterLabel>
+    <masterLabel>B2C: Account Record Page</masterLabel>
     <parentFlexiPage>sfa__Account_rec_L</parentFlexiPage>
     <sobjectType>Account</sobjectType>
     <template>

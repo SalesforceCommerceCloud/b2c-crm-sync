@@ -6,7 +6,7 @@
             "@supports-site-context":"true",
             "@supports-organization-context":"false",
             "description":"Synchronize customers through the B2C CRM Sync connector to the Salesforce Platform",
-            "module": "int_b2ccrmsync/cartridge/scripts/jobs/customers.js",
+            "module": "int_b2ccrmsync/cartridge/scripts/b2ccrmsync/jobs/customers.js",
             "function": "synchronize",
             "transactional": "false",
             "parameters": {

@@ -1,6 +1,6 @@
 import { LightningElement, api } from 'lwc';
 
-export default class SCCOrderOnBehalfOf extends LightningElement {
+export default class B2COrderOnBehalfOf extends LightningElement {
     @api token;
     @api siteId;
     @api domain;

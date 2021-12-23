@@ -13,17 +13,10 @@ server.extend(module.superModule);
  * @param arguments {Function} List of functions to be appended
  */
 server.prepend('Logout', function (req, res, next) {
-
-    // Initialize local variables
-    var agentUserMgr;
-
     // Is this an agent session?
     if (session.userName !== 'storefront' && session.userName !== 'registered') {
-
-        // If so, initialize the agentUserMgr and logout the agent
-        agentUserMgr = require('dw/customer/AgentUserMgr');
-        agentUserMgr.logoutAgentUser();
-
+        // If so, logout the agent
+        require('dw/customer/AgentUserMgr').logoutAgentUser();
     }
 
     next();

@@ -359,11 +359,6 @@
                 <field>AccountId</field>
             </layoutItem>
         </relatedContentItems>
-        <relatedContentItems>
-            <layoutItem>
-                <component>runtime_sales_social:socialPanel</component>
-            </layoutItem>
-        </relatedContentItems>
     </relatedContent>
     <relatedLists>
         <excludeButtons>New</excludeButtons>
