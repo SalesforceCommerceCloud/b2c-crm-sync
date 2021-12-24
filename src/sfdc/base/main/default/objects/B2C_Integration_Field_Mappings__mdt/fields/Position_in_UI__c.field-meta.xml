@@ -8,7 +8,7 @@
     <inlineHelpText>... represents the position of the field in the forms within the Salesforce Core Platform UI</inlineHelpText>
     <label>Position in UI</label>
     <precision>5</precision>
-    <required>true</required>
+    <required>false</required>
     <scale>0</scale>
     <type>Number</type>
     <unique>false</unique>
