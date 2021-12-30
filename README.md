@@ -1,7 +1,7 @@
 # Salesforce B2C Commerce / Customer 360 Platform Integration #
 
 ## Introduction ##
-Salesforce B2C Commerce / CRM Sync is an enablement solution designed by Salesforce Architects to teach Salesforce's B2C Customer Data Strategy for multi-cloud use-cases.  The solution demonstrates a contemporary approach to the integration between Salesforce B2C Commerce and the Cloud products running on the Salesforce Customer 360 Platform.  
+Salesforce B2C Commerce / CRM Sync is an enablement solution designed by Salesforce Architects to teach Salesforce's B2C Customer Data Strategy for multi-cloud use-cases.  The solution demonstrates a contemporary approach to the integration between Salesforce B2C Commerce and the Cloud products running on the Salesforce Customer 360 Platform.
 
 b2c-crm-sync includes a framework for integrating these clouds (ex. B2C Commerce and Service Cloud) -- leveraging REST APIs and the declarative capabilities of the Salesforce Platform.  This approach powers frictionless customer experiences across B2C Commerce, Service, and Marketing Clouds by resolving and synchronizing customer profiles across these Salesforce products.
 
@@ -136,7 +136,7 @@ Please note that this isn't a requirement -- but if you want a 100% pass-rate on
 #### Enable the Agent Permissions on the Administrator Role
 The Order on Behalf Of (Assisted Shopping) use-case requires that Business Manager users representing Customer Service Agents have B2C Commerce permissions to login and place orders on behalf of registered storefront shoppers.  The Administrator role can be extended to include these permissions.
 
-> In a production environment, a separate role should be created for Agents that provides the minimally required functional permissions.  Do not provide Agents with access to an over-permissioned Administrator role. 
+> In a production environment, a separate role should be created for Agents that provides the minimally required functional permissions.  Do not provide Agents with access to an over-permissioned Administrator role.
 
 1. Open the Business Manager Administration Menu.
 2. Select the `Roles and Permissions` option from the Organization menu.
@@ -151,10 +151,10 @@ The Order on Behalf Of (Assisted Shopping) use-case requires that Business Manag
     - Adjust_Shipping_Price
     - Adjust_Order_Price
     - Create_Order_On_Behalf_Of
-    - Search_Orders 
+    - Search_Orders
     - Handle_External_Orders
-    
-> The Order on Behalf Of experience minimally requires the `Login_On_Behalf`, `Login_Agent`, and `Create_Order_On_Behalf_Of` functional permissions.  The other permissions can be included to extend the Agent capabilities. 
+
+> The Order on Behalf Of experience minimally requires the `Login_On_Behalf`, `Login_Agent`, and `Create_Order_On_Behalf_Of` functional permissions.  The other permissions can be included to extend the Agent capabilities.
 
 8. Click `Update` to apply these functional permissions to the Administrator role.
 
@@ -170,12 +170,12 @@ b2c-crm-sync will audit all authentication and REST API call-outs made to the Sa
 5. Include an e-mail address where `FATAL` errors can be emailed when caught.
 6. Click `Save` to apply these settings and enable b2c-crm-sync logs to be written to your sandbox.
 
-> Log entries can be viewed via [Log Center](https://documentation.b2c.commercecloud.salesforce.com/DOC2/topic/com.demandware.dochelp/content/b2c_commerce/topics/site_development/b2c_log_center.html?cp=0_11) or directly from the [Site Development](https://documentation.b2c.commercecloud.salesforce.com/DOC2/topic/com.demandware.dochelp/content/b2c_commerce/topics/web_services/b2c_web_service_logging_and_troubleshooting.html) landing page within Business Manager.  Use the generated log files to inspect REST API calls made from B2C Commerce to the Salesforce Platform. 
+> Log entries can be viewed via [Log Center](https://documentation.b2c.commercecloud.salesforce.com/DOC2/topic/com.demandware.dochelp/content/b2c_commerce/topics/site_development/b2c_log_center.html?cp=0_11) or directly from the [Site Development](https://documentation.b2c.commercecloud.salesforce.com/DOC2/topic/com.demandware.dochelp/content/b2c_commerce/topics/web_services/b2c_web_service_logging_and_troubleshooting.html) landing page within Business Manager.  Use the generated log files to inspect REST API calls made from B2C Commerce to the Salesforce Platform.
 
 #### Create Your Business Manager Access Keys
 B2C Commerce offers [Access Keys](https://documentation.b2c.commercecloud.salesforce.com/DOC2/topic/com.demandware.dochelp/content/b2c_commerce/topics/admin/b2c_access_keys_for_business_manager.html?) as an alternative form of authentication when logging into to Business Manager via external applications: WebDAV File Access, UX Studio Agent, User Login, OCAPI, and Protected Storefront Access.  You can use these keys to access log files as well as to authenticate Agents for the Order on Behalf Of use-case.
 
-> Please use these instructions to generate the `Agent User Login and OCAPI` and `WebDAV File Access and UX Studio` access keys for your login.  
+> Please use these instructions to generate the `Agent User Login and OCAPI` and `WebDAV File Access and UX Studio` access keys for your login.
 
 1.  Click on your userName (full name) in the header navigation menu.
 2.  From your profile, click on the link titled `Manage Access Keys`.
@@ -192,7 +192,7 @@ B2C Commerce offers [Access Keys](https://documentation.b2c.commercecloud.salesf
 > Please copy and download the generated access key -- and keep it in a safe place.  You'll need to authenticate against your sandbox if you want to view logFiles directly.
 
 #### Create Your B2C Commerce Client ID
-A B2C Commerce Client ID is necessary to facilitate REST API authentication between B2C Commerce and the Salesforce Platform.  You can create a B2C Client ID via [Account Manager](https://documentation.b2c.commercecloud.salesforce.com/DOC2/topic/com.demandware.dochelp/content/b2c_commerce/topics/account_manager/b2c_account_manager_overview.html?) Portal. 
+A B2C Commerce Client ID is necessary to facilitate REST API authentication between B2C Commerce and the Salesforce Platform.  You can create a B2C Client ID via [Account Manager](https://documentation.b2c.commercecloud.salesforce.com/DOC2/topic/com.demandware.dochelp/content/b2c_commerce/topics/account_manager/b2c_account_manager_overview.html?) Portal.
 
 > b2c-crm-sync leverages B2C Client IDs to identify a B2C Commerce instance to Account Manager and authorize REST API interactions via JWT.  We recommend `creating a new B2C Client ID` for b2c-crm-sync vs. leveraging an existing B2C Client ID.
 
@@ -203,7 +203,7 @@ A B2C Commerce Client ID is necessary to facilitate REST API authentication betw
 
 3. Click on the `Add API Client` button at the top right of the page
 4. Enter a display name and a password. The password corresponds to the `B2C_CLIENTSECRET` environment variable that you'll set up in the next section.
-5. Specify your company's organization as the organization for this B2C Client ID.   
+5. Specify your company's organization as the organization for this B2C Client ID.
 6. Within the OpenID Connect section, please ensure to configure at least the following:
 - Default Scopes: `mail`
 - Allowed Scopes:
@@ -289,7 +289,7 @@ The build scripts in this repository leverage B2C Commerce's [sfcc-ci](https://g
 {
   "_v": "21.3",
   "clients": [
-    "insert your updated configuration here" 
+    "insert your updated configuration here"
   ]
 }
 ```
@@ -393,7 +393,7 @@ The build scripts in this repository leverage B2C Commerce's [sfcc-ci](https://g
 {
   "_v": "21.3",
   "clients": [
-    "insert your updated configuration here" 
+    "insert your updated configuration here"
   ]
 }
 ```
@@ -624,7 +624,7 @@ The build tools will use this information to create scratchOrgs, set default pre
 You will leverage the .env file's configuration properties to dramatically simplify the build and deployment of b2c-crm-sync.  Check the package.json for the complete set of CLI commands that can be used to automate meta-data generation, service definition creation, and validate environment configurations prior to deployment.
 
 ### Deployment Instructions
-The b2c-crm-sync repository includes a collection of CLI commands that can be used to prepare and deploy the b2c-crm-sync assets to B2C Commerce and a Salesforce Customer 360 Platform scratchOrg.  
+The b2c-crm-sync repository includes a collection of CLI commands that can be used to prepare and deploy the b2c-crm-sync assets to B2C Commerce and a Salesforce Customer 360 Platform scratchOrg.
 
 The CLI commands leverage the [.env file](sample.env) configuration to retrieve runtime execution values.  They also include support for command-line argument equivalents of the .env configuration values.  Each command has an associated [api method](lib/cli-api) that can be leveraged from within custom deployment scripts.
 
@@ -642,7 +642,7 @@ By this point, you should have completed the following configuration activities:
 
 - [x] Configured the RefArch and RefArchGlobal storefronts to use independent B2C CustomerLists.
 
-- [x] Configured the initial collection B2C Commerce OCAPI and WebDAV permissions. 
+- [x] Configured the initial collection B2C Commerce OCAPI and WebDAV permissions.
 
 - [x] Setup the Agent permissions on the Administrator role.  This is a requirement if you'd like to exercise the Order on Behalf of use-case.
 
@@ -654,7 +654,7 @@ By this point, you should have completed the following configuration activities:
 
 If these items have been completed, you should now be ready to move forward with the deployment and configuration of b2c-crm-sync.
 
-> Please ensure that you have completed all of these activities prior to moving forward.  Each of the checklist-item activities must be successfully completed to deploy and configure b2c-crm-sync. Moving forward without completing these activities will likely result in deployment failures. 
+> Please ensure that you have completed all of these activities prior to moving forward.  Each of the checklist-item activities must be successfully completed to deploy and configure b2c-crm-sync. Moving forward without completing these activities will likely result in deployment failures.
 
 #### Exercise the CLI Unit Tests
 1. Execute the CLI unit-tests to verify that the CLI install, setup, and configuration is working as expected.
@@ -808,7 +808,7 @@ Any org (scratchOrg, Salesforce Sandbox, or production environment) must be conf
 #### Open Your Org
 8.  You can open an authenticated session to your scratchOrg via the following CLI command:
 
-> You can skip this step if you're installing to a non-scratchOrg environment.  
+> You can skip this step if you're installing to a non-scratchOrg environment.
 
 ```bash
 npm run crm-sync:sf:org:open
@@ -869,7 +869,7 @@ SF_PASSWORD=P@ssw0rd!
 :bangbang: &nbsp; Remember that these values need to be driven by your Salesforce environment and administrative user.  These values must be accurate to ensure that the B2C Commerce meta-data is successfully generated and supports the integration with the Salesforce Platform. &nbsp; :bangbang:
 
 #### Reset the SecurityToken for Your Scratch Org's Administrative User
-12. Remote authentication to a Salesforce environment also requires the user's securityToken.  You'll need to reset your securityToken -- as your user's password has been reset.  
+12. Remote authentication to a Salesforce environment also requires the user's securityToken.  You'll need to reset your securityToken -- as your user's password has been reset.
 
 > You can skip this activity if you are deploying to a non-scratchOrg environment.  Instead, copy your user's securityToken to the `SFSF_SECURITYTOKEN` property in your .env file.
 
@@ -925,7 +925,7 @@ The deployment process customizes specific pieces of meta-data (trustedSites, re
 
 > You can re-deploy meta-data using the `npm run crm-sync:sf:org:deploy` CLI command.  Before attempting a re-deploy, please remember that any customized meta-data will be removed from your environment.  This has to be done manually via Salesforce Setup.
 
-One the deployment process completes -- you should see a success message via the CLI.  
+One the deployment process completes -- you should see a success message via the CLI.
 
 #### Deploy the Salesforce ConnectedApp Definitions
 15.  The next component of the deployment process is to deploy connectedApp definitions for each of your configured B2C Commerce storefronts.  You can create and deploy the connectedApps via the following CLI command:
@@ -1027,11 +1027,11 @@ From within your Salesforce Org, create a perUser Named Credential that will be 
 
 19.  Please validate your B2C Commerce Agent credentials by executing the following CLI command:
 
-```bash 
+```bash
 npm run crm-sync:b2c:auth:bmuser
 ```
 
-> This command with attempt to authenticate against the B2C Commerce environment leveraging the Agent credentials that were configured in the previous step.  
+> This command with attempt to authenticate against the B2C Commerce environment leveraging the Agent credentials that were configured in the previous step.
 
 Executing this command should generate an authToken that validates the BM UserName, AccessKey, and ClientSecret defined in your .env file are valid. You can use this command to troubleshoot and validate your B2C Commerce Business Manager User Credentials.
 
@@ -1084,8 +1084,8 @@ Completing this command successfully should output to the console two key pieces
 - The Salesforce certificate's developerName; this is the internal / unique name applied to the certificate when created
 - The Salesforce certificate's base64 content; this is the component of the keyStore that will be used by Account Manager to verify the authenticity of b2c-crm-sync authToken requests
 
-We need the certificate developerName to default certificate associations across your B2C Instance's CustomerLists and Sites.  Please copy the developerName value 
-to your .env file via the `SF_CERTDEVELOPERNAME` value.  The CLI command will output an updated representation of your **Salesforce Platform Configuration Properties** 
+We need the certificate developerName to default certificate associations across your B2C Instance's CustomerLists and Sites.  Please copy the developerName value
+to your .env file via the `SF_CERTDEVELOPERNAME` value.  The CLI command will output an updated representation of your **Salesforce Platform Configuration Properties**
 that includes the seeded `SF_CERTDEVELOPERNAME` value.
 
 | Property Name | Required | Description                       |
@@ -1117,7 +1117,7 @@ SF_CERTDEVELOPERNAME=powerdream1234
 
 - Toggle to the Account Manager ClientID page opened in the step **Create Your B2C Commerce Client ID**.
 - Locate the `Client JWT Bearer Public Key` form field under the **JWT** heading.
-- Paste the copied certificate contents into the `Client JWT Bearer Public Key` field.  Remove any trailing spaces or line-feeds that are copied following the `-----END CERTIFICATE-----` marker.  The pasted certificate contents should not have any leading or trailing whitespace. 
+- Paste the copied certificate contents into the `Client JWT Bearer Public Key` field.  Remove any trailing spaces or line-feeds that are copied following the `-----END CERTIFICATE-----` marker.  The pasted certificate contents should not have any leading or trailing whitespace.
 - Locate the `Token Endpoint Auth Method` form field near the bottom of the form.  Change this value to `private_key_jwt`.
 - Click `Save` to apply the public key details to the ClientID definition.
 
@@ -1214,7 +1214,7 @@ Executing this CLI command will trigger a flow retrieves the B2C CustomerLists a
 #### Update Your PersonAccount and Contact Page Layouts
 28. b2c-crm-sync includes alternative pageLayouts for Contacts (for Account and Contact support) as well as PersonAccounts.  You can use these layouts as starting points to consider how to customize your existing Salesforce Customer layouts.
 
-> b2c-crm-sync does not make changes to any existing page layouts.  We expect partners and customers to work through layout requirements and customizations on their own.  
+> b2c-crm-sync does not make changes to any existing page layouts.  We expect partners and customers to work through layout requirements and customizations on their own.
 
 We include two additional support layouts:
 
@@ -1246,7 +1246,7 @@ npm run crm-sync:b2c:build
 - Navigate to Administration > Site Development > Open Commerce API Settings.
 - Select 'Shop API' and 'Global' from the available select boxes.
 - Add your Salesforce scratchOrg urls to the `allowed origins` section of the configuration.
-  
+
 ```json
     "client_id": "[-------insert your clientId here---------------]",
     "allowed_origins": [
@@ -1284,7 +1284,7 @@ By default, b2c-crm-sync only enables minimal settings.  Executing this command 
 > When deploying to production, please remember to only enable the sitePreferences for the desired b2c-crm-sync features.
 
 #### Create the Order of Behalf Of Anonymous B2C Commerce Customer Profiles
-32. The B2C Commerce Order on Behalf Of feature only supports the creation of shopping sessions for registered storefront customers.  b2c-crm-sync extends this capability to anonymous storefront shoppers.  
+32. The B2C Commerce Order on Behalf Of feature only supports the creation of shopping sessions for registered storefront customers.  b2c-crm-sync extends this capability to anonymous storefront shoppers.
 
 Execute the following CLI command to create B2C Commerce customer profiles that will be used by Service Agents to authenticate against B2C Commerce to create anonymous agent-driven shopping sessions.
 
@@ -1324,17 +1324,17 @@ b2c-crm-sync includes extras that expose federated access to B2C Commerce Custom
 #### Deploy the Salesforce Connect Extras
 You can deploy the Salesforce Connect extras for both Accounts / Contacts and PersonAccounts via the following SFDX Commands:
 
-> Both Accounts & Contacts and PersonAccounts have their own distinct Salesforce Connect Addressbook implementations.  Please choose the implementation appropriate for your Salesforce Org. 
+> Both Accounts & Contacts and PersonAccounts have their own distinct Salesforce Connect Addressbook implementations.  Please choose the implementation appropriate for your Salesforce Org.
 
 __Deploy Salesforce Connect Extras for Accounts / Contacts__
 
-```bash 
+```bash
  sfdx force:source:deploy -p "src/sfdc/extras/sf-connect/base"
 ```
 
 __Deploy Salesforce Connect Extras for PersonAccounts__
 
-```bash 
+```bash
  sfdx force:source:deploy -p "src/sfdc/extras/sf-connect/base"
  sfdx force:source:deploy -p "src/sfdc/extras/sf-connect/personaccounts"
 ```
@@ -1344,59 +1344,57 @@ __Deploy Salesforce Connect Extras for PersonAccounts__
 #### Validate and Synchronize Salesforce Connect External Objects
 Salesforce External Objects must be initialized before they can be used within the Salesforce Org.  Please complete these instructions to initialize the external dataSource and enable the customer addressbook features of b2c-crm-sync.
 
-- Enter Setup. 
+- Enter Setup.
 - Search for `External Data Sources` via the quick-find search.
 - Select the `External Data Sources` menu option.
 - Verify that a dataSource named `B2C_Customer_Address_Book` is present in the list of external dataSources.
-- Click on the name `B2C_Customer_Address_Book` to view the dataSource details. 
-- From the details display, click on the `Validate and Sync` button.
-- From the `Validate External Data Source` display, confirm that the table name `B2C_CustomerAddress` is visible in the list of tableNames.
-- Check the `Select` checkbox to the left of the `B2C_CustomerAddress` tableName.
-- Click on the `Sync` button to trigger the External Data Source validation and synchronization process.
+- Click on the name `B2C_Customer_Address_Book` to view the dataSource details.
+- From the details display, click on the `Validate` link on the `B2C Commerce Address` row within the `External Objects` list.
+- Click on the `Run queries` button to trigger the External Data Source validation process.
 
-> This action will attempt to verify the dataSource connection brokered by the addressBook data adapter included with b2c-crm-sync.  
- 
+> This action will attempt to verify the dataSource connection brokered by the addressBook data adapter included with b2c-crm-sync.
+
 B2C Commerce Customer Addressbook data should become visible as a related list on Contact / PersonAccount records once the synchronization has been successfully completed.  Service Agents can view and edit address details.  Edits made from within the Salesforce Platform will synchronize back to B2C Commerce.
 
 > Partners and customers can leverage the extras code and meta-data assets as a template to access B2C Commerce data via Salesforce Connect / External Objects.
 
-### Synchronizing Existing B2C Commerce Customer Profile 
+### Synchronizing Existing B2C Commerce Customer Profile
 
 Often, a Salesforce B2C Commerce customer will need to synchronize their B2C Commerce customer-base with their Salesforce Org.  Existing B2C Customer Profiles can be synchronized with the Salesforce Platform.  This can be accomplished by combining a number of different strategies:
 
-1. Customer profiles can be synchronized upon login, registration, and profile edit.  This means, however, that customers must authenticate against B2C Commerce in order to trigger synchronization. 
-   
-> b2c-crm-sync employs multiple custom site preferences to govern the enforcement of customer synchronization via the storefront and REST APIs.  
+1. Customer profiles can be synchronized upon login, registration, and profile edit.  This means, however, that customers must authenticate against B2C Commerce in order to trigger synchronization.
+
+> b2c-crm-sync employs multiple custom site preferences to govern the enforcement of customer synchronization via the storefront and REST APIs.
 
 2. The `custom.B2CCRMSync.SynchronizeCustomers` job step can be configured to incrementally export the entire database of customer profiles from B2C Commerce to the Salesforce Org. The job-step can be used to migrate B2C Commerce Customer Profiles to the Salesforce Org database in one or multiple loads.
-   
+
 > The job can be configured to process an entire CustomerList -- or a subset of customer profiles that exist in the CustomerList.  The customQuery can be configured to process the entire customerList, or a subset of customer profiles.  If the job-step does not appear in the list of available steps, please toggle the active code-version -- and try again.
 
 The jobStep supports a Query parameter representing which profiles to synchronize via a [valid and executable profile query](https://documentation.b2c.commercecloud.salesforce.com/DOC2/topic/com.demandware.dochelp/DWAPI/scriptapi/html/api/class_dw_customer_CustomerMgr.html#dw_customer_CustomerMgr_searchProfiles_Map_String_DetailAnchor).  The query can contain the following dynamic placeholders:
 
 
 | Today Placeholder | What to Expect / How to Use this Placeholder |
-|-------------------:|:--------------------------------------------------|
-| `_today_` -[0-9]+ | Will return the current date time minus xx days, formatted with the date time format.   This regexp allows you to apply dynamic days within the past. |
-| `_today_` |  Will return formatted date for the current day. |
-|`_today_` -1| Will return the current date minus 1 day. |
-|`_today_` -30| Will return the current date minus the date modifier. |
+|------------------:|:--------------------------------------------------|
+| `_today_ -[0-9]+` | Will return the current date time minus xx days, formatted with the date time format. This regexp allows you to apply dynamic days within the past. |
+| `_today_`         |  Will return formatted date for the current day. |
+| `_today_ -1`      | Will return the current date minus 1 day. |
+| `_today_ -30`     | Will return the current date minus the date modifier. |
 
 | Now Placeholder | What to Expect / How to Use this Placeholder |
-|-----------------:|:--------------------------------------------------|
-| `_now_` -[0-9]+ | Will return current date time minus xx minutes, formatted with the date time format.  This regexp allows you to apply dynamic time within the past. |
-| `_now_` | Will return the current date time, formatted with the date time format |
-| `_now_` -15 | Will return the current time minus 15 minutes. |
-| `_now_` -60 | Will return the current time minus 1 hour. |
-| `_now_` -1440 | Will return the current time minus 24 hours. |
+|----------------:|:--------------------------------------------------|
+| `_now_ -[0-9]+` | Will return current date time minus xx minutes, formatted with the date time format. This regexp allows you to apply dynamic time within the past. |
+| `_now_`         | Will return the current date time, formatted with the date time format |
+| `_now_ -15`     | Will return the current time minus 15 minutes. |
+| `_now_ -60`     | Will return the current time minus 1 hour. |
+| `_now_ -1440`   | Will return the current time minus 24 hours. |
 
-You can use these placeholders to create custom queries to filter and migrate a sub-set of B2C Customer Profiles.  Examples of these queries include:
+You can use these placeholders to create custom queries to filter and migrate a sub-set of B2C Customer Profiles. Examples of these queries include:
 
 - `createdDate > _today_ -1` filters on customerProfiles created since yesterday
 - `custom.b2ccrm_syncStatus != 'exported'` filters on customerProfiles that have not been exported successfully
 - `custom.b2ccrm_contactId != NULL` filters on customerProfiles that have not been attributed with a Salesforce Platform ContactID
 
-> When creating custom queries via this job, please remember to confirm that B2C Customer Profiles exist that satisfy your constructed query.  Any query that returns zero results will generate a NO DATA message in the job log-files.
+> When creating custom queries via this job, please remember to confirm that B2C Customer Profiles exist that satisfy your constructed query. Any query that returns zero results will generate a NO DATA message in the job log-files.
 
 #### What's Next?
 At this point, you should be in a position to 1) start exercising the integration or 2) [ask a question](https://github.com/SalesforceCommerceCloud/b2c-crm-sync/discussions/new) or [log an issue](https://github.com/SalesforceCommerceCloud/b2c-crm-sync/issues/new) if the installation and configuration didn't complete as expected.  Please share your experience with us. :grin:
