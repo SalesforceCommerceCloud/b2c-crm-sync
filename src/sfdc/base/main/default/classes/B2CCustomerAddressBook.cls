@@ -58,6 +58,10 @@ public with sharing class B2CCustomerAddressBook {
         // Get the contact that matches the given customer Id
         // If no contact is found, an error is thrown
         Contact contact = B2CCustomerAddressBook.getContactByCustomerId(recordId);
+        // In case the customer list disallow address retrieval, return an empty address list
+        if (!contact.B2C_CustomerList__r.Enable_Address_Retrieval__c) {
+            return addresses;
+        }
 
         HttpRequest req = B2CHttpRequestHelper.getCustomerProfileAddressesRequest(
             contact.B2C_CustomerList__r.Base_API_Url__c,
@@ -110,6 +114,10 @@ public with sharing class B2CCustomerAddressBook {
         // Get the contact that matches the given customer Id
         // If no contact is found, an error is thrown
         Contact contact = B2CCustomerAddressBook.getContactByCustomerId(customerId);
+        // In case the customer list disallow address retrieval, return an empty address
+        if (!contact.B2C_CustomerList__r.Enable_Address_Retrieval__c) {
+            return address;
+        }
 
         HttpRequest req = B2CHttpRequestHelper.getCustomerProfileAddressRequest(
             contact.B2C_CustomerList__r.Base_API_Url__c,
@@ -155,6 +163,10 @@ public with sharing class B2CCustomerAddressBook {
         // Get the contact that matches the given customer Id
         // If no contact is found, an error is thrown
         Contact contact = B2CCustomerAddressBook.getContactByCustomerId(customerId);
+        // In case the customer list disallow address publishing, return an empty address
+        if (!contact.B2C_CustomerList__r.Enable_Address_Publishing__c) {
+            return B2CConstant.buildErrorMessage(B2CConstant.ERRORS_B2CCOMMERCE_ADDRESSBOOK_FAILED_TO_PATCH_ADDRESS, 'Customer list disallows address updates');
+        }
 
         // Build the address object to send to the B2C Commerce instance, based on the field mappings
         Map<String, Object> addressData = new Map<String, Object>();
@@ -241,12 +253,16 @@ public with sharing class B2CCustomerAddressBook {
         contactQuery.selectField('AccountId');
         contactQuery.selectField('B2C_Customer_No__c');
         contactQuery.selectField('B2C_CustomerList__r.Name');
+        contactQuery.selectField('B2C_CustomerList__r.Is_Active__c');
         contactQuery.selectField('B2C_CustomerList__r.Base_API_Url__c');
         contactQuery.selectField('B2C_CustomerList__r.API_Url__c');
         contactQuery.selectField('B2C_CustomerList__r.B2C_Client_ID__c');
         contactQuery.selectField('B2C_CustomerList__r.OCAPI_Version_No__c');
+        contactQuery.selectField('B2C_CustomerList__r.Enable_Address_Publishing__c');
+        contactQuery.selectField('B2C_CustomerList__r.Enable_Address_Retrieval__c');
         contactQuery.setLimit(1);
         contactQuery.addConditionEq('B2C_Customer_Id__c', customerId);
+        contactQuery.addConditionEq('B2C_CustomerList__r.Is_Active__c', true);
         contactQuery.addConditionEq('Id', customerId);
         contactQuery.addConditionEq('AccountId', customerId);
         contactQuery.switchToDisjunction();

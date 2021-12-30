@@ -5,7 +5,7 @@
         <name>Reset_address_IDs</name>
         <label>Reset address IDs</label>
         <locationX>248</locationX>
-        <locationY>158</locationY>
+        <locationY>518</locationY>
         <assignmentItems>
             <assignToReference>editAddressId</assignToReference>
             <operator>Assign</operator>
@@ -24,6 +24,38 @@
             <targetReference>B2C_Commerce_Address_Book</targetReference>
         </connector>
     </assignments>
+    <assignments>
+        <name>Set_error_to_address_retrieval_disabled</name>
+        <label>Set error to address retrieval disabled</label>
+        <locationX>842</locationX>
+        <locationY>518</locationY>
+        <assignmentItems>
+            <assignToReference>errorMessage</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>The customer list tied to the contact disables the address retrieval.</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>ErrorScreen</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Set_error_to_no_contact_found</name>
+        <label>Set error to no contact found</label>
+        <locationX>1106</locationX>
+        <locationY>398</locationY>
+        <assignmentItems>
+            <assignToReference>errorMessage</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>The record tied to the Id {!recordId} cannot be retrieved</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>ErrorScreen</targetReference>
+        </connector>
+    </assignments>
     <constants>
         <name>ViewModeEdit</name>
         <dataType>String</dataType>
@@ -39,10 +71,35 @@
         </value>
     </constants>
     <decisions>
+        <name>Does_the_customer_list_allow_for_addresses_retrieval</name>
+        <label>Does the customer list allow for addresses retrieval?</label>
+        <locationX>545</locationX>
+        <locationY>398</locationY>
+        <defaultConnector>
+            <targetReference>Set_error_to_address_retrieval_disabled</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Address retrieval is disabled</defaultConnectorLabel>
+        <rules>
+            <name>Yes_addresses_retrieval_is_enabled</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Retrieve_the_contact_tied_to_the_recordId.B2C_CustomerList__r.Enable_Address_Retrieval__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Reset_address_IDs</targetReference>
+            </connector>
+            <label>Yes addresses retrieval is enabled</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>If_the_user_selected_an_address_to_edit</name>
         <label>If the user selected an address to edit</label>
         <locationX>446</locationX>
-        <locationY>518</locationY>
+        <locationY>878</locationY>
         <defaultConnectorLabel>NO</defaultConnectorLabel>
         <rules>
             <name>YES_edit_an_address</name>
@@ -64,7 +121,7 @@
         <name>If_the_user_selected_an_address_to_view</name>
         <label>If the user selected an address to view</label>
         <locationX>248</locationX>
-        <locationY>398</locationY>
+        <locationY>758</locationY>
         <defaultConnector>
             <targetReference>If_the_user_selected_an_address_to_edit</targetReference>
         </defaultConnector>
@@ -85,8 +142,33 @@
             <label>Yes view an address</label>
         </rules>
     </decisions>
-    <interviewLabel>B2C Commerce: B2C Customer Address: View Address Book {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>B2C Commerce: B2C Customer Address: View Address Book</label>
+    <decisions>
+        <name>Is_the_contact_retrieved</name>
+        <label>Is the contact retrieved?</label>
+        <locationX>825</locationX>
+        <locationY>278</locationY>
+        <defaultConnector>
+            <targetReference>Set_error_to_no_contact_found</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>No it is not retrieved</defaultConnectorLabel>
+        <rules>
+            <name>Yes_the_contact_is_retrieved</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Retrieve_the_contact_tied_to_the_recordId</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Does_the_customer_list_allow_for_addresses_retrieval</targetReference>
+            </connector>
+            <label>Yes the contact is retrieved</label>
+        </rules>
+    </decisions>
+    <interviewLabel>B2C Commerce: B2C Customer Address: View Address Book: Contacts {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>B2C Commerce: B2C Customer Address: View Address Book: Contacts</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -106,11 +188,39 @@
         </value>
     </processMetadataValues>
     <processType>Flow</processType>
+    <recordLookups>
+        <name>Retrieve_the_contact_tied_to_the_recordId</name>
+        <label>Retrieve the contact tied to the recordId</label>
+        <locationX>825</locationX>
+        <locationY>158</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Is_the_contact_retrieved</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>IsDeleted</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Contact</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
     <screens>
         <name>B2C_Commerce_Address_Book</name>
         <label>B2C Commerce Address Book</label>
         <locationX>248</locationX>
-        <locationY>278</locationY>
+        <locationY>638</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -130,7 +240,7 @@
             <inputParameters>
                 <name>allowEditAddressDetails</name>
                 <value>
-                    <booleanValue>true</booleanValue>
+                    <elementReference>Retrieve_the_contact_tied_to_the_recordId.B2C_CustomerList__r.Enable_Address_Publishing__c</elementReference>
                 </value>
             </inputParameters>
             <inputParameters>
@@ -157,7 +267,7 @@
         <name>Edit_B2C_Address</name>
         <label>Edit B2C Address</label>
         <locationX>314</locationX>
-        <locationY>638</locationY>
+        <locationY>998</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -194,10 +304,26 @@
         <showHeader>false</showHeader>
     </screens>
     <screens>
+        <name>ErrorScreen</name>
+        <label>Error Screen</label>
+        <locationX>842</locationX>
+        <locationY>638</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <fields>
+            <name>ErrorLabel</name>
+            <fieldText>&lt;p&gt;{!errorMessage}&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>false</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
         <name>View_B2C_Address</name>
         <label>View B2C Address</label>
         <locationX>50</locationX>
-        <locationY>518</locationY>
+        <locationY>878</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -234,15 +360,22 @@
         <showHeader>false</showHeader>
     </screens>
     <start>
-        <locationX>122</locationX>
+        <locationX>699</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference>Reset_address_IDs</targetReference>
+            <targetReference>Retrieve_the_contact_tied_to_the_recordId</targetReference>
         </connector>
     </start>
     <status>Active</status>
     <variables>
         <name>editAddressId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>errorMessage</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>

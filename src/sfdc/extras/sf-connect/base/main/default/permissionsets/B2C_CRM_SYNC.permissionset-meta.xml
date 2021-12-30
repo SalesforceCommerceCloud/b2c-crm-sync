@@ -642,27 +642,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>B2C_CustomerList__c.Enable_Address_Creation__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>B2C_CustomerList__c.Enable_Address_Publishing__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>B2C_CustomerList__c.Enable_Address_Retrieval__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>B2C_CustomerList__c.Enable_Address_Sync__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>B2C_CustomerList__c.Enable_Address_Updates__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -908,21 +893,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>B2C_Site__c.Description__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>B2C_Site__c.Enable_Address_Creation__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>B2C_Site__c.Enable_Address_Sync__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>B2C_Site__c.Enable_Address_Updates__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

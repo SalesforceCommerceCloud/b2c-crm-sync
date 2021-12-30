@@ -184,16 +184,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Enable_Address_Creation__c</field>
-            <table>B2C_Instance__c.B2C_CustomerLists__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Enable_Address_Updates__c</field>
-            <table>B2C_Instance__c.B2C_CustomerLists__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>Enable_Profile_Creation__c</field>
             <table>B2C_Instance__c.B2C_CustomerLists__r</table>
         </columns>
