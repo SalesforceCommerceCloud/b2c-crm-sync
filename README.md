@@ -1385,27 +1385,27 @@ The jobStep supports a Query parameter representing which profiles to synchroniz
 
 
 | Today Placeholder | What to Expect / How to Use this Placeholder |
-|-------------------:|:--------------------------------------------------|
-| `_today_` -[0-9]+ | Will return the current date time minus xx days, formatted with the date time format.   This regexp allows you to apply dynamic days within the past. |
-| `_today_` |  Will return formatted date for the current day. |
-|`_today_` -1| Will return the current date minus 1 day. |
-|`_today_` -30| Will return the current date minus the date modifier. |
+|------------------:|:--------------------------------------------------|
+| `_today_ -[0-9]+` | Will return the current date time minus xx days, formatted with the date time format. This regexp allows you to apply dynamic days within the past. |
+| `_today_`         |  Will return formatted date for the current day. |
+| `_today_ -1`      | Will return the current date minus 1 day. |
+| `_today_ -30`     | Will return the current date minus the date modifier. |
 
 | Now Placeholder | What to Expect / How to Use this Placeholder |
-|-----------------:|:--------------------------------------------------|
-| `_now_` -[0-9]+ | Will return current date time minus xx minutes, formatted with the date time format.  This regexp allows you to apply dynamic time within the past. |
-| `_now_` | Will return the current date time, formatted with the date time format |
-| `_now_` -15 | Will return the current time minus 15 minutes. |
-| `_now_` -60 | Will return the current time minus 1 hour. |
-| `_now_` -1440 | Will return the current time minus 24 hours. |
+|----------------:|:--------------------------------------------------|
+| `_now_ -[0-9]+` | Will return current date time minus xx minutes, formatted with the date time format. This regexp allows you to apply dynamic time within the past. |
+| `_now_`         | Will return the current date time, formatted with the date time format |
+| `_now_ -15`     | Will return the current time minus 15 minutes. |
+| `_now_ -60`     | Will return the current time minus 1 hour. |
+| `_now_ -1440`   | Will return the current time minus 24 hours. |
 
-You can use these placeholders to create custom queries to filter and migrate a sub-set of B2C Customer Profiles.  Examples of these queries include:
+You can use these placeholders to create custom queries to filter and migrate a sub-set of B2C Customer Profiles. Examples of these queries include:
 
 - `createdDate > _today_ -1` filters on customerProfiles created since yesterday
 - `custom.b2ccrm_syncStatus != 'exported'` filters on customerProfiles that have not been exported successfully
 - `custom.b2ccrm_contactId != NULL` filters on customerProfiles that have not been attributed with a Salesforce Platform ContactID
 
-> When creating custom queries via this job, please remember to confirm that B2C Customer Profiles exist that satisfy your constructed query.  Any query that returns zero results will generate a NO DATA message in the job log-files.
+> When creating custom queries via this job, please remember to confirm that B2C Customer Profiles exist that satisfy your constructed query. Any query that returns zero results will generate a NO DATA message in the job log-files.
 
 #### What's Next?
 At this point, you should be in a position to 1) start exercising the integration or 2) [ask a question](https://github.com/SalesforceCommerceCloud/b2c-crm-sync/discussions/new) or [log an issue](https://github.com/SalesforceCommerceCloud/b2c-crm-sync/issues/new) if the installation and configuration didn't complete as expected.  Please share your experience with us. :grin:
