@@ -249,23 +249,29 @@ public with sharing class B2CCustomerAddressBook {
      */
     public static Contact getContactByCustomerId(String customerId) {
         String errorMsg = B2CConstant.buildErrorMessage(B2CConstant.ERRORS_META_CONTACTNOTFOUND, customerId);
-        Query contactQuery = new Query('Contact');
-        contactQuery.selectField('AccountId');
-        contactQuery.selectField('B2C_Customer_No__c');
-        contactQuery.selectField('B2C_CustomerList__r.Name');
-        contactQuery.selectField('B2C_CustomerList__r.Is_Active__c');
-        contactQuery.selectField('B2C_CustomerList__r.Base_API_Url__c');
-        contactQuery.selectField('B2C_CustomerList__r.API_Url__c');
-        contactQuery.selectField('B2C_CustomerList__r.B2C_Client_ID__c');
-        contactQuery.selectField('B2C_CustomerList__r.OCAPI_Version_No__c');
-        contactQuery.selectField('B2C_CustomerList__r.Enable_Address_Publishing__c');
-        contactQuery.selectField('B2C_CustomerList__r.Enable_Address_Retrieval__c');
-        contactQuery.setLimit(1);
-        contactQuery.addConditionEq('B2C_Customer_Id__c', customerId);
-        contactQuery.addConditionEq('B2C_CustomerList__r.Is_Active__c', true);
-        contactQuery.addConditionEq('Id', customerId);
-        contactQuery.addConditionEq('AccountId', customerId);
-        contactQuery.switchToDisjunction();
+
+        Query contactQuery = new Query('Contact')
+        .selectField('AccountId')
+        .selectField('B2C_Customer_No__c')
+        .selectField('B2C_CustomerList__r.Name')
+        .selectField('B2C_CustomerList__r.Is_Active__c')
+        .selectField('B2C_CustomerList__r.Base_API_Url__c')
+        .selectField('B2C_CustomerList__r.API_Url__c')
+        .selectField('B2C_CustomerList__r.B2C_Client_ID__c')
+        .selectField('B2C_CustomerList__r.OCAPI_Version_No__c')
+        .selectField('B2C_CustomerList__r.Enable_Address_Publishing__c')
+        .selectField('B2C_CustomerList__r.Enable_Address_Retrieval__c')
+        .setLimit(1)
+        .addCondition(
+            Query.doAnd(
+                Query.doOr(
+                    Query.conditionEq('B2C_Customer_Id__c', customerId),
+                    Query.conditionEq('Id', customerId),
+                    Query.conditionEq('AccountId', customerId)
+                ),
+                Query.conditionEq('B2C_CustomerList__r.Is_Active__c', true)
+            )
+        );
 
         List<Contact> contacts = contactQuery.run();
         return (Contact)B2CBaseMeta.processReturnResult('Contact', false, contacts, errorMsg);
