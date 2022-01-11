@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>53.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>B2C Active Customer Promotions</masterLabel>
+    <targets>
+        <target>lightning__FlowScreen</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__FlowScreen">
+            <property name="promotionsAsJSON" label="JSON representation of the list of active promotions for the current customer" type="String" role="inputOnly" />
+            <property name="allowGetCouponCodes" label="Allow to retrieve coupon codes for coupon-based promotions" type="Boolean" role="inputOnly" />
+            <property name="maximumCouponCodes" label="Maximum number of coupon codes retrieved for a given promotion" type="Integer" role="inputOnly" />
+            <property name="recordId" label="ID of the Contact/PersonAccount record to use to perfom Data API requests to retrieve coupon codes" type="String" role="inputOnly" />
+            <property name="siteId" label="ID of the Site from which to retrieve coupon codes" type="String" role="inputOnly" />
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

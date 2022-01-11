@@ -51,6 +51,12 @@ public class B2CHttpTestCalloutMockGenerator implements HttpCalloutMock {
             when 'CustomerDetailsFailure' {
                 responseObj = getCustomerDetailsFailureResponse();
             }
+            when 'CustomerShopDetailsSuccessWithPromotions' {
+                responseObj = getCustomerShopDetailsSuccessResponseWithPromotions();
+            }
+            when 'CustomerShopDetailsFailure' {
+                responseObj = getCustomerShopDetailsFailureResponse();
+            }
             when 'CustomerAddressSuccess' {
                 responseObj = getCustomerAddressSuccessResponse();
             }
@@ -80,6 +86,18 @@ public class B2CHttpTestCalloutMockGenerator implements HttpCalloutMock {
             }
             when 'CustomerListsSitesFailure' {
                 responseObj = getCustomerListSitesFailureResponse();
+            }
+            when 'ActivePromotionsSuccess' {
+                responseObj = getActivePromotionsSuccessResponse();
+            }
+            when 'ActivePromotionsFailure' {
+                responseObj = getActivePromotionsFailureResponse();
+            }
+            when 'CouponCodesSuccess' {
+                responseObj = getCouponCodesSuccessResponse();
+            }
+            when 'CouponCodesFailure' {
+                responseObj = getCouponCodesFailureResponse();
             }
             when 'CustomerAuthSuccess' {
                 HttpResponse resCustomerAuth = new HttpResponse();
@@ -320,6 +338,151 @@ public class B2CHttpTestCalloutMockGenerator implements HttpCalloutMock {
 
     }
 
+
+    /**
+     * @description Helper function to return the active promotions response
+     * code and body-content details. This models the successful retrieval of
+     * a B2C Commerce Promotions list.
+     *
+     * @return Map<String, String> Returns a map containing the
+     * successful response attributes
+     */
+    public static Map<String, String> getActivePromotionsSuccessResponse() {
+        Map<String, String> responseObj = new Map<String, String>();
+        String bodyContent = '{\n' +
+                '    "_v": "21.3",\n' +
+                '    "_type": "promotion_result",\n' +
+                '    "count": 1,\n' +
+                '    "data": [\n' +
+                '        {\n' +
+                '            "_type": "promotion",\n' +
+                '            "callout_msg": "callout_msg",\n' +
+                '            "details": "details",\n' +
+                '            "id": "promotion-id-1",\n' +
+                '            "name": "promotion-name-1",\n' +
+                '            "c_coupons": [{\n' +
+                '            "id": "coupon-id"\n' +
+                '            }]\n' +
+                '        },\n' +
+                '        {\n' +
+                '            "_type": "promotion",\n' +
+                '            "callout_msg": "callout_msg",\n' +
+                '            "details": "details",\n' +
+                '            "id": "promotion-id-2",\n' +
+                '            "name": "promotion-name-2"\n' +
+                '        }\n' +
+                '    ],\n' +
+                '    "start": 0,\n' +
+                '    "total": 1\n' +
+                '}';
+
+        // Seed the mock-response details
+        responseObj.put('status', 'OK');
+        responseObj.put('statusCode', '200');
+        responseObj.put('body', bodyContent);
+
+        return responseObj;
+
+    }
+
+    /**
+     * @description Helper function to return the active promotions response
+     * code and body-content details. This models the failed retrieval of
+     * a B2C Commerce Promotions list.
+     *
+     * @return Map<String, String> Returns a map containing the
+     * successful response attributes
+     */
+    public static Map<String, String> getActivePromotionsFailureResponse() {
+        Map<String, String> responseObj = new Map<String, String>();
+        String bodyContent = '{\n' +
+                '    "_v": "21.3",\n' +
+                '    "fault": {\n' +
+                '        "arguments": {\n' +
+                '            "promotionId": "UNKNOWN",\n' +
+                '            "siteId": "RefArch"\n' +
+                '        },\n' +
+                '        "type": "PromotionNotFoundException",\n' +
+                '        "message": "No promotion with ID \'UNKNOWN\' for site \'RefArch\' could be found."\n' +
+                '    }\n' +
+                '}';
+
+        // Seed the mock-response details
+        responseObj.put('status', 'OK');
+        responseObj.put('statusCode', '404');
+        responseObj.put('body', bodyContent);
+
+        return responseObj;
+    }
+
+    /**
+     * @description Helper function to return the coupon codes response
+     * code and body-content details. This models the successful retrieval of
+     * a B2C Commerce Coupon Codes list for a given coupon ID.
+     *
+     * @return Map<String, String> Returns a map containing the
+     * successful response attributes
+     */
+    public static Map<String, String> getCouponCodesSuccessResponse() {
+        Map<String, String> responseObj = new Map<String, String>();
+        String bodyContent = '{\n' +
+                '    "_v": "21.3",\n' +
+                '    "_type": "coupon_codes",\n' +
+                '    "count": 2,\n' +
+                '    "data": [\n' +
+                '        {\n' +
+                '            "_type": "coupon_code",\n' +
+                '            "code": "code1",\n' +
+                '            "issued": true\n' +
+                '        },\n' +
+                '        {\n' +
+                '            "_type": "coupon_code",\n' +
+                '            "code": "code2"\n' +
+                '        }\n' +
+                '    ],\n' +
+                '    "start": 0,\n' +
+                '    "total": 2\n' +
+                '}';
+
+        // Seed the mock-response details
+        responseObj.put('status', 'OK');
+        responseObj.put('statusCode', '200');
+        responseObj.put('body', bodyContent);
+
+        return responseObj;
+
+    }
+
+    /**
+     * @description Helper function to return the coupon codes response
+     * code and body-content details. This models the failed retrieval of
+     * a B2C Commerce Coupon Codes list for a given coupon ID.
+     *
+     * @return Map<String, String> Returns a map containing the
+     * successful response attributes
+     */
+    public static Map<String, String> getCouponCodesFailureResponse() {
+        Map<String, String> responseObj = new Map<String, String>();
+        String bodyContent = '{\n' +
+                '    "_v": "21.3",\n' +
+                '    "fault": {\n' +
+                '        "arguments": {\n' +
+                '            "couponId": "UNKNOWN",\n' +
+                '            "siteId": "RefArch"\n' +
+                '        },\n' +
+                '        "type": "CouponNotFoundException",\n' +
+                '        "message": "No coupon with ID \'UNKNOWN\' for site \'RefArch\' could be found."\n' +
+                '    }\n' +
+                '}';
+
+        // Seed the mock-response details
+        responseObj.put('status', 'OK');
+        responseObj.put('statusCode', '404');
+        responseObj.put('body', bodyContent);
+
+        return responseObj;
+    }
+
     /**
      * @description Helper function to return the customer response
      * code and body-content details.  This models the successful retrieval of
@@ -415,6 +578,86 @@ public class B2CHttpTestCalloutMockGenerator implements HttpCalloutMock {
         // Return the mock response details
         return responseObj;
 
+    }
+
+    /**
+     * @description Helper function to return the customer response
+     * code and body-content details.  This models the successful retrieval of
+     * a B2C Commerce Customer.
+     *
+     * @return Map<String, String> Returns a map containing the
+     * successful response attributes
+     */
+    public static Map<String, String> getCustomerShopDetailsSuccessResponseWithPromotions() {
+        Map<String, String> responseObj = new Map<String, String>();
+        String bodyContent = '{\n' +
+            '"_v": "21.3",\n' +
+            '"_type": "customer",\n' +
+            '"_resource_state": "495f86a4e72211f02037e58c34903a9dbb242e453ab6cad28b3251447870c415",\n' +
+            '"creation_date": "2021-03-29T17:33:05.000Z",\n' +
+            '"credentials": {\n' +
+            '"_type": "credentials",\n' +
+            '"enabled": true,\n' +
+            '"locked": false,\n' +
+            '"login": "john.doe@salesforce.com"\n' +
+            '},\n' +
+            '"customer_id": "bcRskvba1h30X9CoLJKEMkFgUy",\n' +
+            '"customer_no": "C000000001",\n' +
+            '"email": "john.doe@salesforce.com",\n' +
+            '"first_name": "John",\n' +
+            '"gender": 0,\n' +
+            '"last_login_time": "2021-04-14T16:44:37.616Z",\n' +
+            '"last_modified": "2021-04-14T16:47:29.382Z",\n' +
+            '"last_name": "Doe",\n' +
+            '"last_visit_time": "2021-04-14T16:44:37.616Z",\n' +
+            '"phone_home": "9234567890",\n' +
+            '"previous_login_time": "2021-04-14T16:44:37.616Z",\n' +
+            '"previous_visit_time": "2021-04-14T16:44:37.616Z",\n' +
+            '"c_b2ccrm_accountId": "0012D00000W1hbPQAR",\n' +
+            '"c_b2ccrm_contactId": "0032D00000T48x9QAB",\n' +
+            '"c_b2ccrm_syncStatus": "exported",\n' +
+            '"c_active_promotions": [\n' +
+            '"Test-promo-1",\n' +
+            '"Test-promo-2"\n' +
+            '],\n' +
+            '"testattr": "testattrvalue"\n' +
+            '}\n' +
+        '}';
+
+        // Seed the mock-response details
+        responseObj.put('status', 'OK');
+        responseObj.put('statusCode', '200');
+        responseObj.put('body', bodyContent);
+
+        return responseObj;
+    }
+
+
+    /**
+     * @description Helper function to return the customer response
+     * code and body-content details.  This models the failed retrieval of
+     * a B2C Commerce Customer.
+     *
+     * @return Map<String, String> Returns a map containing the
+     * successful response attributes
+     */
+    public static Map<String, String> getCustomerShopDetailsFailureResponse() {
+        Map<String, String> responseObj = new Map<String, String>();
+        String bodyContent = '{\n' +
+            '"_v": "21.3",\n' +
+            '"fault": {\n' +
+            '"type": "InvalidCustomerException",\n' +
+            '"message": "The customer is invalid."\n' +
+            '}\n' +
+        '}';
+
+        // Seed the mock-response details
+        responseObj.put('status', 'ERROR');
+        responseObj.put('statusCode', '400');
+        responseObj.put('body', bodyContent);
+
+        // Return the mock response details
+        return responseObj;
     }
 
     /**

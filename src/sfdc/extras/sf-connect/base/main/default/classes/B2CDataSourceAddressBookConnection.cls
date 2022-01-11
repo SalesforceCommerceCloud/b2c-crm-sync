@@ -159,7 +159,7 @@ global with sharing class B2CDataSourceAddressBookConnection extends DataSource.
 
         // Get the contact that matches the given customer No
         // If no contact is found, abort and return an empty list
-        Contact contact = B2CCustomerAddressBook.getContactByCustomerId(customerId);
+        Contact contact = B2CContactManager.getContactByCustomerId(customerId);
         if (contact == null) {
             return false;
         }
@@ -206,7 +206,7 @@ global with sharing class B2CDataSourceAddressBookConnection extends DataSource.
 
         // Get the contact that matches the given customer Id
         // If no contact is found, abort and return an empty list
-        Contact contact = B2CCustomerAddressBook.getContactByCustomerId(customerId);
+        Contact contact = B2CContactManager.getContactByCustomerId(customerId);
         if (contact == null) {
             return addresses;
         }
@@ -235,18 +235,12 @@ global with sharing class B2CDataSourceAddressBookConnection extends DataSource.
 
         Http https = new Http();
         HttpResponse res = https.send(req);
-        JSONParse responseParsedJSON = new JSONParse(res.getBody());
-
-        try {
-            responseParsedJSON.get('fault').get('message').getStringValue();
-            // If the fault message is found, the API call failed, abort and return no addresses
+        Integer statusCode = res.getStatusCode();
+        if (statusCode != 200) {
             return addresses;
-        } catch (JSONParse.MissingKeyException e) {
-            // In case the body misses the fault, then the API call succeed
-            // In this case, silently fail and continue
-            System.debug(System.LoggingLevel.INFO, e.getMessage());
         }
 
+        JSONParse responseParsedJSON = new JSONParse(res.getBody());
         // If no address Id is provided, return a list of addresses
         // Else, return the address
         if (String.isEmpty(addressId)) {
@@ -273,7 +267,7 @@ global with sharing class B2CDataSourceAddressBookConnection extends DataSource.
      * @return {Map<String, Object>} The address map, ready to be consumed by Salesforce Connect
      */
     private Map<String, Object> mapAddress(String customerId, JSONParse addressData) {
-        Map<String, Object> address = B2CCustomerAddressBook.mapFields(customerId, addressData, this.retrievalFieldMappings);
+    Map<String, Object> address = B2CMetaFieldMappings.mapFields(customerId, addressData, this.retrievalFieldMappings);
         String addressId = addressData.get('address_id').getStringValue();
 
         // Fill out the customer Id as indirect lookup

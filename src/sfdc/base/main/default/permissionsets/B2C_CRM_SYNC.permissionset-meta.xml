@@ -852,6 +852,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>B2C_Site__c.Enable_Active_Customer_Promotion_Sync__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>B2C_Site__c.Enable_Profile_Creation__c</field>
         <readable>true</readable>
     </fieldPermissions>

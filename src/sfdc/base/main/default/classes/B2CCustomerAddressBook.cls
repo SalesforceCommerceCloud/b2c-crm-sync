@@ -57,7 +57,7 @@ public with sharing class B2CCustomerAddressBook {
 
         // Get the contact that matches the given customer Id
         // If no contact is found, an error is thrown
-        Contact contact = B2CCustomerAddressBook.getContactByCustomerId(recordId);
+        Contact contact = B2CContactManager.getContactByCustomerId(recordId);
         // In case the customer list disallow address retrieval, return an empty address list
         if (!contact.B2C_CustomerList__r.Enable_Address_Retrieval__c) {
             return addresses;
@@ -73,23 +73,17 @@ public with sharing class B2CCustomerAddressBook {
 
         Http https = new Http();
         HttpResponse res = https.send(req);
-        JSONParse responseParsedJSON = new JSONParse(res.getBody());
-
-        try {
-            responseParsedJSON.get('fault').get('message').getStringValue();
-            // If the fault message is found, the API call failed, abort and return no addresses
+        Integer statusCode = res.getStatusCode();
+        if (statusCode != 200) {
             return addresses;
-        } catch (JSONParse.MissingKeyException e) {
-            // In case the body misses the fault, then the API call succeed
-            // In this case, silently fail and continue
-            System.debug(System.LoggingLevel.INFO, e.getMessage());
         }
 
+        JSONParse responseParsedJSON = new JSONParse(res.getBody());
         Integer count = responseParsedJSON.get('count').getIntegerValue();
         if (count > 0) {
             List<JSONParse> addressesData = responseParsedJSON.get('data').asList();
             for (JSONParse addressData : addressesData) {
-                addresses.add(B2CCustomerAddressBook.mapFields(recordId, addressData, B2CMetaFieldMappings.getFieldMappingsForUIRendering(METADATA_NAME)));
+                addresses.add(B2CMetaFieldMappings.mapFields(recordId, addressData, B2CMetaFieldMappings.getFieldMappingsForUIRendering(METADATA_NAME)));
             }
         }
 
@@ -113,7 +107,7 @@ public with sharing class B2CCustomerAddressBook {
 
         // Get the contact that matches the given customer Id
         // If no contact is found, an error is thrown
-        Contact contact = B2CCustomerAddressBook.getContactByCustomerId(customerId);
+        Contact contact = B2CContactManager.getContactByCustomerId(customerId);
         // In case the customer list disallow address retrieval, return an empty address
         if (!contact.B2C_CustomerList__r.Enable_Address_Retrieval__c) {
             return address;
@@ -130,19 +124,13 @@ public with sharing class B2CCustomerAddressBook {
 
         Http https = new Http();
         HttpResponse res = https.send(req);
-        JSONParse responseParsedJSON = new JSONParse(res.getBody());
-
-        try {
-            responseParsedJSON.get('fault').get('message').getStringValue();
-            // If the fault message is found, the API call failed, abort and return no addresses
+        Integer statusCode = res.getStatusCode();
+        if (statusCode != 200) {
             return address;
-        } catch (JSONParse.MissingKeyException e) {
-            // In case the body misses the fault, then the API call succeed
-            // In this case, silently fail and continue
-            System.debug(System.LoggingLevel.INFO, e.getMessage());
         }
 
-        return B2CCustomerAddressBook.mapFields(customerId, responseParsedJSON, B2CMetaFieldMappings.getFieldMappingsForPublishing(METADATA_NAME));
+        JSONParse responseParsedJSON = new JSONParse(res.getBody());
+        return B2CMetaFieldMappings.mapFields(customerId, responseParsedJSON, B2CMetaFieldMappings.getFieldMappingsForPublishing(METADATA_NAME));
     }
 
     /**
@@ -162,7 +150,7 @@ public with sharing class B2CCustomerAddressBook {
 
         // Get the contact that matches the given customer Id
         // If no contact is found, an error is thrown
-        Contact contact = B2CCustomerAddressBook.getContactByCustomerId(customerId);
+        Contact contact = B2CContactManager.getContactByCustomerId(customerId);
         // In case the customer list disallow address publishing, return an empty address
         if (!contact.B2C_CustomerList__r.Enable_Address_Publishing__c) {
             return B2CConstant.buildErrorMessage(B2CConstant.ERRORS_B2CCOMMERCE_ADDRESSBOOK_FAILED_TO_PATCH_ADDRESS, 'Customer list disallows address updates');
@@ -196,84 +184,5 @@ public with sharing class B2CCustomerAddressBook {
         }
 
         return null;
-    }
-
-    /**
-     * @description Retrieve the configured field mappings from the given {data}
-     *
-     * @param customerId {String}  The customer Id
-     * @param data {JSONParse} The data retrieved from the B2C Commerce API
-     * @param fieldMappings {List<B2C_Integration_Field_Mappings__mdt>} The collection of fieldMappings to process
-     *
-     * @return {Map<String, Object>} The list of found fields
-     */
-    public static Map<String, Object> mapFields(String customerId, JSONParse data, List<B2C_Integration_Field_Mappings__mdt> fieldMappings) {
-        Map<String, Object> mappedObject = new Map<String, Object>();
-
-        for (B2C_Integration_Field_Mappings__mdt fieldMapping : fieldMappings) {
-            try {
-                if (fieldMapping.B2C_Commerce_Attribute_Type__c == 'boolean') {
-                    mappedObject.put(fieldMapping.Service_Cloud_Attribute__c, data.get(fieldMapping.B2C_Commerce_OCAPI_Attribute__c).getBooleanValue());
-                } else if (fieldMapping.B2C_Commerce_Attribute_Type__c == 'integer') {
-                    mappedObject.put(fieldMapping.Service_Cloud_Attribute__c, data.get(fieldMapping.B2C_Commerce_OCAPI_Attribute__c).getIntegerValue());
-                } else if (fieldMapping.B2C_Commerce_Attribute_Type__c == 'number') {
-                    mappedObject.put(fieldMapping.Service_Cloud_Attribute__c, data.get(fieldMapping.B2C_Commerce_OCAPI_Attribute__c).getDecimalValue());
-                } else { // By default treat as a string
-                    mappedObject.put(fieldMapping.Service_Cloud_Attribute__c, data.get(fieldMapping.B2C_Commerce_OCAPI_Attribute__c).getStringValue());
-                }
-            } catch (JSONParse.MissingKeyException e) {
-                // Log the error but don't abort
-                // This probably fires only because the value is not set on the address in the B2C Commerce
-                // instance for this address, but the attribute still exists
-                System.debug(
-                    System.LoggingLevel.ERROR,
-                    '--> B2C Exception: The attribute {' + fieldMapping.B2C_Commerce_OCAPI_Attribute__c + '} ' +
-                    'has not been found in the given object {' + data.toStringPretty() + '} ' +
-                    ' for the customer {' + customerId + '}.'
-                );
-            }
-        }
-
-        mappedObject.put('key', EncodingUtil.ConvertTohex(Crypto.GenerateAESKey(128)));
-
-        return mappedObject;
-    }
-
-    /**
-     * @description Get the contact that matches the given {customerId}
-     * If multiple records are found, the query limits to the first one
-     *
-     * @param customerId {String} The customer Id to use to find the contact
-     *
-     * @return {Contact} The found contact or null if none is found
-     */
-    public static Contact getContactByCustomerId(String customerId) {
-        String errorMsg = B2CConstant.buildErrorMessage(B2CConstant.ERRORS_META_CONTACTNOTFOUND, customerId);
-
-        Query contactQuery = new Query('Contact')
-        .selectField('AccountId')
-        .selectField('B2C_Customer_No__c')
-        .selectField('B2C_CustomerList__r.Name')
-        .selectField('B2C_CustomerList__r.Is_Active__c')
-        .selectField('B2C_CustomerList__r.Base_API_Url__c')
-        .selectField('B2C_CustomerList__r.API_Url__c')
-        .selectField('B2C_CustomerList__r.B2C_Client_ID__c')
-        .selectField('B2C_CustomerList__r.OCAPI_Version_No__c')
-        .selectField('B2C_CustomerList__r.Enable_Address_Publishing__c')
-        .selectField('B2C_CustomerList__r.Enable_Address_Retrieval__c')
-        .setLimit(1)
-        .addCondition(
-            Query.doAnd(
-                Query.doOr(
-                    Query.conditionEq('B2C_Customer_Id__c', customerId),
-                    Query.conditionEq('Id', customerId),
-                    Query.conditionEq('AccountId', customerId)
-                ),
-                Query.conditionEq('B2C_CustomerList__r.Is_Active__c', true)
-            )
-        );
-
-        List<Contact> contacts = contactQuery.run();
-        return (Contact)B2CBaseMeta.processReturnResult('Contact', false, contacts, errorMsg);
     }
 }
