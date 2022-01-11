@@ -104,9 +104,12 @@
         <label>Launch the View Address Book Contacts flow</label>
         <locationX>50</locationX>
         <locationY>398</locationY>
-        <flowName>B2C_Commerce_B2C_Customer_Address_View_Address_Book_Contact</flowName>
+        <flowName>B2C_Commerce_B2C_Customer_Address_View_Address_Book_Contacts</flowName>
         <inputAssignments>
             <name>recordId</name>
+            <value>
+                <elementReference>Retrieve_the_Contact.Id</elementReference>
+            </value>
         </inputAssignments>
     </subflows>
     <variables>
