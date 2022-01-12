@@ -1,7 +1,6 @@
 @IsTest
 public with sharing class B2CCustomerAddressBook_Test {
-    @IsTest
-    static Id prepareData() {
+    static Id prepareData(Boolean enableAddressPublishing, Boolean enableAddressRetrieval) {
         B2C_Instance__c instance = (B2C_Instance__c)TestDataFactory.createSObject('B2C_Instance__c', new Map<String,Object>{
             'Name' => 'RefArch',
             'API_Url__c' => 'https://test.com'
@@ -23,7 +22,10 @@ public with sharing class B2CCustomerAddressBook_Test {
             'B2C_Client_ID__c' => clientId.Id,
             'CustomerList_ID__c' => 'RefArch',
             'API_Url__c' => 'https://test.com',
-            'OCAPI_Version_No__c' => 'v20_10'
+            'OCAPI_Version_No__c' => 'v20_10',
+            'Is_Active__c' => true,
+            'Enable_Address_Publishing__c' => enableAddressPublishing,
+            'Enable_Address_Retrieval__c' => enableAddressRetrieval
         });
         Contact contact = (Contact)TestDataFactory.createSObject('Contact', new Map<String,Object>{
             'LastName' => 'lastname',
@@ -31,19 +33,12 @@ public with sharing class B2CCustomerAddressBook_Test {
             'B2C_Customer_ID__c' => '001'
         });
 
-        // Validate that all of the test-data is created
-        System.assert(contact != null, 'Expected a contact to be created');
-        System.assert(customerList != null, 'Expected a customerList to be created');
-        System.assert(authToken != null, 'Expected an authToken to be created');
-        System.assert(clientId != null, 'Expected an clientId to be created');
-        System.assert(instance != null, 'Expected an instance to be created');
-
         return contact.Id;
     }
 
     @IsTest
     static void testGetCustomerAddressLabels() {
-        prepareData();
+        prepareData(true, true);
 
         Test.startTest();
         List<Map<String, String>> fields = B2CCustomerAddressBook.getCustomerAddressLabels();
@@ -54,7 +49,7 @@ public with sharing class B2CCustomerAddressBook_Test {
 
     @IsTest
     static void testGetCustomerAddressFormLabels() {
-        prepareData();
+        prepareData(true, true);
 
         Test.startTest();
         List<Map<String, String>> fields = B2CCustomerAddressBook.getCustomerAddressFormFields();
@@ -65,7 +60,7 @@ public with sharing class B2CCustomerAddressBook_Test {
 
     @IsTest
     static void testGetCustomerAddressesWrongParams() {
-        Id contactId = prepareData();
+        Id contactId = prepareData(true, true);
         Test.setMock(HttpCalloutMock.class, new B2CHttpTestCalloutMockGenerator('CustomerAddressesSuccess'));
 
         Test.startTest();
@@ -76,8 +71,20 @@ public with sharing class B2CCustomerAddressBook_Test {
     }
 
     @IsTest
+    static void testGetCustomerAddressesDisallowed() {
+        Id contactId = prepareData(true, false);
+        Test.setMock(HttpCalloutMock.class, new B2CHttpTestCalloutMockGenerator('CustomerAddressesSuccess'));
+
+        Test.startTest();
+            List<Map<String, Object>> addresses = B2CCustomerAddressBook.getCustomerAddresses(contactId);
+        Test.stopTest();
+
+        System.assertEquals(addresses.size(), 0, 'No addresses should be found as the addresses retrieval is disabled from the customer list.');
+    }
+
+    @IsTest
     static void testGetCustomerAddressesNoContactFound() {
-        Id contactId = prepareData();
+        Id contactId = prepareData(true, true);
         Test.setMock(HttpCalloutMock.class, new B2CHttpTestCalloutMockGenerator('CustomerAddressesSuccess'));
 
         Exception error;
@@ -96,7 +103,7 @@ public with sharing class B2CCustomerAddressBook_Test {
 
     @IsTest
     static void testGetCustomerAddressesSuccess() {
-        Id contactId = prepareData();
+        Id contactId = prepareData(true, true);
         Test.setMock(HttpCalloutMock.class, new B2CHttpTestCalloutMockGenerator('CustomerAddressesSuccess'));
 
         Test.startTest();
@@ -109,7 +116,7 @@ public with sharing class B2CCustomerAddressBook_Test {
 
     @IsTest
     static void testGetCustomerAddressesFailure() {
-        Id contactId = prepareData();
+        Id contactId = prepareData(true, true);
         Test.setMock(HttpCalloutMock.class, new B2CHttpTestCalloutMockGenerator('CustomerAddressesFailure'));
 
         Test.startTest();
@@ -121,7 +128,7 @@ public with sharing class B2CCustomerAddressBook_Test {
 
     @IsTest
     static void testGetCustomerAddressByIdWrongParams() {
-        Id contactId = prepareData();
+        Id contactId = prepareData(true, true);
         Test.setMock(HttpCalloutMock.class, new B2CHttpTestCalloutMockGenerator('CustomerAddressSuccess'));
 
         Test.startTest();
@@ -132,8 +139,20 @@ public with sharing class B2CCustomerAddressBook_Test {
     }
 
     @IsTest
+    static void testGetCustomerAddressByIdDisallowed() {
+        Id contactId = prepareData(true, false);
+        Test.setMock(HttpCalloutMock.class, new B2CHttpTestCalloutMockGenerator('CustomerAddressSuccess'));
+
+        Test.startTest();
+            Map<String, Object> address = B2CCustomerAddressBook.getCustomerAddressById(contactId, 'my_home_address');
+        Test.stopTest();
+
+        System.assertEquals(address.keySet().size(), 0, 'No address should be found as the addresses retrieval is disabled from the customer list.');
+    }
+
+    @IsTest
     static void testGetCustomerAddressByIdNoContactFound() {
-        Id contactId = prepareData();
+        Id contactId = prepareData(true, true);
         Test.setMock(HttpCalloutMock.class, new B2CHttpTestCalloutMockGenerator('CustomerAddressSuccess'));
 
         Exception error;
@@ -152,7 +171,7 @@ public with sharing class B2CCustomerAddressBook_Test {
 
     @IsTest
     static void testGetCustomerAddressByIdSuccess() {
-        Id contactId = prepareData();
+        Id contactId = prepareData(true, true);
         Test.setMock(HttpCalloutMock.class, new B2CHttpTestCalloutMockGenerator('CustomerAddressSuccess'));
 
         Test.startTest();
@@ -165,7 +184,7 @@ public with sharing class B2CCustomerAddressBook_Test {
 
     @IsTest
     static void testGetCustomerAddressByIdFailure() {
-        Id contactId = prepareData();
+        Id contactId = prepareData(true, true);
         Test.setMock(HttpCalloutMock.class, new B2CHttpTestCalloutMockGenerator('CustomerAddressFailure'));
 
         Test.startTest();
@@ -177,7 +196,7 @@ public with sharing class B2CCustomerAddressBook_Test {
 
     @IsTest
     static void testPatchCustomerAddressWrongParams() {
-        Id contactId = prepareData();
+        Id contactId = prepareData(true, true);
         Test.setMock(HttpCalloutMock.class, new B2CHttpTestCalloutMockGenerator('CustomerAddressPatchSuccess'));
 
         Test.startTest();
@@ -188,8 +207,20 @@ public with sharing class B2CCustomerAddressBook_Test {
     }
 
     @IsTest
+    static void testPatchCustomerAddressDisallowed() {
+        Id contactId = prepareData(false, true);
+        Test.setMock(HttpCalloutMock.class, new B2CHttpTestCalloutMockGenerator('CustomerAddressPatchSuccess'));
+
+        Test.startTest();
+            String error = B2CCustomerAddressBook.patchCustomerAddress(contactId, 'my_home_address', new Map<String, Object>());
+        Test.stopTest();
+
+        System.assertEquals(error, B2CConstant.buildErrorMessage(error, 'Customer list disallows address updates'), 'The error should be returned.');
+    }
+
+    @IsTest
     static void testPatchCustomerAddressNoContactFound() {
-        Id contactId = prepareData();
+        Id contactId = prepareData(true, true);
         Test.setMock(HttpCalloutMock.class, new B2CHttpTestCalloutMockGenerator('CustomerAddressPatchSuccess'));
 
         Exception error;
@@ -208,7 +239,7 @@ public with sharing class B2CCustomerAddressBook_Test {
 
     @IsTest
     static void testPatchCustomerAddressSuccess() {
-        Id contactId = prepareData();
+        Id contactId = prepareData(true, true);
         Test.setMock(HttpCalloutMock.class, new B2CHttpTestCalloutMockGenerator('CustomerAddressPatchSuccess'));
 
         Test.startTest();
@@ -220,7 +251,7 @@ public with sharing class B2CCustomerAddressBook_Test {
 
     @IsTest
     static void testPatchCustomerAddressFailure() {
-        Id contactId = prepareData();
+        Id contactId = prepareData(true, true);
         Test.setMock(HttpCalloutMock.class, new B2CHttpTestCalloutMockGenerator('CustomerAddressPatchFailure'));
 
         Test.startTest();

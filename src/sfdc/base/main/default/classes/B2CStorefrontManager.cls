@@ -193,8 +193,6 @@ public with sharing class B2CStorefrontManager extends B2CBaseMeta {
         siteQuery.selectField('Description__c');
         siteQuery.selectField('Enable_Profile_Creation__c');
         siteQuery.selectField('Enable_Profile_Updates__c');
-        siteQuery.selectField('Enable_Address_Creation__c');
-        siteQuery.selectField('Enable_Address_Updates__c');
 
         // Return the default query structure
         return siteQuery;

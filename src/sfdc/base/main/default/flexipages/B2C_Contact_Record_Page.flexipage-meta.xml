@@ -190,7 +190,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>flowName</name>
-                    <value>B2C_Commerce_B2C_Customer_Address_View_Address_Book</value>
+                    <value>B2C_Commerce_B2C_Customer_Address_View_Address_Book_Contacts</value>
                 </componentInstanceProperties>
                 <componentName>flowruntime:interview</componentName>
             </componentInstance>

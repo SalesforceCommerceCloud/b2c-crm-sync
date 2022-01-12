@@ -99,11 +99,8 @@
         <object>B2C_Site__c</object>
         <outputReference>recCol_B2CSites</outputReference>
         <queriedFields>Id</queriedFields>
-        <queriedFields>Enable_Address_Creation__c</queriedFields>
-        <queriedFields>Enable_Address_Updates__c</queriedFields>
         <queriedFields>Enable_Profile_Creation__c</queriedFields>
         <queriedFields>Enable_Profile_Updates__c</queriedFields>
-        <queriedFields>Enable_Address_Sync__c</queriedFields>
         <queriedFields>Is_Active__c</queriedFields>
         <queriedFields>B2C_Instance_Id__c</queriedFields>
         <queriedFields>B2C_Instance_Name__c</queriedFields>
@@ -128,24 +125,6 @@
                 <elementReference>recordId</elementReference>
             </value>
         </filters>
-        <inputAssignments>
-            <field>Enable_Address_Creation__c</field>
-            <value>
-                <booleanValue>false</booleanValue>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Enable_Address_Sync__c</field>
-            <value>
-                <booleanValue>false</booleanValue>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Enable_Address_Updates__c</field>
-            <value>
-                <booleanValue>false</booleanValue>
-            </value>
-        </inputAssignments>
         <inputAssignments>
             <field>Enable_Order_on_Behalf_Of__c</field>
             <value>
