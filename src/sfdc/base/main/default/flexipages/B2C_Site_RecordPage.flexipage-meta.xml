@@ -362,6 +362,11 @@
                 <fieldItem>Record.Enable_Order_on_Behalf_Of__c</fieldItem>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldItem>Record.Enable_Password_Reset__c</fieldItem>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-9a2c4697-9808-44a5-a50f-d8a2c6f04738</name>
         <type>Facet</type>
     </flexiPageRegions>

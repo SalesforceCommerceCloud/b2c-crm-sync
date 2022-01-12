@@ -42,7 +42,8 @@ b2c-crm-sync supports the following extensible features (yes, you can customize 
 - Supports both PersonAccounts and Account / Contact customer models within the Salesforce Customer 360 Platform
 - Synchronization of registered Salesforce B2C Commerce customer profiles between the Salesforce Customer 360 Platform and Salesforce B2C Commerce in near real-time and via a scheduledJob managed by B2C Commerce
 - Order on Behalf of style Assisted Shopping for Customer Service Representatives configured and launched from within the Salesforce Platform
-- Federated Access to the B2C Commerce Customer Address Books of Registered B2C Commerce Customers via Salesforce Connect (requires Enterprise Edition)
+- Password Reset for Customer Service Representatives configured and launched from within the Salesforce Platform
+- Federated Access to the B2C Commerce Customer Address Books of Registered B2C Commerce Customers via Salesforce Connect (requires Enterprise Edition) or from a custom LWC displayed right from the Contact/PersonAccount record page if you cannot use the Salesforce Connect
 - Attribution of Salesforce Platform Account and Contact identifiers on Registered and Anonymous Orders placed via the Storefront
 - Headless Support for synchronization and order attribution use-cases
 
@@ -333,6 +334,14 @@ The build scripts in this repository leverage B2C Commerce's [sfcc-ci](https://g
     },
     {
         "resource_id": "/customers/*/auth",
+        "methods": [
+            "post"
+        ],
+        "read_attributes": "(**)",
+        "write_attributes": "(**)"
+    },
+    {
+        "resource_id": "/customers/*/password_reset",
         "methods": [
             "post"
         ],
@@ -1351,8 +1360,10 @@ Salesforce External Objects must be initialized before they can be used within t
 - Select the `External Data Sources` menu option.
 - Verify that a dataSource named `B2C_Customer_Address_Book` is present in the list of external dataSources.
 - Click on the name `B2C_Customer_Address_Book` to view the dataSource details.
-- From the details display, click on the `Validate` link on the `B2C Commerce Address` row within the `External Objects` list.
-- Click on the `Run queries` button to trigger the External Data Source validation process.
+- From the details display, click on the `Validate and Sync` button.
+- From the `Validate External Data Source` display, confirm that the table name `B2C_CustomerAddress` is visible in the list of tableNames.
+- Check the `Select` checkbox to the left of the `B2C_CustomerAddress` tableName.
+- Click on the `Sync` button to trigger the External Data Source validation and synchronization process.
 
 > This action will attempt to verify the dataSource connection brokered by the addressBook data adapter included with b2c-crm-sync.
 

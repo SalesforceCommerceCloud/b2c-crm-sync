@@ -486,6 +486,7 @@ module.exports = {
             "c_b2ccrm_syncCustomersViaOCAPI": true,
             "c_b2ccrm_syncCustomersFromOrdersEnabled": true,
             "c_b2ccrm_syncCustomersFromGuestOrdersEnabled": true,
+            "c_b2ccrm_syncPasswordResetEnabled": true,
             "c_b2ccrm_syncApplyProfileIDsToRegisteredOrdersEnabled": true,
             "c_b2ccrm_syncCustomersFromOrdersViaOCAPI": true
         },

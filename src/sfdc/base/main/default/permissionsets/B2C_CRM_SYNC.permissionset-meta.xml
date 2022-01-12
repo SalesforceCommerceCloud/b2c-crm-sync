@@ -877,6 +877,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>B2C_Site__c.Enable_Password_Reset__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>B2C_Site__c.Enable_Profile_Creation__c</field>
         <readable>true</readable>
     </fieldPermissions>

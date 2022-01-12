@@ -19,6 +19,9 @@
                             <value>Contact.Order_on_Behalf_Of</value>
                         </valueListItems>
                         <valueListItems>
+                            <value>Contact.Reset_customer_password</value>
+                        </valueListItems>
+                        <valueListItems>
                             <value>Contact.Sync_with_B2C_Commerce_Profile</value>
                             <visibilityRule>
                                 <booleanFilter>1 AND 2 AND 3</booleanFilter>

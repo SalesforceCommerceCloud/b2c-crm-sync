@@ -19,6 +19,9 @@
                             <value>Account.Order_on_Behalf_Of</value>
                         </valueListItems>
                         <valueListItems>
+                            <value>Account.Reset_customer_password</value>
+                        </valueListItems>
+                        <valueListItems>
                             <value>Account.Enable_B2C_Commerce_Event_Auditing</value>
                             <visibilityRule>
                                 <booleanFilter>1 AND 2</booleanFilter>
