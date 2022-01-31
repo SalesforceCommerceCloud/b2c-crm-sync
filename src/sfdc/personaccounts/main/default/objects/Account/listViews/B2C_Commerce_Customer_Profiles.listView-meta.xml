@@ -8,10 +8,5 @@
     <columns>ACCOUNT.LAST_UPDATE</columns>
     <columns>CREATEDBY_USER.ALIAS</columns>
     <filterScope>Everything</filterScope>
-    <filters>
-        <field>ACCOUNT.RECORDTYPE</field>
-        <operation>equals</operation>
-        <value>PersonAccount.PersonAccount</value>
-    </filters>
     <label>B2C Commerce Customer Profiles</label>
 </ListView>
