@@ -42,4 +42,8 @@
         <field>OOBO_Customer_Number__c</field>
         <value xsi:type="xsd:string">9999999</value>
     </values>
+    <values>
+        <field>PersonAccount_Record_Type_Developername__c</field>
+        <value xsi:type="xsd:string">PersonAccount</value>
+    </values>
 </CustomMetadata>
