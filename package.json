@@ -63,7 +63,8 @@
     "crm-sync:test:watch": "mocha -R list -w ./test/**/*.test.js",
     "crm-sync:test:single": "mocha $1",
     "crm-sync:test:single:watch": "mocha -R list -w $1",
-    "crm-sync:coverage": "nyc npm run crm-sync:test"
+    "crm-sync:coverage": "nyc npm run crm-sync:test",
+    "crm-sync:coverage:b2c": "nyc npm run crm-sync:test:b2c"
   },
   "repository": {
     "type": "git",

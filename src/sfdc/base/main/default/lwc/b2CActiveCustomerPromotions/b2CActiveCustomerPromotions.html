@@ -1,0 +1,50 @@
+<template>
+    <article class="slds-card slds-card_boundary">
+        <div class="slds-grid slds-page-header slds-page-header_joined slds-page-header_bleed">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__figure">
+                    <lightning-icon icon-name="standard:address" alternative-text="B2C Active Customer Promotions" title="B2C Active Customer Promotions"></lightning-icon>
+                </div>
+                <div class="slds-media__body">
+                    <h2 class="slds-card__header-title">
+                        <a href="#" class="slds-card__header-link slds-truncate" title={headerTitle}>
+                            <span>{headerTitle}</span>
+                        </a>
+                    </h2>
+                </div>
+            </header>
+        </div>
+        <div class="slds-card__body_inner slds-p-around_none">
+            <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_striped">
+                <thead>
+                    <tr class="slds-line-height_reset">
+                        <template for:each={fields} for:item="field">
+                            <th key={field.id} scope="col">
+                                <div class="slds-truncate" title={field.label}>{field.label}</div>
+                            </th>
+                        </template>
+                        <th style="width: 35rem;"><!-- Empty table head because we have the button/coupon codes in rows --></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template if:false={hasPromotions}>
+                        <tr>
+                            <td colspan={fieldsCount}>No promotions found.</td>
+                        </tr>
+                    </template>
+                    <template if:true={hasPromotions} for:each={promotions} for:item="promotion">
+                        <c-b2-c-active-customer-promotion-row
+                            key={promotion.key}
+                            fields={fields}
+                            promotion={promotion}
+                            allow-get-coupon-codes={allowGetCouponCodes}
+                            record-id={recordId}
+                            site-id={siteId}
+                            maximum-coupon-codes={maximumCouponCodes}>
+                        </c-b2-c-active-customer-promotion-row>
+                    </template>
+                </tbody>
+            </table>
+        </div>
+    </article>
+</template>

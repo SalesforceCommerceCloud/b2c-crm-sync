@@ -1,0 +1,29 @@
+<template>
+    <template for:each={promotionsFields} for:item="promotionField">
+        <td key={promotionField} data-label={promotionField}>
+            <div class="slds-truncate" title={promotionField}>{promotionField}</div>
+        </td>
+    </template>
+    <td role="gridcell">
+        <template if:true={allowGetCouponCodes}>
+            <template if:true={hasCoupons}>
+                <template for:each={promotion.coupons} for:item="coupon">
+                    <div key={coupon} class="coupon-container">
+                        <template if:false={hasCouponCodes}>
+                            <lightning-button label={buttonLabel} title={buttonLabel} icon-name="utility:coupon_codes" onclick={handleGetCouponCodes} data-coupon-id={coupon}></lightning-button>
+                            <template if:true={isLoadingCouponCodes}>
+                                <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+                            </template>
+                        </template>
+                        <template if:true={hasCouponCodes}>
+                            <lightning-pill-container items={couponCodes}> </lightning-pill-container>
+                        </template>
+                        <template if:true={hasErrorMessage}>
+                            <p class="slds-text-color_error">{errorMessage}</p>
+                        </template>
+                    </div>
+                </template>
+            </template>
+        </template>
+    </td>
+</template>

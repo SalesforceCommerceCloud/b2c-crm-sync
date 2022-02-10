@@ -9,7 +9,7 @@ var Site = require('dw/system/Site');
  * @description This hook is used to synchronize customer registrations with the Salesforce
  * Platform triggered by OCAPI / headless interactions
  *
- * @param {Object} customer Represents the customer being registered
+ * @param {dw/customer/Customer} customer Represents the customer being registered
  * @param {Object} customerRegistration Describes the post used to register a customer
  * @returns {Status} Returns the status for the OCAPI request
  */
@@ -35,7 +35,7 @@ function afterPOST(customer, customerRegistration) {
  * @description This hook is used to synchronize customer profile updates with the
  * Salesforce Platform triggered by OCAPI / headless interactions
  *
- * @param {Object} customer Represents the customer being updated
+ * @param {dw/customer/Customer} customer Represents the customer being updated
  * @param {Object} customerRegistration Describes the post used to update the customer profile
  * @returns {Status} Returns the status for the OCAPI request
  */
@@ -56,5 +56,33 @@ function afterPATCH(customer, customerRegistration) {
     return new Status(Status.OK);
 }
 
+/**
+ * @function modifyGETResponse
+ * @description This hook is used to improve the customer response while fetching the customer.
+ * This allows to provide more data to the Core Platform.
+ *
+ * @param {dw/customer/Customer} customer Represents the customer being updated
+ * @param {Object} customerResponse Represents the response from the API
+ * @returns {Status} Returns the status for the OCAPI request
+ */
+// eslint-disable-next-line no-unused-vars
+function modifyGETResponse(customer, customerResponse) {
+    if (!Site.getCurrent().getCustomPreferenceValue('b2ccrm_syncEnhanceOCAPICustomerResponse')) {
+        return new Status(Status.OK);
+    }
+
+    var expand = request.getHttpParameters().custom_expand || [];
+    if (expand.indexOf('promotions') > -1) {
+        var PromotionMgr = require('dw/campaign/PromotionMgr');
+        var promotionPlan = PromotionMgr.getActiveCustomerPromotions();
+        customerResponse.c_active_promotions = promotionPlan.getPromotions().toArray().map(function (promotion) {
+            return promotion.getID();
+        });
+    }
+
+    return new Status(Status.OK);
+}
+
 module.exports.afterPOST = afterPOST;
 module.exports.afterPATCH = afterPATCH;
+module.exports.modifyGETResponse = modifyGETResponse;

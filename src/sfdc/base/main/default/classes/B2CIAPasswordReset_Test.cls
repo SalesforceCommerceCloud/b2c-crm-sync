@@ -38,8 +38,6 @@ private class B2CIAPasswordReset_Test {
     @IsTest
     static void testIsFailure() {
         Test.startTest();
-
-        // Set the mock-generator for the current request (modeling success)
         Test.setMock(HttpCalloutMock.class, new B2CHttpTestCalloutMockGenerator('PasswordResetFailure'));
 
         // Seed the input arguments

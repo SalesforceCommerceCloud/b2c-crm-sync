@@ -33,12 +33,20 @@
       "script": "./cartridge/scripts/b2ccrmsync/hooks/ocapi/shop.customer"
     },
     {
+      "name": "dw.ocapi.shop.customer.modifyGETResponse",
+      "script": "./cartridge/scripts/b2ccrmsync/hooks/ocapi/shop.customer"
+    },
+    {
       "name": "dw.ocapi.shop.customer.afterPATCH",
       "script": "./cartridge/scripts/b2ccrmsync/hooks/ocapi/shop.customer"
     },
     {
       "name": "dw.ocapi.shop.order.afterPOST",
       "script": "./cartridge/scripts/b2ccrmsync/hooks/ocapi/shop.order"
+    },
+    {
+      "name": "dw.ocapi.shop.promotion.modifyGETResponse",
+      "script": "./cartridge/scripts/b2ccrmsync/hooks/ocapi/shop.promotion"
     }
   ]
 }
