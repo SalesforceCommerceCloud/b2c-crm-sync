@@ -101,7 +101,7 @@
     "sfdx-node": "^3.1.0",
     "terminal-link": "^2.1.1",
     "validate.js": "^0.13.1",
-    "validator": "^13.6.0",
+    "validator": "^13.7.0",
     "xml-parser": "^1.2.1",
     "zip-a-folder": "^0.0.12"
   },
