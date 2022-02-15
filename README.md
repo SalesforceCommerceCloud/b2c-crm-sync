@@ -1,11 +1,17 @@
 # Salesforce B2C Commerce / Customer 360 Platform Integration #
 
+# :warning: PLEASE READ BEFORE USING THIS FRAMEWORK :warning: #
+
+Before using b2c-crm-sync, please have a look at the [presentation page](https://salesforcecommercecloud.github.io/b2c-crm-sync/) and acknowledge that you understand and know the concepts behind this framework.
+
+----
+
 ## Introduction ##
 Salesforce B2C Commerce / CRM Sync is an enablement solution designed by Salesforce Architects to teach Salesforce's B2C Customer Data Strategy for multi-cloud use-cases. The solution demonstrates a contemporary approach to the integration between Salesforce B2C Commerce and the Cloud products running on the Salesforce Customer 360 Platform.
 
 b2c-crm-sync includes a framework for integrating these clouds (ex. B2C Commerce and Service Cloud) -- leveraging REST APIs and the declarative capabilities of the Salesforce Platform. This approach powers frictionless customer experiences across B2C Commerce, Service, and Marketing Clouds by resolving and synchronizing customer profiles across these Salesforce products.
 
-> :100: &nbsp;This repository is currently in it's **v1.0.2** release. The MVP feature-set is complete, and you can now deploy b2c-crm-sync to scratchOrgs and sandboxes via its CLI tooling. Solution trustworthiness is critical for our success. Please use the tagged release, but also feel free to deploy from master if you want to work with the latest updates. &nbsp;:100:
+> :100: &nbsp;This repository is currently in it's **v1.3.0** release. The MVP feature-set is complete, and you can now deploy b2c-crm-sync to scratchOrgs and sandboxes via its CLI tooling. Solution trustworthiness is critical for our success. Please use the tagged release, but also feel free to deploy from master if you want to work with the latest updates. &nbsp;:100:
 
 Please visit our [issues-list](https://github.com/SalesforceCommerceCloud/b2c-crm-sync/issues) to see outstanding issues and features, and visit our [discussions](https://github.com/SalesforceCommerceCloud/b2c-crm-sync/discussions) to ask questions.
 
