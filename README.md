@@ -1,5 +1,11 @@
 # Salesforce B2C Commerce / Customer 360 Platform Integration #
 
+# :warning: PLEASE READ BEFORE USING THIS FRAMEWORK :warning: #
+
+Before using b2c-crm-sync, please have a look at the [presentation page](https://salesforcecommercecloud.github.io/b2c-crm-sync/) and acknowledge that you understand and know the concepts behind this framework.
+
+----
+
 ## Introduction ##
 Salesforce B2C Commerce / CRM Sync is an enablement solution designed by Salesforce Architects to teach Salesforce's B2C Customer Data Strategy for multi-cloud use-cases. The solution demonstrates a contemporary approach to the integration between Salesforce B2C Commerce and the Cloud products running on the Salesforce Customer 360 Platform.
 
