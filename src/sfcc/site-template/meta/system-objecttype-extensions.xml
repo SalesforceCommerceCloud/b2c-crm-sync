@@ -207,6 +207,22 @@
                 <externally-managed-flag>false</externally-managed-flag>
                 <default-value>true</default-value>
             </attribute-definition>
+            <attribute-definition attribute-id="b2ccrm_syncEnhanceOCAPICustomerResponse">
+                <display-name xml:lang="x-default">Enhance OCAPI Get Customer Reponse?</display-name>
+                <description xml:lang="x-default">When enabled, the Shop API Get Customer request gets enhanced with custom details.</description>
+                <type>boolean</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <default-value>true</default-value>
+            </attribute-definition>
+            <attribute-definition attribute-id="b2ccrm_syncEnhanceOCAPIPromotionResponse">
+                <display-name xml:lang="x-default">Enhance OCAPI Get Promotion Reponse?</display-name>
+                <description xml:lang="x-default">When enabled, the Shop API Get Promotion request gets enhanced with custom details.</description>
+                <type>boolean</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <default-value>true</default-value>
+            </attribute-definition>
             <attribute-definition attribute-id="b2ccrm_syncOOBOGuestCustomerId">
                 <display-name xml:lang="x-default">Assisted Shopping (OOBO) CustomerId</display-name>
                 <description xml:lang="x-default">Represents the internal B2C Commerce CustomerId of the customer profile used to authenticate for an anonymous Assisted Shopping session.</description>
@@ -266,6 +282,8 @@
                 <attribute attribute-id="b2ccrm_syncPasswordResetEnabled"/>
                 <attribute attribute-id="b2ccrm_syncApplyProfileIDsToRegisteredOrdersEnabled"/>
                 <attribute attribute-id="b2ccrm_syncCustomersFromOrdersViaOCAPI"/>
+                <attribute attribute-id="b2ccrm_syncEnhanceOCAPICustomerResponse"/>
+                <attribute attribute-id="b2ccrm_syncEnhanceOCAPIPromotionResponse"/>
             </attribute-group>
         </group-definitions>
     </type-extension>

@@ -1,6 +1,6 @@
 {
   "name": "b2c-crm-sync",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Enablement solution teaching the Salesforce Architect Success B2C Customer Data Strategy.  Unlock frictionless customer experiences by leveraging b2c-crm-sync's progressive resolution of B2C Customer Profiles between B2C Commerce and the Salesforce Platform.",
   "main": "cli.js",
   "engines": {
@@ -63,7 +63,8 @@
     "crm-sync:test:watch": "mocha -R list -w ./test/**/*.test.js",
     "crm-sync:test:single": "mocha $1",
     "crm-sync:test:single:watch": "mocha -R list -w $1",
-    "crm-sync:coverage": "nyc npm run crm-sync:test"
+    "crm-sync:coverage": "nyc npm run crm-sync:test",
+    "crm-sync:coverage:b2c": "nyc npm run crm-sync:test:b2c"
   },
   "repository": {
     "type": "git",
@@ -96,7 +97,7 @@
     "ora": "^5.4.0",
     "recursive-readdir": "^2.2.2",
     "save": "^2.4.0",
-    "sfcc-ci": "^2.7.2",
+    "sfcc-ci": "~2.7.2",
     "sfdx-node": "^3.1.0",
     "terminal-link": "^2.1.1",
     "validate.js": "^0.13.1",

@@ -218,7 +218,43 @@ public with sharing class B2CContactManager extends B2CBaseMeta {
 
         // Return the default query structure
         return contactQuery;
-
     }
 
+    /**
+     * @description Get the contact that matches the given {customerId}
+     * If multiple records are found, the query limits to the first one
+     *
+     * @param customerId {String} The customer Id to use to find the contact
+     *
+     * @return {Contact} The found contact or null if none is found
+     */
+    public static Contact getContactByCustomerId(String customerId) {
+        String errorMsg = B2CConstant.buildErrorMessage(B2CConstant.ERRORS_META_CONTACTNOTFOUND, customerId);
+
+        Query contactQuery = new Query('Contact')
+            .selectField('AccountId')
+            .selectField('B2C_Customer_No__c')
+            .selectField('B2C_CustomerList__r.Name')
+            .selectField('B2C_CustomerList__r.Is_Active__c')
+            .selectField('B2C_CustomerList__r.Base_API_Url__c')
+            .selectField('B2C_CustomerList__r.API_Url__c')
+            .selectField('B2C_CustomerList__r.B2C_Client_ID__c')
+            .selectField('B2C_CustomerList__r.OCAPI_Version_No__c')
+            .selectField('B2C_CustomerList__r.Enable_Address_Publishing__c')
+            .selectField('B2C_CustomerList__r.Enable_Address_Retrieval__c')
+            .setLimit(1)
+            .addCondition(
+                Query.doAnd(
+                    Query.doOr(
+                        Query.conditionEq('B2C_Customer_Id__c', customerId),
+                        Query.conditionEq('Id', customerId),
+                        Query.conditionEq('AccountId', customerId)
+                    ),
+                    Query.conditionEq('B2C_CustomerList__r.Is_Active__c', true)
+                )
+            );
+
+        List<Contact> contacts = contactQuery.run();
+        return (Contact)B2CBaseMeta.processReturnResult('Contact', false, contacts, errorMsg);
+    }
 }

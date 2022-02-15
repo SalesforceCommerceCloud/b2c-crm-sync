@@ -166,7 +166,6 @@ public with sharing class B2CHttpRequestHelper {
             apiVersion,
             'get',
             '');
-
     }
 
     /**
@@ -185,7 +184,6 @@ public with sharing class B2CHttpRequestHelper {
         String apiUrl, String accessToken, String apiVersion, String b2cCustomerListId,
         String b2cCustomerNo, String addressId, String b2cAddressJSON
     ) {
-
         // Replace the space-identifier in the address id to functionally support spaces
         String updatedAddressId = addressId.replaceAll('\\+', '%20');
         updatedAddressId = addressId.replaceAll(' ', '%20');
@@ -227,6 +225,90 @@ public with sharing class B2CHttpRequestHelper {
             'patch',
             b2cCustomerProfileJSON
         );
+    }
+
+    /**
+     * @description Generates the httpRequest to retrieve the B2C Commerce Customer Profile through the Shop API
+     * meaning that the retrieval is done in the context of an authenticated customer
+     *
+     * @param apiUrl {String} Represents the apiUrl used to invoke this request
+     * @param siteId {String} Represents the siteId used to invoke the request
+     * @param apiVersion {String} Represents the apiVersion used to invoke the request
+     * @param customerId {String} Represents the B2C ClientID used to drive this request
+     * @param clientId {String} Represents the customerId of the customer being authenticated
+     * @param accessToken {String} Represents the B2C Commerce authToken used for this request
+     * @param expandParameter {String} Represents the value of the "custom_expand" GET parameter that the B2C cartridge is using to enhance the API response
+     * @return HttpRequest Returns an http-object pre-configured shop-api site retrieval request
+     * */
+    public static HttpRequest getShopCustomerProfileRequest(
+        String apiUrl, String siteId, String apiVersion, String customerId, String clientId, String accessToken, String expandParameter
+    ) {
+        return getOCAPIShopAPIHttpRequest(
+            apiUrl,
+            siteId,
+            accessToken,
+            clientId,
+            '/customers/' + customerId + (String.isEmpty(expandParameter) ? '' : '?custom_expand=' + expandParameter),
+            apiVersion,
+            'get',
+            ''
+        );
+    }
+
+    /**
+     * @description Generates the httpRequest to retrieve the B2C Commerce Customer Profile through the Shop API
+     * meaning that the retrieval is done in the context of an authenticated customer
+     *
+     * @param apiUrl {String} Represents the apiUrl used to invoke this request
+     * @param siteId {String} Represents the siteId used to invoke the request
+     * @param apiVersion {String} Represents the apiVersion used to invoke the request
+     * @param clientId {String} Represents the customerId of the customer being authenticated
+     * @param accessToken {String} Represents the B2C Commerce authToken used for this request
+     * @param promotionIds {String} Represents the value of the "custom_expand" GET parameter that the B2C cartridge is using to enhance the API response
+     * @return HttpRequest Returns an http-object pre-configured shop-api site retrieval request
+     * */
+    public static HttpRequest getActiveCustomerPromotionsRequest(
+        String apiUrl, String siteId, String apiVersion, String clientId, String accessToken, List<String> promotionIds, String expandParameter
+    ) {
+        // Replace the space-identifier in the address id to functionally support spaces
+        List<String> encodedPromotionIds = new List<String>();
+        for (String promotionId : promotionIds) {
+            encodedPromotionIds.add(EncodingUtil.urlEncode(promotionId, 'UTF-8'));
+        }
+
+        return getOCAPIShopAPIHttpRequest(
+            apiUrl,
+            siteId,
+            accessToken,
+            clientId,
+            '/promotions/(' + String.join(encodedPromotionIds, ',') + ')' + (String.isEmpty(expandParameter) ? '' : '?custom_expand=' + expandParameter),
+            apiVersion,
+            'get',
+            ''
+        );
+    }
+
+    /**
+     * @description Generates the httpRequest to retrieve a B2C Commerce Address from the customer's address book
+     *
+     * @param apiUrl {String} Represents the base apiUrl used to invoke the REST API call
+     * @param accessToken {String} Represents the Account Manager accessToken used to authorize a REST API call
+     * @param apiVersion {String} Represents the API version that should be used for the current REST API call
+     * @param b2cCustomerListId {String} Represents the B2C Commerce CustomerList owning the customer profile requested
+     * @param b2cCustomerNo {String} Represents the B2C Commerce Customer Number of the customer profile being retrieved
+     * @param addressId {String} Represents the B2C Commerce Address ID of the customer's address being retrieved
+     * @return HttpRequest Returns an http-object pre-configured data-api request
+     * */
+    public static HttpRequest getCouponCodesRequest(
+        String apiUrl, String accessToken, String apiVersion, String siteId, String couponId, Integer count
+    ) {
+        return getOCAPIDataAPIHttpRequest(
+            apiUrl,
+            accessToken,
+            '/sites/' + siteId + '/coupons/' + couponId + '/codes?count=' + count,
+            apiVersion,
+            'get',
+            '');
     }
 
     /**

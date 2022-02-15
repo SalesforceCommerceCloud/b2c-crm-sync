@@ -24,18 +24,15 @@ function sessionHandler() {
     if (isSyncEnabled) {
 
         // Otherwise, evaluate if the OOBO / anonymous customer scenario is valid; Get the OOBO placeholder customerId value
-        OOBOGuestCustomerId = Site.current.getCustomPreferenceValue('b2ccrm_syncOOBOGuestCustomerId');
+        OOBOGuestCustomerId = Site.getCustomPreferenceValue('b2ccrm_syncOOBOGuestCustomerId');
 
         // Is the current customer the OOBO placeholder customer? If so, then logout the customer
         if (session.customer && session.customerAuthenticated && OOBOGuestCustomerId && session.customer.ID === OOBOGuestCustomerId) {
 
             // Logout the customer -- but maintain the agent session
             CustomerMgr.logoutCustomer(false);
-
         }
-
     }
-
 }
 
 exports.onSession = sessionHandler;

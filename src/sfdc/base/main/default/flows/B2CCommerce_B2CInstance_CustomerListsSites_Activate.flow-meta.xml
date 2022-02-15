@@ -80,6 +80,12 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <field>Enable_Active_Customer_Promotion_Sync__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>Is_Active__c</field>
             <value>
                 <booleanValue>true</booleanValue>

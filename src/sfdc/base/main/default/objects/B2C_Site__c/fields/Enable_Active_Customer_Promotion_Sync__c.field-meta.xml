@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Enable_Active_Customer_Promotion_Sync__c</fullName>
+    <defaultValue>true</defaultValue>
+    <description>... describes whether the current storefront can be used to retrieve the active customer promotions.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>... describes whether the current storefront can be used to retrieve the active customer promotions.</inlineHelpText>
+    <label>Enable Active Customer Promotion Sync</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

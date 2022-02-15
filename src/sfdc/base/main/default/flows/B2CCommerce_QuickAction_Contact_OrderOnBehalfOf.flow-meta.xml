@@ -10,7 +10,7 @@
         <connector>
             <targetReference>dec_OOBOCustomerAuth</targetReference>
         </connector>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <flowTransactionModel>NewTransaction</flowTransactionModel>
         <inputParameters>
             <name>clientId</name>
             <value>
@@ -60,7 +60,7 @@
         <connector>
             <targetReference>dec_wasBMUserGrantAuthTokenReturned</targetReference>
         </connector>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <flowTransactionModel>NewTransaction</flowTransactionModel>
         <inputParameters>
             <name>clientId</name>
             <value>
@@ -179,7 +179,7 @@
             <assignToReference>selectedCustomerListId</assignToReference>
             <operator>Assign</operator>
             <value>
-                <stringValue/>
+                <stringValue></stringValue>
             </value>
         </assignmentItems>
         <assignmentItems>

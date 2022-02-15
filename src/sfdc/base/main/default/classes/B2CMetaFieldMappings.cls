@@ -251,7 +251,46 @@ public with sharing class B2CMetaFieldMappings extends B2CBaseMeta {
 
         // Return the field-mapping values
         return outputFieldMappings;
-
     }
 
+    /**
+     * @description Retrieve the configured field mappings from the given {data}
+     *
+     * @param customerId {String}  The customer Id
+     * @param data {JSONParse} The data retrieved from the B2C Commerce API
+     * @param fieldMappings {List<B2C_Integration_Field_Mappings__mdt>} The collection of fieldMappings to process
+     *
+     * @return {Map<String, Object>} The list of found fields
+     */
+    public static Map<String, Object> mapFields(String customerId, JSONParse data, List<B2C_Integration_Field_Mappings__mdt> fieldMappings) {
+        Map<String, Object> mappedObject = new Map<String, Object>();
+
+        for (B2C_Integration_Field_Mappings__mdt fieldMapping : fieldMappings) {
+            try {
+                if (fieldMapping.B2C_Commerce_Attribute_Type__c == 'boolean') {
+                    mappedObject.put(fieldMapping.Service_Cloud_Attribute__c, data.get(fieldMapping.B2C_Commerce_OCAPI_Attribute__c).getBooleanValue());
+                } else if (fieldMapping.B2C_Commerce_Attribute_Type__c == 'integer') {
+                    mappedObject.put(fieldMapping.Service_Cloud_Attribute__c, data.get(fieldMapping.B2C_Commerce_OCAPI_Attribute__c).getIntegerValue());
+                } else if (fieldMapping.B2C_Commerce_Attribute_Type__c == 'number') {
+                    mappedObject.put(fieldMapping.Service_Cloud_Attribute__c, data.get(fieldMapping.B2C_Commerce_OCAPI_Attribute__c).getDecimalValue());
+                } else { // By default treat as a string
+                    mappedObject.put(fieldMapping.Service_Cloud_Attribute__c, data.get(fieldMapping.B2C_Commerce_OCAPI_Attribute__c).getStringValue());
+                }
+            } catch (JSONParse.MissingKeyException e) {
+                // Log the error but don't abort
+                // This probably fires only because the value is not set on the address in the B2C Commerce
+                // instance for this address, but the attribute still exists
+                System.debug(
+                    System.LoggingLevel.ERROR,
+                    '--> B2C Exception: The attribute {' + fieldMapping.B2C_Commerce_OCAPI_Attribute__c + '} ' +
+                    'has not been found in the given object {' + data.toStringPretty() + '} ' +
+                    ' for the customer {' + customerId + '}.'
+                );
+            }
+        }
+
+        mappedObject.put('key', EncodingUtil.ConvertTohex(Crypto.GenerateAESKey(128)));
+
+        return mappedObject;
+    }
 }
