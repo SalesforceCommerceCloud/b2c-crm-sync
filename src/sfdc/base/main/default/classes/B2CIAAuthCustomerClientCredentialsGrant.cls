@@ -37,7 +37,7 @@ public with sharing class B2CIAAuthCustomerClientCredentialsGrant {
 
             // Initialize the authentication request
             HttpRequest req = B2CHttpRequestHelper.getCustomerAuthRequest(
-                b2creq.domain, b2creq.siteId, b2creq.version, b2creq.customerId, b2creq.clientId, b2creq.token
+                b2creq.domain, b2creq.siteId, b2creq.version, b2creq.customerId, b2creq.clientId, b2creq.token, b2creq.expandParameter
             );
 
             // Initialize the http-handler
@@ -64,6 +64,20 @@ public with sharing class B2CIAAuthCustomerClientCredentialsGrant {
                     accessTokenResult.accessToken = res.getHeader('Authorization');
                 }
 
+                if (accessTokenResult.accessToken != null) {
+                    accessTokenResult.accessToken = accessTokenResult.accessToken.replace('Bearer ', '');
+                    accessTokenResult.tokenType = 'Bearer';
+                }
+
+                if (String.isNotEmpty(b2creq.expandParameter)) {
+                    JSONParse responseParsedJSON = new JSONParse(res.getBody());
+                    accessTokenResult.promotionIds = new List<String>();
+                    List<JSONParse> promotionsList = responseParsedJSON.get('c_active_promotions').asList();
+                    for (JsonParse promotionItem : promotionsList) {
+                        accessTokenResult.promotionIds.add(promotionItem.getStringValue());
+                    }
+                    accessTokenResult.totalPromotionsSize = accessTokenResult.promotionIds.size();
+                }
             } else {
 
                 // Otherwise, capture the error message

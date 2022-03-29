@@ -66,7 +66,7 @@ function afterPATCH(customer, customerRegistration) {
  * @returns {Status} Returns the status for the OCAPI request
  */
 // eslint-disable-next-line no-unused-vars
-function modifyGETResponse(customer, customerResponse) {
+function modifyPOSTResponse(customer, customerResponse) {
     if (!Site.getCurrent().getCustomPreferenceValue('b2ccrm_syncEnhanceOCAPICustomerResponse')) {
         return new Status(Status.OK);
     }
@@ -85,4 +85,4 @@ function modifyGETResponse(customer, customerResponse) {
 
 module.exports.afterPOST = afterPOST;
 module.exports.afterPATCH = afterPATCH;
-module.exports.modifyGETResponse = modifyGETResponse;
+module.exports.modifyPOSTResponse = modifyPOSTResponse;

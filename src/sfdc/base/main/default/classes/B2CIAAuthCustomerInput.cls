@@ -29,4 +29,7 @@ public with sharing class B2CIAAuthCustomerInput {
 
     @AuraEnabled @InvocableVariable(Required=true)
     public String version;
+
+    @AuraEnabled @InvocableVariable(Required=false)
+    public String expandParameter;
 }

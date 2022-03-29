@@ -89,6 +89,34 @@ public with sharing class B2CConfigurationManager {
     }
 
     /**
+     * @description Helper function retrieves the default personAccount
+     * developerName used for accounts / contacts.
+     * @return {String} Returns the developerName for the B2c Person Account
+     */
+    public static String getPersonAccountRecordTypeDeveloperName() {
+        if (
+            // Validate that we have CRUD permissions to access this data
+            B2C_CRM_Sync_Default_Configuration__mdt.SObjectType.getDescribe().isAccessible() &&
+            Schema.SObjectType.B2C_CRM_Sync_Default_Configuration__mdt.fields.DeveloperName.isAccessible() &&
+            B2C_CRMSync_Setting__mdt.SObjectType.getDescribe().isAccessible() &&
+            Schema.SObjectType.B2C_CRMSync_Setting__mdt.fields.PersonAccount_Record_Type_Developername__c.isAccessible()
+        ) {
+            return null;
+        }
+
+        // Get the default configuration profile
+        B2C_CRM_Sync_Default_Configuration__mdt configurationProfile = [
+            SELECT Active_Configuration__r.PersonAccount_Record_Type_Developername__c
+            FROM B2C_CRM_Sync_Default_Configuration__mdt
+            WHERE DeveloperName = 'Production_Configuration'
+            LIMIT 1
+        ];
+
+        // Set the output variable to contain the specified configuration property
+        return configurationProfile.Active_Configuration__r.PersonAccount_Record_Type_Developername__c;
+    }
+
+    /**
      * @description Helper function retrieves the default customerModel based on the
      * configuration profile that is configured.
      * @return {String} Returns the configured customerModel (Standard or Person).
