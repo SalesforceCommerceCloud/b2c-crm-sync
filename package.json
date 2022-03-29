@@ -77,7 +77,7 @@
     "asciiart-logo": "^0.2.6",
     "async": "^3.2.0",
     "async-polling": "^0.2.1",
-    "axios": "^0.21.1",
+    "axios": "^0.21.2",
     "child-process-promise": "^2.2.1",
     "cli-table": "^0.3.6",
     "commander": "^6.2.1",
