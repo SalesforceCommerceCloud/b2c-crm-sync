@@ -50,4 +50,15 @@ public class B2CIAGetAccessTokenResult {
     @InvocableVariable
     public String b2cInstanceAPIUrl;
 
+
+    ////////////////////////////////////////////////////////////////
+    // Include the deserialized properties from the response
+    ////////////////////////////////////////////////////////////////
+
+    @InvocableVariable
+    public Integer totalPromotionsSize;
+
+    @InvocableVariable
+    public List<String> promotionIds;
+
 }
