@@ -37,7 +37,7 @@ public with sharing class B2CIAAuthCustomerClientCredentialsGrant {
 
             // Initialize the authentication request
             HttpRequest req = B2CHttpRequestHelper.getCustomerAuthRequest(
-                b2creq.domain, b2creq.siteId, b2creq.version, b2creq.customerId, b2creq.clientId, b2creq.token, b2creq.expandParameter
+                b2creq.domain, b2creq.siteId, b2creq.version, b2creq.customerId, b2creq.clientId, b2creq.token
             );
 
             // Initialize the http-handler
@@ -55,7 +55,6 @@ public with sharing class B2CIAAuthCustomerClientCredentialsGrant {
 
             // Check if the statusCode is found in the response and the response was processed successfully
             if (accessTokenResult.statusCode == 200) {
-
                 // Seed the response object with the access token details
                 accessTokenResult.accessToken = res.getHeader('authorization');
 
@@ -68,22 +67,10 @@ public with sharing class B2CIAAuthCustomerClientCredentialsGrant {
                     accessTokenResult.accessToken = accessTokenResult.accessToken.replace('Bearer ', '');
                     accessTokenResult.tokenType = 'Bearer';
                 }
-
-                if (String.isNotEmpty(b2creq.expandParameter)) {
-                    JSONParse responseParsedJSON = new JSONParse(res.getBody());
-                    accessTokenResult.promotionIds = new List<String>();
-                    List<JSONParse> promotionsList = responseParsedJSON.get('c_active_promotions').asList();
-                    for (JsonParse promotionItem : promotionsList) {
-                        accessTokenResult.promotionIds.add(promotionItem.getStringValue());
-                    }
-                    accessTokenResult.totalPromotionsSize = accessTokenResult.promotionIds.size();
-                }
             } else {
-
                 // Otherwise, capture the error message
                 accessTokenResult.errorMessage = B2CConstant.ERRORS_OCAPI_ACCESSTOKENNOTPRESENT;
                 accessTokenResult.isError = true;
-
             }
             // Add the accessToken to the output
             outputObj.add(accessTokenResult);

@@ -33,7 +33,7 @@
       "script": "./cartridge/scripts/b2ccrmsync/hooks/ocapi/shop.customer"
     },
     {
-      "name": "dw.ocapi.shop.customer.auth.modifyPOSTResponse",
+      "name": "dw.ocapi.shop.customer.modifyGETResponse",
       "script": "./cartridge/scripts/b2ccrmsync/hooks/ocapi/shop.customer"
     },
     {

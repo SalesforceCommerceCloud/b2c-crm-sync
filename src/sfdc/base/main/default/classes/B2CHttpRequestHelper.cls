@@ -53,18 +53,17 @@ public with sharing class B2CHttpRequestHelper {
      * @param customerId {String} Represents the B2C ClientID used to drive this request
      * @param clientId {String} Represents the customerId of the customer being authenticated
      * @param accessToken {String} Represents the B2C Commerce authToken used for this request
-     * @param expandParameter {String} Represents the value of the "custom_expand" GET parameter that the B2C cartridge is using to enhance the API response
      * @return HttpRequest Returns an http-object pre-configured shop-api site retrieval request
      * */
     public static HttpRequest getCustomerAuthRequest(
-        String apiUrl, String siteId, String apiVersion, String customerId, String clientId, String accessToken, String expandParameter
+        String apiUrl, String siteId, String apiVersion, String customerId, String clientId, String accessToken
     ) {
         return getOCAPIShopAPIHttpRequest(
             apiUrl,
             siteId,
             accessToken,
             clientId,
-            '/customers/' + customerId + '/auth' + (String.isEmpty(expandParameter) ? '' : '?custom_expand=' + expandParameter),
+            '/customers/' + customerId + '/auth',
             apiVersion,
             'post',
             '{"type" : "credentials"}'
