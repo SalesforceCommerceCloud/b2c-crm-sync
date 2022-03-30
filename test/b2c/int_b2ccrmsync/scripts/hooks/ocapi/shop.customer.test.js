@@ -135,12 +135,12 @@ describe('int_b2ccrmsync/cartridge/scripts/b2ccrmsync/hooks/ocapi/shop.customer'
         });
     });
 
-    describe('modifyPOSTResponse', function () {
+    describe('modifyGETResponse', function () {
         it('should not do anything in case the B2C CRM Sync site preference is disabled', function () {
             const site = require('dw-api-mock/dw/system/Site').getCurrent();
             site.customPreferences.b2ccrm_syncEnhanceOCAPICustomerResponse = false;
             requireStub['dw/system/Site'].getCurrent = sandbox.stub().returns(site);
-            shopCustomerHook.modifyPOSTResponse(customer, customerResponse);
+            shopCustomerHook.modifyGETResponse(customer, customerResponse);
 
             expect(promotionSpy).to.have.not.been.called;
         });
@@ -150,7 +150,7 @@ describe('int_b2ccrmsync/cartridge/scripts/b2ccrmsync/hooks/ocapi/shop.customer'
             site.customPreferences.b2ccrm_syncEnhanceOCAPICustomerResponse = true;
             requireStub['dw/system/Site'].getCurrent = sandbox.stub().returns(site);
             global.request.getHttpParameters = sandbox.stub().returns({});
-            shopCustomerHook.modifyPOSTResponse(customer, customerResponse);
+            shopCustomerHook.modifyGETResponse(customer, customerResponse);
 
             expect(promotionSpy).to.have.not.been.called;
         });
@@ -166,7 +166,7 @@ describe('int_b2ccrmsync/cartridge/scripts/b2ccrmsync/hooks/ocapi/shop.customer'
             var promotionPlan = new PromotionPlan([]);
             requireStub['dw/campaign/PromotionMgr'].getActiveCustomerPromotions = sandbox.stub().returns(promotionPlan);
 
-            shopCustomerHook.modifyPOSTResponse(customer, customerResponse);
+            shopCustomerHook.modifyGETResponse(customer, customerResponse);
 
             expect(customerResponse.c_active_promotions).to.exist;
             expect(customerResponse.c_active_promotions.length).to.be.equal(0);
@@ -184,7 +184,7 @@ describe('int_b2ccrmsync/cartridge/scripts/b2ccrmsync/hooks/ocapi/shop.customer'
             var promotionPlan = new PromotionPlan(promotions);
             requireStub['dw/campaign/PromotionMgr'].getActiveCustomerPromotions = sandbox.stub().returns(promotionPlan);
 
-            shopCustomerHook.modifyPOSTResponse(customer, customerResponse);
+            shopCustomerHook.modifyGETResponse(customer, customerResponse);
 
             expect(customerResponse.c_active_promotions).to.exist;
             expect(customerResponse.c_active_promotions.length).to.not.be.equal(0);

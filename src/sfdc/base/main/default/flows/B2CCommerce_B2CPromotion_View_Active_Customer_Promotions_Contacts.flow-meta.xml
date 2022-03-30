@@ -1,10 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <actionCalls>
+        <name>CustomerAuth_Action</name>
+        <label>CustomerAuth Action</label>
+        <locationX>182</locationX>
+        <locationY>1790</locationY>
+        <actionName>B2CIAAuthCustomerClientCredentialsGrant</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>Was_the_Customer_successfully_authenticated</targetReference>
+        </connector>
+        <flowTransactionModel>Automatic</flowTransactionModel>
+        <inputParameters>
+            <name>clientId</name>
+            <value>
+                <elementReference>selectedClientId</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>customerId</name>
+            <value>
+                <elementReference>selectedCustomerId</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>domain</name>
+            <value>
+                <elementReference>selectedSiteApi</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>siteId</name>
+            <value>
+                <elementReference>selectedSiteId</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>token</name>
+            <value>
+                <elementReference>ia_getBusinessManagerUserGrant.accessToken</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>version</name>
+            <value>
+                <elementReference>selectedSiteVersion</elementReference>
+            </value>
+        </inputParameters>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </actionCalls>
+    <actionCalls>
         <name>Get_Active_Customer_Promotions</name>
         <label>Get Active Customer Promotions</label>
-        <locationX>50</locationX>
-        <locationY>1910</locationY>
+        <locationX>314</locationX>
+        <locationY>2702</locationY>
         <actionName>B2CIAActiveCustomerPromotion</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -58,8 +107,8 @@
     <actionCalls>
         <name>Get_the_Customer_Shopper_profile</name>
         <label>Get the Customer Shopper profile</label>
-        <locationX>182</locationX>
-        <locationY>1670</locationY>
+        <locationX>446</locationX>
+        <locationY>2462</locationY>
         <actionName>B2CIACustomerShopperProfile</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -75,7 +124,7 @@
         <inputParameters>
             <name>customerId</name>
             <value>
-                <elementReference>selectedCustomerId</elementReference>
+                <elementReference>getCustomerProfileCustomerId</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
@@ -99,7 +148,7 @@
         <inputParameters>
             <name>token</name>
             <value>
-                <elementReference>ia_getBusinessManagerUserGrant.accessToken</elementReference>
+                <elementReference>getCustomerProfileAccessToken</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
@@ -114,7 +163,7 @@
         <description>... obtain a Business Manager user grant from the B2C Instance.</description>
         <name>ia_getBusinessManagerUserGrant</name>
         <label>Obtain a Business Manager User Grant</label>
-        <locationX>336</locationX>
+        <locationX>776</locationX>
         <locationY>1430</locationY>
         <actionName>B2CIABusinessManagerGrant</actionName>
         <actionType>apex</actionType>
@@ -141,7 +190,7 @@
         <description>... assign the active B2C Site Count to a local variable.</description>
         <name>asn_activeB2CSites</name>
         <label>Assign the Active B2C Site Count</label>
-        <locationX>715</locationX>
+        <locationX>1287</locationX>
         <locationY>278</locationY>
         <assignmentItems>
             <assignToReference>activeB2CSitesCount</assignToReference>
@@ -165,7 +214,7 @@
         <description>... take the properties from the single B2C Site and copy them to the collection of selected values.</description>
         <name>asn_selectedB2CSiteValues</name>
         <label>Assign the Selected Site Values</label>
-        <locationX>481</locationX>
+        <locationX>1009</locationX>
         <locationY>998</locationY>
         <assignmentItems>
             <assignToReference>selectedClientId</assignToReference>
@@ -230,14 +279,64 @@
                 <elementReference>loop_iterateB2CSites.OOBO_Named_Credential_Developer_Name__c</elementReference>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>selectedOOBOCustomerId</assignToReference>
+            <operator>Assign</operator>
+        </assignmentItems>
         <connector>
             <targetReference>loop_iterateB2CSites</targetReference>
         </connector>
     </assignments>
     <assignments>
+        <name>Assign_Customer_Access_Token</name>
+        <label>Assign Customer Access Token</label>
+        <locationX>50</locationX>
+        <locationY>2030</locationY>
+        <assignmentItems>
+            <assignToReference>getCustomerProfileAccessToken</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>CustomerAuth_Action.accessToken</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>getCustomerProfileCustomerId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>selectedCustomerId</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Get_the_Customer_Shopper_profile</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_OOBO_Customer_ID_and_BM_Access_Token</name>
+        <label>Assign OOBO Customer ID and BM Access Token</label>
+        <locationX>578</locationX>
+        <locationY>1910</locationY>
+        <assignmentItems>
+            <assignToReference>getCustomerProfileAccessToken</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>ia_getBusinessManagerUserGrant.accessToken</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>getCustomerProfileCustomerId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>selectedOOBOCustomerId</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Get_the_Customer_Shopper_profile</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Capture_the_selected_customer_Id</name>
         <label>Capture the selected customer Id</label>
-        <locationX>501</locationX>
+        <locationX>1029</locationX>
         <locationY>638</locationY>
         <assignmentItems>
             <assignToReference>selectedCustomerId</assignToReference>
@@ -261,8 +360,8 @@
         <description>... evaluate if the customerRetrieval event succeeded with no errors.</description>
         <name>dec_CustomerRetrieval</name>
         <label>Was the Customer Retrieval Successful?</label>
-        <locationX>182</locationX>
-        <locationY>1790</locationY>
+        <locationX>446</locationX>
+        <locationY>2582</locationY>
         <defaultConnector>
             <targetReference>Screen_Error_Auth</targetReference>
         </defaultConnector>
@@ -287,7 +386,7 @@
         <description>... evaluate the configuration requirements for Promotion retrieval and determine if the user can proceed.</description>
         <name>dec_validateConfigRequirements</name>
         <label>Validate Configuration Requirements</label>
-        <locationX>501</locationX>
+        <locationX>1029</locationX>
         <locationY>1310</locationY>
         <defaultConnector>
             <targetReference>scrn_ConfigurationInvalid</targetReference>
@@ -369,7 +468,7 @@
         <description>... evaluate if at least one (1) active B2C Site was retrieved</description>
         <name>dec_wasActiveB2CSiteFound</name>
         <label>Was an Active B2C Site Found?</label>
-        <locationX>715</locationX>
+        <locationX>1287</locationX>
         <locationY>398</locationY>
         <defaultConnector>
             <targetReference>scrn_noActiveB2CSitesFound</targetReference>
@@ -395,7 +494,7 @@
         <description>... evaluate if a Business Manager User Grant authToken was returned.</description>
         <name>dec_wasBMUserGrantAuthTokenReturned</name>
         <label>Was an AuthToken Returned?</label>
-        <locationX>336</locationX>
+        <locationX>776</locationX>
         <locationY>1550</locationY>
         <defaultConnector>
             <targetReference>Screen_Error_Auth</targetReference>
@@ -412,7 +511,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Get_the_Customer_Shopper_profile</targetReference>
+                <targetReference>Is_Registered_Customer</targetReference>
             </connector>
             <label>Was Returned</label>
         </rules>
@@ -421,7 +520,7 @@
         <description>... evaluate if only one site was found among the list of available B2C Sites supporting the active customer promotions retrieval.</description>
         <name>dec_wasOnlyOneSiteFound</name>
         <label>Was Only One Site Found?</label>
-        <locationX>501</locationX>
+        <locationX>1029</locationX>
         <locationY>758</locationY>
         <defaultConnector>
             <targetReference>scrn_b2cSiteSelect</targetReference>
@@ -441,6 +540,81 @@
                 <targetReference>loop_iterateB2CSites</targetReference>
             </connector>
             <label>Only One Site</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Is_Registered_Customer</name>
+        <label>Is Registered Customer?</label>
+        <locationX>446</locationX>
+        <locationY>1670</locationY>
+        <defaultConnector>
+            <targetReference>Is_the_OOBO_Customer_ID_available</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not registered customer</defaultConnectorLabel>
+        <rules>
+            <name>Registered_Customer</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>recGet_contactRecord.B2C_Customer_ID__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>CustomerAuth_Action</targetReference>
+            </connector>
+            <label>Registered Customer</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Is_the_OOBO_Customer_ID_available</name>
+        <label>Is the OOBO Customer ID available?</label>
+        <locationX>710</locationX>
+        <locationY>1790</locationY>
+        <defaultConnector>
+            <targetReference>Screen_Error_Auth_0</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>OOBO Customer ID not configured</defaultConnectorLabel>
+        <rules>
+            <name>YES_OOBO_Customer_ID_configured</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>selectedOOBOCustomerId</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_OOBO_Customer_ID_and_BM_Access_Token</targetReference>
+            </connector>
+            <label>YES OOBO Customer ID configured</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Was_the_Customer_successfully_authenticated</name>
+        <label>Was the Customer successfully authenticated?</label>
+        <locationX>182</locationX>
+        <locationY>1910</locationY>
+        <defaultConnector>
+            <targetReference>Screen_Error_Auth_0_0</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Error during authentication</defaultConnectorLabel>
+        <rules>
+            <name>Successfully_authenticated</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>CustomerAuth_Action.isError</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Customer_Access_Token</targetReference>
+            </connector>
+            <label>Successfully authenticated</label>
         </rules>
     </decisions>
     <description>... this flow is used to launch the Order on Behalf Of shopping experience for Service Agents.</description>
@@ -535,7 +709,7 @@
         <description>... loop over the collection of B2C Sites that are available</description>
         <name>loop_iterateB2CSites</name>
         <label>Loop Over the B2C Sites</label>
-        <locationX>393</locationX>
+        <locationX>921</locationX>
         <locationY>878</locationY>
         <collectionReference>recGet_activeB2CSites</collectionReference>
         <iterationOrder>Asc</iterationOrder>
@@ -569,7 +743,7 @@
         <description>... retrieve the collection of active B2C Sites to validate that at least one (1) exists.</description>
         <name>recGet_activeB2CSites</name>
         <label>Get B2C Sites</label>
-        <locationX>715</locationX>
+        <locationX>1287</locationX>
         <locationY>158</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -626,7 +800,7 @@
         <description>... retrieve the contact record used to launch the OOBO flow.</description>
         <name>recGet_contactRecord</name>
         <label>Retrieve the Contact</label>
-        <locationX>501</locationX>
+        <locationX>1029</locationX>
         <locationY>518</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -656,8 +830,8 @@
     <screens>
         <name>Render_Active_Customer_Promotions</name>
         <label>Render Active Customer Promotions</label>
-        <locationX>50</locationX>
-        <locationY>2030</locationY>
+        <locationX>314</locationX>
+        <locationY>2822</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -702,8 +876,8 @@
     <screens>
         <name>Screen_Error_Auth</name>
         <label>Error Screen</label>
-        <locationX>336</locationX>
-        <locationY>2402</locationY>
+        <locationX>776</locationX>
+        <locationY>3194</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -848,10 +1022,306 @@
         <showHeader>false</showHeader>
     </screens>
     <screens>
+        <name>Screen_Error_Auth_0</name>
+        <label>Error Screen</label>
+        <locationX>842</locationX>
+        <locationY>1910</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>lbl_b2cCommerceRESTAPIError_Headline_0</name>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 16px;&quot;&gt;Unable to retrieve the active customer promotions&lt;/b&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>Screen_Error_Auth_0_Section1</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>Screen_Error_Auth_0_Section1_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>DisplayText_ErrorWithAuth_0</name>
+                    <fieldText>&lt;p&gt;&lt;b&gt;The customer does not have registration information from B2C Commerce, and no OOBO Customer is configured.&lt;/b&gt;&lt;/p&gt;&lt;p&gt;Please ensure to run this flow on a registered customer, or to configure the OOBO Customer.&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>8</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>Screen_Error_Auth_0_Section1_Column2</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>lbl_restAPIError_Image_0</name>
+                    <extensionName>flowruntime:image</extensionName>
+                    <fieldType>ComponentInstance</fieldType>
+                    <inputParameters>
+                        <name>imageName</name>
+                        <value>
+                            <stringValue>astroemergency</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>horizontalAlignment</name>
+                        <value>
+                            <stringValue>center</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>true</isRequired>
+                    <storeOutputAutomatically>true</storeOutputAutomatically>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>4</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>Screen_Error_Auth_0_Section2</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>Screen_Error_Auth_0_Section2_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>lbl_bmUserGrantAuthError_subTitle_0</name>
+                    <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 14px;&quot;&gt;Business Manager User Grant&lt;/b&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <fields>
+                    <name>lbl_BMUserGrantErrorMessage_0</name>
+                    <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>ia_getBusinessManagerUserGrant.errorMessage</elementReference>
+                    </defaultValue>
+                    <fieldText>B2C User Grant Error Message</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <isRequired>false</isRequired>
+                </fields>
+                <fields>
+                    <name>lbl_BMUserGrantResponseBody_0</name>
+                    <defaultValue>
+                        <stringValue>{!ia_getBusinessManagerUserGrant.responseBody}</stringValue>
+                    </defaultValue>
+                    <fieldText>B2C User Grant Response Body</fieldText>
+                    <fieldType>LargeTextArea</fieldType>
+                    <isRequired>false</isRequired>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>Screen_Error_Auth_0_Section2_Column2</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>lbl_customerAuthError_subTitle_0</name>
+                    <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 14px;&quot;&gt;Customer Details&lt;/b&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <fields>
+                    <name>lbl_customerID</name>
+                    <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>recGet_contactRecord.B2C_Customer_ID__c</elementReference>
+                    </defaultValue>
+                    <fieldText>Customer ID</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <isRequired>false</isRequired>
+                </fields>
+                <fields>
+                    <name>lbl_ooboCustomerID</name>
+                    <defaultValue>
+                        <stringValue>{!selectedOOBOCustomerId}</stringValue>
+                    </defaultValue>
+                    <fieldText>OOBO Customer ID</fieldText>
+                    <fieldType>LargeTextArea</fieldType>
+                    <isRequired>false</isRequired>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>lbl_RESTAPIError_0</name>
+            <fieldText>&lt;p&gt;Please resolve these error(s) prior to launching another promotions retrieval. Verify that the&lt;a href=&quot;https://platform-velocity-6771-dev-ed.lightning.force.com/one/one.app#/settings/personal/ExternalObjectUserSettings/home&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;&lt;b&gt; Per-User NamedCredential&lt;/b&gt;&lt;/a&gt; for the Service Agent is configured property -- and that the password follows the &lt;a href=&quot;https://documentation.b2c.commercecloud.salesforce.com/DOC2/topic/com.demandware.dochelp/OCAPI/current/usage/OAuth.html?cp=0_15_2_23&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;&lt;b&gt;SFCC &quot;Password:ClientSecret&quot; Based64 encoding structure&lt;/b&gt;&lt;/a&gt;.&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>Screen_Error_Auth_0_0</name>
+        <label>Error Screen</label>
+        <locationX>314</locationX>
+        <locationY>2030</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>lbl_b2cCommerceRESTAPIError_Headline_0_0</name>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 16px;&quot;&gt;Unable to retrieve the active customer promotions&lt;/b&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>Screen_Error_Auth_0_0_Section1</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>Screen_Error_Auth_0_0_Section1_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>DisplayText_ErrorWithAuth_0_0</name>
+                    <fieldText>&lt;p&gt;&lt;b&gt;The B2C Commerce Instance&apos;s REST API Responded With an Error&lt;/b&gt;&lt;/p&gt;&lt;p&gt;An error occurred when interacting with the B2C Commerce environment and attempting to authenticate the Service Against.  Please review the REST API error message(s) below for details regarding this failure.&lt;/p&gt;&lt;ul&gt;&lt;li&gt;The &lt;a href=&quot;https://documentation.b2c.commercecloud.salesforce.com/DOC2/topic/com.demandware.dochelp/OCAPI/current/usage/OAuth.html&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;&lt;b&gt;Business Manager User Grant&lt;/b&gt;&lt;/a&gt; is used to authenticate the Service Agent against the B2C Commerce Instance&lt;/li&gt;&lt;li&gt;The &lt;a href=&quot;https://documentation.b2c.commercecloud.salesforce.com/DOC2/topic/com.demandware.dochelp/OCAPI/current/shop/Resources/Customers.html#id152104953__id-1055795270&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;&lt;b&gt;OOBO Customer Authentication&lt;/b&gt;&lt;/a&gt; is used to authenticate the B2C Commerce Customer against the selected storefront in order to retrieve its active promotions.&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>8</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>Screen_Error_Auth_0_0_Section1_Column2</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>lbl_restAPIError_Image_0_0</name>
+                    <extensionName>flowruntime:image</extensionName>
+                    <fieldType>ComponentInstance</fieldType>
+                    <inputParameters>
+                        <name>imageName</name>
+                        <value>
+                            <stringValue>astroemergency</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>horizontalAlignment</name>
+                        <value>
+                            <stringValue>center</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>true</isRequired>
+                    <storeOutputAutomatically>true</storeOutputAutomatically>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>4</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>Screen_Error_Auth_0_0_Section2</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>Screen_Error_Auth_0_0_Section2_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>lbl_bmUserGrantAuthError_subTitle_0_0</name>
+                    <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 14px;&quot;&gt;Business Manager User Grant&lt;/b&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <fields>
+                    <name>lbl_BMUserGrantErrorMessage_0_0</name>
+                    <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>ia_getBusinessManagerUserGrant.errorMessage</elementReference>
+                    </defaultValue>
+                    <fieldText>B2C User Grant Error Message</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <isRequired>false</isRequired>
+                </fields>
+                <fields>
+                    <name>lbl_BMUserGrantResponseBody_0_0</name>
+                    <defaultValue>
+                        <stringValue>{!ia_getBusinessManagerUserGrant.responseBody}</stringValue>
+                    </defaultValue>
+                    <fieldText>B2C User Grant Response Body</fieldText>
+                    <fieldType>LargeTextArea</fieldType>
+                    <isRequired>false</isRequired>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>Screen_Error_Auth_0_0_Section2_Column2</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>lbl_customerAuthError_subTitle_0_0</name>
+                    <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 14px;&quot;&gt;Customer Authentication&lt;/b&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <fields>
+                    <name>lbl_customerAuthErrorMessage_0</name>
+                    <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>CustomerAuth_Action.errorMessage</elementReference>
+                    </defaultValue>
+                    <fieldText>Customer Authentication Error Message</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <isRequired>false</isRequired>
+                </fields>
+                <fields>
+                    <name>lbl_customerAuthResponseBody_0</name>
+                    <defaultValue>
+                        <stringValue>{!CustomerAuth_Action.responseBody}</stringValue>
+                    </defaultValue>
+                    <fieldText>Customer Authentication Response Body</fieldText>
+                    <fieldType>LargeTextArea</fieldType>
+                    <isRequired>false</isRequired>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>lbl_RESTAPIError_0_0</name>
+            <fieldText>&lt;p&gt;Please resolve these error(s) prior to launching another promotions retrieval. Verify that the&lt;a href=&quot;https://platform-velocity-6771-dev-ed.lightning.force.com/one/one.app#/settings/personal/ExternalObjectUserSettings/home&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;&lt;b&gt; Per-User NamedCredential&lt;/b&gt;&lt;/a&gt; for the Service Agent is configured property -- and that the password follows the &lt;a href=&quot;https://documentation.b2c.commercecloud.salesforce.com/DOC2/topic/com.demandware.dochelp/OCAPI/current/usage/OAuth.html?cp=0_15_2_23&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;&lt;b&gt;SFCC &quot;Password:ClientSecret&quot; Based64 encoding structure&lt;/b&gt;&lt;/a&gt;.&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
         <description>... select a B2C Site.</description>
         <name>scrn_b2cSiteSelect</name>
         <label>Select a B2C Site</label>
-        <locationX>609</locationX>
+        <locationX>1137</locationX>
         <locationY>878</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
@@ -936,7 +1406,7 @@
         <description>... explain to the user that the configuration is invalid -- and could not be advanced.</description>
         <name>scrn_ConfigurationInvalid</name>
         <label>Error: Configuration Invalid</label>
-        <locationX>666</locationX>
+        <locationX>1282</locationX>
         <locationY>1430</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
@@ -1071,7 +1541,7 @@
         <description>... no active B2C Sites was configured.  OOBO cannot be processed.</description>
         <name>scrn_noActiveB2CSitesFound</name>
         <label>Error: No Active B2C Sites Found</label>
-        <locationX>930</locationX>
+        <locationX>1546</locationX>
         <locationY>518</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
@@ -1143,13 +1613,13 @@
         <showHeader>false</showHeader>
     </screens>
     <start>
-        <locationX>589</locationX>
+        <locationX>1161</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>recGet_activeB2CSites</targetReference>
         </connector>
     </start>
-    <status>Draft</status>
+    <status>Active</status>
     <variables>
         <description>... records the number of active customerLists present.</description>
         <name>activeB2CCustomerListCount</name>
@@ -1197,6 +1667,20 @@
     <variables>
         <description>... represents the customerList attached to the Contact</description>
         <name>contactCustomerListId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>getCustomerProfileAccessToken</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>getCustomerProfileCustomerId</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>

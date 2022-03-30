@@ -1,16 +1,14 @@
 /**
- * @author Abraham David Lloyd
- * @date January 21st, 2021
+ * @author Jordane Bachelet
+ * @date January 3rd, 2022
  *
- * @description This is the wrapper used by the authentication classes
- * class to capture and make available the B2C Commerce authToken REST response
+ * @description This is the wrapper used by the B2CIACustomerShopperProfile class to capture the B2C Commerce API result
 */
-public class B2CIAGetAccessTokenResult {
+public class B2CIACustomerShopperProfileResult {
 
     ////////////////////////////////////////////////////////////////
     // Include the REST response properties
     ////////////////////////////////////////////////////////////////
-
     @InvocableVariable
     public String status;
 
@@ -21,22 +19,8 @@ public class B2CIAGetAccessTokenResult {
     public String responseBody;
 
     ////////////////////////////////////////////////////////////////
-    // Include the deserialized properties from the response
-    ////////////////////////////////////////////////////////////////
-
-    @InvocableVariable
-    public String accessToken;
-
-    @InvocableVariable
-    public String tokenType;
-
-    @InvocableVariable
-    public Integer expiresIn;
-
-    ////////////////////////////////////////////////////////////////
     // Include any error messaging or detail flags
     ////////////////////////////////////////////////////////////////
-
     @InvocableVariable
     public Boolean isError;
 
@@ -44,10 +28,12 @@ public class B2CIAGetAccessTokenResult {
     public String errorMessage;
 
     ////////////////////////////////////////////////////////////////
-    // Include the B2C Commerce instance to scope requests from
+    // Include the deserialized properties from the response
     ////////////////////////////////////////////////////////////////
 
     @InvocableVariable
-    public String b2cInstanceAPIUrl;
+    public Integer totalPromotionsSize;
 
+    @InvocableVariable
+    public List<String> promotionIds;
 }

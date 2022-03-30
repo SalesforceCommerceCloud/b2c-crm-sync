@@ -258,7 +258,7 @@ public with sharing class B2CIACustomerResolution_TestHelper {
         if (defaultContactModel == 'Person') {
 
             // Update the default recordType for the parent Account
-            accountRecordTypeDeveloperName = 'PersonAccount';
+            accountRecordTypeDeveloperName = B2CConfigurationManager.getPersonAccountRecordTypeDeveloperName();
 
             // Retrieve a separate instance of the account (so we can update it)
             thisAccountToUpdate = [
