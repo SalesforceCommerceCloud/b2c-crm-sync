@@ -69,7 +69,7 @@
         <inputParameters>
             <name>customerId</name>
             <value>
-                <elementReference>selectedCustomerId</elementReference>
+                <elementReference>getCustomerProfileCustomerId</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
@@ -282,6 +282,9 @@
         <assignmentItems>
             <assignToReference>selectedOOBOCustomerId</assignToReference>
             <operator>Assign</operator>
+            <value>
+                <elementReference>loop_iterateB2CSites.OOBO_Customer_ID__c</elementReference>
+            </value>
         </assignmentItems>
         <connector>
             <targetReference>loop_iterateB2CSites</targetReference>
@@ -314,7 +317,7 @@
         <name>Assign_OOBO_Customer_ID_and_BM_Access_Token</name>
         <label>Assign OOBO Customer ID and BM Access Token</label>
         <locationX>578</locationX>
-        <locationY>1910</locationY>
+        <locationY>2030</locationY>
         <assignmentItems>
             <assignToReference>getCustomerProfileAccessToken</assignToReference>
             <operator>Assign</operator>
@@ -327,6 +330,13 @@
             <operator>Assign</operator>
             <value>
                 <elementReference>selectedOOBOCustomerId</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recordId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>recGet_ooboCustomerContactRecord.Id</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -587,7 +597,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Assign_OOBO_Customer_ID_and_BM_Access_Token</targetReference>
+                <targetReference>recGet_ooboCustomerContactRecord</targetReference>
             </connector>
             <label>YES OOBO Customer ID configured</label>
         </rules>
@@ -827,6 +837,28 @@
         <queriedFields>Email</queriedFields>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
+    <recordLookups>
+        <name>recGet_ooboCustomerContactRecord</name>
+        <label>Get OOBO Customer Contact Record</label>
+        <locationX>578</locationX>
+        <locationY>1910</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Assign_OOBO_Customer_ID_and_BM_Access_Token</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>B2C_Customer_ID__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>selectedOOBOCustomerId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Contact</object>
+        <queriedFields>Id</queriedFields>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
     <screens>
         <name>Render_Active_Customer_Promotions</name>
         <label>Render Active Customer Promotions</label>
@@ -836,6 +868,7 @@
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <connector>
+            <isGoTo>true</isGoTo>
             <targetReference>dec_wasOnlyOneSiteFound</targetReference>
         </connector>
         <fields>
