@@ -388,6 +388,14 @@ The build scripts in this repository leverage B2C Commerce's [sfcc-ci](https://g
         ],
         "read_attributes": "(**)",
         "write_attributes": "(**)"
+    },
+    {
+        "resource_id": "/promotions/({ids})",
+        "methods": [
+            "get"
+        ],
+        "read_attributes": "(**)",
+        "write_attributes": "(**)"
     }
   ]
 }
@@ -555,6 +563,14 @@ The build scripts in this repository leverage B2C Commerce's [sfcc-ci](https://g
         "read_attributes": "(**)",
         "write_attributes": "(**)",
         "resource_id": "/sites/*/cartridges"
+    },
+    {
+        "methods": [
+            "get"
+        ],
+        "read_attributes": "(**)",
+        "write_attributes": "(**)",
+        "resource_id": "/sites/*/coupons/{coupon_id}/codes"
     }
   ]
 }
