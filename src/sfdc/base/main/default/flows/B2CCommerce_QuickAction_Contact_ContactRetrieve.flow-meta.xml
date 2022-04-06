@@ -38,7 +38,7 @@
         </inputParameters>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </actionCalls>
-    <apiVersion>52.0</apiVersion>
+    <apiVersion>54.0</apiVersion>
     <decisions>
         <description>... evaluates if the Contact has the required fields representing a B2C Commerce Customer Profile.</description>
         <name>dec_doesContactRequiredFields</name>

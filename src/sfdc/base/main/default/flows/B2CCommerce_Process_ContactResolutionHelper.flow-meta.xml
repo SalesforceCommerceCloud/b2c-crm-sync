@@ -31,7 +31,7 @@
             <name>isError</name>
         </outputParameters>
     </actionCalls>
-    <apiVersion>52.0</apiVersion>
+    <apiVersion>54.0</apiVersion>
     <assignments>
         <description>... add the Contact to resolve to the collection being processed.</description>
         <name>asn_contactToContactCollection</name>

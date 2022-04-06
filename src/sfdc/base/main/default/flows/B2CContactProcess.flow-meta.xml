@@ -52,7 +52,7 @@
             <name>synchronizedTargetContact</name>
         </outputParameters>
     </actionCalls>
-    <apiVersion>52.0</apiVersion>
+    <apiVersion>54.0</apiVersion>
     <assignments>
         <name>asn_AccountIDToSourceContact</name>
         <label>Assign the AccountID to the Contact</label>

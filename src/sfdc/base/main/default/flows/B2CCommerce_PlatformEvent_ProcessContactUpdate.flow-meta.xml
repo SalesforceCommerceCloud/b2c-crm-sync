@@ -416,7 +416,7 @@
         </inputParameters>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </actionCalls>
-    <apiVersion>52.0</apiVersion>
+    <apiVersion>54.0</apiVersion>
     <assignments>
         <description>... assign the B2C AuthToken to a local variable for future reference.</description>
         <name>asn_b2cAuthToken</name>

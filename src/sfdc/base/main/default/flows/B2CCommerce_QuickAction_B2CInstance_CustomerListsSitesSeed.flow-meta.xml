@@ -69,7 +69,7 @@
             <name>totalSiteRecords</name>
         </outputParameters>
     </actionCalls>
-    <apiVersion>52.0</apiVersion>
+    <apiVersion>54.0</apiVersion>
     <decisions>
         <description>... this decision evaluates if the B2C Client ID associated to the B2C Instance was found.  If not, an error will be displayed to the user.</description>
         <name>dec_doesB2CInstanceB2CClientIDExist</name>

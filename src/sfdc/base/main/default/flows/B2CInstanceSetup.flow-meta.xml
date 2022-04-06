@@ -69,7 +69,7 @@
             <name>totalSiteRecords</name>
         </outputParameters>
     </actionCalls>
-    <apiVersion>52.0</apiVersion>
+    <apiVersion>54.0</apiVersion>
     <assignments>
         <description>... alert the caller that the B2C AuthToken was not retrieved successfully.</description>
         <name>asn_b2cInstanceAuthTokenError</name>
