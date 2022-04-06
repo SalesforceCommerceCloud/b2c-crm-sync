@@ -103,7 +103,7 @@
             <name>tokenType</name>
         </outputParameters>
     </actionCalls>
-    <apiVersion>52.0</apiVersion>
+    <apiVersion>54.0</apiVersion>
     <assignments>
         <description>... audit the authToken failure -- since the retryCount was exceeded and no authToken was retrieved.</description>
         <name>asn_auditAuthTokenFailure</name>

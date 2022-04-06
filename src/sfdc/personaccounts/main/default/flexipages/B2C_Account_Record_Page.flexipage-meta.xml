@@ -147,6 +147,7 @@
                     <name>numVisibleActions</name>
                     <value>3</value>
                 </componentInstanceProperties>
+                <identifier>highlightsPanel1Id</identifier>
                 <componentName>force:highlightsPanel</componentName>
             </componentInstance>
         </itemInstances>
@@ -157,6 +158,7 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <identifier>detailPanel1Id</identifier>
                 <componentName>force:detailPanel</componentName>
             </componentInstance>
         </itemInstances>
@@ -179,6 +181,7 @@
                     <name>flowName</name>
                     <value>B2C_Commerce_B2C_Customer_Address_View_Address_Book_Accounts</value>
                 </componentInstanceProperties>
+                <identifier>interview1Id</identifier>
                 <componentName>flowruntime:interview</componentName>
             </componentInstance>
         </itemInstances>
@@ -196,6 +199,7 @@
                     <name>showActionBar</name>
                     <value>true</value>
                 </componentInstanceProperties>
+                <identifier>relatedListContainer1Id</identifier>
                 <componentName>force:relatedListContainer</componentName>
             </componentInstance>
         </itemInstances>
@@ -218,6 +222,7 @@
                     <name>flowName</name>
                     <value>B2CCommerce_B2CPromotion_View_Active_Customer_Promotions_Accounts</value>
                 </componentInstanceProperties>
+                <identifier>interview2Id</identifier>
                 <componentName>flowruntime:interview</componentName>
             </componentInstance>
         </itemInstances>
@@ -239,6 +244,7 @@
                     <name>title</name>
                     <value>Standard.Tab.detail</value>
                 </componentInstanceProperties>
+                <identifier>tab3Id</identifier>
                 <componentName>flexipage:tab</componentName>
             </componentInstance>
         </itemInstances>
@@ -256,6 +262,7 @@
                     <name>title</name>
                     <value>Standard.Tab.relatedLists</value>
                 </componentInstanceProperties>
+                <identifier>tab4Id</identifier>
                 <componentName>flexipage:tab</componentName>
             </componentInstance>
         </itemInstances>
@@ -269,6 +276,7 @@
                     <name>title</name>
                     <value>Standard.Tab.analytics</value>
                 </componentInstanceProperties>
+                <identifier>tab5Id</identifier>
                 <componentName>flexipage:tab</componentName>
             </componentInstance>
         </itemInstances>
@@ -283,6 +291,7 @@
                     <name>tabs</name>
                     <value>maintabs</value>
                 </componentInstanceProperties>
+                <identifier>tabset2Id</identifier>
                 <componentName>flexipage:tabset</componentName>
             </componentInstance>
         </itemInstances>
@@ -293,6 +302,7 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <identifier>activityPanel1Id</identifier>
                 <componentName>runtime_sales_activities:activityPanel</componentName>
             </componentInstance>
         </itemInstances>
@@ -303,6 +313,7 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <identifier>recordFeedContainer1Id</identifier>
                 <componentName>forceChatter:recordFeedContainer</componentName>
             </componentInstance>
         </itemInstances>
@@ -325,6 +336,7 @@
                     <name>title</name>
                     <value>Standard.Tab.activity</value>
                 </componentInstanceProperties>
+                <identifier>tab1Id</identifier>
                 <componentName>flexipage:tab</componentName>
             </componentInstance>
         </itemInstances>
@@ -338,6 +350,7 @@
                     <name>title</name>
                     <value>Standard.Tab.collaborate</value>
                 </componentInstanceProperties>
+                <identifier>tab2Id</identifier>
                 <componentName>flexipage:tab</componentName>
             </componentInstance>
         </itemInstances>
@@ -352,6 +365,7 @@
                     <name>tabs</name>
                     <value>sidebartabs</value>
                 </componentInstanceProperties>
+                <identifier>tabset1Id</identifier>
                 <componentName>flexipage:tabset</componentName>
             </componentInstance>
         </itemInstances>

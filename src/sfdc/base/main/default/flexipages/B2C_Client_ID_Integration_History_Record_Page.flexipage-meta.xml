@@ -34,6 +34,7 @@
                     <name>numVisibleActions</name>
                     <value>3</value>
                 </componentInstanceProperties>
+                <identifier>highlightsPanel1Id</identifier>
                 <componentName>force:highlightsPanel</componentName>
             </componentInstance>
         </itemInstances>
@@ -47,6 +48,7 @@
                     <name>uiBehavior</name>
                     <value>required</value>
                 </fieldInstanceProperties>
+                <identifier>b2cClientId1Id</identifier>
                 <fieldItem>Record.B2C_Client_ID__c</fieldItem>
             </fieldInstance>
         </itemInstances>
@@ -56,6 +58,7 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
+                <identifier>hasError1Id</identifier>
                 <fieldItem>Record.Has_Error__c</fieldItem>
             </fieldInstance>
         </itemInstances>
@@ -69,6 +72,7 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
+                <identifier>hasToken1Id</identifier>
                 <fieldItem>Record.Has_Token__c</fieldItem>
             </fieldInstance>
         </itemInstances>
@@ -78,6 +82,7 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
+                <identifier>b2cAuthToken1Id</identifier>
                 <fieldItem>Record.B2C_AuthToken__c</fieldItem>
             </fieldInstance>
         </itemInstances>
@@ -91,6 +96,7 @@
                     <name>body</name>
                     <value>Facet-7dc4fc91-dbe9-47e5-8b8c-f37512027941</value>
                 </componentInstanceProperties>
+                <identifier>column5Id</identifier>
                 <componentName>flexipage:column</componentName>
             </componentInstance>
         </itemInstances>
@@ -100,6 +106,7 @@
                     <name>body</name>
                     <value>Facet-9050c72c-a664-448c-aa65-4d9945e6ebfc</value>
                 </componentInstanceProperties>
+                <identifier>column6Id</identifier>
                 <componentName>flexipage:column</componentName>
             </componentInstance>
         </itemInstances>
@@ -113,6 +120,7 @@
                     <name>uiBehavior</name>
                     <value>required</value>
                 </fieldInstanceProperties>
+                <identifier>accountManagerUrl1Id</identifier>
                 <fieldItem>Record.Account_Manager_Url__c</fieldItem>
             </fieldInstance>
         </itemInstances>
@@ -126,6 +134,7 @@
                     <name>body</name>
                     <value>Facet-61a07228-7b3c-4c93-a224-5e7b552f6f6e</value>
                 </componentInstanceProperties>
+                <identifier>column7Id</identifier>
                 <componentName>flexipage:column</componentName>
             </componentInstance>
         </itemInstances>
@@ -135,6 +144,7 @@
     <flexiPageRegions>
         <itemInstances>
             <fieldInstance>
+                <identifier>integrationMessage1Id</identifier>
                 <fieldItem>Record.Integration_Message__c</fieldItem>
             </fieldInstance>
         </itemInstances>
@@ -144,6 +154,7 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
+                <identifier>integrationPayload1Id</identifier>
                 <fieldItem>Record.Integration_Payload__c</fieldItem>
             </fieldInstance>
         </itemInstances>
@@ -157,6 +168,7 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
+                <identifier>statusCode1Id</identifier>
                 <fieldItem>Record.Status_Code__c</fieldItem>
             </fieldInstance>
         </itemInstances>
@@ -166,6 +178,7 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
+                <identifier>integrationJSON1Id</identifier>
                 <fieldItem>Record.Integration_JSON__c</fieldItem>
             </fieldInstance>
         </itemInstances>
@@ -179,6 +192,7 @@
                     <name>body</name>
                     <value>Facet-b65f6eb4-d4de-448d-90c1-b04dd845b2ce</value>
                 </componentInstanceProperties>
+                <identifier>column1Id</identifier>
                 <componentName>flexipage:column</componentName>
             </componentInstance>
         </itemInstances>
@@ -188,6 +202,7 @@
                     <name>body</name>
                     <value>Facet-609ae686-3489-4c81-a2d6-479de77f4537</value>
                 </componentInstanceProperties>
+                <identifier>column2Id</identifier>
                 <componentName>flexipage:column</componentName>
             </componentInstance>
         </itemInstances>
@@ -205,6 +220,7 @@
                     <name>label</name>
                     <value>B2C Client ID and Auth Token Summary</value>
                 </componentInstanceProperties>
+                <identifier>fieldSection1Id</identifier>
                 <componentName>flexipage:fieldSection</componentName>
             </componentInstance>
         </itemInstances>
@@ -218,6 +234,7 @@
                     <name>label</name>
                     <value>Account Manager Endpoint Url</value>
                 </componentInstanceProperties>
+                <identifier>fieldSection2Id</identifier>
                 <componentName>flexipage:fieldSection</componentName>
             </componentInstance>
         </itemInstances>
@@ -231,6 +248,7 @@
                     <name>label</name>
                     <value>Integration Summary</value>
                 </componentInstanceProperties>
+                <identifier>fieldSection3Id</identifier>
                 <componentName>flexipage:fieldSection</componentName>
             </componentInstance>
         </itemInstances>
@@ -244,6 +262,7 @@
                     <name>uiBehavior</name>
                     <value>readonly</value>
                 </fieldInstanceProperties>
+                <identifier>createdById1Id</identifier>
                 <fieldItem>Record.CreatedById</fieldItem>
             </fieldInstance>
         </itemInstances>
@@ -257,6 +276,7 @@
                     <name>uiBehavior</name>
                     <value>readonly</value>
                 </fieldInstanceProperties>
+                <identifier>lastModifiedById1Id</identifier>
                 <fieldItem>Record.LastModifiedById</fieldItem>
             </fieldInstance>
         </itemInstances>
@@ -270,6 +290,7 @@
                     <name>body</name>
                     <value>Facet-a4f7c310-5eba-412e-8dc7-63e185dc3884</value>
                 </componentInstanceProperties>
+                <identifier>column3Id</identifier>
                 <componentName>flexipage:column</componentName>
             </componentInstance>
         </itemInstances>
@@ -279,6 +300,7 @@
                     <name>body</name>
                     <value>Facet-46691976-e5fa-4460-a380-420621c94e86</value>
                 </componentInstanceProperties>
+                <identifier>column4Id</identifier>
                 <componentName>flexipage:column</componentName>
             </componentInstance>
         </itemInstances>
@@ -296,6 +318,7 @@
                     <name>label</name>
                     <value>System Information</value>
                 </componentInstanceProperties>
+                <identifier>fieldSection4Id</identifier>
                 <componentName>flexipage:fieldSection</componentName>
             </componentInstance>
         </itemInstances>
@@ -317,6 +340,7 @@
                     <name>name</name>
                     <value>accordionSection1</value>
                 </componentInstanceProperties>
+                <identifier>accordionSection1Id</identifier>
                 <componentName>flexipage:accordionSection</componentName>
             </componentInstance>
         </itemInstances>
@@ -334,6 +358,7 @@
                     <name>name</name>
                     <value>accordionSection2</value>
                 </componentInstanceProperties>
+                <identifier>accordionSection2Id</identifier>
                 <componentName>flexipage:accordionSection</componentName>
             </componentInstance>
         </itemInstances>
@@ -351,11 +376,13 @@
                     <name>defaultSectionName</name>
                     <value>accordionSection1</value>
                 </componentInstanceProperties>
+                <identifier>accordion1Id</identifier>
                 <componentName>flexipage:accordion</componentName>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
+                <identifier>recordDetailPanelMobile1Id</identifier>
                 <componentName>force:recordDetailPanelMobile</componentName>
             </componentInstance>
         </itemInstances>
@@ -365,6 +392,7 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <identifier>recordFeedContainer1Id</identifier>
                 <componentName>forceChatter:recordFeedContainer</componentName>
             </componentInstance>
         </itemInstances>

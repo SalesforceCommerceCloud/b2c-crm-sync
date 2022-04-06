@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
-    <apiVersion>52.0</apiVersion>
+    <apiVersion>54.0</apiVersion>
     <description>... reset the ClientIDs for the selected CustomerList and Child Sites.</description>
     <interviewLabel>B2C Commerce: Quick Action: CustomerList: Reset ClientIDs {!$Flow.CurrentDateTime}</interviewLabel>
     <label>B2C Commerce: Quick Action: B2C CustomerList: Sites: B2C ClientIDs: Reset</label>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
-    <apiVersion>52.0</apiVersion>
+    <apiVersion>54.0</apiVersion>
     <description>... this service is used to resolve a B2C Commerce Customer Profile and return the resolutionResults.</description>
     <interviewLabel>B2C Commerce: Service: Contact: Resolve {!$Flow.CurrentDateTime}</interviewLabel>
     <label>B2C Commerce: Service: Contact: Customer Profile: Resolve</label>

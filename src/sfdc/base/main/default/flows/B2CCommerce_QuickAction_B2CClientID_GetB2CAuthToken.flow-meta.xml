@@ -97,7 +97,7 @@
             </value>
         </inputParameters>
     </actionCalls>
-    <apiVersion>52.0</apiVersion>
+    <apiVersion>54.0</apiVersion>
     <decisions>
         <description>... evaluate if the B2C AuthToken that was generated should be persisted / auditied.</description>
         <name>dec_persistAndAuditB2CAuthToken</name>

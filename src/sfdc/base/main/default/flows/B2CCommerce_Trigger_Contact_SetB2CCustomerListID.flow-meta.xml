@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
-    <apiVersion>52.0</apiVersion>
+    <apiVersion>54.0</apiVersion>
     <assignments>
         <description>... set the B2C CustomerList ID to align with the B2C CustomerList record relationship.</description>
         <name>asn_setB2CCustomerListID</name>
