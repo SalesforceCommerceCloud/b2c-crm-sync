@@ -2,6 +2,7 @@ import { LightningElement, api } from 'lwc';
 
 export default class B2COrderOnBehalfOf extends LightningElement {
     @api token;
+    @api tokenType;
     @api siteId;
     @api domain;
     @api shopDomain;
@@ -11,7 +12,7 @@ export default class B2COrderOnBehalfOf extends LightningElement {
         let xhr = new XMLHttpRequest();
         xhr.open('POST', `${this.domain}/s/${this.siteId}/dw/shop/${this.version}/sessions`, true);
         xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.setRequestHeader('Authorization', this.token);
+        xhr.setRequestHeader('Authorization', `${this.tokenType} ${this.token}`);
         xhr.withCredentials = true;
 
         xhr.onreadystatechange = () => {
