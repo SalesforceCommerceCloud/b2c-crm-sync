@@ -8,6 +8,7 @@
     <targetConfigs>
         <targetConfig targets="lightning__FlowScreen">
             <property name="token" label="Token" type="String" role="inputOnly" />
+            <property name="tokenType" label="Token type" type="String" role="inputOnly" />
             <property name="siteId" label="Site Id" type="String" role="inputOnly" />
             <property name="domain" label="Domain" type="String" role="inputOnly" />
             <property name="version" label="Version" type="String" role="inputOnly" />
