@@ -3,8 +3,8 @@
     <actionCalls>
         <name>CustomerAuth_Action</name>
         <label>CustomerAuth Action</label>
-        <locationX>1545</locationX>
-        <locationY>2692</locationY>
+        <locationX>182</locationX>
+        <locationY>2678</locationY>
         <actionName>B2CIAAuthCustomerClientCredentialsGrant</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -53,8 +53,8 @@
         <description>... obtain a Business Manager user grant from the B2C Instance.</description>
         <name>ia_getBusinessManagerUserGrant</name>
         <label>Obtain a Business Manager User Grant</label>
-        <locationX>1289</locationX>
-        <locationY>2515</locationY>
+        <locationX>336</locationX>
+        <locationY>2438</locationY>
         <actionName>B2CIABusinessManagerGrant</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -80,8 +80,8 @@
         <description>... assign the active B2C Site Count to a local variable.</description>
         <name>asn_activeB2CSites</name>
         <label>Assign the Active B2C Site Count</label>
-        <locationX>1299</locationX>
-        <locationY>503</locationY>
+        <locationX>776</locationX>
+        <locationY>278</locationY>
         <assignmentItems>
             <assignToReference>activeB2CSitesCount</assignToReference>
             <operator>AssignCount</operator>
@@ -104,8 +104,8 @@
         <description>... take the anonymous customer identifiers and assign them to the OOBO session.</description>
         <name>asn_anonOOBOIdentifiers</name>
         <label>Assign the Anonymous OOBO Identifiers</label>
-        <locationX>1540</locationX>
-        <locationY>2292</locationY>
+        <locationX>523</locationX>
+        <locationY>1886</locationY>
         <assignmentItems>
             <assignToReference>selectedCustomerId</assignToReference>
             <operator>Assign</operator>
@@ -128,8 +128,8 @@
         <description>... capture the Contact identifiers used to identify the B2C Customer record.</description>
         <name>asn_b2cCustomerListAndCustomerID</name>
         <label>Capture the B2C CustomerList ID</label>
-        <locationX>1463</locationX>
-        <locationY>1415</locationY>
+        <locationX>633</locationX>
+        <locationY>878</locationY>
         <assignmentItems>
             <assignToReference>selectedCustomerListId</assignToReference>
             <operator>Assign</operator>
@@ -166,8 +166,8 @@
         <description>... default the CustomerList of the Contact record.</description>
         <name>asn_customerIDAssignment</name>
         <label>Default the B2C CustomerList</label>
-        <locationX>1108</locationX>
-        <locationY>1410</locationY>
+        <locationX>369</locationX>
+        <locationY>878</locationY>
         <assignmentItems>
             <assignToReference>selectedCustomerId</assignToReference>
             <operator>Assign</operator>
@@ -197,8 +197,8 @@
         <description>... take the properties from the single B2C Site and copy them to the collection of selected values.</description>
         <name>asn_selectedB2CSiteValues</name>
         <label>Assign the Selected Site Values</label>
-        <locationX>1537</locationX>
-        <locationY>1788</locationY>
+        <locationX>481</locationX>
+        <locationY>1334</locationY>
         <assignmentItems>
             <assignToReference>selectedClientId</assignToReference>
             <operator>Assign</operator>
@@ -284,8 +284,8 @@
         <description>... evaluate if the OOBO CustomerID mapped to the selected storefront is valid.</description>
         <name>dec_b2cSiteIsAnonCustomerIDValid</name>
         <label>Was a Valid Anon CustomerID Found?</label>
-        <locationX>1532</locationX>
-        <locationY>2028</locationY>
+        <locationX>655</locationX>
+        <locationY>1766</locationY>
         <defaultConnector>
             <targetReference>scrn_noAnonCustomerIDSiteConfig</targetReference>
         </defaultConnector>
@@ -310,8 +310,8 @@
         <description>... evaluate if the CustomerList associated to a given Contact is active or present.</description>
         <name>dec_isB2CCustomerListActive</name>
         <label>Evaluate the Contact&apos;s B2C CustomerList</label>
-        <locationX>1292</locationX>
-        <locationY>1240</locationY>
+        <locationX>501</locationX>
+        <locationY>758</locationY>
         <defaultConnector>
             <targetReference>asn_b2cCustomerListAndCustomerID</targetReference>
         </defaultConnector>
@@ -336,8 +336,8 @@
         <description>... evaluate if the OOBO customerAuthentication event succeeded with no errors.</description>
         <name>dec_OOBOCustomerAuth</name>
         <label>Was the OOBO Customer Authentication Successful?</label>
-        <locationX>1537</locationX>
-        <locationY>2957</locationY>
+        <locationX>182</locationX>
+        <locationY>2798</locationY>
         <defaultConnector>
             <targetReference>Screen_Error_Auth</targetReference>
         </defaultConnector>
@@ -362,8 +362,8 @@
         <description>... evaluate if we can use the Contact&apos;s B2C Commerce profile for the OOBO shopping session with the specified site.</description>
         <name>dec_useB2CCustomerProfileForOOBO</name>
         <label>Use the Contact&apos;s B2C Commerce Customer Profile?</label>
-        <locationX>1281</locationX>
-        <locationY>2032</locationY>
+        <locationX>501</locationX>
+        <locationY>1646</locationY>
         <defaultConnector>
             <targetReference>dec_b2cSiteIsAnonCustomerIDValid</targetReference>
         </defaultConnector>
@@ -388,8 +388,8 @@
         <description>... evaluate the configuration requirements for OOBO and determine if the user can proceed.</description>
         <name>dec_validateOOBOConfigRequirements</name>
         <label>Validate OOBO Configuration Requirements</label>
-        <locationX>1280</locationX>
-        <locationY>2294</locationY>
+        <locationX>501</locationX>
+        <locationY>2318</locationY>
         <defaultConnector>
             <targetReference>scrn_OOBOConfigurationInvalid</targetReference>
         </defaultConnector>
@@ -470,8 +470,8 @@
         <description>... evaluate if at least one (1) active B2C Site was retrieved</description>
         <name>dec_wasActiveB2CSiteFound</name>
         <label>Was an Active B2C Site Found?</label>
-        <locationX>1290</locationX>
-        <locationY>674</locationY>
+        <locationX>776</locationX>
+        <locationY>398</locationY>
         <defaultConnector>
             <targetReference>scrn_noActiveB2CSitesFound</targetReference>
         </defaultConnector>
@@ -496,8 +496,8 @@
         <description>... evaluate if a Business Manager User Grant authToken was returned.</description>
         <name>dec_wasBMUserGrantAuthTokenReturned</name>
         <label>Was an AuthToken Returned?</label>
-        <locationX>1281</locationX>
-        <locationY>2697</locationY>
+        <locationX>336</locationX>
+        <locationY>2558</locationY>
         <defaultConnector>
             <targetReference>Screen_Error_Auth</targetReference>
         </defaultConnector>
@@ -522,8 +522,8 @@
         <description>... evaluate if only one site was found among the list of available B2C Sites supporting OOBO.</description>
         <name>dec_wasOnlyOneSiteFound</name>
         <label>Was Only One Site Found?</label>
-        <locationX>1278</locationX>
-        <locationY>1565</locationY>
+        <locationX>501</locationX>
+        <locationY>1094</locationY>
         <defaultConnector>
             <targetReference>scrn_b2cSiteSelect</targetReference>
         </defaultConnector>
@@ -636,8 +636,8 @@
         <description>... loop over the collection of B2C Sites that are available</description>
         <name>loop_iterateB2CSites</name>
         <label>Loop Over the B2C Sites</label>
-        <locationX>1288</locationX>
-        <locationY>1788</locationY>
+        <locationX>393</locationX>
+        <locationY>1214</locationY>
         <collectionReference>recGet_activeB2CSites</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -656,7 +656,7 @@
     <processMetadataValues>
         <name>CanvasMode</name>
         <value>
-            <stringValue>FREE_FORM_CANVAS</stringValue>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
         </value>
     </processMetadataValues>
     <processMetadataValues>
@@ -670,8 +670,8 @@
         <description>... retrieve the collection of active B2C Sites to validate that at least one (1) exists.</description>
         <name>recGet_activeB2CSites</name>
         <label>Get B2C Sites</label>
-        <locationX>1299</locationX>
-        <locationY>325</locationY>
+        <locationX>776</locationX>
+        <locationY>158</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>asn_activeB2CSites</targetReference>
@@ -727,8 +727,8 @@
         <description>... retrieve the contact record used to launch the OOBO flow.</description>
         <name>recGet_contactRecord</name>
         <label>Retrieve the Contact</label>
-        <locationX>1300</locationX>
-        <locationY>1063</locationY>
+        <locationX>501</locationX>
+        <locationY>638</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>dec_isB2CCustomerListActive</targetReference>
@@ -757,8 +757,8 @@
     <screens>
         <name>Screen_Error_Auth</name>
         <label>Error Screen</label>
-        <locationX>1290</locationX>
-        <locationY>2957</locationY>
+        <locationX>336</locationX>
+        <locationY>3350</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -906,8 +906,8 @@
         <description>Initial screen, start of OOBO dialog</description>
         <name>Screen_Init_OOBO</name>
         <label>Init Screen</label>
-        <locationX>1300</locationX>
-        <locationY>886</locationY>
+        <locationX>501</locationX>
+        <locationY>518</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -983,8 +983,8 @@
         <description>... select a B2C Site based on the customerList that was identified.</description>
         <name>scrn_b2cSiteSelect</name>
         <label>Select a B2C Site</label>
-        <locationX>1107</locationX>
-        <locationY>1795</locationY>
+        <locationX>609</locationX>
+        <locationY>1214</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -1068,8 +1068,8 @@
         <description>... launch the shopping session for OOBO.</description>
         <name>scrn_launchOOBOShoppingSession</name>
         <label>Launch OOBO Shopping Session</label>
-        <locationX>1546</locationX>
-        <locationY>3208</locationY>
+        <locationX>50</locationX>
+        <locationY>2918</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -1141,6 +1141,12 @@
                         <name>version</name>
                         <value>
                             <elementReference>selectedSiteVersion</elementReference>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>tokenType</name>
+                        <value>
+                            <elementReference>CustomerAuth_Action.tokenType</elementReference>
                         </value>
                     </inputParameters>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
@@ -1435,8 +1441,8 @@
         <description>... no active B2C Sites was configured.  OOBO cannot be processed.</description>
         <name>scrn_noActiveB2CSitesFound</name>
         <label>Error: No Active B2C Sites Found</label>
-        <locationX>1047</locationX>
-        <locationY>670</locationY>
+        <locationX>1051</locationX>
+        <locationY>518</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -1510,8 +1516,8 @@
         <description>... no anonymous B2C Site CustomerID value was configured.  OOBO cannot be processed.</description>
         <name>scrn_noAnonCustomerIDSiteConfig</name>
         <label>Error: No Anon. CustomerID Configured for Selected Site</label>
-        <locationX>1806</locationX>
-        <locationY>2026</locationY>
+        <locationX>787</locationX>
+        <locationY>1886</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -1644,8 +1650,8 @@
         <description>... explain to the user that the OOBO configuration is invalid -- and could not be advanced.</description>
         <name>scrn_OOBOConfigurationInvalid</name>
         <label>Error: OOBO Configuration Invalid</label>
-        <locationX>1057</locationX>
-        <locationY>2291</locationY>
+        <locationX>666</locationX>
+        <locationY>2438</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -1803,8 +1809,8 @@
         <showHeader>false</showHeader>
     </screens>
     <start>
-        <locationX>1173</locationX>
-        <locationY>149</locationY>
+        <locationX>650</locationX>
+        <locationY>0</locationY>
         <connector>
             <targetReference>recGet_activeB2CSites</targetReference>
         </connector>
