@@ -81,7 +81,7 @@
             <assignToReference>B2CAuthToken</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>recGet_ValidAuthToken.Name</elementReference>
+                <elementReference>recGet_ValidAuthToken.B2C_AuthToken__c</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>

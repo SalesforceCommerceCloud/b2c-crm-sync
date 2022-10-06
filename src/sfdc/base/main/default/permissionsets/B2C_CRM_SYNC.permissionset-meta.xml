@@ -366,6 +366,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>B2C_AuthToken__c.B2C_AuthToken__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>B2C_AuthToken__c.B2C_ClientID_Value__c</field>
         <readable>true</readable>
