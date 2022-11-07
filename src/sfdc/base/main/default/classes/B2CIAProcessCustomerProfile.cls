@@ -108,7 +108,12 @@ public with sharing class B2CIAProcessCustomerProfile extends B2CBaseAttributeAs
             customerProfiles.size() > 0) {
 
             // If so, then process the customerProfiles
-            upsert customerProfiles;
+            
+            Map<id,SObject> accmap = new Map<id,SObject>();   
+                
+            accmap.putall(customerProfiles);
+                
+            upsert accmap.values();
 
         }
 
