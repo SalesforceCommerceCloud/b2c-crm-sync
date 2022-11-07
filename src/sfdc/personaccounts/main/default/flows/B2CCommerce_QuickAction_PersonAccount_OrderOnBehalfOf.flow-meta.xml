@@ -95,6 +95,7 @@
         <fields>
             <name>scrn_noContactFoundError_Section1</name>
             <fieldType>RegionContainer</fieldType>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
             <fields>
                 <name>scrn_noContactFoundError_Section1_Column1</name>
                 <fieldType>Region</fieldType>

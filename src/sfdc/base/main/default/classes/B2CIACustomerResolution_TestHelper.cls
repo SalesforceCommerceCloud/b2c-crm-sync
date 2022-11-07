@@ -291,16 +291,7 @@ public with sharing class B2CIACustomerResolution_TestHelper {
      * @return {RecordType} Represent the recordType retrieved via the SOQL query
      */
     public static RecordType getRecordType(String recordTypeDeveloperName) {
-
-        // Initialize local variables
-        RecordType output;
-
         // Retrieve the specified recordType using the developerName that is passed in
-        output = [ SELECT Id, DeveloperName FROM RecordType WHERE DeveloperName = :recordTypeDeveloperName ];
-
-        // Return the query results
-        return output;
-
+        return [ SELECT Id, DeveloperName FROM RecordType WHERE DeveloperName = :recordTypeDeveloperName ];
     }
-
 }

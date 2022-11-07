@@ -113,18 +113,6 @@ module.exports = {
 
     },
 
-    // Define the regular expressions used to govern the siteId / connectedAppId
-    "connectedAppIdRegEx": {
-
-        // Describe the individual regExes used to clean the siteId
-        "whiteSpace": /\s/g,
-        "dashes": /-/g,
-        "doubleUnderscore": /_+/g,
-        "nonAlphaNumeric": /[^\w_]+/g,
-        "alphaOnly": /^[a-zA-Z]/g
-
-    },
-
     // Describe the collection of available scratchOrg profiles
     "sfScratchOrg": {
 

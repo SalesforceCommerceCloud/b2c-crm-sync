@@ -193,7 +193,8 @@ private class B2CProcessContact_VerifyRecord_Test {
 
         // Initialize the testContact record
         Account testAccount = (Account)TestDataFactory.createSObject('Account', new Map<String,Object>{
-            'Name' => 'Anonymous Customer'
+            'Name' => 'Anonymous Customer',
+            'RecordTypeId' => B2CIACustomerResolution_TestHelper.getRecordType(B2CConfigurationManager.getAccountRecordTypeDeveloperName()).Id
         });
 
         // Initialize the testContact record with the AccountId
@@ -388,7 +389,8 @@ private class B2CProcessContact_VerifyRecord_Test {
 
         // Initialize the testContact record
         Account testAccount = (Account)TestDataFactory.createSObject('Account', new Map<String,Object>{
-            'Name' => 'Anonymous Customer'
+            'Name' => 'Anonymous Customer',
+            'RecordTypeId' => B2CIACustomerResolution_TestHelper.getRecordType(B2CConfigurationManager.getAccountRecordTypeDeveloperName()).Id
         });
 
         // Initialize the testContact record with the AccountId
@@ -467,7 +469,8 @@ private class B2CProcessContact_VerifyRecord_Test {
 
         // Initialize the testContact record
         Account testAccount = (Account)TestDataFactory.createSObject('Account', new Map<String,Object>{
-            'Name' => 'Anonymous Customer'
+            'Name' => 'Anonymous Customer',
+            'RecordTypeId' => B2CIACustomerResolution_TestHelper.getRecordType(B2CConfigurationManager.getAccountRecordTypeDeveloperName()).Id
         });
 
         // Initialize the testContact record with the AccountId and customerListId

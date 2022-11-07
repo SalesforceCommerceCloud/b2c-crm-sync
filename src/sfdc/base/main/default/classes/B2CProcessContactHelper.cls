@@ -260,10 +260,7 @@ public with sharing class B2CProcessContactHelper extends B2CBaseAttributeAssign
     ) {
 
         // Initialize local variables
-        B2C_Commerce_ProcessCustomerDetails__e thisPE;
-
-        // Default the platform event
-        thisPE = new B2C_Commerce_ProcessCustomerDetails__e();
+        B2C_Commerce_ProcessCustomerDetails__e thisPE = new B2C_Commerce_ProcessCustomerDetails__e();
 
         // Seed the platform event with core properties from the contactInput class
         thisPE.Api_Url__c = validateContactInput.customerList.Base_API_Url__c;

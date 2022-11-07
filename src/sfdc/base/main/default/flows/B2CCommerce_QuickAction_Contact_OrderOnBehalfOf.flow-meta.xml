@@ -770,6 +770,7 @@
         <fields>
             <name>Screen_Error_Auth_Section1</name>
             <fieldType>RegionContainer</fieldType>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
             <fields>
                 <name>Screen_Error_Auth_Section1_Column1</name>
                 <fieldType>Region</fieldType>
@@ -822,6 +823,7 @@
         <fields>
             <name>Screen_Error_Auth_Section2</name>
             <fieldType>RegionContainer</fieldType>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
             <fields>
                 <name>Screen_Error_Auth_Section2_Column1</name>
                 <fieldType>Region</fieldType>
@@ -922,6 +924,7 @@
         <fields>
             <name>Screen_Init_OOBO_Section1</name>
             <fieldType>RegionContainer</fieldType>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
             <fields>
                 <name>Screen_Init_OOBO_Section1_Column1</name>
                 <fieldType>Region</fieldType>
@@ -999,6 +1002,7 @@
         <fields>
             <name>scrn_b2cSiteSelect_Section1</name>
             <fieldType>RegionContainer</fieldType>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
             <fields>
                 <name>scrn_b2cSiteSelect_Section1_Column1</name>
                 <fieldType>Region</fieldType>
@@ -1081,6 +1085,7 @@
         <fields>
             <name>scrn_launchOOBOShoppingSession_Section1</name>
             <fieldType>RegionContainer</fieldType>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
             <fields>
                 <name>scrn_launchOOBOShoppingSession_Section1_Column1</name>
                 <fieldType>Region</fieldType>
@@ -1207,6 +1212,7 @@
         <fields>
             <name>scrn_launchOOBOShoppingSession_Section2</name>
             <fieldType>RegionContainer</fieldType>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
             <fields>
                 <name>scrn_launchOOBOShoppingSession_Section2_Column1</name>
                 <fieldType>Region</fieldType>
@@ -1309,6 +1315,7 @@
         <fields>
             <name>scrn_launchOOBOShoppingSession_Section3</name>
             <fieldType>RegionContainer</fieldType>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
             <fields>
                 <name>scrn_launchOOBOShoppingSession_Section3_Column1</name>
                 <fieldType>Region</fieldType>
@@ -1454,6 +1461,7 @@
         <fields>
             <name>scrn_noActiveB2CSitesFound_Section1</name>
             <fieldType>RegionContainer</fieldType>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
             <fields>
                 <name>scrn_noActiveB2CSitesFound_Section1_Column1</name>
                 <fieldType>Region</fieldType>
@@ -1534,6 +1542,7 @@
         <fields>
             <name>scrn_noAnonCustomerIDSiteConfig_Section1</name>
             <fieldType>RegionContainer</fieldType>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
             <fields>
                 <name>scrn_noAnonCustomerIDSiteConfig_Section1_Column1</name>
                 <fieldType>Region</fieldType>
@@ -1668,6 +1677,7 @@
         <fields>
             <name>scrn_OOBOConfigurationInvalid_Section1</name>
             <fieldType>RegionContainer</fieldType>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
             <fields>
                 <name>scrn_OOBOConfigurationInvalid_Section1_Column1</name>
                 <fieldType>Region</fieldType>

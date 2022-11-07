@@ -302,10 +302,8 @@ private class B2CProcessContactHelper_Test {
     static void testProcessTrigger() {
 
         // Initialize local Variables
-        List<Contact> triggerNew;
-        List<Contact> triggerOld;
-        Contact newContact;
-        Contact oldContact;
+        List<Contact> triggerNew = new List<Contact>();
+        List<Contact> triggerOld = new List<Contact>();
 
         // Initialize local variables
         triggerNew = new List<Contact>();
@@ -369,8 +367,8 @@ private class B2CProcessContactHelper_Test {
         Contact sourceContact = sourceContacts.get(0);
 
         // Clone the test contact and make updates
-        newContact = sourceContact.clone(true, true);
-        oldContact = sourceContact.clone(true, true);
+        Contact newContact = sourceContact.clone(true, true);
+        Contact oldContact = sourceContact.clone(true, true);
 
         Test.startTest();
 

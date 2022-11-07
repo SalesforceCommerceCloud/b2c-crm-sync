@@ -118,7 +118,7 @@ public inherited sharing class B2CIACustomerResolution {
         );
 
         //If so, iterate over them and start checking for potential matches
-        for ( Datacloud.FindDuplicatesResult fdrI : results ) {
+        for (Datacloud.FindDuplicatesResult fdrI : results) {
 
             System.debug(LoggingLevel.DEBUG, '--> Iterating Over DataCloud results (' + results.size() + ')');
 

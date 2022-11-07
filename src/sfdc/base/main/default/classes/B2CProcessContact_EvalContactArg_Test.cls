@@ -210,7 +210,8 @@ private class B2CProcessContact_EvalContactArg_Test {
 
         // Initialize the testContact record
         Account testAccount = (Account) TestDataFactory.createSObject('Account', new Map<String,Object>{
-            'Name' => 'Registered Customer'
+            'Name' => 'Registered Customer',
+            'RecordTypeId' => B2CIACustomerResolution_TestHelper.getRecordType(B2CConfigurationManager.getAccountRecordTypeDeveloperName()).Id
         });
 
         // Initialize the testContact record with the AccountId
