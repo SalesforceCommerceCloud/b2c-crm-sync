@@ -75,7 +75,7 @@
   "homepage": "https://www.github.com/SalesforceCommerceCloud/b2c-crm-sync",
   "dependencies": {
     "asciiart-logo": "^0.2.6",
-    "async": "^3.2.0",
+    "async": "^3.2.2",
     "async-polling": "^0.2.1",
     "axios": "^0.21.2",
     "child-process-promise": "^2.2.1",
