@@ -5,5 +5,5 @@
     <eventType>HighVolume</eventType>
     <label>B2C Commerce: Process Customer Details</label>
     <pluralLabel>B2C Commerce: Process Customer Details</pluralLabel>
-    <publishBehavior>PublishImmediately</publishBehavior>
+    <publishBehavior>PublishAfterCommit</publishBehavior>
 </CustomObject>

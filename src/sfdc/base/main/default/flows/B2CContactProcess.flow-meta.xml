@@ -4,7 +4,7 @@
         <description>... this action remove the read-only PersonAccount properties attached to a Contact from the Contact -- so that the Contact record can be independently updated.</description>
         <name>ia_removeROAccountPropertiesFromContact</name>
         <label>Remove Read-Only Account Properties</label>
-        <locationX>578</locationX>
+        <locationX>732</locationX>
         <locationY>1454</locationY>
         <actionName>B2CIARemovePAPropertiesFromContact</actionName>
         <actionType>apex</actionType>
@@ -27,7 +27,7 @@
         <description>... attempt to take the sourceContact attributes and apply them to the resolvedContact.</description>
         <name>ia_synchronizeContactValues</name>
         <label>Synchronize Contact Values</label>
-        <locationX>600</locationX>
+        <locationX>693</locationX>
         <locationY>638</locationY>
         <actionName>B2CIASynchronizeContact</actionName>
         <actionType>apex</actionType>
@@ -57,7 +57,7 @@
         <name>asn_AccountIDToSourceContact</name>
         <label>Assign the AccountID to the Contact</label>
         <locationX>578</locationX>
-        <locationY>2030</locationY>
+        <locationY>2150</locationY>
         <assignmentItems>
             <assignToReference>resolvedContactToUpdate.AccountId</assignToReference>
             <operator>Assign</operator>
@@ -73,7 +73,7 @@
         <description>... assign the Account Name to the Business Account after the recordType is created.</description>
         <name>asn_AccountNameToBusinessAccount</name>
         <label>Assign the Account Name to the Business Account</label>
-        <locationX>1458</locationX>
+        <locationX>1678</locationX>
         <locationY>1574</locationY>
         <assignmentItems>
             <assignToReference>Account.Name</assignToReference>
@@ -90,7 +90,7 @@
         <description>... assign the B2C Account Properties to the Contact&apos;s parent Account (Name and RecordTypeId).</description>
         <name>asn_B2CAccountRecordType</name>
         <label>Assign the B2C Account Properties</label>
-        <locationX>1458</locationX>
+        <locationX>1678</locationX>
         <locationY>1334</locationY>
         <assignmentItems>
             <assignToReference>Account.RecordTypeId</assignToReference>
@@ -121,7 +121,7 @@
         <description>... ensure that the sourceContact has a well defined B2C CustomerList relationship.</description>
         <name>asn_B2CCustomerListRelationship_Update</name>
         <label>Assign the B2C CustomerList Relationship</label>
-        <locationX>798</locationX>
+        <locationX>952</locationX>
         <locationY>1118</locationY>
         <assignmentItems>
             <assignToReference>resolvedContactToUpdate.B2C_CustomerList_ID__c</assignToReference>
@@ -145,7 +145,7 @@
         <description>... alert the user that updates cannot be made without identifiers being provided.</description>
         <name>asn_cannotUpdateWithoutIdentifiers</name>
         <label>Error: Cannot Update Without Identifiers</label>
-        <locationX>1062</locationX>
+        <locationX>1282</locationX>
         <locationY>998</locationY>
         <assignmentItems>
             <assignToReference>errors</assignToReference>
@@ -174,7 +174,7 @@
         <name>asn_contactProcessSuccessfully_Update</name>
         <label>Contact Processed Successfully</label>
         <locationX>710</locationX>
-        <locationY>2246</locationY>
+        <locationY>2366</locationY>
         <assignmentItems>
             <assignToReference>Contact</assignToReference>
             <operator>Assign</operator>
@@ -229,7 +229,7 @@
         <description>... throw an error explaining the Contact&apos;s attributes must include a LastName if a CustomerList / CustomerNo are not provided.</description>
         <name>asn_ErrorContactLastNameMissing_Assignment</name>
         <label>Error: Contact LastName is Missing</label>
-        <locationX>1326</locationX>
+        <locationX>1546</locationX>
         <locationY>998</locationY>
         <assignmentItems>
             <assignToReference>synchronizedContact.LastName</assignToReference>
@@ -246,7 +246,7 @@
         <description>... throw an error explaining that multiple Contacts were resolved.</description>
         <name>asn_ErrorMultipleContactsResolved_Assignment</name>
         <label>Error: Multiple Contacts Resolved</label>
-        <locationX>1766</locationX>
+        <locationX>2074</locationX>
         <locationY>638</locationY>
         <assignmentItems>
             <assignToReference>isSuccess</assignToReference>
@@ -267,7 +267,7 @@
         <description>... assign the parent B2C Commerce Account to the Contact</description>
         <name>asn_parentB2CAccount</name>
         <label>Assign the Parent Account to the Contact</label>
-        <locationX>1458</locationX>
+        <locationX>1678</locationX>
         <locationY>1814</locationY>
         <assignmentItems>
             <assignToReference>synchronizedContact.AccountId</assignToReference>
@@ -284,7 +284,7 @@
         <description>... assign the parent B2C CustomerList to the sourceContact.</description>
         <name>asn_parentB2CCustomerListID</name>
         <label>Assign the B2C CustomerList</label>
-        <locationX>1458</locationX>
+        <locationX>1678</locationX>
         <locationY>758</locationY>
         <assignmentItems>
             <assignToReference>synchronizedContact.B2C_CustomerList__c</assignToReference>
@@ -329,8 +329,8 @@
         <description>... set the success flag and announce that the Contact Processing was successful</description>
         <name>ContactCreateSuccess_Assignment</name>
         <label>Contact Processed Successfully Assignment</label>
-        <locationX>1458</locationX>
-        <locationY>2630</locationY>
+        <locationX>1546</locationX>
+        <locationY>2750</locationY>
         <assignmentItems>
             <assignToReference>isSuccess</assignToReference>
             <operator>Assign</operator>
@@ -350,7 +350,7 @@
         <description>... evaluate if we can resolve the Contact record using the identifiers provided.</description>
         <name>dec_CanWeResolveThisContact</name>
         <label>Was a Contact Resolved?</label>
-        <locationX>1040</locationX>
+        <locationX>1194</locationX>
         <locationY>518</locationY>
         <defaultConnectorLabel>Unknown Outcome</defaultConnectorLabel>
         <rules>
@@ -446,7 +446,7 @@
         <description>... evaluate if a B2C CustomerList relationship already exists on the sourceContact.</description>
         <name>dec_doesB2CCustomerListRelationshipExist</name>
         <label>Does a B2C CustomerList Relationship Exist?</label>
-        <locationX>710</locationX>
+        <locationX>864</locationX>
         <locationY>998</locationY>
         <defaultConnector>
             <targetReference>asn_B2CCustomerListRelationship_Update</targetReference>
@@ -472,7 +472,7 @@
         <description>... evaluate if a Contact has a lastName assigned -- and prevent saving of the Account / Contact records if one is not provided.</description>
         <name>dec_doesContactHaveLastName</name>
         <label>Does the Contact Have a LastName Assigned?</label>
-        <locationX>1458</locationX>
+        <locationX>1678</locationX>
         <locationY>878</locationY>
         <defaultConnector>
             <targetReference>recGet_B2CRecordType</targetReference>
@@ -498,7 +498,7 @@
         <description>... evaluates the Contact Record to determine if it can be processed.</description>
         <name>dec_EvaluateContactRecord</name>
         <label>Evaluate the Contact Record</label>
-        <locationX>600</locationX>
+        <locationX>693</locationX>
         <locationY>758</locationY>
         <defaultConnector>
             <targetReference>dec_isTrustworthyIDPresentInOriginalContact</targetReference>
@@ -525,7 +525,7 @@
         <name>dec_isContactMissingAccountID</name>
         <label>Is the Contact Missing an AccountID?</label>
         <locationX>710</locationX>
-        <locationY>1910</locationY>
+        <locationY>2030</locationY>
         <defaultConnector>
             <targetReference>asn_contactProcessSuccessfully_Update</targetReference>
         </defaultConnector>
@@ -550,7 +550,7 @@
         <description>... check the originalContact and evaluate if at least one set of identifiers was included.</description>
         <name>dec_isTrustworthyIDPresentInOriginalContact</name>
         <label>Is An ID Present in the originalContact?</label>
-        <locationX>886</locationX>
+        <locationX>1073</locationX>
         <locationY>878</locationY>
         <defaultConnector>
             <targetReference>asn_cannotUpdateWithoutIdentifiers</targetReference>
@@ -576,10 +576,10 @@
         <description>... retrieve the configured customerModel to leverage when synchronizing B2C Commerce Customer Profiles.</description>
         <name>dec_RetrieveCustomerModel</name>
         <label>Retrieve the Customer Model</label>
-        <locationX>1458</locationX>
+        <locationX>1678</locationX>
         <locationY>2054</locationY>
         <defaultConnector>
-            <targetReference>B2CCommerce_Process_PlatformEventHelper</targetReference>
+            <targetReference>Pause_to_commit_the_transaction_2</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Accounts / Contacts Enabled</defaultConnectorLabel>
         <rules>
@@ -602,7 +602,7 @@
         <description>... evaluate if PersonAccounts are enabled as the active customerModel.</description>
         <name>dec_updateArePersonAccountsEnabled</name>
         <label>Are PersonAccounts Enabled as the Active CustomerModel?</label>
-        <locationX>710</locationX>
+        <locationX>864</locationX>
         <locationY>1334</locationY>
         <defaultConnector>
             <targetReference>recUpd_sourceContactUpdate</targetReference>
@@ -625,6 +625,7 @@
         </rules>
     </decisions>
     <description>... this flow is used to execute Contact Processing requests from B2C Commerce -- and evaluate if a Contact record should be created or updated within the Salesforce Platform.</description>
+    <environments>Default</environments>
     <interviewLabel>B2C Commerce: Create Or Update Contact {!$Flow.CurrentDateTime}</interviewLabel>
     <label>B2C Commerce: Process: Create Or Update Contact</label>
     <processMetadataValues>
@@ -650,7 +651,7 @@
         <description>... create the Contact Record for the B2C Business Account</description>
         <name>recCreate_BusinessRecord_Create</name>
         <label>Create B2C Business Contact Record</label>
-        <locationX>1458</locationX>
+        <locationX>1678</locationX>
         <locationY>1934</locationY>
         <connector>
             <targetReference>dec_RetrieveCustomerModel</targetReference>
@@ -661,7 +662,7 @@
         <description>... create the Parent B2C Account so that we can attach the Contact record to it.</description>
         <name>recCreate_ParentB2CAccount</name>
         <label>Create the Parent Account</label>
-        <locationX>1458</locationX>
+        <locationX>1678</locationX>
         <locationY>1694</locationY>
         <connector>
             <targetReference>asn_parentB2CAccount</targetReference>
@@ -672,7 +673,7 @@
         <description>... retrieve the recordType describing B2C Customer Profiles so it can be added to the Person Account.</description>
         <name>recGet_B2CPARecordType</name>
         <label>Get the B2C Person Account RecordType</label>
-        <locationX>1326</locationX>
+        <locationX>1546</locationX>
         <locationY>2174</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -694,7 +695,7 @@
         <description>... retrieve the recordType describing B2C Customer Profiles so it can be added to the Account.</description>
         <name>recGet_B2CRecordType</name>
         <label>Get the B2C Business Account RecordType</label>
-        <locationX>1458</locationX>
+        <locationX>1678</locationX>
         <locationY>1214</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -716,7 +717,7 @@
         <description>... retrieve the defaultConfiguration for the current b2c-crm-sync instance.</description>
         <name>recGet_defaultConfiguration</name>
         <label>Get the Default Configuration</label>
-        <locationX>1040</locationX>
+        <locationX>1194</locationX>
         <locationY>398</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -738,7 +739,7 @@
         <description>... identify which b2c-crm-sync configuration profile is being used as the default.</description>
         <name>recGet_IdentifyDefaultConfiguration</name>
         <label>Identify the Default Configuration</label>
-        <locationX>1040</locationX>
+        <locationX>1194</locationX>
         <locationY>278</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -752,10 +753,10 @@
         <description>... update the recordType on the Account to convert it to a PersonAccount.</description>
         <name>recUpd_PersonAccountRecordType</name>
         <label>Update the RecordType on the Account</label>
-        <locationX>1326</locationX>
+        <locationX>1546</locationX>
         <locationY>2294</locationY>
         <connector>
-            <targetReference>B2CCommerce_Process_PlatformEventHelper</targetReference>
+            <targetReference>Pause_to_commit_the_transaction_2</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -777,15 +778,15 @@
         <description>... update the sourceContact record accordingly.</description>
         <name>recUpd_sourceContactUpdate</name>
         <label>Update the Contact Record</label>
-        <locationX>710</locationX>
+        <locationX>864</locationX>
         <locationY>1670</locationY>
         <connector>
-            <targetReference>B2CCommerce_PlatformEvent_ProcessContactUpdate</targetReference>
+            <targetReference>Pause_to_commit_the_transaction</targetReference>
         </connector>
         <inputReference>resolvedContactToUpdate</inputReference>
     </recordUpdates>
     <start>
-        <locationX>914</locationX>
+        <locationX>1068</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>sub_resolveCustomerProfile</targetReference>
@@ -797,7 +798,7 @@
         <name>B2CCommerce_PlatformEvent_ProcessContactUpdate</name>
         <label>Create the Contact Process Platform Event</label>
         <locationX>710</locationX>
-        <locationY>1790</locationY>
+        <locationY>1910</locationY>
         <connector>
             <targetReference>dec_isContactMissingAccountID</targetReference>
         </connector>
@@ -826,8 +827,8 @@
         <description>... generate the Contact Process Platform Event.</description>
         <name>B2CCommerce_Process_PlatformEventHelper</name>
         <label>Create the Contact Process Platform Event</label>
-        <locationX>1458</locationX>
-        <locationY>2510</locationY>
+        <locationX>1546</locationX>
+        <locationY>2630</locationY>
         <connector>
             <targetReference>ContactCreateSuccess_Assignment</targetReference>
         </connector>
@@ -856,7 +857,7 @@
         <description>... this flow is used to take Contact properties from the sourceContact presented to this flow -- and assign them to the output Contact that will be returned in the flow results.</description>
         <name>sub_B2CCommerceContactAssignmentHelper</name>
         <label>Assign Source Contact Properties</label>
-        <locationX>1458</locationX>
+        <locationX>1678</locationX>
         <locationY>638</locationY>
         <connector>
             <targetReference>asn_parentB2CCustomerListID</targetReference>
@@ -889,7 +890,7 @@
         <description>... attempt to calculate the Account Name based on the Contact properties provided.</description>
         <name>sub_calculateAccountName</name>
         <label>Calculate the Account Name</label>
-        <locationX>1458</locationX>
+        <locationX>1678</locationX>
         <locationY>1454</locationY>
         <connector>
             <targetReference>asn_AccountNameToBusinessAccount</targetReference>
@@ -916,7 +917,7 @@
         <description>... attempt to resolve a customerProfile using the serviceArguments.</description>
         <name>sub_resolveCustomerProfile</name>
         <label>Resolve a Customer profile</label>
-        <locationX>1040</locationX>
+        <locationX>1194</locationX>
         <locationY>158</locationY>
         <connector>
             <targetReference>recGet_IdentifyDefaultConfiguration</targetReference>
@@ -1235,4 +1236,72 @@
         <isOutput>false</isOutput>
         <objectType>Contact</objectType>
     </variables>
+    <waits>
+        <name>Pause_to_commit_the_transaction</name>
+        <label>Pause to commit the transaction</label>
+        <locationX>864</locationX>
+        <locationY>1790</locationY>
+        <defaultConnectorLabel>Default Path</defaultConnectorLabel>
+        <waitEvents>
+            <name>Pause_and_continue</name>
+            <conditionLogic>and</conditionLogic>
+            <connector>
+                <targetReference>B2CCommerce_PlatformEvent_ProcessContactUpdate</targetReference>
+            </connector>
+            <eventType>AlarmEvent</eventType>
+            <inputParameters>
+                <name>AlarmTime</name>
+                <value>
+                    <elementReference>$Flow.CurrentDateTime</elementReference>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>TimeOffset</name>
+                <value>
+                    <numberValue>0.0</numberValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>TimeOffsetUnit</name>
+                <value>
+                    <stringValue>Hours</stringValue>
+                </value>
+            </inputParameters>
+            <label>Pause and continue</label>
+        </waitEvents>
+    </waits>
+    <waits>
+        <name>Pause_to_commit_the_transaction_2</name>
+        <label>Pause to commit the transaction 2</label>
+        <locationX>1678</locationX>
+        <locationY>2510</locationY>
+        <defaultConnectorLabel>Default Path</defaultConnectorLabel>
+        <waitEvents>
+            <name>Pause_continue</name>
+            <conditionLogic>and</conditionLogic>
+            <connector>
+                <targetReference>B2CCommerce_Process_PlatformEventHelper</targetReference>
+            </connector>
+            <eventType>AlarmEvent</eventType>
+            <inputParameters>
+                <name>AlarmTime</name>
+                <value>
+                    <elementReference>$Flow.CurrentDateTime</elementReference>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>TimeOffset</name>
+                <value>
+                    <numberValue>0.0</numberValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>TimeOffsetUnit</name>
+                <value>
+                    <stringValue>Hours</stringValue>
+                </value>
+            </inputParameters>
+            <label>Pause &amp; continue</label>
+        </waitEvents>
+    </waits>
 </Flow>
