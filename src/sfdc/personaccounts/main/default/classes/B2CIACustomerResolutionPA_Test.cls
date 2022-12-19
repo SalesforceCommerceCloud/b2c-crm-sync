@@ -44,14 +44,12 @@ public class B2CIACustomerResolutionPA_Test {
      **/
     @IsTest
     static void resolvesCustomerId() {
-        String accountRecordTypeDeveloperName = B2CConfigurationManager.getPersonAccountRecordTypeDeveloperName();
-
         // Create the test / parent Account
         Account account = (Account)TestDataFactory.createSObject('Account', new Map<String,Object>{
             'PersonEmail' => 'differntemail@email.com',
             'LastName' => 'DifferentLastName',
             'B2C_Customer_ID__pc' => 'customerid',
-            'RecordTypeId' => [SELECT Id FROM RecordType WHERE DeveloperName = :accountRecordTypeDeveloperName LIMIT 1].Id
+            'RecordTypeId' => B2CIACustomerResolution_TestHelper.getRecordType(B2CConfigurationManager.getPersonAccountRecordTypeDeveloperName()).Id
         });
 
         // Create the childContact
@@ -121,7 +119,6 @@ public class B2CIACustomerResolutionPA_Test {
      */
     @IsTest
     static void resolvesCustomerNoAndCustomerList() {
-        String accountRecordTypeDeveloperName = B2CConfigurationManager.getPersonAccountRecordTypeDeveloperName();
 
         // Create the test / parent Account
         Account account = (Account)TestDataFactory.createSObject('Account', new Map<String,Object>{
@@ -129,7 +126,7 @@ public class B2CIACustomerResolutionPA_Test {
             'LastName' => 'DifferentLastName',
             'B2C_Customer_No__pc' => 'customerNo',
             'B2C_CustomerList_ID__pc' => 'customerList',
-            'RecordTypeId' => [SELECT Id FROM RecordType WHERE DeveloperName = :accountRecordTypeDeveloperName LIMIT 1].Id
+            'RecordTypeId' => B2CIACustomerResolution_TestHelper.getRecordType(B2CConfigurationManager.getPersonAccountRecordTypeDeveloperName()).Id
         });
 
         // Create the childContact
@@ -199,14 +196,12 @@ public class B2CIACustomerResolutionPA_Test {
      */
     @IsTest
     static void resolvesContactWithCustomerListIdLastNameAndEmail() {
-        String accountRecordTypeDeveloperName = B2CConfigurationManager.getPersonAccountRecordTypeDeveloperName();
-
         // Create the test / parent Account
         Account account = (Account)TestDataFactory.createSObject('Account', new Map<String,Object>{
             'PersonEmail' => 'email@email.com',
             'LastName' => 'LastName',
             'B2C_CustomerList_ID__pc' => 'CustomerList',
-            'RecordTypeId' => [SELECT Id FROM RecordType WHERE DeveloperName = :accountRecordTypeDeveloperName LIMIT 1].Id
+            'RecordTypeId' => B2CIACustomerResolution_TestHelper.getRecordType(B2CConfigurationManager.getPersonAccountRecordTypeDeveloperName()).Id
         });
 
         // Create the childContact
@@ -261,7 +256,8 @@ public class B2CIACustomerResolutionPA_Test {
         // Validate that our contact was matched-up
         System.assertEquals(
             contactFilteredList[0].Id,
-            [SELECT Id FROM Contact WHERE AccountId = :account.Id LIMIT 1].Id
+            [SELECT Id FROM Contact WHERE AccountId = :account.Id LIMIT 1].Id,
+            'Ids should match'
         );
 
     }
@@ -275,15 +271,13 @@ public class B2CIACustomerResolutionPA_Test {
      */
     @IsTest
     static void doesNotResolveDifferentCustomerIds() {
-        String accountRecordTypeDeveloperName = B2CConfigurationManager.getPersonAccountRecordTypeDeveloperName();
-
         // Create the test / parent Account
         TestDataFactory.createSObject('Account', new Map<String,Object>{
             'PersonEmail' => 'email@email.com',
             'LastName' => 'LastName',
             'B2C_Customer_ID__pc' => 'CustomerId',
             'B2C_CustomerList_ID__pc' => 'customerList',
-            'RecordTypeId' => [SELECT Id FROM RecordType WHERE DeveloperName = :accountRecordTypeDeveloperName LIMIT 1].Id
+            'RecordTypeId' => B2CIACustomerResolution_TestHelper.getRecordType(B2CConfigurationManager.getPersonAccountRecordTypeDeveloperName()).Id
         });
 
         // Create the childContact
@@ -353,14 +347,12 @@ public class B2CIACustomerResolutionPA_Test {
      */
     @IsTest
     static void createTwoContactsSpanningDifferentCustomerListIds() {
-        String accountRecordTypeDeveloperName = B2CConfigurationManager.getPersonAccountRecordTypeDeveloperName();
-
         // Create the test / parent Account
         TestDataFactory.createSObject('Account', new Map<String,Object>{
             'PersonEmail' => 'email@email.com',
             'LastName' => 'LastName',
             'B2C_CustomerList_ID__pc' => 'customerList',
-            'RecordTypeId' => [SELECT Id FROM RecordType WHERE DeveloperName = :accountRecordTypeDeveloperName LIMIT 1].Id
+            'RecordTypeId' => B2CIACustomerResolution_TestHelper.getRecordType(B2CConfigurationManager.getPersonAccountRecordTypeDeveloperName()).Id
         });
 
         // Create the childContact
@@ -429,13 +421,11 @@ public class B2CIACustomerResolutionPA_Test {
      */
     @IsTest
     static void resolvesContactWithLastNameAndEmail() {
-        String accountRecordTypeDeveloperName = B2CConfigurationManager.getPersonAccountRecordTypeDeveloperName();
-
         // Create the test / parent Account
         Account account = (Account)TestDataFactory.createSObject('Account', new Map<String,Object>{
             'PersonEmail' => 'email@email.com',
             'LastName' => 'LastName',
-            'RecordTypeId' => [SELECT Id FROM RecordType WHERE DeveloperName = :accountRecordTypeDeveloperName LIMIT 1].Id
+            'RecordTypeId' => B2CIACustomerResolution_TestHelper.getRecordType(B2CConfigurationManager.getPersonAccountRecordTypeDeveloperName()).Id
         });
 
         // Create the childContact

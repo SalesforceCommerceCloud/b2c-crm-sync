@@ -66,7 +66,8 @@ private class B2CProcessContact_Test {
 
         // Initialize the Account / Contact details
         Account testAccount = new Account(
-            Name = 'Anonymous Customer'
+            Name = 'Anonymous Customer',
+            RecordTypeId = B2CIACustomerResolution_TestHelper.getRecordType(B2CConfigurationManager.getAccountRecordTypeDeveloperName()).Id
         );
 
         // Create the parent Account record
@@ -146,7 +147,8 @@ private class B2CProcessContact_Test {
 
         // Initialize the Account
         Account testAccount = new Account(
-            Name = 'Anonymous Customer'
+            Name = 'Anonymous Customer',
+            RecordTypeId = B2CIACustomerResolution_TestHelper.getRecordType(B2CConfigurationManager.getAccountRecordTypeDeveloperName()).Id
         );
 
         // Create the Account record
@@ -228,7 +230,8 @@ private class B2CProcessContact_Test {
 
         // Initialize the Account
         Account testAccount = new Account(
-            Name = 'Anonymous Customer'
+            Name = 'Anonymous Customer',
+            RecordTypeId = B2CIACustomerResolution_TestHelper.getRecordType(B2CConfigurationManager.getAccountRecordTypeDeveloperName()).Id
         );
 
         // Create the Account record

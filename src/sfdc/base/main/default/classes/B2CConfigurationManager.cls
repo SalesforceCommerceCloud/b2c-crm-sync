@@ -21,30 +21,38 @@ public with sharing class B2CConfigurationManager {
         // Initialize the output map
         output = new Map<String, String>();
 
-        // Get the default configuration profile
-        configurationProfile = [
-                SELECT  Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.Account_Manager_Url__c,
-                        Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.Account_Manager_Port__c,
-                        Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.Account_Manager_Token_Url__c,
-                        Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.Expiration_in_Minutes__c,
-                        Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.JWT_Algorithm__c,
-                        Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.JWT_SFCC_Algorithm__c,
-                        Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.Retry_Count__c,
-                        Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.Persist_B2C_AuthTokens__c
-                FROM    B2C_CRM_Sync_Default_Configuration__mdt
-                WHERE   DeveloperName = 'Production_Configuration'
-                LIMIT   1
-        ];
+        if (
+            // Validate that we have CRUD permissions to access this data
+            B2C_CRM_Sync_Default_Configuration__mdt.SObjectType.getDescribe().isAccessible() &&
+            Schema.SObjectType.B2C_CRM_Sync_Default_Configuration__mdt.fields.DeveloperName.isAccessible() &&
+            B2C_CRMSync_Setting__mdt.SObjectType.getDescribe().isAccessible() &&
+            Schema.SObjectType.B2C_CRMSync_Setting__mdt.fields.Account_Record_Type_Developername__c.isAccessible()
+        ) {
+            // Get the default configuration profile
+            configurationProfile = [
+                    SELECT  Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.Account_Manager_Url__c,
+                            Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.Account_Manager_Port__c,
+                            Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.Account_Manager_Token_Url__c,
+                            Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.Expiration_in_Minutes__c,
+                            Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.JWT_Algorithm__c,
+                            Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.JWT_SFCC_Algorithm__c,
+                            Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.Retry_Count__c,
+                            Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.Persist_B2C_AuthTokens__c
+                    FROM    B2C_CRM_Sync_Default_Configuration__mdt
+                    WHERE   DeveloperName = 'Production_Configuration'
+                    LIMIT   1
+            ];
 
-        // Set the output variable to contain the Account Manager configuration settings to leverage
-        output.put('AccountManagerUrl', configurationProfile.Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.Account_Manager_Url__c);
-        output.put('AccountManagerPort', configurationProfile.Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.Account_Manager_Port__c);
-        output.put('AccountManagerSuffix', configurationProfile.Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.Account_Manager_Token_Url__c);
-        output.put('ExpirationInMinutes', String.valueOf(configurationProfile.Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.Expiration_in_Minutes__c));
-        output.put('JWTSFDCAlgorithm', configurationProfile.Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.JWT_Algorithm__c);
-        output.put('JWTSFCCAlgorithm', configurationProfile.Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.JWT_SFCC_Algorithm__c);
-        output.put('RetryCount', String.valueOf(configurationProfile.Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.Retry_Count__c));
-        output.put('PersistAuthTokens', String.valueOf(configurationProfile.Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.Persist_B2C_AuthTokens__c));
+            // Set the output variable to contain the Account Manager configuration settings to leverage
+            output.put('AccountManagerUrl', configurationProfile.Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.Account_Manager_Url__c);
+            output.put('AccountManagerPort', configurationProfile.Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.Account_Manager_Port__c);
+            output.put('AccountManagerSuffix', configurationProfile.Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.Account_Manager_Token_Url__c);
+            output.put('ExpirationInMinutes', String.valueOf(configurationProfile.Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.Expiration_in_Minutes__c));
+            output.put('JWTSFDCAlgorithm', configurationProfile.Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.JWT_Algorithm__c);
+            output.put('JWTSFCCAlgorithm', configurationProfile.Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.JWT_SFCC_Algorithm__c);
+            output.put('RetryCount', String.valueOf(configurationProfile.Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.Retry_Count__c));
+            output.put('PersistAuthTokens', String.valueOf(configurationProfile.Active_Configuration__r.B2C_CRM_Sync_AuthToken_Settings__r.Persist_B2C_AuthTokens__c));
+        }
 
         // Return the associated Account Manager configuration settings
         return output;
@@ -57,11 +65,6 @@ public with sharing class B2CConfigurationManager {
      * @return {String} Returns the developerName for the B2c Business Account
      */
     public static String getAccountRecordTypeDeveloperName() {
-
-        // Initialize local variables
-        B2C_CRM_Sync_Default_Configuration__mdt configurationProfile;
-        String output;
-
         if (
             // Validate that we have CRUD permissions to access this data
             B2C_CRM_Sync_Default_Configuration__mdt.SObjectType.getDescribe().isAccessible() &&
@@ -69,22 +72,19 @@ public with sharing class B2CConfigurationManager {
             B2C_CRMSync_Setting__mdt.SObjectType.getDescribe().isAccessible() &&
             Schema.SObjectType.B2C_CRMSync_Setting__mdt.fields.Account_Record_Type_Developername__c.isAccessible()
         ) {
-
             // Get the default configuration profile
-            configurationProfile = [
+            B2C_CRM_Sync_Default_Configuration__mdt configurationProfile = [
                 SELECT Active_Configuration__r.Account_Record_Type_Developername__c
                 FROM B2C_CRM_Sync_Default_Configuration__mdt
                 WHERE DeveloperName = 'Production_Configuration'
                 LIMIT 1
             ];
 
-            // Set the output variable to contain the specified configuration property
-            output = configurationProfile.Active_Configuration__r.Account_Record_Type_Developername__c;
+            return configurationProfile.Active_Configuration__r.Account_Record_Type_Developername__c;
 
         }
 
-        // Return the configured account / recordType developerName
-        return output;
+        return null;
 
     }
 
@@ -101,19 +101,19 @@ public with sharing class B2CConfigurationManager {
             B2C_CRMSync_Setting__mdt.SObjectType.getDescribe().isAccessible() &&
             Schema.SObjectType.B2C_CRMSync_Setting__mdt.fields.PersonAccount_Record_Type_Developername__c.isAccessible()
         ) {
-            return null;
+            // Get the default configuration profile
+            B2C_CRM_Sync_Default_Configuration__mdt configurationProfile = [
+                SELECT Active_Configuration__r.PersonAccount_Record_Type_Developername__c
+                FROM B2C_CRM_Sync_Default_Configuration__mdt
+                WHERE DeveloperName = 'Production_Configuration'
+                LIMIT 1
+            ];
+
+            // Set the output variable to contain the specified configuration property
+            return configurationProfile.Active_Configuration__r.PersonAccount_Record_Type_Developername__c;
         }
 
-        // Get the default configuration profile
-        B2C_CRM_Sync_Default_Configuration__mdt configurationProfile = [
-            SELECT Active_Configuration__r.PersonAccount_Record_Type_Developername__c
-            FROM B2C_CRM_Sync_Default_Configuration__mdt
-            WHERE DeveloperName = 'Production_Configuration'
-            LIMIT 1
-        ];
-
-        // Set the output variable to contain the specified configuration property
-        return configurationProfile.Active_Configuration__r.PersonAccount_Record_Type_Developername__c;
+        return null;
     }
 
     /**
@@ -122,11 +122,6 @@ public with sharing class B2CConfigurationManager {
      * @return {String} Returns the configured customerModel (Standard or Person).
      */
     public static String getDefaultAccountContactModel() {
-
-        // Initialize local variables
-        B2C_CRM_Sync_Default_Configuration__mdt configurationProfile;
-        String output;
-
         if (
             // Validate that we have CRUD permissions to access this data
             B2C_CRM_Sync_Default_Configuration__mdt.SObjectType.getDescribe().isAccessible() &&
@@ -134,22 +129,19 @@ public with sharing class B2CConfigurationManager {
             B2C_CRMSync_Setting__mdt.SObjectType.getDescribe().isAccessible() &&
             Schema.SObjectType.B2C_CRMSync_Setting__mdt.fields.Account_Contact_Model__c.isAccessible()
         ) {
-
             // Get the default configuration profile
-            configurationProfile = [
+            B2C_CRM_Sync_Default_Configuration__mdt configurationProfile = [
                 SELECT Active_Configuration__r.Account_Contact_Model__c
                 FROM B2C_CRM_Sync_Default_Configuration__mdt
                 WHERE DeveloperName = 'Production_Configuration'
                 LIMIT 1
             ];
 
-            // Set the output variable to contain the specified configuration property
-            output = configurationProfile.Active_Configuration__r.Account_Contact_Model__c;
+            return configurationProfile.Active_Configuration__r.Account_Contact_Model__c;
 
         }
 
-        // Return the configured customerModel
-        return output;
+        return null;
 
     }
 

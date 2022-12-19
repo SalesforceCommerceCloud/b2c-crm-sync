@@ -61,12 +61,8 @@ private class B2CProcessContact_ServiceEntry_Test {
      */
     @IsTest
     static void testResolveContactContactIDSuccess() {
-
         // Seed the testData
         prepareTestData();
-
-        // Initialize local variables
-        String accountRecordType;
 
         // Retrieve the test customerList
         B2C_CustomerList__c testCustomerList = [
@@ -76,24 +72,10 @@ private class B2CProcessContact_ServiceEntry_Test {
             LIMIT   1
         ];
 
-        // Evaluate what recordType to get and apply to a given Account / Contact pair
-        if (B2CConfigurationManager.getDefaultAccountContactModel() == B2CConstant.ACCOUNTCONTACTMODEL_PERSON) {
-            accountRecordType = B2CConfigurationManager.getPersonAccountRecordTypeDeveloperName();
-        } else {
-            accountRecordType = B2CConfigurationManager.getAccountRecordTypeDeveloperName();
-        }
-
-        // Retrieve the recordType to apply
-        RecordType thisRecordType = [
-            SELECT  Id
-            FROM    RecordType
-            WHERE   DeveloperName = :accountRecordType
-            LIMIT   1
-        ];
-
         // Initialize the testContact record
         Account testAccount = (Account)TestDataFactory.createSObject('Account', new Map<String,Object>{
-            'Name' => 'Registered Customer'
+            'Name' => 'Registered Customer',
+            'RecordTypeId' => B2CIACustomerResolution_TestHelper.getRecordType(B2CConfigurationManager.getAccountRecordTypeDeveloperName()).Id
         });
 
         // Initialize the testContact record with the AccountId
@@ -107,18 +89,6 @@ private class B2CProcessContact_ServiceEntry_Test {
             'B2C_Customer_ID__c' => 'test-customerid',
             'B2C_Customer_No__c' => 'test-customerno'
         });
-
-        // Get the account (again) to update the recordType
-        Account testAccountToUpdate = [
-                SELECT  Id,
-                        RecordTypeId
-                FROM    Account
-                WHERE   Id = :testAccount.Id
-        ];
-
-        // Seed the personAccount recordType and write the update
-        testAccountToUpdate.RecordTypeId = thisRecordType.Id;
-        update testAccountToUpdate;
 
         // Initialize local Variables
         Map<String, Object> flowArguments;
@@ -186,12 +156,8 @@ private class B2CProcessContact_ServiceEntry_Test {
      */
     @IsTest
     static void testResolveContactCustomerIDSuccess() {
-
         // Seed the testData
         prepareTestData();
-
-        // Initialize local variables
-        String accountRecordType;
 
         // Retrieve the test customerList
         B2C_CustomerList__c testCustomerList = [
@@ -201,25 +167,10 @@ private class B2CProcessContact_ServiceEntry_Test {
             LIMIT   1
         ];
 
-
-        // Evaluate what recordType to get and apply to a given Account / Contact pair
-        if (B2CConfigurationManager.getDefaultAccountContactModel() == B2CConstant.ACCOUNTCONTACTMODEL_PERSON) {
-            accountRecordType = B2CConfigurationManager.getPersonAccountRecordTypeDeveloperName();
-        } else {
-            accountRecordType = B2CConfigurationManager.getAccountRecordTypeDeveloperName();
-        }
-
-        // Retrieve the recordType to apply
-        RecordType thisRecordType = [
-                SELECT  Id
-                FROM    RecordType
-                WHERE   DeveloperName = :accountRecordType
-                LIMIT   1
-        ];
-
         // Initialize the testContact record
         Account testAccount = (Account)TestDataFactory.createSObject('Account', new Map<String,Object>{
-            'Name' => 'Registered Customer'
+            'Name' => 'Registered Customer',
+            'RecordTypeId' => B2CIACustomerResolution_TestHelper.getRecordType(B2CConfigurationManager.getAccountRecordTypeDeveloperName()).Id
         });
 
         // Initialize the testContact record with the AccountId
@@ -233,18 +184,6 @@ private class B2CProcessContact_ServiceEntry_Test {
             'B2C_Customer_ID__c' => 'test-customerid',
             'B2C_Customer_No__c' => 'test-customerno'
         });
-
-        // Get the account (again) to update the recordType
-        Account testAccountToUpdate = [
-            SELECT  Id,
-                    RecordTypeId
-            FROM    Account
-            WHERE   Id = :testAccount.Id
-        ];
-
-        // Seed the personAccount recordType and write the update
-        testAccountToUpdate.RecordTypeId = thisRecordType.Id;
-        update testAccountToUpdate;
 
         // Initialize local Variables
         Map<String, Object> flowArguments;
