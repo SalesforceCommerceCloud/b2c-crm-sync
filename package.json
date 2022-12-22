@@ -88,7 +88,7 @@
     "generate-password": "^1.6.0",
     "jks-js": "^1.0.1",
     "jsforce": "^1.11.0",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "lodash": "^4.17.21",
     "mkdirp": "^1.0.4",
     "moment": "^2.29.4",
