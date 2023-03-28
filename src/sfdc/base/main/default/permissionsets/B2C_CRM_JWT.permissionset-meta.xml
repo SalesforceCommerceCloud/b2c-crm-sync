@@ -170,6 +170,11 @@
     </customMetadataTypeAccesses>
     <description>... provides access to the b2c-crm-jwt configuration meta-data and page layouts.</description>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>B2C_AuthToken__c.B2C_AuthToken__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>B2C_AuthToken__c.B2C_ClientID_Value__c</field>
         <readable>true</readable>

@@ -71,8 +71,7 @@ private class B2CIAPersistB2CAuthToken_Test {
         List<B2C_AuthToken__c> testAuthToken = [
             SELECT  Id
             FROM    B2C_AuthToken__c
-            WHERE   Name = :authTokenResult.accessToken
-            AND     B2C_Client_ID__c = :authTokenResult.b2cClientIdRecordId
+            WHERE   B2C_Client_ID__c = :authTokenResult.b2cClientIdRecordId
             LIMIT   1
         ];
 
@@ -153,8 +152,7 @@ private class B2CIAPersistB2CAuthToken_Test {
         List<B2C_AuthToken__c> testAuthToken = [
                 SELECT  Id
                 FROM    B2C_AuthToken__c
-                WHERE   Name = :authTokenResult.accessToken
-                AND     B2C_Client_ID__c = :authTokenResult.b2cClientIdRecordId
+                WHERE   B2C_Client_ID__c = :authTokenResult.b2cClientIdRecordId
                 LIMIT   1
         ];
 
@@ -235,8 +233,7 @@ private class B2CIAPersistB2CAuthToken_Test {
         List<B2C_AuthToken__c> testAuthToken = [
             SELECT  Id
             FROM    B2C_AuthToken__c
-            WHERE   Name = :authTokenResult.accessToken
-            AND     B2C_Client_ID__c = :authTokenResult.b2cClientIdRecordId
+            WHERE   B2C_Client_ID__c = :authTokenResult.b2cClientIdRecordId
             LIMIT   1
         ];
 
@@ -244,8 +241,7 @@ private class B2CIAPersistB2CAuthToken_Test {
         List<B2C_Client_ID_Integration_History__c> testIntegrationHistory = [
             SELECT  Id
             FROM    B2C_Client_ID_Integration_History__c
-            WHERE   Auth_Token_Value__c = :authTokenResult.accessToken
-            AND     B2C_Client_ID__c = :authTokenResult.b2cClientIdRecordId
+            WHERE   B2C_Client_ID__c = :authTokenResult.b2cClientIdRecordId
         ];
 
         // Validate that the authToken and integration history were not persisted

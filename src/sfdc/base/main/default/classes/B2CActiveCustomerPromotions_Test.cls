@@ -14,7 +14,7 @@ public with sharing class B2CActiveCustomerPromotions_Test {
             'Audit_Authentication_API_Interactions__c' => true
         });
         B2C_AuthToken__c authToken = (B2C_AuthToken__c)TestDataFactory.createSObject('B2C_AuthToken__c', new Map<String,Object>{
-            'Name' => 'my-test-authtoken',
+            'B2C_AuthToken__c' => 'my-test-authtoken',
             'B2C_Client_ID__c' => clientId.Id
         });
         B2C_CustomerList__c customerList = (B2C_CustomerList__c)TestDataFactory.createSObject('B2C_CustomerList__c', new Map<String,Object>{

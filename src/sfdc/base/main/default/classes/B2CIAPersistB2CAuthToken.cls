@@ -55,7 +55,7 @@ public with sharing class B2CIAPersistB2CAuthToken {
                     // If so, create an instance of the authToken
                     authToken = new B2C_AuthToken__c(
                         B2C_Client_ID__c = thisAuthTokenResult.b2cClientIdRecordId,
-                        Name = thisAuthTokenResult.accessToken
+                        B2C_AuthToken__c = thisAuthTokenResult.accessToken
                     );
 
                     // Create the collection of authTokens to process
@@ -98,7 +98,7 @@ public with sharing class B2CIAPersistB2CAuthToken {
 
             // Create the authTokenId map / Id quickReference
             for (B2C_AuthToken__c thisAuthToken : authTokens) {
-                authTokenIds.put(thisAuthToken.Name, thisAuthToken.Id);
+                authTokenIds.put(thisAuthToken.B2C_AuthToken__c, thisAuthToken.Id);
             }
 
         }

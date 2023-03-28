@@ -224,7 +224,7 @@ profile
 ```
 
 - Token Endpoint Auth Method: `private_key_jwt`
-- Access Token Format: `UUID`
+- Access Token Format: `JWT`
 
 7. Click the `Save` button to apply these changes to your ClientID's configuration.
 

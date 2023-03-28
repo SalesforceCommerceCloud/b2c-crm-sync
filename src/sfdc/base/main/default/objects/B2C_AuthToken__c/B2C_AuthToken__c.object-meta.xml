@@ -162,10 +162,10 @@
     <externalSharingModel>ControlledByParent</externalSharingModel>
     <label>B2C AuthToken</label>
     <nameField>
-        <label>B2C AuthToken</label>
-        <trackFeedHistory>true</trackFeedHistory>
-        <trackHistory>false</trackHistory>
-        <type>Text</type>
+        <displayFormat>B2CAT-{0000}</displayFormat>
+        <label>B2C Auth Token</label>
+        <trackFeedHistory>false</trackFeedHistory>
+        <type>AutoNumber</type>
     </nameField>
     <pluralLabel>B2C AuthTokens</pluralLabel>
     <searchLayouts>
