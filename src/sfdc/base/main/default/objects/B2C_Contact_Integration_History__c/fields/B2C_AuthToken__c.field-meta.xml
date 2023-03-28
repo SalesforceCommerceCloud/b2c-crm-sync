@@ -5,10 +5,10 @@
     <externalId>false</externalId>
     <inlineHelpText>... represents the B2C AuthToken used to invoke the Contact integration REST API request with B2C Commerce.</inlineHelpText>
     <label>B2C AuthToken</label>
-    <length>255</length>
-    <required>false</required>
+    <length>131072</length>
     <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
-    <type>Text</type>
-    <unique>false</unique>
+    <type>LongTextArea</type>
+    <visibleLines>4</visibleLines>
 </CustomField>
