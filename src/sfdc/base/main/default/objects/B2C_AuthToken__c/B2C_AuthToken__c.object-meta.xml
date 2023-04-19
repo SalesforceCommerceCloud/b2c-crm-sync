@@ -172,7 +172,6 @@
         <searchResultsAdditionalFields>B2C_Client_ID__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Is_Invalidated__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Is_Valid__c</searchResultsAdditionalFields>
-        <searchResultsAdditionalFields xsi:nil="true"/>
         <searchResultsAdditionalFields>Expiration_Date__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>LAST_UPDATE</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Invalidation_Date__c</searchResultsAdditionalFields>
