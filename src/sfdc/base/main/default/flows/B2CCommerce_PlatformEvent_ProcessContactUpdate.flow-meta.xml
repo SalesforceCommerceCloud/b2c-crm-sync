@@ -427,7 +427,7 @@
             <assignToReference>B2CAuthToken</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>recGet_B2CAuthToken.Name</elementReference>
+                <elementReference>recGet_B2CAuthToken.B2C_AuthToken__c</elementReference>
             </value>
         </assignmentItems>
         <connector>
