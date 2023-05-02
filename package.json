@@ -98,7 +98,7 @@
     "recursive-readdir": "^2.2.2",
     "save": "^2.4.0",
     "sfcc-ci": "~2.7.2",
-    "sfdx-node": "^42.0.0",
+    "sfdx-node": "^3.8.0",
     "terminal-link": "^2.1.1",
     "validate.js": "^0.13.1",
     "validator": "^13.7.0",
