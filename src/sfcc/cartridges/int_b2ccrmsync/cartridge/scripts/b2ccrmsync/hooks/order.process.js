@@ -58,7 +58,7 @@ function orderCreated(order) {
  */
 function handleProcess(order, action) {
     var ServiceMgr = require('*/cartridge/scripts/b2ccrmsync/services/ServiceMgr');
-    var model = order.getCustomer().getProfile() ? new (require('*/cartridge/scripts/b2ccrmsync/models/customer'))(order.getCustomer().getProfile()) : new (require('*/cartridge/scripts/b2ccrmsync/models/order'))(order);
+    var model;
 
     /**
      * @typedef resultObject Represents the resultObject returned by the B2CContactProcess service
@@ -72,9 +72,6 @@ function handleProcess(order, action) {
      */
 
     try {
-
-        // Set the profile status, meaning that we start the export process
-        model.updateStatus('not_exported');
 
         // If we already have a contactId present -- then just update the order with the Account / Contact details
         if (require('*/cartridge/scripts/b2ccrmsync/util/helpers').sfdcContactIDIdentifierPresent(order.getCustomer().getProfile())) {
@@ -91,6 +88,8 @@ function handleProcess(order, action) {
             model.updateSyncResponseText(require('dw/util/StringUtils').format('Successfully applied the registered user\'s profile identifiers during the "' + action + '" logic.'));
 
         } else {
+            model = !empty(order.getCustomer().getProfile()) ? new (require('*/cartridge/scripts/b2ccrmsync/models/customer'))(order.getCustomer().getProfile()) : new (require('*/cartridge/scripts/b2ccrmsync/models/order'))(order);
+            model.updateStatus('not_exported');
 
             var requestBody = model.getRequestBody();
             LOGGER.info('Exporting the customer profile to Salesforce core from order {0}. Here is the request body: {1}', order.getOrderNo(), requestBody);

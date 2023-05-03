@@ -10,6 +10,7 @@ out/
 
 # Salesforce cache
 .sfdx/
+.sf/
 .localdevserver/
 
 # LWC VSCode autocomplete
