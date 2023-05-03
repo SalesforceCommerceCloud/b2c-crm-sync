@@ -110,7 +110,7 @@ b2c-crm-sync also requires [SFDX](https://developer.salesforce.com/tools/sfdxcli
 sfdx --version
 ```
 
-> As of v0.9.0 -- this build has been tested against **node.js v15.2.1** and **sfdx v7.108.0 darwin-x64**.
+> As of v3.0.2 -- this build has been tested against **node.js v16.13.0** and **sfdx v7.162.0 darwin-x64**.
 
 ### B2C Commerce Setup Instructions
 
