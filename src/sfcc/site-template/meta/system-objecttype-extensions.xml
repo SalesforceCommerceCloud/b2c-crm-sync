@@ -133,7 +133,7 @@
             <attribute-definition attribute-id="b2ccrm_syncResponseText">
                 <display-name xml:lang="x-default">Salesforce Platform Response Text</display-name>
                 <description xml:lang="x-default">Stores the response from b2c-crm-sync Customer Record synchronization attempts.</description>
-                <type>set-of-string</type>
+                <type>text</type>
                 <mandatory-flag>false</mandatory-flag>
                 <externally-managed-flag>false</externally-managed-flag>
             </attribute-definition>
