@@ -108,7 +108,7 @@
   "devDependencies": {
     "@prettier/plugin-xml": "^0.13.1",
     "@salesforce/eslint-config-lwc": "^2.0.0",
-    "@salesforce/sfdx-lwc-jest": "^0.12.6",
+    "@salesforce/sfdx-lwc-jest": "^3.0.1",
     "@types/async": "^3.2.5",
     "@types/async-polling": "^0.0.4",
     "@types/chai": "^4.2.14",
