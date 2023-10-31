@@ -969,6 +969,13 @@ npm run crm-sync:sf:connectedapps
 ```
 This command creates a connectedApp for each of the B2C Commerce storefronts configured in your .env file. The B2C Commerce service definitions used to connect with your Salesforce Org use these connectedApps to connect securely.
 
+> b2c-crm-sync use Username-password flows, which are blocked by default in orgs created in Summer ‘23 or later. make sure to activate it if it's not activated already
+
+- Go to settings
+- in the search, look for OAuth
+- select OAuth and OpenID Connect Settings under identity
+- Turn on `Allow OAuth Username-Password Flows`
+
 #### Create and Deploy Your Duplicate Rules
 16. Duplicate rules can be configured and deployed via a CLI command that retrieves the duplicateRules configuration in the Salesforce Org, identifies which b2c-crm-sync rules already exist, and creates the rule templates to deploy. Please execute this CLI command to create and deploy duplicateRules:
 
