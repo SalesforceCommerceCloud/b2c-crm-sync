@@ -217,44 +217,46 @@ describe('int_b2ccrmsync/cartridge/scripts/b2ccrmsync/models/customer', function
             profile.custom.b2ccrm_syncResponseText = undefined;
             const customer = new CustomerModel(profile);
             customer.updateSyncResponseText('response text');
+            const b2ccrm_syncResponseText = JSON.parse(customer.profile.custom.b2ccrm_syncResponseText);
 
             expect(spy).to.have.been.calledOnce;
-            expect(customer.profile.custom.b2ccrm_syncResponseText.length).to.be.equal(1);
-            expect(customer.profile.custom.b2ccrm_syncResponseText[0]).to.not.be.undefined;
+            expect(b2ccrm_syncResponseText.length).to.be.equal(1);
+            expect(b2ccrm_syncResponseText[0]).to.not.be.undefined;
         });
 
         it('should save response text in the profile custom attribute if this is the first time the response text is saved', function () {
             spy = sinon.spy(require('dw-api-mock/dw/system/Transaction'), 'wrap');
             const customer = new CustomerModel(profile);
             customer.updateSyncResponseText('response text');
+            const b2ccrm_syncResponseText = JSON.parse(customer.profile.custom.b2ccrm_syncResponseText);
 
             expect(spy).to.have.been.calledOnce;
-            expect(customer.profile.custom.b2ccrm_syncResponseText.length).to.be.equal(1);
-            expect(customer.profile.custom.b2ccrm_syncResponseText[0]).to.not.be.undefined;
+            expect(b2ccrm_syncResponseText.length).to.be.equal(1);
+            expect(b2ccrm_syncResponseText[0]).to.not.be.undefined;
         });
 
         it('should save response text in the profile custom attribute, even if we already saved response texts previously', function () {
             spy = sinon.spy(require('dw-api-mock/dw/system/Transaction'), 'wrap');
-            profile.custom.b2ccrm_syncResponseText = ['previously saved response text'];
+            profile.custom.b2ccrm_syncResponseText = JSON.stringify(['previously saved response text']);
             const customer = new CustomerModel(profile);
             customer.updateSyncResponseText('response text');
+            const b2ccrm_syncResponseText = JSON.parse(customer.profile.custom.b2ccrm_syncResponseText);
 
             expect(spy).to.have.been.calledOnce;
-            expect(customer.profile.custom.b2ccrm_syncResponseText.length).to.be.equal(2);
-            customer.profile.custom.b2ccrm_syncResponseText.forEach(value => expect(value).to.not.be.undefined);
+            expect(b2ccrm_syncResponseText.length).to.be.equal(2);
+            b2ccrm_syncResponseText.forEach(value => expect(value).to.not.be.undefined);
         });
 
-        it('should save response text in the profile custom attribute, and remove the first element of the array as the limit is reached', function () {
+        it('should save response text in the profile custom attribute, and make sure the response does never get bigger than 50,000 characters', function () {
             spy = sinon.spy(require('dw-api-mock/dw/system/Transaction'), 'wrap');
             const customer = new CustomerModel(profile);
-            for (let i = 0; i < 201; ++i) {
+            for (let i = 0; i < 1001; ++i) {
                 customer.updateSyncResponseText(`response text ${i}`);
             }
 
             expect(spy).to.have.been.called;
             // Ensure the array size is under the limit of 200
-            expect(customer.profile.custom.b2ccrm_syncResponseText.length).to.be.equal(199);
-            customer.profile.custom.b2ccrm_syncResponseText.forEach(value => expect(value).to.not.be.undefined);
+            expect(customer.profile.custom.b2ccrm_syncResponseText.length).to.be.below(50000);
         });
 
         it('should not do anything in case no profile is sent within the model', function () {
